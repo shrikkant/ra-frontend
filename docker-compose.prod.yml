@@ -5,12 +5,12 @@ services:
 
   ra-frontend:
     build:
-      context: ./frontend
+      context: .
       dockerfile: Dockerfile.prod
     container_name: ra-frontend
     restart: always
     volumes:
-      - ./frontend:/app/app
+      - ./:/usr/app
     ports:
       - 8084:3000
     networks:
