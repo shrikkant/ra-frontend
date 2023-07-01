@@ -1,0 +1,26 @@
+import type { AppProps } from 'next/app'
+import { store } from '../app-store/store'
+import "antd/dist/reset.css"
+import '../styles/vars.css'
+import '../styles/global.css'
+import '../styles/common.css'
+
+import React, { FC } from 'react';
+import { Provider } from 'react-redux'
+import Head from 'next/head'
+
+const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
+
+  return (
+      <Provider store={store}>
+        <Head>
+          <link rel="icon" href="/static/images/logo/favicon.png" type="image/png" sizes="16x16" />
+          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+          <meta name="robots" content="noindex"/>
+        </Head>
+        <Component/>
+      </Provider>
+  );
+}
+
+export default MyApp;

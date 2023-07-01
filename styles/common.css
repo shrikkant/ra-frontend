@@ -1,0 +1,39 @@
+
+
+.ant-card-cover {
+    justify-content: center;
+    display: flex;
+}
+
+.brands .ant-checkbox-wrapper {
+    width: 100%;
+    padding: 4px 0px;
+}
+
+.full-height {
+    min-height: '100vh';
+}
+
+.main-content {
+    margin: auto;
+    min-height: 100vh;
+    background-color: #fff;
+    display:flex;
+    padding-top: 100px;
+    max-width: 1080px;
+    margin: auto;
+    box-sizing: border-box;
+
+}
+
+.ant-descriptions-title {
+    white-space: pre-wrap!important;
+}
+
+.ant-menu-item {
+    padding-left: 24px !important;
+}
+
+/* .r-comp {
+    outline: 2px solid red;
+} */

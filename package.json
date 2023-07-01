@@ -1,0 +1,50 @@
+{
+    "private": true,
+    "scripts": {
+        "build:css": "postcss ./styles/tailwind.css -o ./styles/global.css",
+        "watch:css": "postcss ./styles/tailwind.css -o ./styles/global.css --watch",
+        "dev": "next dev",
+        "build": "next build",
+        "start": "next start",
+        "lint": "next lint",
+        "start:dev": "run-p watch:css dev",
+        "build:prod": "run-p build:css build",
+        "start:prod": "run-p watch:css build"
+    },
+    "dependencies": {
+        "@ant-design/icons": "^4.7.0",
+        "@ant-design/pro-components": "^2.4.16",
+        "@ant-design/pro-layout": "^7.15.3",
+        "@reduxjs/toolkit": "^1.9.5",
+        "antd": "^5.6.3",
+        "axios": "^1.3.4",
+        "date-fns": "^2.30.0",
+        "js-cookie": "^3.0.1",
+        "moment": "^2.29.4",
+        "next": "^13.4.7",
+        "next-redux-wrapper": "^8.1.0",
+        "react": "^18.2.0",
+        "react-date-range": "^1.4.0",
+        "react-dom": "18.2.0",
+        "react-redux": "^8.0.5",
+        "swr": "^1.3.0"
+    },
+    "browser": {
+        "fs": false,
+        "path": false
+    },
+    "devDependencies": {
+        "@types/node": "18.0.3",
+        "@types/react": "18.0.15",
+        "@types/react-dom": "18.0.6",
+        "@typescript-eslint/eslint-plugin": "^5.60.1",
+        "@typescript-eslint/parser": "^5.60.1",
+        "autoprefixer": "^10.4.11",
+        "eslint": "^8.43.0",
+        "npm-run-all": "^4.1.5",
+        "postcss": "^8.4.16",
+        "postcss-cli": "^10.0.0",
+        "tailwindcss": "^3.3.2",
+        "typescript": "4.7.4"
+    }
+}
