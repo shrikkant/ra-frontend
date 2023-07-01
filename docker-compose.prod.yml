@@ -1,0 +1,21 @@
+
+version: '3'
+
+services:
+
+  ra-frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.prod
+    container_name: ra-frontend
+    restart: always
+    volumes:
+      - ./frontend:/app/app
+    ports:
+      - 8084:3000
+    networks:
+      - local-dev
+
+networks:
+  local-dev:
+    driver: bridge
