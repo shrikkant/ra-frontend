@@ -4,6 +4,8 @@ version: '3'
 services:
 
   ra-frontend:
+    env_file:
+      - .env.local
     build:
       context: .
       dockerfile: Dockerfile.dev
