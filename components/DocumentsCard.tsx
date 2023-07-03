@@ -24,7 +24,7 @@ const DocumentsCard = ({ customer }) => {
         uid: document.id,
         name: document.name,
         status: 'done',
-        url: "/uploads/" + document.user_id + "/documents/" + document.file_name,
+        url: "/uploads/" + document.file_name,
       }
     }));
   }, [customer]);
