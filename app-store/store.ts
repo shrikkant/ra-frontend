@@ -8,6 +8,8 @@ import myProducts from './user/products/products.slice'
 import orders from './user/orders/orders.slice'
 import session from './session/session.slice';
 
+import admin from "./admin/index.slice";
+
 export const store = configureStore({
   reducer: {
     appDefaults,
@@ -16,6 +18,7 @@ export const store = configureStore({
     products,
     myProducts,
     orders,
+    admin
   },
   devTools: true,
 });

@@ -34,6 +34,13 @@
     padding-left: 24px !important;
 }
 
+.r-comp .ant-input, .r-comp .ant-btn-default {
+    border-radius: 0px !important;
+}
+.r-comp .ant-select-selector {
+    border-radius: 6px 0px 0px 6px;
+}
+
 /* .r-comp {
     outline: 2px solid red;
 } */

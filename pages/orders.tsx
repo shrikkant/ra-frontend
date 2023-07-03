@@ -45,7 +45,7 @@ export default function Orders() {
 
 				<MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
 
-				<Content style={{ padding: '16px 24px', border: "1px solid #555" }}>
+				<Content style={{ padding: '16px 16px'}}>
 					<Space size={[10, 20]} direction="vertical">
 
 

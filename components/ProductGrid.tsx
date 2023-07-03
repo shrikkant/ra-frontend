@@ -1,5 +1,4 @@
 import CategoryRow from "./CategoryRow";
-import useSWR from 'swr';
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import { getFeaturedProducts } from "../api/products.api";

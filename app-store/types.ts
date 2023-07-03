@@ -38,6 +38,7 @@ export interface IUser {
   bio: string;
   city: string;
   percentage: number;
+  verified: boolean;
   address?:Location[];
 }
 

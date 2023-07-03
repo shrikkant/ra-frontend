@@ -92,7 +92,7 @@ export default function SearchBar() {
     </div>
   );
 
-  return (<div className="r-comp" style={{ display: "flex", alignItems: "center", columnGap: 20 }}>
+  return (<div className="r-comp" style={{ display: "flex", alignItems: "center"}}>
     {location && <Select
       value={location.city}
       defaultValue={"City"}
