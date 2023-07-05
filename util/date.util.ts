@@ -1,4 +1,4 @@
-import * as moment from 'moment'
+import Moment from 'moment'
 interface IDateRange {
   startDate: Date,
   endDate: Date,
@@ -14,9 +14,9 @@ const rangeDisplay = function(range: IDateRange) {
 
   const startFormat = "D " + (showMonth ? "MMM " : "") + (showYear ? "YYYY" : "");
   const endFormat = "D MMM " + (showYear ? "YYYY" : "");
-  return moment(startDate).format(startFormat) +
+  return Moment(startDate).format(startFormat) +
       " - " +
-      moment(endDate).format(endFormat);
+      Moment(endDate).format(endFormat);
 }
 
 export {
