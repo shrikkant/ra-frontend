@@ -46,11 +46,8 @@ export default function AppNav() {
   const loggedUser = useSelector(selectAuthState);
   let activeItems = [...items];
 
-  console.log("loggedUser :>>> ", loggedUser?.role);
-
   if (loggedUser?.role === "A") {
     activeItems.push(adminRoutes);
-    console.log("Length : ", items.length);
   }
 
   const router = useRouter()

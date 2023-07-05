@@ -18,12 +18,12 @@ import { getSearchMetaData, getSearchResults, getSearchResultsAction, setSearchM
 import Loader from '../../components/Loader'
 import { fetchProducts } from '../../api/products.api'
 import { useRouter } from 'next/router'
-import ProductCard from '../../components/ProductCard'
+import ProductCard from "../../components/ProductCard";
 import { getProductFilter } from "../../util/search.util"
 
 import styles from "../../styles/search.module.css";
 import ProductFilterNav from '../../components/ProductFilterNav'
-import SearchPager from '../../components/SearchPager'
+
 import React from 'react'
 
 export default function RentSearch() {

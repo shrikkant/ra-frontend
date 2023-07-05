@@ -13,17 +13,15 @@ const httpClient = axios.create({
 
 httpClient.interceptors.request.use(
     async (config: any) => {
-        console.log(" Base APP URL : ", BASE_API_URL);
         config.rejectUnauthorized = true;
 
         if (!config.headers?.[TOKEN_HEADER_KEY]) {
             let token = await getToken();
-            console.log("Token : ", token);
             config.headers = {
-                ...config.headers,
                 TOKEN_HEADER_KEY: token || '',
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
+                ...config.headers,
             };
         }
 

@@ -45,7 +45,6 @@ export default function Customers() {
 
 
   if (!activeCustomer) {
-    console.log("Customer ID : ", router.query);
     fetchActiveCustomer(customerId).then(data => {
       dispatch(setActiveCustomer(data))
     })
@@ -53,7 +52,6 @@ export default function Customers() {
 
   const loadActiveCustomer = () => {
     setLoading(true);
-    console.log("Router Query : ", customerId);
 
     fetchActiveCustomer(customerId).then((customer) => {
       setLoading(false);
@@ -84,8 +82,10 @@ export default function Customers() {
               </Content>
 
             </Content>
-            <Content style={{ padding: 16 }}>
-              <DocumentsCard customer={activeCustomer}></DocumentsCard>
+            <Content style={{ padding: 16, display: "flex" }}>
+              <Content style={{ flex: 1 }}>
+                <DocumentsCard customer={activeCustomer}></DocumentsCard>
+              </Content>
             </Content>
           </Content>
 

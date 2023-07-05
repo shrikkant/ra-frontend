@@ -30,7 +30,6 @@ const ProductPage = () => {
 
   const loadActiveProduct = () => {
     setLoading(true);
-    console.log("Router Query : ", slug);
     fetchProductBySlug(String(slug)).then((res) => {
       setLoading(false);
       setActiveProduct(res);

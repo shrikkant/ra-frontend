@@ -41,6 +41,20 @@
     border-radius: 6px 0px 0px 6px;
 }
 
+.ant-upload-list-item-name {
+    display: block !important;
+    position: absolute;
+    margin-top: 70px;
+
+    text-align: center;
+}
+
+:where(.css-dev-only-do-not-override-12upa3x).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload-list.ant-upload-list-picture-card .ant-upload-list-item-container,
+:where(.css-dev-only-do-not-override-12upa3x).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select {
+    height: 124px;
+    width: 124px;
+}
+
 /* .r-comp {
     outline: 2px solid red;
 } */

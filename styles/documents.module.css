@@ -1,0 +1,18 @@
+.docsHeader {
+  background-color: #eee;
+}
+
+.docsBox {
+  border: 1px solid #ccc;
+}
+
+.docsGrid {
+  flex-wrap: wrap;
+  justify-content: center;
+  display: grid;
+  grid-auto-rows: 1fr;
+  grid-template-columns: repeat(auto-fit, 128px);
+  grid-gap: 16px;
+  align-items: center;
+  justify-content: center;
+}

@@ -21,7 +21,6 @@ import React from "react";
 
 
 export default function CustomerCard({ customer }) {
-  console.log("Customer : ", customer);
   return (<Content className={styles.orderBox} key={customer.id}>
 
       <PageHeader

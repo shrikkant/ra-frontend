@@ -1,21 +1,5 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "esModuleInterop": true,
-    "target": "es6",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
-    "noImplicitAny": false,
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "outDir": "dist",
-    "baseUrl": ".",
-    "paths": {
-      "*": [
-        "/*",
-        "node_modules/*"
-      ]
-    },
     "lib": [
       "dom",
       "dom.iterable",
@@ -27,12 +11,18 @@
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
     "incremental": true,
+    "esModuleInterop": true,
+    "module": "esnext",
+    "moduleResolution": "node",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "baseUrl": ".",
   },
   "include": [
-    "*"
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx"
   ],
   "exclude": [
     "node_modules"
