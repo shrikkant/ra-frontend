@@ -23,22 +23,6 @@ export const store = configureStore({
   devTools: true,
 });
 
-// const store = configureStore({
-// 	reducer: rootReducer,
-// });
-
-// export type RootState = ReturnType<typeof rootReducer>;
-// export type AppDispatch = typeof store.dispatch;
-// export type AppStore = ReturnType<typeof makeStore>;
-// export type AppState = ReturnType<AppStore["getState"]>;
-
-// export type AppThunk<ReturnType = void> = ThunkAction<
-//   ReturnType,
-//   AppState,
-//   unknown,
-//   Action
-// >;
-
 export type RootState = ReturnType<typeof store.getState>
 export type AppDispatch = typeof store.dispatch;
 
