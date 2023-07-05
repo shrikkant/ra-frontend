@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { MyProductsState } from './types';
-import { AppState } from '../../store';
+
+import { RootState } from 'app-store/store';
 
 const initialState: MyProductsState = {};
 
@@ -16,6 +17,6 @@ export const productsSlice = createSlice({
 
 export const { setProducts } = productsSlice.actions;
 
-export const getMyProducts = (state: AppState) => state.myProducts.products;
+export const getMyProducts = (state: RootState) => state.myProducts.products;
 
 export default productsSlice.reducer;
