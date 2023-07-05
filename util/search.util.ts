@@ -36,7 +36,7 @@ export function getDefaultRateRange(min: number,
   range?: string | string []): [number, number] {
     console.log("RANGE > ", range);
   if (range) {
-    return [parseInt(range.split("-")[0]), parseInt(range.split("-")[1])];
+    return [parseInt(String(range).split("-")[0]), parseInt(String(range).split("-")[1])];
   }
   const m = Math.round(min + ((max - min) * 1 / 3));
   const mu = Math.round(min + (max - min) * 2 / 3);
@@ -48,20 +48,20 @@ export function getProductFilter(obj?: ParsedUrlQuery) {
   productFilter.city = CITY;
 
   if (obj?.scid) {
-    productFilter.subCategory = parseInt(obj.scid);
+    productFilter.subCategory = parseInt(String(obj.scid));
   }
 
   if (obj?.rf) {
-    productFilter.rate = [obj.rf.split("-")[0], obj.rf.split("-")[1]]
+    productFilter.rate = [parseInt(String(obj.rf).split("-")[0]), parseInt(String(obj.rf).split("-")[1])]
   }
 
   if (obj?.page) {
-    productFilter.page = parseInt(obj.page)-1;
+    productFilter.page = parseInt(String(obj.page))-1;
   }
 
   if (obj?.br) {
     productFilter.brand = [];
-    obj.br.split(",").map((brand) => productFilter.brand?.push(brand));
+    String(obj.br).split(",").map((brand) => productFilter.brand?.push(parseInt(brand)));
   }
 
   return productFilter;
