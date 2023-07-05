@@ -76,7 +76,7 @@ export default function ProductFilterNav({ searchMeta , onChange}) {
 
 
   return (<Content className={`r-comp ${style.navContent}`}>
-    <Menu style={{width:280}} mode="inline" items={items} onSelect={onCategorySelect} defaultSelectedKeys={[scid]} />
+    <Menu style={{width:280}} mode="inline" items={items} onSelect={onCategorySelect} defaultSelectedKeys={[String(scid)]} />
 
     <Card title="Brands">
       <Form layout={"vertical"}>
