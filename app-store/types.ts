@@ -40,6 +40,7 @@ export interface IUser {
   percentage: number;
   verified: boolean;
   address?:Location[];
+  role: string;
 }
 
 export interface IOrderItem {
