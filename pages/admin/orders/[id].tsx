@@ -162,7 +162,7 @@ export default function Order() {
                     <Descriptions.Item >
                       <div style={{ padding: "20px 5px", fontWeight: "bold" }}>{transaction.product.title}</div>
                     </Descriptions.Item>
-                    {transaction.product.masterProductList.map((addon) => {
+                    {transaction.product.masterProductList.map((addon: any) => {
                       return addon &&
                       <Form.Item key={addon?.masterProduct?.id}>
                         <Input
