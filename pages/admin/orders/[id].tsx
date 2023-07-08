@@ -144,7 +144,7 @@ export default function Order() {
             <Card style={{ padding: 16, maxWidth: 520, margin: "auto" }} title={"Update Stage"} bordered={false}>
 
               <Form.Item style={{ padding: "16px;" }}>
-                <Select value={orderChange.stage} onChange={handleStageChange}>
+                <Select value={String(orderChange.stage)} onChange={handleStageChange}>
 
                   <Select.Option value={0} >{resolveStage(0)}</Select.Option>
                   <Select.Option value={1}>{resolveStage(1)}</Select.Option>
