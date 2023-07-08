@@ -36,19 +36,9 @@ export default function Customers() {
   const [loading, setLoading] = useState(true);
 
   const customerId = parseInt(String(id));
-
-
-
   const activeCustomer = useSelector(getActiveCustomer);
   const dispatch = useDispatch();
   const df = Moment().format('DD MMM');
-
-
-  if (!activeCustomer) {
-    fetchActiveCustomer(customerId).then(data => {
-      dispatch(setActiveCustomer(data))
-    })
-  }
 
   const loadActiveCustomer = () => {
     setLoading(true);
