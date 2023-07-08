@@ -2,6 +2,7 @@
 import {
   Button,
   Card,
+  Descriptions,
   Form,
   Input,
   Layout,
@@ -50,7 +51,7 @@ export default function Order() {
   const order = useSelector(getActiveOrder);
   const id = router.query.id;
   const [loading, setLoading] = useState(true);
-  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0 });
+  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0, id: 0});
 
 
   const [componentSize, setComponentSize] = useState<SizeType | 'default'>('default');
@@ -140,58 +141,51 @@ export default function Order() {
                 </Button>,
               ]}></PageHeader>
 
-            <Card title={"Update Stage"} style={{padding:16}}>
-              <Form
-                layout="vertical"
-                initialValues={{ size: componentSize }}
-                size={componentSize as SizeType}
-                style={{ padding: 16, maxWidth: 520, margin: "auto" }}
-              >
-                <Form.Item style={{ width: 180 }}>
-                  <Select value={orderChange.stage} onChange={handleStageChange}>
+            <Card style={{ padding: 16, maxWidth: 520, margin: "auto" }} title={"Update Stage"} bordered={false}>
 
-                    <Select.Option value={0} >{resolveStage(0)}</Select.Option>
-                    <Select.Option value={1}>{resolveStage(1)}</Select.Option>
-                    <Select.Option value={2}>{resolveStage(2)}</Select.Option>
-                  </Select>
-                </Form.Item>
+              <Form.Item style={{ padding: "16px;" }}>
+                <Select value={orderChange.stage} onChange={handleStageChange}>
 
-                {orderChange.stage === 2 &&
+                  <Select.Option value={0} >{resolveStage(0)}</Select.Option>
+                  <Select.Option value={1}>{resolveStage(1)}</Select.Option>
+                  <Select.Option value={2}>{resolveStage(2)}</Select.Option>
+                </Select>
+              </Form.Item>
 
-                  order.items.map((transaction) => {
+              {orderChange.stage >= 0 &&
+
+                order.items.map((transaction) => {
 
 
-                    return transaction.product.masterProductList.length > 0 && <Card key={transaction.id} title={transaction.product.title} bordered={false}>
+                  return transaction.product.masterProductList.length > 0 && <>
 
+                    <Descriptions.Item >
+                      <div style={{ padding: "20px 5px", fontWeight: "bold" }}>{transaction.product.title}</div>
+                    </Descriptions.Item>
+                    {transaction.product.masterProductList.map((addon) => <Form.Item key={addon?.masterProduct.id}>
+                      <Input
+                        placeholder={addon?.masterProduct.name}
+                        prefix={<UserOutlined className="site-form-item-icon" />}
+                        onKeyDownCapture={(e) => { handleSerialNoInput(addon, e.target.value) }}
+                        suffix={
+                          <Tooltip title="Serial #">
+                            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                          </Tooltip>
+                        }
+                      />
+                    </Form.Item>)}
 
-                      {transaction.product.masterProductList.map((addon) => <Form.Item key={addon?.masterProduct.id}>
-                        <Input
-                          placeholder={addon?.masterProduct.name}
-                          prefix={<UserOutlined className="site-form-item-icon" />}
-                          onKeyDownCapture={(e) => { handleSerialNoInput(addon, e.target.value) }}
-                          suffix={
-                            <Tooltip title="Serial #">
-                              <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-                            </Tooltip>
-                          }
-                        />
-                      </Form.Item>)}
+                  </>
+                }
+                )}
 
-                    </Card>
-                  }
-                  )}
+              <Form.Item style={{ padding: 16, textAlign: "right" }}>
+                <Button type="primary">Update Stage</Button>
+              </Form.Item>
 
-                <Form.Item style={{ padding: 16, textAlign: "right" }}>
-                  <Button type="primary">Update Stage</Button>
-                </Form.Item>
-
-
-
-
-              </Form>
             </Card>
             {order.items && order.items.map((item) => {
-              return <AdminOrderItemRow key={item.id} orderItem={item} hideImages/>
+              return <AdminOrderItemRow key={item.id} orderItem={item} hideImages />
             })}
 
           </Content>}
