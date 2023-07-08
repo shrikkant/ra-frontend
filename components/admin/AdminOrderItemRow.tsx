@@ -23,7 +23,10 @@ export function AdminOrderItemRow({ orderItem, hideImages = false }) {
         column={1}
       >
 
-        <Descriptions.Item style={{ fontWeight: "bold" }}>{product.title}</Descriptions.Item>
+        <Descriptions.Item style={{ fontWeight: "bold" }}><span style={{marginRight:16}}>
+            {product.title}
+          </span>
+          <Tag color="purple">{orderItem.product.owner.firstname}</Tag></Descriptions.Item>
         {product.masterProductList.map((addon) => (
           <Descriptions.Item key="1">1 x {addon?.masterProduct?.name}</Descriptions.Item>
         ))}
@@ -37,13 +40,6 @@ export function AdminOrderItemRow({ orderItem, hideImages = false }) {
 
         </Descriptions.Item>
       </Descriptions>
-
-
-
-      <div className={styles.ownerInfo}>
-        <Tag color="purple">{orderItem.product.owner.firstname}</Tag>
-      </div>
-
     </div>
   </div>)
 }
