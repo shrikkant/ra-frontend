@@ -1,7 +1,7 @@
 import { AppstoreOutlined, BankOutlined, CalendarOutlined, CreditCardOutlined, DeliveredProcedureOutlined, GlobalOutlined, GoogleOutlined, LinkOutlined, MailOutlined, SettingOutlined, ShoppingCartOutlined, SmileOutlined, UnorderedListOutlined, UsergroupAddOutlined, UserOutlined, UserSwitchOutlined } from "@ant-design/icons";
 import { Button, Card, Menu, MenuProps, Space } from "antd";
 import { useRouter } from 'next/router'
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthState } from "../app-store/auth/auth.slice";
 
@@ -44,6 +44,7 @@ const adminRoutes = {
 
 export default function AppNav() {
   const loggedUser = useSelector(selectAuthState);
+
   let activeItems = [...items];
 
   if (loggedUser?.role === "A") {

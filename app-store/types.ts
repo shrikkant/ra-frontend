@@ -21,6 +21,7 @@ export interface IOrder {
   start_date?: Date;
   end_date?: Date;
   user: IUser;
+  stage: number;
   items?: (IOrderItem)[] | null;
   isPaid(): boolean
 }

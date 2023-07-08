@@ -13,20 +13,37 @@ export const adminSlice = createSlice({
 		},
 		setActiveCustomer(state, action: PayloadAction<any>) {
 			state.activeCustomer = action.payload;
-		}
+		},
+		setOrders(state, action: PayloadAction<any>) {
+			state.orders = action.payload;
+		},
+		setActiveOrder(state, action: PayloadAction<any>) {
+			state.activeOrder = action.payload;
+		},
 	},
 
 });
 
 export const { setCustomers } = adminSlice.actions;
 export const { setActiveCustomer } = adminSlice.actions;
+export const { setOrders } = adminSlice.actions;
+export const { setActiveOrder } = adminSlice.actions;
+
 
 export const getCustomers = (state: RootState) => {
-  return state.admin.customers;
-} ;
+	return state.admin.customers;
+};
 
 export const getActiveCustomer = (state: RootState) => {
-  return state.admin.activeCustomer;
-} ;
+	return state.admin.activeCustomer;
+};
+
+export const getOrders = (state: RootState) => {
+	return state.admin.orders;
+};
+
+export const getActiveOrder = (state: RootState) => {
+	return state.admin.activeOrder;
+};
 
 export default adminSlice.reducer;

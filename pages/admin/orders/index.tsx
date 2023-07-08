@@ -3,6 +3,7 @@ import {
 	Button,
 	Layout,
 	Space,
+	Tabs,
 	Tag,
 } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
@@ -14,27 +15,68 @@ import AppNav from "components/AppNav";
 import { AppFooter } from "components/footer";
 import AppHeader from "components/header";
 
-import { getOrders, setOrders } from "app-store/user/orders/orders.slice";
+import { getOrders, setOrders } from "app-store/admin/index.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders } from "api/user/orders.api";
+import { fetchOrders } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
 
 import { IOrder } from "app-store/types";
 import { OrderItemRow } from "components/OrderItemRow";
 import Moment from 'moment';
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { useRouter } from "next/router";
+import type { SizeType } from 'antd/es/config-provider/SizeContext';
+import { AdminOrderItemRow } from "../../../components/admin/AdminOrderItemRow";
+import Modal from "antd";
+
+const resolveStage = (status: number) => {
+	switch (status) {
+		case 0:
+			return "Leads";
+		case 1:
+			return "Paid";
+		case 2:
+			return "In Progress";
+	}
+}
 
 export default function Orders() {
-	const orders = useSelector(getOrders)?.filter((item, i) => i < 5);
+	const router = useRouter();
+	const orders = useSelector(getOrders);
+	const [activeKey, setActiveKey] = useState<number>(1);
+
+	const [stageChangeModal, setStageChangeModal] = useState(false);
+	const [confirmLoading, setConfirmLoading] = useState(false);
+	const [modalText, setModalText] = useState('Content of the modal');
+
+	const { stage } = router.query;
+	console.log("Router Query", router.query);
+
 	const dispatch = useDispatch();
 	const df = Moment().format('DD MMM');
 
+	const loadOrders = () => {
+		const loadStage = parseInt(String(stage));
+		console.log("Current Stage ", loadStage);
 
-	if (!orders) {
-		fetchOrders().then(data => {
+		fetchOrders(loadStage).then(data => {
 			dispatch(setOrders(data))
 		})
+	}
+
+	useEffect(() => {
+		setActiveKey(parseInt(String(stage)));
+		router.isReady && loadOrders();
+	}, [activeKey, stage, router.isReady])
+
+	const tabChanged = (key: string) => {
+		console.log("Tab Changed", key);
+		router.push(`/admin/orders?stage=${key}`);
+	}
+
+	const orderDuration = (start: Date, end: Date) => {
+		return Moment(start).utcOffset(0).format('DD MMM hh A') + " - " + Moment(end).utcOffset(0).format('DD MMM hh A');
 	}
 
 	return (<Content>
@@ -43,39 +85,57 @@ export default function Orders() {
 			<AppNav></AppNav>
 			<Content className={styles.content}>
 
-				<MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
+				<MyPageHeader title={"Orders"} subtitle={""}></MyPageHeader>
 
-				<Content style={{ padding: '16px 16px'}}>
-					<Space size={[10, 20]} direction="vertical">
+				<Content style={{ padding: '16px 16px' }}>
+					<Tabs
+						defaultActiveKey="1"
+						activeKey={String(activeKey)}
+						type="card"
+						size="small"
+						onChange={tabChanged}
+						items={[0, 1, 2].fill(null).map((_, i) => {
+							const id = String(i);
+							return {
+								label: `${resolveStage(i)}`,
+								key: id,
+								children:
+									<Space size={[10, 20]} direction="vertical">
 
 
-						{orders && orders.map((order: IOrder) => {
-							let items: JSX.Element[] = [];
+										{orders && orders.map((order: IOrder) => {
+											let items: JSX.Element[] = [];
 
-							items.push(<PageHeader
-								className={styles.orderHeader}
-								key={order.id}
-								ghost={false}
-								tags={[<Tag key="1" color="red">{"₹" + order.amount}</Tag>,
-								<Tag key="2" color="purple">{order.status}</Tag>]}
-								title={"#" + order.id}
-								subTitle={Moment(order.created_ts).format('DD MMM')}
-								extra={[
-									<Button key="1" type="primary">
-										Track
-									</Button>,
-								]}></PageHeader>);
+											items.push(<PageHeader
+												className={styles.orderHeader}
+												key={order.id}
+												ghost={false}
+												tags={[<Tag key="1" color="red">{"₹" + order.amount}</Tag>,
+												<Tag key="2" color="purple">{order.user.firstname}</Tag>]}
+												title={"#" + order.id}
+												subTitle={orderDuration(order.start_date, order.end_date)}
+												extra={[
+													<Button key="1" type="primary">
+														Stage
+													</Button>,
+												]}></PageHeader>);
 
-							order.items && order.items.map((item) => {
-								items.push(
-									<OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
-								)
-							})
-							return (<Content className={styles.orderBox} key={order.id}>{items}</Content>)
+
+											order.items && order.items.map((item) => {
+												items.push(
+													<AdminOrderItemRow key={item.id} orderItem={item} />
+												)
+											})
+
+											return (<Content className={styles.orderBox} key={order.id}>{items}</Content>)
+										})}
+									</Space>
+								,
+							};
 						})}
+					/>
 
 
-					</Space>
 
 				</Content>
 			</Content>

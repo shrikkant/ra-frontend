@@ -13,7 +13,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getAuthUser } from '../api/auth.api';
 import { fetchProductCategories, fetchProducts } from '../api/products.api';
 import { getCategories, setCategories } from '../app-store/app-defaults/app-defaults.slice';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import 'react-date-range/dist/styles.css'; // main css file
 import 'react-date-range/dist/theme/default.css'; // theme css file
@@ -25,7 +25,7 @@ import SearchBar from './SearchBar';
 
 export default function AppHeader() {
   const router = useRouter();
-
+  const [loading, setLoading] = useState(true);
 
   const onClick: MenuProps['onClick'] = e => {
     router.push('/' + e.key);
@@ -68,7 +68,9 @@ export default function AppHeader() {
 
 
 
-  return (<Header className={styles.header}>
+  return (
+
+  <Header className={styles.header}>
     <div className={styles.headerInner}>
       <div style={{ flex: 1 }}>
         <a href="/">
@@ -92,7 +94,7 @@ export default function AppHeader() {
       </div>
 
     </div>
+  </Header>
 
-
-  </Header>)
+  )
 }
