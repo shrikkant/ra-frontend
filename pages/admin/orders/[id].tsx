@@ -51,7 +51,7 @@ export default function Order() {
   const order = useSelector(getActiveOrder);
   const id = router.query.id;
   const [loading, setLoading] = useState(true);
-  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0, id: 0});
+  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0, id: 0 });
 
 
   const [componentSize, setComponentSize] = useState<SizeType | 'default'>('default');
@@ -162,18 +162,21 @@ export default function Order() {
                     <Descriptions.Item >
                       <div style={{ padding: "20px 5px", fontWeight: "bold" }}>{transaction.product.title}</div>
                     </Descriptions.Item>
-                    {transaction.product.masterProductList.map((addon) => <Form.Item key={addon?.masterProduct.id}>
-                      <Input
-                        placeholder={addon?.masterProduct.name}
-                        prefix={<UserOutlined className="site-form-item-icon" />}
-                        onKeyDownCapture={(e) => { handleSerialNoInput(addon, e.target.value) }}
-                        suffix={
-                          <Tooltip title="Serial #">
-                            <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
-                          </Tooltip>
-                        }
-                      />
-                    </Form.Item>)}
+                    {transaction.product.masterProductList.map((addon) => {
+                      return addon &&
+                      <Form.Item key={addon?.masterProduct?.id}>
+                        <Input
+                          placeholder={addon?.masterProduct?.name}
+                          prefix={<UserOutlined className="site-form-item-icon" />}
+                          onKeyDownCapture={(e) => { handleSerialNoInput(addon, e.target.value) }}
+                          suffix={
+                            <Tooltip title="Serial #">
+                              <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                            </Tooltip>
+                          }
+                        />
+                      </Form.Item>
+                    })}
 
                   </>
                 }
