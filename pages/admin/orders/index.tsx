@@ -22,14 +22,13 @@ import MyPageHeader from "components/MyPageHeader";
 
 
 import { IOrder } from "app-store/types";
-import { OrderItemRow } from "components/OrderItemRow";
 import Moment from 'moment';
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import type { SizeType } from 'antd/es/config-provider/SizeContext';
-import { AdminOrderItemRow } from "../../../components/admin/AdminOrderItemRow";
-import Modal from "antd";
-import { resolveOrderStage } from "../../../util/global.util";
+import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
+
+import { resolveOrderStage } from "util/global.util";
+import Loader from "components/Loader";
 
 
 
@@ -37,10 +36,8 @@ export default function Orders() {
 	const router = useRouter();
 	const orders = useSelector(getOrders);
 	const [activeKey, setActiveKey] = useState<number>(1);
+	const [loading, setLoading] = useState(false);
 
-	const [stageChangeModal, setStageChangeModal] = useState(false);
-	const [confirmLoading, setConfirmLoading] = useState(false);
-	const [modalText, setModalText] = useState('Content of the modal');
 
 	const { stage } = router.query;
 
@@ -51,11 +48,13 @@ export default function Orders() {
 		const loadStage = parseInt(String(stage));
 
 		fetchOrders(loadStage).then(data => {
+			setLoading(false);
 			dispatch(setOrders(data))
 		})
 	}
 
 	useEffect(() => {
+		setLoading(true);
 		setActiveKey(parseInt(String(stage)));
 		router.isReady && loadOrders();
 	}, [activeKey, stage, router.isReady])
@@ -77,7 +76,7 @@ export default function Orders() {
 
 				<MyPageHeader title={"Orders"} subtitle={""}></MyPageHeader>
 
-				<Content style={{ padding: '16px 16px' }}>
+				{loading ? <Loader/> : <Content style={{ padding: '16px 16px' }}>
 					<Tabs
 						defaultActiveKey="1"
 						activeKey={String(activeKey)}
@@ -127,7 +126,7 @@ export default function Orders() {
 
 
 
-				</Content>
+				</Content>}
 			</Content>
 
 

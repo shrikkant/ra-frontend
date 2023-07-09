@@ -1,3 +1,4 @@
+import { message } from "antd";
 
 export const resolveOrderStage = (status: number) => {
 	switch (status) {
@@ -17,4 +18,8 @@ export const enum OrderStages {
 	Paid = 1,
 	Approved = 2,
 	InProgress = 3
+}
+
+export const displayMessage = (type: string, text: string) => {
+	message[type](text);
 }

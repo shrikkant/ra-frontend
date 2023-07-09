@@ -29,7 +29,7 @@ import { useRouter } from "next/router";
 import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 import Loader from "components/Loader";
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
-import { OrderStages, resolveOrderStage } from "util/global.util";
+import { OrderStages, displayMessage, resolveOrderStage } from "util/global.util";
 
 export default function Order() {
   const router = useRouter();
@@ -55,20 +55,21 @@ export default function Order() {
   }
 
   useEffect(() => {
+
     router.isReady && loadOrder();
-  }, [id, router.isReady])
+  }, [order?.stage, id, router.isReady])
+
 
   const handleStageChange = (value: string) => {
     setOrderChange({ ...orderChange, stage: parseInt(value) });
   }
 
   const updateOrderStage = async (id: number) => {
-    console.log("Order Change Pre Update ", orderChange);
-
-    console.log("Order Change Pre Update ", orderChange);
+    const updatedOrder = {...order};
+    updatedOrder.stage = orderChange.stage;
     updateStage(id, orderChange).then(data => {
-      console.log("Updated Stage", data);
-      dispatch(setActiveOrder({ ...order, stage: data?.stage }));
+      displayMessage('success', 'Order stage updated successfully');
+      dispatch(setActiveOrder(updatedOrder));
     })
 
   }
@@ -140,22 +141,22 @@ export default function Order() {
               subTitle={orderDuration(order.start_date, order.end_date)}
               extra={[
                 <Button key="stage_1" type="primary">
-                  Stage
+                  {resolveOrderStage(order.stage)}
                 </Button>,
               ]}></PageHeader>
 
             <Card style={{ padding: 16, maxWidth: 520, margin: "auto" }} title={"Update Stage"} bordered={false}>
 
               <Form.Item style={{ padding: "16px" }}>
-                <Select value={orderChange.stage} onChange={handleStageChange}>
-                  <Select.Option value={0} >{resolveOrderStage(0)}</Select.Option>
-                  <Select.Option value={1}>{resolveOrderStage(1)}</Select.Option>
-                  <Select.Option value={2}>{resolveOrderStage(2)}</Select.Option>
-                  <Select.Option value={3}>{resolveOrderStage(3)}</Select.Option>
+                <Select value={String(orderChange.stage)} onChange={handleStageChange}>
+                  <Select.Option value={String(0)} >{resolveOrderStage(0)}</Select.Option>
+                  <Select.Option value={String(1)}>{resolveOrderStage(1)}</Select.Option>
+                  <Select.Option value={String(2)}>{resolveOrderStage(2)}</Select.Option>
+                  <Select.Option value={String(3)}>{resolveOrderStage(3)}</Select.Option>
                 </Select>
               </Form.Item>
 
-              {orderChange.stage === OrderStages.InProgress &&
+              {(order.stage !== OrderStages.InProgress && orderChange.stage === OrderStages.InProgress) &&
 
                 order.items.map((transaction) => {
 
