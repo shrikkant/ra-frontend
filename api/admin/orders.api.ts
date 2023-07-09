@@ -21,5 +21,18 @@ export async function fetchOrder(id: number): Promise<IOrder> {
     }
 }
 
+export async function updateStage(id: number, stageInfo): Promise<IOrder> {
+    console.log("Order Id : ", id, " Stage Info : ", stageInfo);
+    try {
+        const response: IOrder = await httpClient.put(`/admin/orders/${id}`, stageInfo);
+
+        console.log("Response : ", response);
+
+        return response && response[0];
+    } catch (e) {
+        throw e;
+    }
+}
+
 
 

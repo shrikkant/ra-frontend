@@ -29,17 +29,9 @@ import { useRouter } from "next/router";
 import type { SizeType } from 'antd/es/config-provider/SizeContext';
 import { AdminOrderItemRow } from "../../../components/admin/AdminOrderItemRow";
 import Modal from "antd";
+import { resolveOrderStage } from "../../../util/global.util";
 
-const resolveStage = (status: number) => {
-	switch (status) {
-		case 0:
-			return "Leads";
-		case 1:
-			return "Paid";
-		case 2:
-			return "In Progress";
-	}
-}
+
 
 export default function Orders() {
 	const router = useRouter();
@@ -51,14 +43,12 @@ export default function Orders() {
 	const [modalText, setModalText] = useState('Content of the modal');
 
 	const { stage } = router.query;
-	console.log("Router Query", router.query);
 
 	const dispatch = useDispatch();
 	const df = Moment().format('DD MMM');
 
 	const loadOrders = () => {
 		const loadStage = parseInt(String(stage));
-		console.log("Current Stage ", loadStage);
 
 		fetchOrders(loadStage).then(data => {
 			dispatch(setOrders(data))
@@ -94,10 +84,10 @@ export default function Orders() {
 						type="card"
 						size="small"
 						onChange={tabChanged}
-						items={[0, 1, 2].fill(null).map((_, i) => {
+						items={[0, 1, 3].map((tab, i) => {
 							const id = String(i);
 							return {
-								label: `${resolveStage(i)}`,
+								label: `${resolveOrderStage(tab)}`,
 								key: id,
 								children:
 									<Space size={[10, 20]} direction="vertical">
@@ -115,7 +105,7 @@ export default function Orders() {
 												title={"#" + order.id}
 												subTitle={orderDuration(order.start_date, order.end_date)}
 												extra={[
-													<Button key="1" type="primary">
+													<Button key="1" type="primary" onClick={() => { router.push("/admin/orders/" + order.id) }}>
 														Stage
 													</Button>,
 												]}></PageHeader>);
