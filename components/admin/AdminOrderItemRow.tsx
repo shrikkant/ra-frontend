@@ -1,18 +1,29 @@
-import { Button, Card, Descriptions, Space, Statistic, Tag } from "antd";
+import { Button, Card, Descriptions, Form, Input, Radio, Space, Statistic, Switch, Tag } from "antd";
 import styles from "styles/admin-order-item.module.css";
-import React from "react";
+import React, { useState } from "react";
 import { RupeeSymbol } from "../RupeeSymbol";
+import { applyDiscount } from "../../api/admin/orders.api";
+import { displayMessage } from "../../util/global.util";
+import { setActiveOrder } from "app-store/admin/index.slice";
+
+import { IOrder, IOrderItem } from "../../app-store/types";
+import { useDispatch } from "react-redux";
+import { set } from "date-fns";
+import { ItemDiscountForm } from "./ItemDiscountForm";
+
 
 export function AdminOrderItemRow({ orderItem, hideImages = false }) {
+  const dispatch = useDispatch();
   const product = orderItem.product;
+  const [item, setItem] = useState(orderItem);
 
-  const primaryBtn = orderItem.status == 4 ? <Button type="default">Review</Button> : <Button type="default">Track</Button>;
+  const handleItemChange = (item: IOrderItem) => {
+    setItem(item);
+  }
 
   return (<div className={styles.productRow} key={product.id}>
-     {!hideImages && <div className={styles.productImg}>
-
+    {!hideImages && <div className={styles.productImg}>
       <img className={styles.img} src={product.photos[0]?.path}></img>
-
     </div>}
 
     <div className={styles.productDesc}>
@@ -23,21 +34,19 @@ export function AdminOrderItemRow({ orderItem, hideImages = false }) {
         column={1}
       >
 
-        <Descriptions.Item style={{ fontWeight: "bold" }}><span style={{marginRight:16}}>
-            {product.title}
-          </span>
-          <Tag color="purple">{orderItem.product.owner.firstname}</Tag></Descriptions.Item>
+        <Descriptions.Item style={{ fontWeight: "bold" }}><div style={{ marginRight: 16 }}>
+          {product.title}
+        </div>
+          <Tag color="purple">{item.product.owner.firstname}</Tag></Descriptions.Item>
         {product.masterProductList.map((addon) => (
           <Descriptions.Item key="1">1 x {addon?.masterProduct?.name}</Descriptions.Item>
         ))}
 
         <Descriptions.Item>
-          <div style={{ display: "flex", columnGap:32}}>
-            <Statistic title="Rent" value={orderItem.rent} prefix={<RupeeSymbol />} />
-            <Statistic title="Delivery Fee" value={orderItem.delivery_fee} prefix={<RupeeSymbol />} />
+          <div style={{ display: "flex", columnGap: 32, alignItems: "center", justifyContent: "space-between" }}>
+            <Statistic valueStyle={{ color: '#3f8600' }} title="Rent" value={item.rent} prefix={<RupeeSymbol />} />
+            <ItemDiscountForm item={item} handleItemChange={handleItemChange} />
           </div>
-
-
         </Descriptions.Item>
       </Descriptions>
     </div>

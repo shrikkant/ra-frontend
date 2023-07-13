@@ -45,6 +45,7 @@ export default function Orders() {
 	const df = Moment().format('DD MMM');
 
 	const loadOrders = () => {
+		setLoading(true);
 		const loadStage = parseInt(String(stage));
 
 		fetchOrders(loadStage).then(data => {
@@ -54,13 +55,11 @@ export default function Orders() {
 	}
 
 	useEffect(() => {
-		setLoading(true);
 		setActiveKey(parseInt(String(stage)));
 		router.isReady && loadOrders();
 	}, [activeKey, stage, router.isReady])
 
 	const tabChanged = (key: string) => {
-		console.log("Tab Changed", key);
 		router.push(`/admin/orders?stage=${key}`);
 	}
 
@@ -76,7 +75,7 @@ export default function Orders() {
 
 				<MyPageHeader title={"Orders"} subtitle={""}></MyPageHeader>
 
-				{loading ? <Loader/> : <Content style={{ padding: '16px 16px' }}>
+				{loading ? <Loader /> : <Content style={{ padding: '16px 16px' }}>
 					<Tabs
 						defaultActiveKey="1"
 						activeKey={String(activeKey)}
@@ -89,36 +88,32 @@ export default function Orders() {
 								label: `${resolveOrderStage(tab)}`,
 								key: id,
 								children:
-									<Space size={[10, 20]} direction="vertical">
-
-
+									<>
 										{orders && orders.map((order: IOrder) => {
 											let items: JSX.Element[] = [];
 
-											items.push(<PageHeader
-												className={styles.orderHeader}
-												key={order.id}
-												ghost={false}
-												tags={[<Tag key="1" color="red">{"₹" + order.amount}</Tag>,
-												<Tag key="2" color="purple">{order.user.firstname}</Tag>]}
-												title={"#" + order.id}
-												subTitle={orderDuration(order.start_date, order.end_date)}
-												extra={[
-													<Button key="1" type="primary" onClick={() => { router.push("/admin/orders/" + order.id) }}>
-														Stage
-													</Button>,
-												]}></PageHeader>);
+											return (<Content className={styles.orderBox} key={order.id}>
+												<PageHeader
+													className={styles.orderHeader}
+													key={order.id}
+													ghost={false}
+													tags={[<Tag key="1" color="red">{"₹" + order.amount}</Tag>,
+													<Tag key="2" color="purple">{order.user.firstname}</Tag>]}
+													title={"#" + order.id}
+													subTitle={orderDuration(order.start_date, order.end_date)}
+													extra={[
+														<Button key="1" type="primary" onClick={() => { router.push("/admin/orders/" + order.id) }}>
+															Stage
+														</Button>,
+													]}></PageHeader>
 
+												{order.items && order.items.map((item) =>
+													<AdminOrderItemRow hideImages key={item.id} orderItem={item} />
+												)}
 
-											order.items && order.items.map((item) => {
-												items.push(
-													<AdminOrderItemRow key={item.id} orderItem={item} />
-												)
-											})
-
-											return (<Content className={styles.orderBox} key={order.id}>{items}</Content>)
+											</Content>)
 										})}
-									</Space>
+									</>
 								,
 							};
 						})}

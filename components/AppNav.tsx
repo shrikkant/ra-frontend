@@ -39,6 +39,7 @@ const adminRoutes = {
   children: [
     { label: 'Customers', key: 'admin/customers', icon: <UserOutlined /> },
     { label: 'Manage Orders', key: 'admin/orders?stage=1', icon: <GlobalOutlined /> },
+    { label: 'Brands', key: 'admin/brands', icon: <GlobalOutlined /> },
   ]
 };
 

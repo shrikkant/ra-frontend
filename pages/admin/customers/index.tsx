@@ -24,9 +24,11 @@ import MyPageHeader from "../../../components/MyPageHeader";
 import { IOrder, IUser } from "../../../app-store/types";
 import { OrderItemRow } from "../../../components/OrderItemRow";
 import Moment from 'moment';
-import React from "react";
+import React, { useEffect } from "react";
 import Table from "antd/lib/table/Table";
 import { CheckOutlined } from "@ant-design/icons";
+import { useRouter } from "next/router";
+import Loader from "../../../components/Loader";
 
 const columns = [
 	{
@@ -56,39 +58,40 @@ const columns = [
 ]
 
 export default function Customers() {
+	const router = useRouter();
+	const [loading, setLoading] = React.useState(false);
 	const customers = useSelector(getCustomers);
 	const dispatch = useDispatch();
 	const df = Moment().format('DD MMM');
 
-
-	if (!customers) {
+	const loadCustomers = () => {
+		setLoading(true);
 		fetchCustomers().then(data => {
 			dispatch(setCustomers(data))
-		})
+			setLoading(false);
+		});
 	}
 
-	return (<Content>
+	useEffect(() => {
+		router.isReady && loadCustomers();
+
+	}, [router.isReady])
+
+	return (<>
 		<AppHeader></AppHeader>
 		<Content className="main-content">
 			<AppNav></AppNav>
-			<Content className={styles.content}>
 
+			<Content className={styles.content}>
 				<MyPageHeader title={"Customers"} subtitle={""}></MyPageHeader>
 
 				<Content style={{ padding: '16px 16px' }}>
-					<Space size={[10, 20]} direction="vertical">
-						<Table columns={columns} dataSource={customers} rowKey={"id"}/>
-					</Space>
 
+					{loading ? <Loader /> : <Table columns={columns} dataSource={customers} rowKey={"id"} />}
 				</Content>
 			</Content>
-
-
-
 		</Content>
-
-
 		<AppFooter></AppFooter>
-	</Content>)
+	</>)
 }
 

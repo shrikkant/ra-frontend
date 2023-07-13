@@ -44,6 +44,13 @@ export interface IUser {
   role: string;
 }
 
+export interface IBrand {
+  id: number;
+  name: string;
+  description: string;
+  user_id: number;
+  created_ts: Date;
+}
 export interface IOrderItem {
   id: number;
   request_user_id: number;

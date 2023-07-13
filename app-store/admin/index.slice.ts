@@ -20,6 +20,9 @@ export const adminSlice = createSlice({
 		setActiveOrder(state, action: PayloadAction<any>) {
 			state.activeOrder = action.payload;
 		},
+		setBrands(state, action: PayloadAction<any>) {
+			state.brands = action.payload;
+		},
 	},
 
 });
@@ -28,10 +31,15 @@ export const { setCustomers } = adminSlice.actions;
 export const { setActiveCustomer } = adminSlice.actions;
 export const { setOrders } = adminSlice.actions;
 export const { setActiveOrder } = adminSlice.actions;
+export const { setBrands } = adminSlice.actions;
 
 
 export const getCustomers = (state: RootState) => {
 	return state.admin.customers;
+};
+
+export const getBrands = (state: RootState) => {
+	return state.admin.brands;
 };
 
 export const getActiveCustomer = (state: RootState) => {

@@ -34,5 +34,18 @@ export async function updateStage(id: number, stageInfo): Promise<IOrder> {
     }
 }
 
+export async function applyDiscount(id: number, transactionId: number, discountInfo): Promise<IOrder> {
+    console.log("Order Id : ", id, " Transaction Id : ", transactionId, " Discount Info : ", discountInfo);
+    try {
+        const response: IOrder = await httpClient.put(`/admin/orders/${id}/transactions/${transactionId}/applyDiscount`, discountInfo);
+
+        console.log("Response : ", response);
+
+        return response && response
+    } catch (e) {
+        throw e;
+    }
+}
+
 
 
