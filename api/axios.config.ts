@@ -3,6 +3,7 @@ import Cookies from 'js-cookie';
 
 
 import { BASE_API_URL, TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY } from '../config/constants';
+import { displayMessage } from '../util/global.util';
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
@@ -33,9 +34,17 @@ httpClient.interceptors.request.use(
 );
 
 httpClient.interceptors.response.use(
-    async function (response:AxiosResponse<any>) {
+    async function (res:AxiosResponse<any>) {
+        const response: any = res;
+
         const { resultFormatted } = response.data;
 
+        console.log("Response Message: ", response.data);
+        if (response.data?.successMessage) {
+            displayMessage('success', response.data?.successMessage);
+        } else if (response.data?.errorMessage) {
+            displayMessage('error', response.data?.errorMessage);
+        }
         return resultFormatted;
     }
 )

@@ -47,5 +47,15 @@ export async function applyDiscount(id: number, transactionId: number, discountI
     }
 }
 
+export async function assignDeliveryRep(deliveryAssignment): Promise<IOrder> {
+    try {
+        const response: IOrder = await httpClient.post(`/admin/delivery/`, deliveryAssignment);
+        console.log("Response : ", response);
+        return response && response
+    } catch (e) {
+        throw e;
+    }
+}
+
 
 

@@ -23,6 +23,8 @@ export interface IOrder {
   user: IUser;
   stage: number;
   items?: (IOrderItem)[] | null;
+  delivery?: IDelivery;
+  pickup?: IDelivery;
   isPaid(): boolean
 }
 export interface IUser {
@@ -40,7 +42,7 @@ export interface IUser {
   city: string;
   percentage: number;
   verified: boolean;
-  address?:Location[];
+  address?: Location[];
   role: string;
 }
 
@@ -155,7 +157,7 @@ export interface IProductRatePlan {
   duration: string;
   surge_rate?: null;
   user_rate: number;
-  durationDisplay?:string;
+  durationDisplay?: string;
 }
 export interface DropOrPickup {
 }
@@ -167,21 +169,27 @@ export interface ICheckboxOption {
 }
 
 export interface IProductFilter {
-  rate?:[number, number];
-  brand?:number[];
-  category?:number;
-  city?:string;
-  subCategory?:number;
+  rate?: [number, number];
+  brand?: number[];
+  category?: number;
+  city?: string;
+  subCategory?: number;
   page?: number;
 }
 
 export interface IProductCategory {
-  id:number;
-  title:string;
-  subCategories?:IProductSubCategory[];
+  id: number;
+  title: string;
+  subCategories?: IProductSubCategory[];
 }
 
 export interface IProductSubCategory {
-  id:number;
-  title:string;
+  id: number;
+  title: string;
+}
+
+export interface IDelivery {
+  id: number;
+  rep_id: number;
+  rep_name: string;
 }

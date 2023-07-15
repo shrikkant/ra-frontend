@@ -6,4 +6,5 @@ export interface AdminState {
 	orders?: IOrder[] | null,
 	activeOrder?: IOrder | null,
 	brands?: IBrand[] | null,
+	deliveryReps?: IUser[] | null
 }

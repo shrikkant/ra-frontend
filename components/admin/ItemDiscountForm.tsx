@@ -8,16 +8,11 @@ import { useDispatch } from "react-redux";
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
-export function ItemDiscountForm({item, handleItemChange}) {
+export function ItemDiscountForm({ item, handleItemChange }) {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const [formLayout, setFormLayout] = useState<LayoutType>('inline');
-  const [transactionUpdate, setTransactionUpdate] = useState({ transaction_id: item.id, discount: 0, percent: 0});
+  const [transactionUpdate, setTransactionUpdate] = useState({ transaction_id: item.id, discount: 0, percent: 0 });
   const [transaction, setTransaction] = useState(item);
-
-  const onFormLayoutChange = (values: any) => {
-    console.log(values);
-  };
 
   const handleDiscountChange = (id: number, value: string) => {
     const tr = { ...transactionUpdate };
@@ -51,9 +46,8 @@ export function ItemDiscountForm({item, handleItemChange}) {
     layout={"inline"}
     form={form}
     size="small"
-    initialValues={{ layout: formLayout }}
-    onValuesChange={onFormLayoutChange}
-    style={{ maxWidth: formLayout === 'inline' ? 'none' : 600, border: "1px solid #ddd", padding: 10, borderRadius: 4 }}
+    initialValues={{ layout: "inline" }}
+    style={{ border: "1px solid #ddd", padding: 10, borderRadius: 4 }}
   >
     <Form.Item label="Discount" >
       <Input style={{ width: 80 }} type="number" placeholder="Discount" value={transactionUpdate.discount} onChange={(e) => { handleDiscountChange(item.id, e.target.value) }} />

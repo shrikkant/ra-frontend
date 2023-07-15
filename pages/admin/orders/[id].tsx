@@ -1,13 +1,8 @@
 
 import {
   Button,
-  Card,
   Descriptions,
-  Form,
-  Input,
-  Select,
   Tag,
-  Tooltip,
 } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 
@@ -28,9 +23,9 @@ import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 import Loader from "components/Loader";
-import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons";
-import { OrderStages, displayMessage, resolveOrderStage } from "util/global.util";
+import { OrderStages, resolveOrderStage } from "util/global.util";
 import { OrderStageForm } from "../../../components/admin/OrderStageForm";
+import { DeliveryAssignmentForm } from "../../../components/admin/DeliveryAssignmentForm";
 
 export default function Order() {
   const router = useRouter();
@@ -73,7 +68,7 @@ export default function Order() {
 
       {loading ? <Loader /> : <Content className={styles.content}>
 
-        <MyPageHeader title={"Orders"} subtitle={""} extra={[
+        <MyPageHeader title={"#" + order.id} subtitle={""} extra={[
           <Button key="stage_1" type="primary">
             {resolveOrderStage(order.stage)}
           </Button>,
@@ -94,6 +89,20 @@ export default function Order() {
                   {resolveOrderStage(order.stage)}
                 </Button>,
               ]}></MyPageHeader>
+
+            <Descriptions
+              bordered
+              size={"small"}
+              key="1"
+              column={1}
+            >
+              <Descriptions.Item>
+                <DeliveryAssignmentForm order={order} />
+              </Descriptions.Item>
+
+            </Descriptions>
+
+
 
             {!(order.stage === OrderStages.Leads) && <OrderStageForm order={order} ></OrderStageForm>}
             {order.items && order.items.map((item) => {
