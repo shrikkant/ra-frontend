@@ -1,9 +1,9 @@
 import type { AppProps } from 'next/app'
 import { store } from '../app-store/store'
 import "antd/dist/reset.css"
-import '../styles/vars.css'
-import '../styles/global.css'
-import '../styles/common.css'
+import 'styles/vars.css'
+import 'styles/global.css'
+import 'styles/common.css'
 
 import React, { FC } from 'react';
 import { Provider } from 'react-redux'
