@@ -20,7 +20,6 @@ export default function Signin() {
               <button
                 onClick={() => router.push("/auth/google")}
                 className={styles.signinBtn}
-                danger
               >
                 <GoogleOutlined />
                 Sign in with Google
