@@ -39,7 +39,7 @@ httpClient.interceptors.response.use(
 
         const { resultFormatted } = response.data;
 
-        console.log("Response Message: ", response.data);
+        // console.log("Response Message: ", response.data);
         if (response.data?.successMessage) {
             displayMessage('success', response.data?.successMessage);
         } else if (response.data?.errorMessage) {

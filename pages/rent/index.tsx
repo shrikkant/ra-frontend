@@ -1,15 +1,3 @@
-import {
-  Layout,
-  Checkbox,
-  Slider,
-  Card,
-  Radio,
-  Menu,
-  Form,
-  Pagination,
-} from 'antd'
-
-import { Content } from 'antd/lib/layout/layout'
 import AppHeader from '../../components/header'
 import { AppFooter } from '../../components/footer'
 import { useEffect, useState } from 'react'
@@ -53,28 +41,28 @@ export default function RentSearch() {
   }, [router.query])
 
   return (searchResults &&
-    <Layout className="layout" style={{ minHeight: '100vh' }}>
+    <div className="layout" style={{ minHeight: '100vh' }}>
       <AppHeader></AppHeader>
 
-      <Content style={{paddingTop:65}}>
+      <div style={{paddingTop:65}}>
         {loading && <Loader></Loader>}
 
         {!loading &&
-          <Content className={styles.searchContent}>
+          <div className={styles.searchContent}>
             <ProductFilterNav searchMeta={searchMeta} onChange={onChange}></ProductFilterNav>
-            {/* <Content className={styles.searchContent}> */}
-              <Content className={styles.searchGrid}>
+            {/* <div className={styles.searchContent}> */}
+              <div className={styles.searchGrid}>
                 {searchResults && searchResults.map((product: any) => (
                   <ProductCard key={product.id} product={product}></ProductCard>
                 ))}
-              </Content>
-            {/* </Content> */}
-          </Content>}
-      </Content>
+              </div>
+            {/* </div> */}
+          </div>}
+      </div>
 
       <AppFooter></AppFooter>
 
-    </Layout>
+    </div>
   )
 }
 

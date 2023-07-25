@@ -1,6 +1,5 @@
 import { Button, Form, Input } from "antd"
 import { applyDiscount } from "../../api/admin/orders.api";
-import { displayMessage } from "../../util/global.util";
 import { setActiveOrder } from "app-store/admin/index.slice";
 import { useState } from "react";
 import { IOrder } from "../../app-store/types";
@@ -25,8 +24,6 @@ export function ItemDiscountForm({ item, handleItemChange }) {
   const handleSubmit = () => {
     applyDiscount(item.order_id, item.id, transactionUpdate).then((data: IOrder) => {
       handleItemChange(data.items.find((item) => (item.id == item.id)));
-
-      displayMessage('success', 'Discount applied successfully');
       setTransaction(data.items.find((item) => (item.id == item.id)));
 
       dispatch(setActiveOrder(data));

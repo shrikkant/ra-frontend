@@ -15,15 +15,10 @@
 }
 
 .main-content {
-    margin: auto;
-    min-height: 100vh;
-    background-color: #fff;
-    display:flex;
-    padding-top: 100px;
-    max-width: 1080px;
-    margin: auto;
-    box-sizing: border-box;
-
+    background: #fff;
+    height: 100vh;
+    display: flex;
+    width: 100%;
 }
 
 .ant-descriptions-title {
@@ -53,6 +48,12 @@
 :where(.css-dev-only-do-not-override-12upa3x).ant-upload-wrapper.ant-upload-picture-card-wrapper .ant-upload.ant-upload-select {
     height: 124px;
     width: 124px;
+}
+
+.right-panel {
+    overflow-y: auto;
+    width: 100%;
+    height:calc(100vh - 120px);
 }
 
 /* .r-comp {

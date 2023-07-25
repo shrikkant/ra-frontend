@@ -4,4 +4,5 @@
 
 .orderBox {
   border: 1px solid #ccc;
+  overflow-y: hidden;
 }

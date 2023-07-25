@@ -1,5 +1,5 @@
 import { Button, Card, Descriptions, Divider, Form, Input, Select, Tooltip } from "antd"
-import { OrderStages, displayMessage, resolveOrderStage } from "../../util/global.util"
+import { OrderStages, resolveOrderStage } from "../../util/global.util"
 import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons"
 import { fetchOrder, updateStage } from "api/admin/orders.api";
 import { useEffect, useState } from "react";
@@ -28,7 +28,6 @@ export function OrderStageForm({ order }) {
     const updatedOrder = { ...order };
     updatedOrder.stage = orderChange.stage;
     updateStage(id, { ...orderChange, id }).then(data => {
-      displayMessage('success', 'Order stage updated successfully');
       dispatch(setActiveOrder(updatedOrder));
     })
   }

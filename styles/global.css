@@ -1,3 +1,81 @@
-/* @tailwind base;
+@tailwind base;
 @tailwind components;
-@tailwind utilities; */
+@tailwind utilities;
+
+.admin-sidebar {
+  width: 18rem;
+  display: flex;
+}
+
+.admin-sidebar .content {
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
+  --tw-bg-opacity: 1;
+  background-color: rgb(17 24 39 / var(--tw-bg-opacity));
+  overflow-y: auto;
+  row-gap: 1.25rem;
+  flex-direction: column;
+  flex-grow: 1;
+  display: flex;
+}
+
+.admin-sidebar .content .brand {
+  height: 4rem;
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+  display: flex;
+}
+
+.admin-sidebar .content .brand img {
+  height: 2rem;
+}
+
+.admin-sidebar .content nav {
+  flex: 1 1 0%;
+  flex-direction: column;
+  display: flex;
+}
+
+.admin-sidebar .content nav>ul {
+  display: flex;
+  flex: 1 1 0%;
+  flex-direction: column;
+  row-gap: 1.75rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.admin-sidebar .content nav ul a {
+  --tw-text-opacity: 1;
+  color: rgb(156 163 175 / var(--tw-text-opacity));
+  line-height: 1.5rem;
+  font-weight: 600;
+  font-size: 0.875rem;
+  padding: 0.5rem;
+
+  border-radius: 0.375rem;
+  column-gap: 0.75rem;
+  display: flex;
+  text-decoration: inherit;
+}
+
+.admin-sidebar .content nav ul.menu li a.active, .admin-sidebar .content nav ul.menu li a:hover, .admin-sidebar .content nav ul.menu li a:active  {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(31 41 55 / var(--tw-bg-opacity));
+}
+
+.admin-sidebar .content nav ul a .icon, .admin-sidebar .content nav ul a svg {
+  flex-shrink: 0;
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.admin-sidebar .content nav ul.menu li {
+  --tw-space-y-reverse: 0;
+  margin-top: calc(0.25rem * calc(1 - var(--tw-space-y-reverse)));
+  margin-bottom: calc(0.25rem * var(--tw-space-y-reverse));
+}

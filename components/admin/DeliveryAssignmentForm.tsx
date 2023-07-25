@@ -8,12 +8,16 @@ import { getDeliveryReps, setDeliveryReps } from "../../app-store/admin/index.sl
 import { fetchDeliveryReps } from "../../api/admin/index.api";
 import { IUser } from "../../app-store/types";
 
+enum DeliveryType {
+  DELIVERY = 1,
+  PICKUP = 2
+}
 
 export function DeliveryAssignmentForm({ order }) {
   const dispatch = useDispatch();
 
   const router = useRouter();
-  const [deliveyAssignment, setDeliveryAssignment] = useState({ repId: -1, orderId: 0 });
+  const [deliveyAssignment, setDeliveryAssignment] = useState({ repId: -1, orderId: 0, type: DeliveryType.DELIVERY });
   const [form] = Form.useForm();
   const deliveryReps = useSelector(getDeliveryReps);
 
@@ -44,7 +48,7 @@ export function DeliveryAssignmentForm({ order }) {
       ...deliveyAssignment,
       orderId: order.id,
       repId: order?.delivery?.rep_id
-    })
+    });
 
 
   }, [router.isReady])
@@ -60,9 +64,8 @@ export function DeliveryAssignmentForm({ order }) {
     >
 
       <Form.Item label={"Delivery Rep"}>
-        <Select style={{ width: 160 }} value={deliveyAssignment.repId} onChange={handleRepChange}
+        <Select style={{ width: 160 }} defaultValue={deliveyAssignment.repId} value={deliveyAssignment.repId} onChange={handleRepChange}
           options={repOptions()}>
-
         </Select>
       </Form.Item>
       <Form.Item style={{ textAlign: "right" }} >

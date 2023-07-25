@@ -1,10 +1,4 @@
-
-import {
-	Button,
-	Layout,
-	Space,
-	Tag,
-} from "antd";
+import { Button, Layout, Space, Tag } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 
 import styles from "styles/orders.module.css";
@@ -19,73 +13,78 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders } from "../api/user/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
-
 import { IOrder } from "../app-store/types";
 import { OrderItemRow } from "../components/OrderItemRow";
-import Moment from 'moment';
+import Moment from "moment";
 import React from "react";
 
 export default function Orders() {
-	const orders = useSelector(getOrders)?.filter((item, i) => i < 5);
-	const dispatch = useDispatch();
-	const df = Moment().format('DD MMM');
+  const orders = useSelector(getOrders)?.filter((item, i) => i < 5);
+  const dispatch = useDispatch();
+  const df = Moment().format("DD MMM");
 
+  if (!orders) {
+    fetchOrders().then((data) => {
+      dispatch(setOrders(data));
+    });
+  }
 
-	if (!orders) {
-		fetchOrders().then(data => {
-			dispatch(setOrders(data))
-		})
-	}
+  return (
+    <Content>
+      <Content className="main-content">
+        <AppNav></AppNav>
+        <Content className={styles.content}>
+          <AppHeader></AppHeader>
+          <MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
 
-	return (<Content>
-		<AppHeader></AppHeader>
-		<Content className="main-content">
-			<AppNav></AppNav>
-			<Content className={styles.content}>
+          <Content style={{ padding: "16px 16px" , }} className="right-panel">
+              {orders &&
+                orders.map((order: IOrder) => {
+                  let items: JSX.Element[] = [];
 
-				<MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
+                  items.push(
+                    <PageHeader
+                      className={styles.orderHeader}
+                      key={order.id}
+                      ghost={false}
+                      tags={[
+                        <Tag key="1" color="red">
+                          {"₹" + order.amount}
+                        </Tag>,
+                        <Tag key="2" color="purple">
+                          {order.status}
+                        </Tag>,
+                      ]}
+                      title={"#" + order.id}
+                      subTitle={Moment(order.created_ts).format("DD MMM")}
+                      extra={[
+                        <Button key="1" type="primary">
+                          Track
+                        </Button>,
+                      ]}
+                    ></PageHeader>
+                  );
 
-				<Content style={{ padding: '16px 16px'}}>
-					<Space size={[10, 20]} direction="vertical">
+                  order.items &&
+                    order.items.map((item) => {
+                      items.push(
+                        <OrderItemRow
+                          key={item.id}
+                          orderItem={item}
+                        ></OrderItemRow>
+                      );
+                    });
+                  return (
+                    <Content className={styles.orderBox} key={order.id}>
+                      {items}
+                    </Content>
+                  );
+                })}
+          </Content>
+        </Content>
+      </Content>
 
-
-						{orders && orders.map((order: IOrder) => {
-							let items: JSX.Element[] = [];
-
-							items.push(<PageHeader
-								className={styles.orderHeader}
-								key={order.id}
-								ghost={false}
-								tags={[<Tag key="1" color="red">{"₹" + order.amount}</Tag>,
-								<Tag key="2" color="purple">{order.status}</Tag>]}
-								title={"#" + order.id}
-								subTitle={Moment(order.created_ts).format('DD MMM')}
-								extra={[
-									<Button key="1" type="primary">
-										Track
-									</Button>,
-								]}></PageHeader>);
-
-							order.items && order.items.map((item) => {
-								items.push(
-									<OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
-								)
-							})
-							return (<Content className={styles.orderBox} key={order.id}>{items}</Content>)
-						})}
-
-
-					</Space>
-
-				</Content>
-			</Content>
-
-
-
-		</Content>
-
-
-		<AppFooter></AppFooter>
-	</Content>)
+      <AppFooter></AppFooter>
+    </Content>
+  );
 }
-
