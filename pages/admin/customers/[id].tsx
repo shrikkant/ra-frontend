@@ -1,14 +1,7 @@
 "use client";
-import { Button, Input, Layout, Space, Tag, Form } from "antd";
 import { useRouter } from "next/router";
-import { PageHeader } from "@ant-design/pro-layout";
-
-import styles from "styles/orders.module.css";
 
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "../../../components/AppNav";
-import { AppFooter } from "../../../components/footer";
-import AppHeader from "../../../components/header";
 import ActivityCard from "../../../components/ActivityCard";
 import DocumentsCard from "../../../components/DocumentsCard";
 
