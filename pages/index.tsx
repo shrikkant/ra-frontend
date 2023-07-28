@@ -25,7 +25,7 @@ export default function Home() {
 
   return (
     <Layout className="layout" style={{ minHeight: '100vh' }}>
-      <AppHeader></AppHeader>
+      <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
       <Content className={styles.container}>
         <ProductGrid></ProductGrid>
       </Content>
