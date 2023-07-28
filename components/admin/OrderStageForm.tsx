@@ -1,10 +1,10 @@
 import { Button, Card, Descriptions, Divider, Form, Input, Select, Tooltip } from "antd"
 import { OrderStages, resolveOrderStage } from "../../util/global.util"
-import { InfoCircleOutlined, UserOutlined } from "@ant-design/icons"
 import { fetchOrder, updateStage } from "api/admin/orders.api";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setActiveOrder } from "app-store/admin/index.slice";
+import { UserCircleIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
@@ -118,11 +118,11 @@ export function OrderStageForm({ order }) {
 
                     <Input
                       placeholder={addon?.masterProduct?.name}
-                      prefix={<UserOutlined className="site-form-item-icon" />}
+                      prefix={<UserCircleIcon className="site-form-item-icon" />}
                       onKeyDownCapture={(e) => { handleSerialNoInput(transaction.id, addon, e) }}
                       suffix={
                         <Tooltip title="Serial #">
-                          <InfoCircleOutlined style={{ color: 'rgba(0,0,0,.45)' }} />
+                          <UserGroupIcon style={{ color: 'rgba(0,0,0,.45)' }} />
                         </Tooltip>
                       }
                     />

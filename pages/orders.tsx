@@ -17,6 +17,7 @@ import { IOrder } from "../app-store/types";
 import { OrderItemRow } from "../components/OrderItemRow";
 import Moment from "moment";
 import React from "react";
+import { AppLayout } from "../components/AppLayout";
 
 export default function Orders() {
   const orders = useSelector(getOrders)?.filter((item, i) => i < 5);
@@ -30,61 +31,50 @@ export default function Orders() {
   }
 
   return (
-    <Content>
-      <Content className="main-content">
-        <AppNav></AppNav>
-        <Content className={styles.content}>
-          <AppHeader></AppHeader>
-          <MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
+    <AppLayout>
+      <MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
 
-          <Content style={{ padding: "16px 16px" , }} className="right-panel">
-              {orders &&
-                orders.map((order: IOrder) => {
-                  let items: JSX.Element[] = [];
+      <Content style={{ padding: "16px 16px" }} className="right-panel">
+        {orders &&
+          orders.map((order: IOrder) => {
+            let items: JSX.Element[] = [];
 
-                  items.push(
-                    <PageHeader
-                      className={styles.orderHeader}
-                      key={order.id}
-                      ghost={false}
-                      tags={[
-                        <Tag key="1" color="red">
-                          {"₹" + order.amount}
-                        </Tag>,
-                        <Tag key="2" color="purple">
-                          {order.status}
-                        </Tag>,
-                      ]}
-                      title={"#" + order.id}
-                      subTitle={Moment(order.created_ts).format("DD MMM")}
-                      extra={[
-                        <Button key="1" type="primary">
-                          Track
-                        </Button>,
-                      ]}
-                    ></PageHeader>
-                  );
+            items.push(
+              <PageHeader
+                className={styles.orderHeader}
+                key={order.id}
+                ghost={false}
+                tags={[
+                  <Tag key="1" color="red">
+                    {"₹" + order.amount}
+                  </Tag>,
+                  <Tag key="2" color="purple">
+                    {order.status}
+                  </Tag>,
+                ]}
+                title={"#" + order.id}
+                subTitle={Moment(order.created_ts).format("DD MMM")}
+                extra={[
+                  <Button key="1" type="primary">
+                    Track
+                  </Button>,
+                ]}
+              ></PageHeader>
+            );
 
-                  order.items &&
-                    order.items.map((item) => {
-                      items.push(
-                        <OrderItemRow
-                          key={item.id}
-                          orderItem={item}
-                        ></OrderItemRow>
-                      );
-                    });
-                  return (
-                    <Content className={styles.orderBox} key={order.id}>
-                      {items}
-                    </Content>
-                  );
-                })}
-          </Content>
-        </Content>
+            order.items &&
+              order.items.map((item) => {
+                items.push(
+                  <OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
+                );
+              });
+            return (
+              <Content className={styles.orderBox} key={order.id}>
+                {items}
+              </Content>
+            );
+          })}
       </Content>
-
-      <AppFooter></AppFooter>
-    </Content>
+    </AppLayout>
   );
 }

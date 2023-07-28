@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 
 import styles from "../styles/Signin.module.css";
 import React from "react";
-import { FacebookOutlined, GoogleOutlined } from "@ant-design/icons";
+import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 
 export default function Signin() {
   const router = useRouter();
@@ -21,11 +21,11 @@ export default function Signin() {
                 onClick={() => router.push("/auth/google")}
                 className={styles.signinBtn}
               >
-                <GoogleOutlined />
+                <ArrowDownCircleIcon />
                 Sign in with Google
               </button>
               <button className={styles.signinBtn}>
-                <FacebookOutlined />
+                <ArrowDownCircleIcon />
                 Sign in with Facebook
               </button>
             </div>

@@ -21,18 +21,17 @@ import MyPageHeader from "components/MyPageHeader";
 
 import Moment from 'moment';
 import React, { useEffect } from "react";
-
-import { CheckOutlined } from "@ant-design/icons";
 import { fetchBrands } from "api/admin/index.api";
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
+import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
 
 const columns = [
   {
     title: 'Status',
     dataIndex: 'id',
     key: 'id',
-    render: (val) => (val ? <CheckOutlined /> : "")
+    render: (val) => (val ? <ArrowsPointingOutIcon /> : "")
   },
   {
     title: 'Name',

@@ -1,79 +1,78 @@
-import {
-  AppstoreOutlined,
-  BankOutlined,
-  CalendarOutlined,
-  CreditCardOutlined,
-  DeliveredProcedureOutlined,
-  GlobalOutlined,
-  GoogleOutlined,
-  LinkOutlined,
-  MailOutlined,
-  SettingOutlined,
-  SmileOutlined,
-  UnorderedListOutlined,
-  UsergroupAddOutlined,
-  UserOutlined,
-  UserSwitchOutlined,
-} from "@ant-design/icons";
-
 import { Button, Card, MenuProps, Space } from "antd";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthState } from "../app-store/auth/auth.slice";
 import {
+  AcademicCapIcon,
   ArrowDownOnSquareIcon,
   ArrowLeftCircleIcon,
+  ArrowLeftIcon,
+  ArrowsRightLeftIcon,
+  BuildingLibraryIcon,
+  CalendarDaysIcon,
+  CameraIcon,
+  GlobeAltIcon,
+  GlobeAsiaAustraliaIcon,
+  LockClosedIcon,
+  MapPinIcon,
+  NewspaperIcon,
+  QueueListIcon,
+  ShoppingBagIcon,
   ShoppingCartIcon,
+  TagIcon,
+  UserIcon,
+  UsersIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import NavMenu from "components/NavMenu";
 import { ro } from "date-fns/locale";
 
 let items = [
-  { label: "Cart", key: "/my-cart", icon: <ShoppingCartIcon /> },
-  { label: "Orders", key: "/orders", icon: <CreditCardOutlined /> },
+  { label: "Cart", key: "/my-cart", icon: <ShoppingCartIcon className="h-6 w-6"/> },
+  { label: "Orders", key: "/orders", icon: <ShoppingBagIcon className="h-6 w-6" /> },
 
-  { label: "Refer & Earn", key: "/refer-earn", icon: <UsergroupAddOutlined /> },
+  // { label: "Refer & Earn", key: "/refer-earn", icon: <ArrowsRightLeftIcon className="h-6 w-6" /> },
   {
     label: "Owner",
     key: "/submenu",
     children: [
-      {
-        label: "Rent Requests",
-        key: "/rent-requests",
-        icon: <UserSwitchOutlined />,
-      },
+      // {
+      //   label: "Rent Requests",
+      //   key: "/rent-requests",
+      //   icon: <NewspaperIcon className="h-6 w-6" />,
+      // },
       {
         label: "My Products",
         key: "/my-products",
-        icon: <DeliveredProcedureOutlined />,
+        icon: <CameraIcon className="h-6 w-6" />,
       },
-      {
-        label: "List Gear",
-        key: "/list-gear",
-        icon: <UnorderedListOutlined />,
-      },
-      {
-        label: "Booking Calendar",
-        key: "/booking-calendar",
-        icon: <CalendarOutlined />,
-      },
+      // {
+      //   label: "List Gear",
+      //   key: "/list-gear",
+      //   icon: <QueueListIcon className="h-6 w-6" />,
+      // },
+      // {
+      //   label: "Booking Calendar",
+      //   key: "/booking-calendar",
+      //   icon: <CalendarDaysIcon className="h-6 w-6" />,
+      // },
     ],
   },
   {
     label: "Profile",
     key: "/profile-menu",
     children: [
-      { label: "My Profile", key: "/profile/", icon: <UserOutlined /> },
+      { label: "My Profile", key: "/profile/", icon: <UserIcon className="h-6 w-6" /> },
       {
         label: "Address Book",
         key: "/profile/address-book",
-        icon: <GlobalOutlined />,
+        icon: <MapPinIcon className="h-6 w-6" />,
       },
       {
         label: "Bank Info",
         key: "/profile/bank-details",
-        icon: <BankOutlined />,
+        icon: <BuildingLibraryIcon className="h-6 w-6" />,
       },
     ],
   },
@@ -83,19 +82,19 @@ const adminRoutes = {
   label: "Admin",
   key: "/admin",
   children: [
-    { label: "Customers", key: "/admin/customers", icon: <UserOutlined /> },
+    { label: "Customers", key: "/admin/customers", icon: <UsersIcon className="h-6 w-6" /> },
     {
       label: "Manage Orders",
       key: "/admin/orders?stage=1",
-      icon: <GlobalOutlined />,
+      icon: <ShoppingBagIcon className="h-6 w-6" />,
     },
-    { label: "Brands", key: "/admin/brands", icon: <GlobalOutlined /> },
+    { label: "Brands", key: "/admin/brands", icon: <TagIcon className="h-6 w-6"/> },
   ],
 };
 
 
 
-export default function AppNav() {
+export default function AppNav({navState, toggleNavState}) {
   const router = useRouter();
   const loggedUser = useSelector(selectAuthState);
   let activeItems = [...items];
@@ -152,12 +151,15 @@ export default function AppNav() {
 
 
   return (
-    <div className="admin-sidebar">
-      <div className="content">
-        <div className="brand">
+    <aside id="default-sidebar" className={"flex h-screen fixed sm:relative z-40 transition-transform sm:translate-x-0 " + (navState ? "translate-x-0" : "-translate-x-full")} aria-label="Sidebar">
+      <div className="px-5 bg-gray-900">
+        <div className="my-3 hidden sm:block">
           <img src="/assets/img/logo.png" alt="RentAcross" />
         </div>
-        <nav>
+        <div className="sm:hidden flex justify-end py-5  text-gray-400 border-b-gray-400 border-b">
+            <XMarkIcon className="h-6 w-6" onClick={toggleNavState}/>
+        </div>
+        <nav className="my-5">
           <ul>
             <li>
               <NavMenu onClick={onClick} items={activeItems}></NavMenu>
@@ -165,6 +167,6 @@ export default function AppNav() {
           </ul>
         </nav>
       </div>
-    </div>
+    </aside>
   );
 }

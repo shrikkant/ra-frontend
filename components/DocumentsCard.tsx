@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { PlusOutlined } from '@ant-design/icons';
 import { Modal, Upload, Image } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
@@ -8,6 +7,7 @@ import { addDocument, uploadDocument } from '../api/admin/customers.api';
 import { set } from 'date-fns';
 import styles from 'styles/documents.module.css';
 import { PageHeader } from '@ant-design/pro-layout';
+import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -21,7 +21,7 @@ const UploadButton = ({ type }) => {
 
   return (
     <div style={{ padding: 10 }}>
-      <PlusOutlined />
+      <ArrowDownCircleIcon />
       <div style={{ marginTop: 8 }}>{DocTypes[type]}</div>
     </div>
   );

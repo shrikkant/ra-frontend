@@ -21,6 +21,7 @@ import { IOrderItem } from "../app-store/types";
 import React from "react";
 import OrderSummary from "../components/OrderSummary";
 import styles from "../styles/my-cart.module.css";
+import { AppLayout } from "../components/AppLayout";
 
 export default function Orders() {
   const cart = useSelector(getCart);
@@ -34,8 +35,7 @@ export default function Orders() {
   }
 
   return (
-    <Layout className="layout">
-      <AppHeader></AppHeader>
+<AppLayout>
       <Content className={styles.mainContent}>
         {cart &&
           (<>
@@ -67,8 +67,7 @@ export default function Orders() {
       </Content>
 
 
-      <AppFooter></AppFooter>
-    </Layout>
+</AppLayout>
 
   )
 }

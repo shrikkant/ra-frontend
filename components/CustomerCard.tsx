@@ -15,9 +15,9 @@ import styles from "styles/orders.module.css";
 import { Content } from "antd/lib/layout/layout";
 
 import Moment from 'moment';
-import { CheckOutlined, InfoCircleOutlined } from "@ant-design/icons";
 import { IUser } from "../app-store/types";
 import React from "react";
+import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 
 
 export default function CustomerCard({ customer }) {
@@ -27,7 +27,7 @@ export default function CustomerCard({ customer }) {
         className={styles.orderHeader}
         key={customer.id}
         ghost={false}
-        tags={[<Tag key="1" color="red">{customer.verified ? <CheckOutlined /> : ""}</Tag>]}
+        tags={[<Tag key="1" color="red">{customer.verified ? <ArrowDownCircleIcon /> : ""}</Tag>]}
         title={customer.firstname + " " + customer.lastname}
         subTitle={Moment(customer.created_ts).format('DD MMM')}></PageHeader>
       <Content style={{ padding: 16 }}>

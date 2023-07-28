@@ -27,7 +27,6 @@ import React, { useEffect, useState } from "react";
 import { getActiveCustomer, setActiveCustomer } from "../../../app-store/admin/index.slice";
 
 import { fetchActiveCustomer } from "../../../api/admin/customers.api";
-import { InfoCircleOutlined } from "@ant-design/icons";
 import CustomerCard from "../../../components/CustomerCard";
 
 export default function Customers() {

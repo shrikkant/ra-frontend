@@ -12,7 +12,6 @@
         "start:prod": "run-p watch:css build"
     },
     "dependencies": {
-        "@ant-design/icons": "^4.7.0",
         "@ant-design/pro-components": "^2.4.16",
         "@ant-design/pro-layout": "^7.15.3",
         "@headlessui/react": "^1.7.15",
