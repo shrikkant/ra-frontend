@@ -20,7 +20,10 @@ export default function Signin() {
       <Content style={{ padding: "0 50px", height: "100vh" }}>
         <div className={styles.loginWrapper}>
           <div className={styles.loginBox}>
-            <div className="flex gap-y-3 flex-col">
+            <div className="flex gap-y-5 flex-col">
+              <div>
+                <h1 className="text-3xl font-semibold">Login</h1>
+              </div>
               <button
                 onClick={() => router.push("/auth/google")}
                 className={
@@ -36,7 +39,9 @@ export default function Signin() {
                 }
               >
                 <FaFacebookF className="h-6 w-6" />
-                <span className="text-center w-full">Sign in with Facebook</span>
+                <span className="text-center w-full">
+                  Sign in with Facebook
+                </span>
               </button>
             </div>
           </div>

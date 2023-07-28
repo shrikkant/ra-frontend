@@ -16,13 +16,12 @@ export default function ProductCard({ product }) {
 
   return (
 
-    <Link className="r-comp" href={"/rent/products/" + product.slug}>
+    <Link className="r-comp w-full sm:w-72" href={"/rent/products/" + product.slug}>
 
       <Card
-        className="r-comp"
+        className="r-comp w-full flex justify-between flex-col"
         key={product.id}
         hoverable
-        style={{ width: 280, minHeight: '310px', display: "flex", justifyContent: "space-between", flexDirection: "column" }}
         cover={<img alt="example"
           style={cardCover}
           src={(product.photos[0] ? product.photos[0].path : "/assets/img/no-image.jpeg")} />}
