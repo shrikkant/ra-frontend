@@ -41,7 +41,7 @@ const ProductPage = () => {
   }, [router.isReady]);
 
   return activeProduct && (<Layout className="layout">
-    <AppHeader></AppHeader>
+    <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
 
     <Content style={{ background: '#fff', minHeight: '100vh', display: 'flex', paddingTop: 100 }}>
 
