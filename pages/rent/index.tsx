@@ -42,7 +42,7 @@ export default function RentSearch() {
 
   return (searchResults &&
     <div className="layout" style={{ minHeight: '100vh' }}>
-      <AppHeader></AppHeader>
+      <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
 
       <div style={{paddingTop:65}}>
         {loading && <Loader></Loader>}
