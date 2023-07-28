@@ -3,6 +3,8 @@ import { AppFooter } from "../components/footer";
 import AppHeader from "../components/header";
 import { useRouter } from "next/router";
 
+import { FcGoogle } from "react-icons/fc";
+
 import styles from "../styles/Signin.module.css";
 import React from "react";
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
@@ -21,7 +23,7 @@ export default function Signin() {
                 onClick={() => router.push("/auth/google")}
                 className={styles.signinBtn}
               >
-                <ArrowDownCircleIcon />
+                <FcGoogle />
                 Sign in with Google
               </button>
               <button className={styles.signinBtn}>
