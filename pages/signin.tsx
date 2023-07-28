@@ -12,7 +12,7 @@ export default function Signin() {
 
   return (
     <div className="layout">
-      <AppHeader></AppHeader>
+      <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
       <Content style={{ padding: "0 50px", height: "100vh" }}>
         <div className={styles.loginWrapper}>
           <div className={styles.loginBox}>
