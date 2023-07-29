@@ -4,20 +4,9 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthState } from "../app-store/auth/auth.slice";
 import {
-  AcademicCapIcon,
-  ArrowDownOnSquareIcon,
-  ArrowLeftCircleIcon,
-  ArrowLeftIcon,
-  ArrowsRightLeftIcon,
   BuildingLibraryIcon,
-  CalendarDaysIcon,
   CameraIcon,
-  GlobeAltIcon,
-  GlobeAsiaAustraliaIcon,
-  LockClosedIcon,
   MapPinIcon,
-  NewspaperIcon,
-  QueueListIcon,
   ShoppingBagIcon,
   ShoppingCartIcon,
   TagIcon,
@@ -122,22 +111,24 @@ export default function AppNav({navState, toggleNavState}) {
   }
 
   const currentActiveMenu = () => {
-    activeItems.forEach((item: any) => {
-      item?.children?.forEach((child: any) => {
-        if (child.key.startsWith(router.pathname)) {
-          child.active = true;
-          console.log(" Active Child : ", child);
+    if (router.pathname !== "/") {
+      activeItems.forEach((item: any) => {
+        item?.children?.forEach((child: any) => {
+          if (child.key.startsWith(router.pathname)) {
+            child.active = true;
+            console.log(" Active Child : ", child);
+          } else {
+            child.active = false;
+          }
+        });
+
+        if (item.key.startsWith(router.pathname)) {
+          item.active = true;
         } else {
-          child.active = false;
+          item.active = false;
         }
       });
-
-      if (item.key.startsWith(router.pathname)) {
-        item.active = true;
-      } else {
-        item.active = false;
-      }
-    });
+    }
   }
 
   const onClick: MenuProps["onClick"] = (e) => {
@@ -151,7 +142,7 @@ export default function AppNav({navState, toggleNavState}) {
 
 
   return (
-    <aside id="default-sidebar" className={"flex h-screen fixed sm:relative z-40 transition-transform sm:translate-x-0 " + (navState ? "translate-x-0" : "-translate-x-full")} aria-label="Sidebar">
+    <aside id="default-sidebar" className={"flex h-screen fixed sm:relative z-40 transition-transform sm:translate-x-0 " + (navState ? "translate-x-0" : "hidden -translate-x-full")} aria-label="Sidebar">
       <div className="px-5 bg-gray-900">
         <div className="my-3 hidden sm:block">
           <img src="/assets/img/logo.png" alt="RentAcross" />

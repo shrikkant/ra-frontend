@@ -1,9 +1,3 @@
-import {
-  ArrowDownOnSquareIcon,
-  ArrowLeftCircleIcon,
-  ShoppingCartIcon,
-} from "@heroicons/react/24/outline";
-
 export default function NavMenu({ items, onClick }) {
   const handleMenuItemClick = (item) => {
     onClick(item);

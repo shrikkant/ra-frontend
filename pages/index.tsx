@@ -13,17 +13,15 @@ import { AppFooter } from '../components/footer'
 import React from 'react'
 
 import styles from "../styles/Home.module.css";
+import { AppLayout } from '../components/AppLayout'
 
 export default function Home() {
 
   return (
-    <Layout className="layout" style={{ minHeight: '100vh' }}>
-      <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
+    <AppLayout sidebar={false}>
       <Content>
         <ProductGrid></ProductGrid>
       </Content>
-
-      <AppFooter></AppFooter>
-    </Layout>
+    </AppLayout>
   )
 }

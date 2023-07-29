@@ -9,7 +9,6 @@ import {
   getRateMarks,
   getDefaultRateRange,
   getBrandOptions,
-  getProductFilter,
 } from "../util/search.util";
 import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
 
@@ -90,12 +89,12 @@ export default function ProductFilterNav({
   };
 
   return (
-    <Content
-      className={`r-comp bg-white w-full h-screen sm:h-auto sm:w-72 top-30 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
+    <div
+      className={`pt-5 bg-white w-full h-screen sm:h-auto sm:w-72 top-30 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
 
       ${filters ? "translate-y-0" : "translate-y-full"}`}
     >
-      <div className="flex justify-end py-3 border-b ">
+      <div className="flex justify-end py-3 border-b sm:hidden">
         <button
           className="text-xl px-6 flex justify-end"
           onClick={toggleFilters}
@@ -103,14 +102,15 @@ export default function ProductFilterNav({
           <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <div className="overflow-y-auto h-[calc(100vh-150px)] px-3 overscroll-contain">
-        <Menu
-          className="w-full"
-          mode="inline"
-          items={items}
-          onSelect={onCategorySelect}
-          defaultSelectedKeys={[String(scid)]}
-        />
+      <div className="flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-150px)] px-3 overscroll-contain">
+
+          <Menu
+            className="w-full"
+            mode="inline"
+            items={items}
+            onSelect={onCategorySelect}
+            defaultSelectedKeys={[String(scid)]}
+          />
 
         <Card title="Brands">
           <Form layout={"vertical"}>
@@ -152,12 +152,12 @@ export default function ProductFilterNav({
           {/* <Meta title={searchMeta.total}></Meta> */}
         </Card>
       </div>
-      <div className="flex justify-end p-3 border-t mt-2">
+      <div className="flex justify-end p-3 border-t mt-2 sm:hidden">
         <button className="bg-gray-800 text-gray-100 p-2 rounded">
           Show {searchMeta.total} results
         </button>
       </div>
-    </Content>
+    </div>
   );
 }
 

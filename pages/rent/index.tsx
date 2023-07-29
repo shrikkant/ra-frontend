@@ -59,7 +59,7 @@ export default function RentSearch() {
   }, [router.query]);
 
   return (
-    <AppLayout>
+    <AppLayout sidebar={false}>
       {loading && <Loader></Loader>}
 
       {!loading && (
@@ -72,7 +72,7 @@ export default function RentSearch() {
           ></ProductFilterNav>
 
           <div>
-            <div className="flex justify-end border-b px-1 py-3">
+            <div className="flex justify-end border-b px-1 py-3 sm:hidden">
               <button
                 className="px-5 flex justify-end gap-x-2"
                 onClick={toggleNav}
