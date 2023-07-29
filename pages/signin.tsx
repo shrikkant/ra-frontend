@@ -17,12 +17,12 @@ export default function Signin() {
   return (
     <div className="layout">
       <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
-      <Content style={{ padding: "0 50px", height: "100vh" }}>
-        <div className={styles.loginWrapper}>
-          <div className={styles.loginBox}>
+      <Content className="h-[calc(100vh-185px)] sm:h-[calc(100vh-135px)] flex w-full justify-center">
+        <div className=" flex flex-col justify-center">
+          <div className="rounded border p-5">
             <div className="flex gap-y-5 flex-col">
-              <div>
-                <h1 className="text-3xl font-semibold">Login</h1>
+              <div className="border-b pb-2">
+                <h1 className="text-2xl font-semibold">Login</h1>
               </div>
               <button
                 onClick={() => router.push("/auth/google")}
@@ -33,7 +33,7 @@ export default function Signin() {
                 <FcGoogle className="h-6 w-6" />
                 <span className="text-center w-full">Sign in with Google</span>
               </button>
-              <button
+              {/* <button
                 className={
                   "flex font-semibold items-center text-lg gap-x-2 border-gray-400 border px-4 py-2  rounded-md w-full"
                 }
@@ -42,7 +42,7 @@ export default function Signin() {
                 <span className="text-center w-full">
                   Sign in with Facebook
                 </span>
-              </button>
+              </button> */}
             </div>
           </div>
         </div>
