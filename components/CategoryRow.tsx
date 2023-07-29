@@ -9,7 +9,7 @@ import React from "react";
 export default function CategoryRow(props: any) {
   return (
 
-      <Content className="r-comp" style={{padding:'12px 0px', display:'grid', gridAutoRows: '1fr', justifyContent:'space-evenly', rowGap:24, gridTemplateColumns:'repeat(auto-fit, 320px)'}}>
+      <Content className="r-comp grid-cols-2 gap-x-2 px-2 py-4 md:grid-cols-3 xl:grid-cols-4 gap-y-2 grid">
         {props.category.products.map((product: any) => (
           <ProductCard key={product.id} product={product}></ProductCard>
         ))}

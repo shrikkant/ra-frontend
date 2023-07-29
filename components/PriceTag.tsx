@@ -3,7 +3,7 @@ import { APP_LOCALE } from "../config/constants"
 
 export default function PriceTag({price, currency}){
 
-  return (<div className="r-comp" style={{fontSize:24}}>
+  return (<div className="r-comp text-sm sm:text-md">
     {getCurrencySymbol(price, currency)} {}
   </div>)
 }

@@ -20,6 +20,7 @@ import ProductFilterNav from "../../components/ProductFilterNav";
 
 import React from "react";
 import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
+import { AppLayout } from "../../components/AppLayout";
 
 export default function RentSearch() {
   const router = useRouter();
@@ -40,7 +41,7 @@ export default function RentSearch() {
   const onChange = (query) => {
     router.replace({ pathname: router.pathname, query: query });
     getSearchResultsAction(
-      String(q),
+      String(q || ""),
       getProductFilter(query)
     )(dispatch).then(() => {
       setLoading(false);
@@ -50,7 +51,7 @@ export default function RentSearch() {
   useEffect(() => {
     console.log("Fetching <> ", router.query);
     getSearchResultsAction(
-      String(q),
+      String(q || ""),
       getProductFilter(router.query)
     )(dispatch).then(() => {
       setLoading(false);
@@ -58,49 +59,36 @@ export default function RentSearch() {
   }, [router.query]);
 
   return (
-    searchResults && (
-      <div className="layout" style={{ minHeight: "100vh" }}>
-        <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
+    <AppLayout>
+      {loading && <Loader></Loader>}
 
-        <div>
-          {loading && <Loader></Loader>}
+      {!loading && (
+        <div className="sm:flex">
+          <ProductFilterNav
+            searchMeta={searchMeta}
+            onChange={onChange}
+            filters={filters}
+            toggleFilters={toggleNav}
+          ></ProductFilterNav>
 
-          {!loading && (
-            <div className="sm:flex">
-              <ProductFilterNav
-                searchMeta={searchMeta}
-                onChange={onChange}
-                filters={filters}
-                toggleFilters={toggleNav}
-              ></ProductFilterNav>
-              {/* <div className={styles.searchContent}> */}
-              <div>
-                <div className="flex justify-end border-b px-1 py-3">
-                  <button
-                    className="px-5 flex justify-end gap-x-2"
-                    onClick={toggleNav}
-                  >
-                    Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
-                  </button>
-                </div>
-                <div className={styles.searchGrid}>
-                  {searchResults &&
-                    searchResults.map((product: any) => (
-                      <ProductCard
-                        key={product.id}
-                        product={product}
-                      ></ProductCard>
-                    ))}
-                </div>
-              </div>
-
-              {/* </div> */}
+          <div>
+            <div className="flex justify-end border-b px-1 py-3">
+              <button
+                className="px-5 flex justify-end gap-x-2"
+                onClick={toggleNav}
+              >
+                Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
+              </button>
             </div>
-          )}
+            <div className={"r-comp grid-cols-2 gap-x-2 px-2 py-4 md:grid-cols-3 xl:grid-cols-4 grid gap-y-3"}>
+              {searchResults &&
+                searchResults.map((product: any) => (
+                  <ProductCard key={product.id} product={product}></ProductCard>
+                ))}
+            </div>
+          </div>
         </div>
-
-        <AppFooter></AppFooter>
-      </div>
-    )
+      )}
+    </AppLayout>
   );
 }
