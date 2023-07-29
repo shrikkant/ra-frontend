@@ -27,7 +27,12 @@ const handleStyle = {
   marginTop: "-2px",
 };
 
-export default function ProductFilterNav({ searchMeta, onChange, filters, toggleFilters }) {
+export default function ProductFilterNav({
+  searchMeta,
+  onChange,
+  filters,
+  toggleFilters,
+}) {
   const router = useRouter();
 
   const [loading, setLoading] = useState(true);
@@ -86,63 +91,72 @@ export default function ProductFilterNav({ searchMeta, onChange, filters, toggle
 
   return (
     <Content
-      className={`r-comp bg-white w-full h-screen sm:h-auto sm:w-72 bottom-0 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
+      className={`r-comp bg-white w-full h-screen sm:h-auto sm:w-72 top-30 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
 
-      ${ filters ? "translate-y-0" : "translate-y-full"}`}
+      ${filters ? "translate-y-0" : "translate-y-full"}`}
     >
-      <div className="flex justify-end py-3 border-b">
-        <button className="text-xl px-6 flex justify-end" onClick={toggleFilters}>
+      <div className="flex justify-end py-3 border-b ">
+        <button
+          className="text-xl px-6 flex justify-end"
+          onClick={toggleFilters}
+        >
           <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <Menu
-        className="w-full"
-        mode="inline"
-        items={items}
-        onSelect={onCategorySelect}
-        defaultSelectedKeys={[String(scid)]}
-      />
-
-      <Card title="Brands">
-        <Form layout={"vertical"}>
-          <Checkbox.Group
-            className={"brands"}
-            options={brands}
-            onChange={onBrandsChange}
-          />
-        </Form>
-      </Card>
-
-      <Card title="Price">
-        <div className={style.pitsWrapper}>
-          {getPits(searchMeta.rate).map((pit, index) => {
-            return (
-              <div
-                key={"p_" + index}
-                className={style.pit}
-                style={{ height: pit + "%" }}
-              ></div>
-            );
-          })}
-        </div>
-
-        <Slider
-          marks={getRateMarks(searchMeta.rate)}
-          min={searchMeta.rate.min}
-          max={searchMeta.rate.max}
-          trackStyle={[sliderTrack]}
-          handleStyle={[handleStyle, handleStyle]}
-          range
-          defaultValue={getDefaultRateRange(
-            searchMeta.rate.min,
-            searchMeta.rate.max,
-            rf
-          )}
-          onAfterChange={onPriceChange}
+      <div className="overflow-y-auto h-[calc(100vh-150px)] px-3 overscroll-contain">
+        <Menu
+          className="w-full"
+          mode="inline"
+          items={items}
+          onSelect={onCategorySelect}
+          defaultSelectedKeys={[String(scid)]}
         />
 
-        <Meta title={searchMeta.total}></Meta>
-      </Card>
+        <Card title="Brands">
+          <Form layout={"vertical"}>
+            <Checkbox.Group
+              className={"brands"}
+              options={brands}
+              onChange={onBrandsChange}
+            />
+          </Form>
+        </Card>
+
+        <Card title="Price">
+          <div className={style.pitsWrapper}>
+            {getPits(searchMeta.rate).map((pit, index) => {
+              return (
+                <div
+                  key={"p_" + index}
+                  className={style.pit}
+                  style={{ height: pit + "%" }}
+                ></div>
+              );
+            })}
+          </div>
+
+          <Slider
+            marks={getRateMarks(searchMeta.rate)}
+            min={searchMeta.rate.min}
+            max={searchMeta.rate.max}
+            trackStyle={[sliderTrack]}
+            handleStyle={[handleStyle, handleStyle]}
+            range
+            defaultValue={getDefaultRateRange(
+              searchMeta.rate.min,
+              searchMeta.rate.max,
+              rf
+            )}
+            onAfterChange={onPriceChange}
+          />
+          {/* <Meta title={searchMeta.total}></Meta> */}
+        </Card>
+      </div>
+      <div className="flex justify-end p-3 border-t mt-2">
+        <button className="bg-gray-800 text-gray-100 p-2 rounded">
+          Show {searchMeta.total} results
+        </button>
+      </div>
     </Content>
   );
 }
