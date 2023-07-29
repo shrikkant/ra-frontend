@@ -3,7 +3,7 @@ import AppNav from "./AppNav";
 import { AppFooter } from "./footer";
 import AppHeader from "./header";
 
-export function AppLayout({ sidebar, children }) {
+export function AppLayout({ sidebar = true, children }) {
   const [isNavOpen, setIsNavOpen] = useState(sidebar);
 
   const toggleNav = () => {
