@@ -27,13 +27,6 @@ export default function AppHeader({ navState, onNavStateChange }) {
   };
 
   const loggedUser = useSelector(selectAuthState);
-
-  const [categoryNav, setCategoryNav] = useState(false);
-
-  const toggleCategoryNav = () => {
-    setCategoryNav(!categoryNav);
-  };
-
   const dispatch = useDispatch();
 
   const items = [
