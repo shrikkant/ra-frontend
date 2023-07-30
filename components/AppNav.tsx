@@ -126,7 +126,7 @@ export default function AppNav({navState, toggleNavState}) {
 
 
   return (
-    <aside id="default-sidebar" className={"flex w-full h-screen fixed sm:relative z-[211] transition-transform sm:translate-x-0 " + (navState ? "translate-x-0" : "hidden -translate-x-full")} aria-label="Sidebar">
+    <aside id="default-sidebar" className={"flex w-full h-screen fixed sm:relative z-[211] transition delay-100 " + (navState ? "translate-x-0" : "-translate-x-full")} aria-label="Sidebar">
       <div className="px-5 bg-gray-900 w-3/4">
         <div className="my-3 hidden sm:block">
           <img src="/assets/img/logo.png" alt="RentAcross" />
