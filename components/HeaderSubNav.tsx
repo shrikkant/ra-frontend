@@ -1,6 +1,5 @@
 import { useRouter } from "next/router";
 
-import { selectAuthState, authUser } from "../app-store/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 
 import "react-date-range/dist/styles.css"; // main css file
@@ -8,11 +7,9 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 
 import React, { useEffect, useState } from "react";
 
-import SearchBar from "./SearchBar";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
-import { SearchInput } from "./SearchInput";
-import TopNavMenu from "components/TopNavMenu";
+
+import { Disclosure } from "@headlessui/react";
+
 import { fetchProductCategories } from "../api/products.api";
 import {
   getCategories,
