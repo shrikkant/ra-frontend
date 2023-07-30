@@ -52,7 +52,7 @@ export default function AppHeader({ navState, onNavStateChange }) {
   return (
     <div>
       <MainHeaderNav navState={navState} onNavStateChange={onNavStateChange}/>
-      <HeaderSubNav categoryNav={categoryNav} toggleCategoryNav={toggleCategoryNav}/>
+      <HeaderSubNav/>
     </div>
 
   );
