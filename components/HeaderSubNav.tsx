@@ -16,7 +16,7 @@ import {
 } from "../app-store/app-defaults/app-defaults.slice";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 
-export default function HeaderSubNav({toggleCategoryNav, categoryNav}) {
+export default function HeaderSubNav() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
@@ -55,10 +55,9 @@ export default function HeaderSubNav({toggleCategoryNav, categoryNav}) {
   return (
     <Disclosure as="nav" className="bg-gray-700 ">
       <div className=" px-2 sm:px-6 lg:px-8">
-        <div className="relative flex flex-col sm:flex-row h-22 sm:h-22 items-center justify-around border-gray-400">
-          <div className="justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className=" inset-y-0 left-0 items-center gap-x-6 flex w-screen overflow-auto overscroll-contain">
-
+        <div className="relative flex flex-col sm:flex-row h-22 items-center justify-around border-gray-400">
+          <div className="relative justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+            <div className=" inset-y-0 left-0 items-center gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">
               {subCategories &&
                 subCategories.map((cat) => {
                   return (
