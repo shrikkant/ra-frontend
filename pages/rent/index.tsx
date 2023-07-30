@@ -49,7 +49,8 @@ export default function RentSearch() {
   };
 
   useEffect(() => {
-    console.log("Fetching <> ", router.query);
+
+    console.log("  Query : ", router.query);
     getSearchResultsAction(
       String(q || ""),
       getProductFilter(router.query)

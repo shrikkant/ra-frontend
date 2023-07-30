@@ -49,19 +49,6 @@ export default function ProductFilterNav({
       }))
     : [];
 
-  const onCategorySelect = (item) => {
-    const query = { ...router.query };
-    // on category change - we just delete all other filters.
-    delete query.page;
-    delete query.br;
-    delete query.scid;
-    delete query.q;
-    delete query.rf;
-
-    query.scid = item.key;
-    onChange(query);
-  };
-
   const onBrandsChange = (checkedValues: CheckboxValueType[]) => {
     const query = { ...router.query };
     delete query.br;
@@ -103,14 +90,6 @@ export default function ProductFilterNav({
         </button>
       </div>
       <div className="flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-150px)] px-3 overscroll-contain">
-
-          <Menu
-            className="w-full"
-            mode="inline"
-            items={items}
-            onSelect={onCategorySelect}
-            defaultSelectedKeys={[String(scid)]}
-          />
 
         <Card title="Brands">
           <Form layout={"vertical"}>
