@@ -7,7 +7,6 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 
 import React, { useEffect, useState } from "react";
 
-
 import { Disclosure } from "@headlessui/react";
 
 import { fetchProductCategories } from "../api/products.api";
@@ -32,9 +31,11 @@ export default function HeaderSubNav() {
 
   const onCategorySelect = (key) => {
     const query: any = {};
-
     query.scid = key;
-    router.replace({query});
+    router.push({
+      pathname: "/rent",
+      query,
+    });
   };
 
   const searchProducts = () => {
