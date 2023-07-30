@@ -16,8 +16,6 @@ export async function fetchCart(): Promise<IOrder> {
     try {
         const response: IOrder[] = await httpClient.get(`/user/orders?status=0`);
 
-        console.log("Response : ", response[0]);
-
         return response && response[0];
     } catch (e) {
         throw e;

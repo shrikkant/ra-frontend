@@ -28,6 +28,12 @@ export default function AppHeader({ navState, onNavStateChange }) {
 
   const loggedUser = useSelector(selectAuthState);
 
+  const [categoryNav, setCategoryNav] = useState(false);
+
+  const toggleCategoryNav = () => {
+    setCategoryNav(!categoryNav);
+  };
+
   const dispatch = useDispatch();
 
   const items = [
@@ -46,7 +52,7 @@ export default function AppHeader({ navState, onNavStateChange }) {
   return (
     <div>
       <MainHeaderNav navState={navState} onNavStateChange={onNavStateChange}/>
-      <HeaderSubNav></HeaderSubNav>
+      <HeaderSubNav categoryNav={categoryNav} toggleCategoryNav={toggleCategoryNav}/>
     </div>
 
   );

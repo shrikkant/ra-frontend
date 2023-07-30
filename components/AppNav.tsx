@@ -20,32 +20,16 @@ import { ro } from "date-fns/locale";
 let items = [
   { label: "Cart", key: "/my-cart", icon: <ShoppingCartIcon className="h-6 w-6"/> },
   { label: "Orders", key: "/orders", icon: <ShoppingBagIcon className="h-6 w-6" /> },
-
-  // { label: "Refer & Earn", key: "/refer-earn", icon: <ArrowsRightLeftIcon className="h-6 w-6" /> },
   {
     label: "Owner",
     key: "/submenu",
     children: [
-      // {
-      //   label: "Rent Requests",
-      //   key: "/rent-requests",
-      //   icon: <NewspaperIcon className="h-6 w-6" />,
-      // },
+
       {
         label: "My Products",
         key: "/my-products",
         icon: <CameraIcon className="h-6 w-6" />,
       },
-      // {
-      //   label: "List Gear",
-      //   key: "/list-gear",
-      //   icon: <QueueListIcon className="h-6 w-6" />,
-      // },
-      // {
-      //   label: "Booking Calendar",
-      //   key: "/booking-calendar",
-      //   icon: <CalendarDaysIcon className="h-6 w-6" />,
-      // },
     ],
   },
   {
@@ -142,14 +126,12 @@ export default function AppNav({navState, toggleNavState}) {
 
 
   return (
-    <aside id="default-sidebar" className={"flex h-screen fixed sm:relative z-40 transition-transform sm:translate-x-0 " + (navState ? "translate-x-0" : "hidden -translate-x-full")} aria-label="Sidebar">
-      <div className="px-5 bg-gray-900">
+    <aside id="default-sidebar" className={"flex w-full h-screen fixed sm:relative z-[211] transition-transform sm:translate-x-0 " + (navState ? "translate-x-0" : "hidden -translate-x-full")} aria-label="Sidebar">
+      <div className="px-5 bg-gray-900 w-3/4">
         <div className="my-3 hidden sm:block">
           <img src="/assets/img/logo.png" alt="RentAcross" />
         </div>
-        <div className="sm:hidden flex justify-end py-5  text-gray-400 border-b-gray-400 border-b">
-            <XMarkIcon className="h-6 w-6" onClick={toggleNavState}/>
-        </div>
+
         <nav className="my-5">
           <ul>
             <li>
@@ -157,6 +139,11 @@ export default function AppNav({navState, toggleNavState}) {
             </li>
           </ul>
         </nav>
+      </div>
+      <div>
+      <div className="sm:hidden flex justify-end py-5  text-white border-b-gray-400 p-4">
+            <XMarkIcon className="h-6 w-6" onClick={toggleNavState}/>
+        </div>
       </div>
     </aside>
   );

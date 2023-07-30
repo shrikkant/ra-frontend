@@ -89,8 +89,7 @@ export default function ProductFilterNav({
           <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <div className="flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-150px)] px-3 overscroll-contain">
-
+      <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain">
         <Card title="Brands">
           <Form layout={"vertical"}>
             <Checkbox.Group
@@ -131,6 +130,7 @@ export default function ProductFilterNav({
           {/* <Meta title={searchMeta.total}></Meta> */}
         </Card>
       </div>
+
       <div className="flex justify-end p-3 border-t mt-2 sm:hidden">
         <button className="bg-gray-800 text-gray-100 p-2 rounded">
           Show {searchMeta.total} results

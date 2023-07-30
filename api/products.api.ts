@@ -39,7 +39,6 @@ export async function fetchProducts(searchString?: string,
     const response = await httpClient.
       get(url);
 
-    console.log("Response : ", response);
     return response;
   } catch (e) {
     throw e;
