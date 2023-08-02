@@ -126,8 +126,8 @@ export default function AppNav({navState, toggleNavState}) {
 
 
   return (
-    <aside id="default-sidebar" className={"flex w-full h-screen fixed sm:relative z-[211] transition delay-100 " + (navState ? "translate-x-0" : "-translate-x-full")} aria-label="Sidebar">
-      <div className="px-5 bg-gray-900 w-3/4">
+    <aside id="default-sidebar" className={"w-full fixed h-screen z-[211] transition delay-100 " + (navState ? "translate-x-0  flex" : "-translate-x-full hidden")} aria-label="Sidebar">
+      <div className="px-5 bg-gray-900 w-3/4 sm:w-72">
         <div className="my-3 hidden sm:block">
           <img src="/assets/img/logo.png" alt="RentAcross" />
         </div>
@@ -141,8 +141,8 @@ export default function AppNav({navState, toggleNavState}) {
         </nav>
       </div>
       <div>
-      <div className="sm:hidden flex justify-end py-5  text-white border-b-gray-400 p-4">
-            <XMarkIcon className="h-6 w-6" onClick={toggleNavState}/>
+      <div className={(navState ? " flex " : "sm:hidden ") + " cursor-pointer flex justify-end py-5 sm:bg-gray-900  sm:bg-opacity-90  text-white border-b-gray-400 p-4"}>
+            <XMarkIcon className="h-6 w-6 sm:w-8 sm:h-8" onClick={toggleNavState}/>
         </div>
       </div>
     </aside>
