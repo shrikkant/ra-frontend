@@ -9,7 +9,7 @@ import React from "react";
 export default function CategoryRow(props: any) {
   return (
 
-      <Content className="r-comp grid-cols-2 gap-x-2 px-2 py-4 md:grid-cols-3 xl:grid-cols-4 gap-y-2 grid">
+      <Content className="r-comp flex gap-5 flex-wrap">
         {props.category.products.map((product: any) => (
           <ProductCard key={product.id} product={product}></ProductCard>
         ))}

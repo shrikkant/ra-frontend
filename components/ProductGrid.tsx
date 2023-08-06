@@ -34,7 +34,7 @@ export default function ProductGrid() {
   if (loading) return <Loader></Loader>
 
   return (
-    <Content style={{ display: 'flex', flexDirection: 'column' }} className="r-comp">
+    <Content  className="r-comp flex flex-col p-4">
       <CategoryRow key="1" category={categories[0]} />
       <CategoryRow key="2" category={categories[1]} />
       <CategoryRow key="3" category={categories[2]} />
