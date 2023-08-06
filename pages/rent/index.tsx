@@ -64,7 +64,7 @@ export default function RentSearch() {
       {loading && <Loader></Loader>}
 
       {!loading && (
-        <div className="sm:flex">
+        <div className="sm:flex ">
           <ProductFilterNav
             searchMeta={searchMeta}
             onChange={onChange}
@@ -81,7 +81,7 @@ export default function RentSearch() {
                 Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
               </button>
             </div>
-            <div className={"r-comp grid-cols-2 gap-x-2 px-2 py-4 md:grid-cols-3 xl:grid-cols-4 grid gap-y-3"}>
+            <div className={"r-comp  px-2 py-4 flex flex-wrap gap-5"}>
               {searchResults &&
                 searchResults.map((product: any) => (
                   <ProductCard key={product.id} product={product}></ProductCard>

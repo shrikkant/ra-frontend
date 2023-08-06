@@ -89,7 +89,7 @@ export default function ProductFilterNav({
           <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
         </button>
       </div>
-      <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain">
+      <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
         <Card title="Brands">
           <Form layout={"vertical"}>
             <Checkbox.Group
