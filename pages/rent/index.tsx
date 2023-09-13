@@ -82,7 +82,7 @@ export default function RentSearch() {
               </button>
             </div>
 
-            <div className={"r-comp  px-2 py-4 grid sm:flex flex-wrap gap-5 grid-cols-2"}>
+            <div className={"r-comp  px-2 py-4 grid sm:flex flex-wrap gap-y-5 gap-x-3 grid-cols-2"}>
               {searchResults &&
                 searchResults.map((product: any) => (
                   <ProductCard key={product.id} product={product}></ProductCard>
