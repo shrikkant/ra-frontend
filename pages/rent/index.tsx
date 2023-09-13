@@ -81,7 +81,8 @@ export default function RentSearch() {
                 Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
               </button>
             </div>
-            <div className={"r-comp  px-2 py-4 flex flex-wrap gap-5"}>
+
+            <div className={"r-comp  px-2 py-4 grid sm:flex flex-wrap gap-5 grid-cols-2"}>
               {searchResults &&
                 searchResults.map((product: any) => (
                   <ProductCard key={product.id} product={product}></ProductCard>
