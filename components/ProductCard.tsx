@@ -17,10 +17,9 @@ export default function ProductCard({ product }) {
         hoverable
         cover={<Image alt="example"
           className={"p-2 sm:p-5"}
-          fill={true}
-          height={140}
-          width={120}
-          src={(product.photos[0] ? product.photos[0].path : "/assets/img/no-image.jpeg")} />}
+          width={64}
+          height={48}
+          src={"https://www.rentacross.com/" + product.photos[0].path + "?"} />}
       >
         <Meta title={<div style={{ whiteSpace: 'pre-wrap' }} className="text-sm">{product.title}</div>} />
         <div style={{ width: '100%', margin: '10px 0px' }}></div>
