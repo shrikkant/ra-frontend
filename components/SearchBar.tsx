@@ -5,8 +5,7 @@ import { rangeDisplay } from "util/date.util";
 import { useLocalStorage } from "util/localStore.util";
 
 import { ChevronDownIcon } from "@heroicons/react/20/solid";
-import { Menu, Popover, Transition } from "@headlessui/react";
-import { FaSearch, FaSearchLocation } from "react-icons/fa";
+import { Popover, Transition } from "@headlessui/react";
 
 const locations = [
   {
@@ -132,9 +131,10 @@ export default function SearchBar() {
                   return (
                     <div className="flex flex-col gap-y-1">
                       {locations &&
-                        locations.map((loc) => {
+                        locations.map((loc, i) => {
                           return (
                             <button
+                              key={i}
                               onClick={() => {
                                 cityChange(loc.value);
                                 close();
