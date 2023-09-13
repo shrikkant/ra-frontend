@@ -18,6 +18,8 @@ export default function ProductCard({ product }) {
         cover={<Image alt="example"
           className={"p-2 sm:p-5"}
           fill={true}
+          height={140}
+          width={120}
           src={(product.photos[0] ? product.photos[0].path : "/assets/img/no-image.jpeg")} />}
       >
         <Meta title={<div style={{ whiteSpace: 'pre-wrap' }} className="text-sm">{product.title}</div>} />
