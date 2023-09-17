@@ -14,9 +14,6 @@ export const useProducts = () => {
   const products =  useSelector(getSearchResults);
 
   useEffect(() => {
-
-    console.log("Using Effect!");
-
     getSearchResultsAction(
       String(q || ""),
       getProductFilter(router.query)
