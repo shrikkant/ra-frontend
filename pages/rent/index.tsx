@@ -20,8 +20,6 @@ export default function RentSearch() {
 
   const [loading, setLoading] = useState(true);
   const { products } = useProducts();
-  const searchMeta = useSelector(getSearchMetaData);
-
 
   const [filters, setFilters] = useState(false);
 
@@ -46,7 +44,6 @@ export default function RentSearch() {
         <div className="sm:flex ">
 
           <ProductFilterNav
-            searchMeta={searchMeta}
             onChange={onChange}
             filters={filters}
             toggleFilters={toggleNav}

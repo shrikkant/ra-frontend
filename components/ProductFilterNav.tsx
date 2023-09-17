@@ -15,6 +15,7 @@ import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
 import style from "../styles/search.module.css";
 import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
+import { getSearchMetaData } from "../app-store/products/products.slice";
 
 const sliderTrack = {
   background: "lightgreen",
@@ -27,13 +28,13 @@ const handleStyle = {
 };
 
 export default function ProductFilterNav({
-  searchMeta,
   onChange,
   filters,
   toggleFilters,
 }) {
   const router = useRouter();
 
+  const searchMeta = useSelector(getSearchMetaData);
   const [loading, setLoading] = useState(true);
   const categories = useSelector(getCategories);
 
