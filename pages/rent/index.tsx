@@ -34,7 +34,7 @@ export default function RentSearch() {
   };
 
   useEffect(() => {
-    setLoading(!(products.length > 0))
+    setLoading(!(products && products.length > 0));
   })
 
 
