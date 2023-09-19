@@ -5,8 +5,11 @@ import { Fragment, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { DateRange } from "react-date-range";
 
+interface DefaultSearch {
+  dates?: any[];
+}
 export const DateRangePicker = () => {
-  const [defaultSearch, setDefaultSearch] = useLocalStorage(
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
     "defaultSearch",
     {}
   );
@@ -74,9 +77,7 @@ export const DateRangePicker = () => {
                   startDatePlaceholder="Starting"
                   endDatePlaceholder="Ending"
                   minDate={new Date()}
-                  onChange={(item) =>
-                    setBookingDates(item)
-                  }
+                  onChange={(item) => setBookingDates(item)}
                   moveRangeOnFirstSelection={false}
                   ranges={dates}
                   onRangeFocusChange={(item) => {

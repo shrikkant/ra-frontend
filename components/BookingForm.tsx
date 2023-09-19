@@ -6,7 +6,7 @@ import { rangeDisplay } from "../util/date.util";
 import { setDate } from "date-fns";
 
 interface DefaultSearch {
-  dates: any[]
+  dates?: any[]
 }
 export default function BookingForm({ }) {
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
