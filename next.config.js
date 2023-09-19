@@ -7,7 +7,7 @@ const nextConfig = {
     BASE_API_URL: process.env.REACT_APP_API_URL,
   },
   images: {
-    domains: ["www.rentacross.com", "labs.rentacross.com"],
+    domains: ["labs.rentacross.com"],
   },
 }
 
