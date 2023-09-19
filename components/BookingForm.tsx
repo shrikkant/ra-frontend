@@ -1,37 +1,72 @@
-import { Button, Card, Form, Space, Tag } from "antd"
-import React from "react"
+import React, { useEffect, useState } from "react";
 
 import styles from "./../styles/active-product.module.css";
+import { useLocalStorage } from "../util/localStore.util";
+import { rangeDisplay } from "../util/date.util";
+import { setDate } from "date-fns";
 
-export default function BookingForm({rates}) {
-  const nodeRef = React.useRef(null);
+export default function BookingForm({ rates }) {
+  const [defaultSearch, setDefaultSearch] = useLocalStorage(
+    "defaultSearch",
+    {}
+  );
+
+  const [dates, setDates] = useState({});
+
+
+  useEffect(() => {
+
+    const dates = defaultSearch ? [
+      {
+        startDate: new Date(defaultSearch?.dates[0].startDate),
+        endDate: new Date(defaultSearch?.dates[0].endDate),
+        key: "selection",
+      },
+    ] : [];
+
+    console.log("Default Search : ", dates);
+    setDates(dates);
+
+
+  }, [])
+
   const onFinish = (values: any) => {
-    console.log('Received values of form: ', values);
+    console.log("Received values of form: ", values);
   };
 
-  return (<Card
-    title={"Rent Plans"}
-    hoverable>
-    <Space size={[10, 20]} direction="horizontal">
-      {rates && rates.map((rate, i) => {
-        return <Tag key={i} color="cyan" style={{ border: '1px solid #eee', textAlign: 'center', padding: '8px', }}>
-          <div style={{ fontSize: '13px' }}>{"₹" + rate.rate}/ day</div>
-          <div style={{ fontSize: '12px' }}>{rate.durationDisplay}</div>
-        </Tag>
-      })}
-    </Space>
+  return (
+    <div>
+      <div className="bg-white shadow-xl p-4 flex flex-col gap-4 text-sm w-full  ">
+        <div className="">
+          <div className="flex flex-nowrap flex-row border border-sky-100 p-2 gap-20 justify-center">
+            <div className="w-1/2 flex flex-col">
+              <span className="label text-slate-500">Starting</span>
+              <span>{dates[0] && rangeDisplay(dates[0])}</span>
+            </div>
 
-    <Form
-      name="normal_login"
-      className={styles.bookingForm}
-      initialValues={{ remember: true }}
-      onFinish={onFinish}>
-
-      <Form.Item>
-
-        <Button block type="primary">Book</Button>
-      </Form.Item>
-
-    </Form>
-  </Card>)
+            <div className="w-1/2 flex flex-col">
+              <span className="label text-slate-500">Ending</span>
+              <span className="date bolder text-lg" ng-bind="fullDate(order.date.endDate)">
+                20/8/2023
+              </span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <input
+            className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
+            type="submit"
+            value="Add to Cart"
+          />
+        </div>
+        <div>
+          <input
+            className="bg-[#ffa41c] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffa41c]"
+            type="submit"
+            value="Book Now"
+          />
+        </div>
+      </div>
+    </div>
+  );
 }

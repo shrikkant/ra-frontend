@@ -15,6 +15,7 @@ import { SearchInput } from "./SearchInput";
 import TopNavMenu from "components/TopNavMenu";
 
 export default function MainHeaderNav({ navState, onNavStateChange }) {
+  const loggedUser = useSelector(selectAuthState);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [q, setQuery] = useState(router.query?.q);
@@ -32,20 +33,23 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
           <div className="justify-between w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className=" inset-y-0 left-0 flex items-center gap-x-6 ">
-              <Disclosure.Button
-                onClick={onNavStateChange}
-                className={
-                  (navState ? "" : "sm:hidden") +
-                  "inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                }
-              >
-                <span className="sr-only">Open Menu</span>
-                {navState ? (
-                  <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                ) : (
-                  <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                )}
-              </Disclosure.Button>
+              {loggedUser && (
+                <Disclosure.Button
+                  onClick={onNavStateChange}
+                  className={
+                    (navState ? "" : "sm:hidden") +
+                    "inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
+                  }
+                >
+                  <span className="sr-only">Open Menu</span>
+                  {navState ? (
+                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
+                  ) : (
+                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
+                  )}
+                </Disclosure.Button>
+              )}
+
               <SearchBar></SearchBar>
               <div className="hidden sm:block">
                 <SearchInput
@@ -57,7 +61,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
             </div>
 
             {/* Profile dropdown */}
-            <TopNavMenu/>
+            <TopNavMenu />
           </div>
 
           <div className="flex justify-center gap-x-5 w-full sm:hidden">
