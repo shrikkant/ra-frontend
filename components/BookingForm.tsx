@@ -6,9 +6,9 @@ import { rangeDisplay } from "../util/date.util";
 import { setDate } from "date-fns";
 
 interface DefaultSearch {
-  dates?: any[]
+  dates?: any[];
 }
-export default function BookingForm({ }) {
+export default function BookingForm({}) {
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
     "defaultSearch",
     {}
@@ -16,22 +16,20 @@ export default function BookingForm({ }) {
 
   const [dates, setDates] = useState({});
 
-
   useEffect(() => {
-
-    const dates = defaultSearch ? [
-      {
-        startDate: new Date(defaultSearch?.dates[0].startDate),
-        endDate: new Date(defaultSearch?.dates[0].endDate),
-        key: "selection",
-      },
-    ] : [];
+    const dates = defaultSearch
+      ? [
+          {
+            startDate: new Date(defaultSearch?.dates[0].startDate),
+            endDate: new Date(defaultSearch?.dates[0].endDate),
+            key: "selection",
+          },
+        ]
+      : [];
 
     console.log("Default Search : ", dates);
     setDates(dates);
-
-
-  }, [])
+  }, []);
 
   const onFinish = (values: any) => {
     console.log("Received values of form: ", values);
@@ -49,7 +47,10 @@ export default function BookingForm({ }) {
 
             <div className="w-1/2 flex flex-col">
               <span className="label text-slate-500">Ending</span>
-              <span className="date bolder text-lg" ng-bind="fullDate(order.date.endDate)">
+              <span
+                className="date bolder text-lg"
+                ng-bind="fullDate(order.date.endDate)"
+              >
                 20/8/2023
               </span>
             </div>
