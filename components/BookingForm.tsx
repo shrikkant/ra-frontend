@@ -8,7 +8,7 @@ import { setDate } from "date-fns";
 interface DefaultSearch {
   dates?: any[];
 }
-export default function BookingForm({}) {
+export default function BookingForm({rates}) {
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
     "defaultSearch",
     {}
