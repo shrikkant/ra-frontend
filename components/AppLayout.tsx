@@ -10,7 +10,6 @@ export function AppLayout({ sidebar = false, children }) {
     setIsNavOpen(!isNavOpen);
   };
 
-  console.log("isNav >> : ", isNavOpen);
   return (
     <>
       <div className="main-content">
