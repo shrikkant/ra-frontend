@@ -1,17 +1,26 @@
 import { Popover, Transition } from "@headlessui/react";
 import { rangeDisplay } from "util/date.util";
-import { useLocalStorage } from "../util/localStore.util";
+import { useLocalStorage } from "../../util/localStore.util";
 import { Fragment, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { DateRange } from "react-date-range";
+import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import {
+  getDefaultSearch,
+  setSearch,
+} from "../../app-store/session/session.slice";
 
 interface DefaultSearch {
   dates?: any[];
 }
-export const DateRangePicker = () => {
+
+export const DateRangePicker = ({ mode }) => {
+  const dispatch = useDispatch();
+
+  const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
     "defaultSearch",
-    {}
+    null
   );
 
   const [dates, setDates] = useState([
@@ -23,24 +32,32 @@ export const DateRangePicker = () => {
   ]);
 
   useEffect(() => {
-    const dates = defaultSearch
+    const localSearch = storeSearch ? storeSearch : defaultSearch;
+    const dates = localSearch?.dates
       ? [
           {
-            startDate: new Date(defaultSearch?.dates[0].startDate),
-            endDate: new Date(defaultSearch?.dates[0].endDate),
+            startDate: new Date(localSearch?.dates[0].startDate),
+            endDate: new Date(localSearch?.dates[0].endDate),
             key: "selection",
           },
         ]
-      : [];
+      : [
+          {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection",
+          },
+        ];
 
-    console.log("Default Search : ", dates);
     setDates(dates);
-  }, [defaultSearch]);
+  }, [defaultSearch, storeSearch]);
 
   const setBookingDates = (dates) => {
-    console.log("setBookingDates : ", dates);
-    const search = { ...defaultSearch };
+    // delete defaultSearch.dates;
+    const search = storeSearch ? { ...storeSearch } : { ...defaultSearch };
     search.dates = [dates.selection];
+    dispatch(setSearch(JSON.stringify(search)));
+
     setDefaultSearch(search);
   };
 

@@ -26,6 +26,7 @@ export default function ProductGrid() {
 
   useEffect(() => {
     const defaults: any = localStorage.getItem("defaultSearch");
+    console.log("Defaults : ", defaults);
     const location = defaults ? JSON.parse(defaults).location : {city: "Pune"};
 
     loadProducts(location.city);

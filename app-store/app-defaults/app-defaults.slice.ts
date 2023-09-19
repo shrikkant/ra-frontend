@@ -25,7 +25,6 @@ export const getCategoriesAction =
 	(searchString: string, filter: IProductFilter) => async (dispatch: AppDispatch) => {
 
 		const response = await fetchProductCategories();
-		console.log("Results :> ", response.results.length);
 		dispatch(appDefaultsSlice.actions.setCategories(response.results));
 	};
 

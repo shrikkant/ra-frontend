@@ -15,11 +15,12 @@ export default function ProductCard({ product }) {
         className="w-full flex justify-between flex-col h-full"
         key={product.id}
         hoverable
-        cover={<Image alt="example"
-          className={"p-2 sm:p-5"}
-          width={64}
-          height={48}
-          src={"https://www.rentacross.com/" + product.photos[0].path + "?"} />}
+        // cover={<Image alt="example"
+        //   className={"p-2 sm:p-5"}
+        //   width={64}
+        //   height={48}
+        //   priority={true}
+        //   src={"https://alpha.rentacross.com/" + product.photos[0].path + "?"} />}
       >
         <Meta title={<div style={{ whiteSpace: 'pre-wrap' }} className="text-sm">{product.title}</div>} />
         <div style={{ width: '100%', margin: '10px 0px' }}></div>

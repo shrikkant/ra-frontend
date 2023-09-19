@@ -60,10 +60,6 @@ export function getProductFilter(obj?: ParsedUrlQuery) {
     ? JSON.parse(localStorage.getItem("defaultSearch"))
     : null;
   const loc = defaultSearch ? defaultSearch.location : { city: "Pune" };
-  console.log(
-    "City : ",
-    loc.city
-  );
 
   const productFilter: IProductFilter = {};
   productFilter.city = loc.city;
