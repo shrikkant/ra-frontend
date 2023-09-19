@@ -66,8 +66,8 @@ export default function RentSearch() {
               }
             >
               {products &&
-                products.map((product: any) => (
-                  <ProductCard key={product.id} product={product}></ProductCard>
+                products.map((product: any, index) => (
+                  <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
                 ))}
             </div>
           </div>
