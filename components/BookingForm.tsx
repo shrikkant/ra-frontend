@@ -5,8 +5,11 @@ import { useLocalStorage } from "../util/localStore.util";
 import { rangeDisplay } from "../util/date.util";
 import { setDate } from "date-fns";
 
-export default function BookingForm({ rates }) {
-  const [defaultSearch, setDefaultSearch] = useLocalStorage(
+interface DefaultSearch {
+  dates: any[]
+}
+export default function BookingForm({ }) {
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
     "defaultSearch",
     {}
   );
