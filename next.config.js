@@ -7,7 +7,14 @@ const nextConfig = {
     BASE_API_URL: process.env.REACT_APP_API_URL,
   },
   images: {
-    domains: ["images.pexels.com", "labs.rentacross.com", "www.rentacross.com"],
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'www.rentacross.com',
+        port: '',
+        pathname: '/uploads/**',
+      },
+    ],
   },
 }
 
