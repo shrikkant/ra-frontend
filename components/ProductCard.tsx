@@ -18,7 +18,7 @@ export default function ProductCard({ product, priority = false }) {
           className={"p-2 sm:p-5"}
           width={64}
           height={48}
-          src={"https://images.pexels.com/photos/243757/pexels-photo-243757.jpeg?"} />}
+          src={"http://raapp/photos/243757/pexels-photo-243757.jpeg?"} />}
       >
         <Meta title={<div style={{ whiteSpace: 'pre-wrap' }} className="text-sm">{product.title}</div>} />
         <div style={{ width: '100%', margin: '10px 0px' }}></div>
