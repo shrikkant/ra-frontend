@@ -17,7 +17,7 @@ export default function ProductCard({ product, priority = false }) {
           className={"p-2 sm:p-5"}
           width={64}
           height={48}
-          src={"https://labs.rentacross.com/" + product.photos[0].path + "?"} />}
+          src={"https://www.rentacross.com/" + product.photos[0].path + "?"} />}
       >
         <Meta title={<div style={{ whiteSpace: 'pre-wrap' }} className="text-sm">{product.title}</div>} />
         <div style={{ width: '100%', margin: '10px 0px' }}></div>
