@@ -18,8 +18,7 @@ import { useProducts } from "../../hooks/useProducts";
 export default function RentSearch() {
   const router = useRouter();
 
-  const [loading, setLoading] = useState(true);
-  const { products } = useProducts();
+  const { products } = useProducts(router.query);
 
   const [filters, setFilters] = useState(false);
 
@@ -31,16 +30,12 @@ export default function RentSearch() {
     router.replace({ pathname: router.pathname, query: query });
   };
 
-  useEffect(() => {
-    setLoading(!(products && products.length > 0));
-  })
-
 
   return (
     <AppLayout sidebar={false}>
-      {loading && <Loader></Loader>}
+      {!products && <Loader></Loader>}
 
-      {!loading && (
+      {products && (
         <div className="sm:flex ">
 
           <ProductFilterNav

@@ -111,6 +111,7 @@ export interface IProduct {
   photos?: (ProductPhoto)[] | null;
   owner: IUser;
   location: ILocation;
+  masterProduct?: any;
   rates?: (IProductRatePlan)[] | null;
 }
 export interface ProductPhoto {
