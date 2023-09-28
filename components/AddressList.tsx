@@ -22,30 +22,35 @@ export const AddressList = ({
     onAddressChange(addressId);
   };
   return (
-    <>
-      <RadioListItem
-        value={-1}
-        onCheck={checkRadio}
-        key={"storePickup"}
-        active={selectedAddress === -1}
-      >
-        <span className={"font-semibold"}>Store Pickup</span>
-      </RadioListItem>
-      {addressList.map((addr) => (
+    <div className={"mt-3 ml-8"}>
+      <div className={"border border-gray-400  rounded-md"}>
+        <div className={"border-b border-gray-300 p-2 mb-3 text-lg font-semibold pl-5"}>
+          Your addresses
+        </div>
         <RadioListItem
-          key={addr.id}
-          value={addr.id}
+          value={-1}
           onCheck={checkRadio}
-          active={addr.id === selectedAddress}
+          key={"storePickup"}
+          active={selectedAddress === -1}
         >
-          <span className={"font-bold"}>{userName}</span>
-          <span>{addr.address_line_1},</span>
-          <span>{addr.address_line_2},</span>
-          <span>{addr.city},</span>
-          <span>{addr.state},</span>
-          <span>{addr.postal_code}</span>
+          <span className={"font-semibold"}>Store Pickup</span>
         </RadioListItem>
-      ))}
-    </>
+        {addressList.map((addr) => (
+          <RadioListItem
+            key={addr.id}
+            value={addr.id}
+            onCheck={checkRadio}
+            active={addr.id === selectedAddress}
+          >
+            <span className={"font-bold"}>{userName}</span>
+            <span>{addr.address_line_1},</span>
+            <span>{addr.address_line_2},</span>
+            <span>{addr.city},</span>
+            <span>{addr.state},</span>
+            <span>{addr.postal_code}</span>
+          </RadioListItem>
+        ))}
+      </div>
+    </div>
   );
 };

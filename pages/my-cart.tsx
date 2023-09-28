@@ -18,6 +18,8 @@ import { AddressList } from "../components/AddressList";
 import { Address } from "../components/Address";
 import { OrderItemsReview } from "../components/order/OrderItemsReview";
 import { ORDER_STEPS } from "../config/constants";
+import { StepHeader } from "../components/order/StepHeader";
+import { AddressPicker } from "../components/order/AddressPicker";
 
 export default function Orders() {
   const cart = useSelector(getCart);
@@ -63,40 +65,11 @@ export default function Orders() {
         {cart && (
           <div className={"flex w-full space-x-8"}>
             <div className={"w-3/4"}>
-              <div className={"border-b border-gray-300 pb-2"}>
-                <div className={"flex justify-between items-center"}>
-                  <div className={"flex space-x-3 text-xl font-bold"}>
-                    <div>1</div>
-                    <div>Delivery Address </div>
-                    {selectedAddress && (
-                      <Address
-                        address={selectedAddress}
-                        name={loggedUser.firstname + " " + loggedUser.lastname}
-                      />
-                    )}
-                  </div>
-                  <button onClick={changeAddress}>Change</button>
-                </div>
-
-                {!selectedAddress && (
-                  <AddressList
-                    onAddressChange={checkRadio}
-                    addressList={loggedUser.address}
-                    userName={
-                      loggedUser?.firstname + " " + loggedUser?.lastname
-                    }
-                  />
-                )}
-              </div>
-
-              <div className={"border-b border-gray-300 pb-2 mt-5"}>
-                <div className={"flex justify-between items-center"}>
-                  <div className={"flex space-x-3 text-xl font-bold"}>
-                    <div>2</div>
-                    <div>Review your items </div>
-                  </div>
-                </div>
-              </div>
+              <AddressPicker
+                onAddressPick={checkRadio}
+                onAddressReset={changeAddress}
+                selectedAddress={selectedAddress}
+              ></AddressPicker>
 
               {selectedAddress?.id && (
                 <OrderItemsReview order={cart}></OrderItemsReview>
