@@ -27,13 +27,13 @@ export const  displayRazorpay = async (orderId: number) => {
   }
 
   // creating a new order
-  const result = await createRazorPayOrder({orderId});
+  const result: any = await createRazorPayOrder({orderId});
 
   if (!result) {
       alert("Server error. Are you online?");
       return;
   }
 
-  const paymentObject = new window.Razorpay(result.clientConfig);
+  const paymentObject =  new (window as any).Razorpay(result.clientConfig);
   paymentObject.open();
 }
