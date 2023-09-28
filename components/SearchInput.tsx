@@ -1,12 +1,11 @@
 import { FaSearch } from "react-icons/fa";
 
-export function SearchInput({currentVal, onChange, onSearch}) {
-
+export function SearchInput({ currentVal, onChange, onSearch }) {
   const handleReturn = (e) => {
-    if (e.key === 'Enter' || e.keyCode === 13) {
+    if (e.key === "Enter" || e.keyCode === 13) {
       onSearch(e.target.value);
     }
-  }
+  };
   return (
     <div className="w-full sm:w-96 gap-x-3 text-gray-800 relative px-1">
       <input

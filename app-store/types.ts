@@ -22,11 +22,18 @@ export interface IOrder {
   end_date?: Date;
   user: IUser;
   stage: number;
-  items?: (IOrderItem)[] | null;
+  items?: IOrderItem[] | null;
   delivery?: IDelivery;
   pickup?: IDelivery;
-  isPaid(): boolean
+  delivery_address?: any;
+  isPaid(): boolean;
 }
+
+export interface ITransaction {
+  id: number;
+  product_id: number;
+}
+
 export interface IUser {
   id: number;
   firstname: string;
@@ -42,7 +49,7 @@ export interface IUser {
   city: string;
   percentage: number;
   verified: boolean;
-  address?: Location[];
+  address?: ILocation[];
   role: string;
 }
 
@@ -107,12 +114,12 @@ export interface IProduct {
   featured: number;
   short_description?: null;
   includes?: null;
-  masterProductList?: (null)[] | null;
-  photos?: (ProductPhoto)[] | null;
+  masterProductList?: null[] | null;
+  photos?: ProductPhoto[] | null;
   owner: IUser;
   location: ILocation;
   masterProduct?: any;
-  rates?: (IProductRatePlan)[] | null;
+  rates?: IProductRatePlan[] | null;
 }
 export interface ProductPhoto {
   id: number;
@@ -160,9 +167,7 @@ export interface IProductRatePlan {
   user_rate: number;
   durationDisplay?: string;
 }
-export interface DropOrPickup {
-}
-
+export interface DropOrPickup {}
 
 export interface ICheckboxOption {
   label: string;

@@ -9,3 +9,8 @@ export const TOKEN_COOKIE_KEY = 'access_token'
 export const TOKEN_HEADER_KEY = 'authorization'
 export const CITY = "Pune"
 export const APP_LOCALE = "en-GB"
+
+export const enum ORDER_STEPS {
+ORDER_STEP_DELIVERY =  1,
+ORDER_STEP_PAYMENT = 2
+}

@@ -15,8 +15,9 @@ export const useProducts = (query: ParsedUrlQuery) => {
   const products = useSelector(getSearchResults);
 
   useEffect(() => {
+    const queryString = q ? String(q) : ""
     const filters = getProductFilter(query);
-    getSearchResultsAction(String(q), filters)(dispatch);
+    getSearchResultsAction(queryString, filters)(dispatch);
   }, [router.query]);
 
   return { products };

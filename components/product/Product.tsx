@@ -19,7 +19,7 @@ export const Product = ({product}) => {
 
         <div className={"sm:w-1/4 w-full"}>
           <div className="fixed top-100 w-80">
-            <BookingForm rates={product?.rates}></BookingForm>
+            <BookingForm rates={product?.rates} productId={product.id}></BookingForm>
           </div>
         </div>
       </div>

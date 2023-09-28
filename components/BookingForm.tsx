@@ -2,17 +2,28 @@ import React, { useEffect, useState } from "react";
 
 import styles from "./../styles/active-product.module.css";
 import { DateRangePicker } from "./search/DateRangePicker";
+import { useLocalStorage } from "../util/localStore.util";
+import { addToCart } from "../api/user/orders.api";
 
 interface DefaultSearch {
   dates?: any[];
 }
-export default function BookingForm({rates}) {
+export default function BookingForm({productId, rates}) {
+
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
+    "defaultSearch",
+    null
+  );
 
   useEffect(() => {
   }, []);
 
-  const onFinish = (values: any) => {
-    console.log("Received values of form: ", values);
+  const onAddToCart = () => {
+
+    addToCart(productId, defaultSearch.dates[0]).then((resp) => {
+      console.log("Dates : ", resp);
+    })
+
   };
 
   return (
@@ -28,8 +39,9 @@ export default function BookingForm({rates}) {
         </div>
         <div>
           <input
+            onClick={onAddToCart}
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
-            type="submit"
+            type="button"
             value="Add to Cart"
           />
         </div>
