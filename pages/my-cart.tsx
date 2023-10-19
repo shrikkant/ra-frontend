@@ -37,11 +37,13 @@ export default function Orders() {
   }
 
   const onRazorPayCheckout = (mode) => {
-    const currentAddr =
-      loggedUser.address.find((ad) => ad.id === addressId) || null;
+    const currentAddr = loggedUser.address.find(
+      (ad) => ad.id === addressId
+    ) || { id: -1, name: "Store Pickup" };
 
     if (mode === ORDER_STEPS.ORDER_STEP_DELIVERY) {
       updateDeliveryAddressAction(cart, currentAddr)(dispatch);
+      setSelectedAddress(currentAddr);
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
       displayRazorpay(cart.id);
     }
@@ -63,21 +65,22 @@ export default function Orders() {
     <AppLayout>
       <Content className={styles.mainContent}>
         {cart && (
-          <div className={"flex w-full space-x-8"}>
-            <div className={"w-3/4"}>
+          <div className={"flex flex-col-reverse md:flex-row w-full space-x-8"}>
+            <div className={"md:w-3/4 w-full"}>
               <AddressPicker
                 onAddressPick={checkRadio}
                 onAddressReset={changeAddress}
                 selectedAddress={selectedAddress}
               ></AddressPicker>
 
-              {selectedAddress?.id && (
-                <OrderItemsReview order={cart}></OrderItemsReview>
-              )}
+              <OrderItemsReview
+                order={cart}
+                selectedAddress={selectedAddress}
+              ></OrderItemsReview>
             </div>
 
             <div className={"w-1/4"}>
-              <div className="fixed top-100 w-80">
+              <div className="md:fixed top-100 w-80">
                 <OrderSummary
                   order={cart}
                   step={

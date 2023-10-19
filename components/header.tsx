@@ -13,28 +13,13 @@ import React from "react";
 
 import MainHeaderNav from "./MainHeaderNav";
 import HeaderSubNav from "./HeaderSubNav";
+import { useLocalStorage } from "../util/localStore.util";
 
 export default function AppHeader({ navState, onNavStateChange }) {
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [q, setQuery] = useState(router.query?.q);
-
-  const searchProducts = () => {
-    router.push("/rent?q=" + q);
-  };
-  const onSearch = (value: string) => {
-    setQuery(value);
-  };
-
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
-
-  const items = [
-    // remember to pass the key prop
-    { label: "My Cart", key: "my-products" },
-    { label: "List for Rent", key: "list-gear" },
-    { label: loggedUser ? loggedUser.email_address : "Login", key: "signin" },
-  ];
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>("defaultSearch");
 
   useEffect(() => {
     if (!loggedUser) {

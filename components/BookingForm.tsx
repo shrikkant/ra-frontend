@@ -11,8 +11,7 @@ interface DefaultSearch {
 export default function BookingForm({productId, rates}) {
 
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
-    "defaultSearch",
-    null
+    "defaultSearch"
   );
 
   useEffect(() => {

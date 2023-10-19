@@ -9,32 +9,22 @@ import React, { useEffect, useState } from "react";
 
 import { Disclosure } from "@headlessui/react";
 
-import { fetchProductCategories } from "../api/products.api";
-import {
-  getCategories,
-  setCategories,
-} from "../app-store/app-defaults/app-defaults.slice";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import { useCategories } from "../hooks/useCategories";
 
 export default function HeaderSubNav() {
   const router = useRouter();
   const dispatch = useDispatch();
   const [loading, setLoading] = useState(true);
   const [q, setQuery] = useState(router.query?.q);
-  const categories = useSelector(getCategories);
+  const { categories } = useCategories();
 
-  const subCategories = categories
-    ? categories[0].subCategories?.map((sc) => ({
-        label: sc.title,
-        key: sc.id,
-      }))
-    : [];
+  const [subCategories, setSubCategories] = useState([]);
 
-  const onCategorySelect = (key) => {
+  const onCategorySelect = (key, slug) => {
     const query: any = {};
     query.scid = key;
     router.push({
-      pathname: "/rent",
+      pathname: "/pune/rent-" + slug,
       query,
     });
   };
@@ -47,10 +37,16 @@ export default function HeaderSubNav() {
   };
 
   useEffect(() => {
-    if (!categories || categories.length <= 0) {
-      fetchProductCategories().then((data) => dispatch(setCategories(data)));
+    if (categories) {
+      const subCategories = categories[0]?.subCategories?.map((sc) => ({
+        label: sc.title,
+        key: sc.id,
+        slug: sc.slug,
+      }));
+      console.log("Sub Categories > ", subCategories);
+      setSubCategories(subCategories);
     }
-  }, [router.isReady]);
+  }, [categories]);
 
   return (
     <Disclosure as="nav" className="bg-gray-700 ">
@@ -63,7 +59,7 @@ export default function HeaderSubNav() {
                   return (
                     <Disclosure.Button
                       key={cat.key}
-                      onClick={() => onCategorySelect(cat.key)}
+                      onClick={() => onCategorySelect(cat.key, cat.slug)}
                       className={
                         "whitespace-nowrap text-sm inline-flex items-center justify-center rounded-md p-2 text-gray-100 hover:bg-gray-700 hover:text-white focus:outline-none"
                       }

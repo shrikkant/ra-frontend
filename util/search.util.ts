@@ -1,12 +1,14 @@
 import { SliderMarks } from "antd/lib/slider";
 import { ParsedUrlQuery } from "querystring";
-import { CITY } from "../config/constants";
+import COUNTRIES, { CITY } from "../config/constants";
 import {
   ICheckboxOption,
   IProduct,
   IProductFilter,
   IProductSubCategory,
 } from "../app-store/types";
+import { useSelector } from "react-redux";
+import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
 
 export function getBrandOptions(brands: any): ICheckboxOption[] {
   let options: ICheckboxOption[] = [];
@@ -55,18 +57,79 @@ export function getDefaultRateRange(
   return [m, mu];
 }
 
-export function getProductFilter(obj?: ParsedUrlQuery) {
-  const defaultSearch = localStorage.getItem("defaultSearch")
-    ? JSON.parse(localStorage.getItem("defaultSearch"))
-    : null;
-  const loc = defaultSearch ? defaultSearch.location : { city: "Pune" };
+const getCities = (code: string) => {
+  const country = COUNTRIES.find((c) => c.code === code);
+  return country.locations;
+}
 
+const getStates = (code: string) => {
+  const country = COUNTRIES.find((c) => c.code === code);
+  return country.states;
+}
+
+const getSubCategoryBySlug = (slug, subCategories): IProductSubCategory => {
+  console.log("Slug >>>> ", slug);
+  return subCategories.find((scat) => scat.slug === slug.split("rent-")[1]);
+}
+
+const getFilterByQueryString = (params: string | string[], subCategories: IProductSubCategory[]) => {
   const productFilter: IProductFilter = {};
-  productFilter.city = loc.city;
-
-  if (obj?.scid) {
-    productFilter.subCategory = parseInt(String(obj.scid));
+  if (!params) {
+    return productFilter;
   }
+
+  if (params[0] && params[0].length === 2) {
+    // first param is country.
+
+    const city = params[1].charAt(0).toUpperCase() + params[1].slice(1);
+
+    productFilter.country = params[0].toLowerCase();
+
+    if (
+      productFilter.country !== "in" &&
+      getCities(params[0].toUpperCase()).includes(city)
+    ) {
+      productFilter.city = params[1].toLowerCase();
+
+      productFilter.subCategory = getSubCategoryBySlug(params[2], subCategories).id;
+
+      if (params.length > 3) {
+        productFilter.product = params[3];
+      }
+    }
+  } else if (params[0]) {
+    const city = params[0].charAt(0).toUpperCase() + params[0].slice(1);
+
+    if (getStates("IN").includes(city)) {
+      productFilter.state = params[0].toLowerCase();
+    } else if (getCities("IN").includes(city)) {
+      productFilter.city = params[0].toLowerCase();
+    }
+
+    productFilter.subCategory = getSubCategoryBySlug(params[1], subCategories).id;
+
+    if (params.length > 2) {
+      productFilter.product = params[2];
+    }
+
+  }
+
+  if (productFilter.city && !productFilter.subCategory) {
+    productFilter.subCategory = subCategories[0].id;
+  }
+
+
+  return productFilter;
+}
+
+export function getProductFilter(obj: ParsedUrlQuery, subCategories: IProductSubCategory[]) {
+  const { slug } = obj;
+
+  const productFilter: IProductFilter = getFilterByQueryString(slug, subCategories)
+
+  // if (obj?.scid) {
+  //   productFilter.subCategory = parseInt(String(obj.scid));
+  // }
 
   if (obj?.rf) {
     productFilter.rate = [
@@ -86,5 +149,6 @@ export function getProductFilter(obj?: ParsedUrlQuery) {
       .map((brand) => productFilter.brand?.push(parseInt(brand)));
   }
 
+  console.log("Product Filter : ", productFilter);
   return productFilter;
 }

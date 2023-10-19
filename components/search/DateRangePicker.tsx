@@ -19,8 +19,7 @@ export const DateRangePicker = ({ mode }) => {
 
   const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
-    "defaultSearch",
-    null
+    "defaultSearch"
   );
 
   const [dates, setDates] = useState([

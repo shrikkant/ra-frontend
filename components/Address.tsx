@@ -1,8 +1,8 @@
 export const Address = ({ name, address }) => {
   return (
     <div className={"text-base font-normal flex flex-col"}>
-      <div>{name}</div>
-      {address.id && <div>
+      <div>{address.name}</div>
+      {address.id > 0  && <div className={"flex-col"}>
         <span>{address.address_line_1},</span>
         <span>
           {address.address_line_2}, {address.city}

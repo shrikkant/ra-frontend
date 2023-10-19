@@ -1,20 +1,18 @@
+import React, { useEffect, useState } from 'react'
 
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
-import ProductCard from "../../components/ProductCard";
 
-import ProductFilterNav from "../../components/ProductFilterNav";
+import { AppLayout } from 'components/AppLayout'
+import { useProducts } from '../hooks/useProducts'
+import ProductCard from '../components/ProductCard'
+import Loader from '../components/Loader';
+import ProductFilterNav from '../components/ProductFilterNav';
+import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
+import { useRouter } from 'next/router';
 
-import React from "react";
-import { AdjustmentsHorizontalIcon } from "@heroicons/react/24/outline";
-import { AppLayout } from "../../components/AppLayout";
-import { useProducts } from "../../hooks/useProducts";
-import Loader from "../../components/Loader";
-
-export default function RentSearch() {
+export default function Location() {
   const router = useRouter();
-
   const { products } = useProducts();
+
 
   const [filters, setFilters] = useState(false);
 
@@ -65,5 +63,5 @@ export default function RentSearch() {
         </div>
       )}
     </AppLayout>
-  );
+  )
 }

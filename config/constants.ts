@@ -11,6 +11,44 @@ export const CITY = "Pune"
 export const APP_LOCALE = "en-GB"
 
 export const enum ORDER_STEPS {
-ORDER_STEP_DELIVERY =  1,
-ORDER_STEP_PAYMENT = 2
+  ORDER_STEP_DELIVERY = 1,
+  ORDER_STEP_PAYMENT = 2
 }
+
+const COUNTRIES = [];
+
+const ind: any = {};
+ind.code = "IN";
+ind.urlBase = "";
+ind.states = ["Goa"];
+
+ind.locations = [
+  "Bengaluru",
+  "Jaipur",
+  "Ahmedabad",
+  "Pune",
+  "Kochi",
+  "Navi-Mumbai",
+  "Thane",
+  "Coimbatore",
+  "Mumbai",
+  "Hyderabad",
+  "Chandigarh",
+  "Ahmedabad",
+  "Chennai",
+  "Nashik",
+  "Kolkata",
+  "Patna"
+];
+
+const nz: any = {};
+nz.code = "NZ";
+nz.urlBase = "nz/";
+nz.locations = ["Auckland"];
+nz.states = [];
+
+COUNTRIES.push(ind);
+COUNTRIES.push(nz);
+
+export default COUNTRIES;
+

@@ -141,21 +141,21 @@ export interface IShortLocation {
 
 export interface ILocation {
   id: number;
-  user_id: number;
-  name?: null;
-  lat: number;
-  lng: number;
-  address_line_1: string;
-  address_line_2: string;
+  user_id?: number;
+  name: string | null;
+  lat?: number;
+  lng?: number;
+  address_line_1?: string;
+  address_line_2?: string;
   sublocality?: null;
-  city: string;
-  state: string;
-  country: string;
-  postal_code: string;
+  city?: string;
+  state?: string;
+  country?: string;
+  postal_code?: string;
   display?: null;
-  landmark: string;
-  status: number;
-  place_id: string;
+  landmark?: string;
+  status?: number;
+  place_id?: string;
 }
 export interface IProductRatePlan {
   id: number;
@@ -179,17 +179,22 @@ export interface IProductFilter {
   brand?: number[];
   category?: number;
   city?: string;
+  state?: string;
+  country?: string;
   subCategory?: number;
   page?: number;
+  product?: string;
 }
 
 export interface IProductCategory {
   id: number;
   title: string;
   subCategories?: IProductSubCategory[];
+  slug?: string;
 }
 
 export interface IProductSubCategory {
+  slug: any;
   id: number;
   title: string;
 }

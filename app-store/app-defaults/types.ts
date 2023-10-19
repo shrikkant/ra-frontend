@@ -1,5 +1,6 @@
 import { IProductCategory } from "../types";
 
 export interface AppDefaultsState {
-  categories?:IProductCategory[]
+  categories?: IProductCategory[];
+  searchDefaults?: any;
 }
