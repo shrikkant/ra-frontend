@@ -30,11 +30,7 @@ export default function Orders() {
   const dispatch = useDispatch();
   const df = Moment().format("DD MMM");
 
-  if (!cart) {
-    fetchCart().then((data) => {
-      dispatch(setCart(data));
-    });
-  }
+
 
   const onRazorPayCheckout = (mode) => {
     const currentAddr = loggedUser.address.find(
@@ -58,6 +54,12 @@ export default function Orders() {
   };
 
   useEffect(() => {
+    console.log("Cart Changed : ", cart);
+    if (!cart) {
+      fetchCart().then((data) => {
+        dispatch(setCart(data));
+      });
+    }
     setSelectedAddress(JSON.parse(cart?.delivery_address || null));
   }, [cart]);
 

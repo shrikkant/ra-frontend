@@ -1,6 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import styles from "./../styles/order-summary.module.css";
 import { ORDER_STEPS } from "../config/constants";
+import { dateDisplay } from "../util/date.util";
 
 export default function OrderSummary({ order, step, onInitRazorPay }) {
   return (
@@ -17,16 +18,16 @@ export default function OrderSummary({ order, step, onInitRazorPay }) {
         </div>
       </div>
 
-      {/* <div className={"flex border-gray-200 border justify-around rounded-md"}>
+      <div className={"flex border-gray-200 border justify-around rounded-md mt-5"}>
         <div className={"p-2 flex-col flex"}>
           <span className={""}>Starting</span>
-          <span className={"text-lg"}>26/5/2023</span>
+          <span className={"text-md font-semibold"}>{dateDisplay(new Date(order.start_date))}</span>
         </div>
         <div className={"p-2 flex-col flex"}>
           <span className={""}>Ending</span>
-          <span className={"text-lg"}>27/5/2023</span>
+          <span className={"text-md font-semibold"}>{dateDisplay(new Date(order.end_date))}</span>
         </div>
-      </div> */}
+      </div>
 
       <div
         className={"flex flex-col pt-3 gap-y-3 border-t border-gray-300 mt-5"}

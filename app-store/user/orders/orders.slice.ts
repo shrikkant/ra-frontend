@@ -28,10 +28,9 @@ export const getOrders = (state: RootState) => state.orders.orders;
 
 export const updateDeliveryAddressAction =
   (order: IOrder, address: ILocation) => async (dispatch: AppDispatch) => {
-    const newOrder = {...order};
-		const response: IOrder = await updateDeliveryAddress(order.id, address);
+    const response: IOrder = await updateDeliveryAddress(order.id, address);
+    const newOrder = { ...response };
 		newOrder.delivery_address = response.delivery_address;
-
     dispatch(ordersSlice.actions.setCart(newOrder));
   };
 

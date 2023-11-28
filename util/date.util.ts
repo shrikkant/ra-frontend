@@ -19,11 +19,16 @@ const rangeDisplay = function(range: IDateRange) {
       Moment(endDate).format(endFormat);
 }
 
+const dateDisplay = function (date: Date) {
+  return Moment(date).format("D MMM YYYY");
+}
+
 const timeAgo = (timestamp) => {
   return Moment(new Date(timestamp)).utcOffset(0).fromNow()
 }
 
 export {
   rangeDisplay,
-  timeAgo
+  timeAgo,
+  dateDisplay,
 }

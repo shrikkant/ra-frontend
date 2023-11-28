@@ -4,12 +4,13 @@ import styles from "./../styles/active-product.module.css";
 import { DateRangePicker } from "./search/DateRangePicker";
 import { useLocalStorage } from "../util/localStore.util";
 import { addToCart } from "../api/user/orders.api";
+import { useRouter } from "next/router";
 
 interface DefaultSearch {
   dates?: any[];
 }
-export default function BookingForm({productId, rates}) {
-
+export default function BookingForm({ productId, rates }) {
+  const router = useRouter();
   const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
     "defaultSearch"
   );
@@ -17,10 +18,13 @@ export default function BookingForm({productId, rates}) {
   useEffect(() => {
   }, []);
 
-  const onAddToCart = () => {
+  const onAddToCart = (bookNow?: boolean) => {
 
     addToCart(productId, defaultSearch.dates[0]).then((resp) => {
-      console.log("Dates : ", resp);
+
+      if (bookNow) {
+        router.push("/my-cart");
+      }
     })
 
   };
@@ -38,7 +42,7 @@ export default function BookingForm({productId, rates}) {
         </div>
         <div>
           <input
-            onClick={onAddToCart}
+            onClick={() => onAddToCart}
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
             type="button"
             value="Add to Cart"
@@ -46,6 +50,7 @@ export default function BookingForm({productId, rates}) {
         </div>
         <div>
           <input
+            onClick={() => onAddToCart(true)}
             className="bg-[#ffa41c] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffa41c]"
             type="submit"
             value="Book Now"

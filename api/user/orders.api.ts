@@ -48,6 +48,12 @@ export const addToCart = async (
 	return;
 };
 
+export const processPayment = async (paymentResponse) => {
+	// dev instance hack. not to be used in production.
+	const response = await httpClient.post(`/user/payment/process`, paymentResponse);
+	return response;
+}
+
 export const createRazorPayOrder = async (razorPayOrderDetails) => {
 	const response = await httpClient.post(
 		"/user/payment/razorPayOrder",
