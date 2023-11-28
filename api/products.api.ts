@@ -32,7 +32,6 @@ export async function fetchProducts(searchString?: string,
     const brandFilter = filter?.brand ? "&brands=" + filter.brand.map(b => b + " ") : "";
     const catFilter = filter?.subCategory ? "&subCat=" + filter?.subCategory : "";
 
-
     const url =
     `products/?searchString=${searchQuery + pageFilter + cityFilter + rateFilter + brandFilter + catFilter}`;
 
@@ -47,7 +46,8 @@ export async function fetchProducts(searchString?: string,
 
 export async function fetchProductBySlug(slug: string): Promise<any> {
   try {
-    const response = await httpClient.get<any>(`products/?slug=${slug}`);
+    const id = slug.split("-").slice(-1)[0];
+    const response = await httpClient.get<any>(`products/${id}`);
 
     return response;
   } catch (e) {

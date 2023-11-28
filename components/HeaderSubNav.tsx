@@ -10,33 +10,37 @@ import React, { useEffect, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 
 import { useCategories } from "../hooks/useCategories";
+import { getDefaultSearch } from "../app-store/session/session.slice";
+import { useLocalStorage } from "../util/localStore.util";
 
 export default function HeaderSubNav() {
   const router = useRouter();
-  const dispatch = useDispatch();
-  const [loading, setLoading] = useState(true);
+
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
+    "defaultSearch");
+  const storeSearch = useSelector(getDefaultSearch);
+
+  const [location, setLocation] = useState(null);
+
+
   const [q, setQuery] = useState(router.query?.q);
   const { categories } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);
 
-  const onCategorySelect = (key, slug) => {
+  const onCategorySelect = (key, querySlug) => {
+    const { slug } = router.query;
     const query: any = {};
-    query.scid = key;
     router.push({
-      pathname: "/pune/rent-" + slug,
+      pathname: "/rent/" + location.city.toLowerCase() + "/" + querySlug,
       query,
     });
   };
 
-  const searchProducts = () => {
-    router.push("/rent?q=" + q);
-  };
-  const onSearch = (value: string) => {
-    setQuery(value);
-  };
-
   useEffect(() => {
+    console.log("Store Search > ", storeSearch);
+    setLocation(storeSearch? storeSearch.location : defaultSearch?.location);
+
     if (categories) {
       const subCategories = categories[0]?.subCategories?.map((sc) => ({
         label: sc.title,
@@ -46,7 +50,7 @@ export default function HeaderSubNav() {
       console.log("Sub Categories > ", subCategories);
       setSubCategories(subCategories);
     }
-  }, [categories]);
+  }, [storeSearch, categories]);
 
   return (
     <Disclosure as="nav" className="bg-gray-700 ">

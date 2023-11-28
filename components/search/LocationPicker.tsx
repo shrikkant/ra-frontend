@@ -5,6 +5,7 @@ import { useLocalStorage } from "../../util/localStore.util";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
+import { useRouter } from "next/router";
 
 const locations = [
   {
@@ -18,6 +19,7 @@ const locations = [
 ];
 
 export const LocationPicker = () => {
+  const router = useRouter();
   const dispatch = useDispatch();
   const searchDefaults = {
     location: {
@@ -43,15 +45,22 @@ export const LocationPicker = () => {
     };
 
     dispatch(setSearch(JSON.stringify(search)));
-
     setDefaultSearch(search);
+
+    router.replace({
+      pathname: "/rent/" + city.toLowerCase()
+    });
+    // router.refresh();
   };
 
   useEffect(() => {
-    setLocation(
-      defaultSearch.location ? defaultSearch.location : searchDefaults.location
+    const search: any = storeSearch ? { ...storeSearch } : { ...defaultSearch };
+    !defaultSearch && setDefaultSearch(
+      search
     );
-  }, [defaultSearch, storeSearch]);
+    dispatch(setSearch(JSON.stringify(search)));
+
+  }, [defaultSearch]);
 
   return (
     <Popover className="relative z-[210]">

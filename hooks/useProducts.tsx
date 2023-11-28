@@ -17,8 +17,7 @@ export const useProducts = () => {
   const categories = useSelector(getCategories);
 
   useEffect(() => {
-    console.log(" Categories : ", categories ? categories : " Null");
-    const queryString = q ? String(q) : ""
+    const queryString = q ? String(q) : "";
     const filters = categories ? getProductFilter(query, categories[0].subCategories) : {};
 
     console.log("Filters ? ", filters);
@@ -26,7 +25,7 @@ export const useProducts = () => {
       getSearchResultsAction(queryString, filters)(dispatch);
     }
 
-  }, [categories]);
+  }, [categories, router.query]);
 
   return { products };
 };

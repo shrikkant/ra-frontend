@@ -8,7 +8,7 @@ import React from "react";
 export default function ProductCard({ product, priority = false }) {
 
   return (
-    <Link className="r-comp w-[calc((100vw-20px)/2)] sm:w-72" href={"/rent/products/" + product.slug}>
+    <Link className="r-comp w-[calc((100vw-20px)/2)] sm:w-72" href={"/rent/" + product.location.city.toLowerCase() + "/" + product.subCategory.slug + "/" + product.slug}>
       <Card
         className="w-full flex justify-between flex-col h-full"
         key={product.id}

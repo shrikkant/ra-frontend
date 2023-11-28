@@ -2,19 +2,47 @@ import React, { useEffect, useState } from 'react'
 
 
 import { AppLayout } from 'components/AppLayout'
-import { useProducts } from '../hooks/useProducts'
-import ProductCard from '../components/ProductCard'
-import Loader from '../components/Loader';
-import ProductFilterNav from '../components/ProductFilterNav';
+import { useProducts } from '../../hooks/useProducts'
+import ProductCard from '../../components/ProductCard'
+import Loader from '../../components/Loader';
+import ProductFilterNav from '../../components/ProductFilterNav';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 
+import { getProductFilter } from "util/search.util";
+import { useSelector } from 'react-redux';
+import { getCategories } from '../../app-store/app-defaults/app-defaults.slice';
+import { useActiveProduct } from '../../hooks/useActiveProduct';
+import { fetchProductBySlug } from '../../api/products.api';
+import { Product } from '../../components/product/Product';
+import { IProductFilter } from '../../app-store/types';
+
 export default function Location() {
   const router = useRouter();
+  const [activeProduct, setActiveProduct] = useState(null);
   const { products } = useProducts();
+  const { query } = router;
+  const [filter, setFilter] = useState<IProductFilter>();
+  const q = query.q;
+
+  const categories = useSelector(getCategories);
 
 
   const [filters, setFilters] = useState(false);
+
+  useEffect(() => {
+    const queryString = q ? String(q) : "";
+    const filter = categories ? getProductFilter(query, categories[0].subCategories) : {};
+    setFilter(filter);
+
+    if (filter.product) {
+      fetchProductBySlug(filter.product).then((product) => {
+        setActiveProduct(product);
+      });
+    } else {
+
+    }
+  }, [categories, router.query]);
 
   const toggleNav = () => {
     setFilters(!filters);
@@ -27,11 +55,10 @@ export default function Location() {
 
   return (
     <AppLayout sidebar={false}>
-      {!products && <Loader></Loader>}
+      {!(products || activeProduct) && <Loader></Loader>}
 
-      {products && (
+      {(!filter?.product && products) && (
         <div className="sm:flex ">
-
           <ProductFilterNav
             onChange={onChange}
             filters={filters}
@@ -62,6 +89,8 @@ export default function Location() {
           </div>
         </div>
       )}
+
+      {(filter?.product && activeProduct) && <Product product={activeProduct}></Product>}
     </AppLayout>
   )
 }

@@ -9,6 +9,7 @@ import {
 } from "../app-store/types";
 import { useSelector } from "react-redux";
 import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
+import { sub } from "date-fns";
 
 export function getBrandOptions(brands: any): ICheckboxOption[] {
   let options: ICheckboxOption[] = [];
@@ -68,8 +69,7 @@ const getStates = (code: string) => {
 }
 
 const getSubCategoryBySlug = (slug, subCategories): IProductSubCategory => {
-  console.log("Slug >>>> ", slug);
-  return subCategories.find((scat) => scat.slug === slug.split("rent-")[1]);
+  return slug ? subCategories.find((scat) => scat.slug === slug) : subCategories[0];
 }
 
 const getFilterByQueryString = (params: string | string[], subCategories: IProductSubCategory[]) => {
@@ -91,7 +91,7 @@ const getFilterByQueryString = (params: string | string[], subCategories: IProdu
     ) {
       productFilter.city = params[1].toLowerCase();
 
-      productFilter.subCategory = getSubCategoryBySlug(params[2], subCategories).id;
+      productFilter.subCategory = params[2] ? getSubCategoryBySlug(params[2], subCategories).id : -1;
 
       if (params.length > 3) {
         productFilter.product = params[3];
@@ -106,7 +106,7 @@ const getFilterByQueryString = (params: string | string[], subCategories: IProdu
       productFilter.city = params[0].toLowerCase();
     }
 
-    productFilter.subCategory = getSubCategoryBySlug(params[1], subCategories).id;
+    productFilter.subCategory = getSubCategoryBySlug(params[1], subCategories)?.id;
 
     if (params.length > 2) {
       productFilter.product = params[2];
@@ -126,10 +126,6 @@ export function getProductFilter(obj: ParsedUrlQuery, subCategories: IProductSub
   const { slug } = obj;
 
   const productFilter: IProductFilter = getFilterByQueryString(slug, subCategories)
-
-  // if (obj?.scid) {
-  //   productFilter.subCategory = parseInt(String(obj.scid));
-  // }
 
   if (obj?.rf) {
     productFilter.rate = [
