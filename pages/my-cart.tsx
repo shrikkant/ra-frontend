@@ -64,7 +64,7 @@ export default function Orders() {
   }, [cart]);
 
   return (
-    <AppLayout>
+    <AppLayout header={false}>
       <Content className={styles.mainContent}>
         {cart && (
           <div className={"flex flex-col-reverse md:flex-row w-full space-x-8"}>

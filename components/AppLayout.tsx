@@ -3,7 +3,7 @@ import AppNav from "./AppNav";
 import { AppFooter } from "./footer";
 import AppHeader from "./header";
 
-export function AppLayout({ sidebar = false, children }) {
+export function AppLayout({ sidebar = false, children, header = true }) {
   const [isNavOpen, setIsNavOpen] = useState(sidebar);
 
   const toggleNav = () => {
@@ -16,10 +16,10 @@ export function AppLayout({ sidebar = false, children }) {
         <AppNav navState={isNavOpen} toggleNavState={toggleNav}></AppNav>
         <div className={"overflow-y-auto h-screen w-full"}>
           <div>{isNavOpen}</div>
-          <AppHeader
+          {header && <AppHeader
             navState={isNavOpen}
             onNavStateChange={toggleNav}
-          ></AppHeader>
+          ></AppHeader>}
           <div
             className={
               "fixed h-screen w-screen bg-slate-900 z-[200] top-0 bg-opacity-60 " +

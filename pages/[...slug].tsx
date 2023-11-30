@@ -2,20 +2,20 @@ import React, { useEffect, useState } from 'react'
 
 
 import { AppLayout } from 'components/AppLayout'
-import { useProducts } from '../../hooks/useProducts'
-import ProductCard from '../../components/ProductCard'
-import Loader from '../../components/Loader';
-import ProductFilterNav from '../../components/ProductFilterNav';
+import { useProducts } from 'hooks/useProducts'
+import ProductCard from 'components/ProductCard'
+import Loader from 'components/Loader';
+import ProductFilterNav from 'components/ProductFilterNav';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 
 import { getProductFilter } from "util/search.util";
 import { useSelector } from 'react-redux';
-import { getCategories } from '../../app-store/app-defaults/app-defaults.slice';
-import { useActiveProduct } from '../../hooks/useActiveProduct';
-import { fetchProductBySlug } from '../../api/products.api';
-import { Product } from '../../components/product/Product';
-import { IProductFilter } from '../../app-store/types';
+import { getCategories } from 'app-store/app-defaults/app-defaults.slice';
+import { useActiveProduct } from 'hooks/useActiveProduct';
+import { fetchProductBySlug } from 'api/products.api';
+import { Product } from 'components/product/Product';
+import { IProductFilter } from 'app-store/types';
 
 export default function Location() {
   const router = useRouter();

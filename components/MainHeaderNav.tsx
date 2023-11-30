@@ -6,26 +6,38 @@ import { useDispatch, useSelector } from "react-redux";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 
 import SearchBar from "./SearchBar";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
 import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
 import { SearchInput } from "./SearchInput";
 import TopNavMenu from "components/TopNavMenu";
+import { useLocalStorage } from "../util/localStore.util";
+import { getDefaultSearch } from "../app-store/session/session.slice";
 
 export default function MainHeaderNav({ navState, onNavStateChange }) {
   const loggedUser = useSelector(selectAuthState);
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
+    "defaultSearch");
+
+  const [location, setLocation] = useState(null);
+
+  const storeSearch = useSelector(getDefaultSearch);
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [q, setQuery] = useState(router.query?.q);
 
   const searchProducts = () => {
-    router.push("/rent?q=" + q);
+    router.push("/" + location.city.toLowerCase() +  "?q=" + q);
   };
   const onSearch = (value: string) => {
     setQuery(value);
   };
+
+  useEffect(() => {
+    setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
+  });
 
   return (
     <Disclosure as="nav" className="bg-gray-800">

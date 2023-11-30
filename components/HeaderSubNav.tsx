@@ -32,7 +32,7 @@ export default function HeaderSubNav() {
     const { slug } = router.query;
     const query: any = {};
     router.push({
-      pathname: "/rent/" + location.city.toLowerCase() + "/" + querySlug,
+      pathname: "/" + location.city.toLowerCase() + "/" + querySlug,
       query,
     });
   };
