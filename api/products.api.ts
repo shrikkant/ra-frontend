@@ -46,9 +46,9 @@ export async function fetchProducts(searchString?: string,
 
 export async function fetchProductBySlug(slug: string): Promise<any> {
   try {
-    const id = slug.split("-").slice(-1)[0];
-    const response = await httpClient.get<any>(`products/${id}`);
-
+    // const id = slug.split("-").slice(-1)[0];
+    const response = await httpClient.get<any>(`products/.by.slug/${slug}`);
+    console.log("Product >>>> ", response);
     return response;
   } catch (e) {
     throw e;

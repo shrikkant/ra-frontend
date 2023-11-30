@@ -10,8 +10,6 @@ export const useCategories = () => {
 
   useEffect(() => {
     !categories && getCategoriesAction()(dispatch);
-
-    console.log("Categories !!! ", categories);
   }, []);
 
   return { categories };
