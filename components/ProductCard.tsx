@@ -23,7 +23,7 @@ export default function ProductCard({ product, priority = false }) {
         <div style={{ width: '100%', margin: '10px 0px' }}></div>
         <Meta description={"Starting"} />
         <Meta description={product.location.city} />
-        <Meta title={<PriceTag price={product.rates[0].rate} currency={"INR"} />} />
+        <Meta title={<PriceTag price={product.rates[0].rate} />} />
 
         <button className="p-2 w-full text-md font-semibold rounded bg-amber-500 text-gray-800" style={{color: "#555", textAlign:"center", marginTop:16}}>
           Book Now

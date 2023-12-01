@@ -68,9 +68,11 @@ export const DateRangePicker = ({ mode }) => {
     }
   };
 
+  const textColor = mode === "dark" ? "text-gray-700" : "text-gray-100";
+
   return (
     <Popover className="relative z-[210]">
-      <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
+      <Popover.Button className={"active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6  px-3 " + textColor}>
         <span>{dates && rangeDisplay(dates[0])}</span>
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
