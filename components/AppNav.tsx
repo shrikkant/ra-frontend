@@ -18,13 +18,15 @@ import NavMenu from "components/NavMenu";
 import { ro } from "date-fns/locale";
 
 let items = [
-  { label: "Cart", key: "/my-cart", icon: <ShoppingCartIcon className="h-6 w-6"/> },
-  { label: "Orders", key: "/orders", icon: <ShoppingBagIcon className="h-6 w-6" /> },
+ {
+    label: "Orders",
+    key: "/orders",
+    icon: <ShoppingBagIcon className="h-6 w-6" />,
+  },
   {
     label: "Owner",
     key: "/submenu",
     children: [
-
       {
         label: "My Products",
         key: "/my-products",
@@ -36,7 +38,11 @@ let items = [
     label: "Profile",
     key: "/profile-menu",
     children: [
-      { label: "My Profile", key: "/profile/", icon: <UserIcon className="h-6 w-6" /> },
+      {
+        label: "My Profile",
+        key: "/profile/",
+        icon: <UserIcon className="h-6 w-6" />,
+      },
       {
         label: "Address Book",
         key: "/profile/address-book",
@@ -55,19 +61,25 @@ const adminRoutes = {
   label: "Admin",
   key: "/admin",
   children: [
-    { label: "Customers", key: "/admin/customers", icon: <UsersIcon className="h-6 w-6" /> },
+    {
+      label: "Customers",
+      key: "/admin/customers",
+      icon: <UsersIcon className="h-6 w-6" />,
+    },
     {
       label: "Manage Orders",
       key: "/admin/orders?stage=1",
       icon: <ShoppingBagIcon className="h-6 w-6" />,
     },
-    { label: "Brands", key: "/admin/brands", icon: <TagIcon className="h-6 w-6"/> },
+    {
+      label: "Brands",
+      key: "/admin/brands",
+      icon: <TagIcon className="h-6 w-6" />,
+    },
   ],
 };
 
-
-
-export default function AppNav({navState, toggleNavState}) {
+export default function AppNav({ navState, toggleNavState }) {
   const router = useRouter();
   const loggedUser = useSelector(selectAuthState);
   let activeItems = [...items];
@@ -92,7 +104,7 @@ export default function AppNav({navState, toggleNavState}) {
         item.active = false;
       }
     });
-  }
+  };
 
   const currentActiveMenu = () => {
     if (router.pathname !== "/") {
@@ -113,7 +125,7 @@ export default function AppNav({navState, toggleNavState}) {
         }
       });
     }
-  }
+  };
 
   const onClick: MenuProps["onClick"] = (e) => {
     activateMenu(e);
@@ -122,11 +134,17 @@ export default function AppNav({navState, toggleNavState}) {
 
   useEffect(() => {
     currentActiveMenu();
-  }, [router.isReady])
-
+  }, [router.isReady]);
 
   return (
-    <aside id="default-sidebar" className={"w-full fixed h-screen z-[211] transition delay-100 " + (navState ? "translate-x-0  flex" : "-translate-x-full hidden")} aria-label="Sidebar">
+    <aside
+      id="default-sidebar"
+      className={
+        "w-full fixed h-screen z-[211] transition delay-100 " +
+        (navState ? "translate-x-0  flex" : "-translate-x-full hidden")
+      }
+      aria-label="Sidebar"
+    >
       <div className="px-5 bg-gray-900 w-3/4 sm:w-72">
         <div className="my-3 hidden sm:block">
           <img src="/assets/img/logo.png" alt="RentAcross" />
@@ -141,8 +159,16 @@ export default function AppNav({navState, toggleNavState}) {
         </nav>
       </div>
       <div>
-      <div className={(navState ? " flex " : "sm:hidden ") + " cursor-pointer flex justify-end py-5 sm:bg-gray-900  sm:bg-opacity-90  text-white border-b-gray-400 p-4"}>
-            <XMarkIcon className="h-6 w-6 sm:w-8 sm:h-8" onClick={toggleNavState}/>
+        <div
+          className={
+            (navState ? " flex " : "sm:hidden ") +
+            " cursor-pointer flex justify-end py-5 sm:bg-gray-900  sm:bg-opacity-90  text-white border-b-gray-400 p-4"
+          }
+        >
+          <XMarkIcon
+            className="h-6 w-6 sm:w-8 sm:h-8"
+            onClick={toggleNavState}
+          />
         </div>
       </div>
     </aside>

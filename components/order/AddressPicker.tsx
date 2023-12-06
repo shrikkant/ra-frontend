@@ -4,7 +4,11 @@ import { StepHeader } from "./StepHeader";
 import { selectAuthState } from "../../app-store/auth/auth.slice";
 import { AddressList } from "../AddressList";
 
-export const AddressPicker = ({ onAddressReset, onAddressPick, selectedAddress }) => {
+export const AddressPicker = ({
+  onAddressReset,
+  onAddressPick,
+  selectedAddress,
+}) => {
   const loggedUser = useSelector(selectAuthState);
 
   return (
@@ -24,7 +28,7 @@ export const AddressPicker = ({ onAddressReset, onAddressPick, selectedAddress }
       {!selectedAddress && (
         <AddressList
           onAddressChange={onAddressPick}
-          addressList={loggedUser.address}
+          addressList={loggedUser && loggedUser.address}
           userName={loggedUser?.firstname + " " + loggedUser?.lastname}
         />
       )}

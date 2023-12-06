@@ -18,12 +18,9 @@ export const DateRangePicker = ({ mode }) => {
   const dispatch = useDispatch();
 
   const storeSearch = useSelector(getDefaultSearch);
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
-    "defaultSearch"
-  );
+  const [defaultSearch, setDefaultSearch] =
+    useLocalStorage<DefaultSearch>("defaultSearch");
   const [dates, setDates] = useState(null);
-
-
 
   useEffect(() => {
     setDates([
@@ -32,23 +29,23 @@ export const DateRangePicker = ({ mode }) => {
         endDate: new Date(),
         key: "selection",
       },
-    ])
+    ]);
     const localSearch = storeSearch ? storeSearch : defaultSearch;
     const dates = localSearch?.dates
       ? [
-        {
-          startDate: new Date(localSearch?.dates[0].startDate),
-          endDate: new Date(localSearch?.dates[0].endDate),
-          key: "selection",
-        },
-      ]
+          {
+            startDate: new Date(localSearch?.dates[0].startDate),
+            endDate: new Date(localSearch?.dates[0].endDate),
+            key: "selection",
+          },
+        ]
       : [
-        {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: "selection",
-        },
-      ];
+          {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection",
+          },
+        ];
 
     setDates(dates);
   }, [defaultSearch, storeSearch]);
@@ -70,7 +67,7 @@ export const DateRangePicker = ({ mode }) => {
 
   return (
     <Popover className="relative z-[210]">
-      <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
+      <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm  leading-6 text-gray-500 px-3">
         <span>{dates && rangeDisplay(dates[0])}</span>
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"

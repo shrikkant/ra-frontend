@@ -10,16 +10,21 @@ import React, { useEffect, useState } from "react";
 
 import SearchBar from "./SearchBar";
 import { Disclosure, Menu, Transition } from "@headlessui/react";
-import { Bars3Icon, XMarkIcon } from "@heroicons/react/24/outline";
+import {
+  Bars3Icon,
+  ShoppingCartIcon,
+  XMarkIcon,
+} from "@heroicons/react/24/outline";
 import { SearchInput } from "./SearchInput";
 import TopNavMenu from "components/TopNavMenu";
 import { useLocalStorage } from "../util/localStore.util";
 import { getDefaultSearch } from "../app-store/session/session.slice";
+import { fetchCart } from "../api/user/orders.api";
 
 export default function MainHeaderNav({ navState, onNavStateChange }) {
   const loggedUser = useSelector(selectAuthState);
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
-    "defaultSearch");
+  const [defaultSearch, setDefaultSearch] =
+    useLocalStorage<any>("defaultSearch");
 
   const [location, setLocation] = useState(null);
 
@@ -27,17 +32,23 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [q, setQuery] = useState(router.query?.q);
-
+  const [cartItemsCount, setCartItemsCount] = useState(0);
   const searchProducts = () => {
-    router.push("/" + location.city.toLowerCase() +  "?q=" + q);
+    router.push("/" + location.city.toLowerCase() + "?q=" + q);
   };
   const onSearch = (value: string) => {
     setQuery(value);
   };
 
+  const fetchCartItems = async () => {
+    const response = await fetchCart();
+    setCartItemsCount(response?.items?.length);
+  };
+
   useEffect(() => {
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
-  });
+    fetchCartItems();
+  }, []);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -71,9 +82,21 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
                 ></SearchInput>
               </div>
             </div>
-
-            {/* Profile dropdown */}
-            <TopNavMenu />
+            <div className="flex items-center gap-x-3">
+              <a
+                className="relative bg-gray-800 text-slate-50 hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
+                href="/my-cart"
+              >
+                <ShoppingCartIcon className="h-6 w-6" />
+                {cartItemsCount > 0 && (
+                  <span className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
+                    {cartItemsCount}
+                  </span>
+                )}
+              </a>
+              {/* Profile dropdown */}
+              <TopNavMenu />
+            </div>
           </div>
 
           <div className="flex justify-center gap-x-5 w-full sm:hidden">
