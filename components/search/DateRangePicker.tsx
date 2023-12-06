@@ -18,12 +18,9 @@ export const DateRangePicker = ({ mode }) => {
   const dispatch = useDispatch();
 
   const storeSearch = useSelector(getDefaultSearch);
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<DefaultSearch>(
-    "defaultSearch"
-  );
+  const [defaultSearch, setDefaultSearch] =
+    useLocalStorage<DefaultSearch>("defaultSearch");
   const [dates, setDates] = useState(null);
-
-
 
   useEffect(() => {
     setDates([
@@ -32,23 +29,23 @@ export const DateRangePicker = ({ mode }) => {
         endDate: new Date(),
         key: "selection",
       },
-    ])
+    ]);
     const localSearch = storeSearch ? storeSearch : defaultSearch;
     const dates = localSearch?.dates
       ? [
-        {
-          startDate: new Date(localSearch?.dates[0].startDate),
-          endDate: new Date(localSearch?.dates[0].endDate),
-          key: "selection",
-        },
-      ]
+          {
+            startDate: new Date(localSearch?.dates[0].startDate),
+            endDate: new Date(localSearch?.dates[0].endDate),
+            key: "selection",
+          },
+        ]
       : [
-        {
-          startDate: new Date(),
-          endDate: new Date(),
-          key: "selection",
-        },
-      ];
+          {
+            startDate: new Date(),
+            endDate: new Date(),
+            key: "selection",
+          },
+        ];
 
     setDates(dates);
   }, [defaultSearch, storeSearch]);
