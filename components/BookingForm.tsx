@@ -3,6 +3,7 @@ import { DateRangePicker } from "./search/DateRangePicker";
 import { useLocalStorage } from "../util/localStore.util";
 import { addToCart } from "../api/user/orders.api";
 import { useRouter } from "next/router";
+import PriceTag from "./PriceTag";
 import { RupeeSymbol } from "./RupeeSymbol";
 import { useSelector } from "react-redux";
 import { getDefaultSearch } from "app-store/session/session.slice";
@@ -46,7 +47,7 @@ export default function BookingForm({ productId, rates }) {
               <span className="text-3xl pl-3 font-semibold">
                 {rates[0].rate}
               </span>
-              <span className="text-sm">day</span>
+              <span className="text-sm"> per day</span>
             </span>
           </div>
 

@@ -9,7 +9,7 @@ export default function SearchBar() {
     <div className={"flex flex-col gap-y-4 sm:flex-row items-center gap-x-3"}>
       <div className="flex w-full items-center">
         <LocationPicker></LocationPicker>
-        <DateRangePicker mode={"dark"}></DateRangePicker>
+        <DateRangePicker mode={"light"}></DateRangePicker>
       </div>
     </div>
   );

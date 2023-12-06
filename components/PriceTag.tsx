@@ -1,19 +1,20 @@
 import React from "react";
-import { APP_LOCALE } from "../config/constants"
+import { APP_LOCALE, DEFAULT_CURRENCY } from "../config/constants"
 
-export default function PriceTag({price, currency}){
+export default function PriceTag({price, size = "md", sub = null}){
 
-  return (<div className="r-comp text-sm sm:text-md">
-    {getCurrencySymbol(price, currency)} {}
+  const textSize = "text=" + size;
+  return (<div className={"r-comp " + textSize}>
+    {getCurrencySymbol(price)} {sub && <sub className="text-sm font-light">{sub}</sub>}
   </div>)
 }
 
-function getCurrencySymbol (price, currency) {
+function getCurrencySymbol (price) {
   return (price).toLocaleString(
     APP_LOCALE,
     {
       style: 'currency',
-      currency: currency,
+      currency: DEFAULT_CURRENCY,
       minimumFractionDigits: 2,
       maximumFractionDigits: 2
     }
