@@ -10,7 +10,9 @@ export default function PriceTag({
   const textSize = "text=" + size;
   return (
     <div className={"r-comp " + textSize}>
-      {showCurrency ? getCurrencyWithSymbol(price) : price}
+      {showCurrency
+        ? getCurrencyWithSymbol(price)
+        : getCurrencyWithoutSymbol(price)}
       {sub && <sub className="text-sm font-light">{sub}</sub>}
     </div>
   );
