@@ -1,6 +1,8 @@
 import { Button, Card, Descriptions, Space, Statistic } from "antd";
 import styles from "./../styles/order-item.module.css";
-import React from "react";
+import React, { useEffect } from "react";
+import { FaTrash } from "react-icons/fa";
+import { removeFromCart } from "api/user/orders.api";
 
 export function OrderItemRow({ orderItem }) {
   const product = orderItem.product;
@@ -11,6 +13,11 @@ export function OrderItemRow({ orderItem }) {
     ) : (
       <Button type="default">Track</Button>
     );
+
+  const handleRemoveFromCart = async (id: number) => {
+    const response = await removeFromCart(id);
+    console.log(response, "removed-", id);
+  };
 
   return (
     <div className={styles.productRow} key={product.id}>
@@ -25,7 +32,7 @@ export function OrderItemRow({ orderItem }) {
           size={"small"}
           key="1"
           column={1}
-          //        extra={primaryBtn}
+          // extra={primaryBtn}
         >
           {product.masterProductList.length > 0 && (
             <Descriptions.Item>Kit Includes</Descriptions.Item>
@@ -37,6 +44,9 @@ export function OrderItemRow({ orderItem }) {
           ))}
         </Descriptions>
       </div>
+      <Button onClick={() => handleRemoveFromCart(product.id)}>
+        <FaTrash className="fa-2x" />
+      </Button>
     </div>
   );
 }

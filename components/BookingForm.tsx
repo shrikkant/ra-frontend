@@ -8,12 +8,14 @@ import { useSelector } from "react-redux";
 import { getDefaultSearch } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
+import { selectAuthState } from "../app-store/auth/auth.slice";
 
 interface DefaultSearch {
   dates?: any[];
 }
 
 export default function BookingForm({ productId, rates }) {
+  const loggedUser = useSelector(selectAuthState);
   const router = useRouter();
   const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch, setDefaultSearch] =
@@ -21,8 +23,14 @@ export default function BookingForm({ productId, rates }) {
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
 
   const getDays = () => {
-    const startDate = new Date(storeSearch.dates[0].startDate);
-    const endDate = new Date(storeSearch.dates[0].endDate);
+    const startDate =
+      storeSearch && storeSearch.dates
+        ? new Date(storeSearch?.dates[0].startDate)
+        : new Date();
+    const endDate =
+      storeSearch && storeSearch.dates
+        ? new Date(storeSearch.dates[0].endDate)
+        : new Date();
     const differenceInTime = endDate.getTime() - startDate.getTime();
     const differenceInDays = Math.ceil(
       differenceInTime / (1000 * 60 * 60 * 24)
@@ -31,11 +39,15 @@ export default function BookingForm({ productId, rates }) {
   };
 
   const onAddToCart = (bookNow?: boolean) => {
-    addToCart(productId, defaultSearch.dates[0]).then((resp) => {
-      if (bookNow) {
-        router.push("/my-cart");
-      }
-    });
+    if (!loggedUser) {
+      router.push("/signin");
+    } else {
+      addToCart(productId, defaultSearch.dates[0]).then((resp) => {
+        if (bookNow) {
+          router.push("/my-cart");
+        }
+      });
+    }
   };
 
   const renderForm = (
@@ -67,14 +79,16 @@ export default function BookingForm({ productId, rates }) {
           </div>
         </div>
       </div>
-      <div>
-        <input
-          onClick={() => onAddToCart()}
-          className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
-          type="button"
-          value="Add to Cart"
-        />
-      </div>
+      {loggedUser && (
+        <div>
+          <input
+            onClick={() => onAddToCart()}
+            className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
+            type="button"
+            value="Add to Cart"
+          />
+        </div>
+      )}
       <div>
         <input
           onClick={() => onAddToCart(true)}

@@ -41,14 +41,16 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
   };
 
   const fetchCartItems = async () => {
-    const response = await fetchCart();
-    setCartItemsCount(response?.items?.length);
+    if (loggedUser) {
+      const response = await fetchCart();
+      setCartItemsCount(response?.items?.length);
+    }
   };
 
   useEffect(() => {
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
     fetchCartItems();
-  }, []);
+  }, [loggedUser]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -83,17 +85,19 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
               </div>
             </div>
             <div className="flex items-center gap-x-3">
-              <a
-                className="relative bg-gray-800 text-slate-50 hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
-                href="/my-cart"
-              >
-                <ShoppingCartIcon className="h-6 w-6" />
-                {cartItemsCount > 0 && (
-                  <span className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
-                    {cartItemsCount}
-                  </span>
-                )}
-              </a>
+              {loggedUser && (
+                <a
+                  className="relative bg-gray-800 text-slate-50 hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
+                  href="/my-cart"
+                >
+                  <ShoppingCartIcon className="h-6 w-6" />
+                  {cartItemsCount > 0 && (
+                    <span className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
+                      {cartItemsCount}
+                    </span>
+                  )}
+                </a>
+              )}
               {/* Profile dropdown */}
               <TopNavMenu />
             </div>

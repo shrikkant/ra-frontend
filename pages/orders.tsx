@@ -1,30 +1,25 @@
 import { Button, Layout, Space, Tag } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
-
 import styles from "styles/orders.module.css";
-
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "../components/AppNav";
-import { AppFooter } from "../components/footer";
-import AppHeader from "../components/header";
-
 import { getOrders, setOrders } from "../app-store/user/orders/orders.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders } from "../api/user/orders.api";
+import { fetchOrders, removeFromCart } from "../api/user/orders.api";
 import MyPageHeader from "components/MyPageHeader";
-
 import { IOrder } from "../app-store/types";
 import { OrderItemRow } from "../components/OrderItemRow";
 import Moment from "moment";
-import React from "react";
+import React, { useEffect } from "react";
 import { AppLayout } from "../components/AppLayout";
+import { selectAuthState } from "app-store/auth/auth.slice";
 
 export default function Orders() {
+  const loggedUser = useSelector(selectAuthState);
   const orders = useSelector(getOrders)?.filter((item, i) => i < 5);
   const dispatch = useDispatch();
   const df = Moment().format("DD MMM");
 
-  if (!orders) {
+  if (!orders && loggedUser) {
     fetchOrders().then((data) => {
       dispatch(setOrders(data));
     });
