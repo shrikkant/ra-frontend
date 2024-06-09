@@ -70,7 +70,6 @@ export default function Orders() {
               order.items.map((item) => {
                 items.push(
                   <OrderItemRow
-                    clickTest={() => {console.log("hello")}}
                     key={item.id}
                     orderItem={item}
                   />
