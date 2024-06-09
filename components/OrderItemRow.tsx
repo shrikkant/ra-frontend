@@ -4,7 +4,7 @@ import React, { useEffect } from "react";
 
 import { IOrderItem } from "../app-store/types";
 
-export default function OrderItemRow({ orderItem }: { clickTest: any, orderItem: IOrderItem }) {
+export default function OrderItemRow({ orderItem }: { orderItem: IOrderItem }) {
   const product = orderItem.product;
 
   const alertHello = () => {
