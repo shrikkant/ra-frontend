@@ -36,11 +36,13 @@ export default function OrderItemRow({ orderItem }: { clickTest: any, orderItem:
           {product.masterProductList.length > 0 && (
             <Descriptions.Item>Kit Includes</Descriptions.Item>
           )}
-          {product.masterProductList.map((addon) => (
-            <Descriptions.Item key="1">
-              1 x {addon?.masterProduct?.name}
-            </Descriptions.Item>
-          ))}
+          {product.masterProductList.map((addon: any) => {
+              return (
+                <Descriptions.Item key="1">
+                  1 x {addon?.masterProduct?.name}
+                </Descriptions.Item>
+              )
+          })}
         </Descriptions>
       </div>
     </div>
