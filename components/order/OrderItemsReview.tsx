@@ -1,5 +1,6 @@
 import { IOrderItem } from "../../app-store/types";
-import { OrderItemRow } from "../OrderItemRow";
+import OrderItemRow from "../OrderItemRow";
+
 import { StepHeader } from "./StepHeader";
 
 export const OrderItemsReview = ({ order, selectedAddress }) => {

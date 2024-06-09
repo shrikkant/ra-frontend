@@ -1,18 +1,16 @@
 import { Button, Card, Descriptions, Space, Statistic } from "antd";
 import styles from "./../styles/order-item.module.css";
 import React, { useEffect } from "react";
-import { FaTrash } from "react-icons/fa";
-import { removeFromCart } from "api/user/orders.api";
+
 import { IOrderItem } from "../app-store/types";
 
-export default function OrderItemRow({ clickTest, orderItem }: { clickTest: any, orderItem: IOrderItem }) {
+export default function OrderItemRow({ orderItem }: { clickTest: any, orderItem: IOrderItem }) {
   const product = orderItem.product;
 
   const alertHello = () => {
-    console.log("hello");
-    clickTest();
 
   }
+
   const primaryBtn =
     orderItem.status == 4 ? (
       <Button type="default">Review</Button>
@@ -22,7 +20,7 @@ export default function OrderItemRow({ clickTest, orderItem }: { clickTest: any,
 
   return (
     <div className={styles.productRow} key={product.id}>
-      {/* <div className={styles.productImg}>
+      <div className={styles.productImg}>
         <img className={styles.img} src={product.photos[0]?.path}></img>
       </div>
 
@@ -44,10 +42,7 @@ export default function OrderItemRow({ clickTest, orderItem }: { clickTest: any,
             </Descriptions.Item>
           ))}
         </Descriptions>
-      </div> */}
-      <Button onClick={() => alertHello()}>
-        <FaTrash className="fa-2x" />
-      </Button>
+      </div>
     </div>
   );
 }
