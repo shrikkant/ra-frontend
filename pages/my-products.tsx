@@ -15,8 +15,10 @@ import MyPageHeader from "../components/MyPageHeader";
 import ProductRow from "../components/ProductRow";
 import React from "react";
 import { AppLayout } from "../components/AppLayout";
+import { useRouter } from "next/router";
 
 export default function MyProducts() {
+  const router = useRouter();
   const products = useSelector(getMyProducts);
   const dispatch = useDispatch();
 
@@ -26,14 +28,21 @@ export default function MyProducts() {
     });
   }
 
+  const listProduct = () => {
+    console.log("Hit Add Product");
+    router.push("/products/add");
+
+  }
+
   return (
     <AppLayout>
       <MyPageHeader
         title="My Products"
         subtitle="Your gear listing"
+        addAction={listProduct}
       ></MyPageHeader>
 
-      <Content style={{ padding: "16px 24px" }}>
+      <Content style={{ padding: "16px 24px" }} >
         <Space size={[10, 20]} direction="vertical">
           {products &&
             products.map((product: any) => (

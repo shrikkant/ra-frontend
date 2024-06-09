@@ -3,10 +3,16 @@ import styles from "./../styles/order-item.module.css";
 import React, { useEffect } from "react";
 import { FaTrash } from "react-icons/fa";
 import { removeFromCart } from "api/user/orders.api";
+import { IOrderItem } from "../app-store/types";
 
-export function OrderItemRow({ orderItem }) {
+export default function OrderItemRow({ clickTest, orderItem }: { clickTest: any, orderItem: IOrderItem }) {
   const product = orderItem.product;
 
+  const alertHello = () => {
+    console.log("hello");
+    clickTest();
+
+  }
   const primaryBtn =
     orderItem.status == 4 ? (
       <Button type="default">Review</Button>
@@ -14,14 +20,9 @@ export function OrderItemRow({ orderItem }) {
       <Button type="default">Track</Button>
     );
 
-  const handleRemoveFromCart = async (id: number) => {
-    const response = await removeFromCart(id);
-    console.log(response, "removed-", id);
-  };
-
   return (
     <div className={styles.productRow} key={product.id}>
-      <div className={styles.productImg}>
+      {/* <div className={styles.productImg}>
         <img className={styles.img} src={product.photos[0]?.path}></img>
       </div>
 
@@ -32,7 +33,7 @@ export function OrderItemRow({ orderItem }) {
           size={"small"}
           key="1"
           column={1}
-          // extra={primaryBtn}
+        // extra={primaryBtn}
         >
           {product.masterProductList.length > 0 && (
             <Descriptions.Item>Kit Includes</Descriptions.Item>
@@ -43,8 +44,8 @@ export function OrderItemRow({ orderItem }) {
             </Descriptions.Item>
           ))}
         </Descriptions>
-      </div>
-      <Button onClick={() => handleRemoveFromCart(product.id)}>
+      </div> */}
+      <Button onClick={() => alertHello()}>
         <FaTrash className="fa-2x" />
       </Button>
     </div>

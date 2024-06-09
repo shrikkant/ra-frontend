@@ -102,7 +102,8 @@ export default function Order() {
                 ></MyPageHeader>
 
                 <Descriptions bordered size={"small"} key="1" column={1}>
-                  <Descriptions.Item>
+                      <Descriptions.Item>
+                        Fee : { order.delivery_fee}
                     {order.delivery_fee > 0 && (
                       <DeliveryAssignmentForm order={order} />
                     )}

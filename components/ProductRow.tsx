@@ -9,6 +9,7 @@ export default function ProductRow({product}) {
   return (<Card key={product.id} title={product.title} className="r-comp">
     <Card.Grid style={{width:'25%'}}>
       <div>
+        {product.photos.length  }
         <img src={product.photos[0]?.path}></img>
       </div>
     </Card.Grid>

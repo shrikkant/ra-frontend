@@ -46,8 +46,18 @@ export async function fetchProducts(searchString?: string,
 
 export async function fetchProductBySlug(slug: string): Promise<any> {
   try {
-    // const id = slug.split("-").slice(-1)[0];
     const response = await httpClient.get<any>(`products/.by.slug/${slug}`);
+    console.log("Product >>>> ", response);
+    return response;
+  } catch (e) {
+    throw e;
+  }
+}
+
+
+export async function fetchProduct(filter): Promise<any> {
+  try {
+    const response = await httpClient.get<any>(`products/.by.slug/${filter.product}?city=${filter?.city}&subCat=${filter.subCategory}`);
     console.log("Product >>>> ", response);
     return response;
   } catch (e) {

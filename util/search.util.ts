@@ -69,7 +69,7 @@ const getStates = (code: string) => {
 }
 
 const getSubCategoryBySlug = (slug, subCategories): IProductSubCategory => {
-  return slug ? subCategories.find((scat) => scat.slug === slug) : subCategories[0];
+  return slug ? subCategories.find((scat) => scat.slug === slug) : null;
 }
 
 const getFilterByQueryString = (params: string | string[], subCategories: IProductSubCategory[]) => {
@@ -80,6 +80,7 @@ const getFilterByQueryString = (params: string | string[], subCategories: IProdu
 
   if (params[0] && params[0].length === 2) {
     // first param is country.
+    // TO_DO: Check if the country is valid.
 
     const city = params[1].charAt(0).toUpperCase() + params[1].slice(1);
 
@@ -114,12 +115,30 @@ const getFilterByQueryString = (params: string | string[], subCategories: IProdu
 
   }
 
-  if (productFilter.city && !productFilter.subCategory) {
-    productFilter.subCategory = subCategories[0].id;
-  }
-
-
   return productFilter;
+}
+
+
+export function validateQueryParams(obj: ParsedUrlQuery) {
+  const { slug } = obj;
+
+  if (slug) {
+    if (slug[0] && slug[0].length === 2) {
+      if (!["in", "nz"].includes(slug[0].toLowerCase())) {
+        return false;
+      }
+      const city = slug[1].charAt(0).toUpperCase() + slug[1].slice(1);
+      if (slug[0].toLowerCase() === "in" && getCities("IN").includes(city)) {
+        return true;
+      }
+    } else if (slug[0]) {
+      const city = slug[0].charAt(0).toUpperCase() + slug[0].slice(1);
+      if (getStates("IN").includes(city) || getCities("IN").includes(city)) {
+        return true;
+      }
+    }
+  }
+  return false;
 }
 
 export function getProductFilter(obj: ParsedUrlQuery, subCategories: IProductSubCategory[]) {

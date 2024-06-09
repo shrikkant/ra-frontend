@@ -26,7 +26,7 @@ export function AppLayout({ sidebar = false, children, header = true }) {
               (isNavOpen ? "block": "hidden")
             }
           ></div>
-          <div>{children}</div>
+          <div style={{ maxWidth: 1080, margin: "auto" }}>{children}</div>
         </div>
       </div>
 

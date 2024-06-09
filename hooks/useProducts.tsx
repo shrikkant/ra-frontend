@@ -25,12 +25,12 @@ export const useProducts = () => {
     const filter = categories ? getProductFilter(query, categories[0].subCategories) : {};
     filter.city = !filter.city ? defaultSearch?.location?.city : filter.city;
 
-    console.log("Filters ? ", filter);
-    if (filter) {
-      getSearchResultsAction(queryString, filter)(dispatch);
+    if (filter && filter.city)  {
+      console.log("fetching search results **** ", filter);
+      !filter.product && getSearchResultsAction(queryString, filter)(dispatch);
     }
 
-  }, [categories, router.query]);
+  }, [router.query, categories, defaultSearch]);
 
   return { products };
 };

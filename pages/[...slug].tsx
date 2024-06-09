@@ -10,9 +10,12 @@ import { getProductFilter } from "util/search.util";
 import { useSelector } from 'react-redux';
 import { getCategories } from 'app-store/app-defaults/app-defaults.slice';
 import { useActiveProduct } from 'hooks/useActiveProduct';
-import { fetchProductBySlug } from 'api/products.api';
+import { fetchProduct, fetchProductBySlug } from 'api/products.api';
 import { Product } from 'components/product/Product';
 import { IProductFilter } from 'app-store/types';
+
+import { notFound } from 'next/navigation'
+import Custom404 from './404';
 
 export default function Location() {
   const router = useRouter();
@@ -21,22 +24,31 @@ export default function Location() {
   const { query } = router;
   const [filter, setFilter] = useState<IProductFilter>();
   const q = query.q;
+  const [pageNotFound, setPageNotFound] = useState(false);
 
   const categories = useSelector(getCategories);
 
   const [filters, setFilters] = useState(false);
 
   useEffect(() => {
-    const queryString = q ? String(q) : "";
-    const filter = categories ? getProductFilter(query, categories[0].subCategories) : {};
-    setFilter(filter);
 
-    if (filter.product) {
-      fetchProductBySlug(filter.product).then((product) => {
-        setActiveProduct(product);
-      });
-    } else {
+    const queryString = router.query ? String(router.query.q) : "";
 
+    if (queryString) {
+      const filter = categories ? getProductFilter(query, categories[0].subCategories) : {};
+
+      if (!filter.subCategory || !filter.city) {
+        setPageNotFound(true);
+        return;
+      }
+
+      setFilter(filter);
+
+      if (filter.product) {
+        fetchProduct(filter).then((product) => {
+          setActiveProduct(product);
+        });
+      }
     }
   }, [categories, router.query]);
 
@@ -48,9 +60,11 @@ export default function Location() {
     router.replace({ pathname: router.pathname, query: query });
   };
 
+  if (pageNotFound) {
+    return Custom404();
+  }
 
-  return (
-    <AppLayout sidebar={false}>
+  return (<AppLayout sidebar={false}>
       {!(products || activeProduct) && <Loader></Loader>}
 
       {(!filter?.product && products) && (
