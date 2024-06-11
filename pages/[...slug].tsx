@@ -30,7 +30,7 @@ export default function Location() {
   const [pageNotFound, setPageNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [defaultSearch, setDefaultSearch] = useLocalStorage(
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
     "defaultSearch"
   );
 
