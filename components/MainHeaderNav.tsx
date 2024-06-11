@@ -48,9 +48,10 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
   };
 
   useEffect(() => {
+    console.log("Setting Location >  ", defaultSearch?.location);
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
     fetchCartItems();
-  }, [loggedUser]);
+  }, []);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">

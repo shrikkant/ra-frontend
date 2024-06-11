@@ -27,7 +27,6 @@ export const getCategoriesAction =
 	() => async (dispatch: AppDispatch) => {
 
 		const response = await fetchProductCategories();
-		console.log("Response >>>>>>>. ", response);
 		dispatch(appDefaultsSlice.actions.setCategories(response));
 	};
 

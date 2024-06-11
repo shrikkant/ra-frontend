@@ -22,13 +22,17 @@ export const useProducts = () => {
 
   useEffect(() => {
     const queryString = q ? String(q) : "";
-    const filter = categories ? getProductFilter(query, categories[0].subCategories) : {};
-    filter.city = !filter.city ? defaultSearch?.location?.city : filter.city;
+    try {
+      const filter = categories ? getProductFilter(query, categories) : {};
+      filter.city = !filter.city ? defaultSearch?.location?.city : filter.city;
 
-    if (filter && filter.city)  {
-      console.log("fetching search results **** ", filter);
-      !filter.product && getSearchResultsAction(queryString, filter)(dispatch);
+      if (filter && filter.city) {
+        !filter.product && getSearchResultsAction(queryString, filter)(dispatch);
+      }
+    } catch (e) {
+      console.log(e);
     }
+
 
   }, [router.query, categories, defaultSearch]);
 

@@ -15,9 +15,6 @@ import { useLocalStorage } from "../util/localStore.util";
 
 export default function HeaderSubNav() {
   const router = useRouter();
-
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
-    "defaultSearch");
   const storeSearch = useSelector(getDefaultSearch);
 
   const [location, setLocation] = useState(null);
@@ -38,16 +35,12 @@ export default function HeaderSubNav() {
   };
 
   useEffect(() => {
-    console.log("Store Search > ", storeSearch);
-    setLocation(storeSearch? storeSearch.location : defaultSearch?.location);
-
     if (categories) {
       const subCategories = categories[0]?.subCategories?.map((sc) => ({
         label: sc.title,
         key: sc.id,
         slug: sc.slug,
       }));
-      console.log("Sub Categories > ", subCategories);
       setSubCategories(subCategories);
     }
   }, [storeSearch, categories]);

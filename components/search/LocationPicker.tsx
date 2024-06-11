@@ -21,51 +21,41 @@ const locations = [
 export const LocationPicker = () => {
   const router = useRouter();
   const dispatch = useDispatch();
-  const searchDefaults = {
-    location: {
-      lat: 18.5788913,
-      lng: 73.7706807,
-      city: "Pune",
-    },
-  };
 
-  const [location, setLocation] = useState(searchDefaults.location);
-  const storeSearch = useSelector(getDefaultSearch);
+  const [location, setLocation] = useState(null);
+  const stateSearch = useSelector(getDefaultSearch);
 
-  const [defaultSearch, setDefaultSearch] = useLocalStorage(
-    "defaultSearch",
-    searchDefaults
-  );
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
+    "defaultSearch");
 
   const cityChange = (city) => {
-    console.log("Changed City : ", city);
-    const search: any = storeSearch ? {...storeSearch} : { ...defaultSearch };
+    const search: any =  defaultSearch;
     search.location = {
       city,
     };
-
-    dispatch(setSearch(JSON.stringify(search)));
     setDefaultSearch(search);
+    dispatch(setSearch(JSON.stringify(search)));
+
 
     router.replace({
-      pathname: "/rent/" + city.toLowerCase()
+      pathname: "/" + city.toLowerCase() + "/rent-camera"
     });
-    // router.refresh();
+
   };
 
   useEffect(() => {
-    const search: any = storeSearch ? { ...storeSearch } : { ...defaultSearch };
-    !defaultSearch && setDefaultSearch(
-      search
-    );
-    dispatch(setSearch(JSON.stringify(search)));
+    const location = defaultSearch?.location || stateSearch?.location;
+    setLocation(location);
+  }, [defaultSearch, stateSearch]);
 
-  }, [defaultSearch]);
+  const locationCity = (city) => {
+    return city.slice(0, 1).toUpperCase() + city.slice(1);
+  }
 
   return (
     <Popover className="relative z-[210]">
       <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
-        <span>{location.city}</span>
+        {location?.city? <span>{locationCity(location.city)}</span> : <span>{"Select City"}</span>}
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
           aria-hidden="true"

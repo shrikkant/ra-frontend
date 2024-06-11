@@ -7,7 +7,7 @@ import ProductFilterNav from 'components/ProductFilterNav';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { getProductFilter } from "util/search.util";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from 'app-store/app-defaults/app-defaults.slice';
 import { useActiveProduct } from 'hooks/useActiveProduct';
 import { fetchProduct, fetchProductBySlug } from 'api/products.api';
@@ -16,39 +16,66 @@ import { IProductFilter } from 'app-store/types';
 
 import { notFound } from 'next/navigation'
 import Custom404 from './404';
+import { setSearch } from '../app-store/session/session.slice';
+import { useLocalStorage } from '../util/localStore.util';
 
 export default function Location() {
   const router = useRouter();
+  const dispatch = useDispatch();
   const [activeProduct, setActiveProduct] = useState(null);
   const { products } = useProducts();
   const { query } = router;
   const [filter, setFilter] = useState<IProductFilter>();
-  const q = query.q;
+  const {q} = router.query; 
   const [pageNotFound, setPageNotFound] = useState(false);
+  const [loading, setLoading] = useState(true);
+
+  const [defaultSearch, setDefaultSearch] = useLocalStorage(
+    "defaultSearch"
+  );
 
   const categories = useSelector(getCategories);
 
   const [filters, setFilters] = useState(false);
+
 
   useEffect(() => {
 
     const queryString = router.query ? String(router.query.q) : "";
 
     if (queryString) {
-      const filter = categories ? getProductFilter(query, categories[0].subCategories) : {};
+      try {
+        const filter = categories ? getProductFilter(query, categories) : {};
 
-      if (!filter.subCategory || !filter.city) {
-        setPageNotFound(true);
-        return;
+        if (!filter) {
+          setPageNotFound(true);
+        }
+
+
+          const search = {
+            location: {
+              city: filter.city,
+            }
+          };
+          if (!defaultSearch || defaultSearch?.location?.city !== filter.city) {
+            dispatch(setSearch(JSON.stringify(search)));
+            setDefaultSearch(search);
+          }
+
+          setLoading(false);
+          setFilter(filter);
+
+          if (filter.product) {
+            fetchProduct(filter).then((product) => {
+              setActiveProduct(product);
+              setLoading(false);
+            });
+          }
+      } catch (error) {
+        // some pother shit.
+        setPageNotFound(true)
       }
 
-      setFilter(filter);
-
-      if (filter.product) {
-        fetchProduct(filter).then((product) => {
-          setActiveProduct(product);
-        });
-      }
     }
   }, [categories, router.query]);
 
@@ -61,11 +88,12 @@ export default function Location() {
   };
 
   if (pageNotFound) {
-    return Custom404();
+    return <Custom404></Custom404>
   }
 
-  return (<AppLayout sidebar={false}>
-      {!(products || activeProduct) && <Loader></Loader>}
+
+    return (<AppLayout sidebar={false}>
+      {loading && <Loader></Loader>}
 
       {(!filter?.product && products) && (
         <div className="sm:flex ">
@@ -84,11 +112,12 @@ export default function Location() {
               >
                 Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
               </button>
+
             </div>
 
             <div
               className={
-                "r-comp  px-2 py-4 grid sm:flex flex-wrap gap-y-5 gap-x-3 grid-cols-2"
+                "r-comp  px-2 py-4 grid sm:flex  flex-wrap gap-y-5 gap-x-3 "
               }
             >
               {products &&
@@ -102,5 +131,6 @@ export default function Location() {
 
       {(filter?.product && activeProduct) && <Product product={activeProduct}></Product>}
     </AppLayout>
-  )
+    )
 }
+
