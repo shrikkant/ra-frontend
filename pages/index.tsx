@@ -529,10 +529,10 @@ export default function Home() {
                 <div className="footer-touch col-md-7 col-lg-8">
                   <h6>stay in touch</h6>
                   <ul className="footer-soc social-list">
-                    <li><a target="_blank" href="https://www.facebook.com/rovadex"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="https://twitter.com/RovadexStudio"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="https://www.instagram.com/rovadex"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
-                    <li><a target="_blank" href="https://www.youtube.com"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="https://www.facebook.com/rentacross"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="https://x.com/rentacross"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
+                    <li><a target="_blank" href="https://www.instagram.com/rent_across"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
+                    {/* <li><a target="_blank" href="https://www.youtube.com"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li> */}
                   </ul>
                   <div className="footer-autor">Questions? Please write us at: <a href="mailto:rovadex@gmail.com">rovadex@gmail.com</a></div>
                 </div>
