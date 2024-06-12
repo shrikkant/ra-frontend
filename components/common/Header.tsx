@@ -1,8 +1,14 @@
+import { Head } from "next/document";
+
 export default function Header() {
 
 
 
-return (<div>
+  return (<div>
+    <Head>
+      <title>RentAcross | Online rental platform for photography and camping equipment.</title>
+      <meta property="og:title" content="My page title" key="title" />
+    </Head>
   <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
   <link rel="stylesheet" href="/assets/v2/css/bootstrap-grid.css"></link>
   <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
