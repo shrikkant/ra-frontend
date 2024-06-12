@@ -4,7 +4,7 @@ import { Transition } from '@headlessui/react';
 import classNames from 'classnames';
 import { IHomeSlide } from "../app-store/products/types";
 
-export function HomeSlider({  }: {}) {
+export function HomeSlider({maxSlides}: {maxSlides?: number}) {
 
   const INTERVAL_LENGTH = 4000;
   const AUTOPLAY = false;
@@ -13,14 +13,21 @@ export function HomeSlider({  }: {}) {
   const [currentItem, setCurrentItem] = useState(0);
   const [items, setItems] = useState<ReactNode[]>([]);
   const prev = () => {
-    setCurrentItem((curr: number) => (curr === 0 ? items.length - 1 : curr - 1));
+    if (currentItem === 0) {
+      setCurrentItem(items.length - 1);
+    } else {
+      setCurrentItem(currentItem - 1);
+    }
   }
-  const next = () =>
-    setCurrentItem(currentItem+1);
+  const next = () => {
+    if (currentItem === items.length - 1) {
+      setCurrentItem(0);
+    } else {
+      setCurrentItem(currentItem + 1);
+    }
+  }
 
   useEffect(() => {
-
-
 
     const photos: IHomeSlide[] = [
       {

@@ -15,6 +15,8 @@ import { set } from 'date-fns'
 import { HomeSlider } from '../components/HomeSlider'
 import { IHomeSlide } from '../app-store/products/types'
 import { useRouter } from 'next/router'
+import { Testimonial } from '../components/Testimonial'
+
 
 export default function Home() {
   // new
@@ -1201,7 +1203,9 @@ export default function Home() {
             </div>
           </section>
 
-          <section className="s-feedback" style={{ backgroundImage: 'url(assets/v2/img /bg-feedback.jpg)' }}>
+          <Testimonial></Testimonial>
+
+          {/* <section className="s-feedback" style={{ backgroundImage: 'url(assets/v2/img /bg-feedback.jpg)' }}>
             <span className="effwct-bg-feedback" style={{ backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)' }}></span>
             <span className="mask"></span>
             <div className="container">
@@ -1227,26 +1231,7 @@ export default function Home() {
                     </div>
                   </div>
                 </div>
-                <div className="feedback-slide">
-                  <div className="feedback-item">
-                    <div className="feedback-content">
-                      <p>“Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempoinc ididunt ut magna aliqua dolor sit amet, consectetur adipiscing elit magna”</p>
-                    </div>
-                    <div className="feedback-item-top">
-                      <img src="assets/v2/img/feedback-photo-2.png" alt="photo" />
-                      <div className="feedback-title">
-                        <h5 className="title"><span>Sam Barton</span></h5>
-                        <ul className="rating">
-                          <li className="star-bg"><i className="fa fa-star" aria-hidden="true"></i></li>
-                          <li className="star-bg"><i className="fa fa-star" aria-hidden="true"></i></li>
-                          <li className="star-bg"><i className="fa fa-star" aria-hidden="true"></i></li>
-                          <li className="star-bg"><i className="fa fa-star" aria-hidden="true"></i></li>
-                          <li className="star-not-bg"><i className="fa fa-star-o" aria-hidden="true"></i></li>
-                        </ul>
-                      </div>
-                    </div>
-                  </div>
-                </div>
+
                 <div className="feedback-slide">
                   <div className="feedback-item">
                     <div className="feedback-content">
@@ -1289,96 +1274,7 @@ export default function Home() {
                 </div>
               </div>
             </div>
-          </section>
-
-          <section className="s-our-news">
-            <div className="container">
-              <h2 className="title">Our News</h2>
-              <div className="news-cover row">
-                <div className="col-12 col-md-6 col-lg-4">
-                  <div className="news-item">
-                    <h6 className="title"><a href="news.html">doloremque laudantium, totam rem aperiam, eaque ipsa quae</a></h6>
-                    <div className="news-post-thumbnail">
-                      <a href="news.html"><img className="lazy" src="assets/v2/img/placeholder-all.png" data-src="assets/v2/img/news-1.jpg" alt="news" /></a>
-                    </div>
-                    <div className="meta">
-                      <span className="date"><i className="fa fa-calendar" aria-hidden="true"></i> Dec 26,2019</span>
-                      <span className="post-by"><i className="fa fa-user" aria-hidden="true"></i> By <a href="#">Samson</a></span>
-                    </div>
-                    <div className="post-content">
-                      <p>Sed ut perspiciatis unde omnis iste natus  sit voluptatem accusantium doloremque lauda ntium, totam rem aperiam, eaque.</p>
-                    </div>
-                    <a href="news.html" className="btn-news">read more</a>
-                  </div>
-                </div>
-                <div className="col-12 col-md-6 col-lg-4">
-                  <div className="news-item">
-                    <h6 className="title"><a href="news.html">At vero eos et accusamus et iusto odio dignissimos ducim</a></h6>
-                    <div className="news-post-thumbnail">
-                      <a href="single-news.html"><img className="lazy" src="assets/v2/img/placeholder-all.png" data-src="assets/v2/img/news-2.jpg" alt="news" /></a>
-                    </div>
-                    <div className="meta">
-                      <span className="date"><i className="fa fa-calendar" aria-hidden="true"></i> Dec 26,2019</span>
-                      <span className="post-by"><i className="fa fa-user" aria-hidden="true"></i> By <a href="#">Samson</a></span>
-                    </div>
-                    <div className="post-content">
-                      <p>Corrupti quos dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa qui.</p>
-                    </div>
-                    <a href="single-news.html" className="btn-news">read more</a>
-                  </div>
-                </div>
-                <div className="col-12 col-md-6 col-lg-4">
-                  <div className="news-item">
-                    <h6 className="title"><a href="news.html">On the other hand, we denounce with righteous indignation a</a></h6>
-                    <div className="news-post-thumbnail">
-                      <a href="news.html"><img className="lazy" src="assets/v2/img/placeholder-all.png" data-src="assets/v2/img/news-3.jpg" alt="news" /></a>
-                    </div>
-                    <div className="meta">
-                      <span className="date"><i className="fa fa-calendar" aria-hidden="true"></i> Dec 26,2019</span>
-                      <span className="post-by"><i className="fa fa-user" aria-hidden="true"></i> By <a href="#">Samson</a></span>
-                    </div>
-                    <div className="post-content">
-                      <p>Blinded by desire, that they cannot foresee the pain and trouble that are bound to ensue; and equal blame belongs to those.</p>
-                    </div>
-                    <a href="single-news.html" className="btn-news">read more</a>
-                  </div>
-                </div>
-              </div>
-              <div className="btn-cover"><a className="btn" href="news.html"><span>view more</span></a></div>
-            </div>
-          </section>
-
-          <section className="s-clients">
-            <div className="container">
-              <div className="clients-cover">
-                <div className="client-slide">
-                  <div className="client-slide-cover">
-                    <img src="assets/v2/img/client-1.svg" alt="img" />
-                  </div>
-                </div>
-                <div className="client-slide">
-                  <div className="client-slide-cover">
-                    <img src="assets/v2/img/client-2.svg" alt="img" />
-                  </div>
-                </div>
-                <div className="client-slide">
-                  <div className="client-slide-cover">
-                    <img src="assets/v2/img/client-4.svg" alt="img" />
-                  </div>
-                </div>
-                <div className="client-slide">
-                  <div className="client-slide-cover">
-                    <img src="assets/v2/img/client-5.svg" alt="img" />
-                  </div>
-                </div>
-                <div className="client-slide">
-                  <div className="client-slide-cover">
-                    <img src="assets/v2/img/client-6.svg" alt="img" />
-                  </div>
-                </div>
-              </div>
-            </div>
-          </section>
+          </section> */}
 
           <section className="s-banner" style={{ backgroundImage: 'url(assets/v2/img/bg-section-banner.jpg)' }}>
             <span className="mask"></span>
