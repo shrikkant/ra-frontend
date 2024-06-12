@@ -1,4 +1,4 @@
-import { Head } from "next/document";
+import Head from 'next/head'
 
 export default function Header() {
 
@@ -7,7 +7,7 @@ export default function Header() {
   return (<div>
     <Head>
       <title>RentAcross | Online rental platform for photography and camping equipment.</title>
-      <meta property="og:title" content="My page title" key="title" />
+      <meta property="og:title" content="RentAcross | Online rental platform for photography and camping equipment." key="title" />
     </Head>
   <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
   <link rel="stylesheet" href="/assets/v2/css/bootstrap-grid.css"></link>
