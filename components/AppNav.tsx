@@ -8,14 +8,12 @@ import {
   CameraIcon,
   MapPinIcon,
   ShoppingBagIcon,
-  ShoppingCartIcon,
   TagIcon,
   UserIcon,
   UsersIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import NavMenu from "components/NavMenu";
-import { ro } from "date-fns/locale";
 
 let items = [
  {

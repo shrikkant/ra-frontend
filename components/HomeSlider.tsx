@@ -33,28 +33,28 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
       {
         id: 1,
         title: 'Go Adventure with GoPro',
-        subtitle: 'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.',
+        subtitle: 'Its monsoons! More travel and more adventure. Rent a GoPro Hero 11 Black and capture your memories.',
         img: '/assets/v2/img/gopro-hero-11-black.png',
         imgBg: '/assets/v2/img/bg-slider.svg',
-        price: 1399,
+        price: 750,
         model: 'model SX-200',
       },
       {
         id: 2,
         title: 'Go 360 with Insta360 X3',
-        subtitle: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Labore consectetur sint iure id expedita saepe.',
+        subtitle: 'What more do you need when you can capture your moments in 360!',
         img: '/assets/v2/img/insta-360-x3.png',
         imgBg: '/assets/v2/img/bg-slider-2.svg',
-        price: 1199,
+        price: 900,
         model: 'model M-300',
       },
       {
         id: 3,
         title: 'Camp anywhere anytime',
-        subtitle: 'Lorem ipsum dolor sit amet, consectetur adipisicing elit. Veritatis distinctio tenetur ab ut! Qui, facilis.',
+        subtitle: 'Rent a camping tent for your next adventure.',
         img: '/assets/v2/img/4-person-camping-tent-waterproof.png',
         imgBg: '/assets/v2/img/bg-slider-3.svg',
-        price: 1099,
+        price: 350,
         model: 'model X-230',
       },
     ];
@@ -68,22 +68,24 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
                 width: '100vw',
                 // left: (index > 0 ? -1000 * index : 0),
                 top: 0,
-                zIndex: 999,
+                zIndex: (currentItem === index ? 999 : 998),
                 opacity: 1
               }}>
               <div className="main-slide-bg" style={{ backgroundImage: 'url(' + p.imgBg +')' }}></div>
               <div className="container">
                 <div className="main-slide-info">
                   <h2 className="title">{p.title}</h2>
-                  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore.</p>
-                  <a href="single-shop.html" className="btn"><span>Book Now</span></a>
+                  <p>{ p.subtitle}</p>
+                  <a href="single-shop.html" className="btn">
+                    <span>Book Now</span>
+                  </a>
                 </div>
                 <div className="slide-img-cover">
                   <a href="single-shop.html" className="lable-bike">
                     <div className="lable-bike-img"><img src="assets/v2/img/bike-info-slide.jpg" alt="img" /></div>
                     <div className="lable-bike-item">
-                      <div className="model">model SX-200</div>
-                      <div className="price">$1399</div>
+                      <div className="model">Starting</div>
+                      <div className="price">₹1399</div>
                     </div>
                   </a>
                   <img src={p.img} alt="img" className="slide-img" />

@@ -1,0 +1,63 @@
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { getFeaturedProducts } from "../../api/products.api";
+import { useLocalStorage } from "../../util/localStore.util";
+import Image from "next/image";
+import Loader from "../Loader";
+import PriceTag from "../PriceTag";
+import HomeProductCard from "./HomeProductCard";
+
+
+
+export default function TopSales() {
+
+  const router = useRouter();
+  const [loading, setLoading] = useState(true);
+  const [categories, setCategories] = useState([]);
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>("defaultSearch");
+
+
+  const loadProducts = (city: string) => {
+    setLoading(true);
+    getFeaturedProducts(4, city).then((res) => {
+      setLoading(false);
+      console.log("res", res);
+      setCategories(res);
+    })
+      .catch((err) => {
+        // Error handling
+        setLoading(false);
+        console.log(err);
+        return null;
+      });
+  };
+
+
+  useEffect(() => {
+    const location: any = defaultSearch?.location;
+    if (!location) {
+      router.push("/pune/rent-camera");
+    } else {
+      loadProducts(location.city);
+    }
+  }, [router.isReady]);
+
+  if (loading) return <Loader></Loader>
+
+  return (<section className="s-top-sale">
+    <div className="container">
+      <h2 className="title">Top sales</h2>
+      <div className="row product-cover">
+
+          {categories[0].products.map((product: any) => (
+            <HomeProductCard product={product}></HomeProductCard>
+          ))}
+
+        {categories[1].products.map((product: any) => (
+          <HomeProductCard product={product}></HomeProductCard>
+        ))}
+
+      </div>
+    </div>
+  </section>)
+}
