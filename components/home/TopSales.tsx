@@ -19,6 +19,7 @@ export default function TopSales() {
 
   const loadProducts = (city: string) => {
     setLoading(true);
+
     getFeaturedProducts(4, city).then((res) => {
       setLoading(false);
       console.log("res", res);
@@ -35,11 +36,14 @@ export default function TopSales() {
 
   useEffect(() => {
     const location: any = defaultSearch?.location;
-    if (!location) {
-      router.push("/pune/rent-camera");
-    } else {
-      loadProducts(location.city);
+    if (!location || !location.city) {
+      setDefaultSearch({ location: { city: "pune" } });
+      loadProducts("pune");
+      return;
     }
+
+    loadProducts(defaultSearch?.location?.city);
+
   }, [router.isReady]);
 
   if (loading) return <Loader></Loader>
@@ -50,11 +54,11 @@ export default function TopSales() {
       <div className="row product-cover">
 
           {categories[0].products.map((product: any) => (
-            <HomeProductCard product={product}></HomeProductCard>
+            <HomeProductCard key={product.id} product={product}></HomeProductCard>
           ))}
 
         {categories[1].products.map((product: any) => (
-          <HomeProductCard product={product}></HomeProductCard>
+          <HomeProductCard key={product.id} product={product}></HomeProductCard>
         ))}
 
       </div>
