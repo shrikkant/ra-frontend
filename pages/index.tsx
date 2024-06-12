@@ -227,10 +227,10 @@ export default function Home() {
                 <div className="products-title-cover">
                   <h2 className="title">our products</h2>
                   <ul className="tab-nav product-tabs">
-                    <li className="item" rel="tab1"><span>All</span></li>
-                    <li className="item" rel="tab2"><span>Road bike</span></li>
-                    <li className="item" rel="tab3"><span>City bike</span></li>
-                    <li className="item" rel="tab4"><span>BMX bike</span></li>
+                    <li className="item" ><span>All</span></li>
+                    <li className="item" ><span>Road bike</span></li>
+                    <li className="item" ><span>City bike</span></li>
+                    <li className="item"><span>BMX bike</span></li>
                   </ul>
                 </div>
                 <div className="tabs-content">
