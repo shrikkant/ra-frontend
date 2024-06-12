@@ -15,9 +15,10 @@ const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
       <Provider store={store}>
         <Head>
 
-          <link rel="shortcut icon" href="assets/img/rentacross_logo.ico" type="image/x-icon"></link>
-          <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
-          <meta name="robots" content="noindex"/>
+        <link rel="shortcut icon" href="/assets/img/rentacross_logo.ico" type="image/x-icon"></link>
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+        <meta name="robots" content="noindex" />
+
         </Head>
         <Component/>
       </Provider>
