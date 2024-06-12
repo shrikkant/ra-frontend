@@ -142,7 +142,7 @@ export function HomeSlider({  }: {}) {
       <li><a href="https://www.instagram.com/rovadex/">instagram</a></li>
     </ul>
 
-    <section className="main-slider relative h-[250px] w-full overflow-hidden text-center rounded-t-lg ">
+    <section className="main-slider relative w-full overflow-hidden">
       <div className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box'}} >
         <div className="slick-track" style={{transformStyle: "preserve-3d"}}>
           {items && items.map((item, index) => item)}
