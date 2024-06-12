@@ -119,27 +119,13 @@ export function HomeSlider({  }: {}) {
             </li>
           )
         })}
-        {/* <li className="" aria-hidden="true" role="presentation" aria-selected="true" aria-controls="navigation30" id="slick-slide30">
-          <button type="button" data-role="none" role="button">1</button>
-        </li>
-        <li aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation31" id="slick-slide31">
-          <button type="button" data-role="none" role="button">2</button></li>
-        <li aria-hidden="false" role="presentation" aria-selected="false" aria-controls="navigation32" id="slick-slide32" className="slick-active">
-          <button type="button" data-role="none" role="button">3</button>
-        </li>
-        <li aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation33" id="slick-slide33">
-          <button type="button" data-role="none" role="button" tabindex="0">4</button>
-        </li>
-        <li aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation34" id="slick-slide34">
-          <button type="button" data-role="none" role="button" tabindex="0">5</button>
-        </li> */}
       </ul>
     </div>
 
     <ul className="main-soc-list">
-      <li><a href="https://www.facebook.com/rovadex">facebook</a></li>
-      <li><a href="https://twitter.com/RovadexStudio">twitter</a></li>
-      <li><a href="https://www.instagram.com/rovadex/">instagram</a></li>
+      <li><a href="https://www.facebook.com/rentacross">facebook</a></li>
+      <li><a href="https://x.com/rent_across">twitter</a></li>
+      <li><a href="https://www.instagram.com/rent_across">instagram</a></li>
     </ul>
 
     <section className="main-slider relative w-full overflow-hidden">
@@ -153,16 +139,3 @@ export function HomeSlider({  }: {}) {
     </section>
   );
 }
-
-{/* <Transition
-  key={index}
-  show={currentItem === index}
-  enter="transition-opacity duration-1000"
-  enterFrom="opacity-0"
-  enterTo="opacity-100"
-  leave="transition-opacity duration-1000"
-  leaveFrom="opacity-100"
-  leaveTo="opacity-0"
->
-  {item}
-</Transition> */}
