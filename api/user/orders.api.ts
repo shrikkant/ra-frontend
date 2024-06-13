@@ -29,10 +29,10 @@ export async function fetchCart(): Promise<IOrder> {
 export const addToCart = async (
   productId: number,
   dates: Dates
-): Promise<IOrder> => {
+) => {
   const { startDate, endDate } = dates;
 
-  const response: ITransaction[] = await httpClient.post(`/user/carts`, {
+  await httpClient.post(`/user/carts`, {
     date: {
       startDate: startDate,
       endDate: endDate,
@@ -42,15 +42,12 @@ export const addToCart = async (
     },
     product_id: productId,
   });
-
-  return;
 };
 
-export const removeFromCart = async (productId: number): Promise<IOrder> => {
-  const response: ITransaction[] = await httpClient.delete(
+export const removeFromCart = async (productId: number) => {
+  await httpClient.delete(
     `/user/carts/` + productId
   );
-  return;
 };
 
 export const processPayment = async (paymentResponse) => {
