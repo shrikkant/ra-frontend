@@ -32,13 +32,8 @@ export default function Home() {
   useEffect(() => {
     setLoaded(true);
     document.body.id = 'home';
-    setTimeout(() => {
-      document.body.classList.add('animated-page');
-      document.body.classList.add('page-loaded');
-    }, 1000);
-
-
-
+    document.body.classList.add('animated-page');
+    document.body.classList.add('page-loaded');
   }, []);
 
 
