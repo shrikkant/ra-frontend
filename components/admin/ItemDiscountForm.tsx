@@ -23,9 +23,10 @@ export function ItemDiscountForm({ item, handleItemChange }) {
 
   const handleSubmit = () => {
     applyDiscount(item.order_id, item.id, transactionUpdate).then((data: IOrder) => {
-      handleItemChange(data.items.find((item) => (item.id == item.id)));
-      setTransaction(data.items.find((item) => (item.id == item.id)));
-
+      if (data) {
+        handleItemChange(data.items?.find((item) => (item.id == item.id)));
+        setTransaction(data.items?.find((item) => (item.id == item.id)));
+      }
       dispatch(setActiveOrder(data));
     })
   }

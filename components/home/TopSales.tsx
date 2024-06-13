@@ -14,7 +14,7 @@ export default function TopSales() {
 
   const router = useRouter();
   const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
+  const [categories, setCategories] = useState<any>([]);
   const [defaultSearch, setDefaultSearch] = useLocalStorage<any>("defaultSearch");
 
 
@@ -56,11 +56,11 @@ export default function TopSales() {
       <h2 className="title">Top sales</h2>
       {categories && <div className="row product-cover">
 
-        {categories[0]?.products.map((product: any) => (
+        {categories[0]?.products?.map((product: any) => (
           <HomeProductCard key={product.id} product={product}></HomeProductCard>
         ))}
 
-        {categories[1]?.products.map((product: any) => (
+        {categories[1]?.products?.map((product: any) => (
           <HomeProductCard key={product.id} product={product}></HomeProductCard>
         ))}
 

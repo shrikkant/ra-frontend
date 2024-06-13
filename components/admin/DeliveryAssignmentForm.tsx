@@ -34,7 +34,7 @@ export function DeliveryAssignmentForm({ order }) {
   }
 
   const repOptions = () => {
-    return deliveryReps.map((rep: IUser) => {
+    return deliveryReps?.map((rep: IUser) => {
       return { label: (rep.firstname + " " + rep.lastname), value: rep.id }
     })
   }

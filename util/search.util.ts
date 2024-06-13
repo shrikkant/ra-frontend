@@ -74,16 +74,19 @@ const getStates = (code: string) => {
   return country.states;
 }
 
-const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]) => {
-  let subCategory: IProductSubCategory;
-  categories.map((category) => {
-    category.subCategories.map((sc) => {
+const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]): IProductSubCategory => {
+
+  const subCategory = categories.map((category: any) => {
+    const sc = category.subCategories.map((sc) => {
       if (sc.slug === slug) {
-        subCategory = sc;
+        return sc;
       }
     });
+    if (sc[0])
+      return sc[0];
   });
-  return subCategory;
+
+  return subCategory[0];
 }
 
 const getSubCategoryBySlug = (slug, categories): IProductSubCategory => {
@@ -94,7 +97,7 @@ const getSubCategoryBySlug = (slug, categories): IProductSubCategory => {
   return found;
 }
 
-export const getFilterByQueryString = (params: string | string[], subCategories: IProductCategory[]) => {
+export const getFilterByQueryString = (params: string | string[]| any, subCategories: IProductCategory[]) => {
   const productFilter: IProductFilter = {};
   if (!params) {
     return null;
@@ -172,7 +175,7 @@ export const getFilterByQueryString = (params: string | string[], subCategories:
 export function getProductFilter(obj: ParsedUrlQuery, categories: IProductCategory[]) {
   const { slug } = obj;
 
-  const productFilter: IProductFilter = getFilterByQueryString(slug, categories);
+  const productFilter: any = getFilterByQueryString(slug, categories);
 
   if (obj?.rf) {
     productFilter.rate = [

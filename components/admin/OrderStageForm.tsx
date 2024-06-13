@@ -38,14 +38,13 @@ export function OrderStageForm({ order }) {
 
   const handleSerialNoInput = async (transactionId, addon, e) => {
     const value = e.target.value;
-    const orderUpdate = { ...orderChange };
+    const orderUpdate: any = { ...orderChange };
 
-    const alreadyExists = await orderUpdate.serialNoInfo.find((item) => (item.id == transactionId));
+    const alreadyExists: any = await orderUpdate.serialNoInfo.find((item: any) => (item.id == transactionId));
 
-    const transactionInfo = await orderUpdate.serialNoInfo.find((item) => (item.id == transactionId)) || {};
 
     if (alreadyExists) {
-      let serialInfo: any = transactionInfo.serial_no_json.find((item) => (item.id == addon.id));
+      let serialInfo: any = alreadyExists?.serial_no_json.find((item) => (item.id == addon.id));
       if (serialInfo) {
         serialInfo.serial_no = value;
       } else {
@@ -55,20 +54,21 @@ export function OrderStageForm({ order }) {
         serialInfo.productId = addon.masterProduct.id;
         serialInfo.name = addon.masterProduct.name;
         serialInfo.serial_no = value;
-        transactionInfo.serial_no_json.push(serialInfo);
+        alreadyExists.serial_no_json.push(serialInfo);
       }
     } else {
+      const newInfo: any = {};
 
-      transactionInfo.id = transactionId;
-      transactionInfo.serial_no_json = [];
+      newInfo.id = transactionId;
+      newInfo.serial_no_json = [];
       const serialInfo: any = {};
 
       serialInfo.id = addon.id;
       serialInfo.productId = addon.masterProduct.id;
       serialInfo.name = addon.masterProduct.name;
       serialInfo.serial_no = value;
-      transactionInfo.serial_no_json.push(serialInfo);
-      orderUpdate.serialNoInfo.push(transactionInfo);
+      newInfo.serial_no_json.push(serialInfo);
+      orderUpdate.serialNoInfo.push(newInfo);
     }
 
     setOrderChange(orderUpdate);

@@ -4,6 +4,9 @@ import PriceTag from "../PriceTag";
 
 export default function HomeProductCard({product}: {product: IProduct}) {
 
+  if (!product)
+    return (<div>Product not found</div>)
+
   return (<div key={product.id} className="col-sm-6 col-lg-3">
     <div className="product-item">
       <span className="top-sale">top sale</span>
@@ -12,20 +15,11 @@ export default function HomeProductCard({product}: {product: IProduct}) {
         <li><a href="#"><i className="fa fa-heart" aria-hidden="true"></i></a></li>
       </ul> */}
       <a href="single-shop.html" className="product-img">
-        {product.photos[0] && (
-          <Image
-            alt={product.title}
-            className={"p-2 sm:p-5"}
-            width={200}
-            height={-1}
-            src={"https://www.rentacross.com" + product.photos[0]?.path}
-          />
-        )}
+
       </a>
       <div className="product-item-cover">
         <div className="price-cover">
-          <div className="new-price"><PriceTag price={product.rates[0].rate} /></div>
-          {/* <div className="old-price">$1.799</div> */}
+
         </div>
         <h6 className="prod-title">
           <a href="single-shop.html">{product.title}</a>

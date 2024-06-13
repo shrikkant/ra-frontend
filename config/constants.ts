@@ -19,7 +19,7 @@ export const enum ORDER_STEPS {
   ORDER_STEP_PAYMENT = 2,
 }
 
-const COUNTRIES = [];
+const COUNTRIES: any = [];
 
 const ind: any = {};
 ind.code = "IN";

@@ -5,7 +5,7 @@ import React, { useEffect } from "react";
 import { IOrderItem } from "../app-store/types";
 
 export default function OrderItemRow({ orderItem }: { orderItem: IOrderItem }) {
-  const product = orderItem.product;
+  const product: any = orderItem.product;
 
   const alertHello = () => {
 

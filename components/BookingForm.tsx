@@ -42,6 +42,9 @@ export default function BookingForm({ productId, rates }) {
     if (!loggedUser) {
       router.push("/signin");
     } else {
+      if (!defaultSearch.dates)
+        return;
+
       addToCart(productId, defaultSearch.dates[0]).then((resp) => {
         if (bookNow) {
           router.push("/my-cart");

@@ -52,7 +52,7 @@ export default function Customers() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
 
-  const brands = useSelector(getBrands);
+  const brands: any = useSelector(getBrands);
   const dispatch = useDispatch();
   const df = Moment().format("DD MMM");
 

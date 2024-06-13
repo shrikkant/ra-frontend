@@ -22,7 +22,7 @@ export const LocationPicker = () => {
   const router = useRouter();
   const dispatch = useDispatch();
 
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<any>(null);
   const stateSearch = useSelector(getDefaultSearch);
 
   const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
@@ -44,7 +44,7 @@ export const LocationPicker = () => {
   };
 
   useEffect(() => {
-    const location = defaultSearch?.location || stateSearch?.location;
+    const location: any = defaultSearch?.location || stateSearch?.location;
     setLocation(location);
   }, [defaultSearch, stateSearch]);
 

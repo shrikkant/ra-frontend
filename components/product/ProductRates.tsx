@@ -30,7 +30,7 @@ export default function ProductRates() {
 
   const [planChoices, setPlanChoices] = useState<IChoice[]>();
   useEffect(() => {
-    const planChoices = defaultChoices.map((plan) => {
+    const planChoices: any = defaultChoices.map((plan) => {
       return {
         value: plan.code,
         label: plan.title
@@ -41,7 +41,7 @@ export default function ProductRates() {
 
   const addItem = () => {
     const plans = [...ratePlans];
-    const planToAdd: RatePlan = defaultChoices[plans.length];
+    const planToAdd: any = defaultChoices[plans.length];
 
     planToAdd.choices = defaultChoices.filter((c) => { return plans.map((p) => p.code != c.code)}).map((plan) => {
       return {

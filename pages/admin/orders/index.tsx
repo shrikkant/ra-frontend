@@ -81,7 +81,7 @@ export default function Orders() {
                 children: (
                   <>
                     {orders &&
-                      orders.map((order: IOrder) => {
+                      orders.map((order: any) => {
                         let items: JSX.Element[] = [];
 
                         return (

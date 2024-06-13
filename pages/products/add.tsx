@@ -48,7 +48,7 @@ const sample = {
 }
 export default function MyProducts() {
   const products = useSelector(getMyProducts);
-  const categories = useSelector(getCategories);
+  const categories: any = useSelector(getCategories);
 
   const [product, setProduct] = useState<IProduct>();
   const dispatch = useDispatch();
@@ -78,7 +78,7 @@ export default function MyProducts() {
 
   const onTitle = (e) => {
     console.log("Title : ", e.target.value);
-    const prod = { ...product };
+    const prod: any = { ...product };
     prod.title = e.target.value
     setProduct(prod);
   }

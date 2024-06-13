@@ -9,7 +9,7 @@ export const AddressPicker = ({
   onAddressPick,
   selectedAddress,
 }) => {
-  const loggedUser = useSelector(selectAuthState);
+  const loggedUser: any = useSelector(selectAuthState);
 
   return (
     <>

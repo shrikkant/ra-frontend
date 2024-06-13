@@ -26,7 +26,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
   const [defaultSearch, setDefaultSearch] =
     useLocalStorage<any>("defaultSearch");
 
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<any>(null);
 
   const storeSearch = useSelector(getDefaultSearch);
   const router = useRouter();
@@ -42,7 +42,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
 
   const fetchCartItems = async () => {
     if (loggedUser) {
-      const response = await fetchCart();
+      const response: any = await fetchCart();
       setCartItemsCount(response?.items?.length);
     }
   };

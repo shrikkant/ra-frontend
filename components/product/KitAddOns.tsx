@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Input from "../common/form/Input";
-import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
+
 import { IoMdAddCircleOutline, IoMdRemoveCircle } from "react-icons/io";
 
 interface IAddOnItem {
@@ -42,7 +42,7 @@ export default function KitAddOns() {
 
   const onAddonChange = (id, event) => {
     const val = event.target.value;
-    const updateAddon = addons.find((a) => a.id === id);
+    const updateAddon: any = addons.find((a) => a.id === id);
     updateAddon.label = event.target.value;
   }
 

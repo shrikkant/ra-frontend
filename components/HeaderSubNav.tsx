@@ -17,7 +17,7 @@ export default function HeaderSubNav() {
   const router = useRouter();
   const storeSearch = useSelector(getDefaultSearch);
 
-  const [location, setLocation] = useState(null);
+  const [location, setLocation] = useState<any>(null);
 
 
   const [q, setQuery] = useState(router.query?.q);
@@ -28,15 +28,18 @@ export default function HeaderSubNav() {
   const onCategorySelect = (key, querySlug) => {
     const { slug } = router.query;
     const query: any = {};
+    if (!location)
+      return;
+
     router.push({
-      pathname: "/" + location.city.toLowerCase() + "/" + querySlug,
+      pathname: "/" + location.city?.toLowerCase() + "/" + querySlug,
       query,
     });
   };
 
   useEffect(() => {
     if (categories) {
-      const subCategories = categories[0]?.subCategories?.map((sc) => ({
+      const subCategories: any = categories[0]?.subCategories?.map((sc) => ({
         label: sc.title,
         key: sc.id,
         slug: sc.slug,
@@ -52,7 +55,7 @@ export default function HeaderSubNav() {
           <div className="relative justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className=" inset-y-0 left-0 items-center gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">
               {subCategories &&
-                subCategories.map((cat) => {
+                subCategories.map((cat: any) => {
                   return (
                     <Disclosure.Button
                       key={cat.key}

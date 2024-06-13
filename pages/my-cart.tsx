@@ -19,10 +19,10 @@ import EmptyCart from "components/cart/EmptyCart";
 import Loader from "components/Loader";
 
 export default function Orders() {
-  const cart = useSelector(getCart);
-  const loggedUser = useSelector(selectAuthState);
+  const cart: any = useSelector(getCart);
+  const loggedUser: any = useSelector(selectAuthState);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [addressId, setAddressId] = useState(null);
+  const [addressId, setAddressId] = useState<number>(-1);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const onRazorPayCheckout = (mode) => {

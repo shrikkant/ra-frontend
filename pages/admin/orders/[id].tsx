@@ -25,7 +25,7 @@ import { AppLayout } from "../../../components/AppLayout";
 
 export default function Order() {
   const router = useRouter();
-  const order = useSelector(getActiveOrder);
+  const order: any = useSelector(getActiveOrder);
   const id = router.query.id;
   const [loading, setLoading] = useState(true);
 
