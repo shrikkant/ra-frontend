@@ -49,7 +49,8 @@ export async function uploadDocument(id: number,
             'Content-Type': 'multipart/form-data',
         },
         onUploadProgress: ({ total, loaded }) => {
-            onProgress({ percent: Math.round((loaded / total) * 100).toFixed(2) }, file);
+            const t = total || 0;
+            onProgress({ percent: Math.round((loaded / t) * 100).toFixed(2) }, file);
         },
     }).then((data) => {
         onSuccess(data);
