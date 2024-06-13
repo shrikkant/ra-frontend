@@ -35,6 +35,8 @@ export default function TopSales() {
 
 
   useEffect(() => {
+    if (!router.isReady) return;
+
     const location: any = defaultSearch?.location;
     if (!location || !location.city) {
       setDefaultSearch({ location: { city: "pune" } });
@@ -53,11 +55,11 @@ export default function TopSales() {
       <h2 className="title">Top sales</h2>
       <div className="row product-cover">
 
-          {categories[0].products.map((product: any) => (
+          {categories[0]?.products.map((product: any) => (
             <HomeProductCard key={product.id} product={product}></HomeProductCard>
           ))}
 
-        {categories[1].products.map((product: any) => (
+        {categories[1]?.products.map((product: any) => (
           <HomeProductCard key={product.id} product={product}></HomeProductCard>
         ))}
 

@@ -30,11 +30,13 @@ export default function Home() {
   const [loaded, setLoaded] = useState(false);
 
   useEffect(() => {
+    if (!router.isReady) return;
     setLoaded(true);
     document.body.id = 'home';
-    document.body.classList.add('animated-page');
-    document.body.classList.add('page-loaded');
-  }, []);
+      document.body.classList.add('animated-page');
+      document.body.classList.add('page-loaded');
+
+  }, [router.isReady]);
 
 
 
