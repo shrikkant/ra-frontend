@@ -8,7 +8,7 @@ import { displayMessage } from '../util/global.util';
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
 const httpClient = axios.create({
-    baseURL:BASE_API_URL
+    baseURL:"/api/"
 });
 
 

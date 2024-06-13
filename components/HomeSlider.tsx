@@ -1,4 +1,4 @@
-
+'use client'
 import { ReactNode, useEffect, useState } from "react";
 import { Transition } from '@headlessui/react';
 import classNames from 'classnames';
@@ -28,7 +28,8 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
   }
 
   useEffect(() => {
-
+      document.body.classList.add('animated-page');
+      document.body.classList.add('page-loaded');
     const photos: IHomeSlide[] = [
       {
         id: 1,

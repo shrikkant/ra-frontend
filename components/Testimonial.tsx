@@ -1,8 +1,7 @@
 
+'use client'
 import { ReactNode, useEffect, useState } from "react";
-import { Transition } from '@headlessui/react';
-import classNames from 'classnames';
-import { IHomeSlide } from "../app-store/products/types";
+
 import { ITestimonial } from "../app-store/app-defaults/types";
 
 export function Testimonial({ maxSlides }: { maxSlides?: number }) {
@@ -132,7 +131,7 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
 
 
 
-        <span className="slick-arrow-next slick-arrow" style={{ display: 'flex' }} onClick={next}>
+        <span className="slick-arrow-next slick-arrow z-[10000]" style={{ display: 'flex' }} onClick={next}>
           <i className="fa fa-angle-right" ></i>
         </span>
       </div>

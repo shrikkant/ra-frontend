@@ -1,4 +1,5 @@
-import { useRouter } from "next/router";
+'use client'
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { getFeaturedProducts } from "../../api/products.api";
 import { useLocalStorage } from "../../util/localStore.util";
@@ -15,6 +16,7 @@ export default function TopSales() {
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
   const [defaultSearch, setDefaultSearch] = useLocalStorage<any>("defaultSearch");
+
 
 
   const loadProducts = (city: string) => {
@@ -35,7 +37,6 @@ export default function TopSales() {
 
 
   useEffect(() => {
-    if (!router.isReady) return;
 
     const location: any = defaultSearch?.location;
     if (!location || !location.city) {
@@ -46,24 +47,24 @@ export default function TopSales() {
 
     loadProducts(defaultSearch?.location?.city);
 
-  }, [router.isReady]);
+  }, [router]);
 
   if (loading) return <Loader></Loader>
 
   return (<section className="s-top-sale">
     <div className="container">
       <h2 className="title">Top sales</h2>
-      <div className="row product-cover">
+      {categories && <div className="row product-cover">
 
-          {categories[0]?.products.map((product: any) => (
-            <HomeProductCard key={product.id} product={product}></HomeProductCard>
-          ))}
+        {categories[0]?.products.map((product: any) => (
+          <HomeProductCard key={product.id} product={product}></HomeProductCard>
+        ))}
 
         {categories[1]?.products.map((product: any) => (
           <HomeProductCard key={product.id} product={product}></HomeProductCard>
         ))}
 
-      </div>
+      </div>}
     </div>
   </section>)
 }

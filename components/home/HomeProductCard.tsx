@@ -17,7 +17,7 @@ export default function HomeProductCard({product}: {product: IProduct}) {
             alt={product.title}
             className={"p-2 sm:p-5"}
             width={200}
-            height={0}
+            height={-1}
             src={"https://www.rentacross.com" + product.photos[0]?.path}
           />
         )}

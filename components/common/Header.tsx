@@ -9,21 +9,6 @@ export default function Header() {
       <title>RentAcross | Online rental platform for photography and camping equipment.</title>
       <meta property="og:title" content="RentAcross | Online rental platform for photography and camping equipment." key="title" />
     </Head>
-  <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
-  <link rel="stylesheet" href="/assets/v2/css/bootstrap-grid.css"></link>
-  <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
-  <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
-  <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
-  <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
-  <div className="preloader-cover">
-    <div className="preloader">
-      <span></span>
-      <span></span>
-      <span></span>
-      <span></span>
-    </div>
-  </div>
-
   <header className="header">
     <a href="#" className="nav-btn">
       <span></span>
