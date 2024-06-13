@@ -1,6 +1,5 @@
 import { Menu, Card, Form, Checkbox, Slider } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { CheckboxValueType } from "antd/lib/checkbox/Group";
 import { Content } from "antd/lib/layout/layout";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -50,7 +49,7 @@ export default function ProductFilterNav({
       }))
     : [];
 
-  const onBrandsChange = (checkedValues: CheckboxValueType[]) => {
+  const onBrandsChange = (checkedValues: any[]) => {
     const query = { ...router.query };
     delete query.br;
     delete query.page;
