@@ -120,12 +120,9 @@ export default async function Home() {
             </div>
           </div>
         </section>
-        {/* <TopSales></TopSales> */}
 
-
+        <TopSales></TopSales>
         <Testimonial></Testimonial>
-
-
         <Footer></Footer>
       </div>
     </div>
