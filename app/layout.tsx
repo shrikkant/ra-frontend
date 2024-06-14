@@ -1,4 +1,5 @@
-import { Metadata } from 'next'
+
+import 'styles/global.css'
 
 export default function RootLayout({
   // Layouts must accept a children prop.

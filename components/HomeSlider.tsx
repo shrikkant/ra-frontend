@@ -1,7 +1,5 @@
 'use client'
 import { ReactNode, useEffect, useState } from "react";
-import { Transition } from '@headlessui/react';
-import classNames from 'classnames';
 import { IHomeSlide } from "../app-store/products/types";
 import Image from "next/image";
 
@@ -90,7 +88,24 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
                       <div className="price">₹1399</div>
                     </div>
                   </a>
-                  <Image src={p.img} alt="img" className={"slide-img"} width={478} height={-1} />
+
+                  <div className="block sm:hidden">
+                    <Image src={p.img} alt="img" className={"slide-img"} width={200} height={-1} />
+                  </div>
+
+                  <div className="lg:hidden md:block hidden">
+                    <Image src={p.img} alt="img" className={"slide-img"} width={320} height={-1} />
+                  </div>
+
+                  <div className="xl:hidden lg:block hidden">
+                    <Image src={p.img} alt="img" className={"slide-img"} width={360} height={-1} />
+                  </div>
+
+                  <div className="xl:block hidden">
+                    <Image src={p.img} alt="img" className={"slide-img"} width={400} height={-1} />
+                  </div>
+
+
                 </div>
               </div>
             </div>

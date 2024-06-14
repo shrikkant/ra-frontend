@@ -5,8 +5,7 @@ import {
   Space,
 } from 'antd'
 
-import { Content } from 'antd/lib/layout/layout'
-import ProductGrid from '../components/ProductGrid'
+
 import React, { useEffect, useState } from 'react'
 
 import { AppLayout } from '../components/AppLayout'
