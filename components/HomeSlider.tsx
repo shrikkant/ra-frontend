@@ -102,7 +102,7 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
                   </div>
 
                   <div className="xl:block hidden">
-                    <Image src={p.img} alt="img" className={"slide-img"} width={400} height={-1} />
+                    <Image src={p.img} alt="img" className={"slide-img"} width={360} height={-1} />
                   </div>
 
 

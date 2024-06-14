@@ -113,8 +113,8 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
     }, [currentItem]);
 
 
-  return (<section className="s-feedback" style={{ backgroundImage: 'url(assets/img/bg-feedback.jpg)' }}>
-    <span className="effwct-bg-feedback" style={{backgroundImage: 'url(assets/img/effect-bg-feedback.svg)'}}></span>
+  return (<section className="s-feedback" style={{ backgroundImage: 'url(assets/v2/img/bg-feedback.jpg)' }}>
+    <span className="effwct-bg-feedback" style={{backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)'}}></span>
     <span className="mask"></span>
     <div className="container">
       <h2 className="title">feedback</h2>

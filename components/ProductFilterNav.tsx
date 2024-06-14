@@ -90,7 +90,7 @@ export default function ProductFilterNav({
         </button>
       </div>
       <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
-        <Card title="Brands">
+        {brands?.length  > 0 && <Card title="Brands">
           <Form layout={"vertical"}>
             <Checkbox.Group
               className={"brands"}
@@ -98,7 +98,7 @@ export default function ProductFilterNav({
               onChange={onBrandsChange}
             />
           </Form>
-        </Card>
+        </Card>}
 
         <Card title="Price">
           <div className={style.pitsWrapper}>

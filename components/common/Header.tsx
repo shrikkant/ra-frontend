@@ -26,7 +26,7 @@ export default function Header() {
     </div>
     <div className="header-menu">
       <div className="container">
-        <a href="index.html" className="logo"><img src="/assets/img/logo.png" alt="logo" /></a>
+        <a href="index.html" className="logo"><img src="/assets/v2/img/logo.png" alt="logo" /></a>
         <nav className="nav-menu">
           <ul className="nav-list">
             <li className="dropdown">
