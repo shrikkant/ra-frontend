@@ -3,6 +3,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { Transition } from '@headlessui/react';
 import classNames from 'classnames';
 import { IHomeSlide } from "../app-store/products/types";
+import Image from "next/image";
 
 export function HomeSlider({maxSlides}: {maxSlides?: number}) {
 
@@ -89,7 +90,7 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
                       <div className="price">₹1399</div>
                     </div>
                   </a>
-                  <img src={p.img} alt="img" className="slide-img" />
+                  <Image src={p.img} alt="img" className={"slide-img"} width={478} height={-1} />
                 </div>
               </div>
             </div>
