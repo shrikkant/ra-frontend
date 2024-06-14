@@ -1,14 +1,8 @@
-import Head from 'next/head'
-
 export default function Header() {
 
 
 
   return (<div>
-    <Head>
-      <title>RentAcross | Online rental platform for photography and camping equipment.</title>
-      <meta property="og:title" content="RentAcross | Online rental platform for photography and camping equipment." key="title" />
-    </Head>
   <header className="header">
     <a href="#" className="nav-btn">
       <span></span>
