@@ -10,6 +10,8 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        <title>RentAcross | Online rental platform for photography and camping equipment.</title>
+        <meta property="og:title" content="RentAcross | Online rental platform for photography and camping equipment." key="title" />
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/bootstrap-grid.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
