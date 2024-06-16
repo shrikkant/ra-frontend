@@ -12,6 +12,12 @@ export const TOKEN_HEADER_KEY = "authorization";
 export const CITY = "Pune";
 export const APP_LOCALE = "en-GB";
 
+export const enum ARTICLE_TYPES {
+  BLOG = 0,
+  SEO_ARTICLE = 1,
+  HELP_ARTICLE = 2,
+}
+
 export const DEFAULT_CURRENCY = "INR";
 
 export const enum ORDER_STEPS {

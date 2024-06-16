@@ -1,5 +1,8 @@
 
+import Head from 'next/head'
 import 'styles/global.css'
+import Header from '../components/common/Header'
+import Footer from '../components/common/Footer'
 
 export default function RootLayout({
   // Layouts must accept a children prop.
@@ -39,7 +42,9 @@ export default function RootLayout({
             <span></span>
           </div>
         </div>
+        <Header />
         {children}
+        <Footer />
       </body>
     </html>
   )

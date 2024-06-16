@@ -1,5 +1,6 @@
 import { IProductFilter } from '../app-store/types';
 import httpClient from './axios.config';
+import { fetchData } from './axios.config';
 
 export async function getFeaturedProducts(pageLimit: number, city: string): Promise<any> {
   try {
@@ -23,17 +24,17 @@ export async function fetchProducts(searchString?: string,
   filter?: IProductFilter): Promise<any> {
   try {
     const PAGE_LIMIT = 24;
-    const pageNumber = filter?(filter.page ? filter.page : 0):0;
+    const pageNumber = filter ? (filter.page ? filter.page : 0) : 0;
     const pageFilter = `&pageLimit=${PAGE_LIMIT}&pageNumber=${pageNumber}`;
     const cityFilter = `&city=${filter?.city}`;
-    const searchQuery = searchString?searchString.replace(" ", "+"):"";
+    const searchQuery = searchString ? searchString.replace(" ", "+") : "";
 
     const rateFilter = filter?.rate ? "&rate=" + filter.rate[0] + "-" + filter.rate[1] : "";
     const brandFilter = filter?.brand ? "&brands=" + filter.brand.map(b => b + " ") : "";
     const catFilter = filter?.subCategory ? "&subCat=" + filter?.subCategory : "";
 
     const url =
-    `products/?searchString=${searchQuery + pageFilter + cityFilter + rateFilter + brandFilter + catFilter}`;
+      `products/?searchString=${searchQuery + pageFilter + cityFilter + rateFilter + brandFilter + catFilter}`;
 
     const response = await httpClient.
       get(url);
@@ -47,8 +48,29 @@ export async function fetchProducts(searchString?: string,
 export async function fetchProductBySlug(slug: string): Promise<any> {
   try {
     const response = await httpClient.get<any>(`products/.by.slug/${slug}`);
-    console.log("Product >>>> ", response);
     return response;
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function fetchBlogs(page: number, limit?: number, type?: number,): Promise<any> {
+  try {
+    // const response = await httpClient.get<any>(`blog?limit=4&page=${page || 1}`);
+    const res = await fetchData(`blog?limit=${limit ? limit : 4}&page=1${type ? `&type=${type}` : ''}`);
+
+
+    return res;
+
+  } catch (e) {
+    throw e;
+  }
+}
+
+export async function fetchBlogBySlug(slug: string): Promise<any> {
+  try {
+    const res = await fetchData(`blog/.by.slug/${slug}`);
+    return res;
   } catch (e) {
     throw e;
   }

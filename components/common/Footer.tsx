@@ -1,4 +1,5 @@
-
+import { useEffect } from "react"
+import Scripts from "./Scripts";
 
 export default function Footer() {
   return (<footer>
@@ -58,5 +59,6 @@ export default function Footer() {
         </ul>
       </div>
     </div>
+    <Scripts />
   </footer>)
 }

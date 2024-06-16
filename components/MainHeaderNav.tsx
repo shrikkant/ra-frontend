@@ -88,7 +88,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
             <div className="flex items-center gap-x-3">
               {loggedUser && (
                 <a
-                  className="relative bg-gray-800 text-slate-50 hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
+                  className="relative bg-gray-800  hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
                   href="/my-cart"
                 >
                   <ShoppingCartIcon className="h-6 w-6" />

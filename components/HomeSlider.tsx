@@ -27,8 +27,7 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
   }
 
   useEffect(() => {
-      document.body.classList.add('animated-page');
-      document.body.classList.add('page-loaded');
+
     const photos: IHomeSlide[] = [
       {
         id: 1,

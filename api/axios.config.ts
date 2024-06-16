@@ -8,7 +8,7 @@ import { displayMessage } from '../util/global.util';
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
 const httpClient = axios.create({
-    baseURL:"/api/"
+    baseURL: "/api/"
 });
 
 
@@ -34,7 +34,7 @@ httpClient.interceptors.request.use(
 );
 
 httpClient.interceptors.response.use(
-    async function (res:AxiosResponse<any>) {
+    async function (res: AxiosResponse<any>) {
         const response: any = res;
 
         const { resultFormatted } = response.data;
@@ -48,5 +48,30 @@ httpClient.interceptors.response.use(
         return resultFormatted;
     }
 )
+
+export const fetchData = async (url, customOptions?) => {
+
+    const commonOptions = {
+        headers: { 'Content-Type': 'application/json' },
+        referrer: 'https://labs.rentacross.com'
+    }
+
+    const options = {
+        ...commonOptions,
+        ...customOptions
+    }
+
+
+    const response: any = await fetch(`https://www.rentacross.com/api/${url}`, options);
+
+    if (!response.ok) {
+        throw new Error('Failed to fetch data')
+    }
+
+    const { resultFormatted } = await response.json();
+    console.log("Response Message: ", resultFormatted);
+
+    return resultFormatted;
+}
 
 export default httpClient;
