@@ -35,8 +35,8 @@ export default function Footer() {
         <div className="footer-item col-md-5 col-lg-4">
           <h6>shop</h6>
           <ul className="footer-list">
-            <li><a href="shop.html">Pune</a></li>
-            <li><a href="shop.html">Mumbai</a></li>
+            <li><a href="/pune">Pune</a></li>
+            <li><a href="/mumbai">Mumbai</a></li>
           </ul>
         </div>
       </div>
