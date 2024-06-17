@@ -21,7 +21,7 @@ export default async function Blog() {
           <div className="col-12 col-lg-8 blog-cover">
             <BlogCover blogs={blogs} />
 
-            <div className="pagination-cover">
+            {/* <div className="pagination-cover">
               <ul className="pagination">
                 <li className="pagination-item item-prev"><a href="#"><i className="fa fa-angle-left" aria-hidden="true"></i></a></li>
                 <li className="pagination-item active"><a href="#">1</a></li>
@@ -31,7 +31,7 @@ export default async function Blog() {
                 <li className="pagination-item"><a href="#">5</a></li>
                 <li className="pagination-item item-next"><a href="#"><i className="fa fa-angle-right" aria-hidden="true"></i></a></li>
               </ul>
-            </div>
+            </div> */}
           </div>
 
           <div className="col-12 col-lg-4 sidebar">
