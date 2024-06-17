@@ -1,4 +1,4 @@
-import { fetchBlogs } from "../../api/products.api"
+import { fetchBlogs } from "../../api/blog/blog.api"
 import BlogCover from "../../components/common/BlogCover";
 
 export default async function Blog() {
@@ -60,22 +60,22 @@ export default async function Blog() {
                 <h5 className="title">Instagram</h5>
                 <ul>
                   <li>
-                    <a href="#"><img src="assets/v2/img/insta-widget-1.jpg" alt="img"/></a>
+                    <a href="#"><img src="assets/v2/img/insta-widget-1.jpg" alt="img" /></a>
                   </li>
                   <li>
-                    <a href="#"><img src="assets/v2/img/insta-widget-2.jpg" alt="img"/></a>
+                    <a href="#"><img src="assets/v2/img/insta-widget-2.jpg" alt="img" /></a>
                   </li>
                   <li>
-                    <a href="#"><img src="assets/v2/img/insta-widget-3.jpg" alt="img"/></a>
+                    <a href="#"><img src="assets/v2/img/insta-widget-3.jpg" alt="img" /></a>
                   </li>
                   <li>
-                    <a href="#"><img src="assets/v2/img/insta-widget-4.jpg" alt="img"/></a>
+                    <a href="#"><img src="assets/v2/img/insta-widget-4.jpg" alt="img" /></a>
                   </li>
                   <li>
-                    <a href="#"><img src="assets/v2/img/insta-widget-5.jpg" alt="img"/></a>
+                    <a href="#"><img src="assets/v2/img/insta-widget-5.jpg" alt="img" /></a>
                   </li>
                   <li>
-                    <a href="#"><img src="assets/v2/img/insta-widget-6.jpg" alt="img"/></a>
+                    <a href="#"><img src="assets/v2/img/insta-widget-6.jpg" alt="img" /></a>
                   </li>
                 </ul>
               </li>

@@ -1,4 +1,4 @@
-import { fetchBlogs } from "../../api/products.api"
+import { fetchBlogs } from "../../api/blog/blog.api"
 import BlogCover from "../../components/common/BlogCover";
 import { ARTICLE_TYPES } from "../../config/constants";
 import styles from "../../styles/help.module.css";

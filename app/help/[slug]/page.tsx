@@ -1,4 +1,4 @@
-import { fetchBlogBySlug, fetchBlogs } from "../../../api/products.api";
+import { fetchBlogBySlug, fetchBlogs } from "../../../api/blog/blog.api";
 import BlogCover from "../../../components/common/BlogCover"
 import { ARTICLE_TYPES } from "../../../config/constants";
 
