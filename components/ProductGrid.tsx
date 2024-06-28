@@ -6,13 +6,14 @@ import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { useLocalStorage } from "../util/localStore.util";
 import { useRouter } from "next/router";
+import { IDefaultSearch } from "../app-store/app-defaults/types";
 
 
 export default function ProductGrid() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [defaultSearch] = useLocalStorage("defaultSearch");
+  const [defaultSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
 
 
   const loadProducts = (city: string) => {
@@ -30,11 +31,12 @@ export default function ProductGrid() {
   };
 
   useEffect(() => {
-    const location: any = defaultSearch?.location;
-    if (!location) {
+    const city = defaultSearch?.location?.city || "Pune";
+
+    if (!defaultSearch || !defaultSearch.location) {
       router.push("/pune/rent-camera");
     } else {
-      loadProducts(location.city);
+      loadProducts(city);
     }
   }, [router.isReady]);
 

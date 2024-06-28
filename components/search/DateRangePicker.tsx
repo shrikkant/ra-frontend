@@ -16,13 +16,13 @@ interface DefaultSearch {
   dates?: IDates;
 }
 
-export const DateRangePicker = ({ mode }) => {
+export const DateRangePicker = ({ mode }: { mode: string }) => {
   const dispatch = useDispatch();
 
   const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch, setDefaultSearch] =
     useLocalStorage<DefaultSearch>("defaultSearch");
-  const [dates, setDates] = useState<IDates>(null);
+  const [dates, setDates] = useState<IDates>();
 
   useEffect(() => {
     setDates(
