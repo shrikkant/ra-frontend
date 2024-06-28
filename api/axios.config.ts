@@ -17,7 +17,7 @@ httpClient.interceptors.request.use(
         config.rejectUnauthorized = true;
 
         if (!config.headers?.[TOKEN_HEADER_KEY]) {
-            let token = await getToken();
+            const token = await getToken();
             config.headers = {
                 TOKEN_HEADER_KEY: token || '',
                 'Access-Control-Allow-Origin': '*',
