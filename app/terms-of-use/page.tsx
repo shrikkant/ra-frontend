@@ -1,3 +1,4 @@
+import PageContainer from "../../components/common/PageContainer";
 import { PageTitle } from "../../components/common/PageTitle";
 
 export default async function Page() {
@@ -5,7 +6,7 @@ export default async function Page() {
   return (<>
     <PageTitle title={"Terms of Use"} />
     <section className="s-news">
-      <div className="container">
+      <PageContainer>
         <div className="post-title">
           <h2>Terms of Use</h2>
         </div>
@@ -74,7 +75,7 @@ export default async function Page() {
 
           </ul>
         </div>
-      </div>
+      </PageContainer>
     </section>
   </>)
 }

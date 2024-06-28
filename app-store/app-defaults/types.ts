@@ -29,4 +29,23 @@ export interface AppDefaultsState {
   searchDefaults?: any;
 }
 
+export interface IDates {
+  startDate: Date,
+  endDate: Date,
+  key?: string,
+}
+
+export interface ISearchLocation {
+  city?: string;
+}
+
+export interface IDefaultSearch {
+  location?: {
+    city?: string;
+  },
+  dates?: [
+    IDates
+  ]
+}
+
 

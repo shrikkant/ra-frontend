@@ -1,3 +1,4 @@
+import PageContainer from "../../components/common/PageContainer";
 import { PageTitle } from "../../components/common/PageTitle";
 
 export default function Page() {
@@ -5,7 +6,7 @@ export default function Page() {
     <>
       <PageTitle title="Privacy Policy" />
       <section className="s-news">
-        <div className="container">
+        <PageContainer>
 
           <div className="post-body">
 
@@ -225,7 +226,7 @@ export default function Page() {
               Email: support@rentacross.com Time: Mon - Sat (10:00 - 18:00)
             </p>
           </div>
-        </div>
+        </PageContainer>
       </section>
     </>
   )

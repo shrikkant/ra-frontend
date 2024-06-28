@@ -3,17 +3,14 @@ import { ParsedUrlQuery } from "querystring";
 import COUNTRIES, { CITY } from "../config/constants";
 import {
   ICheckboxOption,
-  IProduct,
   IProductCategory,
   IProductFilter,
   IProductSubCategory,
 } from "../app-store/types";
-import { useSelector } from "react-redux";
-import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
-import { sub } from "date-fns";
+
 
 export function getBrandOptions(brands: any): ICheckboxOption[] {
-  let options: ICheckboxOption[] = [];
+  const options: ICheckboxOption[] = [];
 
   brands?.map((brand) => {
     const option: ICheckboxOption = { label: brand.name, value: brand.id };
@@ -23,7 +20,7 @@ export function getBrandOptions(brands: any): ICheckboxOption[] {
 }
 
 export function getSubCategoryOptions(subCategories: IProductSubCategory[]) {
-  let options: ICheckboxOption[] = [];
+  const options: ICheckboxOption[] = [];
   subCategories.map((sc) => {
     const option: ICheckboxOption = {
       label: sc.title,
@@ -74,30 +71,23 @@ const getStates = (code: string) => {
   return country.states;
 }
 
-const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]): IProductSubCategory => {
+const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]): IProductSubCategory | null => {
 
-  const subCategory = categories.map((category: any) => {
-    const sc = category.subCategories.map((sc) => {
-      if (sc.slug === slug) {
-        return sc;
-      }
-    });
-    if (sc[0])
-      return sc[0];
+  const activeCategory = categories.find((category: IProductCategory) => {
+    const active = category.subCategories?.find((sc: IProductSubCategory) => sc.slug === slug);
+    return active ? active : null;
   });
 
-  return subCategory[0];
+  const subCategory = activeCategory?.subCategories?.find((sc: IProductSubCategory) => sc.slug === slug);
+  return subCategory ? subCategory : null;
 }
 
-const getSubCategoryBySlug = (slug, categories): IProductSubCategory => {
-  console.log("Slug : ", categories);
-
+const getSubCategoryBySlug = (slug, categories): IProductSubCategory | null => {
   const found = getSubCategoryFromCategories(slug, categories);
-  console.log("Found : ", found);
   return found;
 }
 
-export const getFilterByQueryString = (params: string | string[]| any, subCategories: IProductCategory[]) => {
+export const getFilterByQueryString = (params: string | string[] | undefined, subCategories: IProductCategory[]) => {
   const productFilter: IProductFilter = {};
   if (!params) {
     return null;
@@ -116,11 +106,11 @@ export const getFilterByQueryString = (params: string | string[]| any, subCatego
     if (!city) {
       return null;
     }
-    console.log(country,  " : ", getCities(country.code));
+    console.log(country, " : ", getCities(country.code));
     if (getCities(country.code).includes(city)) {
 
       productFilter.country = params[0].toLowerCase();
-      productFilter.city = params[1].toLowerCase(); 
+      productFilter.city = params[1].toLowerCase();
 
       if (params[2]) {
         const subCategory = getSubCategoryBySlug(params[2], subCategories);
@@ -134,10 +124,10 @@ export const getFilterByQueryString = (params: string | string[]| any, subCatego
       }
     }
 
-    } else if (params[0]) {
-      const citySlug = params[0].charAt(0).toUpperCase() + params[0].slice(1);
-      const city = getCities("IN").find((city: string) => city === citySlug);
-      const state = getStates("IN").find((state: string) => state === citySlug);
+  } else if (params[0]) {
+    const citySlug = params[0].charAt(0).toUpperCase() + params[0].slice(1);
+    const city = getCities("IN").find((city: string) => city === citySlug);
+    const state = getStates("IN").find((state: string) => state === citySlug);
 
     if (!city && !state) {
       return null;
@@ -157,25 +147,31 @@ export const getFilterByQueryString = (params: string | string[]| any, subCatego
       if (!subCategory) {
         return null;
       }
-        productFilter.subCategory = getSubCategoryBySlug(params[1], subCategories)?.id;
-      }
-
-
-      if (params.length > 2) {
-        productFilter.product = params[2];
-      }
-
+      productFilter.subCategory = getSubCategoryBySlug(params[1], subCategories)?.id;
     }
 
-    return productFilter;
+
+    if (params.length > 2) {
+      productFilter.product = params[2];
+    }
+
   }
+
+  console.log("Product Filter : ", productFilter)
+
+  return productFilter;
+}
 
 
 
 export function getProductFilter(obj: ParsedUrlQuery, categories: IProductCategory[]) {
   const { slug } = obj;
 
-  const productFilter: any = getFilterByQueryString(slug, categories);
+  const productFilter: IProductFilter | null = getFilterByQueryString(slug, categories);
+
+  if (!productFilter) {
+    return null;
+  }
 
   if (obj?.rf) {
     productFilter.rate = [
@@ -195,6 +191,6 @@ export function getProductFilter(obj: ParsedUrlQuery, categories: IProductCatego
       .map((brand) => productFilter.brand?.push(parseInt(brand)));
   }
 
-  console.log("Product Filter : ", productFilter);
+
   return productFilter;
 }

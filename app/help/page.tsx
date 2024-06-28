@@ -1,5 +1,6 @@
 import { fetchBlogs } from "../../api/blog/blog.api"
 import BlogCover from "../../components/common/BlogCover";
+import PageContainer from "../../components/common/PageContainer";
 import { ARTICLE_TYPES } from "../../config/constants";
 import styles from "../../styles/help.module.css";
 
@@ -9,17 +10,17 @@ export default async function Help() {
   return (<>
 
     <section className="s-header-title">
-      <div className="container">
+      <PageContainer>
         <h1>Blog</h1>
         <ul className="breadcrambs">
           <li><a href="/">Home</a></li>
           <li>Blog</li>
         </ul>
-      </div>
+      </PageContainer>
     </section>
 
     <section className="s-news">
-      <div className="container">
+      <PageContainer>
         <div className="row">
           <div className="col-12 col-lg-8 blog-cover">
             <BlogCover blogs={[blogs[0]]} />
@@ -43,7 +44,7 @@ export default async function Help() {
             </ul>
           </div>
         </div>
-      </div>
+      </PageContainer>
     </section>
   </>)
 }

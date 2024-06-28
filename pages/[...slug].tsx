@@ -9,28 +9,27 @@ import { useRouter } from 'next/router';
 import { getProductFilter } from "util/search.util";
 import { useDispatch, useSelector } from 'react-redux';
 import { getCategories } from 'app-store/app-defaults/app-defaults.slice';
-import { useActiveProduct } from 'hooks/useActiveProduct';
-import { fetchProduct, fetchProductBySlug } from 'api/products.api';
-import { Product } from 'components/product/Product';
-import { IProductFilter } from 'app-store/types';
 
-import { notFound } from 'next/navigation'
+import { fetchProduct } from 'api/products.api';
+import { Product } from 'components/product/Product';
+import { IProduct, IProductFilter } from 'app-store/types';
 import Custom404 from './404';
 import { setSearch } from '../app-store/session/session.slice';
 import { useLocalStorage } from '../util/localStore.util';
+import { IDefaultSearch } from '../app-store/app-defaults/types';
 
 export default function Location() {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [activeProduct, setActiveProduct] = useState(null);
+  const [activeProduct, setActiveProduct] = useState<IProduct | null>(null);
   const { products } = useProducts();
   const { query } = router;
   const [filter, setFilter] = useState<IProductFilter>();
-  const {q} = router.query; 
+  const { q } = router.query;
   const [pageNotFound, setPageNotFound] = useState(false);
   const [loading, setLoading] = useState(true);
 
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
+  const [defaultSearch, setDefaultSearch] = useLocalStorage<IDefaultSearch>(
     "defaultSearch"
   );
 
@@ -49,28 +48,30 @@ export default function Location() {
 
         if (!filter) {
           setPageNotFound(true);
+          return;
         }
 
 
-          const search = {
-            location: {
-              city: filter.city,
-            }
-          };
-          if (!defaultSearch || defaultSearch?.location?.city !== filter.city) {
-            dispatch(setSearch(JSON.stringify(search)));
-            setDefaultSearch(search);
+        const search: IDefaultSearch = {
+          location: {
+            city: filter.city,
           }
+        };
+        if (!defaultSearch || defaultSearch?.location?.city !== filter.city) {
 
-          setLoading(false);
-          setFilter(filter);
+          dispatch(setSearch(JSON.stringify(search)));
+          setDefaultSearch(search);
+        }
 
-          if (filter.product) {
-            fetchProduct(filter).then((product) => {
-              setActiveProduct(product);
-              setLoading(false);
-            });
-          }
+        setLoading(false);
+        setFilter(filter);
+
+        if (filter.product) {
+          fetchProduct(filter).then((product: IProduct) => {
+            setActiveProduct(product);
+            setLoading(false);
+          });
+        }
       } catch (error) {
         // some pother shit.
         setPageNotFound(true)
@@ -92,45 +93,45 @@ export default function Location() {
   }
 
 
-    return (<AppLayout sidebar={false}>
-      {loading && <Loader></Loader>}
+  return (<AppLayout sidebar={false}>
+    {loading && <Loader></Loader>}
 
-      {(!filter?.product && products) && (
-        <div className="sm:flex ">
-          <ProductFilterNav
-            onChange={onChange}
-            filters={filters}
-            toggleFilters={toggleNav}
-          ></ProductFilterNav>
+    {(!filter?.product && products) && (
+      <div className="sm:flex ">
+        <ProductFilterNav
+          onChange={onChange}
+          filters={filters}
+          toggleFilters={toggleNav}
+        ></ProductFilterNav>
 
-          <div>
+        <div>
 
-            <div className="flex justify-end border-b px-1 py-3 sm:hidden">
-              <button
-                className="px-5 flex justify-end gap-x-2"
-                onClick={toggleNav}
-              >
-                Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
-              </button>
-
-            </div>
-
-            <div
-              className={
-                "r-comp  px-2 py-4 grid sm:flex  flex-wrap gap-y-5 gap-x-3 "
-              }
+          <div className="flex justify-end border-b px-1 py-3 sm:hidden">
+            <button
+              className="px-5 flex justify-end gap-x-2"
+              onClick={toggleNav}
             >
-              {products &&
-                products.map((product: any, index) => (
-                  <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
-                ))}
-            </div>
+              Filters <AdjustmentsHorizontalIcon className="h-6 w-6" />
+            </button>
+
+          </div>
+
+          <div
+            className={
+              "r-comp  px-2 py-4 grid sm:flex  flex-wrap gap-y-5 gap-x-3 "
+            }
+          >
+            {products &&
+              products.map((product: any, index) => (
+                <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
+              ))}
           </div>
         </div>
-      )}
+      </div>
+    )}
 
-      {(filter?.product && activeProduct) && <Product product={activeProduct}></Product>}
-    </AppLayout>
-    )
+    {(filter?.product && activeProduct) && <Product product={activeProduct}></Product>}
+  </AppLayout>
+  )
 }
 

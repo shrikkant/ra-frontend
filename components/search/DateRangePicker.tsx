@@ -1,17 +1,19 @@
+import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { rangeDisplay } from "util/date.util";
 import { useLocalStorage } from "../../util/localStore.util";
 import { Fragment, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { DateRange } from "react-date-range";
-import { shallowEqual, useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getDefaultSearch,
   setSearch,
 } from "../../app-store/session/session.slice";
+import { IDates } from "../../app-store/app-defaults/types";
 
 interface DefaultSearch {
-  dates?: any[];
+  dates?: IDates;
 }
 
 export const DateRangePicker = ({ mode }) => {
@@ -20,32 +22,32 @@ export const DateRangePicker = ({ mode }) => {
   const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch, setDefaultSearch] =
     useLocalStorage<DefaultSearch>("defaultSearch");
-  const [dates, setDates] = useState<any>(null);
+  const [dates, setDates] = useState<IDates>(null);
 
   useEffect(() => {
-    setDates([
+    setDates(
       {
         startDate: new Date(),
         endDate: new Date(),
         key: "selection",
       },
-    ]);
+    );
     const localSearch = storeSearch ? storeSearch : defaultSearch;
     const dates = localSearch?.dates
-      ? [
-          {
-            startDate: new Date(localSearch?.dates[0].startDate),
-            endDate: new Date(localSearch?.dates[0].endDate),
-            key: "selection",
-          },
-        ]
-      : [
-          {
-            startDate: new Date(),
-            endDate: new Date(),
-            key: "selection",
-          },
-        ];
+      ?
+      {
+        startDate: new Date(localSearch?.dates.startDate),
+        endDate: new Date(localSearch?.dates.endDate),
+        key: "selection",
+      }
+
+      :
+      {
+        startDate: new Date(),
+        endDate: new Date(),
+        key: "selection",
+      }
+      ;
 
     setDates(dates);
   }, [defaultSearch, storeSearch]);
@@ -53,7 +55,7 @@ export const DateRangePicker = ({ mode }) => {
   const setBookingDates = (dates) => {
     // delete defaultSearch.dates;
     const search = storeSearch ? { ...storeSearch } : { ...defaultSearch };
-    search.dates = [dates.selection];
+    search.dates = dates.selection;
     dispatch(setSearch(JSON.stringify(search)));
 
     setDefaultSearch(search);
@@ -70,7 +72,7 @@ export const DateRangePicker = ({ mode }) => {
   return (
     <Popover className="relative z-[210]">
       <Popover.Button className={"active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6  px-3 " + textColor}>
-        <span>{dates && rangeDisplay(dates[0])}</span>
+        <span>{dates && rangeDisplay(dates)}</span>
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
           aria-hidden="true"
@@ -96,7 +98,7 @@ export const DateRangePicker = ({ mode }) => {
                   minDate={new Date()}
                   onChange={(item) => setBookingDates(item)}
                   moveRangeOnFirstSelection={false}
-                  ranges={dates}
+                  ranges={[dates]}
                   onRangeFocusChange={(item) => {
                     onRangePick(item, close);
                   }}

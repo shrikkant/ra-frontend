@@ -1,40 +1,32 @@
+
+import React from "react";
 import { fetchBlogs } from "../../api/blog/blog.api"
 import BlogCover from "../../components/common/BlogCover";
+import PageContainer from "../../components/common/PageContainer";
+
 
 export default async function Blog() {
   const blogs = await fetchBlogs(4);
 
   return (<>
     <section className="s-header-title">
-      <div className="container">
+      <PageContainer>
         <h1>Blog</h1>
         <ul className="breadcrambs">
           <li><a href="/">Home</a></li>
           <li>Blog</li>
         </ul>
-      </div>
+      </PageContainer>
     </section>
 
     <section className="s-news">
-      <div className="container">
-        <div className="row">
-          <div className="col-12 col-lg-8 blog-cover">
+      <PageContainer>
+        <div className="flex gap-x-10 justify-center">
+          <div className="basis-1/2">
             <BlogCover blogs={blogs} />
-
-            {/* <div className="pagination-cover">
-              <ul className="pagination">
-                <li className="pagination-item item-prev"><a href="#"><i className="fa fa-angle-left" aria-hidden="true"></i></a></li>
-                <li className="pagination-item active"><a href="#">1</a></li>
-                <li className="pagination-item"><a href="#">2</a></li>
-                <li className="pagination-item"><a href="#">3</a></li>
-                <li className="pagination-item"><a href="#">4</a></li>
-                <li className="pagination-item"><a href="#">5</a></li>
-                <li className="pagination-item item-next"><a href="#"><i className="fa fa-angle-right" aria-hidden="true"></i></a></li>
-              </ul>
-            </div> */}
           </div>
 
-          <div className="col-12 col-lg-4 sidebar">
+          <div className="basis-1/4">
             <a href="#" className="btn btn-sidebar"><span>Widgets</span></a>
             <ul className="widgets">
 
@@ -82,7 +74,7 @@ export default async function Blog() {
             </ul>
           </div>
         </div>
-      </div>
+      </PageContainer>
     </section>
   </>)
 }

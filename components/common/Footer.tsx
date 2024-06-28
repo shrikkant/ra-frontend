@@ -1,9 +1,10 @@
 import { useEffect } from "react"
 import Scripts from "./Scripts";
+import PageContainer from "./PageContainer";
 
 export default function Footer() {
   return (<footer>
-    <div className="container">
+    <PageContainer>
       <div className="row footer-item-cover">
         <div className="footer-subscribe col-md-7 col-lg-8">
           <h6>stay in touch</h6>
@@ -44,7 +45,7 @@ export default function Footer() {
         <div className="footer-copyright"><a target="_blank" href="https://rovadex.com">RentAcross</a> © 2024. All Rights Reserved.</div>
 
       </div>
-    </div>
+    </PageContainer>
     <Scripts />
   </footer>)
 }

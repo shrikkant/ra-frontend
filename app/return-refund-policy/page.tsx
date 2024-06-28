@@ -1,3 +1,4 @@
+import PageContainer from "../../components/common/PageContainer";
 import { PageTitle } from "../../components/common/PageTitle";
 
 export default async function Page() {
@@ -6,7 +7,7 @@ export default async function Page() {
     <>
       <PageTitle title="Return & Refund Policy" />
       <section className="s-news">
-        <div className="container">
+        <PageContainer>
 
           <div>
             <div className="pt-3">
@@ -55,7 +56,7 @@ export default async function Page() {
               Don't worry. RentAcross Will Pay 100% to You.
             </div>
           </div>
-        </div>
+        </PageContainer>
       </section>
 
 

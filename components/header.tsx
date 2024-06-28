@@ -13,13 +13,11 @@ import React from "react";
 
 import MainHeaderNav from "./MainHeaderNav";
 import HeaderSubNav from "./HeaderSubNav";
-import { useLocalStorage } from "../util/localStore.util";
 
-export default function AppHeader({ navState, onNavStateChange }) {
+export default function AppHeader({ navState, onNavStateChange }: { navState, onNavStateChange: () => void; }) {
   const router = useRouter();
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>("defaultSearch");
 
   useEffect(() => {
     if (!loggedUser) {
@@ -29,8 +27,8 @@ export default function AppHeader({ navState, onNavStateChange }) {
 
   return (
     <div>
-      <MainHeaderNav navState={navState} onNavStateChange={onNavStateChange}/>
-      <HeaderSubNav/>
+      <MainHeaderNav navState={navState} onNavStateChange={onNavStateChange} />
+      <HeaderSubNav />
     </div>
 
   );

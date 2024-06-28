@@ -3,12 +3,11 @@
 import { ReactNode, useEffect, useState } from "react";
 
 import { ITestimonial } from "../app-store/app-defaults/types";
+import PageContainer from "./common/PageContainer";
 
 export function Testimonial({ maxSlides }: { maxSlides?: number }) {
-  const INTERVAL_LENGTH = 4000;
-  const AUTOPLAY = false;
 
-  const [autoplay, setAutoplay] = useState(AUTOPLAY);
+
 
   const [items, setItems] = useState<ReactNode[]>([]);
   const [currentItem, setCurrentItem] = useState(0);
@@ -78,7 +77,7 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
 
     const items = testimonials.map((t, index) => {
       return (
-        <div key={index} className={"feedback-slide " + ( currentItem === index ? "slick-current slick-active" : "")}
+        <div key={index} className={"feedback-slide " + (currentItem === index ? "slick-current slick-active" : "")}
           style={{
             width: '100vw',
             // left: (index > 0 ? -1000 * index : 0),
@@ -106,17 +105,17 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
           </div>
         </div>
       )
-    }); 
+    });
 
-      setItems(items);
+    setItems(items);
 
-    }, [currentItem]);
+  }, [currentItem]);
 
 
   return (<section className="s-feedback" style={{ backgroundImage: 'url(assets/v2/img/bg-feedback.jpg)' }}>
-    <span className="effwct-bg-feedback" style={{backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)'}}></span>
+    <span className="effwct-bg-feedback" style={{ backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)' }}></span>
     <span className="mask"></span>
-    <div className="container">
+    <PageContainer>
       <h2 className="title">feedback</h2>
       <div className="feedback-slider relative w-full overflow-hidden">
         <span onClick={prev} className="slick-arrow-prev slick-arrow" style={{ display: 'flex' }}>
@@ -135,7 +134,7 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
           <i className="fa fa-angle-right" ></i>
         </span>
       </div>
-    </div>
+    </PageContainer>
   </section>)
 
 

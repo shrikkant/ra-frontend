@@ -7,6 +7,7 @@ import Image from "next/image";
 import Loader from "../Loader";
 import PriceTag from "../PriceTag";
 import HomeProductCard from "./HomeProductCard";
+import PageContainer from "../common/PageContainer";
 
 
 
@@ -52,9 +53,9 @@ export default function TopSales() {
   if (loading) return <Loader></Loader>
 
   return (<section className="s-top-sale">
-    <div className="container">
+    <PageContainer>
       <h2 className="title">Top sales</h2>
-      {categories && <div className="row product-cover">
+      {categories && <div className="flex flex-row product-cover flex-wrap gap-x-5 justify-center ">
 
         {categories[0]?.products?.map((product: any) => (
           <HomeProductCard key={product.id} product={product}></HomeProductCard>
@@ -65,6 +66,6 @@ export default function TopSales() {
         ))}
 
       </div>}
-    </div>
+    </PageContainer>
   </section>)
 }

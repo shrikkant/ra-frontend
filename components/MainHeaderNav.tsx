@@ -20,22 +20,26 @@ import TopNavMenu from "components/TopNavMenu";
 import { useLocalStorage } from "../util/localStore.util";
 import { getDefaultSearch } from "../app-store/session/session.slice";
 import { fetchCart } from "../api/user/orders.api";
+import { IDefaultSearch, ISearchLocation } from "../app-store/app-defaults/types";
 
-export default function MainHeaderNav({ navState, onNavStateChange }) {
+
+
+export default function MainHeaderNav({ navState, onNavStateChange }: { navState, onNavStateChange: () => void; }) {
   const loggedUser = useSelector(selectAuthState);
-  const [defaultSearch, setDefaultSearch] =
-    useLocalStorage<any>("defaultSearch");
+  const [defaultSearch] =
+    useLocalStorage<IDefaultSearch>("defaultSearch");
 
-  const [location, setLocation] = useState<any>(null);
+  const [location, setLocation] = useState<ISearchLocation>();
 
   const storeSearch = useSelector(getDefaultSearch);
   const router = useRouter();
-  const [loading, setLoading] = useState(true);
   const [q, setQuery] = useState(router.query?.q);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const searchProducts = () => {
-    router.push("/" + location.city.toLowerCase() + "?q=" + q);
+    if (location)
+      router.push("/" + location?.city?.toLowerCase() + "?q=" + q);
   };
+
   const onSearch = (value: string) => {
     setQuery(value);
   };
@@ -48,7 +52,6 @@ export default function MainHeaderNav({ navState, onNavStateChange }) {
   };
 
   useEffect(() => {
-    console.log("Setting Location >  ", defaultSearch?.location);
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
     fetchCartItems();
   }, []);

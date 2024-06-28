@@ -1,7 +1,7 @@
 import { fetchBlogBySlug, fetchBlogs } from "../../../api/blog/blog.api";
 import BlogCover from "../../../components/common/BlogCover"
+import PageContainer from "../../../components/common/PageContainer";
 import { ARTICLE_TYPES } from "../../../config/constants";
-
 
 export default async function Blog({ params }: { params: { slug: string } }) {
   const blogs = await fetchBlogs(1, 10, ARTICLE_TYPES.HELP_ARTICLE);
@@ -10,17 +10,17 @@ export default async function Blog({ params }: { params: { slug: string } }) {
   return (<>
 
     <section className="s-header-title">
-      <div className="container">
+      <PageContainer>
         <h1>Help</h1>
         <ul className="breadcrambs">
           <li><a href="/">Home</a></li>
           <li>Help</li>
         </ul>
-      </div>
+      </PageContainer>
     </section>
 
     <section className="s-news">
-      <div className="container">
+      <PageContainer>
         <div className="row">
           <div className="col-12 col-lg-8 blog-cover">
             <BlogCover blogs={[blog]} />
@@ -44,7 +44,7 @@ export default async function Blog({ params }: { params: { slug: string } }) {
             </ul>
           </div>
         </div>
-      </div>
+      </PageContainer>
     </section>
   </>)
 }

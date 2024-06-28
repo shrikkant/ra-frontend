@@ -2,8 +2,9 @@
 import { ReactNode, useEffect, useState } from "react";
 import { IHomeSlide } from "../app-store/products/types";
 import Image from "next/image";
+import PageContainer from "./common/PageContainer";
 
-export function HomeSlider({maxSlides}: {maxSlides?: number}) {
+export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
 
   const INTERVAL_LENGTH = 4000;
   const AUTOPLAY = false;
@@ -59,58 +60,57 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
     ];
 
 
-      const items =
-        photos?.map((p, index) => {
-          return (
-            <div key={index} className={"main-slide " + (currentItem === index ? "slick-current slick-active" : "")}
-              style={{
-                width: '100vw',
-                // left: (index > 0 ? -1000 * index : 0),
-                top: 0,
-                zIndex: (currentItem === index ? 999 : 998),
-                opacity: 1
-              }}>
-              <div className="main-slide-bg" style={{ backgroundImage: 'url(' + p.imgBg +')' }}></div>
-              <div className="container">
-                <div className="main-slide-info">
-                  <h2 className="title">{p.title}</h2>
-                  <p>{ p.subtitle}</p>
-                  <a href="single-shop.html" className="btn">
-                    <span>Book Now</span>
-                  </a>
-                </div>
-                <div className="slide-img-cover">
-                  <a href="single-shop.html" className="lable-bike">
-                    <div className="lable-bike-img"><img src="assets/v2/img/bike-info-slide.jpg" alt="img" /></div>
-                    <div className="lable-bike-item">
-                      <div className="model">Starting</div>
-                      <div className="price">₹1399</div>
-                    </div>
-                  </a>
-
-                  <div className="block sm:hidden">
-                    <Image src={p.img} alt="img" className={"slide-img"} width={200} height={-1} />
-                  </div>
-
-                  <div className="lg:hidden md:block hidden">
-                    <Image src={p.img} alt="img" className={"slide-img"} width={320} height={-1} />
-                  </div>
-
-                  <div className="xl:hidden lg:block hidden">
-                    <Image src={p.img} alt="img" className={"slide-img"} width={360} height={-1} />
-                  </div>
-
-                  <div className="xl:block hidden">
-                    <Image src={p.img} alt="img" className={"slide-img"} width={360} height={-1} />
-                  </div>
-
-
-                </div>
+    const items =
+      photos?.map((p, index) => {
+        return (
+          <div key={index} className={"main-slide " + (currentItem === index ? "slick-current slick-active" : "")}
+            style={{
+              width: '100vw',
+              top: 0,
+              zIndex: (currentItem === index ? 999 : 998),
+              opacity: 1
+            }}>
+            <div className="main-slide-bg" style={{ backgroundImage: 'url(' + p.imgBg + ')' }}></div>
+            <PageContainer>
+              <div className="main-slide-info">
+                <h2 className="title">{p.title}</h2>
+                <p>{p.subtitle}</p>
+                <a href="single-shop.html" className="btn">
+                  <span>Book Now</span>
+                </a>
               </div>
-            </div>
-          )
-        }
-        ) as ReactNode[];
+              <div className="slide-img-cover">
+                <a href="single-shop.html" className="lable-bike">
+                  <div className="lable-bike-img"><img src="assets/v2/img/bike-info-slide.jpg" alt="img" /></div>
+                  <div className="lable-bike-item">
+                    <div className="model">Starting</div>
+                    <div className="price">₹1399</div>
+                  </div>
+                </a>
+
+                <div className="block sm:hidden">
+                  <Image src={p.img} alt="img" className={"slide-img"} width={200} height={-1} />
+                </div>
+
+                <div className="lg:hidden md:block hidden">
+                  <Image src={p.img} alt="img" className={"slide-img"} width={320} height={-1} />
+                </div>
+
+                <div className="xl:hidden lg:block hidden">
+                  <Image src={p.img} alt="img" className={"slide-img"} width={360} height={-1} />
+                </div>
+
+                <div className="xl:block hidden">
+                  <Image src={p.img} alt="img" className={"slide-img"} width={360} height={-1} />
+                </div>
+
+
+              </div>
+            </PageContainer>
+          </div>
+        )
+      }
+      ) as ReactNode[];
 
 
     setItems(items);
@@ -139,7 +139,7 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
       <ul className="slick-dots" role="tablist" style={{ display: 'block' }}>
         {items && items.map((_, index) => {
           return (
-            <li key={index} onClick={() => changeSlide(index)} aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation30" id={"slick-slide3" + index} className={index == currentItem ? "slick-active": ""}>
+            <li key={index} onClick={() => changeSlide(index)} aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation30" id={"slick-slide3" + index} className={index == currentItem ? "slick-active" : ""}>
               <button type="button" data-role="none" role="button">{index + 1}</button>
             </li>
           )
@@ -154,13 +154,13 @@ export function HomeSlider({maxSlides}: {maxSlides?: number}) {
     </ul>
 
     <section className="main-slider relative w-full overflow-hidden">
-      <div className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box'}} >
-        <div className="slick-track" style={{transformStyle: "preserve-3d"}}>
+      <div className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box' }} >
+        <div className="slick-track" style={{ transformStyle: "preserve-3d" }}>
           {items && items.map((item, index) => item)}
         </div>
       </div>
 
     </section>
-    </section>
+  </section>
   );
 }

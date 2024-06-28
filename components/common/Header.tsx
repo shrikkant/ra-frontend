@@ -1,4 +1,5 @@
 import Link from "next/link";
+import PageContainer from "./PageContainer";
 
 export default function Header() {
 
@@ -12,7 +13,7 @@ export default function Header() {
         <span></span>
       </a>
       <div className="top-panel">
-        <div className="container">
+        <div className="container mx-auto">
           <div className="top-panel-cover">
             <ul className="header-cont">
               <li><a href="tel:+912345687"><i className="fa fa-phone"></i>+91 7720829444</a></li>
@@ -27,7 +28,7 @@ export default function Header() {
         </div>
       </div>
       <div className="header-menu">
-        <div className="container">
+        <PageContainer>
           <a href="/" className="logo"><img src="/assets/v2/img/logo.png" alt="logo" /></a>
           <nav className="nav-menu">
             <ul className="nav-list">
@@ -46,7 +47,7 @@ export default function Header() {
 
             </ul>
           </nav>
-        </div>
+        </PageContainer>
       </div>
     </header></div>);
 

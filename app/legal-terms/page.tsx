@@ -1,10 +1,11 @@
+import PageContainer from "../../components/common/PageContainer";
 import { PageTitle } from "../../components/common/PageTitle";
 
 export default async function Page() {
 
   return (<><PageTitle title={"Legal Terms"} />
     <section className="s-news">
-      <div className="container">
+      <PageContainer>
 
         <div className="post-body">
           <p>By signing on the “I agree” space,the Lessee agrees to be bound by this Equipment Lease Agreement and all the
@@ -165,7 +166,7 @@ export default async function Page() {
 
           </p>
         </div>
-      </div>
+      </PageContainer>
     </section>
 
   </>)

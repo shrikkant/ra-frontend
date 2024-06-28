@@ -1,8 +1,9 @@
+import PageContainer from "../common/PageContainer";
 
 export default function HomeAdvantages() {
   return (<section className="s-our-advantages" style={{ backgroundImage: 'url(/assets/v2/img/bg-advantages.jpg)' }} >
     <span className="mask"></span>
-    <div className="container">
+    <PageContainer>
       <h2 className="title">Our Advantages</h2>
       <div className="our-advantages-wrap">
         <div className="our-advantages-item">
@@ -24,6 +25,6 @@ export default function HomeAdvantages() {
           <h5>Hassle free booking exprience</h5>
         </div>
       </div>
-    </div>
+    </PageContainer>
   </section>)
 }
