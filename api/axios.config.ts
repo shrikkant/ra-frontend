@@ -69,7 +69,6 @@ export const fetchData = async (url, customOptions?) => {
     }
 
     const { resultFormatted } = await response.json();
-    console.log("Response Message: ", resultFormatted);
 
     return resultFormatted;
 }

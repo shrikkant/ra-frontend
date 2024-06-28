@@ -1,8 +1,5 @@
-import { Layout, Space } from "antd";
+import { Space } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "../components/AppNav";
-import { AppFooter } from "../components/footer";
-import AppHeader from "../components/header";
 
 import {
   getMyProducts,
