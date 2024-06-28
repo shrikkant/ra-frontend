@@ -2,9 +2,9 @@ import { IProduct, IProductCategory, IProductFilter } from '../app-store/types';
 import httpClient from './axios.config';
 
 
-export async function getFeaturedProducts(pageLimit: number, city: string): Promise<IProduct[]> {
+export async function getFeaturedProducts(pageLimit: number, city: string): Promise<any[]> {
 
-  const response: IProduct[] = await httpClient.get<IProduct[], IProduct[]>(`getFeaturedProducts?pageLimit=${pageLimit}&city=${city}`);
+  const response: any[] = await httpClient.get<IProduct[], IProduct[]>(`getFeaturedProducts?pageLimit=${pageLimit}&city=${city}`);
   return response;
 
 }

@@ -5,7 +5,6 @@ import { getFeaturedProducts } from "../api/products.api";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
 import { useLocalStorage } from "../util/localStore.util";
-import { useCategories } from "../hooks/useCategories";
 import { useRouter } from "next/router";
 
 
@@ -13,12 +12,12 @@ export default function ProductGrid() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>("defaultSearch");
+  const [defaultSearch] = useLocalStorage("defaultSearch");
 
 
   const loadProducts = (city: string) => {
     setLoading(true);
-    getFeaturedProducts(8, city).then((res) => {
+    getFeaturedProducts(8, city).then((res: any) => {
       setLoading(false);
       setCategories(res);
     })
