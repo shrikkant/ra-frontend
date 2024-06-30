@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
 import { useLocalStorage } from "../util/localStore.util";
 import { addToCart } from "../api/user/orders.api";
@@ -9,27 +9,28 @@ import { getDefaultSearch } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
 import { selectAuthState } from "../app-store/auth/auth.slice";
+import { IDefaultSearch } from "../app-store/app-defaults/types";
 
-interface DefaultSearch {
-  dates?: any[];
-}
 
-export default function BookingForm({ productId, rates }) {
+
+export default function BookingForm({ productId, rates }: { productId: number, rates: any[] }) {
   const loggedUser = useSelector(selectAuthState);
   const router = useRouter();
   const storeSearch = useSelector(getDefaultSearch);
-  const [defaultSearch, setDefaultSearch] =
-    useLocalStorage<DefaultSearch>("defaultSearch");
+  const [defaultSearch] = useLocalStorage<IDefaultSearch>(
+    "defaultSearch"
+  );
+
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
 
   const getDays = () => {
     const startDate =
       storeSearch && storeSearch.dates
-        ? new Date(storeSearch?.dates[0].startDate)
+        ? new Date(storeSearch?.dates.startDate)
         : new Date();
     const endDate =
       storeSearch && storeSearch.dates
-        ? new Date(storeSearch.dates[0].endDate)
+        ? new Date(storeSearch.dates.endDate)
         : new Date();
     const differenceInTime = endDate.getTime() - startDate.getTime();
     const differenceInDays = Math.ceil(
@@ -39,13 +40,15 @@ export default function BookingForm({ productId, rates }) {
   };
 
   const onAddToCart = (bookNow?: boolean) => {
+    console.log("Adding to cart", productId, defaultSearch);
     if (!loggedUser) {
       router.push("/signin");
     } else {
-      if (!defaultSearch.dates)
+
+      if (!defaultSearch?.dates)
         return;
 
-      addToCart(productId, defaultSearch.dates[0]).then(() => {
+      addToCart(productId, defaultSearch?.dates).then(() => {
         if (bookNow) {
           router.push("/my-cart");
         }

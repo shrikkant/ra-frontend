@@ -57,7 +57,7 @@ export default function Location() {
             city: filter.city,
           }
         };
-        if (!defaultSearch || defaultSearch?.location?.city !== filter.city) {
+        if (!defaultSearch) {
 
           dispatch(setSearch(JSON.stringify(search)));
           setDefaultSearch(search);

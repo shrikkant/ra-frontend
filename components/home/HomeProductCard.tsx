@@ -1,13 +1,12 @@
-import { IProduct } from "../../app-store/types";
+import React from "react";
 import Image from "next/image";
-import PriceTag from "../PriceTag";
 
 export default function HomeProductCard({ product }: { product: any }) {
 
   if (!product)
     return (<div>Product not found</div>)
 
-  return (<div key={product.id} className="lg:w-1/5 md:w-1/4 sm: w-1/2">
+  return (<div key={product.id} className="lg:w-1/5 md:w-5/12 w-[48%]">
     <div className="product-item">
       <span className="top-sale">top sale</span>
 

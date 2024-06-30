@@ -43,9 +43,9 @@ export interface IDefaultSearch {
   location?: {
     city?: string;
   },
-  dates?: [
-    IDates
-  ]
+  dates?:
+  IDates
+
 }
 
 

@@ -1,3 +1,4 @@
+import { IDates } from "../../app-store/app-defaults/types";
 import { IOrder, ITransaction } from "../../app-store/types";
 import httpClient from "./../axios.config";
 
@@ -7,28 +8,18 @@ interface Dates {
 }
 
 export async function fetchOrders(): Promise<IOrder[]> {
-  try {
-    const orders: IOrder[] = await httpClient.get(`/user/orders`);
-
-    return orders;
-  } catch (e) {
-    throw e;
-  }
+  const orders: IOrder[] = await httpClient.get(`/user/orders`);
+  return orders;
 }
 
 export async function fetchCart(): Promise<IOrder> {
-  try {
-    const response: IOrder[] = await httpClient.get(`/user/orders?status=0`);
-
-    return response && response[0];
-  } catch (e) {
-    throw e;
-  }
+  const response: IOrder[] = await httpClient.get(`/user/orders?status=0`);
+  return response && response[0];
 }
 
 export const addToCart = async (
   productId: number,
-  dates: Dates
+  dates: IDates
 ) => {
   const { startDate, endDate } = dates;
 

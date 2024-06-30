@@ -6,7 +6,7 @@ import PageContainer from "../../components/common/PageContainer";
 
 
 export default async function Blog() {
-  const blogs = await fetchBlogs(4);
+  const blogs = await fetchBlogs(0, 4, 0);
 
   return (<>
     <section className="s-header-title">
