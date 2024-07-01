@@ -1,9 +1,6 @@
-import { Card, Layout, Space } from "antd";
+import { Card, Space } from "antd";
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "../../components/AppNav";
-import { AppFooter } from "../../components/footer";
-import AppHeader from "../../components/header";
-// import styles from "./../../styles/";
+
 import styles from "./../../styles/address-book.module.css";
 
 import { useSelector } from "react-redux";

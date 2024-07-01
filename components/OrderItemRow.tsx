@@ -20,8 +20,8 @@ export default function OrderItemRow({ orderItem }: { orderItem: IOrderItem }) {
             </div>
           )
         })}
-
       </div>
+
     </div>
   );
 }

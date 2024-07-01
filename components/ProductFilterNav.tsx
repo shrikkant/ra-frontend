@@ -1,6 +1,5 @@
-import { Menu, Card, Form, Checkbox, Slider } from "antd";
-import Meta from "antd/lib/card/Meta";
-import { Content } from "antd/lib/layout/layout";
+import { Card, Form, Checkbox, Slider } from "antd";
+
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -34,19 +33,17 @@ export default function ProductFilterNav({
   const router = useRouter();
 
   const searchMeta = useSelector(getSearchMetaData);
-  const [loading, setLoading] = useState(true);
-  const categories = useSelector(getCategories);
 
-  const dispatch = useDispatch();
+  const categories = useSelector(getCategories);
 
   const { q, rf, br, scid } = router.query;
 
   const brands = getBrandOptions(searchMeta?.brands);
   const items = categories
     ? categories[0].subCategories?.map((sc) => ({
-        label: sc.title,
-        key: sc.id,
-      }))
+      label: sc.title,
+      key: sc.id,
+    }))
     : [];
 
   const onBrandsChange = (checkedValues: any[]) => {
@@ -90,7 +87,7 @@ export default function ProductFilterNav({
         </button>
       </div>
       <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
-        {brands?.length  > 0 && <Card title="Brands">
+        {brands?.length > 0 && <Card title="Brands">
           <Form layout={"vertical"}>
             <Checkbox.Group
               className={"brands"}

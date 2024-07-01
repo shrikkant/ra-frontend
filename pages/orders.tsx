@@ -1,4 +1,4 @@
-import { Button, Layout, Space, Tag } from "antd";
+import { Button, Tag } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import styles from "styles/orders.module.css";
 import { Content } from "antd/lib/layout/layout";
@@ -7,9 +7,9 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders, removeFromCart } from "../api/user/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 import { IOrder } from "../app-store/types";
-import  OrderItemRow  from "../components/OrderItemRow";
+import OrderItemRow from "../components/OrderItemRow";
 import Moment from "moment";
-import React, { useEffect } from "react";
+import React from "react";
 import { AppLayout } from "../components/AppLayout";
 import { selectAuthState } from "app-store/auth/auth.slice";
 
@@ -17,7 +17,6 @@ export default function Orders() {
   const loggedUser = useSelector(selectAuthState);
   const orders = useSelector(getOrders)?.filter((item, i) => i < 5);
   const dispatch = useDispatch();
-  const df = Moment().format("DD MMM");
 
   if (!orders && loggedUser) {
     fetchOrders().then((data) => {
@@ -25,18 +24,11 @@ export default function Orders() {
     });
   }
 
-  const handleRemoveFromCart = async(id)  => {
-    const response = await removeFromCart(id);
-    console.log(response, "removed-", id);
-  };
 
-  const clickTest = () => {
-    console.log("test")
-  }
 
   return (
     <AppLayout>
-      <MyPageHeader title={"Past Orders"} subtitle={""} clickTest={clickTest}></MyPageHeader>
+      <MyPageHeader title={"Past Orders"} subtitle={""}></MyPageHeader>
 
       <Content style={{ padding: "16px 16px" }} className="right-panel">
         {orders &&

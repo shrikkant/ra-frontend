@@ -1,8 +1,5 @@
-import { Layout, Space } from "antd";
+
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "components/AppNav";
-import { AppFooter } from "components/footer";
-import AppHeader from "components/header";
 
 import {
   getMyProducts,
@@ -17,10 +14,9 @@ import { AppLayout } from "components/AppLayout";
 import Form from "../../components/common/form/Form";
 import Input from "../../components/common/form/Input";
 import { IProduct } from "../../app-store/types";
-import { title } from "process";
+
 import SelectField from "../../components/common/form/SelectField";
 import { getCategories } from "../../app-store/app-defaults/app-defaults.slice";
-import { PlusCircleIcon } from "@heroicons/react/24/outline";
 import KitAddOns from "../../components/product/KitAddOns";
 import ProductRates from "../../components/product/ProductRates";
 
@@ -29,23 +25,6 @@ interface IChoice {
   label: string
 }
 
-const sample = {
-  "rates":
-    [{
-      "index": 0,
-      "options":
-        [
-          { "code": "D", "title": " 1-6 days" },
-          { "code": "W", "title": "7-13 days" },
-          { "code": "M", "title": "14+ days" }],
-      "duration": "D", "rate": 1234
-    }], "qty": 1, "includes": ["123123", "123123"],
-  "category_id": 26,
-  "sub_category_id": 30,
-  "title": "adfa asdfadf asdf",
-  "address_id": "1745",
-  "deposit": 1000
-}
 export default function MyProducts() {
   const products = useSelector(getMyProducts);
   const categories: any = useSelector(getCategories);
@@ -103,7 +82,7 @@ export default function MyProducts() {
 
           <KitAddOns />
 
-          <ProductRates/>
+          <ProductRates />
 
         </Form>
       </Content>

@@ -1,7 +1,7 @@
-import { Button, Card, MenuProps, Space } from "antd";
+import { MenuProps } from "antd";
 import { useRouter } from "next/router";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
 import { selectAuthState } from "../app-store/auth/auth.slice";
 import {
   BuildingLibraryIcon,
@@ -16,7 +16,7 @@ import {
 import NavMenu from "components/NavMenu";
 
 let items = [
- {
+  {
     label: "Orders",
     key: "/orders",
     icon: <ShoppingBagIcon className="h-6 w-6" />,

@@ -3,7 +3,6 @@ import {
   Card,
   Carousel,
   Divider,
-  Layout,
 
 } from "antd";
 import Meta from "antd/lib/card/Meta";

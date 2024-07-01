@@ -1,10 +1,9 @@
-import { PageHeader } from "@ant-design/pro-layout";
 import React from "react";
 
-import { ArrowLeftIcon, PlusCircleIcon, PlusIcon } from "@heroicons/react/24/outline";
+import { ArrowLeftIcon, } from "@heroicons/react/24/outline";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-export default function MyPageHeader({ ...props }) {
+export default function MyPageHeader({ ...props }: { title: string, subtitle?: string, addAction?: () => void }) {
 
   return (<div className={"flex p-10 gap-2"}>
     <div className="flex-20" onClick={() => window.history.back()}>
@@ -20,13 +19,5 @@ export default function MyPageHeader({ ...props }) {
     </div>
 
   </div>)
-  return (
-    <PageHeader
-      className="r-comp"
-      ghost={false}
-      onBack={() => window.history.back()}
-      {...props}
-    >
-    </PageHeader>
-  )
+
 }
