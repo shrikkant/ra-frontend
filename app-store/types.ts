@@ -27,6 +27,7 @@ export interface IOrder {
   pickup?: IDelivery;
   delivery_address?: any;
   applied_discount?: number;
+  gst_tax?: number;
   isPaid(): boolean;
 }
 
