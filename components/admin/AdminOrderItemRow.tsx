@@ -1,15 +1,13 @@
-import { Button, Card, Descriptions, Form, Input, Radio, Space, Statistic, Switch, Tag } from "antd";
+
 import styles from "styles/admin-order-item.module.css";
 import React, { useState } from "react";
 import { RupeeSymbol } from "../RupeeSymbol";
 
-import { IOrder, IOrderItem } from "../../app-store/types";
-import { useDispatch } from "react-redux";
+import { IOrderItem } from "../../app-store/types";
 import { ItemDiscountForm } from "./ItemDiscountForm";
 
 
-export function AdminOrderItemRow({ orderItem, hideImages = false }) {
-  const dispatch = useDispatch();
+export function AdminOrderItemRow({ orderItem, hideImages = false }: { orderItem: IOrderItem, hideImages?: boolean }) {
   const product = orderItem.product;
   const [item, setItem] = useState(orderItem);
 
@@ -19,32 +17,38 @@ export function AdminOrderItemRow({ orderItem, hideImages = false }) {
 
   return (<div className={styles.productRow} key={product.id}>
     {!hideImages && <div className={styles.productImg}>
-      <img className={styles.img} src={product.photos[0]?.path}></img>
+      {
+        product.photos && <img className={styles.img} src={product.photos[0]?.path}></img>
+      }
     </div>}
 
     <div className={styles.productDesc}>
-      <Descriptions
-        bordered
-        size={"small"}
-        key="1"
-        column={1}
-      >
-
-        <Descriptions.Item style={{ fontWeight: "bold" }}><div style={{ marginRight: 16 }}>
-          {product.title}
+      <h3 className="font-bold text-lg">{product.title}</h3>
+      <div className="pb-3">
+        <div className="bg-purple-200 rounded px-2 w-fit border-purple-800">
+          {item.product.owner.firstname}
         </div>
-          <Tag color="purple">{item.product.owner.firstname}</Tag></Descriptions.Item>
-        {product.masterProductList.map((addon) => (
-          <Descriptions.Item key="1">1 x {addon?.masterProduct?.name}</Descriptions.Item>
-        ))}
+      </div>
 
-        <Descriptions.Item>
-          <div style={{ display: "flex", columnGap: 32, alignItems: "center", justifyContent: "space-between" }}>
-            <Statistic valueStyle={{ color: '#3f8600' }} title="Rent" value={item.rent} prefix={<RupeeSymbol />} />
-            <ItemDiscountForm item={item} handleItemChange={handleItemChange} />
+      {product.masterProductList && product.masterProductList.map((addon: any) => (
+        <div key={addon?.id} className="py-1">
+          1 x {addon?.masterProduct?.name}
+        </div>
+      ))}
+
+
+
+      <div style={{ display: "flex", columnGap: 32, alignItems: "center", justifyContent: "space-between" }} className="mt-4">
+        <div>
+          <h3>Rent</h3>
+          <div >
+            <span className="text-2xl text-red-700"><RupeeSymbol />{item.rent}</span>
           </div>
-        </Descriptions.Item>
-      </Descriptions>
+        </div>
+        <ItemDiscountForm item={item} handleItemChange={handleItemChange} />
+      </div>
+
+
     </div>
   </div>)
 }

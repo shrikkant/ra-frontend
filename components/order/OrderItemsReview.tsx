@@ -1,9 +1,10 @@
-import { IOrderItem } from "../../app-store/types";
+import React from "react";
+import { ILocation, IOrder, IOrderItem } from "../../app-store/types";
 import OrderItemRow from "../OrderItemRow";
 
 import { StepHeader } from "./StepHeader";
 
-export const OrderItemsReview = ({ order, selectedAddress }) => {
+export const OrderItemsReview = ({ order, selectedAddress }: { order: IOrder, selectedAddress: ILocation }) => {
   return (
     <>
       <StepHeader label={"Review your items"} index={2}></StepHeader>

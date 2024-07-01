@@ -5,7 +5,7 @@ interface IDateRange {
 }
 
 
-const rangeDisplay = function(range: IDateRange) {
+const rangeDisplay = function (range: IDateRange) {
   const startDate = range.startDate;
   const endDate = range.endDate;
 
@@ -15,11 +15,13 @@ const rangeDisplay = function(range: IDateRange) {
   const startFormat = "D " + (showMonth ? "MMM " : "") + (showYear ? "YYYY" : "");
   const endFormat = "D MMM " + (showYear ? "YYYY" : "");
   return Moment(startDate).format(startFormat) +
-      " - " +
-      Moment(endDate).format(endFormat);
+    " - " +
+    Moment(endDate).format(endFormat);
 }
 
-const dateDisplay = function (date: Date) {
+const dateDisplay = function (date: Date | undefined) {
+  if (!date)
+    return "Invalid Date";
   return Moment(date).format("D MMM YYYY");
 }
 

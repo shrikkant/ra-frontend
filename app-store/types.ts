@@ -26,6 +26,7 @@ export interface IOrder {
   delivery?: IDelivery;
   pickup?: IDelivery;
   delivery_address?: any;
+  applied_discount?: number;
   isPaid(): boolean;
 }
 
@@ -167,7 +168,7 @@ export interface IProductRatePlan {
   user_rate: number;
   durationDisplay?: string;
 }
-export interface DropOrPickup {}
+export interface DropOrPickup { }
 
 export interface ICheckboxOption {
   label: string;

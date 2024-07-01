@@ -25,7 +25,7 @@ export default function Orders() {
   const [addressId, setAddressId] = useState<number>(-1);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
-  const onRazorPayCheckout = (mode) => {
+  const onRazorPayCheckout = (mode: number) => {
     const currentAddr = loggedUser.address.find(
       (ad) => ad.id === addressId
     ) || { id: -1, name: "Store Pickup" };
@@ -80,6 +80,7 @@ export default function Orders() {
                     selectedAddress={selectedAddress}
                   ></OrderItemsReview>
                 </div>
+
                 <div className={"w-1/4"}>
                   <div className="md:fixed top-100 w-80">
                     <OrderSummary

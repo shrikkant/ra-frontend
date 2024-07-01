@@ -5,6 +5,7 @@ import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import '../styles/global.css'
 
+
 export default function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -28,13 +29,13 @@ export default function RootLayout({
         <meta name="robots" content="noindex" />
 
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
-        {/* <link rel="stylesheet" href="/assets/v2/css/bootstrap-grid.css"></link> */}
         <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
       </head>
       <body className="inner-scroll" id="home">
+
         <div className="preloader-cover">
           <div className="preloader">
             <span></span>

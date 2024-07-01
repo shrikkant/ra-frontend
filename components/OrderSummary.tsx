@@ -1,15 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import styles from "./../styles/order-summary.module.css";
 import { ORDER_STEPS } from "../config/constants";
 import { dateDisplay } from "../util/date.util";
+import { IOrder } from "../app-store/types";
 
-export default function OrderSummary({ order, step, onInitRazorPay }) {
+export default function OrderSummary({
+  order,
+  step,
+  onInitRazorPay }:
+  {
+    order: IOrder,
+    step: number,
+    onInitRazorPay: (mode: number) => void
+  }) {
   return (
     <div className={"w-80 p-3 bg-gray-50 shadow-lg rounded-md"}>
       <div>
         <div>
           <button
-            onClick={() => {onInitRazorPay(step)}}
+            onClick={() => { onInitRazorPay(step) }}
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
             type="submit"
           >
@@ -21,11 +30,11 @@ export default function OrderSummary({ order, step, onInitRazorPay }) {
       <div className={"flex border-gray-200 border justify-around rounded-md mt-5"}>
         <div className={"p-2 flex-col flex"}>
           <span className={""}>Starting</span>
-          <span className={"text-md font-semibold"}>{dateDisplay(new Date(order.start_date))}</span>
+          <span className={"text-md font-semibold"}>{dateDisplay(order.start_date)}</span>
         </div>
         <div className={"p-2 flex-col flex"}>
           <span className={""}>Ending</span>
-          <span className={"text-md font-semibold"}>{dateDisplay(new Date(order.end_date))}</span>
+          <span className={"text-md font-semibold"}>{dateDisplay(order.end_date)}</span>
         </div>
       </div>
 
