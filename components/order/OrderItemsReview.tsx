@@ -4,7 +4,7 @@ import OrderItemRow from "../OrderItemRow";
 
 import { StepHeader } from "./StepHeader";
 
-export const OrderItemsReview = ({ order, selectedAddress }: { order: IOrder, selectedAddress: ILocation }) => {
+export const OrderItemsReview = ({ order, selectedAddress }: { order: IOrder, selectedAddress: ILocation | null }) => {
   return (
     <>
       <StepHeader label={"Review your items"} index={2}></StepHeader>
