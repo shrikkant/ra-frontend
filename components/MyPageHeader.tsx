@@ -3,7 +3,7 @@ import React from "react";
 import { ArrowLeftIcon, } from "@heroicons/react/24/outline";
 import { IoMdAddCircleOutline } from "react-icons/io";
 
-export default function MyPageHeader({ ...props }: { title: string, subtitle?: string, addAction?: () => void }) {
+export default function MyPageHeader({ ...props }) {
 
   return (<div className={"flex p-10 gap-2"}>
     <div className="flex-20" onClick={() => window.history.back()}>
