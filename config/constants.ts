@@ -21,6 +21,7 @@ export const enum ARTICLE_TYPES {
 export const DEFAULT_CURRENCY = "INR";
 
 export const enum ORDER_STEPS {
+  ORDER_STEP_CART = 0,
   ORDER_STEP_DELIVERY = 1,
   ORDER_STEP_PAYMENT = 2,
 }

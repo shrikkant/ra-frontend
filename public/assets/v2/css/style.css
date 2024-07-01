@@ -2266,7 +2266,6 @@ footer .social-list {
 }
 
 .main-slider .main-slide .container {
-	min-height: 828px;
 	width: 100%;
 	display: -webkit-box;
 	display: -ms-flexbox;
@@ -9291,4 +9290,13 @@ body.modal {
 		flex: 0 0 100%;
 		max-width: 100%
 	}
+}
+
+
+
+@media (max-width: 440px) {
+    .container {
+        max-width: 100%;
+				padding: 24px;
+    }
 }

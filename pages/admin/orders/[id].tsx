@@ -1,16 +1,13 @@
 import { Button, Descriptions, Tag } from "antd";
-import { PageHeader } from "@ant-design/pro-layout";
 
 import styles from "styles/orders.module.css";
 
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "components/AppNav";
-import { AppFooter } from "components/footer";
-import AppHeader from "components/header";
+
 
 import { getActiveOrder, setActiveOrder } from "app-store/admin/index.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrder, updateStage } from "api/admin/orders.api";
+import { fetchOrder } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
 import Moment from "moment";
@@ -102,8 +99,8 @@ export default function Order() {
                 ></MyPageHeader>
 
                 <Descriptions bordered size={"small"} key="1" column={1}>
-                      <Descriptions.Item>
-                        Fee : { order.delivery_fee}
+                  <Descriptions.Item>
+                    Fee : {order.delivery_fee}
                     {order.delivery_fee > 0 && (
                       <DeliveryAssignmentForm order={order} />
                     )}

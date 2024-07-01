@@ -1,0 +1,82 @@
+import { Content } from "antd/lib/layout/layout";
+import {
+  getCart,
+  setCart,
+
+} from "app-store/user/orders/orders.slice";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchCart } from "api/user/orders.api";
+import React, { useEffect, useState } from "react";
+import OrderSummary from "components/OrderSummary";
+import styles from "styles/my-cart.module.css";
+import { AppLayout } from "components/AppLayout";
+import { ORDER_STEPS } from "config/constants";
+
+import EmptyCart from "components/cart/EmptyCart";
+import Loader from "components/Loader";
+import { IOrderItem } from "../../app-store/types";
+import OrderItemRow from "../../components/OrderItemRow";
+import { useRouter } from "next/router";
+
+export default function Orders() {
+  const router = useRouter();
+  const cart: any = useSelector(getCart);
+  const [loading, setLoading] = useState(true);
+  const dispatch = useDispatch();
+
+  const onRazorPayCheckout = (mode: number) => {
+    router.push("/my-cart/buy");
+  };
+
+  useEffect(() => {
+    setLoading(true);
+    if (!cart) {
+      fetchCart().then((data) => {
+        dispatch(setCart(data));
+        setLoading(false);
+      });
+    } else {
+      setLoading(false);
+    }
+  }, []);
+
+  return (
+    <AppLayout>
+      <Content className={styles.mainContent}>
+        {loading ? (
+          <Loader />
+        ) : (
+          <>
+            {cart ? (
+              <div
+                className={"flex flex-col-reverse md:flex-row w-full space-x-8"}
+              >
+                <div className={"md:w-3/4 w-full"}>
+                  <div className={"border rounded-md border-gray-400 ml-8 mt-3"}>
+                    {cart.items &&
+                      cart.items.map((item: IOrderItem) => (
+                        <OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
+                      ))}
+                  </div>
+                </div>
+
+                <div className={"w-1/4"}>
+                  <div className="md:fixed top-100 w-80">
+                    <OrderSummary
+                      order={cart}
+                      step={ORDER_STEPS.ORDER_STEP_CART
+                      }
+                      onInitRazorPay={onRazorPayCheckout}
+                    ></OrderSummary>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <EmptyCart />
+            )}
+          </>
+        )}
+      </Content>
+    </AppLayout>
+  );
+}

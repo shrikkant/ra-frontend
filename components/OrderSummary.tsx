@@ -13,6 +13,18 @@ export default function OrderSummary({
     step: number,
     onInitRazorPay: (mode: number) => void
   }) {
+
+  const callToAction = (step: number) => {
+    switch (step) {
+      case ORDER_STEPS.ORDER_STEP_CART:
+        return "Proceed to Book";
+      case ORDER_STEPS.ORDER_STEP_DELIVERY:
+        return "Use this address";
+      case ORDER_STEPS.ORDER_STEP_PAYMENT:
+        return "Place Your Order & Pay";
+    }
+  }
+
   return (
     <div className={"w-80 p-3 bg-gray-50 shadow-lg rounded-md"}>
       <div>
@@ -22,7 +34,7 @@ export default function OrderSummary({
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
             type="submit"
           >
-            {step === ORDER_STEPS.ORDER_STEP_DELIVERY ? "Use this address" : "Place Your Order & Pay"}
+            {callToAction(step)}
           </button>
         </div>
       </div>

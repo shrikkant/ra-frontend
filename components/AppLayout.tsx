@@ -1,3 +1,4 @@
+import React from "react";
 import { useState } from "react";
 import AppNav from "./AppNav";
 import { AppFooter } from "./footer";
@@ -23,7 +24,7 @@ export function AppLayout({ sidebar = false, children, header = true }) {
           <div
             className={
               "fixed h-screen w-screen bg-slate-900 z-[200] top-0 bg-opacity-60 " +
-              (isNavOpen ? "block": "hidden")
+              (isNavOpen ? "block" : "hidden")
             }
           ></div>
           <div style={{ maxWidth: 1280, margin: "auto" }}>{children}</div>

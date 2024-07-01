@@ -4,7 +4,7 @@ import styles from "styles/orders.module.css";
 import { Content } from "antd/lib/layout/layout";
 import { getOrders, setOrders } from "../app-store/user/orders/orders.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders, removeFromCart } from "../api/user/orders.api";
+import { fetchOrders } from "../api/user/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 import { IOrder } from "../app-store/types";
 import OrderItemRow from "../components/OrderItemRow";
