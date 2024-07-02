@@ -35,6 +35,27 @@ export interface IDates {
   key?: string,
 }
 
+
+export interface IDocument {
+  id?: number;
+  user_id?: number;
+
+  file_name?: string;
+  type: number;
+  size: number;
+  file_type: string;
+  document_name?: string;
+  verified?: boolean;
+  verified_by?: string;
+  document_id?: string;
+  document_data: any;
+  client_id: string;
+  address_id: number;
+  document_type: string;
+  url: string;
+
+}
+
 export interface ISearchLocation {
   city?: string;
 }

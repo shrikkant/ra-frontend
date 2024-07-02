@@ -1,5 +1,5 @@
-import styles from "./../styles/order-item.module.css";
 import React from "react";
+import styles from "./../styles/order-item.module.css";
 
 import { IOrderItem, IProduct } from "../app-store/types";
 

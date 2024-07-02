@@ -9,30 +9,34 @@ import { fetchCart } from "api/user/orders.api";
 import React, { useEffect, useState } from "react";
 import OrderSummary from "components/OrderSummary";
 import styles from "styles/my-cart.module.css";
-import { AppLayout } from "components/AppLayout";
 import { displayRazorpay } from "util/razorpay.util";
-import { selectAuthState } from "app-store/auth/auth.slice";
+import { authUser, selectAuthState } from "app-store/auth/auth.slice";
 import { OrderItemsReview } from "components/order/OrderItemsReview";
 import { ORDER_STEPS } from "config/constants";
 import { AddressPicker } from "components/order/AddressPicker";
 import EmptyCart from "components/cart/EmptyCart";
 import Loader from "components/Loader";
+import { getAuthUser } from "../../../api/auth.api";
 
 export default function Orders() {
   const cart: any = useSelector(getCart);
   const loggedUser: any = useSelector(selectAuthState);
   const [selectedAddress, setSelectedAddress] = useState(null);
-  const [addressId, setAddressId] = useState<number>(-1);
+  const [addressId, setAddressId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
   const onRazorPayCheckout = (mode: number) => {
-    const currentAddr = loggedUser.address.find(
+    const currentAddr = loggedUser?.address.find(
       (ad) => ad.id === addressId
     ) || { id: -1, name: "Store Pickup" };
+
     if (mode === ORDER_STEPS.ORDER_STEP_DELIVERY) {
+      console.log("Updating Delivery Address : ", currentAddr);
       updateDeliveryAddressAction(cart, currentAddr)(dispatch);
       setSelectedAddress(currentAddr);
+
+      console.log("Next Step ", resolveStep());
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
       displayRazorpay(cart.id);
     }
@@ -46,8 +50,23 @@ export default function Orders() {
     setAddressId(addressId);
   };
 
+  const resolveStep = () => {
+    if (loggedUser.address.length === 0) {
+      return ORDER_STEPS.ORDER_STEP_ADDRESS;
+    } else if (addressId !== 0 && !selectedAddress) {
+      return ORDER_STEPS.ORDER_STEP_DELIVERY
+    } else if (selectedAddress) {
+      return ORDER_STEPS.ORDER_STEP_PAYMENT;
+    }
+    return -1;
+  }
+
   useEffect(() => {
     setLoading(true);
+    if (!loggedUser) {
+      getAuthUser().then((user) => dispatch(authUser(user)));
+    }
+
     if (!cart) {
       fetchCart().then((data) => {
         dispatch(setCart(data));
@@ -57,7 +76,9 @@ export default function Orders() {
       setLoading(false);
     }
     console.log("Delivery Address : ", cart?.delivery_address);
-    setSelectedAddress(JSON.parse(cart?.delivery_address || null));
+    if (cart?.delivery_address) {
+      // setSelectedAddress(JSON.parse(cart?.delivery_address));
+    }
   }, []);
 
   return (
@@ -89,9 +110,7 @@ export default function Orders() {
                   <OrderSummary
                     order={cart}
                     step={
-                      selectedAddress
-                        ? ORDER_STEPS.ORDER_STEP_PAYMENT
-                        : ORDER_STEPS.ORDER_STEP_DELIVERY
+                      resolveStep()
                     }
                     onInitRazorPay={onRazorPayCheckout}
                   ></OrderSummary>

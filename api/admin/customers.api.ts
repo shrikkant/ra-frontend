@@ -1,24 +1,14 @@
-import { IOrder, IUser } from '../../app-store/types';
+import { IUser } from '../../app-store/types';
 import httpClient from './../axios.config';
 
 export async function fetchCustomers(): Promise<IUser[]> {
-    try {
-        const customers: IUser[] = await httpClient.get(`/admin/users`);
-        return customers;
-
-    } catch (e) {
-        throw e;
-    }
+    const customers: IUser[] = await httpClient.get(`/admin/users`);
+    return customers;
 }
 
 export async function fetchActiveCustomer(id: number): Promise<IUser> {
-    try {
-        const customer: IUser = await httpClient.get(`/admin/users/${id}`);
-        return customer;
-
-    } catch (e) {
-        throw e;
-    }
+    const customer: IUser = await httpClient.get(`/admin/users/${id}`);
+    return customer;
 }
 
 export async function addDocument(userId: number, docType: string, file: any): Promise<any> {

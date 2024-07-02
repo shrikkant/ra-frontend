@@ -11,6 +11,7 @@ export default function OrderSummary({
   {
     order: IOrder,
     step: number,
+    showCallToAction?: boolean,
     onInitRazorPay: (mode: number) => void
   }) {
 
@@ -29,13 +30,13 @@ export default function OrderSummary({
     <div className={"w-80 p-3 bg-gray-50 shadow-lg rounded-md"}>
       <div>
         <div>
-          <button
+          {callToAction(step) && <button
             onClick={() => { onInitRazorPay(step) }}
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
             type="submit"
           >
             {callToAction(step)}
-          </button>
+          </button>}
         </div>
       </div>
 

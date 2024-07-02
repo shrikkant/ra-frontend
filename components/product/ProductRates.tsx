@@ -2,21 +2,20 @@
 
 import React, { useEffect, useState } from "react";
 import Input from "../common/form/Input";
-import { PlusCircleIcon, MinusCircleIcon } from "@heroicons/react/24/outline";
 import { IoMdAddCircleOutline, IoMdRemoveCircle } from "react-icons/io";
 import SelectField from "../common/form/SelectField";
 
 interface RatePlan {
   code?: string,
   title?: string,
-  selected?:boolean,
-  choices?:IChoice[]
+  selected?: boolean,
+  choices?: IChoice[]
 }
 
 interface IChoice {
   value: string,
   label: string,
-  selected?:boolean,
+  selected?: boolean,
 }
 
 const defaultChoices: RatePlan[] = [
@@ -43,7 +42,7 @@ export default function ProductRates() {
     const plans = [...ratePlans];
     const planToAdd: any = defaultChoices[plans.length];
 
-    planToAdd.choices = defaultChoices.filter((c) => { return plans.map((p) => p.code != c.code)}).map((plan) => {
+    planToAdd.choices = defaultChoices.filter((c) => { return plans.map((p) => p.code != c.code) }).map((plan) => {
       return {
         value: plan.code,
         label: plan.title,
@@ -76,7 +75,7 @@ export default function ProductRates() {
 
     {ratePlans && ratePlans.map((plan, i) => <div key={i} className="flex  items-center justify-center gap-4">
       <div className="flex-1/2 justify-center flex">
-        <SelectField choices={plan.choices} defaultValue={ plan.code }></SelectField>
+        <SelectField choices={plan.choices} defaultValue={plan.code}></SelectField>
       </div>
       <div className="flex-1">
         <Input label={""} placeholder={plan.title} value={plan.code} onChange={(e) => onRateChange(e, plan)} />

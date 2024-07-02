@@ -66,9 +66,7 @@ export default function Orders() {
                         <OrderItemRow
                           key={item.id}
                           onRemove={onRemove}
-                          orderItem={item}>
-
-                        </OrderItemRow>
+                          orderItem={item} />
                       ))}
                   </div>
                 </div>

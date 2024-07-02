@@ -1,5 +1,5 @@
 import { IDates } from "../../app-store/app-defaults/types";
-import { IOrder, ITransaction } from "../../app-store/types";
+import { IOrder } from "../../app-store/types";
 import httpClient from "./../axios.config";
 
 interface Dates {
@@ -55,17 +55,14 @@ export const createRazorPayOrder = async (razorPayOrderDetails) => {
     "/user/payment/razorPayOrder",
     razorPayOrderDetails
   );
-  console.log("Response :### ", response);
   return response;
 };
 
 export const updateDeliveryAddress = async (orderId, address) => {
-  console.log("Updating!!!! Address! : ", address);
   const response: IOrder = await httpClient.put(
     "/user/orders/" + orderId + "?mode=1",
     address
   );
-  console.log("Response : ", response);
 
   return response;
 };

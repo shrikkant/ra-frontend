@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { AppDispatch, RootState } from "../store";
 import { IUser } from "../types";
 import { IAuthState } from "./types";
+import { RootState } from "../store";
 
 const initialState: IAuthState = {};
 
