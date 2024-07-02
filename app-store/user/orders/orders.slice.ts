@@ -30,7 +30,7 @@ export const updateDeliveryAddressAction =
   (order: IOrder, address: ILocation) => async (dispatch: AppDispatch) => {
     const response: IOrder = await updateDeliveryAddress(order.id, address);
     const newOrder = { ...response };
-		newOrder.delivery_address = response.delivery_address;
+    newOrder.delivery_address = response.delivery_address;
     dispatch(ordersSlice.actions.setCart(newOrder));
   };
 

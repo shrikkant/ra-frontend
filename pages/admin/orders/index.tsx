@@ -1,17 +1,13 @@
-import { Button, Layout, Space, Tabs, Tag } from "antd";
+import { Button, Tabs, Tag } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import styles from "styles/orders.module.css";
-
-import AppNav from "components/AppNav";
-import { AppFooter } from "components/footer";
-import AppHeader from "components/header";
 
 import { getOrders, setOrders } from "app-store/admin/index.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrders } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
-import { IOrder } from "app-store/types";
+
 import Moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
@@ -30,7 +26,6 @@ export default function Orders() {
   const { stage } = router.query;
 
   const dispatch = useDispatch();
-  const df = Moment().format("DD MMM");
 
   const loadOrders = () => {
     setLoading(true);

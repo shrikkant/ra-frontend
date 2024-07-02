@@ -3,7 +3,13 @@ import React from "react";
 
 import { IOrderItem, IProduct } from "../app-store/types";
 
-export default function OrderItemRow({ orderItem }: { orderItem: IOrderItem }) {
+export default function OrderItemRow({
+  orderItem,
+  onRemove,
+}: {
+  orderItem: IOrderItem,
+  onRemove?: (id: number) => void
+}) {
   const product: IProduct = orderItem.product;
 
   return (
@@ -20,6 +26,9 @@ export default function OrderItemRow({ orderItem }: { orderItem: IOrderItem }) {
             </div>
           )
         })}
+      </div>
+      <div>
+        {onRemove && <button onClick={() => onRemove(orderItem.id)} className="text-red-500">Remove</button>}
       </div>
 
     </div>

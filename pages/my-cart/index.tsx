@@ -5,7 +5,7 @@ import {
 
 } from "app-store/user/orders/orders.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCart } from "api/user/orders.api";
+import { fetchCart, removeFromCart } from "api/user/orders.api";
 import React, { useEffect, useState } from "react";
 import OrderSummary from "components/OrderSummary";
 import styles from "styles/my-cart.module.css";
@@ -27,6 +27,14 @@ export default function Orders() {
   const onRazorPayCheckout = (mode: number) => {
     router.push("/my-cart/buy");
   };
+
+  const onRemove = async (id: number) => {
+    setLoading(true);
+    await removeFromCart(id);
+    const cart = await fetchCart();
+    dispatch(setCart(cart));
+    setLoading(false);
+  }
 
   useEffect(() => {
     setLoading(true);
@@ -55,7 +63,12 @@ export default function Orders() {
                   <div className={"border rounded-md border-gray-400 ml-8 mt-3"}>
                     {cart.items &&
                       cart.items.map((item: IOrderItem) => (
-                        <OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
+                        <OrderItemRow
+                          key={item.id}
+                          onRemove={onRemove}
+                          orderItem={item}>
+
+                        </OrderItemRow>
                       ))}
                   </div>
                 </div>

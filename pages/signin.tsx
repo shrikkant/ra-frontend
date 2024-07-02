@@ -5,6 +5,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectAuthState } from "app-store/auth/auth.slice";
+import GoogleSignInButton from "../components/common/GoogleSignInBtn";
 
 export default function Signin() {
   const router = useRouter();
@@ -21,7 +22,7 @@ export default function Signin() {
 
   return (
     <div className="layout">
-      <AppHeader navState={false} onNavStateChange={() => {}}></AppHeader>
+      <AppHeader navState={false} onNavStateChange={() => { }}></AppHeader>
       <Content className="h-[calc(100vh-185px)] sm:h-[calc(100vh-135px)] flex w-full justify-center">
         <div className=" flex flex-col justify-center">
           <div className="rounded border p-5 w-[300]">
@@ -30,20 +31,7 @@ export default function Signin() {
                 <h1 className="text-2xl font-semibold">Login</h1>
               </div>
               <div className="flex items-center justify-center">
-                <button
-                  onClick={() => (window.location.href = "/auth/google")}
-                  className="w-full  px-4 py-2 border flex gap-2 border-slate-200 rounded-lg text-slate-700  hover:border-slate-400  hover:text-slate-900  hover:shadow transition duration-150"
-                >
-                  <img
-                    className="w-6 h-6"
-                    src="https://www.svgrepo.com/show/475656/google-color.svg"
-                    loading="lazy"
-                    alt="google logo"
-                  />
-                  <div className="justify-center w-full">
-                    <span>Login with Google</span>
-                  </div>
-                </button>
+                <GoogleSignInButton onClick={() => (window.location.href = "/auth/google")} />
               </div>
 
               <div
