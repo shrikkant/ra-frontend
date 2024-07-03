@@ -27,7 +27,7 @@ export default function Location() {
   const [filter, setFilter] = useState<IProductFilter>();
   const { q } = router.query;
   const [pageNotFound, setPageNotFound] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
 
   const [defaultSearch, setDefaultSearch] = useLocalStorage<IDefaultSearch>(
     "defaultSearch"
@@ -39,7 +39,7 @@ export default function Location() {
 
 
   useEffect(() => {
-
+    setLoading(true);
     const queryString = router.query ? String(router.query.q) : "";
 
     if (queryString) {
@@ -58,12 +58,9 @@ export default function Location() {
           }
         };
         if (!defaultSearch) {
-
           dispatch(setSearch(JSON.stringify(search)));
           setDefaultSearch(search);
         }
-
-        setLoading(false);
         setFilter(filter);
 
         if (filter.product) {
@@ -71,14 +68,17 @@ export default function Location() {
             setActiveProduct(product);
             setLoading(false);
           });
+        } else {
+          if (products)
+            setLoading(false);
         }
       } catch (error) {
         // some pother shit.
         setPageNotFound(true)
       }
-
     }
-  }, [categories, router.query]);
+
+  }, [categories, router.query, products]);
 
   const toggleNav = () => {
     setFilters(!filters);

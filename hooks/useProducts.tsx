@@ -23,25 +23,23 @@ export const useProducts = () => {
 
 
   useEffect(() => {
-    setTimeout(() => {
-      const queryString = q ? String(q) : "";
-      try {
-        const filter = categories ? getProductFilter(query, categories) : null;
-        if (!filter) {
-          return;
-        }
 
-        console.log("Filter >>>> ", filter);
-
-        filter.city = !filter.city ? defaultSearch?.location?.city : filter.city;
-
-        if (filter && filter.city) {
-          !filter.product && getSearchResultsAction(queryString, filter)(dispatch);
-        }
-      } catch (e) {
-        console.log(e);
+    const queryString = q ? String(q) : "";
+    try {
+      const filter = categories ? getProductFilter(query, categories) : null;
+      if (!filter) {
+        return;
       }
-    }, 3000)
+
+      filter.city = !filter.city ? defaultSearch?.location?.city : filter.city;
+
+      if (filter && filter.city) {
+        !filter.product && getSearchResultsAction(queryString, filter)(dispatch);
+      }
+    } catch (e) {
+      console.log(e);
+    }
+
 
 
   }, [router.query, categories, defaultSearch]);
