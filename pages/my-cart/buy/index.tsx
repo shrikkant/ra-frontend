@@ -32,11 +32,8 @@ export default function Orders() {
     ) || { id: -1, name: "Store Pickup" };
 
     if (mode === ORDER_STEPS.ORDER_STEP_DELIVERY) {
-      console.log("Updating Delivery Address : ", currentAddr);
       updateDeliveryAddressAction(cart, currentAddr)(dispatch);
       setSelectedAddress(currentAddr);
-
-      console.log("Next Step ", resolveStep());
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
       displayRazorpay(cart.id);
     }
@@ -90,7 +87,7 @@ export default function Orders() {
         <>
           {cart ? (
             <div
-              className={"flex flex-col-reverse md:flex-row w-full space-x-8"}
+              className={"flex flex-col-reverse md:flex-row w-full md:space-x-8"}
             >
               <div className={"md:w-3/4 w-full"}>
                 <AddressPicker
@@ -105,8 +102,8 @@ export default function Orders() {
                 ></OrderItemsReview>}
               </div>
 
-              <div className={"w-1/4"}>
-                <div className="md:fixed top-100 w-80">
+              <div className={"md:w-1/4 w-full"}>
+                <div className="md:fixed top-100 md:w-80 w-full p-4">
                   <OrderSummary
                     order={cart}
                     step={

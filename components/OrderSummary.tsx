@@ -27,9 +27,9 @@ export default function OrderSummary({
   }
 
   return (
-    <div className={"w-80 p-3 bg-gray-50 shadow-lg rounded-md"}>
+    <div className={"p-3 bg-gray-50 shadow-lg rounded-md"}>
       <div>
-        <div>
+        <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none">
           {callToAction(step) && <button
             onClick={() => { onInitRazorPay(step) }}
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"

@@ -61,21 +61,20 @@ export const AddressPicker = ({
   }
 
   return (
-    <>
+    <div className="p-4">
       <StepHeader
         index={1}
         label={"Delivery Address"}
         onChangeAction={onAddressReset}
         showChange={selectedAddress}
       >
-        {selectedAddress && (
-          <Address
-            address={selectedAddress}
-            name={loggedUser.firstname + " " + loggedUser.lastname}
-          />
-        )}
       </StepHeader>
-
+      {selectedAddress && (
+        <Address
+          address={selectedAddress}
+          name={loggedUser.firstname + " " + loggedUser.lastname}
+        />
+      )}
       {(!hasAddress) && (
         <div className="text-center mt-4">
           {/* <DocumentUpload /> */}
@@ -104,6 +103,6 @@ export const AddressPicker = ({
           userName={loggedUser?.firstname + " " + loggedUser?.lastname}
         />
       )}
-    </>
+    </div>
   );
 };

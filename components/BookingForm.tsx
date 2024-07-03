@@ -40,7 +40,6 @@ export default function BookingForm({ productId, rates }: { productId: number, r
   };
 
   const onAddToCart = (bookNow?: boolean) => {
-    console.log("Adding to cart", productId, defaultSearch);
     if (!loggedUser) {
       router.push("/signin");
     } else {
@@ -139,8 +138,14 @@ export default function BookingForm({ productId, rates }: { productId: number, r
   );
 
   return (
-    <div className="bg-white shadow-md md:ml-3 p-5 flex flex-col gap-4 text-sm h-full w-full dark:focus:outline-none border border-1 border-gray-200 ">
-      {renderForm}
+    <div className="">
+      <div className="md:block hidden bg-white shadow-md  p-5 text-sm h-full w-full  border border-1 border-gray-200 ">
+        <div className="flex md:flex-col gap-4">
+          {renderForm}
+        </div>
+      </div>
+
+
       {!openFormInMobile ? (
         <div className="fixed p-4 bottom-0 left-0 right-0 bg-white md:hidden py-3 text-center border-t border-gray-300 cursor-pointer flex justify-between z-40">
           <div className="relative flex">

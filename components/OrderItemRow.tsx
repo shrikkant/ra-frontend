@@ -13,23 +13,32 @@ export default function OrderItemRow({
   const product: IProduct = orderItem.product;
 
   return (
-    <div className={styles.productRow} key={product.id}>
-      <div className={styles.productImg}>
-        {(product && product.photos) && <img className={styles.img} src={product?.photos[0]?.path}></img>}
+    <div className={"p-2 border-b-gray-50 border last:border-none "} key={product.id}>
+      <div className="flex gap-x-2">
+        <div className={"w-1/4 flex justify-center align-top"}>
+          {(product && product.photos) && <img className={styles.img} src={product?.photos[0]?.path}></img>}
+        </div>
+        <div className={"w-3/4"}>
+          <h3 className="text-lg font-bold mb-3">{product.title}</h3>
+          {product.masterProductList && product.masterProductList.map((addon: any) => {
+            return (
+              <div key={addon?.id} className="flex">
+                <div className="whitespace-nowrap">
+                  1 x&nbsp;
+                </div>
+                <div>
+                  {addon?.masterProduct?.name}
+                </div>
+              </div>
+            )
+          })}
+
+          <div className="text-left pt-3">
+            {onRemove && <button onClick={() => onRemove(orderItem.id)} className="text-red-500">Remove</button>}
+          </div>
+        </div>
       </div>
-      <div className={styles.productDesc}>
-        <h3 className="text-lg font-bold mb-3">{product.title}</h3>
-        {product.masterProductList && product.masterProductList.map((addon: any) => {
-          return (
-            <div key={addon?.id}>
-              1 x {addon?.masterProduct?.name}
-            </div>
-          )
-        })}
-      </div>
-      <div>
-        {onRemove && <button onClick={() => onRemove(orderItem.id)} className="text-red-500">Remove</button>}
-      </div>
+
 
     </div>
   );

@@ -1,3 +1,4 @@
+import React from "react";
 import { Content } from "antd/lib/layout/layout";
 import { HeadCard } from "./HeadCard";
 import { Package } from "./Package";

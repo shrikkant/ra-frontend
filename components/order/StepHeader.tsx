@@ -23,7 +23,7 @@ export const StepHeader = ({
           <div>{label} </div>
           <div>{children}</div>
         </div>
-        {(showChange && onChangeAction) && (
+        {showChange && onChangeAction && (
           <button
             onClick={() => {
               onChangeAction();

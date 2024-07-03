@@ -14,15 +14,15 @@ export const OrderItemsReview = ({
   title: string
 }) => {
   return (
-    <>
+    <div className="p-4">
       <StepHeader label={title} index={2}></StepHeader>
 
-      <div className={"border rounded-md border-gray-400 ml-8 mt-3"}>
+      <div className={"border rounded-md border-gray-400 md:ml-8 mt-3"}>
         {order.items &&
           order.items.map((item: IOrderItem) => (
             <OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
           ))}
       </div>
-    </>
+    </div>
   );
 };

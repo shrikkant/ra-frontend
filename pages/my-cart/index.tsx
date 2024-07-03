@@ -57,22 +57,24 @@ export default function Orders() {
           <>
             {cart ? (
               <div
-                className={"flex flex-col-reverse md:flex-row w-full space-x-8"}
+                className={"flex flex-col-reverse md:flex-row w-full md:space-x-8"}
               >
                 <div className={"md:w-3/4 w-full"}>
-                  <div className={"border rounded-md border-gray-400 ml-8 mt-3"}>
-                    {cart.items &&
-                      cart.items.map((item: IOrderItem) => (
-                        <OrderItemRow
-                          key={item.id}
-                          onRemove={onRemove}
-                          orderItem={item} />
-                      ))}
+                  <div className="p-4">
+                    <div className={"border rounded-md border-gray-400"}>
+                      {cart.items &&
+                        cart.items.map((item: IOrderItem) => (
+                          <OrderItemRow
+                            key={item.id}
+                            onRemove={onRemove}
+                            orderItem={item} />
+                        ))}
+                    </div>
                   </div>
                 </div>
 
-                <div className={"w-1/4"}>
-                  <div className="md:fixed top-100 w-80">
+                <div className={"md:w-1/4 w-full"}>
+                  <div className="md:fixed top-100 md:w-80 w-full p-4">
                     <OrderSummary
                       order={cart}
                       step={ORDER_STEPS.ORDER_STEP_CART
