@@ -6,7 +6,7 @@ import styles from 'styles/google.signin.module.css';
 export default function GoogleSignInButton({ onClick }: { onClick: () => void }) {
   return (
     <a href="#" onClick={onClick} target="_self" className='w-full'>
-      <button className={styles['gsi-material-button']}>
+      <button className={styles['gsi-material-button'] + " w-full"}>
         <div className={styles['gsi-material-button-state']}></div>
         <div className={styles['gsi-material-button-content-wrapper']}>
           <div className={styles['gsi-material-button-icon']}>
