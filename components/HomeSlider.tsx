@@ -1,4 +1,5 @@
 'use client'
+import React from 'react';
 import { ReactNode, useEffect, useState } from "react";
 import { IHomeSlide } from "../app-store/products/types";
 import Image from "next/image";
@@ -38,6 +39,7 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
         imgBg: '/assets/v2/img/bg-slider.svg',
         price: 750,
         model: 'model SX-200',
+        url: '/pune/rent-gopro-cameras/GoPro-Hero-11-Black-Action-Camera-3304'
       },
       {
         id: 2,
@@ -47,6 +49,7 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
         imgBg: '/assets/v2/img/bg-slider-2.svg',
         price: 900,
         model: 'model M-300',
+        url: '/pune/rent-gopro-cameras/Insta360-ONE-X2-3452'
       },
       {
         id: 3,
@@ -56,6 +59,7 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
         imgBg: '/assets/v2/img/bg-slider-3.svg',
         price: 350,
         model: 'model X-230',
+        url: '/pune/rent-camping-tents/Coleman-Camping-Tent-with-Fibreglass-poles-4-Person-3482'
       },
     ];
 
