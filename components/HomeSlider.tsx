@@ -79,7 +79,7 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
               <div className="main-slide-info">
                 <h2 className="title">{p.title}</h2>
                 <p>{p.subtitle}</p>
-                <a href="single-shop.html" className="btn">
+                <a href={p.url} className="btn">
                   <span>Book Now</span>
                 </a>
               </div>
