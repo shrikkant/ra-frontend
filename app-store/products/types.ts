@@ -8,10 +8,11 @@ export interface IHomeSlide {
 	imgBg: string;
 	price: number;
 	model: string;
+	url?: string;
 }
 export interface ProductsState {
 	featuredProducts?: IProduct[];
 	activeProduct?: IProduct;
 	searchResults?: IProduct[];
-	searchMetaData?:any;
+	searchMetaData?: any;
 }
