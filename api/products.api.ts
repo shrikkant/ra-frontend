@@ -45,8 +45,6 @@ export async function fetchProductBySlug(slug: string): Promise<IProduct> {
 
 
 export async function fetchProduct(filter): Promise<IProduct> {
-
   const response = await httpClient.get<string, IProduct>(`products/.by.slug/${filter.product}?city=${filter?.city}&subCat=${filter.subCategory}`);
-  console.log("Product >>>> ", response);
   return response;
 }
