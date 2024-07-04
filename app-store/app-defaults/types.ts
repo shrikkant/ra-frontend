@@ -15,6 +15,7 @@ export interface IBlog {
   content: string;
   author: IAuthor;
   creationDate: string;
+  slug: string;
 }
 
 export interface ITestimonial {
