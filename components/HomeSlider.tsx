@@ -57,9 +57,19 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
         subtitle: 'Rent a camping tent for your next adventure.',
         img: '/assets/v2/img/4-person-camping-tent-waterproof.png',
         imgBg: '/assets/v2/img/bg-slider-3.svg',
-        price: 350,
+        price: 500,
         model: 'model X-230',
         url: '/pune/rent-camping-tents/Coleman-Camping-Tent-with-Fibreglass-poles-4-Person-3482'
+      },
+      {
+        id: 3,
+        title: 'Capture the details with DSLR',
+        subtitle: 'Complete your photography kit with a Sony A7 III DSLR camera.',
+        img: '/assets/v2/img/sony-a7-III-dslr-camera-1.png',
+        imgBg: '/assets/v2/img/bg-slider.svg',
+        price: 1500,
+        model: 'model X-230',
+        url: '/pune/rent-camera/Sony-A7-M-III-3317'
       },
     ];
 
@@ -88,7 +98,7 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
                   <div className="lable-bike-img"><img src="assets/v2/img/bike-info-slide.jpg" alt="img" /></div>
                   <div className="lable-bike-item">
                     <div className="model">Starting</div>
-                    <div className="price">₹1399</div>
+                    <div className="price">₹{p.price}</div>
                   </div>
                 </a>
 
