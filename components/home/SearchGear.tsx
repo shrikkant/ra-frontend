@@ -3,14 +3,16 @@ import { useState } from "react";
 import { useRouter } from "next/navigation";
 import PageContainer from "../common/PageContainer";
 import React from "react";
+import { IDefaultSearch } from "../../app-store/app-defaults/types";
+import { useLocalStorage } from "../../util/localStore.util";
 
 export default function SearchGear() {
   const router = useRouter();
-
   const [search, setSearch] = useState('');
-
+  const [storeSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
   const onSearch = () => {
-    router.push('/pune?q=' + search);
+    const city = storeSearch?.location?.city || "pune";
+    router.push(`/${city}?q=${search}`);
   }
 
   const onSearchChange = (e: any) => {
@@ -18,6 +20,8 @@ export default function SearchGear() {
   }
 
   const onEnterPress = (e: any) => {
+
+    e.preventDefault();
     if (e.key === 'Enter') {
       onSearch();
     }
