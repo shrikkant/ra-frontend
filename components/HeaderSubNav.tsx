@@ -9,10 +9,11 @@ import { Disclosure } from "@headlessui/react";
 
 import { useCategories } from "../hooks/useCategories";
 import { useLocalStorage } from "../util/localStore.util";
+import { IDefaultSearch } from "../app-store/app-defaults/types";
 
 export default function HeaderSubNav() {
   const router = useRouter();
-  const [storeSearch] = useLocalStorage("defaultSearch");
+  const [storeSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
   const { categories } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);

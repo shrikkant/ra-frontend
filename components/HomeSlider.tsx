@@ -4,8 +4,12 @@ import { ReactNode, useEffect, useState } from "react";
 import { IHomeSlide } from "../app-store/products/types";
 import Image from "next/image";
 import PageContainer from "./common/PageContainer";
+import { useLocalStorage } from '../util/localStore.util';
+import { useRouter } from 'next/navigation';
 
 export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
+
+
 
   const INTERVAL_LENGTH = 4000;
   const AUTOPLAY = false;
@@ -13,6 +17,9 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
   const [autoplay, setAutoplay] = useState(AUTOPLAY);
   const [currentItem, setCurrentItem] = useState(0);
   const [items, setItems] = useState<ReactNode[]>([]);
+
+
+
   const prev = () => {
     if (currentItem === 0) {
       setCurrentItem(items.length - 1);
@@ -29,6 +36,8 @@ export function HomeSlider({ maxSlides }: { maxSlides?: number }) {
   }
 
   useEffect(() => {
+
+
 
     const photos: IHomeSlide[] = [
       {

@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
 import { useLocalStorage } from "../util/localStore.util";
 import { addToCart } from "../api/user/orders.api";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import { RupeeSymbol } from "./RupeeSymbol";
 import { useSelector } from "react-redux";
 import { getDefaultSearch } from "app-store/session/session.slice";
@@ -16,10 +16,12 @@ import { IDefaultSearch } from "../app-store/app-defaults/types";
 export default function BookingForm({ productId, rates }: { productId: number, rates: any[] }) {
   const loggedUser = useSelector(selectAuthState);
   const router = useRouter();
+  const pathname = usePathname();
   const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch] = useLocalStorage<IDefaultSearch>(
     "defaultSearch"
   );
+  const [lastLink, setLastLink] = useLocalStorage<string | null>("lastLink");
 
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
 
@@ -41,6 +43,7 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
   const onAddToCart = (bookNow?: boolean) => {
     if (!loggedUser) {
+      setLastLink(pathname);
       router.push("/signin");
     } else {
 

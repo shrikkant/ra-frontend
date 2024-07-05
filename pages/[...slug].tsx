@@ -25,9 +25,9 @@ export default function Location() {
   const { products } = useProducts();
   const { query } = router;
   const [filter, setFilter] = useState<IProductFilter>();
-  const { q } = router.query;
   const [pageNotFound, setPageNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
+
 
   const [defaultSearch, setDefaultSearch] = useLocalStorage<IDefaultSearch>(
     "defaultSearch"
@@ -67,6 +67,7 @@ export default function Location() {
           fetchProduct(filter).then((product: IProduct) => {
             setActiveProduct(product);
             setLoading(false);
+
           });
         } else {
           if (products)
