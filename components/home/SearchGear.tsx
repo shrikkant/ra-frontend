@@ -31,7 +31,9 @@ export default function SearchGear() {
             <li>
               <input name="search" type='text' onKeyUp={onEnterPress} placeholder='Search for gear' onChange={onSearchChange} />
             </li>
-            <li><a href="#" onClick={onSearch} className="btn"><span>search</span></a></li>
+            <li>
+              <a href="#" onClick={onSearch} className="btn"><span>search</span></a>
+            </li>
           </ul>
         </div>
 
