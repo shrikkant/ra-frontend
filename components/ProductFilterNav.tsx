@@ -34,17 +34,9 @@ export default function ProductFilterNav({
 
   const searchMeta = useSelector(getSearchMetaData);
 
-  const categories = useSelector(getCategories);
-
-  const { q, rf, br, scid } = router.query;
+  const { rf } = router.query;
 
   const brands = getBrandOptions(searchMeta?.brands);
-  const items = categories
-    ? categories[0].subCategories?.map((sc) => ({
-      label: sc.title,
-      key: sc.id,
-    }))
-    : [];
 
   const onBrandsChange = (checkedValues: any[]) => {
     const query = { ...router.query };
@@ -97,7 +89,7 @@ export default function ProductFilterNav({
           </Form>
         </Card>}
 
-        <Card title="Price">
+        {showPriceFilter(searchMeta.rate) && <Card title="Price">
           <div className={style.pitsWrapper}>
             {getPits(searchMeta.rate).map((pit, index) => {
               return (
@@ -125,7 +117,7 @@ export default function ProductFilterNav({
             onAfterChange={onPriceChange}
           />
           {/* <Meta title={searchMeta.total}></Meta> */}
-        </Card>
+        </Card>}
       </div>
 
       <div className="flex justify-end p-3 border-t mt-2 sm:hidden">
@@ -137,14 +129,18 @@ export default function ProductFilterNav({
   );
 }
 
+const showPriceFilter = (rate) => {
+  return (getPits(rate).filter((p) => p > 0).length > 4);
+}
+
 function getPits(rate) {
   let pits: number[] = [];
   let realValues: number[] = [];
 
   realValues = rate.bands.map((b) => b.count);
 
-  const max = Math.max.apply(Math, realValues);
-  const min = Math.min.apply(Math, realValues);
+  const max = Math.max(...realValues);
+  const min = Math.min(...realValues);
 
   pits = realValues.map((v) => Math.round(((v - min) / (max - min)) * 100));
 
