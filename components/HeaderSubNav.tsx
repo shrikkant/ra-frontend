@@ -1,7 +1,5 @@
 import { useRouter } from "next/router";
 
-import { useDispatch, useSelector } from "react-redux";
-
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
@@ -10,30 +8,24 @@ import React, { useEffect, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 
 import { useCategories } from "../hooks/useCategories";
-import { getDefaultSearch } from "../app-store/session/session.slice";
 import { useLocalStorage } from "../util/localStore.util";
 
 export default function HeaderSubNav() {
   const router = useRouter();
-  const storeSearch = useSelector(getDefaultSearch);
-
-  const [location, setLocation] = useState<any>(null);
-
-
-  const [q, setQuery] = useState(router.query?.q);
+  const [storeSearch] = useLocalStorage("defaultSearch");
   const { categories } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);
 
   const onCategorySelect = (key, querySlug) => {
-    const { slug } = router.query;
-    const query: any = {};
+
+    const city = storeSearch?.location?.city || "pune";
+
     if (!location)
       return;
 
     router.push({
-      pathname: "/" + location.city?.toLowerCase() + "/" + querySlug,
-      query,
+      pathname: "/" + city + "/" + querySlug
     });
   };
 
