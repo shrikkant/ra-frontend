@@ -10,8 +10,8 @@ export default function SearchGear() {
   const router = useRouter();
   const [search, setSearch] = useState('');
   const [storeSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
+
   const onSearch = () => {
-    console.log("Searcing for : ", search);
     const city = storeSearch?.location?.city || "pune";
     router.push(`/${city}?q=${search}`);
   }
@@ -22,8 +22,7 @@ export default function SearchGear() {
 
   const onEnterPress = (e: any) => {
     e.preventDefault();
-    console.log("Key Pressed : ", e.key);
-    if (e.key === 'Enter') {
+    if (e.keyCode === 13) {
       onSearch();
       return;
     }
