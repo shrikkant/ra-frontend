@@ -11,8 +11,9 @@ export default function SearchGear() {
   const [search, setSearch] = useState('');
   const [storeSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
   const onSearch = () => {
+    console.log("Searcing for : ", search);
     const city = storeSearch?.location?.city || "pune";
-    router.push(`/${city}?q=${search}`);
+    router.push(`/${  }?q=${search}`);
   }
 
   const onSearchChange = (e: any) => {
@@ -20,10 +21,11 @@ export default function SearchGear() {
   }
 
   const onEnterPress = (e: any) => {
-
     e.preventDefault();
+    console.log("Key Pressed : ", e.key);
     if (e.key === 'Enter') {
       onSearch();
+      return;
     }
   }
   return (<section className="s-find-bike">
