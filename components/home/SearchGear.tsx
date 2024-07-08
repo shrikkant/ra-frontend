@@ -30,7 +30,7 @@ export default function SearchGear() {
   }
   return (<section className="s-find-bike">
     <PageContainer>
-      <form className="find-bike-form justify-centre" onSubmit={() => onSearch()}>
+      <form className="find-bike-form justify-centre">
 
         <div className='flex w-full'>
           <ul className="form-wrap w-full justify-center">
