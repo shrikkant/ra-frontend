@@ -8,7 +8,7 @@ import { displayMessage } from '../util/global.util';
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
 const httpClient = axios.create({
-    baseURL: "https://alpha.rentacross.com/api/"
+    baseURL: "https://labs.rentacross.com/api/"
 });
 
 
@@ -60,7 +60,7 @@ export const fetchData = async (url, customOptions?) => {
     }
 
 
-    const response: any = await fetch(`http://localhost:8082/api/${url}`, options);
+    const response: any = await fetch(`http://labs.rentacross.com/api/${url}`, options);
 
     if (!response.ok) {
         throw new Error('Failed to fetch data')
