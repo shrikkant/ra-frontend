@@ -47,6 +47,7 @@ export default function Location() {
         const filter = categories ? getProductFilter(query, categories) : {};
         console.log("Filter : ", filter);
         if (!filter) {
+          alert("Filter not found " + filter);
           setPageNotFound(true);
           return;
         }
@@ -76,6 +77,7 @@ export default function Location() {
         }
       } catch (error) {
         // some pother shit.
+        alert(error);
         console.log("Error : ", error);
         setPageNotFound(true)
       }
