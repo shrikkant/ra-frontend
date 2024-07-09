@@ -23,7 +23,7 @@ export default function Header() {
             <ul className="icon-right-list">
               <li><a className="header-like" href="#"><i className="fa fa-heart" aria-hidden="true"></i><span>6</span></a></li>
               <li><a className="header-user" href="#"><i className="fa fa-user" aria-hidden="true"></i></a></li>
-              <li><a className="header-cart" href="/my-cart"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
+              <li><a className="header-cart" href="/portal/my-cart"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
             </ul>
           </div>
         </div>

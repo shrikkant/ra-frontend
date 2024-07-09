@@ -52,7 +52,7 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
       addToCart(productId, defaultSearch?.dates).then(() => {
         if (bookNow) {
-          router.push("/my-cart");
+          router.push("/portal/my-cart");
         }
       });
     }

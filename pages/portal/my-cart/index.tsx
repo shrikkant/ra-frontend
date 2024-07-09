@@ -25,7 +25,7 @@ export default function Orders() {
   const dispatch = useDispatch();
 
   const onRazorPayCheckout = (mode: number) => {
-    router.push("/my-cart/buy");
+    router.push("/portal/my-cart/buy");
   };
 
   const onRemove = async (id: number) => {
