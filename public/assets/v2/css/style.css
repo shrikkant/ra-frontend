@@ -1238,9 +1238,6 @@ body.no-scroll {
 		overflow-y: auto
 	}
 
-	.header-cont {
-		display: none
-	}
 
 	.nav-list {
 		padding-bottom: 30px
@@ -8598,7 +8595,7 @@ body.modal {
 	}
 
 	.main-slider .main-slide .main-slide-info {
-		padding-top: 44px
+		padding-top: 16px
 	}
 
 	.main-slider .main-slide .main-slide-info .title {
@@ -9297,6 +9294,6 @@ body.modal {
 @media (max-width: 440px) {
     .container {
         max-width: 100%;
-				padding: 24px;
+				padding: 8px 24px;
     }
 }
