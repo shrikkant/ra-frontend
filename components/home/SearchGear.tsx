@@ -13,7 +13,9 @@ export default function SearchGear() {
 
   const onSearch = () => {
     const city = storeSearch?.location?.city || "pune";
-    router.push(`/${city}?q=${search}`);
+    return router.push(`${city}?q=${search}`);
+
+
   }
 
   const onSearchChange = (e: any) => {
@@ -21,15 +23,13 @@ export default function SearchGear() {
   }
 
   const onEnterPress = (e: any) => {
-    e.preventDefault();
     if (e.keyCode === 13) {
       onSearch();
-      return;
     }
   }
   return (<section className="s-find-bike">
     <PageContainer>
-      <form className="find-bike-form justify-centre">
+      <form className="find-bike-form justify-centre" onSubmit={(e) => { e.preventDefault(); }}>
 
         <div className='flex w-full'>
           <ul className="form-wrap w-full justify-center">

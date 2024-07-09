@@ -157,8 +157,6 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
 
   }
 
-  console.log("Product Filter : ", productFilter)
-
   return productFilter;
 }
 
