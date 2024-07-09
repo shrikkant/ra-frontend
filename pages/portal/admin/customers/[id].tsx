@@ -2,22 +2,21 @@
 import { useRouter } from "next/router";
 
 import { Content } from "antd/lib/layout/layout";
-import ActivityCard from "../../../components/ActivityCard";
-import DocumentsCard from "../../../components/DocumentsCard";
+import ActivityCard from "components/ActivityCard";
+import DocumentsCard from "components/DocumentsCard";
 
 import { useDispatch, useSelector } from "react-redux";
-import MyPageHeader from "../../../components/MyPageHeader";
+import MyPageHeader from "components/MyPageHeader";
 
-import Moment from "moment";
 import React, { useEffect, useState } from "react";
 import {
   getActiveCustomer,
   setActiveCustomer,
-} from "../../../app-store/admin/index.slice";
+} from "app-store/admin/index.slice";
 
-import { fetchActiveCustomer } from "../../../api/admin/customers.api";
-import CustomerCard from "../../../components/CustomerCard";
-import { AppLayout } from "../../../components/AppLayout";
+import { fetchActiveCustomer } from "api/admin/customers.api";
+import CustomerCard from "components/CustomerCard";
+import { AppLayout } from "components/AppLayout";
 
 export default function Customers() {
   const router = useRouter();
@@ -27,7 +26,6 @@ export default function Customers() {
   const customerId = parseInt(String(id));
   const activeCustomer = useSelector(getActiveCustomer);
   const dispatch = useDispatch();
-  const df = Moment().format("DD MMM");
 
   const loadActiveCustomer = () => {
     setLoading(true);

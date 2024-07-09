@@ -1,19 +1,11 @@
-import { Button, Layout, Space, Tag } from "antd";
+
 import Table from "antd/lib/table/Table";
-
-import styles from "styles/orders.module.css";
-
 import { Content } from "antd/lib/layout/layout";
-import AppNav from "components/AppNav";
-import { AppFooter } from "components/footer";
-import AppHeader from "../../../components/header";
 
 import {
-  getCustomers,
-  setCustomers,
   getBrands,
   setBrands,
-} from "../../../app-store/admin/index.slice";
+} from "app-store/admin/index.slice";
 import { useDispatch, useSelector } from "react-redux";
 
 import MyPageHeader from "components/MyPageHeader";
@@ -24,7 +16,7 @@ import { fetchBrands } from "api/admin/index.api";
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
 import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
-import { AppLayout } from "../../../components/AppLayout";
+import { AppLayout } from "components/AppLayout";
 
 const columns = [
   {
