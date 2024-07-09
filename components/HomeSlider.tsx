@@ -165,9 +165,13 @@ export function HomeSlider() {
     </div>
 
     <ul className="main-soc-list">
-      <li><a href="https://www.facebook.com/rentacross">facebook</a></li>
-      <li><a href="https://x.com/rent_across">twitter</a></li>
-      <li><a href="https://www.instagram.com/rent_across">instagram</a></li>
+      <li>
+        <a rel="noreferrer" target="_blank" href="https://www.facebook.com/rentacross">facebook</a></li>
+      <li>
+        <a rel="noreferrer" target="_blank" href="https://x.com/rentacross">twitter</a></li>
+      <li>
+        <a rel="noreferrer" href="https://www.instagram.com/rent_across" target="_blank">
+          instagram</a></li>
     </ul>
 
     <section className="main-slider relative w-full overflow-hidden">
