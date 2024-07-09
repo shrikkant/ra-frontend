@@ -17,12 +17,14 @@ export default function Header() {
         <div className="container mx-auto">
           <div className="top-panel-cover">
             <ul className="header-cont">
-              <li><a href="tel:+912345687"><i className="fa fa-phone"></i>+91 7720829444</a></li>
+              <li><a href="tel:+9172082944">
+                <i className="fa fa-phone"></i>
+                +91 7720829444
+              </a>
+              </li>
               <li><a href="mailto:support@rentacross.com"><i className="fa fa-envelope" aria-hidden="true"></i>support@rentacross.com</a></li>
             </ul>
             <ul className="icon-right-list">
-              <li><a className="header-like" href="#"><i className="fa fa-heart" aria-hidden="true"></i><span>6</span></a></li>
-              <li><a className="header-user" href="#"><i className="fa fa-user" aria-hidden="true"></i></a></li>
               <li><a className="header-cart" href="/portal/my-cart"><i className="fa fa-shopping-cart" aria-hidden="true"></i></a></li>
             </ul>
           </div>
