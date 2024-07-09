@@ -1,5 +1,6 @@
 
 'use client'
+import React from "react";
 import { ReactNode, useEffect, useState } from "react";
 
 import { ITestimonial } from "../app-store/app-defaults/types";
@@ -79,7 +80,6 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
       return (
         <div key={index} className={"feedback-slide " + (currentItem === index ? "slick-current slick-active" : "")}
           style={{
-            width: '100vw',
             // left: (index > 0 ? -1000 * index : 0),
             top: 0,
             zIndex: 999,
@@ -117,10 +117,11 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
     <span className="mask"></span>
     <PageContainer>
       <h2 className="title">feedback</h2>
-      <div className="feedback-slider relative w-full overflow-hidden">
-        <span onClick={prev} className="slick-arrow-prev slick-arrow" style={{ display: 'flex' }}>
+      <div className="feedback-slider relative">
+        <span onClick={prev} className="slick-arrow-prev slick-arrow">
           <i className="fa fa-angle-left" ></i>
         </span>
+
         <div aria-live="polite" className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box' }}>
           <div className="slick-track" role="listbox"
             style={{ transformStyle: "preserve-3d" }}>
@@ -130,7 +131,7 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
 
 
 
-        <span className="slick-arrow-next slick-arrow z-[10000]" style={{ display: 'flex' }} onClick={next}>
+        <span className="slick-arrow-next slick-arrow z-[10000]" onClick={next}>
           <i className="fa fa-angle-right" ></i>
         </span>
       </div>
