@@ -87,8 +87,17 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
         leave="transition ease-in duration-150"
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
+
       >
-        <Popover.Panel className="bg-white absolute left-1/2 z-10 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4 border rounded">
+        <Popover.Panel className="bg-white sm:absolute
+        xs:fixed
+        xs:left-6
+        z-10 mt-5
+        ml-5
+        mr-5
+        max-w-max
+        sm:-translate-x-1/2 px-4 border
+        rounded ">
           {({ close }) => {
             return (
               <div>

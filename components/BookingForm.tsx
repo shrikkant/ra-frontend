@@ -81,7 +81,7 @@ export default function BookingForm({ productId, rates }: { productId: number, r
             <span className="label text-black font-semibold ml-2">
               Booking Dates
             </span>
-            <span className="">
+            <span className="relative">
               <DateRangePicker mode={"dark"}></DateRangePicker>
             </span>
           </div>
