@@ -36,8 +36,10 @@ httpClient.interceptors.request.use(
 httpClient.interceptors.response.use(
     async function (res: AxiosResponse<any>) {
         const response: any = res;
+
         const { resultFormatted } = response.data;
 
+        // console.log("Response Message: ", response.data);
         if (response.data?.successMessage) {
             displayMessage('success', response.data?.successMessage);
         } else if (response.data?.errorMessage) {
@@ -60,7 +62,7 @@ export const fetchData = async (url, customOptions?) => {
     }
 
 
-    const response: any = await fetch(`http://labs.rentacross.com/api/${url}`, options);
+    const response: any = await fetch(`https://labs.rentacross.com/api/${url}`, options);
 
     if (!response.ok) {
         throw new Error('Failed to fetch data')
