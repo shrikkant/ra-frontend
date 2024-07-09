@@ -1,10 +1,11 @@
 
 'use client'
-import React from "react";
+import React, { Fragment } from "react";
 import { ReactNode, useEffect, useState } from "react";
 
 import { ITestimonial } from "../app-store/app-defaults/types";
 import PageContainer from "./common/PageContainer";
+import { Transition } from "@headlessui/react";
 
 export function Testimonial({ maxSlides }: { maxSlides?: number }) {
 
@@ -26,6 +27,10 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
     } else {
       setCurrentItem(currentItem + 1);
     }
+  }
+
+  const isActive = (index: number) => {
+    return currentItem === index;
   }
 
 
@@ -78,6 +83,7 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
 
     const items = testimonials.map((t, index) => {
       return (
+
         <div key={index} className={"feedback-slide " + (currentItem === index ? "slick-current slick-active" : "")}
           style={{
             // left: (index > 0 ? -1000 * index : 0),
@@ -85,24 +91,36 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
             zIndex: 999,
 
           }}>
-          <div className="feedback-item">
-            <div className="feedback-content">
-              <p>{t.description}</p>
-            </div>
-            <div className="feedback-item-top">
-              <img src={t.img} alt="photo" />
-              <div className="feedback-title">
-                <h5 className="title"><span>{t.name}</span></h5>
-                <ul className="rating">
-                  <li className="star-bg"><i className="fa fa-star" ></i></li>
-                  <li className="star-bg"><i className="fa fa-star" ></i></li>
-                  <li className="star-bg"><i className="fa fa-star" ></i></li>
-                  <li className="star-bg"><i className="fa fa-star" ></i></li>
-                  <li className="star-bg"><i className="fa fa-star" ></i></li>
-                </ul>
+          <Transition
+            as={Fragment}
+            enter="transition ease-out duration-1000"
+            enterFrom="opacity-0 translate-y-1"
+            enterTo="opacity-100 translate-y-0"
+            leave="transition ease-in duration-750"
+            leaveFrom="opacity-100 translate-y-0"
+            leaveTo="opacity-0 translate-y-1"
+            show={isActive(index)}
+
+          >
+            <div className="feedback-item transition duration-300 ease-in data-[closed]:opacity-0">
+              <div className="feedback-content">
+                <p>{t.description}</p>
+              </div>
+              <div className="feedback-item-top">
+                <img src={t.img} alt="photo" />
+                <div className="feedback-title">
+                  <h5 className="title"><span>{t.name}</span></h5>
+                  <ul className="rating">
+                    <li className="star-bg"><i className="fa fa-star" ></i></li>
+                    <li className="star-bg"><i className="fa fa-star" ></i></li>
+                    <li className="star-bg"><i className="fa fa-star" ></i></li>
+                    <li className="star-bg"><i className="fa fa-star" ></i></li>
+                    <li className="star-bg"><i className="fa fa-star" ></i></li>
+                  </ul>
+                </div>
               </div>
             </div>
-          </div>
+          </Transition>
         </div>
       )
     });
