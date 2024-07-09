@@ -11,14 +11,14 @@ import MyPageHeader from "components/MyPageHeader";
 
 import React, { useEffect, useState } from "react";
 import { AppLayout } from "components/AppLayout";
-import Form from "../../components/common/form/Form";
-import Input from "../../components/common/form/Input";
-import { IProduct } from "../../app-store/types";
+import Form from "components/common/form/Form";
+import Input from "components/common/form/Input";
+import { IProduct } from "app-store/types";
 
-import SelectField from "../../components/common/form/SelectField";
-import { getCategories } from "../../app-store/app-defaults/app-defaults.slice";
-import KitAddOns from "../../components/product/KitAddOns";
-import ProductRates from "../../components/product/ProductRates";
+import SelectField from "components/common/form/SelectField";
+import { getCategories } from "app-store/app-defaults/app-defaults.slice";
+import KitAddOns from "components/product/KitAddOns";
+import ProductRates from "components/product/ProductRates";
 
 interface IChoice {
   value: string,

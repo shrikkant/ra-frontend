@@ -15,7 +15,7 @@ import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 
 import { resolveOrderStage } from "util/global.util";
 import Loader from "components/Loader";
-import { AppLayout } from "../../../components/AppLayout";
+import { AppLayout } from "components/AppLayout";
 
 export default function Orders() {
   const router = useRouter();

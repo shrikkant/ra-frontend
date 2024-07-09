@@ -1,12 +1,12 @@
-import { useDispatch, useSelector } from "react-redux";
-import Moment from "moment";
-import { getAuthUser } from "../../api/auth.api";
-import { selectAuthState } from "../../app-store/auth/auth.slice";
-import { AppLayout } from "../../components/AppLayout";
-import MyPageHeader from "../../components/MyPageHeader";
+import React from "react";
+import { useSelector } from "react-redux";
+
+import { selectAuthState } from "app-store/auth/auth.slice";
+import { AppLayout } from "components/AppLayout";
+import MyPageHeader from "components/MyPageHeader";
 
 export default function MyProfile() {
-  const df = Moment().format("DD MMM");
+
   const loggedUser = useSelector(selectAuthState);
 
   return (

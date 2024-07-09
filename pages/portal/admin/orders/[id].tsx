@@ -16,9 +16,9 @@ import { useRouter } from "next/router";
 import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 import Loader from "components/Loader";
 import { OrderStages, resolveOrderStage } from "util/global.util";
-import { OrderStageForm } from "../../../components/admin/OrderStageForm";
-import { DeliveryAssignmentForm } from "../../../components/admin/DeliveryAssignmentForm";
-import { AppLayout } from "../../../components/AppLayout";
+import { OrderStageForm } from "components/admin/OrderStageForm";
+import { DeliveryAssignmentForm } from "components/admin/DeliveryAssignmentForm";
+import { AppLayout } from "components/AppLayout";
 
 export default function Order() {
   const router = useRouter();
@@ -33,7 +33,6 @@ export default function Order() {
   });
 
   const dispatch = useDispatch();
-  const df = Moment().format("DD MMM");
 
   const loadOrder = () => {
     const orderId = parseInt(String(id));
@@ -56,7 +55,7 @@ export default function Order() {
       Moment(end).utcOffset(0).format("DD MMM hh A")
     );
   };
-  let items: JSX.Element[] = [];
+
 
   return (
     <AppLayout>

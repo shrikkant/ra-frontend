@@ -1,32 +1,24 @@
-import styles from "styles/orders.module.css";
-
-import AppNav from "components/AppNav";
-import { AppFooter } from "components/footer";
-import AppHeader from "../../../components/header";
-
 import {
   getCustomers,
   setCustomers,
-} from "../../../app-store/admin/index.slice";
+} from "app-store/admin/index.slice";
 
 import { useDispatch, useSelector } from "react-redux";
-import { fetchCustomers } from "../../../api/admin/customers.api";
-import MyPageHeader from "../../../components/MyPageHeader";
+import { fetchCustomers } from "api/admin/customers.api";
+import MyPageHeader from "components/MyPageHeader";
 
-import Moment from "moment";
 import React, { useEffect } from "react";
 import { useRouter } from "next/router";
-import Loader from "../../../components/Loader";
-import { Time } from "../../../components/Time";
+import Loader from "components/Loader";
+import { Time } from "components/Time";
 import { PhoneIcon } from "@heroicons/react/24/outline";
-import { AppLayout } from "../../../components/AppLayout";
+import { AppLayout } from "components/AppLayout";
 
 export default function Customers() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const customers = useSelector(getCustomers);
   const dispatch = useDispatch();
-  const df = Moment().format("DD MMM");
 
   const loadCustomers = () => {
     setLoading(true);
