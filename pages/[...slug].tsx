@@ -119,7 +119,7 @@ export default function Location() {
 
           <div
             className={
-              "r-comp  px-2 py-4 grid sm:flex  flex-wrap gap-y-5 gap-x-3 "
+              "r-comp  px-2 py-4 flex flex-wrap gap-y-5 sm:gap-x-3  "
             }
           >
             {products &&

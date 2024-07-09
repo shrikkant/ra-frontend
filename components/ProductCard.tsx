@@ -6,7 +6,7 @@ import React from "react";
 export default function ProductCard({ product, priority = false }) {
   return (
     <Link
-      className="r-comp w-[calc((100vw-20px)/2)] sm:w-72"
+      className="r-comp w-1/2 sm:w-72 xs:px-2 sm:px-0"
       href={
         "/" +
         product.location.city.toLowerCase() +
