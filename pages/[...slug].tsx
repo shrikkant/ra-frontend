@@ -45,7 +45,7 @@ export default function Location() {
     if (queryString) {
       try {
         const filter = categories ? getProductFilter(query, categories) : {};
-
+        console.log("Filter : ", filter);
         if (!filter) {
           setPageNotFound(true);
           return;
@@ -57,10 +57,11 @@ export default function Location() {
             city: filter.city,
           }
         };
-        if (!defaultSearch) {
+        if (!defaultSearch || !defaultSearch.location?.city) {
           dispatch(setSearch(JSON.stringify(search)));
           setDefaultSearch(search);
         }
+
         setFilter(filter);
 
         if (filter.product) {
