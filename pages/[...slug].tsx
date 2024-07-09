@@ -76,6 +76,7 @@ export default function Location() {
         }
       } catch (error) {
         // some pother shit.
+        console.log("Error : ", error);
         setPageNotFound(true)
       }
     }
