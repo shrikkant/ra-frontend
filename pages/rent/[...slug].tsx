@@ -40,6 +40,8 @@ export default function Location() {
     if (queryString) {
       try {
         const filter = categories ? getProductFilter(query, categories) : {};
+
+
         if (!filter) {
           setPageNotFound(true);
           return;
@@ -48,16 +50,14 @@ export default function Location() {
         setFilter(filter);
 
         if (filter.product) {
-
           fetchProduct(filter).then((product: IProduct) => {
-
-            console.log("Page Loaded!");
             setActiveProduct(product);
             setLoading(false);
           });
         } else {
-          if (products)
+          if (products) {
             setLoading(false);
+          }
         }
       } catch (error) {
         // some pother shit.
@@ -66,7 +66,7 @@ export default function Location() {
       }
     }
 
-  }, [query, categories]);
+  }, [query, categories, products]);
 
   const toggleNav = () => {
     setFilters(!filters);
