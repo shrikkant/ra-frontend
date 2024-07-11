@@ -30,7 +30,6 @@ export default async function Location({ params, searchParams }: { params: { slu
   return (<PageContainer>
     {(!filter?.product && products) && (
       <div className="sm:flex ">
-        <div>Server Side</div>
         <FilterSideBar searchMeta={meta}></FilterSideBar>
         <div
           className={

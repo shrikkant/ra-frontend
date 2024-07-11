@@ -38,8 +38,9 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
   const [searchText, setSearchText] = useState(q);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const searchProducts = () => {
-    if (location)
-      router.push("/rent/" + location?.city?.toLowerCase() + "?q=" + searchText);
+    const city = location?.city?.toLowerCase() || "pune";
+
+    router.push("/rent/" + city + "?q=" + searchText);
   };
 
   const onSearch = (value: string) => {

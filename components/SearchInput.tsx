@@ -3,7 +3,8 @@ import { FaSearch } from "react-icons/fa";
 
 export function SearchInput({ currentVal, onChange, onSearch }) {
   const handleReturn = (e) => {
-    if (e.key === "Enter" || e.keyCode === 13) {
+    if (e.keyCode === 13) {
+      console.log("Enter Pressed");
       onSearch(e.target.value);
     }
   };

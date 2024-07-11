@@ -31,7 +31,7 @@ export const LocationPicker = () => {
     "defaultSearch");
 
   const cityChange = (city) => {
-    const search: any = defaultSearch;
+    const search: any = defaultSearch ? defaultSearch : {};
     search.location = {
       city,
     };
@@ -44,6 +44,14 @@ export const LocationPicker = () => {
   };
 
   useEffect(() => {
+    if (!defaultSearch) {
+      setDefaultSearch({
+        location: {
+          city: "Pune",
+        },
+      });
+    }
+
     const location: any = defaultSearch?.location || stateSearch?.location;
     setLocation(location);
   }, [defaultSearch, stateSearch]);
@@ -86,10 +94,10 @@ export const LocationPicker = () => {
                         }}
                         className={`${"text-gray-900"} group flex w-full items-center rounded-md px-2 py-2 text-sm gap-x-2`}
                       >
-                        <img
+                        {/* <img
                           src={"/assets/img/city_images/" + loc.label + ".png"}
                           className="h-6 w-6 "
-                        />
+                        /> */}
                         {loc.label}
                       </button>
                     );

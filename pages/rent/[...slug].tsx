@@ -44,11 +44,11 @@ export default function Location() {
     setLoading(true);
 
     const queryString = query ? String(query) : "";
-
+    console.log("Query String :> ", queryString)
     if (queryString) {
       try {
         const filter = categories ? getProductFilter(query, categories) : {};
-        console.log("Filter : ", filter);
+        console.log("Filter :> ", filter);
         if (!filter) {
           alert("Filter not found " + filter);
           setPageNotFound(true);
@@ -86,7 +86,7 @@ export default function Location() {
       }
     }
 
-  }, [router.query]);
+  }, [query]);
 
   const toggleNav = () => {
     setFilters(!filters);
@@ -106,7 +106,6 @@ export default function Location() {
 
     {(!filter?.product && products) && (
       <div className="sm:flex ">
-        <div>Client Side</div>
         <ProductFilterNav
           onChange={onChange}
           filters={filters}
