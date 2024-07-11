@@ -1,3 +1,5 @@
+"use client"
+import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
@@ -5,7 +7,7 @@ import { useLocalStorage } from "../../util/localStore.util";
 
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 const locations = [
   {
@@ -29,7 +31,7 @@ export const LocationPicker = () => {
     "defaultSearch");
 
   const cityChange = (city) => {
-    const search: any =  defaultSearch;
+    const search: any = defaultSearch;
     search.location = {
       city,
     };
@@ -37,9 +39,7 @@ export const LocationPicker = () => {
     dispatch(setSearch(JSON.stringify(search)));
 
 
-    router.replace({
-      pathname: "/" + city.toLowerCase() + "/rent-camera"
-    });
+    router.push("/" + city.toLowerCase() + "/rent-camera");
 
   };
 
@@ -55,7 +55,7 @@ export const LocationPicker = () => {
   return (
     <Popover className="relative z-[210]">
       <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
-        {location?.city? <span>{locationCity(location.city)}</span> : <span>{"Select City"}</span>}
+        {location?.city ? <span>{locationCity(location.city)}</span> : <span>{"Select City"}</span>}
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
           aria-hidden="true"

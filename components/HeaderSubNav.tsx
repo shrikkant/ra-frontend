@@ -1,4 +1,4 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -25,9 +25,7 @@ export default function HeaderSubNav() {
     if (!location)
       return;
 
-    router.push({
-      pathname: "/" + city + "/" + querySlug
-    });
+    router.push("/" + city + "/" + querySlug);
   };
 
   useEffect(() => {

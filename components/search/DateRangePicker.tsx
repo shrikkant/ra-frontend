@@ -1,3 +1,4 @@
+"use client"
 import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { rangeDisplay } from "util/date.util";
@@ -11,6 +12,8 @@ import {
   setSearch,
 } from "../../app-store/session/session.slice";
 import { IDates } from "../../app-store/app-defaults/types";
+
+import "react-date-range/dist/styles.css"; // main style file
 
 interface DefaultSearch {
   dates?: IDates;

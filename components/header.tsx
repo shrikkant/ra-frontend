@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
+"use client"
 
 import { selectAuthState, authUser } from "../app-store/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 
 import { getAuthUser } from "../api/auth.api";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -15,15 +15,16 @@ import MainHeaderNav from "./MainHeaderNav";
 import HeaderSubNav from "./HeaderSubNav";
 
 export default function AppHeader({ navState, onNavStateChange }: { navState, onNavStateChange: () => void; }) {
-  const router = useRouter();
+
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (!loggedUser) {
+      console.log("fetching user");
       getAuthUser().then((user) => dispatch(authUser(user)));
     }
-  }, [router.isReady]);
+  }, [loggedUser]);
 
   return (
     <div>

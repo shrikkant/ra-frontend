@@ -16,7 +16,6 @@ export function AppLayout({ sidebar = false, children, header = true }) {
       <div className="main-content">
         <AppNav navState={isNavOpen} toggleNavState={toggleNav}></AppNav>
         <div className={"overflow-y-auto h-screen w-full"}>
-          <div>{isNavOpen}</div>
           {header && <AppHeader
             navState={isNavOpen}
             onNavStateChange={toggleNav}
@@ -27,7 +26,9 @@ export function AppLayout({ sidebar = false, children, header = true }) {
               (isNavOpen ? "block" : "hidden")
             }
           ></div>
-          <div style={{ maxWidth: 1280, margin: "auto" }}>{children}</div>
+          <div style={{ maxWidth: 1280, margin: "auto" }}>
+            {children}
+          </div>
         </div>
       </div>
 

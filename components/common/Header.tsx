@@ -1,14 +1,22 @@
-import React from "react";
+"use client";
+import React, { useState } from "react";
 import Link from "next/link";
 import PageContainer from "./PageContainer";
+import AppNav from "../AppNav";
+import AppHeader from "../header";
 
-export default function Header() {
+export default function Header({ sidebar = false, header = true }) {
+  const [isNavOpen, setIsNavOpen] = useState(false);
 
+  const toggleNav = () => {
+    setIsNavOpen(!isNavOpen);
+  };
 
 
   return (<div>
+    <AppNav navState={isNavOpen} toggleNavState={toggleNav}></AppNav>
     <header className="header">
-      <div className="top-panel">
+      {/* <div className="top-panel">
         <div className="container mx-auto">
           <div className="top-panel-cover xs:justify-right flex items-right">
             <ul className="header-cont w-full">
@@ -23,7 +31,12 @@ export default function Header() {
             </ul>
           </div>
         </div>
-      </div>
+      </div> */}
+      {header && <AppHeader
+        navState={isNavOpen}
+        onNavStateChange={toggleNav}
+      ></AppHeader>}
+
       <div className="header-menu xs:hidden block">
         <PageContainer>
           <a href="/" className="logo"><img src="/assets/v2/img/logo.png" alt="logo" /></a>
@@ -36,6 +49,6 @@ export default function Header() {
           </nav>
         </PageContainer>
       </div>
-    </header></div>);
+    </header></div >);
 
 }

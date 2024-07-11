@@ -1,7 +1,7 @@
 "use client"
 import { Card, Form, Checkbox, Slider } from "antd";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
   getRateMarks,
@@ -43,10 +43,12 @@ export default function FilterSideBar({ params,
   };
 
   const onChange = (query) => {
-    router.replace(pathname + "?" + new URLSearchParams(query).toString());
+    //    window.location.href = pathname + "?" + new URLSearchParams(query).toString();
+    // router.push(pathname + "?" + new URLSearchParams(query).toString());
   };
 
   const onBrandsChange = (checkedValues: any[]) => {
+    console.log("checked = ", checkedValues)
     const query: any = {}
     delete query.br;
     delete query.page;

@@ -8,7 +8,7 @@ export default function ProductCard({ product, priority = false }) {
     <Link
       className="r-comp w-1/2 sm:w-72 xs:px-2 sm:px-0"
       href={
-        "/" +
+        "/rent/" +
         product.location.city.toLowerCase() +
         "/" +
         product.subCategory.slug +

@@ -4,8 +4,9 @@ import { HeadCard } from "./HeadCard";
 import { Package } from "./Package";
 import { Description } from "./Description";
 import BookingForm from "../BookingForm";
+import { IProduct } from "../../app-store/types";
 
-export const Product = ({ product }) => {
+export const Product = ({ product }: { product: IProduct }) => {
   return (
     <>
       <Content style={{ maxWidth: 1240, margin: "auto" }} className={"pt-5"}>

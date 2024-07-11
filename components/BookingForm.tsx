@@ -1,15 +1,17 @@
-import React, { useState } from "react";
+"use client"
+import React, { useEffect, useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
 import { useLocalStorage } from "../util/localStore.util";
 import { addToCart } from "../api/user/orders.api";
 import { usePathname, useRouter } from "next/navigation";
 import { RupeeSymbol } from "./RupeeSymbol";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
-import { selectAuthState } from "../app-store/auth/auth.slice";
+import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
 import { IDefaultSearch } from "../app-store/app-defaults/types";
+import { getAuthUser } from "../api/auth.api";
 
 
 
@@ -17,6 +19,8 @@ export default function BookingForm({ productId, rates }: { productId: number, r
   const loggedUser = useSelector(selectAuthState);
   const router = useRouter();
   const pathname = usePathname();
+
+  const dispatch = useDispatch();
   const storeSearch = useSelector(getDefaultSearch);
   const [defaultSearch] = useLocalStorage<IDefaultSearch>(
     "defaultSearch"
@@ -57,6 +61,16 @@ export default function BookingForm({ productId, rates }: { productId: number, r
       });
     }
   };
+
+  useEffect(() => {
+    if (!loggedUser) {
+      console.log("fetching user again!");
+      getAuthUser().then((user) => {
+        console.log("USER : ", user);
+        dispatch(authUser(user))
+      });
+    }
+  }, [loggedUser]);
 
   const renderForm = (
     <>
@@ -186,3 +200,5 @@ export default function BookingForm({ productId, rates }: { productId: number, r
     </div>
   );
 }
+
+

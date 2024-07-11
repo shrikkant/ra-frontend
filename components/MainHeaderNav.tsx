@@ -1,7 +1,7 @@
-import { useRouter } from "next/router";
+import { useRouter, useSearchParams } from "next/navigation";
 
-import { selectAuthState, authUser } from "../app-store/auth/auth.slice";
-import { useDispatch, useSelector } from "react-redux";
+import { selectAuthState } from "../app-store/auth/auth.slice";
+import { useSelector } from "react-redux";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -9,7 +9,7 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 import React, { useEffect, useState } from "react";
 
 import SearchBar from "./SearchBar";
-import { Disclosure, Menu, Transition } from "@headlessui/react";
+import { Disclosure } from "@headlessui/react";
 import {
   Bars3Icon,
   ShoppingCartIcon,
@@ -33,15 +33,16 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
 
   const storeSearch = useSelector(getDefaultSearch);
   const router = useRouter();
-  const [q, setQuery] = useState(router.query?.q);
+  const { q } = useSearchParams();
+  const [searchText, setSearchText] = useState(q);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const searchProducts = () => {
     if (location)
-      router.push("/" + location?.city?.toLowerCase() + "?q=" + q);
+      router.push("/rent/" + location?.city?.toLowerCase() + "?q=" + searchText);
   };
 
   const onSearch = (value: string) => {
-    setQuery(value);
+    setSearchText(value);
   };
 
   const fetchCartItems = async () => {
