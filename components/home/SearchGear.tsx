@@ -13,7 +13,7 @@ export default function SearchGear() {
 
   const onSearch = () => {
     const city = storeSearch?.location?.city || "pune";
-    return router.push(`${city}?q=${search}`);
+    return router.push(`/rent/${city}?q=${search}`);
 
 
   }

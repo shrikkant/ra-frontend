@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDefaultsState } from './types';
-import { fetchCategoriesClient, fetchProductCategories, fetchProducts, getFeaturedProducts } from '../../api/products.api';
+import { fetchCategoriesClient } from '../../api/products.api';
 import { AppDispatch, RootState } from '../store';
 
 

@@ -25,7 +25,7 @@ export default function HeaderSubNav() {
     if (!location)
       return;
 
-    router.push("/" + city + "/" + querySlug);
+    router.push("/rent/" + city + "/" + querySlug);
   };
 
   useEffect(() => {

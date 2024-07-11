@@ -1,7 +1,7 @@
 "use client"
 import { Card, Form, Checkbox, Slider } from "antd";
 
-import { usePathname, useRouter } from "next/navigation";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 import {
   getRateMarks,
@@ -15,7 +15,6 @@ import React from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
 
-
 const sliderTrack = {
   background: "lightgreen",
 };
@@ -26,16 +25,14 @@ const handleStyle = {
   marginTop: "-2px",
 };
 
-export default function FilterSideBar({ params,
+export default function FilterSideBar({
   searchMeta
 }) {
   const router = useRouter();
-  const pathname = usePathname()
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
   const brands = getBrandOptions(searchMeta?.brands);
   const [filters, setFilters] = useState(true);
-
-
-
   const rf = "";
 
   const toggleNav = () => {
@@ -43,7 +40,10 @@ export default function FilterSideBar({ params,
   };
 
   const onChange = (query) => {
-    //    window.location.href = pathname + "?" + new URLSearchParams(query).toString();
+    console.log("Search Params = ", searchParams?.toString())
+    window.location.href = pathname + "?" +
+      searchParams?.toString() + "&" +
+      new URLSearchParams(query).toString();
     // router.push(pathname + "?" + new URLSearchParams(query).toString());
   };
 

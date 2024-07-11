@@ -1,14 +1,13 @@
 import { Card, Form, Checkbox, Slider } from "antd";
 
 import { useRouter } from "next/router";
-import { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useSelector } from "react-redux";
 import {
   getRateMarks,
   getDefaultRateRange,
   getBrandOptions,
 } from "../util/search.util";
-import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
+
 
 import style from "../styles/search.module.css";
 import React from "react";

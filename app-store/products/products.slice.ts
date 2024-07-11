@@ -21,6 +21,7 @@ export const productsSlice = createSlice({
 			state.searchResults = action.payload;
 		},
 		setSearchMetaData(state, action: PayloadAction<any>) {
+			console.log("Search Meta : ", action.payload);
 			state.searchMetaData = action.payload;
 		}
 	},
@@ -38,7 +39,6 @@ export const getSearchResultsAction =
 	(searchString: string, filter: IProductFilter) => async (dispatch: AppDispatch) => {
 
 		const response: any = await fetchProducts(searchString, filter, true);
-
 		dispatch(productsSlice.actions.setSearchResults(response.results));
 		dispatch(productsSlice.actions.setSearchMetaData(response.meta));
 	};
