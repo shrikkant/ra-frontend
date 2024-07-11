@@ -33,7 +33,8 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
 
   const storeSearch = useSelector(getDefaultSearch);
   const router = useRouter();
-  const { q } = useSearchParams();
+  const searchParams = useSearchParams();
+  const q = searchParams?.get("q");
   const [searchText, setSearchText] = useState(q);
   const [cartItemsCount, setCartItemsCount] = useState(0);
   const searchProducts = () => {

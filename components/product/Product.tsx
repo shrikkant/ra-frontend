@@ -7,13 +7,15 @@ import BookingForm from "../BookingForm";
 import { IProduct } from "../../app-store/types";
 
 export const Product = ({ product }: { product: IProduct }) => {
+  const addons: any = product?.masterProductList;
+  const rates: any = product?.rates;
   return (
     <>
       <Content style={{ maxWidth: 1240, margin: "auto" }} className={"pt-5"}>
         <div className={"flex flex-col sm:flex-row gap-5"}>
           <div className="sm:w-3/4 w-full">
             <HeadCard product={product}></HeadCard>
-            <Package addons={product.masterProductList}></Package>
+            <Package addons={addons}></Package>
             <Description
               description={product?.masterProduct?.description}
             ></Description>
@@ -22,7 +24,7 @@ export const Product = ({ product }: { product: IProduct }) => {
           <div className={"sm:w-1/4 w-full"}>
             <div className="fixed top-100 w-80">
               <BookingForm
-                rates={product?.rates}
+                rates={rates}
                 productId={product.id}
               ></BookingForm>
             </div>

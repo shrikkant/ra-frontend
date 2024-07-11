@@ -21,7 +21,6 @@ export default function AppHeader({ navState, onNavStateChange }: { navState, on
 
   useEffect(() => {
     if (!loggedUser) {
-      console.log("fetching user");
       getAuthUser().then((user) => dispatch(authUser(user)));
     }
   }, [loggedUser]);

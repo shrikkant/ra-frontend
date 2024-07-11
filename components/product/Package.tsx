@@ -1,26 +1,22 @@
-import { Card, Carousel, Divider, Layout } from "antd";
+import { Card } from "antd";
 import Meta from "antd/lib/card/Meta";
-import { IProduct } from "../../app-store/types";
-import LocationShort from "../LocationShort";
 import { Content } from "antd/lib/layout/layout";
-import styles from "../../styles/active-product.module.css";
-import { CarouselRef } from "antd/lib/carousel";
 import React from "react";
 
-interface Photo {
+export interface Photo {
   path: string
 }
-interface MasterProduct {
+export interface MasterProduct {
   id: number,
   photos: Photo[],
   name: string
 }
 
-interface Addon {
+export interface Addon {
   masterProduct: MasterProduct
 }
-interface ProductProps {
-  addons: Addon[]
+export interface ProductProps {
+  addons: Addon[] | null
 }
 
 export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
@@ -38,7 +34,7 @@ export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
         {addons &&
           addons.map((addon) => {
             return (
-             <Card
+              <Card
                 key={addon?.masterProduct.id}
                 hoverable
                 style={{ width: 220, padding: 10, margin: 10 }}

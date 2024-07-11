@@ -7,7 +7,6 @@ import { fetchProductBySlug, fetchProducts } from 'api/products.api';
 import { fetchData } from '../../../api/axios.config';
 import PageContainer from '../../../components/common/PageContainer';
 import { Product } from '../../../components/product/Product';
-import { IProduct } from '../../../app-store/types';
 import FilterSideBar from '../../../components/rent/FilterSideBar';
 
 export default async function Location({ params, searchParams }: { params: { slug: string }, searchParams }) {
@@ -18,8 +17,8 @@ export default async function Location({ params, searchParams }: { params: { slu
 
 
 
-  let product: IProduct = null;
-  let products = null;
+  let product: any = null;
+  let products = [];
   let meta = null;
 
   if (filter.product) {

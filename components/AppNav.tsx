@@ -1,7 +1,7 @@
 "use client"
 import React, { Fragment } from "react";
 import { MenuProps } from "antd";
-import { useRouter } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectAuthState } from "../app-store/auth/auth.slice";
@@ -83,6 +83,7 @@ const adminRoutes = {
 
 export default function AppNav({ navState, toggleNavState }) {
   const router = useRouter();
+  const path = usePathname();
   const loggedUser = useSelector(selectAuthState);
   const activeItems = [...items];
   if (loggedUser?.role === "A") {
@@ -109,10 +110,10 @@ export default function AppNav({ navState, toggleNavState }) {
   };
 
   const currentActiveMenu = () => {
-    if (router.pathname !== "/") {
+    if (path !== "/") {
       activeItems.forEach((item: any) => {
         item?.children?.forEach((child: any) => {
-          if (child.key.startsWith(router.pathname)) {
+          if (child.key.startsWith(path)) {
             child.active = true;
             console.log(" Active Child : ", child);
           } else {
@@ -120,7 +121,7 @@ export default function AppNav({ navState, toggleNavState }) {
           }
         });
 
-        if (item.key.startsWith(router.pathname)) {
+        if (item.key.startsWith(path)) {
           item.active = true;
         } else {
           item.active = false;
@@ -136,7 +137,7 @@ export default function AppNav({ navState, toggleNavState }) {
 
   useEffect(() => {
     currentActiveMenu();
-  }, [router.isReady]);
+  }, [router]);
 
   return (
     <Transition
