@@ -75,7 +75,7 @@ const getSubCategoryFromCategories = (slug: string, categories: IProductCategory
 
   const activeCategory = categories.find((category: IProductCategory) => {
     const active = category.subCategories?.find((sc: IProductSubCategory) => sc.slug === slug);
-    return active ? active : null;
+    return active;
   });
 
   const subCategory = activeCategory?.subCategories?.find((sc: IProductSubCategory) => sc.slug === slug);
@@ -164,7 +164,6 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
 
 export function getProductFilter(obj: ParsedUrlQuery, categories: IProductCategory[]) {
   const { slug } = obj;
-
   const productFilter: IProductFilter | null = getFilterByQueryString(slug, categories);
 
   if (!productFilter) {
