@@ -8,32 +8,24 @@ import ProductFilterNav from 'components/ProductFilterNav';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
 import { useRouter } from 'next/router';
 import { getProductFilter } from "util/search.util";
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { getCategories } from 'app-store/app-defaults/app-defaults.slice';
 
 import { fetchProduct } from 'api/products.api';
 import { Product } from 'components/product/Product';
 import { IProduct, IProductFilter } from 'app-store/types';
 import Custom404 from '../404';
-import { setSearch } from '../../app-store/session/session.slice';
-import { useLocalStorage } from '../../util/localStore.util';
-import { IDefaultSearch } from '../../app-store/app-defaults/types';
+
 
 export default function Location() {
   const router = useRouter();
   const { query } = router;
-  const dispatch = useDispatch();
   const [activeProduct, setActiveProduct] = useState<IProduct | null>(null);
   const { products } = useProducts();
 
   const [filter, setFilter] = useState<IProductFilter>();
   const [pageNotFound, setPageNotFound] = useState(false);
   const [loading, setLoading] = useState(false);
-
-
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<IDefaultSearch>(
-    "defaultSearch"
-  );
 
   const categories = useSelector(getCategories);
 
@@ -44,40 +36,28 @@ export default function Location() {
     setLoading(true);
 
     const queryString = query ? String(query) : "";
-    console.log("Query String :> ", queryString)
+
     if (queryString) {
       try {
         const filter = categories ? getProductFilter(query, categories) : {};
-        console.log("Filter :> ", filter);
         if (!filter) {
-          alert("Filter not found " + filter);
           setPageNotFound(true);
           return;
-        }
-
-
-        const search: IDefaultSearch = {
-          location: {
-            city: filter.city,
-          }
-        };
-        if (!defaultSearch || !defaultSearch.location?.city) {
-          dispatch(setSearch(JSON.stringify(search)));
-          setDefaultSearch(search);
         }
 
         setFilter(filter);
 
         if (filter.product) {
+
           fetchProduct(filter).then((product: IProduct) => {
-            alert
+
+            console.log("Page Loaded!");
             setActiveProduct(product);
             setLoading(false);
           });
         } else {
           if (products)
-            console.log("Loading Off");
-          setLoading(false);
+            setLoading(false);
         }
       } catch (error) {
         // some pother shit.
@@ -86,7 +66,7 @@ export default function Location() {
       }
     }
 
-  }, [query]);
+  }, [query, categories]);
 
   const toggleNav = () => {
     setFilters(!filters);

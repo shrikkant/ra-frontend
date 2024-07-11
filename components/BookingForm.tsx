@@ -22,9 +22,9 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
   const dispatch = useDispatch();
   const storeSearch = useSelector(getDefaultSearch);
-  const [defaultSearch] = useLocalStorage<IDefaultSearch>(
-    "defaultSearch"
-  );
+  // const [defaultSearch] = useLocalStorage<IDefaultSearch>(
+  //   "defaultSearch"
+  // );
   const [lastLink, setLastLink] = useLocalStorage<string | null>("lastLink");
 
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
@@ -51,10 +51,10 @@ export default function BookingForm({ productId, rates }: { productId: number, r
       router.push("/signin");
     } else {
 
-      if (!defaultSearch?.dates)
+      if (!storeSearch?.dates)
         return;
 
-      addToCart(productId, defaultSearch?.dates).then(() => {
+      addToCart(productId, storeSearch?.dates).then(() => {
         if (bookNow) {
           router.push("/portal/my-cart");
         }
