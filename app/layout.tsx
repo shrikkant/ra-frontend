@@ -31,7 +31,7 @@ export default function RootLayout({
         <meta name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store" />
 
-        <meta name="robots" content="noindex" />
+        <meta name="robots" content="noindex,nofollow" />
 
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
