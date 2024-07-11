@@ -1,4 +1,4 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import appDefaults from './app-defaults/app-defaults.slice';
 
@@ -9,20 +9,48 @@ import orders from './user/orders/orders.slice'
 import session from './session/session.slice';
 
 import admin from "./admin/index.slice";
+import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist';
+import storage from './storage';
 
-export const store = configureStore({
-  reducer: {
-    appDefaults,
-    auth,
-    session,
-    products,
-    myProducts,
-    orders,
-    admin
-  },
-  devTools: true,
-});
+const persistConfig = {
+  key: "root",
+  storage,
+  blacklist: ["tracking"],
+};
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch;
+const persistedReducer = persistReducer(persistConfig, combineReducers({
+  appDefaults,
+  auth,
+  session,
+  products,
+  myProducts,
+  orders,
+  admin
+}))
+
+
+export const makeStore = () => {
+  return configureStore({
+    reducer: persistedReducer,
+    devTools: process.env.NODE_ENV !== "production",
+    middleware: (getDefaultMiddleware) =>
+      getDefaultMiddleware({
+        serializableCheck: {
+          ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+        },
+      }),
+  });
+
+  // return configureStore({
+  //   reducer: persistedReducer,
+  //   devTools: true,
+  // });
+};
+
+// export type RootState = ReturnType<typeof store.getState>
+// export type AppDispatch = typeof store.dispatch;
+
+export type AppStore = ReturnType<typeof makeStore>;
+export type RootState = ReturnType<AppStore["getState"]>;
+export type AppDispatch = AppStore["dispatch"];
 

@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AppDefaultsState } from './types';
-import { fetchProductCategories, fetchProducts, getFeaturedProducts } from '../../api/products.api';
+import { fetchCategoriesClient, fetchProductCategories, fetchProducts, getFeaturedProducts } from '../../api/products.api';
 import { AppDispatch, RootState } from '../store';
 
 
@@ -26,7 +26,7 @@ export const getCategories = (state: RootState) => state.appDefaults.categories;
 export const getCategoriesAction =
 	() => async (dispatch: AppDispatch) => {
 
-		const response = await fetchProductCategories();
+		const response = await fetchCategoriesClient();
 		dispatch(appDefaultsSlice.actions.setCategories(response));
 	};
 
