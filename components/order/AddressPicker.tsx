@@ -33,7 +33,7 @@ export const AddressPicker = ({
 
 
   const lookUpAddress = async (query: string) => {
-    const data = await httpClient.get(`user/addresses/lookup/${query}`);
+    const data: any = await httpClient.get(`user/addresses/lookup/${query}`);
 
     const options = data.map((item) => ({
       label: item.description,
