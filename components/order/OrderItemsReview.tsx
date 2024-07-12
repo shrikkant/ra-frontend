@@ -15,7 +15,7 @@ export const OrderItemsReview = ({
 }) => {
   return (
     <div className="p-4">
-      <StepHeader label={title} index={2}></StepHeader>
+      <StepHeader label={title} ></StepHeader>
 
       <div className={"border rounded-md border-gray-400 md:ml-8 mt-3"}>
         {order.items &&

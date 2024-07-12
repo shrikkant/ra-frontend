@@ -54,7 +54,7 @@ export default function OrderSummary({
       <div
         className={"flex flex-col pt-3 gap-y-3 border-t border-gray-300 mt-5"}
       >
-        <div className={"text-xl font-bold"}>Order Summary</div>
+        <div className={"text-xl font-bold xs:hidden"}>Order Summary</div>
         <div className={styles["detail-row"]}>
           <div>
             Rent for <span>1</span> days

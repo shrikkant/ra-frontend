@@ -64,7 +64,6 @@ export const AddressPicker = ({
   return (
     <div className="p-4">
       <StepHeader
-        index={1}
         label={"Delivery Address"}
         onChangeAction={onAddressReset}
         showChange={selectedAddress}
@@ -77,12 +76,10 @@ export const AddressPicker = ({
         />
       )}
       {(!hasAddress) && (
-        <div className="text-center mt-4">
+        <div className="text-center xs:w-full">
           {/* <DocumentUpload /> */}
-          <Form>
-            <h3 className="text-left text-2xl">Add a new address</h3>
+          <div>
             <Input label={"Flat No, Building/ Society Name"} name={"address_line_1"} onChange={handleLine1Change}></Input>
-
             {(address_line_1 && address_line_1.length > 5) && <AutoComplete
               label={"Search your locality"}
               name={"title"}
@@ -90,20 +87,26 @@ export const AddressPicker = ({
               options={options}
               onSelect={onSelectPlace} />}
 
-            <button className="bg-gray-200 p-2 rounded border-gray-800" type="button" onClick={onSubmit}>
-              Add Address</button>
-          </Form>
+            <div className="flex justify-end pt-2">
+              <button className={"p-2 rounded border-gray-800 text-right " + (place_id ? "bg-yellow-400" : "bg-gray-400")} type="button" onClick={onSubmit}>
+                Add Address</button>
+            </div>
+
+          </div>
         </div>
-      )}
+      )
+      }
 
 
-      {(!selectedAddress && hasAddress) && (
-        <AddressList
-          onAddressChange={onAddressPick}
-          addressList={loggedUser && loggedUser.address}
-          userName={loggedUser?.firstname + " " + loggedUser?.lastname}
-        />
-      )}
-    </div>
+      {
+        (!selectedAddress && hasAddress) && (
+          <AddressList
+            onAddressChange={onAddressPick}
+            addressList={loggedUser && loggedUser.address}
+            userName={loggedUser?.firstname + " " + loggedUser?.lastname}
+          />
+        )
+      }
+    </div >
   );
 };
