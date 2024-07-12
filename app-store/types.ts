@@ -174,6 +174,7 @@ export interface DropOrPickup { }
 export interface ICheckboxOption {
   label: string;
   value: string;
+  checked?: boolean;
 }
 
 export interface IProductFilter {

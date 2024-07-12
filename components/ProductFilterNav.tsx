@@ -1,4 +1,4 @@
-import { Card, Form, Checkbox, Slider } from "antd";
+import { Card, Slider } from "antd";
 
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
@@ -10,7 +10,7 @@ import {
 
 
 import style from "../styles/search.module.css";
-import React from "react";
+import React, { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { getSearchMetaData } from "../app-store/products/products.slice";
 
@@ -32,34 +32,43 @@ export default function ProductFilterNav({
   const router = useRouter();
 
   const searchMeta = useSelector(getSearchMetaData);
+  const [query, setQuery] = useState(router.query);
 
-  const { rf } = router.query;
+  const [brands, setBrands] = useState(getBrandOptions(searchMeta?.brands, query.br));
 
-  const brands = getBrandOptions(searchMeta?.brands);
+  const onBrandsChange = (e) => {
+    const checkedValues = Array
+      .from(document.querySelectorAll('input[name="filterBrands"]'))
+      .filter((checkbox: HTMLInputElement) => checkbox.checked)
+      .map((checkbox: HTMLInputElement) => checkbox.value);
 
-  const onBrandsChange = (checkedValues: any[]) => {
-    const query = { ...router.query };
-    delete query.br;
-    delete query.page;
+    console.log("Selected Values : ", checkedValues);
+    const newQuery = { ...router.query };
+    delete newQuery.br;
+    delete newQuery.page;
     if (checkedValues.length > 0) {
       let brQuery = "";
       checkedValues.map((val, index) => {
         brQuery += val + (index < checkedValues.length - 1 ? "," : "");
       });
 
-      query.br = brQuery;
+      newQuery.br = brQuery;
     }
-    onChange(query);
+
+    setQuery(newQuery);
+    setBrands(getBrandOptions(searchMeta?.brands, newQuery.br));
+    onChange(newQuery);
   };
 
   const onPriceChange = (values) => {
-    const query = { ...router.query };
-    delete query.rf;
-    delete query.page;
+    const q = { ...router.query };
+    delete q.rf;
+    delete q.page;
 
     let rfQuery = values[0] + "-" + values[1];
-    query.rf = rfQuery;
+    q.rf = rfQuery;
 
+    setQuery(q);
     onChange(query);
   };
 
@@ -78,14 +87,22 @@ export default function ProductFilterNav({
         </button>
       </div>
       <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
-        {brands?.length > 0 && <Card title="Brands">
-          <Form layout={"vertical"}>
-            <Checkbox.Group
-              className={"brands"}
-              options={brands}
-              onChange={onBrandsChange}
-            />
-          </Form>
+        {searchMeta && brands?.length > 0 && <Card title="Brands">
+          <div>
+            {brands.map((brand) => {
+              return (
+                <div key={brand.value} className="flex gap-x-2 my-1">
+                  <input name="filterBrands" type="checkbox"
+                    value={brand.value}
+                    onChange={onBrandsChange}
+                    defaultChecked={brand.checked}
+
+                  />
+                  <span>{brand.label}</span>
+                </div>
+              )
+            })}
+          </div>
         </Card>}
 
         {showPriceFilter(searchMeta.rate) && <Card title="Price">
@@ -111,9 +128,9 @@ export default function ProductFilterNav({
             defaultValue={getDefaultRateRange(
               searchMeta.rate.min,
               searchMeta.rate.max,
-              rf
+              query.rf
             )}
-            onAfterChange={onPriceChange}
+            onChangeComplete={onPriceChange}
           />
           {/* <Meta title={searchMeta.total}></Meta> */}
         </Card>}

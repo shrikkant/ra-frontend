@@ -10,13 +10,16 @@ import {
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 
-export function getBrandOptions(brands: any): ICheckboxOption[] {
+export function getBrandOptions(brands: any, selected?): ICheckboxOption[] {
   const options: ICheckboxOption[] = [];
+  const selectedBrands = selected?.split(",").map((s) => parseInt(s));
 
   brands?.map((brand) => {
     const option: ICheckboxOption = { label: brand.name, value: brand.id };
+    option.checked = selectedBrands?.includes(brand.id) || false;
     options.push(option);
   });
+
   return options;
 }
 
