@@ -62,14 +62,14 @@ export default function DocumentUpload() {
       <div className={"text-2xl font-bold border-b-gray-400 border-b pb-2"}>
         Documents Pending
       </div>
-      <div className="flex flex-col">
+      {address && <div className="flex flex-col">
         <span>{address.name},</span>
         <span>{address.address_line_1},</span>
         <span>{address.address_line_2},</span>
         <span className="font-semibold">{address.city}, {address.postal_code}</span>
 
         {/* {JSON.stringify(address)} */}
-      </div>
+      </div>}
       <div>
         <label className="text-left pb-4">Document 1</label>
         <div className="flex justify-between">
