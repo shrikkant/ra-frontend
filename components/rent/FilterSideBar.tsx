@@ -74,7 +74,7 @@ export default function FilterSideBar({
 
   return (
     <div
-      className={`pt-5 bg-white w-full h-screen sm:h-auto sm:w-72 top-30 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
+      className={`pt-5 xs:hidden bg-white w-full h-screen sm:h-auto sm:w-72 top-30 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
 
       ${filters ? "translate-y-0" : "translate-y-full"}`}
     >
