@@ -38,31 +38,24 @@ export default function Location() {
     const queryString = query ? String(query) : "";
 
     if (queryString) {
-      try {
-        const filter = categories ? getProductFilter(query, categories) : {};
 
-        if (!filter) {
-          setPageNotFound(true);
-          return;
-        }
-
-        setFilter(filter);
-
-        if (filter.product) {
-          fetchProduct(filter).then((product: IProduct) => {
-            setActiveProduct(product);
-            setLoading(false);
-          });
-        } else {
-          if (products) {
-            setLoading(false);
-          }
-        }
-      } catch (error) {
-        // some pother shit.
-        alert(error);
-        setPageNotFound(true)
+      const filter = categories ? getProductFilter(query, categories) : {};
+      if (!filter) {
+        return;
       }
+      setFilter(filter);
+
+      if (filter.product) {
+        fetchProduct(filter).then((product: IProduct) => {
+          setActiveProduct(product);
+          setLoading(false);
+        });
+      } else {
+        if (products) {
+          setLoading(false);
+        }
+      }
+
     }
 
   }, [query, categories, products]);

@@ -6,7 +6,7 @@ import { addToCart } from "../api/user/orders.api";
 import { usePathname, useRouter } from "next/navigation";
 import { RupeeSymbol } from "./RupeeSymbol";
 import { useDispatch, useSelector } from "react-redux";
-import { getDefaultSearch } from "app-store/session/session.slice";
+import { getDefaultSearch, setSearch } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
 import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
@@ -22,9 +22,9 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
   const dispatch = useDispatch();
   const storeSearch = useSelector(getDefaultSearch);
-  // const [defaultSearch] = useLocalStorage<IDefaultSearch>(
-  //   "defaultSearch"
-  // );
+  const [defaultSearch] = useLocalStorage<IDefaultSearch>(
+    "defaultSearch"
+  );
   const [lastLink, setLastLink] = useLocalStorage<string | null>("lastLink");
 
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
@@ -63,14 +63,16 @@ export default function BookingForm({ productId, rates }: { productId: number, r
   };
 
   useEffect(() => {
+    if (defaultSearch)
+      dispatch(setSearch(JSON.stringify(defaultSearch)));
     if (!loggedUser) {
-      console.log("fetching user again!");
       getAuthUser().then((user) => {
         console.log("USER : ", user);
         dispatch(authUser(user))
       });
     }
-  }, [loggedUser]);
+
+  }, [loggedUser, defaultSearch]);
 
   const renderForm = (
     <>
