@@ -27,13 +27,13 @@ export default async function Location({ params, searchParams }: { params: { slu
     meta = response.meta;
   }
 
-  return (<PageContainer>
+  return (<div style={{ maxWidth: 1280, margin: "auto" }}>
     {(!filter?.product && products) && (
-      <div className="sm:flex ">
+      <div className="sm:flex">
         <FilterSideBar searchMeta={meta}></FilterSideBar>
         <div
           className={
-            "r-comp  px-2 py-4 grid sm:flex  flex-wrap gap-y-5 gap-x-3 "
+            "r-comp  px-2 py-4 flex flex-wrap gap-y-5 sm:gap-x-3"
           }
         >
           {products &&
@@ -45,6 +45,6 @@ export default async function Location({ params, searchParams }: { params: { slu
     )}
     {(filter?.product && product) && <Product product={product}></Product>}
 
-  </PageContainer>)
+  </div>)
 }
 
