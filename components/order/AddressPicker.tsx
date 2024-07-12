@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Address } from "../Address";
 import { StepHeader } from "./StepHeader";
@@ -7,7 +7,7 @@ import { AddressList } from "../AddressList";
 import Form from "../common/form/Form";
 import Input from "../common/form/Input";
 import AutoComplete from "../common/form/AutoComplete";
-import { fetchData } from "../../api/axios.config";
+import httpClient from "../../api/axios.config";
 import { addNewAddress } from "../../api/user/index.api";
 
 interface IOption {
@@ -33,7 +33,8 @@ export const AddressPicker = ({
 
 
   const lookUpAddress = async (query: string) => {
-    const data = await fetchData(`user/addresses/lookup/${query}`);
+    const data = await httpClient.get(`user/addresses/lookup/${query}`);
+
     const options = data.map((item) => ({
       label: item.description,
       value: item.place_id,
