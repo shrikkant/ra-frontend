@@ -40,20 +40,24 @@ export default function Location() {
     if (queryString) {
 
       const filter = categories ? getProductFilter(query, categories) : {};
-      if (!filter) {
-        return;
-      }
-      setFilter(filter);
-
-      if (filter.product) {
-        fetchProduct(filter).then((product: IProduct) => {
-          setActiveProduct(product);
-          setLoading(false);
-        });
-      } else {
-        if (products) {
-          setLoading(false);
+      if (filter) {
+        setFilter(filter);
+        if (filter?.product) {
+          fetchProduct(filter).then((product: IProduct) => {
+            if (!product?.id) {
+              setPageNotFound(true);
+            } else {
+              setActiveProduct(product);
+              setLoading(false);
+            }
+          });
+        } else {
+          if (products) {
+            setLoading(false);
+          }
         }
+      } else {
+        setPageNotFound(true);
       }
 
     }
