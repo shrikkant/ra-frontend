@@ -41,7 +41,6 @@ export default function Location() {
       try {
         const filter = categories ? getProductFilter(query, categories) : {};
 
-
         if (!filter) {
           setPageNotFound(true);
           return;

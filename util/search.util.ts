@@ -7,6 +7,7 @@ import {
   IProductFilter,
   IProductSubCategory,
 } from "../app-store/types";
+import { ReadonlyURLSearchParams } from "next/navigation";
 
 
 export function getBrandOptions(brands: any): ICheckboxOption[] {
@@ -160,7 +161,19 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
   return productFilter;
 }
 
+export const paramsToObject = (params: ReadonlyURLSearchParams | null) => {
+  if (!params) {
+    return {};
+  }
 
+  const entries = params.entries()
+  const result = {};
+
+  for (const [key, value] of entries) { // each 'entry' is a [key, value] tupple
+    result[key] = value;
+  }
+  return result;
+}
 
 export function getProductFilter(obj: ParsedUrlQuery, categories: IProductCategory[]) {
   const { slug } = obj;

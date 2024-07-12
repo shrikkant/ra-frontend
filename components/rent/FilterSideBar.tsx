@@ -7,6 +7,7 @@ import {
   getRateMarks,
   getDefaultRateRange,
   getBrandOptions,
+  paramsToObject,
 } from "util/search.util";
 
 
@@ -33,23 +34,20 @@ export default function FilterSideBar({
   const searchParams = useSearchParams();
   const brands = getBrandOptions(searchMeta?.brands);
   const [filters, setFilters] = useState(true);
+  const [newQuery, setNewQuery] = useState(paramsToObject(searchParams));
   const rf = "";
 
   const toggleNav = () => {
     setFilters(!filters);
   };
 
-  const onChange = (query) => {
-    console.log("Search Params = ", searchParams?.toString())
-    window.location.href = pathname + "?" +
-      searchParams?.toString() + "&" +
-      new URLSearchParams(query).toString();
-    // router.push(pathname + "?" + new URLSearchParams(query).toString());
+  const onChange = () => {
+    router.replace("/rent/" + pathname + "?" + new URLSearchParams(newQuery).toString());
   };
 
   const onBrandsChange = (checkedValues: any[]) => {
     console.log("checked = ", checkedValues)
-    const query: any = {}
+    const query: any = { ...newQuery }
     delete query.br;
     delete query.page;
     if (checkedValues.length > 0) {
@@ -61,16 +59,16 @@ export default function FilterSideBar({
       query.br = brQuery;
     }
 
-    onChange(query);
+    setNewQuery(query)
   };
 
   const onPriceChange = (values) => {
-    const query: any = {};
+    const query: any = { ...newQuery };
 
     const rfQuery = values[0] + "-" + values[1];
     query.rf = rfQuery;
 
-    onChange(query);
+    setNewQuery(query);
   };
 
 
@@ -128,9 +126,16 @@ export default function FilterSideBar({
           />
           {/* <Meta title={searchMeta.total}></Meta> */}
         </Card>
+
+        <div className="text-right pt-2 ">
+          <a onClick={onChange} className="bg-green-600 p-2 rounded-sm text-gray-100 cursor-pointer border-green-900 hover:bg-green-700 hover:text-gray-200 " href="#">
+            Apply Filters
+          </a>
+        </div>
       </div>
 
-      <div className="flex justify-end p-3 border-t mt-2 sm:hidden">
+      <div className="flex justify-end p-3 border-t mt-2 sm:flex-col">
+        <div>{JSON.stringify(newQuery)}</div>
         <button className="bg-gray-800 text-gray-100 p-2 rounded">
           Show {searchMeta.total} results
         </button>
