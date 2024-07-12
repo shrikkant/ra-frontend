@@ -2,15 +2,15 @@ import { Button, Tag } from "antd";
 import { PageHeader } from "@ant-design/pro-layout";
 import styles from "styles/orders.module.css";
 import { Content } from "antd/lib/layout/layout";
-import { getOrders, setOrders } from "../../app-store/user/orders/orders.slice";
+import { getOrders, setOrders } from "../../../app-store/user/orders/orders.slice";
 import { useDispatch, useSelector } from "react-redux";
-import { fetchOrders } from "../../api/user/orders.api";
+import { fetchOrders } from "../../../api/user/orders.api";
 import MyPageHeader from "components/MyPageHeader";
-import { IOrder } from "../../app-store/types";
-import OrderItemRow from "../../components/OrderItemRow";
+import { IOrder } from "../../../app-store/types";
+import OrderItemRow from "../../../components/OrderItemRow";
 import Moment from "moment";
 import React from "react";
-import { AppLayout } from "../../components/AppLayout";
+import { AppLayout } from "../../../components/AppLayout";
 import { selectAuthState } from "app-store/auth/auth.slice";
 
 export default function Orders() {

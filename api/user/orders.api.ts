@@ -17,6 +17,11 @@ export async function fetchCart(): Promise<IOrder> {
   return response && response[0];
 }
 
+export async function fetchOrder(orderId: number): Promise<IOrder> {
+  const response: IOrder = await httpClient.get(`/user/orders/${orderId}`);
+  return response;
+}
+
 export const addToCart = async (
   productId: number,
   dates: IDates

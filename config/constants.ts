@@ -25,6 +25,7 @@ export const enum ORDER_STEPS {
   ORDER_STEP_ADDRESS = 1,
   ORDER_STEP_DELIVERY = 2,
   ORDER_STEP_PAYMENT = 3,
+  ORDER_PAID = 4,
 }
 
 const COUNTRIES: any = [];

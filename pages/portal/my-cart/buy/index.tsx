@@ -109,7 +109,7 @@ export default function Orders() {
                     step={
                       resolveStep()
                     }
-                    onInitRazorPay={onRazorPayCheckout}
+                    onCallToAction={onRazorPayCheckout}
                   ></OrderSummary>
                 </div>
               </div>

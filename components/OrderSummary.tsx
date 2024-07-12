@@ -7,12 +7,12 @@ import { IOrder } from "../app-store/types";
 export default function OrderSummary({
   order,
   step,
-  onInitRazorPay }:
+  onCallToAction }:
   {
     order: IOrder,
     step: number,
     showCallToAction?: boolean,
-    onInitRazorPay: (mode: number) => void
+    onCallToAction: (mode: number) => void
   }) {
 
   const callToAction = (step: number) => {
@@ -23,6 +23,8 @@ export default function OrderSummary({
         return "Use this address";
       case ORDER_STEPS.ORDER_STEP_PAYMENT:
         return "Place Your Order & Pay";
+      case ORDER_STEPS.ORDER_PAID:
+        return "Order Placed"
     }
   }
 
@@ -31,7 +33,7 @@ export default function OrderSummary({
       <div>
         <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none">
           {callToAction(step) && <button
-            onClick={() => { onInitRazorPay(step) }}
+            onClick={() => { onCallToAction(step) }}
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
             type="submit"
           >

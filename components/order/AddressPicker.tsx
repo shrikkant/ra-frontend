@@ -77,7 +77,6 @@ export const AddressPicker = ({
       )}
       {(!hasAddress) && (
         <div className="text-center xs:w-full">
-          {/* <DocumentUpload /> */}
           <div>
             <Input label={"Flat No, Building/ Society Name"} name={"address_line_1"} onChange={handleLine1Change}></Input>
             {(address_line_1 && address_line_1.length > 5) && <AutoComplete
