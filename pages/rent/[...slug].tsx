@@ -16,12 +16,12 @@ import { Product } from 'components/product/Product';
 import { IProduct, IProductFilter } from 'app-store/types';
 import Custom404 from '../404';
 
-
 export default function Location() {
   const router = useRouter();
   const { query } = router;
   const [activeProduct, setActiveProduct] = useState<IProduct | null>(null);
   const { products } = useProducts();
+
 
   const [filter, setFilter] = useState<IProductFilter>();
   const [pageNotFound, setPageNotFound] = useState(false);

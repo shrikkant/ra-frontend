@@ -8,19 +8,21 @@ import React, { useEffect, useState } from "react";
 import { Disclosure } from "@headlessui/react";
 
 import { useCategories } from "../hooks/useCategories";
-import { useLocalStorage } from "../util/localStore.util";
+
 import { IDefaultSearch } from "../app-store/app-defaults/types";
+import { useSelector } from "react-redux";
+import { getDefaultSearch } from "../app-store/session/session.slice";
 
 export default function HeaderSubNav() {
   const router = useRouter();
-  const [storeSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
+  const storeSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
   const { categories } = useCategories();
 
   const [subCategories, setSubCategories] = useState([]);
 
   const onCategorySelect = (key, querySlug) => {
-
-    const city = storeSearch?.location?.city || "pune";
+    const { location } = storeSearch;
+    const city = location?.city || "pune";
 
     if (!location)
       return;

@@ -4,16 +4,18 @@ import Loader from "./Loader";
 import { getFeaturedProducts } from "../api/products.api";
 import { Content } from "antd/lib/layout/layout";
 import React from "react";
-import { useLocalStorage } from "../util/localStore.util";
+
 import { useRouter } from "next/router";
 import { IDefaultSearch } from "../app-store/app-defaults/types";
+import { useSelector } from "react-redux";
+import { getDefaultSearch } from "../app-store/session/session.slice";
 
 
 export default function ProductGrid() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const [defaultSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
+  const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch)
 
 
   const loadProducts = (city: string) => {

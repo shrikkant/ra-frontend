@@ -1,18 +1,19 @@
 'use client'
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useLocalStorage } from "../../util/localStore.util";
+import { useDispatch, useSelector } from "react-redux";
+import { getLastLink, setLastLink, } from "../../app-store/session/session.slice";
 
 export default function Scripts() {
-
+  const dispatch = useDispatch();
   const router = useRouter();
-  const [lastLink, setLastLink] = useLocalStorage<string | null>("lastLink");
+  const lastLink = useSelector(getLastLink)
 
   useEffect(() => {
     const link = lastLink;
 
     if (link) {
-      setLastLink(null);
+      dispatch(setLastLink(""));
       router.push(link);
       return;
     } else {

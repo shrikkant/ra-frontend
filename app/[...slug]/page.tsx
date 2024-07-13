@@ -5,7 +5,6 @@ import { getProductFilter } from "util/search.util";
 import { fetchProductBySlug, fetchProducts } from 'api/products.api';
 
 import { fetchData } from 'api/axios.config';
-import PageContainer from 'components/common/PageContainer';
 import { Product } from 'components/product/Product';
 import FilterSideBar from 'components/rent/FilterSideBar';
 
@@ -30,7 +29,7 @@ export default async function Location({ params, searchParams }: { params: { slu
   return (<div style={{ maxWidth: 1280, margin: "auto" }}>
     {(!filter?.product && products) && (
       <div className="sm:flex">
-        <FilterSideBar searchMeta={meta}></FilterSideBar>
+        <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
         <div
           className={
             "r-comp  px-2 py-4 flex flex-wrap gap-y-5 sm:gap-x-3"

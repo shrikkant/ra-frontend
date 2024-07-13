@@ -4,18 +4,20 @@ import { useRouter } from "next/navigation";
 import PageContainer from "../common/PageContainer";
 import React from "react";
 import { IDefaultSearch } from "../../app-store/app-defaults/types";
-import { useLocalStorage } from "../../util/localStore.util";
+import { useSelector } from "react-redux";
+import { getDefaultSearch } from "../../app-store/session/session.slice";
+
 
 export default function SearchGear() {
   const router = useRouter();
   const [search, setSearch] = useState('');
-  const [storeSearch] = useLocalStorage<IDefaultSearch>("defaultSearch");
+  const storeSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
 
   const onSearch = () => {
-    const city = storeSearch?.location?.city || "pune";
+    const { location } = storeSearch;
+    const city = location?.city || "pune";
+
     return router.push(`/rent/${city}?q=${search}`);
-
-
   }
 
   const onSearchChange = (e: any) => {

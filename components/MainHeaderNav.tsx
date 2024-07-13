@@ -17,7 +17,7 @@ import {
 } from "@heroicons/react/24/outline";
 import { SearchInput } from "./SearchInput";
 import TopNavMenu from "components/TopNavMenu";
-import { useLocalStorage } from "../util/localStore.util";
+
 import { getDefaultSearch } from "../app-store/session/session.slice";
 import { fetchCart } from "../api/user/orders.api";
 import { IDefaultSearch, ISearchLocation } from "../app-store/app-defaults/types";
@@ -26,8 +26,7 @@ import { IDefaultSearch, ISearchLocation } from "../app-store/app-defaults/types
 
 export default function MainHeaderNav({ navState, onNavStateChange }: { navState, onNavStateChange: () => void; }) {
   const loggedUser = useSelector(selectAuthState);
-  const [defaultSearch] =
-    useLocalStorage<IDefaultSearch>("defaultSearch");
+  const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
 
   const [location, setLocation] = useState<ISearchLocation>();
 

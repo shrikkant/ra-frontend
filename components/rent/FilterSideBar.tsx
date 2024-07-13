@@ -12,9 +12,14 @@ import {
 
 
 import style from "styles/search.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { useState } from "react";
+
+import { IProductFilter } from "../../app-store/types";
+
+import { useDispatch, useSelector } from "react-redux";
+import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
 
 const sliderTrack = {
   background: "lightgreen",
@@ -27,14 +32,22 @@ const handleStyle = {
 };
 
 export default function FilterSideBar({
-  searchMeta
+  searchMeta,
+  filter
+}: {
+  searchMeta: any;
+  filter: IProductFilter;
+
 }) {
+  const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
   const brands = getBrandOptions(searchMeta?.brands);
   const [filters, setFilters] = useState(true);
   const [newQuery, setNewQuery] = useState(paramsToObject(searchParams));
+  const defaultSearch = useSelector(getDefaultSearch);
+
   const rf = "";
 
   const toggleNav = () => {
@@ -71,6 +84,20 @@ export default function FilterSideBar({
     setNewQuery(query);
   };
 
+  useEffect(() => {
+    const currentSearch = { ...defaultSearch };
+
+    if (filter && currentSearch?.location) {
+      if (filter.city?.toLowerCase() !== currentSearch?.location?.city?.toLowerCase()) {
+        currentSearch.location = {
+          city: filter.city,
+        }
+        dispatch(setSearch(currentSearch));
+      }
+    }
+
+
+  }, [filter, defaultSearch])
 
   return (
     <div

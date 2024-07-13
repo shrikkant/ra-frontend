@@ -3,7 +3,7 @@ import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
-import { useLocalStorage } from "../../util/localStore.util";
+
 
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
@@ -27,16 +27,14 @@ export const LocationPicker = () => {
   const [location, setLocation] = useState<any>(null);
   const stateSearch = useSelector(getDefaultSearch);
 
-  const [defaultSearch, setDefaultSearch] = useLocalStorage<any>(
-    "defaultSearch");
-
   const cityChange = (city) => {
-    const search: any = defaultSearch ? defaultSearch : {};
+    const search: any = { ...stateSearch };
+
     search.location = {
       city,
     };
-    setDefaultSearch(search);
-    dispatch(setSearch(JSON.stringify(search)));
+
+    dispatch(setSearch(search));
 
 
     router.push("/" + city.toLowerCase() + "/rent-camera");
@@ -44,17 +42,19 @@ export const LocationPicker = () => {
   };
 
   useEffect(() => {
-    if (!defaultSearch) {
-      setDefaultSearch({
-        location: {
-          city: "Pune",
-        },
-      });
+    const currentSearch = { ...stateSearch };
+    if (currentSearch && !currentSearch.location) {
+      console.log("Setting default location : ", currentSearch);
+      currentSearch.location = {
+        city: "Pune",
+      }
+      dispatch(setSearch(currentSearch));
     }
 
-    const location: any = defaultSearch?.location || stateSearch?.location;
+    const location: any = stateSearch?.location;
+
     setLocation(location);
-  }, [defaultSearch, stateSearch]);
+  }, [stateSearch]);
 
   const locationCity = (city) => {
     return city.slice(0, 1).toUpperCase() + city.slice(1);

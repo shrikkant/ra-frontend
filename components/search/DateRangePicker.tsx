@@ -2,7 +2,6 @@
 import React from "react";
 import { Popover, Transition } from "@headlessui/react";
 import { rangeDisplay } from "util/date.util";
-import { useLocalStorage } from "../../util/localStore.util";
 import { Fragment, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { DateRange } from "react-date-range";
@@ -15,16 +14,11 @@ import { IDates } from "../../app-store/app-defaults/types";
 
 import "react-date-range/dist/styles.css"; // main style file
 
-interface DefaultSearch {
-  dates?: IDates;
-}
-
 export const DateRangePicker = ({ mode }: { mode: string }) => {
   const dispatch = useDispatch();
 
   const storeSearch = useSelector(getDefaultSearch);
-  const [defaultSearch, setDefaultSearch] =
-    useLocalStorage<DefaultSearch>("defaultSearch");
+  const defaultSearch = useSelector(getDefaultSearch);
   const [dates, setDates] = useState<IDates>();
 
   useEffect(() => {
@@ -41,8 +35,8 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
         key: "selection",
       };
       currentSearch.dates = currentDates;
-      setDefaultSearch(currentSearch);
-      // setDates(currentDates);
+
+      dispatch(setSearch(currentSearch));
     }
 
 
@@ -62,9 +56,8 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
     // delete defaultSearch.dates;
     const search = storeSearch ? { ...storeSearch } : { ...defaultSearch };
     search.dates = dates.selection;
-    dispatch(setSearch(JSON.stringify(search)));
+    dispatch(setSearch(search));
 
-    setDefaultSearch(search);
   };
 
   const onRangePick = (d, done) => {

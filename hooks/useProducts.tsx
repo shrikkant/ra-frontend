@@ -7,8 +7,9 @@ import { getProductFilter } from "../util/search.util";
 import { useRouter } from "next/router";
 import { useDispatch, useSelector } from "react-redux";
 import { getCategories } from "../app-store/app-defaults/app-defaults.slice";
-import { useLocalStorage } from "../util/localStore.util";
+
 import { IDefaultSearch } from "../app-store/app-defaults/types";
+import { getDefaultSearch } from "../app-store/session/session.slice";
 
 export const useProducts = () => {
   const router = useRouter();
@@ -17,9 +18,7 @@ export const useProducts = () => {
   const { q } = query;
   const products = useSelector(getSearchResults);
   const categories = useSelector(getCategories);
-  const [defaultSearch] = useLocalStorage<IDefaultSearch>(
-    "defaultSearch"
-  );
+  const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
 
 
   useEffect(() => {

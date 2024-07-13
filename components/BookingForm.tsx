@@ -1,12 +1,11 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
-import { useLocalStorage } from "../util/localStore.util";
 import { addToCart } from "../api/user/orders.api";
 import { usePathname, useRouter } from "next/navigation";
 import { RupeeSymbol } from "./RupeeSymbol";
 import { useDispatch, useSelector } from "react-redux";
-import { getDefaultSearch, setSearch } from "app-store/session/session.slice";
+import { getDefaultSearch, setLastLink, setSearch } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
 import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
@@ -22,10 +21,6 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
   const dispatch = useDispatch();
   const storeSearch = useSelector(getDefaultSearch);
-  const [defaultSearch] = useLocalStorage<IDefaultSearch>(
-    "defaultSearch"
-  );
-  const [lastLink, setLastLink] = useLocalStorage<string | null>("lastLink");
 
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
 
@@ -46,8 +41,8 @@ export default function BookingForm({ productId, rates }: { productId: number, r
   };
 
   const onAddToCart = (bookNow?: boolean) => {
-    if (!loggedUser) {
-      setLastLink(pathname);
+    if (!loggedUser && pathname) {
+      dispatch(setLastLink(pathname))
       router.push("/signin");
     } else {
 
@@ -63,16 +58,13 @@ export default function BookingForm({ productId, rates }: { productId: number, r
   };
 
   useEffect(() => {
-    if (defaultSearch)
-      dispatch(setSearch(JSON.stringify(defaultSearch)));
     if (!loggedUser) {
       getAuthUser().then((user) => {
-        console.log("USER : ", user);
         dispatch(authUser(user))
       });
     }
 
-  }, [loggedUser, defaultSearch]);
+  }, [loggedUser]);
 
   const renderForm = (
     <>
