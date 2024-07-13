@@ -42,7 +42,7 @@ export default function ProductFilterNav({
       .filter((checkbox: HTMLInputElement) => checkbox.checked)
       .map((checkbox: HTMLInputElement) => checkbox.value);
 
-    console.log("Selected Values : ", checkedValues);
+
     const newQuery = { ...router.query };
     delete newQuery.br;
     delete newQuery.page;

@@ -15,11 +15,13 @@ import { getAuthUser } from "../api/auth.api";
 
 
 export default function BookingForm({ productId, rates }: { productId: number, rates: any[] }) {
+  const dispatch = useDispatch();
   const loggedUser = useSelector(selectAuthState);
+
   const router = useRouter();
   const pathname = usePathname();
 
-  const dispatch = useDispatch();
+
   const storeSearch = useSelector(getDefaultSearch);
 
   const [openFormInMobile, setOpenFormInMobile] = useState(false);
@@ -45,10 +47,8 @@ export default function BookingForm({ productId, rates }: { productId: number, r
       dispatch(setLastLink(pathname))
       router.push("/signin");
     } else {
-
       if (!storeSearch?.dates)
         return;
-
       addToCart(productId, storeSearch?.dates).then(() => {
         if (bookNow) {
           router.push("/portal/my-cart");

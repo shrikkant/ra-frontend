@@ -16,6 +16,7 @@ interface SessionState {
 
 const initialState: SessionState = {
     isSessionValid: null,
+    lastLink: "",
 };
 
 export const sessionSlice = createSlice({
@@ -28,10 +29,9 @@ export const sessionSlice = createSlice({
             return { isSessionValid: false };
         },
         setSearch: (state, action: PayloadAction<any>) => {
-            console.log("Pay  load :  ,", action.payload);
             state.defaultSearch = action.payload;
         },
-        setLastLink: (state, action: PayloadAction<string>) => {
+        setLastLink: (state, action: PayloadAction<any>) => {
             state.lastLink = action.payload;
         }
     },

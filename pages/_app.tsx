@@ -1,21 +1,19 @@
 import type { AppProps } from 'next/app'
-import { AppStore, makeStore } from '../app-store/store'
+
 import "antd/dist/reset.css"
 import 'styles/vars.css'
 import 'styles/global.css'
 import 'styles/common.css'
 
-import React, { FC, useRef } from 'react';
-import { Provider } from 'react-redux'
+import React, { FC } from 'react';
 import Head from 'next/head'
+import StoreProvider from '../app/StoreProvider'
+
 
 const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
-  const storeRef = useRef<AppStore>()
-  if (!storeRef.current) {
-    storeRef.current = makeStore()
-  }
+
   return (
-    <Provider store={storeRef.current}>
+    <StoreProvider>
       <Head>
 
         <link rel="shortcut icon" href="/assets/img/rentacross_logo.ico" type="image/x-icon"></link>
@@ -25,7 +23,7 @@ const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
 
       </Head>
       <Component />
-    </Provider>
+    </StoreProvider>
   );
 }
 
