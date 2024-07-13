@@ -18,11 +18,10 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
   const dispatch = useDispatch();
 
   const storeSearch = useSelector(getDefaultSearch);
-  const defaultSearch = useSelector(getDefaultSearch);
   const [dates, setDates] = useState<IDates>();
 
   useEffect(() => {
-    const currentSearch = { ...defaultSearch };
+    const currentSearch: any = { ...storeSearch };
 
     if (!currentSearch.dates) {
       const today = new Date();
@@ -30,8 +29,8 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
       tomorrow.setDate(tomorrow.getDate() + 1);
 
       const currentDates = {
-        startDate: today,
-        endDate: tomorrow,
+        startDate: '' + today,
+        endDate: '' + tomorrow,
         key: "selection",
       };
       currentSearch.dates = currentDates;
@@ -50,12 +49,16 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
       setDates(currentDates);
     }
 
-  }, [defaultSearch, storeSearch]);
+  }, [storeSearch]);
 
   const setBookingDates = (dates) => {
     // delete defaultSearch.dates;
-    const search = storeSearch ? { ...storeSearch } : { ...defaultSearch };
-    search.dates = dates.selection;
+    const search: any = { ...storeSearch };
+    search.dates = {
+      startDate: '' + dates.selection.startDate,
+      endDate: '' + dates.selection.endDate,
+      key: "selection",
+    };
     dispatch(setSearch(search));
 
   };
