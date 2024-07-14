@@ -51,7 +51,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
   };
 
   useEffect(() => {
-    if (!cart) {
+    if (loggedUser && !cart) {
       fetchCart().then((o: IOrder) => {
         dispatch(setCart(o));
       });
