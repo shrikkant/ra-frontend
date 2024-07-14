@@ -16,7 +16,7 @@ export default function Scripts() {
       dispatch(setLastLink(""));
     }
 
-    if (link) {
+    if (link && link.length > 0) {
       router.push(link);
       return;
     } else {
