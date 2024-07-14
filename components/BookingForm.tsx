@@ -11,6 +11,7 @@ import PriceTag from "./PriceTag";
 import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
 import { IDefaultSearch } from "../app-store/app-defaults/types";
 import { getAuthUser } from "../api/auth.api";
+import { setCart } from "../app-store/user/orders/orders.slice";
 
 
 
@@ -49,7 +50,8 @@ export default function BookingForm({ productId, rates }: { productId: number, r
     } else {
       if (!storeSearch?.dates)
         return;
-      addToCart(productId, storeSearch?.dates).then(() => {
+      addToCart(productId, storeSearch?.dates).then((o) => {
+        dispatch(setCart(o));
         if (bookNow) {
           router.push("/portal/my-cart");
         } else {

@@ -1,7 +1,7 @@
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { selectAuthState } from "../app-store/auth/auth.slice";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
@@ -21,11 +21,15 @@ import TopNavMenu from "components/TopNavMenu";
 import { getDefaultSearch } from "../app-store/session/session.slice";
 import { fetchCart } from "../api/user/orders.api";
 import { IDefaultSearch, ISearchLocation } from "../app-store/app-defaults/types";
+import { getCart, setCart } from "../app-store/user/orders/orders.slice";
+import { IOrder } from "../app-store/types";
+
 
 
 
 export default function MainHeaderNav({ navState, onNavStateChange }: { navState, onNavStateChange: () => void; }) {
   const loggedUser = useSelector(selectAuthState);
+  const dispatch = useDispatch()
   const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
 
   const [location, setLocation] = useState<ISearchLocation>();
@@ -35,7 +39,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
   const searchParams = useSearchParams();
   const q = searchParams?.get("q");
   const [searchText, setSearchText] = useState(q);
-  const [cartItemsCount, setCartItemsCount] = useState(0);
+  const cart: any = useSelector(getCart);
   const searchProducts = () => {
     const city = location?.city?.toLowerCase() || "pune";
 
@@ -46,17 +50,14 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
     setSearchText(value);
   };
 
-  const fetchCartItems = async () => {
-    if (loggedUser) {
-      const response: any = await fetchCart();
-      setCartItemsCount(response?.items?.length);
-    }
-  };
-
   useEffect(() => {
+    if (!cart) {
+      fetchCart().then((o: IOrder) => {
+        dispatch(setCart(o));
+      });
+    }
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
-    fetchCartItems();
-  }, []);
+  }, [cart]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
@@ -97,14 +98,14 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
                   href="/portal/my-cart"
                 >
                   <ShoppingCartIcon className="h-6 w-6" />
-                  {cartItemsCount > 0 && (
+                  {cart && cart?.items?.length > 0 && (
                     <span className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
-                      {cartItemsCount}
+                      {cart.items?.length}
                     </span>
                   )}
                 </a>
               )}
-              {/* Profile dropdown */}
+
               <TopNavMenu />
             </div>
           </div>
