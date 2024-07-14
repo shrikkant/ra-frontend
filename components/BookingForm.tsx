@@ -52,6 +52,8 @@ export default function BookingForm({ productId, rates }: { productId: number, r
       addToCart(productId, storeSearch?.dates).then(() => {
         if (bookNow) {
           router.push("/portal/my-cart");
+        } else {
+          setOpenFormInMobile(false);
         }
       });
     }
