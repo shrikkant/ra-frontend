@@ -45,7 +45,7 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
   const onAddToCart = (bookNow?: boolean) => {
     console.log("Path Name : ", pathname);
-    if (!loggedUser && pathname?.length > 0) {
+    if (!loggedUser && (pathname && pathname?.length > 0)) {
       dispatch(setLastLink(pathname))
       router.push("/signin");
     } else {
