@@ -22,7 +22,7 @@ import clsx from 'clsx'
 const items = [
   {
     label: "Orders",
-    key: "/orders",
+    key: "/portal/orders",
     icon: <ShoppingBagIcon className="h-6 w-6" />,
   },
   {
@@ -31,7 +31,7 @@ const items = [
     children: [
       {
         label: "My Products",
-        key: "/my-products",
+        key: "/portal/my-products",
         icon: <CameraIcon className="h-6 w-6" />,
       },
     ],
@@ -42,17 +42,17 @@ const items = [
     children: [
       {
         label: "My Profile",
-        key: "/profile/",
+        key: "/portal/profile/",
         icon: <UserIcon className="h-6 w-6" />,
       },
       {
         label: "Address Book",
-        key: "/profile/address-book",
+        key: "/portal/profile/address-book",
         icon: <MapPinIcon className="h-6 w-6" />,
       },
       {
         label: "Bank Info",
-        key: "/profile/bank-details",
+        key: "/portal/profile/bank-details",
         icon: <BuildingLibraryIcon className="h-6 w-6" />,
       },
     ],
@@ -61,21 +61,21 @@ const items = [
 
 const adminRoutes = {
   label: "Admin",
-  key: "/admin",
+  key: "/portal/admin",
   children: [
     {
       label: "Customers",
-      key: "/admin/customers",
+      key: "/portal/admin/customers",
       icon: <UsersIcon className="h-6 w-6" />,
     },
     {
       label: "Manage Orders",
-      key: "/admin/orders?stage=1",
+      key: "/portal/admin/orders?stage=1",
       icon: <ShoppingBagIcon className="h-6 w-6" />,
     },
     {
       label: "Brands",
-      key: "/admin/brands",
+      key: "/portal/admin/brands",
       icon: <TagIcon className="h-6 w-6" />,
     },
   ],
