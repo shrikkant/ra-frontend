@@ -137,14 +137,14 @@ export function HomeSlider() {
     if (!autoplay) return;
     const interval = setInterval(next, INTERVAL_LENGTH);
 
-    document.addEventListener('touchstart', e => {
-      setTouchstartX(e.changedTouches[0].screenX)
-    })
+    // document.addEventListener('touchstart', e => {
+    //   setTouchstartX(e.changedTouches[0].screenX)
+    // })
 
-    document.addEventListener('touchend', e => {
-      setTouchendX(e.changedTouches[0].screenX)
-      checkDirection()
-    })
+    // document.addEventListener('touchend', e => {
+    //   setTouchendX(e.changedTouches[0].screenX)
+    //   checkDirection()
+    // })
 
     return () => clearInterval(interval);
 
