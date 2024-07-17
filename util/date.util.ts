@@ -22,7 +22,7 @@ const rangeDisplay = function (range: IDateRange) {
 const dateDisplay = function (date: Date | undefined) {
   if (!date)
     return "Invalid Date";
-  return Moment(new Date(date)).format("D MMM YYYY");
+  return Moment(date).format("D MMM YYYY");
 }
 
 const timeAgo = (timestamp) => {
