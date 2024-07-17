@@ -46,7 +46,7 @@ export default function HeaderSubNav() {
       <div className=" px-2 sm:px-6 lg:px-8">
         <div className="relative flex flex-col sm:flex-row h-22 items-center justify-around border-gray-400">
           <div className="relative justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className=" inset-y-0 left-0 items-center gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">
+            <div className=" inset-y-0 left-0 items-center sm:gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">
               {subCategories &&
                 subCategories.map((cat: any) => {
                   return (

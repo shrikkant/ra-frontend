@@ -20,10 +20,10 @@ export default function TopNavMenu() {
 
   return (
     <Menu as="div" className="relative">
-      <div>
+      <div className="flex justify-center align-center ">
         {loggedUser ? (
           <>
-            <Menu.Button className="flex rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 profileref">
+            <Menu.Button className="px-0 rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 profileref">
               <span className="sr-only">Open user menu</span>
               <img
                 className=" h-8 w-8 rounded-full"

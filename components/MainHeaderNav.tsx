@@ -64,7 +64,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
       <div className=" px-2 sm:px-6 lg:px-8">
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
           <div className="justify-between w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className=" inset-y-0 left-0 flex items-center gap-x-6 ">
+            <div className=" inset-y-0 left-0 flex items-center sm:gap-x-6 ">
               {loggedUser && (
                 <Disclosure.Button
                   onClick={onNavStateChange}
@@ -91,7 +91,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
                 ></SearchInput>
               </div>
             </div>
-            <div className="flex items-center gap-x-3">
+            <div className="flex items-center gap-x-5">
               {loggedUser && (
                 <a
                   className="relative bg-gray-800  hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
