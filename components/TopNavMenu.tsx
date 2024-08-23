@@ -1,8 +1,8 @@
 import React from "react";
 import { Menu } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
-import { selectAuthState } from "../app-store/auth/auth.slice";
-// import { logoutUser } from "api/auth.api";
+import { selectAuthState, removeUser } from "../app-store/auth/auth.slice";
+import { logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
 import { deleteSession } from "app-store/session/session.slice";
 
@@ -12,10 +12,11 @@ export default function TopNavMenu() {
   const router = useRouter();
 
   const handleLogout = async () => {
-    // await logoutUser();
-    const deleted = dispatch(deleteSession());
-
-    router.push("/signin");
+    logoutUser().then(() => {
+      dispatch(removeUser());
+      dispatch(deleteSession());
+      router.push("/");
+    })
   };
 
   return (

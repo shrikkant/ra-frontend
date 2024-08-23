@@ -25,7 +25,6 @@ export const sessionSlice = createSlice({
     reducers: {
         setSession: () => ({ isSessionValid: true }),
         deleteSession: () => {
-            Cookies.set(TOKEN_COOKIE_KEY, '');
             return { isSessionValid: false };
         },
         setSearch: (state, action: PayloadAction<any>) => {

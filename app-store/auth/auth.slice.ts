@@ -11,12 +11,15 @@ export const authSlice = createSlice({
 	reducers: {
 		authUser(state, action: PayloadAction<IUser>) {
 			state.user = action.payload;
+		},
+		removeUser(state) {
+			state.user = undefined;
 		}
 	},
 });
 
 
-export const { authUser } = authSlice.actions;
+export const { authUser, removeUser } = authSlice.actions;
 
 export const selectAuthState = (state: RootState) => state.auth.user;
 
