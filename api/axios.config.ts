@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 
 
@@ -49,7 +49,7 @@ export const fetchData = async (url, customOptions?) => {
 
     const commonOptions = {
         headers: { 'Content-Type': 'application/json' },
-        referrer: 'https://www.rentacross.com'
+        referrer: 'https://labs.rentacross.com'
     }
 
     const options = {
