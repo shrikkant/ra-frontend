@@ -25,14 +25,19 @@ export default function HomeProductCard({ product }: { product: any }) {
           src={"https://www.rentacross.com" + product.photos[0].path}></Image>}
 
       </a>
-      <div className="product-item-cover">
+      <div className="p-[15px]">
         <div className="price-cover">
 
         </div>
         <h6 className="prod-title">
           <a href={getLink(product)}>{product.title}</a>
         </h6>
-        <a href={getLink(product)} className="btn"><span>Book Now</span></a>
+        <div className="text-center">
+          <a className={"p-1 btn"} href={getLink(product)}>
+            <span>Book Now</span>
+          </a>
+        </div>
+
       </div>
     </div>
   </div>)
