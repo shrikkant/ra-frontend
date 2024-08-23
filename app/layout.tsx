@@ -25,14 +25,11 @@ export default function RootLayout({
         <meta property="og:title" content="RentAcross | Online rental platform for photography and camping equipment." key="title" />
         <meta property="og:site_name" content="RentAcross" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://labs.rentacross.com" />
+        <meta property="og:url" content="https://www.rentacross.com" />
         <meta name="description"
           content="Rent DSLR Cameras, Lenses, Camping Equipment & More. Premium Quality. Affordable Rates. Hassle free renting." />
         <meta name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store" />
-
-        <meta name="robots" content="noindex,nofollow" />
-
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
