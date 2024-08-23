@@ -1,14 +1,14 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 
 
-import { TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY } from '../config/constants';
+import { BASE_API_URL, TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY } from '../config/constants';
 import { displayMessage } from '../util/global.util';
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
 const httpClient = axios.create({
-    baseURL: "https://www.rentacross.com/api/"
+    baseURL: "https://labs.rentacross.com/api/"
 });
 
 
@@ -22,9 +22,10 @@ httpClient.interceptors.request.use(
                 TOKEN_HEADER_KEY: token || '',
                 'Access-Control-Allow-Origin': '*',
                 'Content-Type': 'application/json',
-                ...config.headers
+                ...config.headers,
             };
         }
+
         return config;
     },
     (error) => {
@@ -35,7 +36,10 @@ httpClient.interceptors.request.use(
 httpClient.interceptors.response.use(
     async function (res: AxiosResponse<any>) {
         const response: any = res;
+
         const { resultFormatted } = response.data;
+
+        // console.log("Response Message: ", response.data);
         if (response.data?.successMessage) {
             displayMessage('success', response.data?.successMessage);
         } else if (response.data?.errorMessage) {
@@ -58,7 +62,7 @@ export const fetchData = async (url, customOptions?) => {
     }
 
 
-    const response: any = await fetch(`http://localhost:8082/api/${url}`, options);
+    const response: any = await fetch(`https://labs.rentacross.com/api/${url}`, options);
 
     if (!response.ok) {
         throw new Error('Failed to fetch data')
