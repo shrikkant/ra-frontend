@@ -1,14 +1,14 @@
-import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 
 
-import { BASE_API_URL, TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY } from '../config/constants';
+import { TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY } from '../config/constants';
 import { displayMessage } from '../util/global.util';
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
 const httpClient = axios.create({
-    baseURL: "https://labs.rentacross.com/api/"
+    baseURL: "https://www.rentacross.com/api/"
 });
 
 
@@ -53,7 +53,7 @@ export const fetchData = async (url, customOptions?) => {
 
     const commonOptions = {
         headers: { 'Content-Type': 'application/json' },
-        referrer: 'https://labs.rentacross.com'
+        referrer: 'https://www.rentacross.com'
     }
 
     const options = {
@@ -62,7 +62,7 @@ export const fetchData = async (url, customOptions?) => {
     }
 
 
-    const response: any = await fetch(`https://labs.rentacross.com/api/${url}`, options);
+    const response: any = await fetch(`https://www.rentacross.com/api/${url}`, options);
 
     if (!response.ok) {
         throw new Error('Failed to fetch data')
