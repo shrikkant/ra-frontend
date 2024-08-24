@@ -7,7 +7,7 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
 
   const getLink = (p: any) => {
     const subCatSlug = p.subCategory.slug;
-    return p.location.city.toLowerCase() + "/"
+    return "/rent/" + p.location.city.toLowerCase() + "/"
       + subCatSlug + "/"
       + product.slug.toLowerCase();
 
