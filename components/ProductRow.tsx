@@ -1,37 +1,36 @@
-import { Card, Space, Statistic } from "antd";
-import { Content } from "antd/lib/layout/layout";
-import { IProductRatePlan } from "../app-store/types";
+import { IProduct, IProductRatePlan } from "../app-store/types";
 import React from "react";
-
-
-
-export default function ProductRow({product}) {
-  return (<Card key={product.id} title={product.title} className="r-comp">
-    <Card.Grid style={{width:'25%'}}>
-      <div>
-        {product.photos.length  }
-        <img src={product.photos[0]?.path}></img>
+export default function ProductRow({ product }: { product: IProduct }) {
+  return (<div key={product.id} className="shadow-lg">
+    <div className="px-4 border-gray-100 border-b py-3">
+      <h3 className="text-xl font-light">
+        {product.title}
+      </h3>
+    </div>
+    <div className="flex p-3 gap-x-3">
+      <div className="w-1/4">
+        <div className="p-5">
+          {product?.photos && <img src={product?.photos[0]?.path}></img>}
+        </div>
       </div>
-    </Card.Grid>
-    <Card.Grid hoverable={false} style={{width:'75%'}}>
-      <Content style={{ display: 'flex' }}>
-        <Space size={[10, 20]} direction="horizontal">
+      <div className="w-3/4">
+        <div className="flex">
+          <div className="flex xs:flex-col">
+            {product.rates && product.rates.map((rate: IProductRatePlan, index) => (
 
-          {product.rates && product.rates.map((rate: IProductRatePlan, index) => (
-            <Card key={product.id + '-' + index} style={{ padding: '20px' }}>
-              <Statistic
-                title={rate.duration}
-                value={rate.rate}
-                precision={0}
-                valueStyle={{ color: '#cf1322' }}
-                prefix="&#8377;"
-                suffix="/day"
-              />
-            </Card>
-          ))}
-        </Space>
-      </Content>
+              <div key={index} className="flex gap-x-5 justify-between">
+                <div className="font-semibold">
+                  {rate.durationDisplay}
+                </div>
+                <div>
+                  &#8377;{rate.rate}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
 
-    </Card.Grid>
-  </Card>)
+  </div>)
 }

@@ -1,5 +1,4 @@
-import { Space } from "antd";
-import { Content } from "antd/lib/layout/layout";
+
 
 import {
   getMyProducts,
@@ -39,14 +38,14 @@ export default function MyProducts() {
         addAction={listProduct}
       ></MyPageHeader>
 
-      <Content style={{ padding: "16px 24px" }} >
-        <Space size={[10, 20]} direction="vertical">
+      <div className="px-5">
+        <div>
           {products &&
             products.map((product: any) => (
               <ProductRow key={product.id} product={product}></ProductRow>
             ))}
-        </Space>
-      </Content>
+        </div>
+      </div>
     </AppLayout>
   );
 }
