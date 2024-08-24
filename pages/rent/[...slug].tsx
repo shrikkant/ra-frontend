@@ -100,7 +100,7 @@ export default function Location() {
 
           <div
             className={
-              "grid lg:grid-cols-3 gap-4 p-4 gap-y-2 md:grid-cols-2"
+              "grid lg:grid-cols-3 gap-4 p-4 gap-y-2 xs:grid-cols-2 sm"
             }
           >
             {products &&
