@@ -6,7 +6,6 @@ import { useSelector } from "react-redux";
 import { selectAuthState } from "app-store/auth/auth.slice";
 import GoogleSignInButton from "components/common/GoogleSignInBtn";
 import { AppLayout } from "../../components/AppLayout";
-import FacebookLoginBtn from "../../components/common/FacebookLoginBtn";
 
 export default function Signin() {
   const router = useRouter();
