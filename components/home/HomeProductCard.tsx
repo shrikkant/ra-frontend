@@ -23,8 +23,9 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
 
       <a href={getLink(product)} className="product-img">
 
-        {product.photos[0] && <Image alt={product.title} className={"p-2 sm:p-5"} width={200} height={-1}
-          src={"https://www.rentacross.com" + product.photos[0].path}></Image>}
+        {(product.photos && product.photos[0]) &&
+          <Image alt={product.title} className={"p-2 sm:p-5"} width={200} height={-1}
+            src={"https://www.rentacross.com" + product.photos[0].path} />}
 
       </a>
       <div className="p-[15px]">
