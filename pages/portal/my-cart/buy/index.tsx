@@ -14,18 +14,24 @@ import { authUser, selectAuthState } from "app-store/auth/auth.slice";
 import { OrderItemsReview } from "components/order/OrderItemsReview";
 import { ORDER_STEPS } from "config/constants";
 import { AddressPicker } from "components/order/AddressPicker";
-import EmptyCart from "components/cart/EmptyCart";
 import Loader from "components/Loader";
 import { getAuthUser } from "../../../../api/auth.api";
+import { useRouter } from "next/navigation";
 
 export default function Orders() {
   const cart: any = useSelector(getCart);
+  const router = useRouter();
   const loggedUser: any = useSelector(selectAuthState);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addressId, setAddressId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
+
+  const orderSuccess = () => {
+    dispatch(setCart(null));
+    router.push("/portal/orders");
+  }
   const onRazorPayCheckout = (mode: number) => {
     const currentAddr = loggedUser?.address.find(
       (ad) => ad.id === addressId
@@ -35,7 +41,7 @@ export default function Orders() {
       updateDeliveryAddressAction(cart, currentAddr)(dispatch);
       setSelectedAddress(currentAddr);
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
-      displayRazorpay(cart.id);
+      displayRazorpay(cart.id, orderSuccess);
     }
   };
 
@@ -115,7 +121,7 @@ export default function Orders() {
               </div>
             </div>
           ) : (
-            <EmptyCart />
+            <Loader />
           )}
         </>
       )}

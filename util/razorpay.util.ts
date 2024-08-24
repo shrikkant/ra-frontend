@@ -16,7 +16,7 @@ function loadScript(src: string) {
 }
 
 
-export const displayRazorpay = async (orderId: number) => {
+export const displayRazorpay = async (orderId: number, success) => {
     const res = await loadScript(
         "https://checkout.razorpay.com/v1/checkout.js"
     );
@@ -28,17 +28,17 @@ export const displayRazorpay = async (orderId: number) => {
 
     // creating a new order
     const result: any = await createRazorPayOrder({ orderId });
-
     const config = result.clientConfig;
+
     if (config.isTestMode) {
         config.handler = function (paymentResponse) {
             processPayment(paymentResponse).then((res) => {
-                window.location.href = "/orders";
+                success(res);
             })
         }
     } else {
         config.handler = function (paymentResponse) {
-            window.location.href = "/orders";
+            success(paymentResponse);
         }
     }
 
