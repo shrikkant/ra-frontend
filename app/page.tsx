@@ -1,11 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 
 import { HomeSlider } from '../components/HomeSlider'
 import { Testimonial } from '../components/Testimonial'
 
 import TopSales from '../components/TopSales'
 import HomeAdvantages from '../components/home/HomeAdvantages'
-import SearchGear from '../components/home/SearchGear'
 import { getFeaturedProducts } from '../api/products.api'
 
 

@@ -1,4 +1,5 @@
 
+import { IUser } from "../../app-store/types";
 import httpClient from "../axios.config";
 
 
@@ -14,3 +15,8 @@ export const addNewAddress = async (
   return newAddress;
 
 };
+
+export const updatePhone = async (phone: string): Promise<IUser> => {
+  const response: IUser = await httpClient.put(`user?mode=2`, { phone });
+  return response;
+}

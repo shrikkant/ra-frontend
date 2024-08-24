@@ -1,3 +1,4 @@
+import React from "react";
 import { fetchBlogBySlug, fetchBlogs } from "../../../api/blog/blog.api";
 import BlogCover from "../../../components/common/BlogCover"
 import PageContainer from "../../../components/common/PageContainer";
