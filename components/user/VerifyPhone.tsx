@@ -43,8 +43,9 @@ export default function VerifyPhone() {
         <div className="w-full">
           <input
             placeholder="Phone"
-            pattern="^[0-9]*$"
-            onKeyPress={validatePhone}
+            pattern="[0-9]*"
+            inputMode="numeric"
+            onKeyDown={validatePhone}
             onChange={handlePhoneChange}
             className={" w-full border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
             type="text"
