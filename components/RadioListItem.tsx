@@ -1,11 +1,13 @@
-export const RadioListItem = ({ value, active, children, onCheck }) => {
+import React from "react";
+
+export const RadioListItem = ({ value, active, children, onCheck }: any) => {
   return (
     <div
       onClick={() => {
         onCheck(value);
       }}
       className={
-        "flex p-3 px-5 items-center space-x-2 cursor-pointer " +
+        "flex p-3 px-3 items-center space-x-3 cursor-pointer m-3" +
         "rounded-md hover:shadow-sm hover:border-yellow-200 hover:border hover:bg-yellow-50 " +
         (active
           ? "rounded-md shadow-sm border-yellow-200 border bg-yellow-50"

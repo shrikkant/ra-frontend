@@ -20,9 +20,9 @@ export default function OrderSummary({
       case ORDER_STEPS.ORDER_STEP_CART:
         return "Proceed to Book";
       case ORDER_STEPS.ORDER_STEP_DELIVERY:
-        return "Use this address";
+        return "Review & Pay";
       case ORDER_STEPS.ORDER_STEP_PAYMENT:
-        return "Place Your Order & Pay";
+        return "Place Your Order";
       case ORDER_STEPS.ORDER_PAID:
         return "Order Placed"
     }

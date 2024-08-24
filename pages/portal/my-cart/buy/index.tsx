@@ -103,7 +103,7 @@ export default function Orders() {
               </div>
 
               <div className={"md:w-1/4 w-full"}>
-                <div className="md:fixed top-100 md:w-80 w-full p-4">
+                <div className="md:fixed md:w-80 w-full top-20 xs:p-4 md:p-0">
                   <OrderSummary
                     order={cart}
                     step={
