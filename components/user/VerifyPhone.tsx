@@ -8,8 +8,11 @@ import { authUser } from "../../app-store/auth/auth.slice";
 import PageContainer from "../common/PageContainer";
 import { updatePhone } from "../../api/user/index.api";
 import { IUser } from "../../app-store/types";
+import { useRouter } from "next/navigation";
+
 
 export default function VerifyPhone() {
+  const router = useRouter();
   const [phone, setPhone] = React.useState("");
   const dispatch = useDispatch();
 
@@ -30,6 +33,7 @@ export default function VerifyPhone() {
     const updateUser: IUser = await updatePhone(phone);
     if (updateUser?.verified) {
       dispatch(authUser(updateUser));
+      router.push("/");
     }
 
   }
