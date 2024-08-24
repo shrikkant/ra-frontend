@@ -11,6 +11,17 @@ import 'styles/vars.css'
 import 'styles/global.css'
 import 'styles/common.css'
 
+import type { Viewport } from 'next'
+
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+  // Also supported by less commonly used
+  // interactiveWidget: 'resizes-visual',
+}
+
 export default function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -27,6 +38,7 @@ export default function RootLayout({
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow"></meta>
         <meta property="og:url" content="https://www.rentacross.com" />
+
         <meta name="description"
           content="Rent DSLR Cameras, Lenses, Camping Equipment & More. Premium Quality. Affordable Rates. Hassle free renting." />
         <meta name="keywords"
