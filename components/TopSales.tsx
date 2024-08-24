@@ -11,7 +11,7 @@ export default function TopSales({ categories }) {
   return (<section className="s-top-sale">
     <PageContainer>
       <h2 className="title">Top sales</h2>
-      {categories && <div className="flex flex-row product-cover flex-wrap md:gap-x-5 sm:gap-x-5 justify-between">
+      {categories && <div className=" product-cover grid lg:grid-cols-4 gap-4">
 
         {categories[0]?.products?.map((product: any) => (
           <HomeProductCard key={product.id} product={product}></HomeProductCard>

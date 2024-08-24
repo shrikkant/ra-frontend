@@ -15,6 +15,7 @@ import { fetchProduct } from 'api/products.api';
 import { Product } from 'components/product/Product';
 import { IProduct, IProductFilter } from 'app-store/types';
 import Custom404 from '../404';
+import HomeProductCard from '../../components/home/HomeProductCard';
 
 export default function Location() {
   const router = useRouter();
@@ -33,6 +34,7 @@ export default function Location() {
 
 
   useEffect(() => {
+    // alert("useEffect");
     setLoading(true);
 
     const queryString = query ? String(query) : "";
@@ -98,20 +100,22 @@ export default function Location() {
 
           <div
             className={
-              "r-comp  px-2 py-4 flex flex-wrap gap-y-5 sm:gap-x-3  "
+              "grid lg:grid-cols-3 gap-4 p-4 gap-y-2 md:grid-cols-2"
             }
           >
             {products &&
               products.map((product: any, index) => (
-                <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
+                <HomeProductCard key={product.id} product={product}></HomeProductCard>
+                // <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
               ))}
           </div>
         </div>
       </div>
-    )}
+    )
+    }
 
     {(filter?.product && activeProduct) && <Product product={activeProduct}></Product>}
-  </AppLayout>
+  </AppLayout >
   )
 }
 

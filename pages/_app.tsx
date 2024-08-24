@@ -17,6 +17,8 @@ const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
       <Head>
 
         <link rel="shortcut icon" href="/assets/img/rentacross_logo.ico" type="image/x-icon"></link>
+        <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
+        <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
         <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
         <meta name="description" content="RentAcross is an online rental platform for cameras, lenses, gopros, insta360 action cameras & camping and adventure gear."></meta>
         <meta name="robots" content="noindex" />

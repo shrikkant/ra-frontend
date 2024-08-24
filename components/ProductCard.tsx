@@ -48,12 +48,11 @@ export default function ProductCard({ product, priority = false }) {
             {product.location.city}
           </div>
 
-          <button
-            className="p-2 w-full text-md font-semibold rounded bg-amber-500 text-gray-800"
-            style={{ color: "#555", textAlign: "center", marginTop: 16 }}
-          >
-            Book Now
-          </button>
+          <div className="text-center">
+            <a className={"p-1 btn"} href="#">
+              <span>Book Now</span>
+            </a>
+          </div>
         </div>
       </div>
     </Link>

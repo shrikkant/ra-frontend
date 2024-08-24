@@ -15,9 +15,9 @@ export default function HomeProductCard({ product }: { product: any }) {
   if (!product)
     return (<div>Product not found</div>)
 
-  return (<div key={product.id} className="lg:w-1/5 md:w-5/12 w-[48%]">
+  return (<div key={product.id}>
     <div className="product-item">
-      <span className="top-sale">top sale</span>
+      {/* <span className="top-sale">top sale</span> */}
 
       <a href={getLink(product)} className="product-img">
 
