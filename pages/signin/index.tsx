@@ -33,13 +33,6 @@ export default function Signin() {
               <div className="flex items-center justify-center">
                 <GoogleSignInButton onClick={() => (window.location.href = "/auth/google")} />
               </div>
-
-              <div
-                onClick={() => (window.location.href = "/auth/facebook")}
-                className="flex items-center justify-center"
-              >
-                <FacebookLoginBtn />
-              </div>
             </div>
           </div>
         </div>
