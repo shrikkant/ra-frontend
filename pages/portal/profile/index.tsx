@@ -4,8 +4,7 @@ import { useSelector } from "react-redux";
 import { selectAuthState } from "app-store/auth/auth.slice";
 import { AppLayout } from "components/AppLayout";
 import MyPageHeader from "components/MyPageHeader";
-import { PhoneIcon, UserPlusIcon } from "@heroicons/react/24/outline";
-import { FaAddressBook, FaPhone } from "react-icons/fa";
+import { FaAddressBook, FaCheckDouble, FaPhone, FaRegCheckCircle, FaRegUser, FaVoicemail } from "react-icons/fa";
 
 export default function MyProfile() {
 
@@ -29,18 +28,17 @@ export default function MyProfile() {
                     {loggedUser.firstname + " " + loggedUser.lastname}
                   </h3>
                   <div className="mb-4 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-x-1">
-                    <div>
-                      <FaAddressBook />
-                    </div>
+
                     <div>
                       {loggedUser.email_address}
+                    </div>
+                    <div>
+                      {loggedUser?.verified && <FaCheckDouble />}
                     </div>
 
                   </div>
                   <div className="mb-4 text-sm text-gray-500 dark:text-gray-400 flex items-center gap-x-1">
-                    <div>
-                      <FaPhone />
-                    </div>
+
                     <div>
                       {loggedUser.phone}
                     </div>
