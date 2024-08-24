@@ -1,7 +1,8 @@
 import React from "react";
 import Image from "next/image";
+import { IProduct } from "../../app-store/types";
 
-export default function HomeProductCard({ product }: { product: any }) {
+export default function HomeProductCard({ product }: { product: IProduct }) {
 
 
   const getLink = (p: any) => {
@@ -16,9 +17,9 @@ export default function HomeProductCard({ product }: { product: any }) {
     return (<div>Product not found</div>)
 
   return (<div key={product.id}>
-    <div>
-      {product?.featured && <span className="top-sale">top sale</span>}
+    <div className="product-item">
 
+      {product.featured ? <span className="top-sale">top sale</span> : <></>}
 
       <a href={getLink(product)} className="product-img">
 

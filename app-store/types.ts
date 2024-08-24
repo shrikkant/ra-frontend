@@ -113,7 +113,7 @@ export interface IProduct {
   tou?: null;
   master_product_id?: null;
   discount_percent: number;
-  featured: number;
+  featured: boolean;
   short_description?: null;
   includes?: null;
   masterProductList?: null[] | null;
