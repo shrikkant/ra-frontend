@@ -1,5 +1,4 @@
 import React from "react";
-import { useEffect } from "react"
 import Scripts from "./Scripts";
 import PageContainer from "./PageContainer";
 
@@ -10,9 +9,9 @@ export default function Footer() {
         <div className="footer-subscribe col-md-7 col-lg-8">
           <h6>stay in touch</h6>
           <ul className="footer-soc social-list">
-            <li><a target="_blank" href="https://www.facebook.com/rentacross"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
-            <li><a target="_blank" href="https://x.com/rentacross"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
-            <li><a target="_blank" href="https://www.instagram.com/rent_across"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://www.facebook.com/rentacross"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://x.com/rentacross"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://www.instagram.com/rent_across"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
             {/* <li><a target="_blank" href="https://www.youtube.com"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li> */}
           </ul>
           <div className="footer-autor">Questions? Please write us at: <a href="mailto:support@rentacross.com">support@rentacross.com</a></div>
@@ -43,8 +42,10 @@ export default function Footer() {
         </div>
       </div>
       <div className="footer-bottom">
-        <div className="footer-copyright"><a target="_blank" href="https://rovadex.com">RentAcross</a> © 2024. All Rights Reserved.</div>
-
+        <div className="footer-copyright">
+          <a target="_blank" rel="noreferrer" href="https://www.rentacross.com">RentAcross</a>
+          <span>© 2024. All Rights Reserved.</span>
+        </div>
       </div>
     </PageContainer>
     <Scripts />
