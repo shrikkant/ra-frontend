@@ -12,7 +12,7 @@ export default function Footer() {
             <li><a target="_blank" rel="noreferrer" href="https://www.facebook.com/rentacross"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
             <li><a target="_blank" rel="noreferrer" href="https://x.com/rentacross"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
             <li><a target="_blank" rel="noreferrer" href="https://www.instagram.com/rent_across"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
-            {/* <li><a target="_blank" href="https://www.youtube.com"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li> */}
+            <li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/@statwide"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li>
           </ul>
           <div className="footer-autor">Questions? Please write us at: <a href="mailto:support@rentacross.com">support@rentacross.com</a></div>
         </div>
