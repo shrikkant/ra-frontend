@@ -39,7 +39,7 @@ export default function Header({ sidebar = false, header = true }) {
 
       <div className="header-menu xs:hidden block">
         <PageContainer>
-          <a href="/" className="logo"><img src="/assets/v2/img/logo.png" alt="logo" /></a>
+          <a href="/" className="logo"><img src="/assets/img/logo.png" alt="logo" /></a>
           <nav className="nav-menu">
             <ul className="nav-list">
               <li>
