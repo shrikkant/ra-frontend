@@ -40,9 +40,9 @@ export default function VerifyPhone() {
 
   return (
     <PageContainer>
-      <div className="h-max max-w-96 flex flex-col justify-center align-bottom  m-auto gap-y-5 p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
+      <div className="h-max bg-gray-700 max-w-96 flex flex-col justify-center align-bottom  m-auto gap-y-5 p-4 mb-4  border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
         <div>
-          <h1 className="text-4xl font-semibol text-gray-800  font-normal normal-case">Update your phone</h1>
+          <h1 className="text-4xl text-gray-50 font-semibol font-normal normal-case">Update your phone</h1>
         </div>
         <div className="w-full">
           <input
@@ -51,13 +51,13 @@ export default function VerifyPhone() {
             inputMode="numeric"
             onKeyDown={validatePhone}
             onChange={handlePhoneChange}
-            className={" w-full border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
+            className={"  border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
             type="text"
           />
         </div>
         <div className="flex justify-end">
-          <button className="btn" onClick={submitPhone} >
-            <span className="">
+          <button className="text-gray-50 btn hover:text-gray-700" onClick={submitPhone} >
+            <span>
               Update
             </span>
           </button>
