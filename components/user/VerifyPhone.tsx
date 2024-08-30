@@ -40,9 +40,9 @@ export default function VerifyPhone() {
 
   return (
     <PageContainer>
-      <div className="h-max bg-gray-700 max-w-96 flex flex-col justify-center align-bottom  m-auto gap-y-5 p-4 mb-4  border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
+      <div className="h-max bg-white max-w-96 flex flex-col justify-center align-bottom  m-auto gap-y-5 p-4 mb-4  border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
         <div>
-          <h1 className="text-4xl text-gray-50 font-semibol font-normal normal-case">Update your phone</h1>
+          <h1 className="text-4xl text-gray-800 font-semibol font-normal normal-case">Update your phone</h1>
         </div>
         <div className="w-full">
           <input
@@ -56,7 +56,7 @@ export default function VerifyPhone() {
           />
         </div>
         <div className="flex justify-end">
-          <button className="text-gray-50 btn hover:text-gray-700" onClick={submitPhone} >
+          <button className="text-gray-800 btn hover:text-gray-700" onClick={submitPhone} >
             <span>
               Update
             </span>
