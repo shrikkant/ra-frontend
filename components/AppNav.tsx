@@ -161,7 +161,7 @@ export default function AppNav({ navState, toggleNavState }) {
       >
         <div className="px-5 bg-gray-900 w-3/4 sm:w-72">
           <div className="my-3 hidden sm:block">
-            <img src="/assets/v2/img/logo.png" alt="RentAcross" />
+            <img src="/assets/v2/img/logo.png" alt="RentAcross" height={"48"} />
           </div>
 
           <nav className="my-5">
