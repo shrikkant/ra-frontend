@@ -13,7 +13,7 @@ export default function Scripts() {
   const loggedUser = useSelector(selectAuthState);
   useEffect(() => {
     const link = lastLink;
-    if (loggedUser) {
+    if (loggedUser && loggedUser.verified) {
       if (link === pathname) {
         dispatch(setLastLink(""));
       }
@@ -29,5 +29,6 @@ export default function Scripts() {
 
   }, [lastLink, loggedUser, pathname]);
 
-  return (<></>)
+  return (<>
+  </>)
 }
