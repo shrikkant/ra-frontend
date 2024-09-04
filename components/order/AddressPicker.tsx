@@ -28,17 +28,21 @@ export const AddressPicker = ({
   const [place_id, setPlaceId] = React.useState<string>("");
   const [address_line_1, setAddressLine1] = React.useState<string>("");
 
+  const [loading, setLoading] = React.useState<boolean>(false);
+
   const hasAddress = loggedUser && loggedUser.address && loggedUser.address.length > 0;
 
 
 
   const lookUpAddress = async (query: string) => {
+    setLoading(true);
     const data: any = await httpClient.get(`user/addresses/lookup/${query}`);
 
     const options = data.map((item) => ({
       label: item.description,
       value: item.place_id,
     }));
+    setLoading(false);
     setOptions(options);
 
   }
@@ -49,7 +53,6 @@ export const AddressPicker = ({
   }
 
   const handleLine1Change = (inputValue: string) => {
-    console.log("Logged User : ", loggedUser);
     setAddressLine1(inputValue);
 
   }
@@ -84,7 +87,8 @@ export const AddressPicker = ({
               name={"title"}
               onChange={lookUpAddress}
               options={options}
-              onSelect={onSelectPlace} />}
+              onSelect={onSelectPlace}
+              isLoading={loading} />}
 
             <div className="flex justify-end pt-2">
               <button className={"p-2 rounded border-gray-800 text-right " + (place_id ? "bg-yellow-400" : "bg-gray-400")} type="button" onClick={onSubmit}>

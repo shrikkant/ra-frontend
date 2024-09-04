@@ -1,3 +1,4 @@
+import React from "react";
 import { Button, Form, Input } from "antd"
 import { applyDiscount } from "../../api/admin/orders.api";
 import { setActiveOrder } from "app-store/admin/index.slice";
@@ -5,13 +6,10 @@ import { useState } from "react";
 import { IOrder } from "../../app-store/types";
 import { useDispatch } from "react-redux";
 
-type LayoutType = Parameters<typeof Form>[0]['layout'];
-
 export function ItemDiscountForm({ item, handleItemChange }) {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const [transactionUpdate, setTransactionUpdate] = useState({ transaction_id: item.id, discount: 0, percent: 0 });
-  const [transaction, setTransaction] = useState(item);
 
   const handleDiscountChange = (id: number, value: string) => {
     const tr = { ...transactionUpdate };
@@ -25,7 +23,6 @@ export function ItemDiscountForm({ item, handleItemChange }) {
     applyDiscount(item.order_id, item.id, transactionUpdate).then((data: IOrder) => {
       if (data) {
         handleItemChange(data.items?.find((item) => (item.id == item.id)));
-        setTransaction(data.items?.find((item) => (item.id == item.id)));
       }
       dispatch(setActiveOrder(data));
     })

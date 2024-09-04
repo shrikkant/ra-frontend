@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { useEffect } from "react";
+import { FaSpinner } from "react-icons/fa";
 export default function Input({ ...props }) {
 
   const [currentValue, setCurrentValue] = useState("");
@@ -57,6 +58,13 @@ export default function Input({ ...props }) {
           id={props.name}
           type="text"
           placeholder={props.label} value={currentValue} />
+
+        {props.loading &&
+          <div className="absolute bottom-3 right-2">
+
+            <FaSpinner className="animate-spin" />
+          </div>
+        }
       </div>
     </div>
 
