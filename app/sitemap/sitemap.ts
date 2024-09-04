@@ -36,7 +36,7 @@ export default async function sitemap({
 }: {
   id: string
 }): Promise<MetadataRoute.Sitemap> {
-  console.log("Base URL: ", BASE_URL);
+
 
   const categories = await fetchData(`categories`);
   const filter: IProductFilter = {
@@ -47,8 +47,6 @@ export default async function sitemap({
 
   for (const category of categories) {
     filter.category = category.id
-
-    // console.log("Category: ", category.subCategories);
 
     for (const subCategory of category.subCategories) {
       filter.subCategory = subCategory.id
