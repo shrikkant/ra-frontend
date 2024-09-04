@@ -54,7 +54,7 @@ export default function Orders() {
   };
 
   const resolveStep = () => {
-    if (loggedUser.address.length === 0) {
+    if (!loggedUser.address || loggedUser.address.length === 0) {
       return ORDER_STEPS.ORDER_STEP_ADDRESS;
     } else if (addressId !== 0 && !selectedAddress) {
       return ORDER_STEPS.ORDER_STEP_DELIVERY
@@ -93,7 +93,7 @@ export default function Orders() {
         <>
           {cart ? (
             <div
-              className={"flex flex-col-reverse md:flex-row w-full md:space-x-8 xs:pb-20"}
+              className={"flex flex-col-reverse md:flex-row w-full xs:pb-20"}
             >
               <div className={"md:w-3/4 w-full"}>
                 <AddressPicker
@@ -109,7 +109,7 @@ export default function Orders() {
               </div>
 
               <div className={"md:w-1/4 w-full"}>
-                <div className="md:fixed md:w-80 w-full top-20 xs:p-4 md:p-0">
+                <div className="md:fixed md:w-max w-full top-20 xs:p-4 md:p-0">
                   <OrderSummary
                     order={cart}
                     step={
