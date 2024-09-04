@@ -1,8 +1,9 @@
 import type { MetadataRoute } from 'next'
-import BASE_URL from '../../config/constants'
+import { BASE_URL } from '../../config/constants'
 import { fetchData } from '../../api/axios.config';
 import { fetchProducts } from '../../api/products.api';
 import { IProductFilter } from '../../app-store/types';
+import COUNTRIES from '../../config/constants';
 
 
 interface SitemapLink {
@@ -10,9 +11,24 @@ interface SitemapLink {
   lastModified: string
 }
 
+interface SitemapRef {
+  id: string
+}
+
 export async function generateSitemaps() {
   // Fetch the total number of products and calculate the number of sitemaps needed
-  return [{ id: 'pune' }, { id: 'bengaluru' }]
+  const countries = COUNTRIES;
+  const urls: SitemapRef[] = [];
+
+  for (const country of countries) {
+    for (const city of country.locations) {
+      urls.push({
+        id: city.toLowerCase()
+      })
+    }
+  }
+
+  return urls;
 }
 
 export default async function sitemap({
@@ -20,8 +36,6 @@ export default async function sitemap({
 }: {
   id: string
 }): Promise<MetadataRoute.Sitemap> {
-
-  const BASE_URL = "https://alpha.rentacross.com";
   console.log("Base URL: ", BASE_URL);
 
   const categories = await fetchData(`categories`);

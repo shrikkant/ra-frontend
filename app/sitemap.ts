@@ -1,24 +1,27 @@
 import type { MetadataRoute } from 'next'
-
+import COUNTRIES from '../config/constants';
+import { BASE_URL } from '../config/constants';
+interface SitemapLink {
+  url: string
+  lastModified: Date
+  changeFrequency: 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never'
+  priority: number
+}
 export default function sitemap(): MetadataRoute.Sitemap {
-  return [
-    {
-      url: 'https://acme.com',
-      lastModified: new Date(),
-      changeFrequency: 'yearly',
-      priority: 1,
-    },
-    {
-      url: 'https://acme.com/about',
-      lastModified: new Date(),
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: 'https://acme.com/blog',
-      lastModified: new Date(),
-      changeFrequency: 'weekly',
-      priority: 0.5,
-    },
-  ]
+  const countries = COUNTRIES;
+  const urls: SitemapLink[] = [];
+
+  for (const country of countries) {
+
+    for (const city of country.locations) {
+      urls.push({
+        url: `${BASE_URL}/sitemap/${city.toLowerCase()}.xml`,
+        lastModified: new Date("2024-08-31"),
+        changeFrequency: 'weekly',
+        priority: 1,
+      })
+    }
+  }
+
+  return urls;
 }
