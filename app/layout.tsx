@@ -12,7 +12,6 @@ import 'styles/global.css'
 import 'styles/common.css'
 
 import type { Viewport } from 'next'
-
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -32,15 +31,15 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>RentAcross | Online rental platform for photography and camping equipment.</title>
-        <meta property="og:title" content="RentAcross | Online rental platform for photography and camping equipment." key="title" />
+        <title>RentAcross | Rent Cameras, Lenses, GoPros.</title>
+        <meta property="og:title" content="RentAcross | Rent Cameras, Lenses, GoPros" key="title" />
         <meta property="og:site_name" content="RentAcross" />
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow"></meta>
         <meta property="og:url" content="https://www.rentacross.com" />
 
         <meta name="description"
-          content="Rent DSLR Cameras, Lenses, Camping Equipment & More. Premium Quality. Affordable Rates. Hassle free renting." />
+          content="Rent DSLR Cameras, Lenses, GoPros, Camping Equipment & More. Premium Quality. Affordable Rates. Hassle free renting." />
         <meta name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store" />
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
@@ -49,6 +48,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
       </head>
+
       <body className="inner-scroll" id="home">
 
         <div className="preloader-cover">
@@ -65,6 +65,8 @@ export default function RootLayout({
           <Footer />
         </StoreProvider>
 
+        <div>
+        </div>
       </body>
     </html>
   )

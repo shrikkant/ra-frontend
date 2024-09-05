@@ -43,7 +43,7 @@ export default function Orders() {
   }, [activeKey, stage, router.isReady]);
 
   const tabChanged = (key: string) => {
-    router.push(`/admin/orders?stage=${key}`);
+    router.push(`/portal/admin/orders?stage=${key}`);
   };
 
   const orderDuration = (start: Date, end: Date) => {
@@ -103,7 +103,7 @@ export default function Orders() {
                                   key="1"
                                   type="primary"
                                   onClick={() => {
-                                    router.push("/admin/orders/" + order.id);
+                                    router.push("/portal/admin/orders/" + order.id);
                                   }}
                                 >
                                   Stage
