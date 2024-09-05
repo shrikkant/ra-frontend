@@ -164,7 +164,7 @@ const DocumentsCard = ({ customer }) => {
           </Upload>
         </div>
 
-        <div className={"flex flex-wrap gap-x-4 xs:gap-y-4"}>
+        <div className={"flex flex-wrap gap-x-2 xs:gap-y-4"}>
           {pendingDocTypes.map((docType: string) => {
             return <div key={docType}>
               <Upload
