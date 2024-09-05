@@ -1,7 +1,5 @@
 "use client";
 import { useRouter } from "next/router";
-
-import { Content } from "antd/lib/layout/layout";
 import ActivityCard from "components/ActivityCard";
 import DocumentsCard from "components/DocumentsCard";
 
@@ -45,23 +43,21 @@ export default function Customers() {
       <MyPageHeader title={"Customers"} subtitle={""}></MyPageHeader>
 
       {activeCustomer && (
-        <Content>
-          <Content
-            style={{ display: "flex", padding: "16px 16px", columnGap: 16 }}
-          >
-            <Content style={{ flex: 1 }}>
+        <div>
+          <div className="flex xs:flex-col p-4 xs:gap-y-4">
+            <div style={{ flex: 1 }}>
               <CustomerCard customer={activeCustomer}></CustomerCard>
-            </Content>
-            <Content style={{ flex: 1 }}>
+            </div>
+            <div style={{ flex: 1 }}>
               <ActivityCard customer={activeCustomer}></ActivityCard>
-            </Content>
-          </Content>
-          <Content style={{ padding: 16, display: "flex" }}>
-            <Content style={{ flex: 1 }}>
+            </div>
+          </div>
+          <div className="p-4">
+            <div style={{ flex: 1 }}>
               <DocumentsCard customer={activeCustomer}></DocumentsCard>
-            </Content>
-          </Content>
-        </Content>
+            </div>
+          </div>
+        </div>
       )}
     </AppLayout>
   );

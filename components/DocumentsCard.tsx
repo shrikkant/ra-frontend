@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Modal, Upload, Image } from 'antd';
+import { Modal, Upload } from 'antd';
 import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
-import { Content } from 'antd/lib/layout/layout';
 import { addDocument, uploadDocument } from '../api/admin/customers.api';
-import { set } from 'date-fns';
 import styles from 'styles/documents.module.css';
 import { PageHeader } from '@ant-design/pro-layout';
 import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
@@ -21,7 +19,7 @@ const UploadButton = ({ type }) => {
 
   return (
     <div style={{ padding: 10 }}>
-      <ArrowDownCircleIcon />
+      {/* <ArrowDownCircleIcon /> */}
       <div style={{ marginTop: 8 }}>{DocTypes[type]}</div>
     </div>
   );
@@ -148,15 +146,15 @@ const DocumentsCard = ({ customer }) => {
   };
 
   return (
-    <Content className={styles.docsBox}>
+    <div className={styles.docsBox}>
       <PageHeader
         className={styles.docsHeader}
         key={customer.id}
         ghost={false}
         title={"Documents"}
       ></PageHeader>
-      <Content style={{padding:16}}>
-        <Content>
+      <div className="p-4 flex flex-col gap-y-4">
+        <div>
           <Upload
             listType="picture-card"
             fileList={fileList}
@@ -164,12 +162,11 @@ const DocumentsCard = ({ customer }) => {
             onPreview={handlePreview}
           >
           </Upload>
-        </Content>
+        </div>
 
-        <Content className={styles.docsGrid}>
+        <div className={"flex flex-wrap gap-x-4 xs:gap-y-4"}>
           {pendingDocTypes.map((docType: string) => {
-
-            return <Content key={docType}>
+            return <div key={docType}>
               <Upload
                 action="/api/upload.do"
                 listType="picture-card"
@@ -181,11 +178,11 @@ const DocumentsCard = ({ customer }) => {
                 <UploadButton type={docType} />
 
               </Upload>
-            </Content>
+            </div>
           })}
-        </Content>
+        </div>
 
-      </Content>
+      </div>
 
 
       <Modal bodyStyle={{ height: "50vh" }} open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
@@ -194,7 +191,7 @@ const DocumentsCard = ({ customer }) => {
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         }
       </Modal>
-    </Content>
+    </div>
   );
 };
 
