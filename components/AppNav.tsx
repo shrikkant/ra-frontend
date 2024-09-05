@@ -95,7 +95,6 @@ export default function AppNav({ navState, toggleNavState }) {
       item?.children?.forEach((child: any) => {
         if (child.key === i.key) {
           child.active = true;
-          console.log(" Active Child : ", child);
         } else {
           child.active = false;
         }
@@ -115,7 +114,6 @@ export default function AppNav({ navState, toggleNavState }) {
         item?.children?.forEach((child: any) => {
           if (child.key.startsWith(path)) {
             child.active = true;
-            console.log(" Active Child : ", child);
           } else {
             child.active = false;
           }
