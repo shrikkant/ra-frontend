@@ -32,7 +32,8 @@ export default function RootLayout({
     <html lang="en">
       <head>
         <title>RentAcross | Rent Cameras, Lenses, GoPros.</title>
-        <meta property="og:title" content="RentAcross | Rent Cameras, Lenses, GoPros" key="title" />
+        <meta property="og:title" content="Rent DSLR Cameras, Lenses & GoPro's. India's First Camera Rental Community" key="title" />
+
         <meta property="og:site_name" content="RentAcross" />
         <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow"></meta>
