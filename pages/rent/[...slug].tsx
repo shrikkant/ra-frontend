@@ -34,7 +34,6 @@ export default function Location() {
 
 
   useEffect(() => {
-    // alert("useEffect");
     setLoading(true);
 
     const queryString = query ? String(query) : "";
@@ -46,7 +45,6 @@ export default function Location() {
         if (filter?.product) {
           fetchProduct(filter).then((product: IProduct) => {
             if (!product?.id) {
-              console.log("Product not found - fetchProduct");
               setPageNotFound(true);
             } else {
               setActiveProduct(product);
