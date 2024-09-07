@@ -27,11 +27,12 @@ export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
             return (
               <div key={addon?.masterProduct?.id} className="border-2 border-gray-200 rounded-sm">
                 <img
-                  style={{ padding: 20 }}
+                  style={{ padding: 20, }}
+                  className='w-full h-40 object-cover'
                   alt={addon?.masterProduct.name}
                   src={addon?.masterProduct?.photos[0].path}
                 />
-                <div className="text-center p-2"> {addon?.masterProduct.name}</div>
+                <div className="text-center p-4"> {addon?.masterProduct.name}</div>
               </div>
             );
           })}
