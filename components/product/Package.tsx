@@ -1,7 +1,5 @@
+import React from 'react'
 import { Card } from "antd";
-import Meta from "antd/lib/card/Meta";
-import { Content } from "antd/lib/layout/layout";
-import React from "react";
 
 export interface Photo {
   path: string
@@ -23,34 +21,21 @@ export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
 
   return (
     <Card style={{ marginTop: 40 }} title={"Package Includes"} hoverable>
-      <Content
-        style={{
-          display: "flex",
-          justifyContent: "space-evenly",
-          flexDirection: "row",
-          flexWrap: "wrap",
-        }}
-      >
+      <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-4">
         {addons &&
           addons.map((addon) => {
             return (
-              <Card
-                key={addon?.masterProduct.id}
-                hoverable
-                style={{ width: 220, padding: 10, margin: 10 }}
-                cover={
-                  <img
-                    style={{ padding: 20 }}
-                    alt="example"
-                    src={addon?.masterProduct?.photos[0].path}
-                  />
-                }
-              >
-                <Meta description={addon?.masterProduct.name} />
-              </Card>
+              <div key={addon?.masterProduct?.id} className="border-2 border-gray-200 rounded-sm">
+                <img
+                  style={{ padding: 20 }}
+                  alt={addon?.masterProduct.name}
+                  src={addon?.masterProduct?.photos[0].path}
+                />
+                <div className="text-center p-2"> {addon?.masterProduct.name}</div>
+              </div>
             );
           })}
-      </Content>
+      </div>
     </Card>
   );
 };
