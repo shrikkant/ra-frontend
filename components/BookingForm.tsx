@@ -104,19 +104,19 @@ export default function BookingForm({ productId, rates }: { productId: number, r
         <div>
           <input
             onClick={() => onAddToCart()}
-            className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
+            className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer"
             type="button"
             value="Add to Cart"
           />
         </div>
       )}
       <div>
-        <input
+        <button
           onClick={() => onAddToCart(true)}
-          className="bg-[#ffa41c] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffa41c]"
-          type="submit"
-          value="Book Now"
-        />
+          className=" w-full py-2 rounded-md text-[#555] font-bold cursor-pointer btn "
+          type="submit">
+          <span>Book Now</span>
+        </button>
       </div>
       <div className="flex justify-between m-1">
         <div className="flex gap-1">
@@ -164,21 +164,21 @@ export default function BookingForm({ productId, rates }: { productId: number, r
 
       {!openFormInMobile ? (
         <div className="fixed p-4 bottom-0 left-0 right-0 bg-white md:hidden py-3 text-center border-t border-gray-300 cursor-pointer flex justify-between z-40">
-          <div className="relative flex">
-            <span className="absolute text-md font-semibold top-0">
+          <div className="relative flex items-center">
+            <span className="absolute text-md top-2">
               <RupeeSymbol />
             </span>
-            <span className="text-3xl pl-3 font-semibold">
+            <span className="text-3xl pl-3 ">
               <PriceTag price={rates[0].rate} showCurrency={false} />
             </span>
           </div>
           <button
-            className="bg-amber-500 text-black px-10 py-2 rounded-2xl font-semibold"
+            className="p-1 btn  px-10 py-2 rounded-md"
             onClick={() => {
               setOpenFormInMobile(true);
             }}
           >
-            Book
+            <span>Book Now</span>
           </button>
         </div>
       ) : (
