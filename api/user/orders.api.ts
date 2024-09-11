@@ -1,6 +1,7 @@
 import { IDates } from "../../app-store/app-defaults/types";
 import { IOrder } from "../../app-store/types";
 import httpClient from "./../axios.config";
+import Moment from "moment";
 
 interface Dates {
   startDate: Date;
@@ -30,8 +31,8 @@ export const addToCart = async (
 
   await httpClient.post(`/user/carts`, {
     date: {
-      startDate,
-      endDate,
+      startDate: Moment(startDate).format("YYYY-MM-DD"),
+      endDate: Moment(endDate).format("YYYY-MM-DD"),
       startTime: 9,
       endTime: 9,
       rentalDays: 1,
