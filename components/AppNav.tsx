@@ -50,11 +50,11 @@ const items = [
         key: "/portal/profile/address-book",
         icon: <MapPinIcon className="h-6 w-6" />,
       },
-      {
-        label: "Bank Info",
-        key: "/portal/profile/bank-details",
-        icon: <BuildingLibraryIcon className="h-6 w-6" />,
-      },
+      // {
+      //   label: "Bank Info",
+      //   key: "/portal/profile/bank-details",
+      //   icon: <BuildingLibraryIcon className="h-6 w-6" />,
+      // },
     ],
   },
 ];
