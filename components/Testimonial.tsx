@@ -86,7 +86,6 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
 
         <div key={index} className={"feedback-slide " + (currentItem === index ? "slick-current slick-active" : "")}
           style={{
-            // left: (index > 0 ? -1000 * index : 0),
             top: 0,
             zIndex: 999,
 
@@ -133,7 +132,9 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
   return (<section className="s-feedback" style={{ backgroundImage: 'url(assets/v2/img/bg-feedback.jpg)' }}>
     <span className="effwct-bg-feedback" style={{ backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)' }}></span>
     <span className="mask"></span>
-    <PageContainer>
+    <div className="sm:container mx-auto relative z-10">
+
+
       <h2 className="title">feedback</h2>
       <div className="feedback-slider relative">
         <span onClick={prev} className="slick-arrow-prev slick-arrow">
@@ -153,7 +154,8 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
           <i className="fa fa-angle-right" ></i>
         </span>
       </div>
-    </PageContainer>
+    </div>
+
   </section>)
 
 
