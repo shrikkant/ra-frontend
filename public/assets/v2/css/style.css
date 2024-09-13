@@ -2866,12 +2866,12 @@ footer .social-list {
 
 .slick-arrow.slick-arrow-prev {
 	padding-right: 1px;
-	left: 0
+	left: -50px;
 }
 
 .slick-arrow.slick-arrow-next {
 	padding-left: 3px;
-	right: 0
+	right: -50px;
 }
 
 .s-our-advantages {
