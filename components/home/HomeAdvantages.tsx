@@ -1,9 +1,9 @@
-import PageContainer from "../common/PageContainer";
+import React from "react";
 
 export default function HomeAdvantages() {
   return (<section className="s-our-advantages" style={{ backgroundImage: 'url(/assets/v2/img/bg-advantages.jpg)' }} >
     <span className="mask"></span>
-    <PageContainer>
+    <div className="sm:container mx-auto relative z-[1]">
       <h2 className="title">Our Advantages</h2>
       <div className="our-advantages-wrap">
         <div className="our-advantages-item">
@@ -25,6 +25,6 @@ export default function HomeAdvantages() {
           <h5>Hassle free booking exprience</h5>
         </div>
       </div>
-    </PageContainer>
+    </div>
   </section>)
 }
