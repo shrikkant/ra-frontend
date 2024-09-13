@@ -92,7 +92,7 @@ export function HomeSlider() {
             <div className="main-slide-bg" style={{ backgroundImage: 'url(' + p.imgBg + ')' }}></div>
             <PageContainer>
               <div className="main-slide-info">
-                <h2 className="title">{p.title}</h2>
+                <h1 className="title">{p.title}</h1>
                 <p>{p.subtitle}</p>
                 <a href={p.url} className="btn">
                   <span>Book Now</span>
