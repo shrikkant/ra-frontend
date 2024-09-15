@@ -60,7 +60,8 @@ export const AddressPicker = ({
     e.preventDefault();
     const res = await addNewAddress(place_id, address_line_1);
     const newUser = { ...loggedUser };
-    newUser.address = [...newUser.address, res];
+    newUser.address = [res];
+
     dispatch(authUser(newUser));
   }
 

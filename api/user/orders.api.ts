@@ -31,8 +31,8 @@ export const addToCart = async (
 
   await httpClient.post(`/user/carts`, {
     date: {
-      startDate: Moment(startDate).format("YYYY-MM-DD"),
-      endDate: Moment(endDate).format("YYYY-MM-DD"),
+      startDate: Moment(new Date(startDate)).format("YYYY-MM-DD"),
+      endDate: Moment(new Date(endDate)).format("YYYY-MM-DD"),
       startTime: 9,
       endTime: 9,
       rentalDays: 1,
