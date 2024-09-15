@@ -14,14 +14,9 @@ export const StatwideScript: React.FC = () => {
   const loggedUser = useSelector(selectAuthState)
 
   useEffect(() => {
-    // if (import.meta.env.VITE_ENABLE_STATWIDE != 'true') {
-    //   return
-    // }
     if (!loggedUser?.id || !window.featurics) {
-      console.log('statwide not Initialized u:', loggedUser)
-      return
+      return;
     }
-    console.log('statwide Initialized : ', loggedUser.email_address);
 
     window.featurics &&
       window.featurics.init({
