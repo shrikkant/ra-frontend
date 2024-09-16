@@ -6,9 +6,6 @@ import { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { selectAuthState } from "../app-store/auth/auth.slice";
 import {
-  BuildingLibraryIcon,
-  CameraIcon,
-  MapPinIcon,
   ShoppingBagIcon,
   TagIcon,
   UserIcon,
@@ -45,11 +42,11 @@ const items = [
         key: "/portal/profile/",
         icon: <UserIcon className="h-6 w-6" />,
       },
-      {
-        label: "Address Book",
-        key: "/portal/profile/address-book",
-        icon: <MapPinIcon className="h-6 w-6" />,
-      },
+      // {
+      //   label: "Address Book",
+      //   key: "/portal/profile/address-book",
+      //   icon: <MapPinIcon className="h-6 w-6" />,
+      // },
       // {
       //   label: "Bank Info",
       //   key: "/portal/profile/bank-details",
