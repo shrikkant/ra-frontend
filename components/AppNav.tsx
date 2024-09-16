@@ -29,11 +29,11 @@ const items = [
     label: "Owner",
     key: "/submenu",
     children: [
-      {
-        label: "My Products",
-        key: "/portal/my-products",
-        icon: <CameraIcon className="h-6 w-6" />,
-      },
+      // {
+      //   label: "My Products",
+      //   key: "/portal/my-products",
+      //   icon: <CameraIcon className="h-6 w-6" />,
+      // },
     ],
   },
   {
