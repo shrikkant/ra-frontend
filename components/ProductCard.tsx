@@ -49,9 +49,9 @@ export default function ProductCard({ product, priority = false }) {
           </div>
 
           <div className="text-center">
-            <a className={"p-1 btn"} href="#">
+            <button className={"p-1 btn"} >
               <span>Book Now</span>
-            </a>
+            </button>
           </div>
         </div>
       </div>

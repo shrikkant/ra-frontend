@@ -27,7 +27,8 @@ export default async function Location({ params, searchParams }: { params: { slu
   }
 
   return (<div style={{ maxWidth: 1280, margin: "auto" }}>
-    {(!filter?.product && products) && (
+    {(!filter?.product && products) && (<>
+      <h1 className='text-4xl text-center py-6 capitalize font-semibold'>Rent Cameras, Lenses, GoPro&apos;s  in {filter?.city}</h1>
       <div className="sm:flex">
         <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
         <div
@@ -41,7 +42,7 @@ export default async function Location({ params, searchParams }: { params: { slu
             ))}
         </div>
       </div>
-    )}
+    </>)}
     {(filter?.product && product) && <Product product={product}></Product>}
 
   </div>)
