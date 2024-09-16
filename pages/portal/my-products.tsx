@@ -25,9 +25,7 @@ export default function MyProducts() {
   }
 
   const listProduct = () => {
-    console.log("Hit Add Product");
-    router.push("/products/add");
-
+    router.push("/portal/products/add");
   }
 
   return (
