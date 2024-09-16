@@ -2,11 +2,9 @@
 
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { FaSpinner } from "react-icons/fa";
+import { FaRemoveFormat, FaSpinner } from "react-icons/fa";
 export default function Input({ ...props }) {
-
   const [currentValue, setCurrentValue] = useState("");
-
 
   useEffect(() => {
     props.value && setCurrentValue(props.value);
@@ -25,6 +23,11 @@ export default function Input({ ...props }) {
   const onChange = (e) => {
     setCurrentValue(e.target.value);
     props.onChange(e.target.value);
+  }
+
+  const onClear = () => {
+    setCurrentValue("");
+    props.onClear();
   }
 
   return (
@@ -54,17 +57,25 @@ export default function Input({ ...props }) {
         <input
           name={props.name}
           onChange={onChange}
-          className={(props.icon ? "pl-7" : "") + " border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
+          className={(props.icon ? "pl-7" : "") + (props.showClear ? " pr-14" : " pr-3") +
+            " border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
           id={props.name}
           type="text"
-          placeholder={props.label} value={currentValue} />
+          placeholder={props.label} value={currentValue}
+        />
 
         {props.loading &&
           <div className="absolute bottom-3 right-2">
-
             <FaSpinner className="animate-spin" />
           </div>
         }
+        {props.showClear &&
+          <div onClick={onClear} className="absolute bottom-2 right-3 cursor-pointer">
+            <span className="text-red-500">Clear</span>
+          </div>
+
+        }
+
       </div>
     </div>
 

@@ -4,7 +4,6 @@ import { Address } from "../Address";
 import { StepHeader } from "./StepHeader";
 import { authUser, selectAuthState } from "../../app-store/auth/auth.slice";
 import { AddressList } from "../AddressList";
-import Form from "../common/form/Form";
 import Input from "../common/form/Input";
 import AutoComplete from "../common/form/AutoComplete";
 import httpClient from "../../api/axios.config";
@@ -48,7 +47,7 @@ export const AddressPicker = ({
   }
 
   const onSelectPlace = (place: IOption) => {
-    setPlaceId(place.value);
+    setPlaceId(place?.value);
     setOptions([]);
   }
 
@@ -58,6 +57,9 @@ export const AddressPicker = ({
   }
   const onSubmit = async (e) => {
     e.preventDefault();
+    if (!place_id) {
+      return;
+    }
     const res = await addNewAddress(place_id, address_line_1);
     const newUser = { ...loggedUser };
     newUser.address = [res];
@@ -84,7 +86,7 @@ export const AddressPicker = ({
           <div>
             <Input label={"Flat No, Building/ Society Name"} name={"address_line_1"} onChange={handleLine1Change}></Input>
             {(address_line_1 && address_line_1.length > 5) && <AutoComplete
-              label={"Search your locality"}
+              label={"Lookup on Google Maps"}
               name={"title"}
               onChange={lookUpAddress}
               options={options}
@@ -92,8 +94,14 @@ export const AddressPicker = ({
               isLoading={loading} />}
 
             <div className="flex justify-end pt-2">
-              <button className={"p-2 rounded border-gray-800 text-right " + (place_id ? "bg-yellow-400" : "bg-gray-400")} type="button" onClick={onSubmit}>
-                Add Address</button>
+              <button
+                {...(place_id ? {} : { disabled: true })}
+                className={"p-2 rounded border-gray-800 text-right " +
+                  (place_id ? "bg-yellow-400" : "bg-gray-400")}
+                type="button"
+                onClick={onSubmit}>
+                Add Address
+              </button>
             </div>
 
           </div>
