@@ -94,14 +94,14 @@ export const AddressPicker = ({
               isLoading={loading} />}
 
             <div className="flex justify-end pt-2">
-              <button
-                {...(place_id ? {} : { disabled: true })}
-                className={"p-2 rounded border-gray-800 text-right " +
-                  (place_id ? "bg-yellow-400" : "bg-gray-400")}
-                type="button"
-                onClick={onSubmit}>
-                Add Address
-              </button>
+              {place_id &&
+                <button
+                  className={"p-2 rounded border-gray-800 text-right " +
+                    "bg-yellow-400"}
+                  type="button"
+                  onClick={onSubmit}>
+                  Add Address
+                </button>}
             </div>
 
           </div>
