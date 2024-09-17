@@ -50,16 +50,16 @@ export default function RootLayout({
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
       </head>
 
-      <body className="inner-scroll animated-page page-loaded" id="home">
+      <body className="inner-scroll" id="home">
 
-        {/* <div className="preloader-cover">
+        <div className="preloader-cover">
           <div className="preloader">
             <span></span>
             <span></span>
             <span></span>
             <span></span>
           </div>
-        </div> */}
+        </div>
         <StoreProvider>
           <Header />
           {children}

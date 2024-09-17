@@ -24,8 +24,8 @@ export default function Scripts() {
     }
 
 
-    // document.body.classList.add('animated-page');
-    // document.body.classList.add('page-loaded');
+    document.body.classList.add('animated-page');
+    document.body.classList.add('page-loaded');
 
   }, [lastLink, loggedUser, pathname]);
 
