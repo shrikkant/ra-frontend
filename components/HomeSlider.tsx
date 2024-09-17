@@ -15,8 +15,6 @@ export function HomeSlider() {
   const [autoplay, setAutoplay] = useState(AUTOPLAY);
   const [currentItem, setCurrentItem] = useState(0);
   const [items, setItems] = useState<ReactNode[]>([]);
-  const [touchstartX, setTouchstartX] = useState(0);
-  const [touchendX, setTouchendX] = useState(0);
 
 
   const prev = () => {
@@ -99,8 +97,10 @@ export function HomeSlider() {
                 </a>
               </div>
               <div className="slide-img-cover">
-                <a href="single-shop.html" className="lable-bike">
-                  <div className="lable-bike-img"><img src="assets/v2/img/bike-info-slide.jpg" alt="img" /></div>
+                <a href={p.url} className="lable-bike">
+                  <div className="lable-bike-img p-2">
+                    <Image src={p.img} alt="img" width={89} height={-1} />
+                  </div>
                   <div className="lable-bike-item">
                     <div className="model">Starting</div>
                     <div className="price">₹{p.price}</div>
@@ -137,27 +137,11 @@ export function HomeSlider() {
     if (!autoplay) return;
     const interval = setInterval(next, INTERVAL_LENGTH);
 
-    // document.addEventListener('touchstart', e => {
-    //   setTouchstartX(e.changedTouches[0].screenX)
-    // })
-
-    // document.addEventListener('touchend', e => {
-    //   setTouchendX(e.changedTouches[0].screenX)
-    //   checkDirection()
-    // })
-
     return () => clearInterval(interval);
 
 
   }, [currentItem]);
 
-  const checkDirection = () => {
-    if (touchendX <= touchstartX) {
-      next();
-    } else {
-      prev();
-    }
-  }
   const changeSlide = (index: number) => {
     setCurrentItem(index);
   }
