@@ -9,7 +9,7 @@ export function HomeSlider() {
 
 
 
-  const INTERVAL_LENGTH = 3000;
+  const INTERVAL_LENGTH = 6000;
   const AUTOPLAY = true;
 
   const [autoplay, setAutoplay] = useState(AUTOPLAY);
