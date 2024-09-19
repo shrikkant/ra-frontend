@@ -6,10 +6,11 @@ import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setActiveOrder } from "app-store/admin/index.slice";
 import { UserCircleIcon, UserGroupIcon } from "@heroicons/react/24/outline";
+import { IOrder } from "../../app-store/types";
 
 type LayoutType = Parameters<typeof Form>[0]['layout'];
 
-export function OrderStageForm({ order }) {
+export function OrderStageForm({ order }: { order: IOrder }) {
   const dispatch = useDispatch();
   const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0, id: 0 });
   const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
@@ -78,10 +79,10 @@ export function OrderStageForm({ order }) {
 
 
   return (<Card
-    actions={[<div style={{ width: "100%", textAlign: "right" }}>
+    actions={[<div key={order.id} style={{ width: "100%", textAlign: "right" }}>
       <Button style={{ textAlign: "right" }}
         disabled={!formReady} type="primary"
-        onClick={() => updateOrderStage(order.id)}
+        onClick={() => updateOrderStage(order?.id)}
         size="small">
         Update Stage
       </Button>
@@ -101,19 +102,20 @@ export function OrderStageForm({ order }) {
           <Select.Option value={String(1)}>{resolveOrderStage(1)}</Select.Option>
           <Select.Option value={String(2)}>{resolveOrderStage(2)}</Select.Option>
           <Select.Option value={String(3)}>{resolveOrderStage(3)}</Select.Option>
+          <Select.Option value={String(4)}>{resolveOrderStage(4)}</Select.Option>
         </Select>
       </Form.Item>
 
       {(order.stage !== OrderStages.InProgress && orderChange.stage === OrderStages.InProgress) &&
 
         order.items?.map((transaction) => {
-          return transaction.product.masterProductList.length > 0 &&
+          return transaction.product.masterProductList &&
             <div key={transaction.id}>
 
               {/* <Descriptions.Item>
                 <div>{transaction.product.title}</div>
               </Descriptions.Item> */}
-              {transaction.product.masterProductList.map((addon: any) => {
+              {transaction.product.masterProductList?.map((addon: any) => {
                 return addon &&
                   <Form.Item key={addon?.id} label={"Serial #"}>
 

@@ -54,6 +54,10 @@ export default function Orders() {
     );
   };
 
+  const canApplyDiscount = (order) => {
+    return order.stage < 1;
+  }
+
   return (
     <AppLayout>
       <MyPageHeader title={"Orders"} subtitle={""}></MyPageHeader>
@@ -117,6 +121,7 @@ export default function Orders() {
                                   hideImages
                                   key={item.id}
                                   orderItem={item}
+                                  canApplyDiscount={canApplyDiscount(order)}
                                 />
                               ))}
                           </div>

@@ -7,7 +7,15 @@ import { IOrderItem } from "../../app-store/types";
 import { ItemDiscountForm } from "./ItemDiscountForm";
 
 
-export function AdminOrderItemRow({ orderItem, hideImages = false }: { orderItem: IOrderItem, hideImages?: boolean }) {
+export function AdminOrderItemRow({
+  orderItem,
+  hideImages = false,
+  canApplyDiscount }:
+  {
+    orderItem: IOrderItem,
+    hideImages?: boolean,
+    canApplyDiscount?: boolean
+  }) {
   const product = orderItem.product;
   const [item, setItem] = useState(orderItem);
 
@@ -45,7 +53,7 @@ export function AdminOrderItemRow({ orderItem, hideImages = false }: { orderItem
             <span className="text-2xl text-red-700"><RupeeSymbol />{item.rent}</span>
           </div>
         </div>
-        <ItemDiscountForm item={item} handleItemChange={handleItemChange} />
+        {canApplyDiscount && <ItemDiscountForm item={item} handleItemChange={handleItemChange} />}
       </div>
 
 

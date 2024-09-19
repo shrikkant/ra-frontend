@@ -10,6 +10,12 @@ export const resolveOrderStage = (status: number) => {
 			return "Approved";
 		case 3:
 			return "In Progress";
+		case 4:
+			return "Completed";
+		case 97:
+			return "Owner Cancelled";
+		case 98:
+			return "Renter Cancelled";
 	}
 }
 
@@ -17,7 +23,8 @@ export const enum OrderStages {
 	Leads = 0,
 	Paid = 1,
 	Approved = 2,
-	InProgress = 3
+	InProgress = 3,
+
 }
 
 export const displayMessage = (type: string, text: string) => {
