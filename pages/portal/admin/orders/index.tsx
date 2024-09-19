@@ -16,6 +16,7 @@ import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 import { resolveOrderStage } from "util/global.util";
 import Loader from "components/Loader";
 import { AppLayout } from "components/AppLayout";
+import { IOrder } from "../../../../app-store/types";
 
 export default function Orders() {
   const router = useRouter();
@@ -46,11 +47,15 @@ export default function Orders() {
     router.push(`/portal/admin/orders?stage=${key}`);
   };
 
-  const orderDuration = (start: Date, end: Date) => {
+  const orderDuration = (start: Date | undefined, end: Date | undefined) => {
+    if (!start || !end) {
+      return "";
+    }
+
     return (
-      Moment(start).utcOffset(0).format("DD MMM hh A") +
+      Moment(start).utcOffset(0).format("DD MMM") +
       " - " +
-      Moment(end).utcOffset(0).format("DD MMM hh A")
+      Moment(end).utcOffset(0).format("DD MMM")
     );
   };
 
@@ -80,11 +85,10 @@ export default function Orders() {
                 children: (
                   <>
                     {orders &&
-                      orders.map((order: any) => {
-                        let items: JSX.Element[] = [];
+                      orders.map((order: IOrder) => {
 
                         return (
-                          <div className={styles.orderBox} key={order.id}>
+                          <div className={styles.orderBox + " my-3"} key={order.id}>
                             <PageHeader
                               className={styles.orderHeader}
                               key={order.id}
