@@ -2,8 +2,8 @@
 
 import React, { useState } from "react";
 import { useEffect } from "react";
-import { FaRemoveFormat, FaSpinner } from "react-icons/fa";
-export default function Input({ ...props }) {
+import { FaSpinner } from "react-icons/fa";
+export default function Input({ ...props }: any) {
   const [currentValue, setCurrentValue] = useState("");
 
   useEffect(() => {
@@ -55,6 +55,7 @@ export default function Input({ ...props }) {
         }
 
         <input
+          onKeyDown={props.onKeyDown}
           name={props.name}
           onChange={onChange}
           className={(props.icon ? "pl-7" : "") + (props.showClear ? " pr-14" : " pr-3") +
@@ -62,6 +63,8 @@ export default function Input({ ...props }) {
           id={props.name}
           type="text"
           placeholder={props.label} value={currentValue}
+          pattern={props?.pattern}
+          inputMode={props?.inputMode}
         />
 
         {props.loading &&
