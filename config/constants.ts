@@ -12,6 +12,8 @@ export const TOKEN_HEADER_KEY = "authorization";
 export const CITY = "Pune";
 export const APP_LOCALE = "en-GB";
 
+export const STATUS_AADHAAR_VERIFIED = 3;
+
 export const enum ARTICLE_TYPES {
   BLOG = 0,
   SEO_ARTICLE = 1,

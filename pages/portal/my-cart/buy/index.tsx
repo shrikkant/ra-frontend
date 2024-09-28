@@ -12,7 +12,7 @@ import styles from "styles/my-cart.module.css";
 import { displayRazorpay } from "util/razorpay.util";
 import { authUser, selectAuthState } from "app-store/auth/auth.slice";
 import { OrderItemsReview } from "components/order/OrderItemsReview";
-import { ORDER_STEPS } from "config/constants";
+import { ORDER_STEPS, STATUS_AADHAAR_VERIFIED } from "config/constants";
 import { AddressPicker } from "components/order/AddressPicker";
 import Loader from "components/Loader";
 import { getAuthUser } from "../../../../api/auth.api";
@@ -30,6 +30,11 @@ export default function Orders() {
 
   const orderSuccess = () => {
     dispatch(setCart(null));
+    if (loggedUser.verified !== STATUS_AADHAAR_VERIFIED) {
+      router.push("/portal/verify");
+      return;
+    }
+
     router.push("/portal/orders");
   }
   const onRazorPayCheckout = (mode: number) => {

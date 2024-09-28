@@ -20,3 +20,13 @@ export const updatePhone = async (phone: string): Promise<IUser> => {
   const response: IUser = await httpClient.put(`user?mode=2`, { phone });
   return response;
 }
+
+export const updateAadhaar = async (aadhaar: string): Promise<IUser> => {
+  const response: IUser = await httpClient.put(`user?mode=6`, { aadhaar });
+  return response;
+}
+
+export const verifyAadhaarOTP = async (otp: string): Promise<IUser> => {
+  const response: IUser = await httpClient.put(`user?mode=5`, { code: otp });
+  return response;
+}

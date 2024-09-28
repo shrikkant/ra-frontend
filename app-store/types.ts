@@ -50,9 +50,10 @@ export interface IUser {
   bio: string;
   city: string;
   percentage: number;
-  verified: boolean;
+  verified: number;
   address?: ILocation[];
   role: string;
+  aadhaar_callback_id?: string;
 }
 
 export interface IBrand {

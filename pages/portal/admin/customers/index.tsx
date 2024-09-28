@@ -14,7 +14,7 @@ import Loader from "components/Loader";
 import { Time } from "components/Time";
 import { PhoneIcon } from "@heroicons/react/24/outline";
 import { AppLayout } from "components/AppLayout";
-import { FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
+import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
 import Link from "next/link";
 import { getAdminAuthUser } from "../../../../api/auth.api";
 import { authUser } from "../../../../app-store/auth/auth.slice";
@@ -89,10 +89,18 @@ export default function Customers() {
                         </div>
 
 
-                        <div className=" flex justify-center items-center">
-                          <Link target="_blank" href={`https://wa.me/91${person.phone}?text=Hi ${person.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}>
-                            <FaWhatsappSquare size={"28"} />
-                          </Link>
+                        <div className=" flex justify-center items-center gap-x-2">
+                          {person?.verified === 3 &&
+                            <div>
+                              <FaCheckCircle className="text-green-600" size={"28"} />
+                            </div>}
+
+                          {person?.phone &&
+                            <Link
+                              target="_blank"
+                              href={`https://wa.me/91${person.phone}?text=Hi ${person.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}>
+                              <FaWhatsappSquare size={"28"} />
+                            </Link>}
 
                           <button onClick={() => adminLogin(person.id)} className="p-2">
                             <FaSignInAlt size={"28"} />

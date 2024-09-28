@@ -5,6 +5,8 @@ import { selectAuthState, removeUser } from "../app-store/auth/auth.slice";
 import { logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
 import { deleteSession } from "app-store/session/session.slice";
+import { setOrders } from "../app-store/admin/index.slice";
+import { setCart } from "../app-store/user/orders/orders.slice";
 
 export default function TopNavMenu() {
   const loggedUser = useSelector(selectAuthState);
@@ -15,6 +17,8 @@ export default function TopNavMenu() {
     logoutUser().then(() => {
       dispatch(removeUser());
       dispatch(deleteSession());
+      dispatch(setOrders([]));
+      dispatch(setCart(null));
       router.push("/");
     })
   };
