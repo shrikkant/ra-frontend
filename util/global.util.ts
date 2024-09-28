@@ -24,6 +24,9 @@ export const enum OrderStages {
 	Paid = 1,
 	Approved = 2,
 	InProgress = 3,
+	Completed = 4,
+	OwnerCancelled = 97,
+	RenterCancelled = 98
 
 }
 

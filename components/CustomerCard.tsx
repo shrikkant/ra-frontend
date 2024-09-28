@@ -15,9 +15,10 @@ import Moment from 'moment';
 
 import React from "react";
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
+import { IUser } from "../app-store/types";
 
 
-export default function CustomerCard({ customer }) {
+export default function CustomerCard({ customer }: { customer: IUser }) {
   return (<Content className={styles.orderBox} key={customer.id}>
 
     <PageHeader
@@ -25,7 +26,7 @@ export default function CustomerCard({ customer }) {
       key={customer.id}
       ghost={false}
       tags={[<Tag key="1" color="red">{customer.verified ? <ArrowDownCircleIcon /> : ""}</Tag>]}
-      title={customer.firstname + " " + customer.lastname}
+      title={customer.firstname + " " + customer?.lastname}
       subTitle={Moment(customer.created_ts).format('DD MMM')}></PageHeader>
     <Content style={{ padding: 16 }}>
       <Form layout="vertical">

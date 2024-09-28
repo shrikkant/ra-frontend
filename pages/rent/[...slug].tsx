@@ -2,7 +2,6 @@
 import React, { useEffect, useState } from 'react'
 import { AppLayout } from 'components/AppLayout'
 import { useProducts } from 'hooks/useProducts'
-import ProductCard from 'components/ProductCard'
 import Loader from 'components/Loader';
 import ProductFilterNav from 'components/ProductFilterNav';
 import { AdjustmentsHorizontalIcon } from '@heroicons/react/24/outline';
@@ -102,7 +101,7 @@ export default function Location() {
             }
           >
             {products &&
-              products.map((product: any, index) => (
+              products.map((product: IProduct) => (
                 <HomeProductCard key={product.id} product={product}></HomeProductCard>
                 // <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
               ))}

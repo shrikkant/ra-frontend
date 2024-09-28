@@ -10,10 +10,10 @@ export const ordersSlice = createSlice({
   name: "ordersSlice",
   initialState,
   reducers: {
-    setOrders(state, action: PayloadAction<any>) {
+    setOrders(state, action: PayloadAction<IOrder[]>) {
       state.orders = action.payload;
     },
-    setCart(state, action: PayloadAction<any>) {
+    setCart(state, action: PayloadAction<IOrder | null>) {
       state.cart = action.payload;
     },
   },

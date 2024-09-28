@@ -1,5 +1,5 @@
 import { IDates } from "../../app-store/app-defaults/types";
-import { IOrder } from "../../app-store/types";
+import { IOrder, ITransaction } from "../../app-store/types";
 import httpClient from "./../axios.config";
 import Moment from "moment";
 
@@ -26,10 +26,10 @@ export async function fetchOrder(orderId: number): Promise<IOrder> {
 export const addToCart = async (
   productId: number,
   dates: IDates
-) => {
+): Promise<ITransaction> => {
   const { startDate, endDate } = dates;
 
-  await httpClient.post(`/user/carts`, {
+  const transaction: ITransaction = await httpClient.post(`/user/carts`, {
     date: {
       startDate: Moment(new Date(startDate)).format("YYYY-MM-DD"),
       endDate: Moment(new Date(endDate)).format("YYYY-MM-DD"),
@@ -39,6 +39,7 @@ export const addToCart = async (
     },
     product_id: productId,
   });
+  return transaction;
 };
 
 export const removeFromCart = async (productId: number) => {

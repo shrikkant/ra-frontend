@@ -197,8 +197,10 @@ export interface IProductCategory {
 }
 
 export interface IProductSubCategory {
-  slug: any;
-  id: number;
+  id?: number;
+  category_id: number;
+  key?: string;
+  slug: string;
   title: string;
 }
 

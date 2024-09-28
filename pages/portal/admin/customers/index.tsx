@@ -1,6 +1,7 @@
 import {
   getCustomers,
   setCustomers,
+  setOrders,
 } from "app-store/admin/index.slice";
 
 import { useDispatch, useSelector } from "react-redux";
@@ -17,6 +18,7 @@ import { FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
 import Link from "next/link";
 import { getAdminAuthUser } from "../../../../api/auth.api";
 import { authUser } from "../../../../app-store/auth/auth.slice";
+import { setCart } from "../../../../app-store/user/orders/orders.slice";
 
 export default function Customers() {
   const router = useRouter();
@@ -35,6 +37,10 @@ export default function Customers() {
   const adminLogin = (customerId: number) => {
     getAdminAuthUser(customerId).then((loggedUser) => {
       dispatch(authUser(loggedUser));
+      dispatch(setCustomers(null));
+      dispatch(setCart(null));
+      dispatch(setOrders(null));
+
       router.push("/");
     });
   }

@@ -1,15 +1,15 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
-import { addToCart } from "../api/user/orders.api";
+import { addToCart, fetchCart } from "../api/user/orders.api";
 import { usePathname, useRouter } from "next/navigation";
 import { RupeeSymbol } from "./RupeeSymbol";
 import { useDispatch, useSelector } from "react-redux";
-import { getDefaultSearch, setLastLink, setSearch } from "app-store/session/session.slice";
+import { getDefaultSearch, setLastLink } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
 import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
-import { IDefaultSearch } from "../app-store/app-defaults/types";
+
 import { getAuthUser } from "../api/auth.api";
 import { setCart } from "../app-store/user/orders/orders.slice";
 
@@ -43,22 +43,25 @@ export default function BookingForm({ productId, rates }: { productId: number, r
     return differenceInDays;
   };
 
-  const onAddToCart = (bookNow?: boolean) => {
-    console.log("Path Name : ", pathname);
+  const onAddToCart = async (bookNow?: boolean) => {
+
     if (!loggedUser && (pathname && pathname?.length > 0)) {
       dispatch(setLastLink(pathname))
       router.push("/signin");
     } else {
       if (!storeSearch?.dates)
         return;
-      addToCart(productId, storeSearch?.dates).then((o) => {
-        dispatch(setCart(o));
-        if (bookNow) {
-          router.push("/portal/my-cart");
-        } else {
-          setOpenFormInMobile(false);
-        }
-      });
+
+      await addToCart(productId, storeSearch?.dates);
+      const cart = await fetchCart();
+      dispatch(setCart(cart));
+
+      if (bookNow) {
+        router.push("/portal/my-cart");
+      } else {
+        setOpenFormInMobile(false);
+      }
+
     }
   };
 

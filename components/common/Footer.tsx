@@ -5,7 +5,7 @@ import PageContainer from "./PageContainer";
 export default function Footer() {
   return (<footer>
     <PageContainer>
-      <div className="row footer-item-cover">
+      <div className="row footer-item-cover xs:px-4">
         <div className="footer-subscribe col-md-7 col-lg-8">
           <h6>stay in touch</h6>
           <ul className="footer-soc social-list">
@@ -29,20 +29,21 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="row footer-item-cover">
+      <div className="row footer-item-cover xs:px-4">
         <div className="footer-touch col-md-7 col-lg-8">
 
         </div>
         <div className="footer-item col-md-5 col-lg-4">
-          <h6>shop</h6>
+          <h6>Locations</h6>
           <ul className="footer-list">
             <li><a href="/pune">Pune</a></li>
             <li><a href="/mumbai">Mumbai</a></li>
+            <li><a href="/bengaluru">Bengaluru</a></li>
           </ul>
         </div>
       </div>
       <div className="footer-bottom">
-        <div className="footer-copyright">
+        <div className="footer-copyright xs:px-4">
           <a target="_blank" rel="noreferrer" href="https://www.rentacross.com">RentAcross</a>
           <span>© 2024. All Rights Reserved.</span>
         </div>
