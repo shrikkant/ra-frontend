@@ -28,7 +28,7 @@ export function getSubCategoryOptions(subCategories: IProductSubCategory[]) {
   subCategories.map((sc) => {
     const option: ICheckboxOption = {
       label: sc.title,
-      value: sc.id.toString(),
+      value: sc.id?.toString() || "",
     };
     options.push(option);
   });
