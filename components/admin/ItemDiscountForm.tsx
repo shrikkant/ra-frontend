@@ -1,61 +1,64 @@
 import React from "react";
-import { Button, Form, Input } from "antd"
 import { applyDiscount } from "../../api/admin/orders.api";
 import { setActiveOrder } from "app-store/admin/index.slice";
 import { useState } from "react";
-import { IOrder } from "../../app-store/types";
+import { IOrder, IOrderItem } from "../../app-store/types";
 import { useDispatch } from "react-redux";
+import Input from "../common/form/Input";
 
-export function ItemDiscountForm({ item, handleItemChange }) {
+export function ItemDiscountForm({ item, handleItemChange }: { item: IOrderItem, handleItemChange: (item: IOrderItem) => void }) {
   const dispatch = useDispatch();
-  const [form] = Form.useForm();
   const [transactionUpdate, setTransactionUpdate] = useState({ transaction_id: item.id, discount: 0, percent: 0 });
 
-  const handleDiscountChange = (id: number, value: string) => {
-    const tr = { ...transactionUpdate };
-    tr.discount = parseInt(value || "0");
-    tr.percent = Math.round((tr.discount / item.original_rent) * 100);
-    setTransactionUpdate(tr);
-  }
-
-
-  const handleSubmit = () => {
-    applyDiscount(item.order_id, item.id, transactionUpdate).then((data: IOrder) => {
-      if (data) {
-        handleItemChange(data.items?.find((item) => (item.id == item.id)));
-      }
-      dispatch(setActiveOrder(data));
-    })
-  }
-
-
-  const handleDiscountPercent = (id: number, value: string) => {
+  const testApplyDiscount = (percent: number, discount: number) => {
     const transaction = { ...transactionUpdate };
-    transaction.percent = parseInt(value || "0");
-    transaction.discount = Math.round(item.original_rent * transaction.percent / 100);
-    setTransactionUpdate(transaction);
+    transaction.percent = percent;
+    transaction.discount = discount;
+    const i = { ...item };
+    i.applied_discount_amount = discount;
+    i.rent = item.original_rent - discount;
+    handleItemChange(i);
 
+    setTransactionUpdate(transaction);
   }
 
-  return (<Form
-    layout={"inline"}
-    form={form}
-    size="small"
-    initialValues={{ layout: "inline" }}
+  const handleDiscountChange = (value: string) => {
+    const discount = parseInt(value || "0");
+    const percent = Math.round((discount / item.original_rent) * 100);
+    testApplyDiscount(percent, discount);
+  }
+
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    const order: IOrder = await applyDiscount(item.order_id, item.id, transactionUpdate);
+    dispatch(setActiveOrder(order));
+  }
+
+
+  const handleDiscountPercent = (value: string) => {
+    const percent = parseInt(value || "0");
+    const discount = Math.round((item.original_rent * percent) / 100);
+    testApplyDiscount(percent, discount);
+  }
+
+  return (<form
     style={{ border: "1px solid #ddd", padding: 10, borderRadius: 4 }}
   >
-    <Form.Item label="Discount" >
-      <Input style={{ width: 80 }} type="number" placeholder="Discount" value={transactionUpdate.discount} onChange={(e) => { handleDiscountChange(item.id, e.target.value) }} />
-    </Form.Item>
-    <Form.Item label="%" >
-      <Input style={{ width: 80 }} type="number" placeholder="Discount %" value={transactionUpdate.percent} onChange={(e) => { handleDiscountPercent(item.id, e.target.value) }} />
-    </Form.Item>
+    <div className="flex gap-x-2">
+      <div className="w-3/4">
+        <Input label="Discount" type="number" placeholder="Discount" onChange={handleDiscountChange} />
+      </div>
+      <div className="flex-1">
+        <Input label="%" type="number" placeholder="Discount %" onChange={handleDiscountPercent} />
+      </div>
+    </div>
     {/* <Form.Item label="Delivery" >
       <Switch checked={transactionUpdate.waiveDelivery} onChange={(checked) => handleDeliveryChange(transaction.id, checked)} />
     </Form.Item> */}
-    <Form.Item style={{ textAlign: "right" }} >
-      <Button onClick={handleSubmit} type="link">Apply</Button>
-    </Form.Item>
-  </Form>)
+    <div className="flex justify-end w-full">
+      <button onClick={handleSubmit}>Apply</button>
+    </div>
+  </form>)
 }
 

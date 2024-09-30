@@ -46,12 +46,16 @@ export function AdminOrderItemRow({
 
 
 
-      <div style={{ display: "flex", columnGap: 32, alignItems: "center", justifyContent: "space-between" }} className="mt-4">
+      <div className="mt-4 flex xs:flex-col justify-between gap-y-4">
         <div>
           <h3>Rent</h3>
-          <div >
-            <span className="text-2xl text-red-700"><RupeeSymbol />{item.rent}</span>
+          <div className="flex gap-x-3">
+            <span className={"text-2xl  " + (item.applied_discount_amount > 0 ? "line-through text-gray-700" : " text-red-700")} >
+              <RupeeSymbol />{item.original_rent}
+            </span>
+            {item.applied_discount_amount > 0 && <span className="text-2xl text-red-700"><RupeeSymbol />{item.rent}</span>}
           </div>
+
         </div>
         {canApplyDiscount && <ItemDiscountForm item={item} handleItemChange={handleItemChange} />}
       </div>
