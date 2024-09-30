@@ -17,7 +17,7 @@ import { AppLayout } from "components/AppLayout";
 import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
 import Link from "next/link";
 import { getAdminAuthUser } from "../../../../api/auth.api";
-import { authUser } from "../../../../app-store/auth/auth.slice";
+import { authUser, logout } from "../../../../app-store/auth/auth.slice";
 import { setCart } from "../../../../app-store/user/orders/orders.slice";
 
 export default function Customers() {
@@ -35,12 +35,9 @@ export default function Customers() {
   };
 
   const adminLogin = (customerId: number) => {
+    dispatch(logout());
     getAdminAuthUser(customerId).then((loggedUser) => {
       dispatch(authUser(loggedUser));
-      dispatch(setCustomers(null));
-      dispatch(setCart(null));
-      dispatch(setOrders(null));
-
       router.push("/");
     });
   }
