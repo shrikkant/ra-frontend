@@ -75,6 +75,7 @@ export interface IOrderItem {
   product_rate_id: number;
   qty: number;
   rent: number;
+  original_rent: number;
   start_hour: number;
   end_hour: number;
   ts: string;
