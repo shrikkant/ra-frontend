@@ -12,6 +12,8 @@ import admin from "./admin/index.slice";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist';
 import storage from './storage';
 
+const SIGNOUT_REQUEST = "authSlice/logout";
+
 const persistConfig = {
   key: "root",
   storage,
@@ -28,10 +30,21 @@ const persistedReducer = persistReducer(persistConfig, combineReducers({
   admin
 }))
 
+export const appReducer = (state, action) => {
+  if (action.type === SIGNOUT_REQUEST) {
+    storage.removeItem('persist:root')
+    return persistedReducer(undefined, action);
+  }
+
+  return persistedReducer(state, action)
+}
+
+
+
 
 export const makeStore = () => {
   return configureStore({
-    reducer: persistedReducer,
+    reducer: appReducer,
     devTools: process.env.NODE_ENV !== "production",
     middleware: (getDefaultMiddleware) =>
       getDefaultMiddleware({

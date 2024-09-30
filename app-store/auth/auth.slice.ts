@@ -12,14 +12,14 @@ export const authSlice = createSlice({
 		authUser(state, action: PayloadAction<IUser>) {
 			state.user = action.payload;
 		},
-		removeUser(state) {
+		logout(state) {
 			state.user = undefined;
 		}
 	},
 });
 
 
-export const { authUser, removeUser } = authSlice.actions;
+export const { authUser, logout } = authSlice.actions;
 
 export const selectAuthState = (state: RootState) => state.auth.user;
 
