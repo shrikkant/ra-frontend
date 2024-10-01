@@ -31,7 +31,7 @@ export default function Orders() {
   const orderSuccess = () => {
     dispatch(setCart(null));
     if (loggedUser.verified !== STATUS_AADHAAR_VERIFIED) {
-      router.push("/portal/verify");
+      router.push("/portal/profile/verify");
       return;
     }
 
