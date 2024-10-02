@@ -48,6 +48,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
+        <meta name="google-site-verification" content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ" />
       </head>
 
       <body className="inner-scroll" id="home">
