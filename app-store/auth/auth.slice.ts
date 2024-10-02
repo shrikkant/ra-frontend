@@ -14,13 +14,18 @@ export const authSlice = createSlice({
 		},
 		logout(state) {
 			state.user = undefined;
+		},
+		setAdminLogin(state, action: PayloadAction<boolean>) {
+			state.isAdminLogin = action.payload;
 		}
 	},
 });
 
 
-export const { authUser, logout } = authSlice.actions;
+export const { authUser, logout, setAdminLogin } = authSlice.actions;
 
 export const selectAuthState = (state: RootState) => state.auth.user;
+
+export const isAdminLogin = (state: RootState) => state.auth.isAdminLogin;
 
 export default authSlice.reducer;
