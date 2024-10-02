@@ -16,9 +16,26 @@ import Moment from 'moment';
 import React from "react";
 import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
 import { IUser } from "../app-store/types";
+import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
+import Link from "next/link";
+import { authUser, logout, setAdminLogin } from "../app-store/auth/auth.slice";
+import { getAdminAuthUser } from "../api/auth.api";
+import { useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
 
 
 export default function CustomerCard({ customer }: { customer: IUser }) {
+  const router = useRouter();
+  const dispatch = useDispatch();
+  const adminLogin = (customerId: number) => {
+    dispatch(logout());
+    getAdminAuthUser(customerId).then((loggedUser) => {
+      dispatch(authUser(loggedUser));
+      dispatch(setAdminLogin(true));
+      router.push("/");
+    });
+  }
+
   return (<Content className={styles.orderBox} key={customer.id}>
 
     <PageHeader
@@ -37,6 +54,25 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
           <Input placeholder="Phone" value={customer.phone} />
         </Form.Item>
       </Form>
+      <div className=" flex justify-center items-center gap-x-2">
+        {customer?.verified === 3 &&
+          <div>
+            <FaCheckCircle className="text-green-600" size={"28"} />
+          </div>}
+
+        {customer?.phone &&
+          <Link
+            target="_blank"
+            href={`https://wa.me/91${customer.phone}?text=Hi ${customer.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}>
+            <FaWhatsappSquare size={"28"} />
+          </Link>}
+
+        <button onClick={() => adminLogin(customer.id)} className="p-2">
+          <FaSignInAlt size={"28"} />
+        </button>
+      </div>
     </Content>
   </Content>);
 }
+
+
