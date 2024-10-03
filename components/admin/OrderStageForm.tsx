@@ -10,7 +10,7 @@ import Input from "../common/form/Input";
 
 export function OrderStageForm({ order }: { order: IOrder }) {
   const dispatch = useDispatch();
-  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0, id: 0 });
+  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: order.stage, id: 0 });
 
   const handleStageChange = (value: string) => {
     setOrderChange({ ...orderChange, stage: parseInt(value) });
