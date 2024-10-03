@@ -84,7 +84,7 @@ export function OrderStageForm({ order }: { order: IOrder }) {
           </select>
         </div>
         <div>
-          <button className="border-gray-200 h-auto px-4 bg-slate-700 text-gray-50 rounded-sm  hover:border-amber-400" style={{ textAlign: "right" }}
+          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded inline-flex items-center h-8" style={{ textAlign: "right" }}
             onClick={() => updateOrderStage(order?.id)}>
             Update
           </button>
@@ -108,8 +108,6 @@ export function OrderStageForm({ order }: { order: IOrder }) {
             </div>
         }
         )}
-
-
     </form>
 
   </div>)

@@ -1,31 +1,42 @@
+import React from "react";
 import { Button, Form, Select } from "antd"
 
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { assignDeliveryRep } from "../../api/admin/orders.api";
+import { assignDeliveryRep, fetchOrderDelivery } from "../../api/admin/orders.api";
 import { useDispatch, useSelector } from "react-redux";
-import { getDeliveryReps, setDeliveryReps } from "../../app-store/admin/index.slice";
+import { getDeliveryReps, setActiveOrder, setDeliveryReps } from "../../app-store/admin/index.slice";
 import { fetchDeliveryReps } from "../../api/admin/index.api";
-import { IUser } from "../../app-store/types";
+import { IOrder, IUser } from "../../app-store/types";
 
 enum DeliveryType {
   DELIVERY = 1,
   PICKUP = 2
 }
 
-export function DeliveryAssignmentForm({ order }) {
+export function DeliveryAssignmentForm({ order }: { order: IOrder }) {
   const dispatch = useDispatch();
 
   const router = useRouter();
-  const [deliveyAssignment, setDeliveryAssignment] = useState({ repId: -1, orderId: 0, type: DeliveryType.DELIVERY });
+  const [deliveyAssignment, setDeliveryAssignment] = useState({ repId: -1, orderId: order.id, type: DeliveryType.DELIVERY });
   const [form] = Form.useForm();
   const deliveryReps = useSelector(getDeliveryReps);
 
 
+  useEffect(() => {
+    const newOrder = { ...order };
+    (order.delivery_id && !order.delivery) && fetchOrderDelivery(order.delivery_id).then(data => {
+      newOrder.delivery = data;
+      dispatch(setActiveOrder(newOrder));
+    });
+  }, [router.isReady])
+
   const handleSubmit = () => {
+    const newOrder = { ...order };
 
     assignDeliveryRep(deliveyAssignment).then(data => {
-      console.log("Delivery assignment is ", data);
+      newOrder.delivery = data;
+      dispatch(setActiveOrder(newOrder));
     });
   }
 
@@ -34,9 +45,11 @@ export function DeliveryAssignmentForm({ order }) {
   }
 
   const repOptions = () => {
-    return deliveryReps?.map((rep: IUser) => {
+    const reps = deliveryReps?.map((rep: IUser) => {
       return { label: (rep.firstname + " " + rep.lastname), value: rep.id }
     })
+    reps.push({ label: "Unassigned", value: 0 });
+    return reps;
   }
 
   useEffect(() => {
@@ -47,7 +60,7 @@ export function DeliveryAssignmentForm({ order }) {
     router.isReady && setDeliveryAssignment({
       ...deliveyAssignment,
       orderId: order.id,
-      repId: order?.delivery?.rep_id
+      repId: order?.delivery?.rep_id || 0
     });
 
 
@@ -63,14 +76,14 @@ export function DeliveryAssignmentForm({ order }) {
       style={{ border: "1px solid #ddd", padding: 10, borderRadius: 4 }}
     >
 
-      <Form.Item label={"Delivery Rep"}>
+      <div className="flex">
         <Select style={{ width: 160 }} defaultValue={deliveyAssignment.repId} value={deliveyAssignment.repId} onChange={handleRepChange}
           options={repOptions()}>
         </Select>
-      </Form.Item>
-      <Form.Item style={{ textAlign: "right" }} >
+      </div>
+      <div>
         <Button onClick={handleSubmit} type="link">Assign</Button>
-      </Form.Item>
+      </div>
     </Form>}
 
   </div>)

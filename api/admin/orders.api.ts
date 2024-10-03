@@ -1,4 +1,4 @@
-import { IOrder } from '../../app-store/types';
+import { IDelivery, IOrder } from '../../app-store/types';
 import httpClient from './../axios.config';
 
 export async function fetchOrders(status: number): Promise<IOrder[]> {
@@ -25,8 +25,13 @@ export async function applyDiscount(id: number, transactionId: number, discountI
     return response
 }
 
-export async function assignDeliveryRep(deliveryAssignment): Promise<IOrder> {
-    const response: IOrder = await httpClient.post(`/admin/delivery/`, deliveryAssignment);
+export async function assignDeliveryRep(deliveryAssignment): Promise<IDelivery> {
+    const response: IDelivery = await httpClient.post(`/admin/delivery/`, deliveryAssignment);
+    return response
+}
+
+export async function fetchOrderDelivery(deliveryId: number): Promise<IDelivery> {
+    const response: IDelivery = await httpClient.get(`/admin/delivery/${deliveryId}`);
     return response
 }
 

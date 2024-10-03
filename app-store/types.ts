@@ -24,6 +24,7 @@ export interface IOrder {
   stage: number;
   items?: IOrderItem[] | null;
   delivery?: IDelivery;
+  delivery_id?: number;
   pickup?: IDelivery;
   delivery_address?: any;
   applied_discount?: number;
@@ -208,8 +209,20 @@ export interface IProductSubCategory {
   title: string;
 }
 
+export interface IDeliveryItem {
+  id?: number;
+  order_delivery_id?: number;
+  product_id: number;
+  store_address: ILocation;
+  store_phone: string;
+  store_name: string;
+  product_name: string;
+}
+
 export interface IDelivery {
   id: number;
   rep_id: number;
   rep_name: string;
+  customer_address: ILocation;
+  items: IDeliveryItem[];
 }

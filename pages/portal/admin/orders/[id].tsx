@@ -17,8 +17,8 @@ import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 import Loader from "components/Loader";
 import { OrderStages, resolveOrderStage } from "util/global.util";
 import { OrderStageForm } from "components/admin/OrderStageForm";
-import { DeliveryAssignmentForm } from "components/admin/DeliveryAssignmentForm";
 import { AppLayout } from "components/AppLayout";
+import { OrderDeliveryForm } from "../../../../components/admin/OrderDeilveryForm";
 
 export default function Order() {
   const router = useRouter();
@@ -71,44 +71,13 @@ export default function Order() {
       {loading ? (
         <Loader />
       ) : (
-        <Content className={styles.content}>
-          <Content style={{ padding: "16px 16px" }}>
-            {!order ? (
-              <Loader />
-            ) : (
-              <Content className={styles.orderBox} key={order.id}>
-                <MyPageHeader
-                  className={styles.orderHeader}
-                  ghost={false}
-                  tags={[
-                    <Tag key="1" color="red">
-                      {"₹" + order.total_amount}
-                    </Tag>,
-                    <Tag key="2" color="purple">
-                      {order.user.firstname}
-                    </Tag>,
-                  ]}
-                  title={"#" + order.id}
-                  subTitle={orderDuration(order.start_date, order.end_date)}
-                  extra={[
-                    <Button key="stage_1" type="primary" size="small">
-                      {resolveOrderStage(order.stage)}
-                    </Button>,
-                  ]}
-                ></MyPageHeader>
 
-                {/* <Descriptions bordered size={"small"} key="1" column={1}>
-                  <Descriptions.Item>
-                    Fee : {order.delivery_fee}
-                    {order.delivery_fee > 0 && (
-                      <DeliveryAssignmentForm order={order} />
-                    )}
-                  </Descriptions.Item>
-                </Descriptions> */}
-
-                {!(order.stage === OrderStages.Leads) && (
-                  <OrderStageForm order={order}></OrderStageForm>
-                )}
+        <div className="p-4">
+          {!order ? (
+            <Loader />
+          ) : (
+            <div className={"border border-gray-500 flex items-start justify-start align-top"} key={order.id}>
+              <div className="w-3/4">
                 {order.items &&
                   order.items.map((item) => {
                     return (
@@ -119,10 +88,22 @@ export default function Order() {
                       />
                     );
                   })}
-              </Content>
-            )}
-          </Content>
-        </Content>
+              </div>
+              <div>
+                {!(order.stage === OrderStages.Leads) && (
+                  <OrderStageForm order={order}></OrderStageForm>
+                )}
+
+
+                <div className="p-4">
+                  <OrderDeliveryForm order={order} />
+                </div>
+              </div>
+
+
+            </div>
+          )}
+        </div>
       )}
     </AppLayout>
   );
