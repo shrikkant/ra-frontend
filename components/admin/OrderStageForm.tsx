@@ -1,26 +1,16 @@
 import React from "react";
-import { Button, Card, Form, Input, Select, Tooltip } from "antd"
 import { OrderStages, resolveOrderStage } from "../../util/global.util"
 import { updateStage } from "api/admin/orders.api";
 import { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { setActiveOrder } from "app-store/admin/index.slice";
-import { UserCircleIcon, UserGroupIcon } from "@heroicons/react/24/outline";
 import { IOrder } from "../../app-store/types";
+import Input from "../common/form/Input";
 
-type LayoutType = Parameters<typeof Form>[0]['layout'];
 
 export function OrderStageForm({ order }: { order: IOrder }) {
   const dispatch = useDispatch();
   const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: 0, id: 0 });
-  const [formLayout, setFormLayout] = useState<LayoutType>('horizontal');
-  const [formReady, setFormReady] = useState(true);
-
-  const [form] = Form.useForm();
-
-  const formItemLayout =
-    formLayout === 'horizontal' ? { labelCol: { span: 6 }, wrapperCol: { span: 18 } } : null;
-
 
   const handleStageChange = (value: string) => {
     setOrderChange({ ...orderChange, stage: parseInt(value) });
@@ -38,8 +28,8 @@ export function OrderStageForm({ order }: { order: IOrder }) {
     console.log(orderChange);
   }, [orderChange]);
 
-  const handleSerialNoInput = async (transactionId, addon, e) => {
-    const value = e.target.value;
+  const handleSerialNoInput = async (transactionId, addon, value) => {
+
     const orderUpdate: any = { ...orderChange };
 
     const alreadyExists: any = await orderUpdate.serialNoInfo.find((item: any) => (item.id == transactionId));
@@ -78,64 +68,49 @@ export function OrderStageForm({ order }: { order: IOrder }) {
   }
 
 
-  return (<Card
-    actions={[<div key={order.id} style={{ width: "100%", textAlign: "right" }}>
-      <Button style={{ textAlign: "right" }}
-        disabled={!formReady} type="primary"
-        onClick={() => updateOrderStage(order?.id)}
-        size="small">
-        Update Stage
-      </Button>
-    </div>]}
-    style={{ padding: 16, maxWidth: 520, margin: "auto" }} title={"Update Stage"} bordered={false}>
+  return (<div className={"w-96 m-auto"}>
 
-    <Form
-      {...formItemLayout}
-      layout={formLayout}
-      form={form}
-      initialValues={{ layout: formLayout }}
-      style={{ maxWidth: formLayout === 'inline' ? 'none' : 600 }}
-    >
-      <Form.Item label={"Stage"}>
-        <Select value={String(orderChange.stage)} onChange={handleStageChange}>
-          <Select.Option value={String(0)} >{resolveOrderStage(0)}</Select.Option>
-          <Select.Option value={String(1)}>{resolveOrderStage(1)}</Select.Option>
-          <Select.Option value={String(2)}>{resolveOrderStage(2)}</Select.Option>
-          <Select.Option value={String(3)}>{resolveOrderStage(3)}</Select.Option>
-          <Select.Option value={String(4)}>{resolveOrderStage(4)}</Select.Option>
-        </Select>
-      </Form.Item>
+
+    <form>
+      <div className="flex items-center justify-between gap-x-2 p-4 ">
+        <div>
+          <label className="font-semibold">Order Stage: </label>
+          <select value={String(orderChange.stage)} onChange={(e) => handleStageChange(e.target.value)} className="border border-gray-200 py-1 px-2">
+            <option value={String(0)} >{resolveOrderStage(0)}</option>
+            <option value={String(1)}>{resolveOrderStage(1)}</option>
+            <option value={String(2)}>{resolveOrderStage(2)}</option>
+            <option value={String(3)}>{resolveOrderStage(3)}</option>
+            <option value={String(4)}>{resolveOrderStage(4)}</option>
+          </select>
+        </div>
+        <div>
+          <button className="border-gray-200 h-auto px-4 bg-slate-700 text-gray-50 rounded-sm  hover:border-amber-400" style={{ textAlign: "right" }}
+            onClick={() => updateOrderStage(order?.id)}>
+            Update
+          </button>
+        </div>
+      </div>
 
       {(order.stage !== OrderStages.InProgress && orderChange.stage === OrderStages.InProgress) &&
 
         order.items?.map((transaction) => {
           return transaction.product.masterProductList &&
             <div key={transaction.id}>
-
-              {/* <Descriptions.Item>
-                <div>{transaction.product.title}</div>
-              </Descriptions.Item> */}
               {transaction.product.masterProductList?.map((addon: any) => {
                 return addon &&
-                  <Form.Item key={addon?.id} label={"Serial #"}>
-
+                  <div key={addon?.id} >
                     <Input
-                      placeholder={addon?.masterProduct?.name}
-                      prefix={<UserCircleIcon className="site-form-item-icon" />}
-                      onKeyDownCapture={(e) => { handleSerialNoInput(transaction.id, addon, e) }}
-                      suffix={
-                        <Tooltip title="Serial #">
-                          <UserGroupIcon style={{ color: 'rgba(0,0,0,.45)' }} />
-                        </Tooltip>
-                      }
+                      label={addon?.masterProduct?.name}
+                      onChange={(e) => { handleSerialNoInput(transaction.id, addon, e) }}
                     />
-                    <label style={{ fontSize: 12 }}>{addon?.masterProduct?.name}</label>
-                  </Form.Item>
+                  </div>
               })}
             </div>
         }
         )}
-    </Form>
 
-  </Card>)
+
+    </form>
+
+  </div>)
 }
