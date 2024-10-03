@@ -6,15 +6,10 @@ import {
 } from "antd";
 
 import { PageHeader } from "@ant-design/pro-layout";
-
 import styles from "styles/orders.module.css";
-
 import { Content } from "antd/lib/layout/layout";
-
-import Moment from 'moment';
-
 import React from "react";
-import { ArrowDownCircleIcon } from "@heroicons/react/24/outline";
+
 import { IUser } from "../app-store/types";
 import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
 import Link from "next/link";
@@ -39,22 +34,24 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
   return (<Content className={styles.orderBox} key={customer.id}>
 
     <PageHeader
-      className={styles.orderHeader}
+      className="border-b border-gray-200 bg-gray-100"
       key={customer.id}
       ghost={false}
-      tags={[<Tag key="1" color="red">{customer.verified ? <ArrowDownCircleIcon /> : ""}</Tag>]}
-      title={customer.firstname + " " + customer?.lastname}
-      subTitle={Moment(customer.created_ts).format('DD MMM')}></PageHeader>
-    <Content style={{ padding: 16 }}>
+      tags={[<Tag key="1" className="bg-transparent border-none flex justify-center"><FaCheckCircle className="text-green-600 bg-none" size={"20"} /></Tag>]}
+      title={customer.firstname + " " + customer?.lastname}>
+
+    </PageHeader>
+
+    <div className="sm:p-4 xs:p-3">
       <Form layout="vertical">
-        <Form.Item label="Email">
+        <Form.Item>
           <Input placeholder="Email" value={customer.email_address} />
         </Form.Item>
         <Form.Item>
           <Input placeholder="Phone" value={customer.phone} />
         </Form.Item>
       </Form>
-      <div className=" flex justify-center items-center gap-x-2">
+      <div className=" flex justify-end items-center gap-x-2">
         {customer?.verified === 3 &&
           <div>
             <FaCheckCircle className="text-green-600" size={"28"} />
@@ -71,8 +68,8 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
           <FaSignInAlt size={"28"} />
         </button>
       </div>
-    </Content>
-  </Content>);
+    </div>
+  </Content >);
 }
 
 

@@ -97,14 +97,14 @@ export default function Order() {
                   ]}
                 ></MyPageHeader>
 
-                <Descriptions bordered size={"small"} key="1" column={1}>
+                {/* <Descriptions bordered size={"small"} key="1" column={1}>
                   <Descriptions.Item>
                     Fee : {order.delivery_fee}
                     {order.delivery_fee > 0 && (
                       <DeliveryAssignmentForm order={order} />
                     )}
                   </Descriptions.Item>
-                </Descriptions>
+                </Descriptions> */}
 
                 {!(order.stage === OrderStages.Leads) && (
                   <OrderStageForm order={order}></OrderStageForm>

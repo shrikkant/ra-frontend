@@ -48,9 +48,9 @@ export default function Customers() {
             <div style={{ flex: 1 }}>
               <CustomerCard customer={activeCustomer}></CustomerCard>
             </div>
-            <div style={{ flex: 1 }}>
+            {/* <div style={{ flex: 1 }}>
               <ActivityCard customer={activeCustomer}></ActivityCard>
-            </div>
+            </div> */}
           </div>
           <div className="p-4">
             <div style={{ flex: 1 }}>

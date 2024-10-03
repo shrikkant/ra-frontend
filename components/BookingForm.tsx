@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
 import { addToCart, fetchCart } from "../api/user/orders.api";
 import { usePathname, useRouter } from "next/navigation";
-import { RupeeSymbol } from "./RupeeSymbol";
+
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch, setLastLink } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
@@ -12,12 +12,15 @@ import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
 
 import { getAuthUser } from "../api/auth.api";
 import { setCart } from "../app-store/user/orders/orders.slice";
+import { BookingLineItem } from "./cart/BookingLineItem";
 
-
-
-export default function BookingForm({ productId, rates }: { productId: number, rates: any[] }) {
+export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: any[] }) {
   const dispatch = useDispatch();
   const loggedUser = useSelector(selectAuthState);
+
+  const originalRate = rates[0].rate;
+  const discountedRate = Math.ceil(rates[0].rate - (rates[0].rate * discount / 100));
+
 
   const router = useRouter();
   const pathname = usePathname();
@@ -43,6 +46,10 @@ export default function BookingForm({ productId, rates }: { productId: number, r
     return differenceInDays;
   };
 
+  const getPlural = (text: string, days: number) => {
+    return text + (days > 1 ? "s" : "");
+  };
+
   const onAddToCart = async (bookNow?: boolean) => {
 
     if (!loggedUser && (pathname && pathname?.length > 0)) {
@@ -65,6 +72,10 @@ export default function BookingForm({ productId, rates }: { productId: number, r
     }
   };
 
+  const getSavings = () => {
+    return (originalRate - discountedRate) * getDays();
+  }
+
   useEffect(() => {
     if (!loggedUser) {
       getAuthUser().then((user) => {
@@ -78,12 +89,10 @@ export default function BookingForm({ productId, rates }: { productId: number, r
     <>
       <div>
         <div className="relative flex">
-          <span className="absolute text-sm font-semibold top-0 left-0">
-            <RupeeSymbol />
-          </span>
+
           <span className="flex">
             <span className="text-3xl pl-3 font-semibold">
-              <PriceTag price={rates[0].rate} showCurrency={false} />
+              <PriceTag price={originalRate} discount={discount} />
             </span>
             <div className="ml-2 relative">
               <span className="absolute truncate text-sm bottom-0">
@@ -93,7 +102,7 @@ export default function BookingForm({ productId, rates }: { productId: number, r
           </span>
         </div>
         <div className="flex flex-wrap flex-row rounded-md border border-gray-300 p-2 gap-20 justify-center mt-3">
-          <div className="w-full flex justify-between">
+          <div className="w-full flex justify-between items-center">
             <span className="label text-black font-semibold ml-2">
               Booking Dates
             </span>
@@ -121,38 +130,30 @@ export default function BookingForm({ productId, rates }: { productId: number, r
           <span>Book Now</span>
         </button>
       </div>
-      <div className="flex justify-between m-1">
-        <div className="flex gap-1">
-          <span className="text-md font-semibold flex gap-1">
-            <RupeeSymbol />
-            <PriceTag price={rates[0].rate} showCurrency={false} />
-          </span>
-          <span>
-            <span className="text-md text-gray-500 ">X {getDays()} day</span>
-          </span>
-        </div>
-        <div className="text-md font-semibold flex gap-1">
-          <RupeeSymbol />
-          <PriceTag price={rates[0].rate * getDays()} showCurrency={false} />
-        </div>
-      </div>
-      <div>
-        <div className="mb-1 mt-0 ms-0 w-full h-px flex-1 bg-gray-500"></div>
-        <div className="flex justify-between">
-          <span className="text-lg font-semibold">Total before taxes</span>
-          <div className="relative flex gap-1">
-            <span className="text-sm font-semibold top-0 left-0">
-              <RupeeSymbol />
-            </span>
-            <span className="text-2xl font-semibold">
-              <PriceTag
-                price={rates[0].rate * getDays()}
-                showCurrency={false}
-              />
-            </span>
-          </div>
-        </div>
-      </div>
+
+      <BookingLineItem amount={discountedRate * getDays()}>
+        <span className="text-md font-semibold flex">
+          <PriceTag price={discountedRate} />
+        </span>
+        <span>
+          <span className="text-md text-gray-500 ">X {getDays() + " " + getPlural("day", getDays())}</span>
+        </span>
+      </BookingLineItem>
+
+
+
+      {discount > 0 && <BookingLineItem amount={getSavings()}>
+        <span className="text-md font-semibold flex">
+          You Save
+        </span>
+      </BookingLineItem>}
+
+      <BookingLineItem amount={discountedRate * getDays()} primary={true}>
+        <span className="text-md font-semibold flex">
+          Total
+        </span>
+      </BookingLineItem>
+
     </>
   );
 
@@ -169,10 +170,10 @@ export default function BookingForm({ productId, rates }: { productId: number, r
         <div className="fixed p-4 bottom-0 left-0 right-0 bg-white md:hidden py-3 text-center border-t border-gray-300 cursor-pointer flex justify-between z-40">
           <div className="relative flex items-center">
             <span className="absolute text-md top-2">
-              <RupeeSymbol />
+
             </span>
             <span className="text-3xl pl-3 ">
-              <PriceTag price={rates[0].rate} showCurrency={false} />
+              <PriceTag price={originalRate} discount={discount} />
             </span>
           </div>
           <button

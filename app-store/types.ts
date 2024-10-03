@@ -28,6 +28,8 @@ export interface IOrder {
   delivery_address?: any;
   applied_discount?: number;
   gst_tax?: number;
+  days?: number;
+  per_day_rate?: number;
   isPaid(): boolean;
 }
 

@@ -59,9 +59,9 @@ export default function OrderSummary({
         <div className={"text-xl font-bold xs:hidden"}>Order Summary</div>
         <div className={styles["detail-row"]}>
           <div>
-            Rent for <span>1</span> days
+            Rent for <span>{order.days}</span> days
           </div>
-          <div>₹{order.amount}</div>
+          <div>₹{parseInt(order.total_amount + (order.applied_discount ? order.applied_discount : 0) + "")}</div>
         </div>
         <div className={styles["detail-row"]}>
           <div>Taxes</div>
@@ -71,6 +71,11 @@ export default function OrderSummary({
           <div>Delivery &amp; Pickup Fee</div>
           <div>₹{order.delivery_fee}</div>
         </div>
+
+        {(order.applied_discount && order.applied_discount > 0) && <div className={styles["detail-row"] + " text-red-600"}>
+          <div>You Save</div>
+          <div className="font-semibold">₹{order.applied_discount}</div>
+        </div>}
 
         <div
           className={
@@ -84,15 +89,6 @@ export default function OrderSummary({
           </div>
         </div>
 
-        {order.applied_discount && (
-          <div className={"border-t border-gray-300"}>
-            <div className={"text-lg pt-3 font-bold text-rose-600"}>
-              <span>Your Savings : </span>
-              <span>₹</span>
-              <span>{order.applied_discount}</span>
-            </div>
-          </div>
-        )}
       </div>
     </div>
   );
