@@ -21,7 +21,6 @@ export const productsSlice = createSlice({
 			state.searchResults = action.payload;
 		},
 		setSearchMetaData(state, action: PayloadAction<any>) {
-			console.log("Search Meta : ", action.payload);
 			state.searchMetaData = action.payload;
 		}
 	},

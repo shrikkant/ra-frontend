@@ -30,7 +30,7 @@ export const displayRazorpay = async (orderId: number, success) => {
     const result: any = await createRazorPayOrder({ orderId });
     const config = result.clientConfig;
 
-    if (config.isTestMode) {
+    if (result.isTestMode) {
         config.handler = function (paymentResponse) {
             processPayment(paymentResponse).then((res) => {
                 success(res);

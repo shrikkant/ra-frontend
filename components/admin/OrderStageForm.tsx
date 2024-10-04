@@ -68,11 +68,11 @@ export function OrderStageForm({ order }: { order: IOrder }) {
   }
 
 
-  return (<div className={"w-96 m-auto"}>
+  return (<div className={"w-96 m-auto p-4"}>
 
 
     <form>
-      <div className="flex items-center justify-between gap-x-2 p-4 ">
+      <div className="flex items-center justify-between gap-x-2">
         <div>
           <label className="font-semibold">Order Stage: </label>
           <select value={String(orderChange.stage)} onChange={(e) => handleStageChange(e.target.value)} className="border border-gray-200 py-1 px-2">

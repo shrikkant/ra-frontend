@@ -19,10 +19,11 @@ import { OrderStages, resolveOrderStage } from "util/global.util";
 import { OrderStageForm } from "components/admin/OrderStageForm";
 import { AppLayout } from "components/AppLayout";
 import { OrderDeliveryForm } from "../../../../components/admin/OrderDeilveryForm";
+import { IOrder } from "../../../../app-store/types";
 
 export default function Order() {
   const router = useRouter();
-  const order: any = useSelector(getActiveOrder);
+  const order: IOrder = useSelector(getActiveOrder);
   const id = router.query.id;
   const [loading, setLoading] = useState(true);
 
@@ -94,10 +95,9 @@ export default function Order() {
                   <OrderStageForm order={order}></OrderStageForm>
                 )}
 
-
-                <div className="p-4">
+                {order.delivery_fee > 0 && <div className="p-4">
                   <OrderDeliveryForm order={order} />
-                </div>
+                </div>}
               </div>
 
 

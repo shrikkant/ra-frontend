@@ -83,7 +83,7 @@ export default function Orders() {
     } else {
       setLoading(false);
     }
-    console.log("Delivery Address : ", cart?.delivery_address);
+
     if (cart?.delivery_address) {
       // setSelectedAddress(JSON.parse(cart?.delivery_address));
     }
