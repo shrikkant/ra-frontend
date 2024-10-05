@@ -56,7 +56,15 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
             {product.photos &&
               product.photos.map((photo, i) => {
                 return (
-                  <div key={i}>
+                  <div key={photo.id}>
+                    <img className={styles.carouselImg} src={photo.path}></img>
+                  </div>
+                );
+              })}
+            {product.masterPhotos &&
+              product.masterPhotos.map((photo, i) => {
+                return (
+                  <div key={photo.id}>
                     <img className={styles.carouselImg} src={photo.path}></img>
                   </div>
                 );

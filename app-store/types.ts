@@ -123,6 +123,7 @@ export interface IProduct {
   includes?: null;
   masterProductList?: null[] | null;
   photos?: ProductPhoto[] | null;
+  masterPhotos?: ProductPhoto[] | null;
   owner: IUser;
   location: ILocation;
   masterProduct?: any;
