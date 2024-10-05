@@ -1,7 +1,6 @@
 import React from "react";
 
 import { ArrowLeftIcon, } from "@heroicons/react/24/outline";
-import { IoMdAddCircleOutline } from "react-icons/io";
 
 export default function MyPageHeader({ ...props }) {
 
@@ -13,9 +12,7 @@ export default function MyPageHeader({ ...props }) {
       {props.title}
     </div>
     <div className="flex-1 flex justify-end">
-      {props.addAction && <button onClick={props.addAction}>
-        <IoMdAddCircleOutline className="h-8 w-8" />
-      </button>}
+      {props.children}
     </div>
 
   </div>)

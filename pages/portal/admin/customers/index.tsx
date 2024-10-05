@@ -17,12 +17,14 @@ import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
 import Link from "next/link";
 import { getAdminAuthUser } from "../../../../api/auth.api";
 import { authUser, logout, setAdminLogin } from "../../../../app-store/auth/auth.slice";
+import Input from "../../../../components/common/form/Input";
 
 export default function Customers() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const customers = useSelector(getCustomers);
   const dispatch = useDispatch();
+  const [phone, setPhone] = React.useState("");
 
   const loadCustomers = () => {
     setLoading(true);
@@ -31,6 +33,14 @@ export default function Customers() {
       setLoading(false);
     });
   };
+
+  const handlePhoneSearch = (phone: string) => {
+    setLoading(true);
+    fetchCustomers(parseInt(phone, 0)).then((data) => {
+      dispatch(setCustomers(data));
+      setLoading(false);
+    });
+  }
 
   const adminLogin = (customerId: number) => {
     dispatch(logout());
@@ -51,7 +61,9 @@ export default function Customers() {
 
   return (
     <AppLayout>
-      <MyPageHeader title={"Customers"} subtitle={""}></MyPageHeader>
+      <MyPageHeader title={"Customers"} subtitle={""}>
+        <div><Input onChange={handlePhoneSearch} label="Search by phone" /></div>
+      </MyPageHeader>
 
       <div style={{ padding: "16px 16px" }}>
         {loading ? (

@@ -1,8 +1,9 @@
 import { IUser } from '../../app-store/types';
 import httpClient from './../axios.config';
 
-export async function fetchCustomers(): Promise<IUser[]> {
-    const customers: IUser[] = await httpClient.get(`/admin/users`);
+export async function fetchCustomers(phone?: number): Promise<IUser[]> {
+    const phoneQuery = phone ? `phone=${phone}` : '';
+    const customers: IUser[] = await httpClient.get(`/admin/users?${phoneQuery}`);
     return customers;
 }
 
