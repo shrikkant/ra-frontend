@@ -21,7 +21,7 @@ export async function fetchCategoriesClient(): Promise<IProductCategory[]> {
 
 export async function fetchProducts(searchString?: string,
   filter?: IProductFilter,
-  client?: boolean): Promise<IProduct[]> {
+  client?: boolean): Promise<{ results: IProduct[], meta: any }> {
 
   const PAGE_LIMIT = 24;
   const pageNumber = filter ? (filter.page ? filter.page : 0) : 0;
