@@ -55,7 +55,7 @@ export default async function sitemap({
 
       const map = response.results.map((product) => ({
         url: `${BASE_URL}/${id}/${subCategory.slug}/${product.slug}`,
-        lastModified: product.date,
+        lastModified: new Date().toISOString(),
       }));
       sitemap.push(...map);
     }
