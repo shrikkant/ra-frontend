@@ -21,20 +21,22 @@ export async function fetchCategoriesClient(): Promise<IProductCategory[]> {
 
 export async function fetchProducts(searchString?: string,
   filter?: IProductFilter,
-  client?: boolean): Promise<any> {
+  client?: boolean): Promise<IProduct[]> {
 
   const PAGE_LIMIT = 24;
   const pageNumber = filter ? (filter.page ? filter.page : 0) : 0;
   const pageFilter = `&pageLimit=${PAGE_LIMIT}&pageNumber=${pageNumber}`;
-  const cityFilter = `&city=${filter?.city}`;
+  const cityFilter = filter?.city ? `&city=${filter?.city}` : "";
+  const stateFilter = filter?.state ? `&state=${filter?.state}` : "";
   const searchQuery = searchString ? searchString.replace(" ", "+") : "";
 
   const rateFilter = filter?.rate ? "&rate=" + filter.rate[0] + "-" + filter.rate[1] : "";
   const brandFilter = filter?.brand ? "&brands=" + filter.brand.map(b => b + " ") : "";
   const catFilter = filter?.subCategory ? "&subCat=" + filter?.subCategory : "";
 
+
   const url =
-    `products/?searchString=${searchQuery + pageFilter + cityFilter + rateFilter + brandFilter + catFilter}`;
+    `products/?searchString=${searchQuery + pageFilter + stateFilter + cityFilter + rateFilter + brandFilter + catFilter}`;
   if (client) {
     return httpClient.get(url);
   } else {
