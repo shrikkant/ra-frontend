@@ -27,7 +27,6 @@ export default function Customers() {
 
   const loadActiveCustomer = () => {
     setLoading(true);
-
     fetchActiveCustomer(customerId).then((customer) => {
       setLoading(false);
       dispatch(setActiveCustomer(customer));
@@ -46,11 +45,8 @@ export default function Customers() {
         <div>
           <div className="flex xs:flex-col p-4 xs:gap-y-4">
             <div style={{ flex: 1 }}>
-              <CustomerCard customer={activeCustomer}></CustomerCard>
+              <CustomerCard customer={activeCustomer} ></CustomerCard>
             </div>
-            {/* <div style={{ flex: 1 }}>
-              <ActivityCard customer={activeCustomer}></ActivityCard>
-            </div> */}
           </div>
           <div className="p-4">
             <div style={{ flex: 1 }}>

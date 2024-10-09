@@ -4,11 +4,11 @@ import {
   Tag,
   Form
 } from "antd";
-
+import Moment from "moment";
 import { PageHeader } from "@ant-design/pro-layout";
 import styles from "styles/orders.module.css";
 import { Content } from "antd/lib/layout/layout";
-import React from "react";
+import React, { useEffect } from "react";
 
 import { IUser } from "../app-store/types";
 import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
@@ -17,11 +17,15 @@ import { authUser, logout, setAdminLogin } from "../app-store/auth/auth.slice";
 import { getAdminAuthUser } from "../api/auth.api";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
+import { fetchCustomerAadhaar } from "../api/admin/customers.api";
+import { IAadhaar } from "../app-store/auth/types";
 
 
 export default function CustomerCard({ customer }: { customer: IUser }) {
   const router = useRouter();
   const dispatch = useDispatch();
+  const [customerAadhaar, setCustomerAadhaar] = React.useState<IAadhaar>();
+
   const adminLogin = (customerId: number) => {
     dispatch(logout());
     getAdminAuthUser(customerId).then((loggedUser) => {
@@ -30,6 +34,14 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
       router.push("/");
     });
   }
+
+
+  useEffect(() => {
+    !customerAadhaar && fetchCustomerAadhaar(customer.id).then((data: IAadhaar) => {
+      console.log("Aadhaar : ", data);
+      data.aadhaar_number && setCustomerAadhaar(data);
+    });
+  }, [customerAadhaar]);
 
   return (<Content className={styles.orderBox} key={customer.id}>
 
@@ -42,7 +54,25 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
     </PageHeader>
 
-    <div className="sm:p-4 xs:p-3">
+    <div className="px-4">
+      {customerAadhaar && <div className="   shadow-md w-[320px] rounded-md my-4 border">
+        <div className="flex gap-x-2">
+          <div className="rounded-tl-md border">
+            <img src={`data:image/png;base64,${customerAadhaar.profile_image}`}></img>
+          </div>
+          <div className="flex flex-col gap-y-4 w-96 py-4 " >
+            <div>
+              <p className="font-bold">{customerAadhaar.full_name}</p>
+              <p>{Moment(customerAadhaar.dob).format("D MMM YYYY")}</p>
+              <p>{customer.phone}</p>
+            </div>
+          </div>
+        </div>
+        <div className="p-4">
+          {Object.values(customerAadhaar.address).join(", ")}
+        </div>
+      </div>}
+
       <Form layout="vertical">
         <Form.Item>
           <Input placeholder="Email" value={customer.email_address} />

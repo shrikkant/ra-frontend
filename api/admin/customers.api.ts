@@ -1,3 +1,4 @@
+import { IAadhaar } from '../../app-store/auth/types';
 import { IUser } from '../../app-store/types';
 import httpClient from './../axios.config';
 
@@ -10,6 +11,11 @@ export async function fetchCustomers(phone?: number): Promise<IUser[]> {
 export async function fetchActiveCustomer(id: number): Promise<IUser> {
     const customer: IUser = await httpClient.get(`/admin/users/${id}`);
     return customer;
+}
+
+export async function fetchCustomerAadhaar(id: number): Promise<IAadhaar> {
+    const aadhaar: IAadhaar = await httpClient.get(`/admin/users/${id}/aadhaar`);
+    return aadhaar;
 }
 
 export async function addDocument(userId: number, docType: string, file: any): Promise<any> {
