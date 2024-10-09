@@ -54,6 +54,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
     </PageHeader>
 
+
     <div className="px-4">
       {customerAadhaar && <div className="   shadow-md w-[320px] rounded-md my-4 border">
         <div className="flex gap-x-2">
