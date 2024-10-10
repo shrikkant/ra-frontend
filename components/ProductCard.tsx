@@ -7,7 +7,6 @@ import { IProduct } from "../app-store/types";
 export default function ProductCard({ product, priority = false }: { product: IProduct, priority: boolean }) {
   return (
     <Link
-      className=" sm:w-72 xs:w-68 xs:px-2 sm:px-0 max-h-96"
       href={
         "/rent/" +
         product?.location?.city?.toLowerCase() +
