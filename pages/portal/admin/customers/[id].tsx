@@ -1,47 +1,42 @@
 "use client";
 import { useRouter } from "next/router";
-import ActivityCard from "components/ActivityCard";
 import DocumentsCard from "components/DocumentsCard";
-
-import { useDispatch, useSelector } from "react-redux";
 import MyPageHeader from "components/MyPageHeader";
 
 import React, { useEffect, useState } from "react";
-import {
-  getActiveCustomer,
-  setActiveCustomer,
-} from "app-store/admin/index.slice";
 
 import { fetchActiveCustomer } from "api/admin/customers.api";
 import CustomerCard from "components/CustomerCard";
 import { AppLayout } from "components/AppLayout";
+import { IUser } from "../../../../app-store/types";
 
 export default function Customers() {
   const router = useRouter();
   const { id } = router.query;
   const [loading, setLoading] = useState(true);
 
-  const customerId = parseInt(String(id));
-  const activeCustomer = useSelector(getActiveCustomer);
-  const dispatch = useDispatch();
+  const [activeCustomer, setActiveCustomer] = useState<IUser>();
 
-  const loadActiveCustomer = () => {
+  const loadActiveCustomer = (customerId: number) => {
     setLoading(true);
-    fetchActiveCustomer(customerId).then((customer) => {
+    fetchActiveCustomer(customerId).then((customer: IUser) => {
       setLoading(false);
-      dispatch(setActiveCustomer(customer));
+      setActiveCustomer(customer);
     });
   };
 
   useEffect(() => {
-    router.isReady && loadActiveCustomer();
-  }, [router.isReady]);
+    if (id) {
+      const customerId = parseInt(String(id));
+      loadActiveCustomer(customerId);
+    }
+  }, [router.isReady, id]);
 
   return (
     <AppLayout>
       <MyPageHeader title={"Customers"} subtitle={""}></MyPageHeader>
 
-      {activeCustomer && (
+      {activeCustomer?.id && (
         <div>
           <div className="flex xs:flex-col p-4 xs:gap-y-4">
             <div style={{ flex: 1 }}>

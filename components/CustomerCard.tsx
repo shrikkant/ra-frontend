@@ -74,7 +74,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
         </div>
       </div>}
 
-      <Form layout="vertical">
+      <Form layout="vertical" className="my-4">
         <Form.Item>
           <Input placeholder="Email" value={customer.email_address} />
         </Form.Item>
