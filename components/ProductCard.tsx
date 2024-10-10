@@ -2,16 +2,17 @@ import Link from "next/link";
 import Image from "next/image";
 import PriceTag from "./PriceTag";
 import React from "react";
+import { IProduct } from "../app-store/types";
 
-export default function ProductCard({ product, priority = false }) {
+export default function ProductCard({ product, priority = false }: { product: IProduct, priority: boolean }) {
   return (
     <Link
-      className="r-comp w-1/2 sm:w-72 xs:px-2 sm:px-0 max-h-96"
+      className=" sm:w-72 xs:w-68 xs:px-2 sm:px-0 max-h-96"
       href={
         "/rent/" +
-        product.location.city.toLowerCase() +
+        product?.location?.city?.toLowerCase() +
         "/" +
-        product.subCategory.slug +
+        product?.subCategory?.slug +
         "/" +
         product.slug
       }
@@ -22,7 +23,7 @@ export default function ProductCard({ product, priority = false }) {
       >
         <div>
 
-          {product.photos[0] && (
+          {(product.photos && product.photos[0]) && (
             <div className="flex justify-center">
               <Image
                 alt={product.title}
@@ -41,7 +42,7 @@ export default function ProductCard({ product, priority = false }) {
             {product.title}
           </div>
           <div className="text-lg font-bold text-red-700">
-            <PriceTag price={product.rates[0].rate} />
+            {product.rates && <PriceTag price={product?.rates[0].rate} />}
           </div>
 
           <div className="text-xs">

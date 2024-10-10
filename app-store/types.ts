@@ -126,6 +126,7 @@ export interface IProduct {
   masterPhotos?: ProductPhoto[] | null;
   owner: IUser;
   location: ILocation;
+  subCategory: IProductSubCategory;
   masterProduct?: any;
   rates?: IProductRatePlan[] | null;
 }

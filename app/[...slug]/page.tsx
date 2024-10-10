@@ -34,7 +34,7 @@ export default async function Location({ params, searchParams }: { params: { slu
       <h1 className='text-4xl text-center py-6 capitalize font-semibold'>Rent Cameras, Lenses, GoPro&apos;s  in {filter?.city}</h1>
       <div>
         {/* <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar> */}
-        <div className={"flex flex-wrap gap-4"}>
+        <div className={"grid lg:grid-cols-4 md:grid-cols-3 gap-y-4 xs:grid-cols-2"}>
           {products &&
             products.map((product: any, index) => (
               <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
