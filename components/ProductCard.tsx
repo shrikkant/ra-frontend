@@ -26,10 +26,9 @@ export default function ProductCard({ product, priority = false }: { product: IP
             <div className="flex justify-center">
               <Image
                 alt={product.title}
-                className={"p-2 sm:p-5"}
                 width={200}
                 height={0}
-                layout="intrinsic"
+                layout="responsive"
                 src={"https://www.rentacross.com" + product.photos[0].path + "?"}
               />
             </div>
