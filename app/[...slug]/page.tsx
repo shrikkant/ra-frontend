@@ -26,14 +26,14 @@ export default async function Location({ params, searchParams }: { params: { slu
   } else {
     const response: { results: IProduct[], meta: any } = await fetchProducts(searchParams?.q, filter);
     products = response.results;
-    meta = response.meta;
+    // meta = response.meta;
   }
 
   return (<div style={{ maxWidth: 1280, margin: "auto" }}>
     {(!filter?.product && products) && (<>
       <h1 className='text-4xl text-center py-6 capitalize font-semibold'>Rent Cameras, Lenses, GoPro&apos;s  in {filter?.city}</h1>
       <div>
-        <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
+        {/* <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar> */}
         <div className={"flex flex-wrap gap-4"}>
           {products &&
             products.map((product: any, index) => (
