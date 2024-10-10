@@ -21,8 +21,8 @@ export default async function Location({ params, searchParams }: { params: { slu
   // const [meta, setMeta] = React.useState<any>(null);
 
   if (filter.product) {
-    product = await fetchProductBySlug(params.slug);
-    console.log("Product > ", product?.id);
+    const productSlug = params.slug.toString().split(",").at(-1);
+    product = productSlug ? await fetchProductBySlug(productSlug) : null;
   } else {
     const response: { results: IProduct[], meta: any } = await fetchProducts(searchParams?.q, filter);
     products = response.results;
