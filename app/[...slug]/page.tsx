@@ -38,10 +38,10 @@ export default async function Location({ params, searchParams }: { params: { slu
 
         {/* <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar> */}
         <div className={"grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"}>
-          {/* {products &&
+          {products &&
             products.map((product: IProduct) => (
               <ProductCard key={product.id} product={product}></ProductCard>
-            ))} */}
+            ))}
         </div>
       </>)
     }
