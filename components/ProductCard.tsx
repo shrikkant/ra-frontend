@@ -4,7 +4,7 @@ import PriceTag from "./PriceTag";
 import React from "react";
 import { IProduct } from "../app-store/types";
 
-export default function ProductCard({ product, priority = false }: { product: IProduct, priority: boolean }) {
+export default function ProductCard({ product }: { product: IProduct }) {
   return (
     <Link
       href={
