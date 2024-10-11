@@ -36,7 +36,7 @@ export default async function Location({ params, searchParams }: { params: { slu
       </h1>
 
       {/* <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar> */}
-      <div className={"grid lg:grid-cols-4 md:grid-cols-3 gap-2 xs:grid-cols-2"}>
+      <div className={"grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"}>
         {products &&
           products.map((product: any, index) => (
             <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
