@@ -38,7 +38,6 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
   useEffect(() => {
     !customerAadhaar && fetchCustomerAadhaar(customer.id).then((data: IAadhaar) => {
-      console.log("Aadhaar : ", data);
       data.aadhaar_number && setCustomerAadhaar(data);
     });
   }, [customerAadhaar]);
