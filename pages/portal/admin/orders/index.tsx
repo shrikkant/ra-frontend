@@ -17,6 +17,7 @@ import { resolveOrderStage } from "util/global.util";
 import Loader from "components/Loader";
 import { AppLayout } from "components/AppLayout";
 import { IOrder } from "../../../../app-store/types";
+import Link from "next/link";
 
 export default function Orders() {
   const router = useRouter();
@@ -98,7 +99,9 @@ export default function Orders() {
                                   {"₹" + order.amount}
                                 </Tag>,
                                 <Tag key="2" color="purple">
-                                  {order.user.firstname}
+                                  <Link href={`/portal/admin/customers/${order.user.id}`}>
+                                    {order.user.firstname}
+                                  </Link>
                                 </Tag>,
                               ]}
                               title={"#" + order.id}
