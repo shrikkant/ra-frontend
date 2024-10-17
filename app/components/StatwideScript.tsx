@@ -18,30 +18,28 @@ export const StatwideScript: React.FC = () => {
   }
 
   useEffect(() => {
+
     if (!loggedUser?.id || !window.featurics) {
       return;
     }
 
-
-    if (!isAdmin(loggedUser)) {
-      window.featurics &&
-        window.featurics.init({
-          visitor: {
-            appVisitorId: loggedUser?.id,
-            email: loggedUser?.email_address,
-            firstName: loggedUser?.firstname || 'User ' + loggedUser?.id,
-            lastName: loggedUser?.lastname || '',
-            // You can include additional visitor level key-values here,
-            // as long as it's not one of the above reserved names.
-            visitorProperties: [
-              {
-                key: 'OrganizationId',
-                value: loggedUser?.id,
-              },
-            ],
-          },
-        })
-    }
+    window.featurics &&
+      window.featurics.init({
+        visitor: {
+          appVisitorId: loggedUser?.id,
+          email: loggedUser?.email_address,
+          firstName: loggedUser?.firstname || 'User ' + loggedUser?.id,
+          lastName: loggedUser?.lastname || '',
+          // You can include additional visitor level key-values here,
+          // as long as it's not one of the above reserved names.
+          visitorProperties: [
+            {
+              key: 'OrganizationId',
+              value: loggedUser?.id,
+            },
+          ],
+        },
+      })
   }, [loggedUser, window.featurics])
 
   return (<>
