@@ -12,6 +12,7 @@ import 'styles/global.css'
 import 'styles/common.css'
 
 import type { Viewport } from 'next'
+import { GoogleTagManager } from '@next/third-parties/google'
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -49,6 +50,7 @@ export default function RootLayout({
         <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
         <meta name="google-site-verification" content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ" />
+        <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
 
       <body className="inner-scroll" id="home">
