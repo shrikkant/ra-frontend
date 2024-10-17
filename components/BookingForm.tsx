@@ -116,6 +116,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
         <div>
           <input
             onClick={() => onAddToCart()}
+            id="addToCartBtn"
             className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer"
             type="button"
             value="Add to Cart"
