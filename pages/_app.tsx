@@ -17,7 +17,7 @@ const MyApp: FC<AppProps> = ({ Component, ...rest }) => {
 
   return (
     <StoreProvider>
-      {/* <GoogleTagManager gtmId="GTM-TPF56M8" /> */}
+      <GoogleTagManager gtmId="GTM-TPF56M8" />
       <Head>
 
         <link rel="shortcut icon" href="/assets/img/rentacross_logo.ico" type="image/x-icon"></link>
