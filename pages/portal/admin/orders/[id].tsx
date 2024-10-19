@@ -77,7 +77,7 @@ export default function Order() {
           {!order ? (
             <Loader />
           ) : (
-            <div className={"border border-gray-500 flex items-start justify-start align-top"} key={order.id}>
+            <div className={"border border-gray-500 flex xs:flex-col sm:flex-row items-start justify-start align-top"} key={order.id}>
               <div className="w-3/4">
                 {order.items &&
                   order.items.map((item) => {
@@ -99,8 +99,6 @@ export default function Order() {
                   <OrderDeliveryForm order={order} />
                 </div>}
               </div>
-
-
             </div>
           )}
         </div>
