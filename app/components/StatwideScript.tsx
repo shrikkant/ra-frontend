@@ -8,7 +8,9 @@ import { IUser } from '../../app-store/types'
 declare global {
   interface Window {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    featurics: any
+    featurics: any,
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    heap: any
   }
 }
 export const StatwideScript: React.FC = () => {
@@ -40,6 +42,16 @@ export const StatwideScript: React.FC = () => {
           ],
         },
       })
+
+    window.heap &&
+      window.heap.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
+
+    window.heap &&
+      window.heap.addUserProperties({
+        name: `${loggedUser.firstname} ${loggedUser.lastname}`,
+        email: loggedUser.email_address,
+        city: loggedUser.city
+      });
   }, [loggedUser, window.featurics])
 
   return (<>
