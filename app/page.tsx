@@ -10,7 +10,7 @@ import { getFeaturedProducts } from '../api/products.api'
 
 export default async function Home() {
 
-  const categories = await getFeaturedProducts(4, "pune");
+  const categories = await getFeaturedProducts(8, "pune");
   // new
   return (<>
 
