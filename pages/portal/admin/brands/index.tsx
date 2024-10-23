@@ -15,21 +15,15 @@ import React, { useEffect } from "react";
 import { fetchBrands } from "api/admin/index.api";
 import { useRouter } from "next/router";
 import Loader from "components/Loader";
-import { ArrowsPointingOutIcon } from "@heroicons/react/24/outline";
+
 import { AppLayout } from "components/AppLayout";
 
 const columns = [
   {
-    title: "Status",
-    dataIndex: "id",
-    key: "id",
-    render: (val) => (val ? <ArrowsPointingOutIcon /> : ""),
-  },
-  {
-    title: "Name",
+    title: "Brand",
     dataIndex: "name",
     key: "name",
-    render: (text, record) => {
+    render: (text) => {
       return text;
     },
   },
@@ -46,7 +40,6 @@ export default function Customers() {
 
   const brands: any = useSelector(getBrands);
   const dispatch = useDispatch();
-  const df = Moment().format("DD MMM");
 
   const loadBrands = () => {
     setLoading(true);
