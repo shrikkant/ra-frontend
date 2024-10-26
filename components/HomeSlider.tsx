@@ -38,7 +38,7 @@ export function HomeSlider() {
         id: 1,
         title: 'Go Mirrorless with Canon R10 Camera',
         subtitle: 'Capture Every Moment with the Versatile Canon R10',
-        img: '/uploads/photos/944/canon-r10-mirrorless-camera.jpg',
+        img: 'https://www.rentacross.com/uploads/photos/944/canon-r10-mirrorless-camera.jpg',
         imgBg: '/assets/v2/img/bg-slider.svg',
         price: 800,
         model: 'Canon R10',
