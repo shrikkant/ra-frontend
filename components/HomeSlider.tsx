@@ -38,7 +38,7 @@ export function HomeSlider() {
         id: 1,
         title: 'Go Mirrorless with Canon R10 Camera',
         subtitle: 'Capture Every Moment with the Versatile Canon R10',
-        img: '/assets/v2/img/canon-r10-mirrorless-camera.jpg',
+        img: '/assets/v2/img/canon-r10-mirrorless-camera.png',
         imgBg: '/assets/v2/img/bg-slider.svg',
         price: 800,
         model: 'Canon R10',
