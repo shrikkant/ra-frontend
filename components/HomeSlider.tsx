@@ -36,7 +36,7 @@ export function HomeSlider() {
     const photos: IHomeSlide[] = [
       {
         id: 1,
-        title: 'Rent Canon R10 Mirrorless Camera',
+        title: 'Go Mirrorless with Canon R10 Camera',
         subtitle: 'Capture Every Moment with the Versatile Canon R10',
         img: '/uploads/photos/944/canon-r10-mirrorless-camera.jpg',
         imgBg: '/assets/v2/img/bg-slider.svg',
