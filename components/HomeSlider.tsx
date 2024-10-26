@@ -36,13 +36,13 @@ export function HomeSlider() {
     const photos: IHomeSlide[] = [
       {
         id: 1,
-        title: 'Go Adventure with GoPro',
-        subtitle: 'Its monsoons! More travel and more adventure. Rent a GoPro Hero 11 Black and capture your memories.',
-        img: '/assets/v2/img/gopro-hero-11-black.png',
+        title: 'Rent Canon R10 Mirrorless Camera',
+        subtitle: 'Capture Every Moment with the Versatile Canon R10',
+        img: '/uploads/photos/944/canon-r10-mirrorless-camera.jpg',
         imgBg: '/assets/v2/img/bg-slider.svg',
-        price: 750,
-        model: 'model SX-200',
-        url: '/pune/rent-gopro-cameras/GoPro-Hero-11-Black-Action-Camera-3304'
+        price: 800,
+        model: 'Canon R10',
+        url: '/rent/pune/rent-camera/canon-eos-r10-mirrorless-digital-camera-3494'
       },
       {
         id: 2,
