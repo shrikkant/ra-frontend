@@ -6,6 +6,8 @@ import { addDocument, uploadDocument } from '../api/admin/customers.api';
 import styles from 'styles/documents.module.css';
 import { PageHeader } from '@ant-design/pro-layout';
 import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
+import { IUser } from '../app-store/types';
+import { IDocument } from '../app-store/app-defaults/types';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -36,8 +38,11 @@ enum DocTypes {
   "index-2" = "Index 2",
 };
 
+interface DocumentsCardPros {
+  customer: IUser
+}
 
-const DocumentsCard = ({ customer }) => {
+const DocumentsCard = ({ customer }: DocumentsCardPros) => {
 
 
   const [previewOpen, setPreviewOpen] = useState(false);
@@ -47,7 +52,7 @@ const DocumentsCard = ({ customer }) => {
   const [pendingDocTypes, setPendingDocTypes] = useState<string[]>(Object.keys(DocTypes));
 
   useEffect(() => {
-    const list = customer.documents?.map((document) => {
+    const list = customer?.documents?.map((document) => {
       return {
         uid: document.document_type,
         name: document.document_name,
@@ -120,7 +125,7 @@ const DocumentsCard = ({ customer }) => {
     file.document_type = docType;
     file.document_name = DocTypes[docType];
 
-    const document: any = await addDocument(customer.id, docType, file,);
+    const document: IDocument = await addDocument(customer.id, docType, file);
 
     const formData = new FormData();
     if (data) {
@@ -130,7 +135,7 @@ const DocumentsCard = ({ customer }) => {
     }
     formData.append(filename, file);
 
-    uploadDocument(1, document.id, file, formData, onProgress, onSuccess, onError);
+    uploadDocument(customer.id, document?.id, file, formData, onProgress, onSuccess, onError);
 
     return {
       abort() {

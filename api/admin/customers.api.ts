@@ -34,13 +34,16 @@ export async function addDocument(userId: number, docType: string, file: any): P
 }
 
 export async function uploadDocument(id: number,
-    docId: number,
+    docId: number | undefined,
     file: any,
     formData: any,
     onProgress: any,
     onSuccess: any,
     onError: any): Promise<any> {
 
+    if (!docId) {
+        return;
+    }
     httpClient.post(`/admin/users/${id}/documents/${docId}/files`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
