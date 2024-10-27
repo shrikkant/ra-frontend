@@ -52,16 +52,16 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
   const [pendingDocTypes, setPendingDocTypes] = useState<string[]>(Object.keys(DocTypes));
 
   useEffect(() => {
-    const list = customer?.documents?.map((document) => {
+    const list = customer?.documents?.map((document): UploadFile => {
       return {
         uid: document.document_type,
-        name: document.document_name,
+        name: document.document_name ? document.document_name : DocTypes[document.document_type],
         status: 'done',
         url: "/uploads/" + document.file_name,
       }
     });
 
-    setFileList(list);
+    list && setFileList(list);
     const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
       return list?.find((doc: any) => doc.uid == docType) === undefined;
     });
