@@ -1,3 +1,5 @@
+import { IDocument } from "./app-defaults/types";
+
 export interface IOrder {
   id: number;
   user_id: number;
@@ -57,6 +59,7 @@ export interface IUser {
   address?: ILocation[];
   role: string;
   aadhaar_callback_id?: string;
+  documents?: IDocument[];
 }
 
 export interface IBrand {

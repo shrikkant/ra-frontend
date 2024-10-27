@@ -40,7 +40,6 @@ export interface IDates {
 export interface IDocument {
   id?: number;
   user_id?: number;
-
   file_name?: string;
   type: number;
   size: number;
