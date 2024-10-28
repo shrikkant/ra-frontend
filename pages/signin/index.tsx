@@ -180,8 +180,8 @@ export default function Signin() {
     setIsSignup(false);
   }
 
-  const hasErrors = () => {
-    return errors.name || errors.phone;
+  const hasErrors = (): boolean => {
+    return errors.phone.length > 0 || errors.name.length > 0;
   }
 
   const resetErrors = () => {
