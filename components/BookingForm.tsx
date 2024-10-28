@@ -81,6 +81,15 @@ export default function BookingForm({ productId, discount, rates }: { productId:
     setShowSignIn(false);
   }
 
+  const handleMobileBook = () => {
+    if (!loggedUser?.id) {
+      setShowSignIn(true);
+    } else {
+      setOpenFormInMobile(true);
+    }
+
+  };
+
   useEffect(() => {
     if (!loggedUser) {
       getAuthUser().then((user) => {
@@ -173,7 +182,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
 
       {!openFormInMobile ? (
-        <div className="fixed p-4 bottom-0 left-0 right-0 bg-white md:hidden py-3 text-center border-t border-gray-300 cursor-pointer flex justify-between z-40">
+        <div className={`fixed p-4 bottom-0 left-0 right-0 bg-white md:hidden py-3 text-center border-t border-gray-300 cursor-pointer flex justify-between z-40 ${showSignIn ? "hidden" : ""}`}>
           <div className="relative flex items-center">
             <span className="absolute text-md top-2">
 
@@ -185,7 +194,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
           <button
             className="p-1 btn  px-10 py-2 rounded-md"
             onClick={() => {
-              setOpenFormInMobile(true);
+              handleMobileBook();
             }}
           >
             <span>Book Now</span>
