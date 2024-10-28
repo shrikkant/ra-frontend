@@ -57,8 +57,8 @@ export default function TopNavMenu() {
             onClick={showSignInModal}
             className=" bg-gray-800 p-1 text-gray-300 font-semibold hover:text-white focus:outline-none focus:ring-offset-gray-800 cursor-pointer"
           >
-            <span className="sr-only">Log in</span>
-            Log in
+            <span className="sr-only">Sign up</span>
+            Sign up
           </a>
         )}
         {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}

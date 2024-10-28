@@ -22,7 +22,7 @@ export default function SignIn({ onClose }: { onClose: () => void }) {
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
   const [otp, setOtp] = useState<string>("");
-  const [isSignup, setIsSignup] = useState(false);
+  const [isSignup, setIsSignup] = useState(true);
 
 
 
