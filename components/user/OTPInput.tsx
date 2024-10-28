@@ -34,7 +34,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ onChange }) => {
       {otp.map((_, index) => (
         <input
           key={index}
-          type="text"
+          type="number"
           maxLength={1}
           value={otp[index]}
           onChange={(e) => handleChange(e.target.value, index)}
