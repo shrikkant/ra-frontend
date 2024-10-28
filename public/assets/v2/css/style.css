@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Teko:400,600,700&display=swap");
+@import url('https://fonts.googleapis.com/css2?family=Jost:ital,wght@0,100..900;1,100..900&display=swap');
 @import url("https://fonts.googleapis.com/css?family=Roboto+Condensed:400,400i,700&display=swap");
 
 html,
@@ -205,7 +205,7 @@ h3,
 h4,
 h5,
 h6 {
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	color: #192330;
 	font-weight: 600;
 	line-height: 0.85em;
@@ -2388,7 +2388,7 @@ footer .social-list {
 }
 
 .main-slider .main-slide .slide-img-cover .lable-bike .lable-bike-item .price {
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	color: #ffd910;
 	font-weight: 600;
 	font-size: 36px;
@@ -3140,7 +3140,7 @@ footer .social-list {
 	justify-content: flex-start;
 	text-transform: uppercase;
 	font-weight: 600;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	line-height: 1.2em;
 	margin-top: -5px;
 	margin-bottom: 3px
@@ -3942,7 +3942,7 @@ footer .social-list {
 	box-shadow: 0px 0px 14px rgba(0, 0, 0, 0.1);
 	border-radius: 0;
 	font-weight: 600;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	padding: 20px 0 12px
 }
 
@@ -3994,7 +3994,7 @@ footer .social-list {
 	justify-content: center;
 	text-transform: uppercase;
 	font-weight: 600;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	letter-spacing: 0;
 	margin-bottom: 59px
 }
@@ -5131,7 +5131,7 @@ blockquote:before {
 
 .about-count-item .number {
 	color: #ffd910;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	position: relative;
 	margin-bottom: 40px;
 	padding-bottom: 24px;
@@ -5156,7 +5156,7 @@ blockquote:before {
 	color: #fff;
 	margin-bottom: 10px;
 	font-size: 30px;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	text-transform: none;
 	font-style: normal
 }
@@ -6062,7 +6062,7 @@ body.modal {
 }
 
 .banner-sale {
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	font-weight: 600;
 	font-size: 50px;
 	line-height: .85em;
@@ -6383,7 +6383,7 @@ body.modal {
 	position: absolute;
 	text-transform: uppercase;
 	font-weight: 700;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	letter-spacing: 0;
 	line-height: 1em;
 	font-style: italic;
@@ -6440,7 +6440,7 @@ body.modal {
 	font-size: 30px;
 	line-height: .85em;
 	color: #23c050;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	text-transform: uppercase;
 	opacity: 0;
 	-webkit-transition: .3s ease-in .1s;
@@ -6455,7 +6455,7 @@ body.modal {
 	line-height: .85em;
 	color: #f57212;
 	text-transform: uppercase;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	font-weight: 600;
 	opacity: 0;
 	-webkit-transition: .3s ease-in;
@@ -6810,7 +6810,7 @@ body.modal {
 .dark-category-cover .dark-category-item .dark-categ-info .name {
 	text-transform: uppercase;
 	font-weight: 600;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	color: #23c050;
 	line-height: 1.2em;
 	margin-bottom: 5px
@@ -6827,7 +6827,7 @@ body.modal {
 	line-height: 1;
 	letter-spacing: 0;
 	text-transform: uppercase;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	font-weight: 600
 }
 
@@ -7070,7 +7070,7 @@ body.modal {
 	font-size: 130px;
 	line-height: 1;
 	margin-bottom: 20px;
-	font-family: "Teko", sans-serif;
+	font-family: "Jost", sans-serif;
 	font-weight: 600;
 	text-transform: uppercase;
 	color: #fff

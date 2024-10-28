@@ -30,6 +30,14 @@ export const enum ORDER_STEPS {
   ORDER_PAID = 4,
 }
 
+export const enum INPUT_ICON_TYPES {
+  EMAIL = 1,
+  PASSWORD = 2,
+  MAP = 3,
+  PHONE = 4,
+  OTP = 5,
+}
+
 const COUNTRIES: any = [];
 
 const ind: any = {};

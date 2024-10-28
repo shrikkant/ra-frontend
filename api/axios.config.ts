@@ -1,4 +1,4 @@
-import axios, { AxiosResponse } from 'axios';
+import axios, { AxiosInstance, AxiosResponse } from 'axios';
 import Cookies from 'js-cookie';
 
 
@@ -7,6 +7,58 @@ import { displayMessage } from '../util/global.util';
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
+
+export class HttpService {
+    private url: string;
+    private client: AxiosInstance;
+
+    constructor(url: string) {
+        this.client = axios.create({
+            baseURL: url
+        });
+
+        this.client.interceptors.request.use(
+            async (config: any) => {
+                config.rejectUnauthorized = true;
+
+                if (!config.headers?.[TOKEN_HEADER_KEY]) {
+                    const token = await getToken();
+                    config.headers = {
+                        TOKEN_HEADER_KEY: token || '',
+                        'Access-Control-Allow-Origin': '*',
+                        'Content-Type': 'application/json',
+                        ...config.headers,
+                    };
+                }
+
+                return config;
+            },
+            (error) => {
+                return Promise.reject(error);
+            },
+        );
+
+        this.client.interceptors.response.use(
+            async function (res: AxiosResponse<any>) {
+                const response: any = res;
+                const { resultFormatted } = response.data;
+                // console.log("Response Message: ", response.data);
+                if (response.data?.successMessage) {
+                    displayMessage('success', response.data?.successMessage);
+                } else if (response.data?.errorMessage) {
+                    displayMessage('error', response.data?.errorMessage);
+                }
+                return resultFormatted;
+            }
+        )
+
+    }
+
+    getClient(): AxiosInstance {
+        return this.client;
+    }
+
+}
 const httpClient = axios.create({
     baseURL: "https://www.rentacross.com/api/"
 });
@@ -14,10 +66,11 @@ const httpClient = axios.create({
 
 httpClient.interceptors.request.use(
     async (config: any) => {
+        const token = await getToken();
         config.rejectUnauthorized = true;
-
+        console.log("Token: ", token);
         if (!config.headers?.[TOKEN_HEADER_KEY]) {
-            const token = await getToken();
+
             config.headers = {
                 TOKEN_HEADER_KEY: token || '',
                 'Access-Control-Allow-Origin': '*',
@@ -36,9 +89,7 @@ httpClient.interceptors.request.use(
 httpClient.interceptors.response.use(
     async function (res: AxiosResponse<any>) {
         const response: any = res;
-
         const { resultFormatted } = response.data;
-
         // console.log("Response Message: ", response.data);
         if (response.data?.successMessage) {
             displayMessage('success', response.data?.successMessage);

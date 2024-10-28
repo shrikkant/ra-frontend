@@ -13,11 +13,12 @@ import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
 import { getAuthUser } from "../api/auth.api";
 import { setCart } from "../app-store/user/orders/orders.slice";
 import { BookingLineItem } from "./cart/BookingLineItem";
+import SignIn from "./user/SignIn";
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: any[] }) {
   const dispatch = useDispatch();
   const loggedUser = useSelector(selectAuthState);
-
+  const [showSignIn, setShowSignIn] = React.useState(false);
   const originalRate = rates[0].rate;
   const discountedRate = Math.ceil(rates[0].rate - (rates[0].rate * discount / 100));
 
@@ -54,7 +55,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
     if (!loggedUser && (pathname && pathname?.length > 0)) {
       dispatch(setLastLink(pathname))
-      router.push("/signin");
+      setShowSignIn(true);
     } else {
       if (!storeSearch?.dates)
         return;
@@ -74,6 +75,10 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
   const getSavings = () => {
     return (originalRate - discountedRate) * getDays();
+  }
+
+  const closeSignInModal = () => {
+    setShowSignIn(false);
   }
 
   useEffect(() => {
@@ -201,6 +206,8 @@ export default function BookingForm({ productId, discount, rates }: { productId:
           </div>
         </div>
       )}
+
+      {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
     </div>
   );
 }

@@ -61,7 +61,7 @@ export const LocationPicker = () => {
   }
 
   return (
-    <Popover className="relative z-[210]">
+    <Popover className="relative">
       <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
         {location?.city ? <span>{locationCity(location.city)}</span> : <span>{"Select City"}</span>}
         <ChevronDownIcon
@@ -79,7 +79,7 @@ export const LocationPicker = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="bg-white absolute left-1/2 z-[210] mt-5 flex w-screen max-w-max -translate-x-1/2 px-4 border puy rounded">
+        <Popover.Panel className="bg-white absolute left-1/2 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4 border puy rounded">
           {({ close }) => {
             return (
               <div className="flex flex-col gap-y-1">

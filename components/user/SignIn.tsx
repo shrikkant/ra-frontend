@@ -1,51 +1,46 @@
 "use client"
-import { useRouter } from "next/router";
+
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { authUser, selectAuthState } from "app-store/auth/auth.slice";
 import GoogleSignInButton from "components/common/GoogleSignInBtn";
-import { AppLayout } from "../../components/AppLayout";
 import Modal from "../../components/common/Modal";
 import Input from "../../components/common/form/Input";
 import Link from "next/link";
 import { INPUT_ICON_TYPES } from "../../config/constants";
 import Button from "../../components/common/form/Button";
-import { generateLoginOTP, loginWithOTP, signupWithOTP, verifyLoginOTP } from "../../api/user/index.api";
+import { generateLoginOTP, loginWithOTP, signupWithOTP } from "../../api/user/index.api";
 import { IUser } from "../../app-store/types";
+import CountdownTimer from "../CountDownTimer";
+import OTPInput from "./OTPInput";
 
 
 
-export default function Signin() {
-  const router = useRouter();
+export default function SignIn({ onClose }: { onClose: () => void }) {
   const dispatch = useDispatch();
   const loggedUser = useSelector(selectAuthState);
   const [phone, setPhone] = useState("");
   const [name, setName] = useState("");
-
-  const [otp, setOtp] = useState("");
+  const [otp, setOtp] = useState<string>("");
   const [isSignup, setIsSignup] = useState(false);
 
+
+
   const [otpSent, setOtpSent] = useState(false);
+  const [otpExpiry, setOtpExpiry] = useState(0);
 
   const [errors, setErrors] = useState({ name: '', phone: '' });
 
-  const [showModal, setShowModal] = useState(false);
-
-  const handleOpenModal = () => {
-    setShowModal(true);
-  };
+  const [showModal, setShowModal] = useState(true);
 
   const handleCloseModal = () => {
     setShowModal(false);
+    onClose();
   };
+
   useEffect(() => {
-    if (loggedUser) {
-      const storedRedirectUrl = localStorage.getItem("redirectUrl");
-      if (storedRedirectUrl) {
-        router.push(storedRedirectUrl);
-      }
-    }
-  }, [loggedUser, router]);
+
+  }, [loggedUser]);
 
   const validateLogin = () => {
     const updateErrors = { ...errors };
@@ -130,21 +125,15 @@ export default function Signin() {
     const response: any = await generateLoginOTP(phone, isSignup);
     if (response.success) {
       setOtpSent(true);
+      setOtpExpiry(response.expiryTimeInSeconds);
     }
   }
 
   const handleSignup = async () => {
     const loggedUser: IUser = await signupWithOTP(phone, otp);
-
-    console.log("loggedUser : ", loggedUser);
     if (loggedUser?.id) {
       dispatch(authUser(loggedUser));
-      const storedRedirectUrl = localStorage.getItem("redirectUrl");
-      if (storedRedirectUrl) {
-        router.push(storedRedirectUrl);
-      } else {
-        router.push("/");
-      }
+      onClose();
     }
   }
 
@@ -159,12 +148,7 @@ export default function Signin() {
     const loggedUser: IUser = await loginWithOTP(phone, otp);
     if (loggedUser?.id) {
       dispatch(authUser(loggedUser));
-      const storedRedirectUrl = localStorage.getItem("redirectUrl");
-      if (storedRedirectUrl) {
-        router.push(storedRedirectUrl);
-      } else {
-        router.push("/");
-      }
+      onClose();
     }
   }
 
@@ -180,8 +164,8 @@ export default function Signin() {
     setIsSignup(false);
   }
 
-  const hasErrors = () => {
-    return errors.name || errors.phone;
+  const hasErrors = (): boolean => {
+    return errors.name.length > 0 || errors.phone.length > 0;
   }
 
   const resetErrors = () => {
@@ -193,13 +177,18 @@ export default function Signin() {
     setOtp("");
   }
 
+  const onOtpTimeout = () => {
+    console.log("OTP expired");
+    setOtpExpiry(0);
+  }
+
 
 
   return (
     <>
 
 
-      {!otpSent && <Modal show={true} onClose={handleCloseModal} title={isSignup ? "Sign up" : "Login"} >
+      {!otpSent && <Modal show={showModal} onClose={handleCloseModal} title={isSignup ? "Sign up" : "Login"} >
         <div className="w-full m-auto">
           <div>
             {isSignup &&
@@ -245,16 +234,26 @@ export default function Signin() {
 
       {
         otpSent &&
-        <Modal show={true} onClose={handleCloseModal} title={"Verify OTP"} >
+        <Modal show={showModal} onClose={handleCloseModal} title={"OTP Verification"} >
           <div className="m-auto">
             <div>
-              <div>
-                <Input name="otp" label="One Time Password" iconType={INPUT_ICON_TYPES.OTP} onChange={onOTPChange} value={otp} size="lg"></Input>
+              <div className="text-md font-light py-4 text-center text-gray-600">Check text messages for your OTP</div>
+              <div className="flex gap-x-2">
+                <OTPInput onChange={(otp) => onOTPChange(otp)} />
               </div>
               <div>
                 <Button variant="primary" onClick={handleLogin} label="Login" />
               </div>
             </div>
+            {otpExpiry > 0 && <CountdownTimer seconds={otpExpiry} onTimeUp={onOtpTimeout} />}
+            {otpExpiry === 0 &&
+              <div className="text-gray-600 text-center font-light py-4">
+                Not received OTP? <span
+                  onClick={sendOneTimePassword}
+                  className="font-normal cursor-pointer text-[#E5C71F]">
+                  Resend Now
+                </span>
+              </div>}
           </div>
         </Modal>
       }

@@ -90,7 +90,7 @@ export default function Order() {
                     );
                   })}
               </div>
-              <div>
+              <div className="xs:flex xs:flex-col">
                 {!(order.stage === OrderStages.Leads) && (
                   <OrderStageForm order={order}></OrderStageForm>
                 )}

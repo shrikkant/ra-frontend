@@ -1,41 +1,31 @@
 
 
 import React, { useState } from "react";
-import { useEffect } from "react";
 import { FaSpinner } from "react-icons/fa";
+import { INPUT_ICON_TYPES } from "../../../config/constants";
+
 export default function Input({ ...props }: any) {
-  const [currentValue, setCurrentValue] = useState("");
-
-  useEffect(() => {
-    props.value && setCurrentValue(props.value);
-  }, [props.value])
-
   const label = () => {
     if (props.label) {
       return (
-        <label className={"text-gray-700 text-sm mb-1 pl-1 text-left  block " + ((currentValue.length > 0) ? "visible" : "invisible")} htmlFor={props.name}>
+        <label className={"text-gray-700  bg-gradient-to-t from-white  text-sm pl-1 text-left z-10 pr-1  block " + ((props.value && props.value.length > 0) ? "visible" : "invisible")} htmlFor={props.name}>
           {props.label}
         </label>
       )
     }
   }
 
-  const onChange = (e) => {
-    setCurrentValue(e.target.value);
-    props.onChange(e.target.value);
-  }
-
   const onClear = () => {
-    setCurrentValue("");
+    // setCurrentValue("");
     props.onClear();
   }
 
   return (
-    <div className="mb-4">
+    <div>
       {label()}
 
-      <div>
-        {props.icon &&
+      <div className="relative">
+        {props.iconType === INPUT_ICON_TYPES.MAP &&
           <div className="absolute bottom-2 left-1">
             <svg xmlns="http://www.w3.org/2000/svg"
               width={22} height={22}
@@ -54,15 +44,34 @@ export default function Input({ ...props }: any) {
           </div>
         }
 
+        {props.iconType === INPUT_ICON_TYPES.PHONE &&
+          <div className={`absolute left-2 ${props.size === "lg" ? "top-[12px]" : "top-[5px]"} flex gap-1 border-r border-r-[#FFDC2DAD]`}>
+            <span>
+              <img src={"/assets/img/countries/in.webp"} className="h-6" ></img>
+            </span>
+            <span className=" text-gray-700 text-[16px] mt-[1px] mr-1">
+              +91
+            </span>
+          </div>
+        }
+
+
         <input
+          style={{
+            height: props.size === "lg" ? "50px" : "36px"
+          }}
           onKeyDown={props.onKeyDown}
           name={props.name}
-          onChange={onChange}
-          className={(props.icon ? "pl-7" : "") + (props.showClear ? " pr-14" : " pr-3") +
+          onChange={(e) => props.onChange(e.target.value)}
+          className={
+            (props.iconType === INPUT_ICON_TYPES.MAP ? "pl-7" : "") +
+            (props.iconType === INPUT_ICON_TYPES.PHONE ? "pl-20" : "") +
+            (props.showClear ? " pr-14" : " pr-3") +
             " border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
           id={props.name}
           type="text"
-          placeholder={props.label} value={currentValue}
+          placeholder={props.label}
+          value={props.value}
           pattern={props?.pattern}
           inputMode={props?.inputMode}
         />
@@ -78,6 +87,10 @@ export default function Input({ ...props }: any) {
           </div>
 
         }
+
+        <span className="text-sm text-[#E03546] ml-3">
+          {props.error}
+        </span>
 
       </div>
     </div>

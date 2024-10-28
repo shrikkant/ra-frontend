@@ -4,9 +4,13 @@ import HomeProductCard from "components/home/HomeProductCard";
 import PageContainer from "./common/PageContainer";
 import { IProduct } from "../app-store/types";
 
+interface IProductGroup {
+  products: IProduct[]
+}
 
-
-export default function TopSales({ categories }) {
+export default function TopSales({ categories }: {
+  categories: IProductGroup[]
+}) {
 
 
   return (<section className="s-top-sale">

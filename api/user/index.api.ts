@@ -1,6 +1,7 @@
 
+import axios from "axios";
 import { IUser } from "../../app-store/types";
-import httpClient from "../axios.config";
+import httpClient, { HttpService } from "../axios.config";
 
 
 
@@ -20,6 +21,38 @@ export const updatePhone = async (phone: string): Promise<IUser> => {
   const response: IUser = await httpClient.put(`user?mode=2`, { phone });
   return response;
 }
+
+export const generateLoginOTP = async (phone: string, newUser: boolean): Promise<IUser> => {
+  const isNewUserQueryParam = newUser ? "newUser=true" : "";
+  const response: IUser = await httpClient.post(`generate-otp?${isNewUserQueryParam}`, { phone });
+  return response;
+}
+
+// remove this later
+export const verifyLoginOTP = async (phone: string, otp: string): Promise<IUser> => {
+  console.log("phone", phone, "otp", otp);
+  const response: IUser = await httpClient.post(`verify-otp`, { phone, otp });
+  return response;
+}
+
+export const loginWithOTP = async (phone: string, otp: string): Promise<IUser> => {
+  console.log("phone", phone, "otp", otp);
+
+  const httpService = new HttpService("https://www.rentacross.com/");
+
+  const response: IUser = await httpService.getClient().post(`auth/local`, { phone, otp });
+  return response;
+}
+
+export const signupWithOTP = async (phone: string, otp: string): Promise<IUser> => {
+  console.log("phone", phone, "otp", otp);
+
+  const httpService = new HttpService("https://www.rentacross.com/");
+
+  const response: IUser = await httpService.getClient().post(`auth/signup`, { phone, otp });
+  return response;
+}
+
 
 export const updateAadhaar = async (aadhaar: string): Promise<IUser> => {
   const response: IUser = await httpClient.put(`user?mode=6`, { aadhaar });

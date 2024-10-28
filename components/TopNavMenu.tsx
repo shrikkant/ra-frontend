@@ -4,11 +4,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectAuthState, logout } from "../app-store/auth/auth.slice";
 import { logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
+import SignIn from "./user/SignIn";
 
 export default function TopNavMenu() {
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
+  const [showSignIn, setShowSignIn] = React.useState(false);
 
   const handleLogout = async () => {
     logoutUser().then(() => {
@@ -16,6 +18,14 @@ export default function TopNavMenu() {
       router.push("/");
     })
   };
+
+  const showSignInModal = () => {
+    setShowSignIn(true);
+  }
+
+  const closeSignInModal = () => {
+    setShowSignIn(false);
+  }
 
   return (
     <Menu as="div" className="relative">
@@ -43,13 +53,15 @@ export default function TopNavMenu() {
           </>
         ) : (
           <a
-            href="/signin"
+            href="#"
+            onClick={showSignInModal}
             className=" bg-gray-800 p-1 text-gray-300 font-semibold hover:text-white focus:outline-none focus:ring-offset-gray-800 cursor-pointer"
           >
             <span className="sr-only">Log in</span>
             Log in
           </a>
         )}
+        {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
       </div>
     </Menu>
   );
