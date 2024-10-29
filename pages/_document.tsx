@@ -6,8 +6,8 @@ class MyDocument extends Document {
     return (
       <Html>
         <Head>
-          <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/animate.css"></link>
-          <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/style.css"></link>
+          <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
+          <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
           {/* Add more stylesheets as needed */}
         </Head>
         <body>
