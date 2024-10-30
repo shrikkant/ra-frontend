@@ -9,6 +9,7 @@ export default function AutoComplete({ name, label, onChange, onSelect, options,
   const [showClear, setShowClear] = useState(false);
 
   const onLocalChange = (val: string) => {
+    setInputValue(val);
     debounceFn(val);
   }
 
