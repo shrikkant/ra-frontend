@@ -134,7 +134,7 @@ export default function Signin() {
   }
 
   const handleSignup = async () => {
-    const loggedUser: IUser = await signupWithOTP(phone, otp);
+    const loggedUser: IUser = await signupWithOTP(phone, otp, name);
 
     console.log("loggedUser : ", loggedUser);
     if (loggedUser?.id) {
