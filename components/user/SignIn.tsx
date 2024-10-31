@@ -69,6 +69,11 @@ export default function SignIn({ onClose }: { onClose: () => void }) {
       hasErrors = true;
     }
 
+    if (name && name.split(" ").length < 2) {
+      updateErrors.name = "Please enter full name";
+      hasErrors = true;
+    }
+
     if (!phone || phone.length < 1) {
       updateErrors.phone = "Phone is required";
       hasErrors = true;
@@ -130,7 +135,7 @@ export default function SignIn({ onClose }: { onClose: () => void }) {
   }
 
   const handleSignup = async () => {
-    const loggedUser: IUser = await signupWithOTP(phone, otp);
+    const loggedUser: IUser = await signupWithOTP(phone, otp, name);
     if (loggedUser?.id) {
       dispatch(authUser(loggedUser));
       onClose();

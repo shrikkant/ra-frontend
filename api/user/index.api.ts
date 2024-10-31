@@ -44,12 +44,11 @@ export const loginWithOTP = async (phone: string, otp: string): Promise<IUser> =
   return response;
 }
 
-export const signupWithOTP = async (phone: string, otp: string): Promise<IUser> => {
-  console.log("phone", phone, "otp", otp);
+export const signupWithOTP = async (phone: string, otp: string, name: string): Promise<IUser> => {
 
   const httpService = new HttpService("https://www.rentacross.com/");
 
-  const response: IUser = await httpService.getClient().post(`auth/signup`, { phone, otp });
+  const response: IUser = await httpService.getClient().post(`auth/signup`, { phone, otp, name });
   return response;
 }
 
