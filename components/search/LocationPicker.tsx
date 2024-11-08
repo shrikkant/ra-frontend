@@ -79,7 +79,7 @@ export const LocationPicker = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="bg-white absolute left-1/2 mt-5 flex w-screen max-w-max -translate-x-1/2 px-4 border puy rounded">
+        <Popover.Panel className="bg-white absolute left-1/2 flex w-screen max-w-max -translate-x-1/2 px-4 border puy rounded z-10">
           {({ close }) => {
             return (
               <div className="flex flex-col gap-y-1">
