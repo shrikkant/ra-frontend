@@ -62,13 +62,18 @@ export const LocationPicker = () => {
   }, [stateSearch]);
 
   const locationCity = (city) => {
-    return city.slice(0, 1).toUpperCase() + city.slice(1);
+    const cityName = city.toLowerCase() === "bengaluru" ? "Bangalore" : city;
+    return cityName.slice(0, 1).toUpperCase() + cityName.slice(1);
   }
 
   return (
     <Popover className="relative">
       <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
-        {location?.city ? <span>{locationCity(location.city)}</span> : <span>{"Select City"}</span>}
+        {location?.city ?
+          <span>
+            {locationCity(location.city)}
+          </span> :
+          <span>{"Select City"}</span>}
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
           aria-hidden="true"
