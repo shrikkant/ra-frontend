@@ -138,7 +138,7 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
     }
 
     if (city) {
-      productFilter.city = city.toLowerCase() === "bengaluru" ? "bangalore" : city.toLowerCase();
+      productFilter.city = city.toLowerCase() === "bangalore" ? "bengaluru" : city.toLowerCase();
     }
 
     if (state) {
