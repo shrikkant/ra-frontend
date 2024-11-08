@@ -6,7 +6,6 @@ import { fetchProductBySlug, fetchProducts } from 'api/products.api';
 
 import { fetchData } from 'api/axios.config';
 import { Product } from 'components/product/Product';
-import FilterSideBar from 'components/rent/FilterSideBar';
 import { IProduct } from '../../app-store/types';
 
 export default async function Location({ params, searchParams }: { params: { slug: string }, searchParams }) {
@@ -14,7 +13,7 @@ export default async function Location({ params, searchParams }: { params: { slu
   const filter = getProductFilter(params, categories) || {};
   let product: IProduct | null = null;
   let products: IProduct[] = [];
-  let meta;
+
 
 
 
@@ -37,7 +36,7 @@ export default async function Location({ params, searchParams }: { params: { slu
         </h1>
 
         {/* <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar> */}
-        <div className={"grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-2"}>
+        <div className={"grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2"}>
           {products &&
             products.map((product: IProduct) => (
               <ProductCard key={product.id} product={product}></ProductCard>

@@ -39,18 +39,14 @@ export default function ProductCard({ product }: { product: IProduct }) {
 
 
         <div>
+          <div className="font-semibold pb-2 text-red-600">
+            {product.rates && <PriceTag price={product?.rates[0].rate} />}
+          </div>
           <div style={{ whiteSpace: "pre-wrap" }} className=" font-semibold ">
             {product.title}
           </div>
-          <div className="text-lg font-bold text-red-700">
-            {product.rates && <PriceTag price={product?.rates[0].rate} />}
-          </div>
 
-          <div className="text-xs">
-            {product.location.city}
-          </div>
-
-          <div className="text-center">
+          <div className="text-center py-4">
             <button className={"p-1 btn"} >
               <span>Book Now</span>
             </button>

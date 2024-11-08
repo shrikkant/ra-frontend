@@ -6,7 +6,7 @@ import { IProduct } from "../app-store/types";
 
 export default function CategoryRow(props: any) {
   return (
-    <Content className="r-comp flex gap-1 sm:gap-4 flex-wrap p-2">
+    <Content className="r-comp flex  sm:gap-4 flex-wrap p-2">
       {props.category.products.map((product: IProduct) => (
         <ProductCard key={product.id} product={product}></ProductCard>
       ))}

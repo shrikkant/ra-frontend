@@ -1,6 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { IProduct } from "../../app-store/types";
+import PriceTag from "../PriceTag";
 
 export default function HomeProductCard({ product }: { product: IProduct }) {
 
@@ -28,15 +29,16 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
             src={"https://www.rentacross.com" + product.photos[0].path} />}
 
       </a>
-      <div className="p-[15px]">
-        <div className="price-cover">
-
+      <div className="px-4">
+        <div className="price-cover pb-2">
+          {product.rates && <PriceTag price={product?.rates[0].rate} />}
         </div>
         <h6 className="prod-title">
           <a href={getLink(product)}>{product.title}</a>
         </h6>
-        <div className="text-center">
-          <a className={"p-1 btn"} href={getLink(product)}>
+
+        <div className="text-center py-4">
+          <a className={"btn"} href={getLink(product)}>
             <span>Book Now</span>
           </a>
         </div>
