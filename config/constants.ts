@@ -46,7 +46,7 @@ ind.urlBase = "";
 ind.states = ["Goa"];
 
 ind.locations = [
-  "Bengaluru",
+  "Bangalore",
   "Jaipur",
   "Ahmedabad",
   "Pune",
