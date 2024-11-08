@@ -18,6 +18,10 @@ const locations = [
     value: "Mumbai",
     label: "Mumbai",
   },
+  {
+    value: "bengaluru",
+    label: "Bangalore",
+  },
 ];
 
 export const LocationPicker = () => {
@@ -29,13 +33,14 @@ export const LocationPicker = () => {
 
   const cityChange = (city) => {
     const search: any = { ...stateSearch };
-
+    console.log("Setting location : ", city);
     search.location = {
       city,
     };
 
     dispatch(setSearch(search));
 
+    console.log("Search : ", city.toLowerCase());
 
     router.push("/" + city.toLowerCase() + "/rent-camera");
 
