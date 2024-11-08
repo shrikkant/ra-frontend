@@ -25,6 +25,8 @@ export default function ProductCard({ product }: { product: IProduct }) {
           {(product.photos && product.photos[0]) && (
             <div className="flex justify-center">
               <Image
+                loading="lazy"
+                decoding="async"
                 alt={product.title}
                 width={200}
                 height={0}
