@@ -43,7 +43,7 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
                 return (
                   <div key={photo.id} >
                     <div className="flex justify-center">
-                      <img className={"max-w-[540px]"} src={`data:image/png;base64,${photo.image_data}`}></img>
+                      <img className={"sm:max-w-[540px]"} src={`data:image/png;base64,${photo.image_data}`}></img>
                     </div>
                   </div>
                 );
