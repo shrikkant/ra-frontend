@@ -9,10 +9,8 @@ import {
 import Meta from "antd/lib/card/Meta";
 import { IProduct } from "../../app-store/types";
 import LocationShort from "../LocationShort";
-import { Content } from "antd/lib/layout/layout";
-import styles from "../../styles/active-product.module.css";
 import { CarouselRef } from 'antd/lib/carousel'
-import React from "react";
+import React, { useState } from "react";
 
 interface ProductProps {
   product: IProduct;
@@ -20,6 +18,12 @@ interface ProductProps {
 
 export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
   const carouselRef = React.createRef<CarouselRef>();
+  const [activeSlide, setActiveSlide] = useState(0);
+
+  const handleSlideChange = (current: number) => {
+    carouselRef.current?.goTo(current);
+    setActiveSlide(current);
+  }
 
   return (
     <Card>
@@ -30,48 +34,43 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
         }
       ></Meta>
       <Divider />
-      <Content className={styles.imageSection}>
-        <div className={styles.imageIcons}>
-          {product.photos &&
-            product.photos.map((photo, index) => {
-              return (
-                <div
-                  key={index}
-                  style={{ textAlign: "center", cursor: "pointer" }}
-                  onClick={() => {
-                    carouselRef.current?.goTo(index);
-                  }}
-                >
-                  <img
-                    style={{ height: 40, width: "auto" }}
-                    src={photo.path}
-                  ></img>
-                </div>
-              );
-            })}
-        </div>
-
-        <div style={{ flex: 5 }}>
+      <div className="w-full flex flex-col justify-center items-center">
+        <div>
           <Carousel dotPosition={"left"} ref={carouselRef}>
-            {product.photos &&
-              product.photos.map((photo, i) => {
-                return (
-                  <div key={photo.id}>
-                    <img className={styles.carouselImg} src={photo.path}></img>
-                  </div>
-                );
-              })}
+
             {product.masterPhotos &&
               product.masterPhotos.map((photo, i) => {
                 return (
-                  <div key={photo.id}>
-                    <img className={styles.carouselImg} src={photo.path}></img>
+                  <div key={photo.id} >
+                    <div className="flex justify-center">
+                      <img className={"max-w-[540px]"} src={`data:image/png;base64,${photo.image_data}`}></img>
+                    </div>
                   </div>
                 );
               })}
           </Carousel>
         </div>
-      </Content>
+        <div className={"flex gap-2 pt-4"}>
+          {product.masterPhotos &&
+            product.masterPhotos.map((photo, index) => {
+              return (
+                <div
+                  key={index}
+                  style={{ textAlign: "center", cursor: "pointer" }}
+                  onClick={() => {
+                    handleSlideChange(index);
+                  }}
+                  className={`border-2 w-24 p-2 flex justify-center ${activeSlide === index ? "border-amber-500" : ""}`}
+                >
+                  <img
+                    style={{ width: 64, height: "auto" }}
+                    src={`data:image/png;base64,${photo.image_data}`}
+                  ></img>
+                </div>
+              );
+            })}
+        </div>
+      </div>
     </Card>
   );
 };

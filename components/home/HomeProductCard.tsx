@@ -18,15 +18,18 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
     return (<div>Product not found</div>)
 
   return (<div key={product.id}>
-    <div className="product-item">
+    <div className="shadow-md">
 
-      {product.featured ? <span className="top-sale">top sale</span> : <></>}
+      {product.featured ? <div className="top-sale capitalize text-red-600 p-4">top sale</div> : <></>}
 
       <a href={getLink(product)} className="product-img">
 
-        {(product.photos && product.photos[0]) &&
-          <Image alt={product.title} className={"p-2 sm:p-5"} width={200} height={-1}
-            src={"https://www.rentacross.com" + product.photos[0].path} />}
+        {(product.masterPhotos && product.masterPhotos[0]) &&
+          <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
+            width={300} height={300}
+            src={`data:image/png;base64,${product.masterPhotos[0].image_data}`} />}
+
+
 
       </a>
       <div className="px-4">
@@ -36,7 +39,9 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
         <h6 className="prod-title">
           <a href={getLink(product)}>{product.title}</a>
         </h6>
-
+        <div>
+          <p className="text-gray-500 text-xs">{product.location?.city}</p>
+        </div>
         <div className="text-center py-4">
           <a className={"btn"} href={getLink(product)}>
             <span>Book Now</span>

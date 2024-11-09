@@ -22,17 +22,15 @@ export default function ProductCard({ product }: { product: IProduct }) {
       >
         <div>
 
-          {(product.photos && product.photos[0]) && (
+          {(product.masterPhotos && product.masterPhotos[0]) && (
             <div className="flex justify-center">
-              <Image
+              {/* {JSON.stringify(product.masterPhotos[0])} */}
+              <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
                 loading="lazy"
                 decoding="async"
-                alt={product.title}
-                width={200}
-                height={0}
-                layout="responsive"
-                src={"https://www.rentacross.com" + product.photos[0].path + "?"}
-              />
+
+                width={300} height={300}
+                src={`data:image/png;base64,${product.masterPhotos[0].image_data}`} />
             </div>
           )}
         </div>
@@ -45,6 +43,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
           <div style={{ whiteSpace: "pre-wrap" }} className=" font-semibold ">
             {product.title}
           </div>
+          <div className="text-gray-500 text-xs">{product.location?.city}</div>
 
           <div className="text-center py-4">
             <button className={"p-1 btn"} >
