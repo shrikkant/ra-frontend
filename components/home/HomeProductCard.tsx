@@ -4,7 +4,7 @@ import { IProduct } from "../../app-store/types";
 import PriceTag from "../PriceTag";
 
 export default function HomeProductCard({ product }: { product: IProduct }) {
-
+  const photo = product.masterPhotos ? product.masterPhotos[0] : null;
 
   const getLink = (p: any) => {
     const subCatSlug = p.subCategory.slug;
@@ -24,10 +24,10 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
 
       <a href={getLink(product)} className="product-img">
 
-        {(product.masterPhotos && product.masterPhotos[0]) &&
+        {photo?.image_data &&
           <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
             width={300} height={300}
-            src={`data:image/png;base64,${product.masterPhotos[0].image_data}`} />}
+            src={`data:image/png;base64,${photo.image_data}`} />}
 
 
 

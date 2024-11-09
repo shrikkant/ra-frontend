@@ -5,6 +5,8 @@ import React from "react";
 import { IProduct } from "../app-store/types";
 
 export default function ProductCard({ product }: { product: IProduct }) {
+  const photo = product.masterPhotos ? product.masterPhotos[0] : null;
+
   return (
     <Link
       href={
@@ -22,15 +24,14 @@ export default function ProductCard({ product }: { product: IProduct }) {
       >
         <div>
 
-          {(product.masterPhotos && product.masterPhotos[0]) && (
+          {photo?.image_data && (
             <div className="flex justify-center">
-              {/* {JSON.stringify(product.masterPhotos[0])} */}
               <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
                 loading="lazy"
                 decoding="async"
 
                 width={300} height={300}
-                src={`data:image/png;base64,${product.masterPhotos[0].image_data}`} />
+                src={`data:image/png;base64,${photo.image_data}`} />
             </div>
           )}
         </div>
