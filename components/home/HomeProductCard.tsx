@@ -6,12 +6,20 @@ import PriceTag from "../PriceTag";
 export default function HomeProductCard({ product }: { product: IProduct }) {
   const photo = product.masterPhotos ? product.masterPhotos[0] : null;
 
-  const getLink = (p: any) => {
-    const subCatSlug = p.subCategory.slug;
-    return "/rent/" + p.location.city.toLowerCase() + "/"
-      + subCatSlug + "/"
-      + product.slug.toLowerCase();
 
+
+  const resolveURL = () => {
+    const city = product?.location?.city?.toLowerCase();
+    const citySlug = "bengaluru" === city ? "bangalore" : city;
+
+    return (
+      "/rent/" +
+      citySlug +
+      "/" +
+      product?.subCategory?.slug +
+      "/" +
+      product.slug
+    );
   }
 
   if (!product)
@@ -22,7 +30,7 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
 
       {product.featured ? <div className="top-sale capitalize text-red-600 p-4">top sale</div> : <></>}
 
-      <a href={getLink(product)} className="product-img">
+      <a href={resolveURL()} className="product-img">
 
         {photo?.image_data &&
           <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"

@@ -7,16 +7,23 @@ import { IProduct } from "../app-store/types";
 export default function ProductCard({ product }: { product: IProduct }) {
   const photo = product.masterPhotos ? product.masterPhotos[0] : null;
 
+  const resolveURL = () => {
+    const city = product?.location?.city?.toLowerCase();
+    const citySlug = "bengaluru" === city ? "bangalore" : city;
+
+    return (
+      "/rent/" +
+      citySlug +
+      "/" +
+      product?.subCategory?.slug +
+      "/" +
+      product.slug
+    );
+  }
+
   return (
     <Link
-      href={
-        "/rent/" +
-        product?.location?.city?.toLowerCase() +
-        "/" +
-        product?.subCategory?.slug +
-        "/" +
-        product.slug
-      }
+      href={resolveURL()}
     >
       <div
         className="w-full flex justify-between flex-col h-full shadow-lg p-4 hover:shadow-xl cursor-pointer bg-white rounded"
