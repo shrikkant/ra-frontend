@@ -75,6 +75,11 @@ const adminRoutes = {
       key: "/portal/admin/brands",
       icon: <TagIcon className="h-6 w-6" />,
     },
+    {
+      label: "Products",
+      key: "/portal/admin/products",
+      icon: <TagIcon className="h-6 w-6" />,
+    },
   ],
 };
 
