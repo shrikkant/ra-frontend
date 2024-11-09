@@ -30,7 +30,7 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
         </div>
 
       </div>
-      <h1 className="text-xl font-bold">{product.title}</h1>
+      <h1 className="text-xl font-bold py-2 capitalize">{product.title}</h1>
     </div>
   );
 };

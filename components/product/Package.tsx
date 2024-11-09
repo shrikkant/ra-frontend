@@ -20,7 +20,9 @@ export interface ProductProps {
 export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
 
   return (
-    <Card style={{ marginTop: 40 }} title={"Package Includes"} hoverable>
+
+    <>
+      <h2 className="text-xl py-4 capitalize">Includes</h2>
       <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4  gap-4">
         {addons &&
           addons.map((addon) => {
@@ -37,6 +39,8 @@ export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
             );
           })}
       </div>
-    </Card>
+    </>
+
+
   );
 };
