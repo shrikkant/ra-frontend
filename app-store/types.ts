@@ -143,6 +143,7 @@ export interface ProductPhoto {
   size: number;
   mimetype: string;
   status: number;
+  image_data: string;
 }
 
 export interface IShortLocation {
