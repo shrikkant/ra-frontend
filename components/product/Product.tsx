@@ -11,7 +11,7 @@ export const Product = ({ product }: { product: IProduct }) => {
   const rates: any = product?.rates;
   return (
     <>
-      <Content style={{ maxWidth: 1240, margin: "auto" }} className={"pt-5"}>
+      <Content style={{ maxWidth: 1240, margin: "auto" }} className={"pt-5 p-4"}>
         <div className={"flex flex-col sm:flex-row gap-5"}>
           <div className="sm:w-3/4 w-full">
             <HeadCard product={product}></HeadCard>
