@@ -36,22 +36,19 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
           <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
             width={300} height={300}
             src={`data:image/png;base64,${photo.image_data}`} />}
-
-
-
       </a>
       <div className="px-4">
         <div className="price-cover pb-2">
           {product.rates && <PriceTag price={product?.rates[0].rate} />}
         </div>
         <h6 className="prod-title">
-          <a href={getLink(product)}>{product.title}</a>
+          <a href={resolveURL()}>{product.title}</a>
         </h6>
         <div>
           <p className="text-gray-500 text-xs">{product.location?.city}</p>
         </div>
         <div className="text-center py-4">
-          <a className={"btn"} href={getLink(product)}>
+          <a className={"btn"} href={resolveURL()}>
             <span>Book Now</span>
           </a>
         </div>
