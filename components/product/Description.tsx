@@ -1,6 +1,4 @@
 import React from "react";
-import { Card } from "antd";
-import { de } from "date-fns/locale";
 
 interface ProductProps {
   description: string;
@@ -9,12 +7,9 @@ interface ProductProps {
 export const Description: React.FC<ProductProps> = ({ description }: ProductProps) => {
   const markup = { __html: description ? description : "" };
   return (
-    <Card
-      title={"Product Specifications"}
-      hoverable
-      style={{ width: "100%", marginTop: "40px" }}
-    >
+    <div>
+      <h2 className="text-xl py-4 capitalize font-semibold">Highlights & Specifications</h2>
       <div dangerouslySetInnerHTML={markup} />
-    </Card>
+    </div>
   );
 };
