@@ -1,16 +1,20 @@
-import React from "react";
+import React, { useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 
 export function SearchInput({ currentVal, onChange, onSearch }) {
+  const inputRef = useRef<HTMLInputElement>(null);
   const handleReturn = (e) => {
     if (e.keyCode === 13) {
-      console.log("Enter Pressed");
+      if (inputRef.current) {
+        inputRef.current.blur();
+      }
       onSearch(e.target.value);
     }
   };
   return (
     <div className="w-full sm:w-96 gap-x-3 text-gray-800 relative px-1">
       <input
+        ref={inputRef}
         defaultValue={currentVal}
         type="text"
         className="h-10 rounded px-2 w-full"
