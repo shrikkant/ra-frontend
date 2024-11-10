@@ -75,7 +75,7 @@ export default function Location() {
   return (<AppLayout sidebar={false}>
     {loading && <Loader></Loader>}
 
-    {(!filter?.product && products) && (
+    {(!loading && !filter?.product && products) && (
       <div className="sm:flex ">
         <ProductFilterNav
           onChange={onChange}
