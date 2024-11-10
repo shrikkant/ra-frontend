@@ -15,7 +15,9 @@ export const Product = ({ product }: { product: IProduct }) => {
         <div className={"flex flex-col sm:flex-row gap-5"}>
           <div className="sm:w-3/4 w-full">
             <HeadCard product={product}></HeadCard>
-            <Package addons={addons}></Package>
+            {(addons && addons.length) > 0 &&
+              <Package addons={addons}></Package>
+            }
             <Description
               description={product?.masterProduct?.description}
             ></Description>
