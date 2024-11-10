@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import {
   getSearchResultsAction,
   getSearchResults,
+  setSearchResults,
+  setSearchMetaData,
 } from "../app-store/products/products.slice";
 import { getProductFilter } from "../util/search.util";
 import { useRouter } from "next/router";
@@ -22,6 +24,8 @@ export const useProducts = () => {
 
 
   useEffect(() => {
+    dispatch(setSearchResults(null));
+    dispatch(setSearchMetaData(null));
 
     const queryString = q ? String(q) : "";
     try {
