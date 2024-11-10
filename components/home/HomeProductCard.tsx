@@ -26,9 +26,9 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
     return (<div>Product not found</div>)
 
   return (<div key={product.id}>
-    <div className="shadow-md">
+    <div className="shadow-md relative">
 
-      {product.featured ? <div className="top-sale capitalize text-red-600 p-4">top sale</div> : <></>}
+      {product.featured ? <div className="top-sale capitalize text-red-600 p-4 absolute">top sale</div> : <></>}
 
       <a href={resolveURL()} className="product-img">
 
