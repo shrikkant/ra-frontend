@@ -1,11 +1,10 @@
+
 import React from "react";
-import Image from "next/image";
 import { IProduct } from "../../app-store/types";
 import PriceTag from "../PriceTag";
 
-export default function HomeProductCard({ product }: { product: IProduct }) {
-  const photo = product.masterPhotos ? product.masterPhotos[0] : null;
 
+export default function HomeProductCard({ product }: { product: IProduct }) {
 
 
   const resolveURL = () => {
@@ -31,11 +30,12 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
       {product.featured ? <div className="top-sale capitalize text-red-600 p-4 absolute">top sale</div> : <></>}
 
       <a href={resolveURL()} className="product-img">
-
-        {photo?.image_data &&
-          <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
-            width={300} height={300}
-            src={`data:image/png;base64,${photo.image_data}`} />}
+        {product.master_product_id &&
+          <img
+            alt={product.title}
+            className="p-10"
+            src={`/api/products/${product.master_product_id}/photo?width=180`}></img>
+        }
       </a>
       <div className="px-4">
         <div className="price-cover pb-2">

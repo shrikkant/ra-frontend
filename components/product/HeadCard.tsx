@@ -16,15 +16,14 @@ interface ProductProps {
 
 export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
 
-  const photo = product.masterPhotos ? product.masterPhotos[0] : null;
   return (
     <div>
 
       <div className="w-full flex flex-col justify-center items-center pb-4">
         <div>
-          {photo?.image_data &&
+          {product?.master_product_id &&
             <div className="flex justify-center">
-              <img className={"sm:max-w-[540px]"} src={`data:image/png;base64,${photo.image_data}`}></img>
+              <img src={`/api/products/${product.master_product_id}/photo?width=540`}></img>
             </div>
           }
         </div>

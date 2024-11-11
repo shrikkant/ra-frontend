@@ -1,11 +1,10 @@
 import Link from "next/link";
-import Image from "next/image";
 import PriceTag from "./PriceTag";
 import React from "react";
 import { IProduct } from "../app-store/types";
 
 export default function ProductCard({ product }: { product: IProduct }) {
-  const photo = product.masterPhotos ? product.masterPhotos[0] : null;
+
 
   const resolveURL = () => {
     const city = product?.location?.city?.toLowerCase();
@@ -30,17 +29,12 @@ export default function ProductCard({ product }: { product: IProduct }) {
         key={product.id}
       >
         <div>
-
-          {photo?.image_data && (
-            <div className="flex justify-center">
-              <Image alt={product.title} className={"p-2 sm:p-5"} layout="responsive"
-                loading="lazy"
-                decoding="async"
-
-                width={300} height={300}
-                src={`data:image/png;base64,${photo.image_data}`} />
-            </div>
-          )}
+          {product.master_product_id &&
+            <img
+              alt={product.title}
+              className="p-10"
+              src={`/api/products/${product.master_product_id}/photo?width=180`}></img>
+          }
         </div>
 
 
