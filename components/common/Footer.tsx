@@ -12,15 +12,13 @@ export default function Footer() {
             <li><a target="_blank" rel="noreferrer" href="https://www.facebook.com/rentacross"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
             <li><a target="_blank" rel="noreferrer" href="https://x.com/rentacross"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
             <li><a target="_blank" rel="noreferrer" href="https://www.instagram.com/rent_across"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
-            <li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/@statwide"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/@rentacross"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li>
           </ul>
-          <div className="footer-autor">Questions? Please write us at: <a href="mailto:support@rentacross.com">support@rentacross.com</a></div>
         </div>
         <div className="footer-item col-md-5 col-lg-4">
           <h6>info</h6>
           <ul className="footer-list">
             <li><a href="/blog">Blog</a></li>
-            <li><a href="/help">FAQ</a></li>
             <li><a href="/terms-of-use">Terms of Use</a></li>
             <li><a href="/rental-agreement">Rental Agreement</a></li>
             <li><a href="/rental-agreement">Legal Terms</a></li>
@@ -38,7 +36,7 @@ export default function Footer() {
           <ul className="footer-list">
             <li><a href="/pune">Pune</a></li>
             <li><a href="/mumbai">Mumbai</a></li>
-            <li><a href="/bengaluru">Bengaluru</a></li>
+            <li><a href="/bangalore">Bengaluru</a></li>
           </ul>
         </div>
       </div>
