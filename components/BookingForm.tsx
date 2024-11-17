@@ -14,6 +14,7 @@ import { getAuthUser } from "../api/auth.api";
 import { setCart } from "../app-store/user/orders/orders.slice";
 import { BookingLineItem } from "./cart/BookingLineItem";
 import SignIn from "./user/SignIn";
+import Button from "./common/form/Button";
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: any[] }) {
   const dispatch = useDispatch();
@@ -52,7 +53,6 @@ export default function BookingForm({ productId, discount, rates }: { productId:
   };
 
   const onAddToCart = async (bookNow?: boolean) => {
-
     if (!loggedUser && (pathname && pathname?.length > 0)) {
       dispatch(setLastLink(pathname))
       setShowSignIn(true);
@@ -73,6 +73,9 @@ export default function BookingForm({ productId, discount, rates }: { productId:
     }
   };
 
+  const onBookNow = () => {
+    onAddToCart(true);
+  }
   const getSavings = () => {
     return (originalRate - discountedRate) * getDays();
   }
@@ -126,24 +129,10 @@ export default function BookingForm({ productId, discount, rates }: { productId:
           </div>
         </div>
       </div>
-      {loggedUser && (
-        <div>
-          <input
-            onClick={() => onAddToCart()}
-            id="addToCartBtn"
-            className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer"
-            type="button"
-            value="Add to Cart"
-          />
-        </div>
-      )}
       <div>
-        <button
-          onClick={() => onAddToCart(true)}
-          className=" w-full py-2 rounded-md text-[#555] font-bold cursor-pointer btn "
-          type="submit">
-          <span>Book Now</span>
-        </button>
+
+        <Button variant="primary" onClick={onBookNow} label="Book Now" />
+
       </div>
 
       <BookingLineItem amount={discountedRate * getDays()}>

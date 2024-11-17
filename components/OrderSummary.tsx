@@ -3,6 +3,7 @@ import styles from "./../styles/order-summary.module.css";
 import { ORDER_STEPS } from "../config/constants";
 import { dateDisplay } from "../util/date.util";
 import { IOrder } from "../app-store/types";
+import Button from "./common/form/Button";
 
 export default function OrderSummary({
   order,
@@ -32,13 +33,9 @@ export default function OrderSummary({
     <div className={"p-3 bg-gray-50 shadow-lg rounded-md min-w-[276px]"}>
       <div>
         <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none">
-          {callToAction(step) && <button
-            onClick={() => { onCallToAction(step) }}
-            className="bg-[#ffd814] w-full py-2 rounded-md text-[#555] font-bold cursor-pointer hover:bg-[#ffd814]"
-            type="submit"
-          >
-            {callToAction(step)}
-          </button>}
+          {callToAction(step) &&
+            <Button variant="primary" onClick={() => onCallToAction(step)} label={callToAction(step)} />
+          }
         </div>
       </div>
 
