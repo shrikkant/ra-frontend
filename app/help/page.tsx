@@ -1,14 +1,14 @@
+import React from "react";
 import { fetchBlogs } from "../../api/blog/blog.api"
 import BlogCover from "../../components/common/BlogCover";
 import PageContainer from "../../components/common/PageContainer";
 import { ARTICLE_TYPES } from "../../config/constants";
-import styles from "../../styles/help.module.css";
+import BlogSideBar from "../../components/blog/BlogSideBar";
 
 export default async function Help() {
   const blogs = await fetchBlogs(1, 10, ARTICLE_TYPES.HELP_ARTICLE);
 
   return (<>
-
     <section className="s-header-title">
       <PageContainer>
         <h1>Blog</h1>
@@ -21,27 +21,13 @@ export default async function Help() {
 
     <section className="s-news">
       <PageContainer>
-        <div className="row">
-          <div className="col-12 col-lg-8 blog-cover">
-            <BlogCover blogs={[blogs[0]]} />
+        <div className="flex gap-x-10 justify-center">
+          <div className="basis-1/2">
+            <BlogCover blogs={blogs} />
           </div>
 
-          <div className="col-12 col-lg-4 sidebar">
-            <a href="#" className="btn btn-sidebar"><span>Widgets</span></a>
-            <ul className="widgets">
-
-              <li className="widget widget-recent-posts">
-                <h5 className="title">Help</h5>
-                <ul>
-                  {blogs.map(blog => {
-                    return (<li>
-                      <a href={"/help/" + blog.slug}>{blog.title}</a>
-                      {/* <div className="date"><i className="fa fa-calendar" aria-hidden="true"></i>{blog.creationDate}</div> */}
-                    </li>)
-                  })}
-                </ul>
-              </li>
-            </ul>
+          <div className="basis-1/4">
+            <BlogSideBar blogs={blogs} type={ARTICLE_TYPES.HELP_ARTICLE} />
           </div>
         </div>
       </PageContainer>

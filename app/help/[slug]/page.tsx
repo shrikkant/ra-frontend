@@ -1,8 +1,8 @@
 import React from "react";
 import { fetchBlogBySlug, fetchBlogs } from "../../../api/blog/blog.api";
-import BlogCover from "../../../components/common/BlogCover"
 import PageContainer from "../../../components/common/PageContainer";
 import { ARTICLE_TYPES } from "../../../config/constants";
+import BlogSideBar from "../../../components/blog/BlogSideBar";
 
 export default async function Blog({ params }: { params: { slug: string } }) {
   const blogs = await fetchBlogs(1, 10, ARTICLE_TYPES.HELP_ARTICLE);
@@ -10,42 +10,29 @@ export default async function Blog({ params }: { params: { slug: string } }) {
   const blog = await fetchBlogBySlug(params.slug);
   return (<>
 
-    <section className="s-header-title">
-      <PageContainer>
-        <h1>Help</h1>
-        <ul className="breadcrambs">
-          <li><a href="/">Home</a></li>
-          <li>Help</li>
-        </ul>
-      </PageContainer>
-    </section>
-
-    <section className="s-news">
-      <PageContainer>
-        <div className="row">
-          <div className="col-12 col-lg-8 blog-cover">
-            <BlogCover blogs={[blog]} />
+    <PageContainer>
+      <div className="flex gap-x-10 justify-center pt-4 ">
+        <div className="basis-1/2">
+          <div key={blog.id} className="post-item-cover">
+            <h4 className="title title-line-left"><a href={`/blog/${blog.slug}`}>
+              {blog.title}
+            </a></h4>
+            <div className="post-content">
+              <div className="text">
+                <div className="content" dangerouslySetInnerHTML={{ __html: blog.content }}></div>
+              </div>
+            </div>
+            <div className="post-footer">
+              <a href={`/blog/${blog.slug}`} className="btn"><span>more</span></a>
+            </div>
           </div>
 
-          <div className="col-12 col-lg-4 sidebar">
-            <a href="#" className="btn btn-sidebar"><span>Widgets</span></a>
-            <ul className="widgets">
-
-              <li className="widget widget-recent-posts">
-                <h5 className="title">Help</h5>
-                <ul>
-                  {blogs.map(blog => {
-                    return (<li>
-                      <a href={"/help/" + blog.slug}>{blog.title}</a>
-                      {/* <div className="date"><i className="fa fa-calendar" aria-hidden="true"></i>{blog.creationDate}</div> */}
-                    </li>)
-                  })}
-                </ul>
-              </li>
-            </ul>
-          </div>
         </div>
-      </PageContainer>
-    </section>
+        <div className="basis-1/4">
+          <BlogSideBar blogs={blogs} type={ARTICLE_TYPES.HELP_ARTICLE} />
+        </div>
+
+      </div>
+    </PageContainer>
   </>)
 }
