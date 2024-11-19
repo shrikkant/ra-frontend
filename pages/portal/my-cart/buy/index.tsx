@@ -39,7 +39,7 @@ export default function Orders() {
 
     router.push("/portal/orders");
   }
-  const onRazorPayCheckout = (mode: number) => {
+  const onRazorPayCheckout = async (mode: number) => {
 
     const currentAddr = loggedUser?.address.find(
       (ad) => ad.id === addressId
@@ -50,8 +50,12 @@ export default function Orders() {
       setSelectedAddress(currentAddr);
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
       setIsButtonLoading(true);
-      displayRazorpay(cart.id, orderSuccess);
-      setIsButtonLoading(false);
+
+      displayRazorpay(cart.id, orderSuccess).then(() => {
+        setTimeout(() => {
+          setIsButtonLoading(false);
+        }, 1000)
+      });
     }
   };
 
