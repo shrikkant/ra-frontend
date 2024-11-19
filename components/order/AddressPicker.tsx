@@ -18,6 +18,7 @@ export const AddressPicker = ({
   onAddressReset,
   onAddressPick,
   selectedAddress,
+  onNewAddress
 }) => {
 
   const dispatch = useDispatch();
@@ -60,10 +61,10 @@ export const AddressPicker = ({
     if (!place_id) {
       return;
     }
-    const res = await addNewAddress(place_id, address_line_1);
+    const newAddress = await addNewAddress(place_id, address_line_1);
     const newUser = { ...loggedUser };
-    newUser.address = [res];
-
+    newUser.address = [newAddress];
+    onNewAddress(newAddress);
     dispatch(authUser(newUser));
   }
 

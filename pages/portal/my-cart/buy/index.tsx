@@ -65,6 +65,10 @@ export default function Orders() {
     setAddressId(addressId);
   };
 
+  const onNewAddress = (newAddress) => {
+    setSelectedAddress(newAddress);
+  }
+
   const resolveStep = () => {
     if (!loggedUser.address || loggedUser.address.length === 0) {
       return ORDER_STEPS.ORDER_STEP_ADDRESS;
@@ -91,8 +95,8 @@ export default function Orders() {
       setLoading(false);
     }
 
-    if (cart?.delivery_address) {
-      // setSelectedAddress(JSON.parse(cart?.delivery_address));
+    if (loggedUser?.address && loggedUser.address.length > 0) {
+      setSelectedAddress(loggedUser.address[0]);
     }
   }, []);
 
@@ -111,6 +115,7 @@ export default function Orders() {
                 <AddressPicker
                   onAddressPick={checkRadio}
                   onAddressReset={changeAddress}
+                  onNewAddress={onNewAddress}
                   selectedAddress={selectedAddress}
                 ></AddressPicker>
                 {selectedAddress && <OrderItemsReview
