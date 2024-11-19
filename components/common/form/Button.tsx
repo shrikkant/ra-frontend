@@ -26,7 +26,7 @@ const Button: React.FC<ButtonProps> = ({ label, variant, onClick, disabled, isLo
   return (
     <button style={styles} onClick={onClick}
       className={`w-full px-4 ${(variant === 'primary' && !disabled) ? primaryColor : secondaryColor}
-      ${disabled || isLoading ? `bg-gray-400 cursor-default` : `cursor-pointer hover:bg-[#E5C71F]`} py-2 rounded-md text-[#555] font-semibold`}>
+      ${(disabled || isLoading) ? `bg-gray-400 cursor-default` : `cursor-pointer hover:bg-[#E5C71F]`} py-2 rounded-md text-[#555] font-semibold`}>
 
       <span className="transition-opacity duration-200">
         {label ? label : 'Submit'}
