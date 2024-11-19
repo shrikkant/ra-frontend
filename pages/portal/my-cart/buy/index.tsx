@@ -40,7 +40,7 @@ export default function Orders() {
     router.push("/portal/orders");
   }
   const onRazorPayCheckout = (mode: number) => {
-    setIsButtonLoading(true);
+
     const currentAddr = loggedUser?.address.find(
       (ad) => ad.id === addressId
     ) || { id: -1, name: "Store Pickup" };
@@ -49,10 +49,9 @@ export default function Orders() {
       updateDeliveryAddressAction(cart, currentAddr)(dispatch);
       setSelectedAddress(currentAddr);
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
-      displayRazorpay(cart.id, orderSuccess).then(() => {
-        console.log("Payment Success");
-        setIsButtonLoading(false);
-      })
+      setIsButtonLoading(true);
+      displayRazorpay(cart.id, orderSuccess);
+      setIsButtonLoading(false);
     }
   };
 
