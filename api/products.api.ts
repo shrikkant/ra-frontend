@@ -1,4 +1,4 @@
-import { IProduct, IProductCategory, IProductFilter } from '../app-store/types';
+import { IProduct, IProductCategory, IProductFilter, ProductPhoto } from '../app-store/types';
 import httpClient, { fetchData } from './axios.config';
 
 
@@ -48,6 +48,11 @@ export async function fetchProducts(searchString?: string,
 export async function fetchProductBySlug(slug: string): Promise<IProduct> {
 
   const response = await fetchData(`products/.by.slug/${slug}`);
+  return response;
+}
+
+export const fetchProductPhoto = async (id: number): Promise<ProductPhoto> => {
+  const response: any = await httpClient.get<ProductPhoto>(`products/${id}/photo`);
   return response;
 }
 

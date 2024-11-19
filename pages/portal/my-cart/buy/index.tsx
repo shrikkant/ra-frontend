@@ -25,6 +25,8 @@ export default function Orders() {
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addressId, setAddressId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
+  const [isButtonLoading, setIsButtonLoading] = useState(false);
+
   const dispatch = useDispatch();
 
 
@@ -46,7 +48,10 @@ export default function Orders() {
       updateDeliveryAddressAction(cart, currentAddr)(dispatch);
       setSelectedAddress(currentAddr);
     } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
-      displayRazorpay(cart.id, orderSuccess);
+      displayRazorpay(cart.id, orderSuccess).then((data) => {
+        setIsButtonLoading(false);
+        console.log("Displayed Razorpay", data);
+      })
     }
   };
 
@@ -120,6 +125,7 @@ export default function Orders() {
                     step={
                       resolveStep()
                     }
+                    isLoading={isButtonLoading}
                     onCallToAction={onRazorPayCheckout}
                   ></OrderSummary>
                 </div>

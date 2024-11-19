@@ -49,4 +49,5 @@ export const displayRazorpay = async (orderId: number, success) => {
 
     const paymentObject = new (window as any).Razorpay(config);
     paymentObject.open();
+    return;
 }

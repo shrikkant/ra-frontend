@@ -8,11 +8,14 @@ import Button from "./common/form/Button";
 export default function OrderSummary({
   order,
   step,
-  onCallToAction }:
+  isLoading,
+  onCallToAction
+}:
   {
     order: IOrder,
     step: number,
     showCallToAction?: boolean,
+    isLoading?: boolean,
     onCallToAction: (mode: number) => void
   }) {
 
@@ -34,7 +37,11 @@ export default function OrderSummary({
       <div>
         <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none">
           {callToAction(step) &&
-            <Button variant="primary" onClick={() => onCallToAction(step)} label={callToAction(step)} />
+            <Button
+              isLoading={isLoading}
+              variant="primary"
+              onClick={() => onCallToAction(step)}
+              label={callToAction(step)} />
           }
         </div>
       </div>
