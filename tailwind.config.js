@@ -13,7 +13,17 @@ module.exports = {
       'xs': '300px',
       ...defaultTheme.screens
     },
-    extend: {},
+    extend: {
+      animation: {
+        ripple: 'ripple 1.4s infinite',
+      },
+      keyframes: {
+        ripple: {
+          '0%': { transform: 'scale(0)', opacity: 1 },
+          '100%': { transform: 'scale(1.5)', opacity: 0 },
+        },
+      },
+    },
   },
   plugins: [],
 }
