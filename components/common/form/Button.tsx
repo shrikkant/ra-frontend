@@ -26,16 +26,19 @@ const Button: React.FC<ButtonProps> = ({ label, variant, onClick, disabled, isLo
   return (
     <button style={styles} onClick={onClick}
       className={`w-full px-4 ${(variant === 'primary' && !disabled) ? primaryColor : secondaryColor}
-      ${(disabled || isLoading) ? `bg-gray-400 cursor-default` : `cursor-pointer hover:bg-[#E5C71F]`} py-2 rounded-md text-[#555] font-semibold`}>
+      ${(disabled || isLoading) ? `bg-gray-400 cursor-default` : `cursor-pointer hover:bg-[#E5C71F]`} py-2 rounded-md text-[#555] font-semibold relative disabled:text-white`}
+      disabled={isLoading || disabled}
+    >
 
-      <span className="transition-opacity duration-200">
+      <span className="transition-opacity duration-200 ">
         {label ? label : 'Submit'}
       </span>
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-end bg-opacity-50 px-6">
-          <div className="relative w-6 h-6">
-            <div className="absolute w-full h-full border-2 border-amber-500 rounded-full animate-ripple"></div>
-            <div className="absolute w-full h-full border-2 border-amber-500 rounded-full animate-ripple delay-200"></div>
+        <div className="absolute inset-0 flex items-center justify-start pl-8">
+          <div className="relative w-3 h-3">
+            <div className="absolute w-full h-full border-2 border-amber-300 rounded-full animate-ripple"></div>
+            <div className="absolute w-full h-full border-2 border-amber-300 rounded-full animate-ripple delay-300"></div>
+            <div className="absolute w-full h-full border-2 border-amber-300 rounded-full animate-ripple delay-600"></div>
           </div>
         </div>
       )}

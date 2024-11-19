@@ -15,12 +15,12 @@ module.exports = {
     },
     extend: {
       animation: {
-        ripple: 'ripple 1.4s infinite',
+        ripple: 'ripple 2s infinite',
       },
       keyframes: {
         ripple: {
           '0%': { transform: 'scale(0)', opacity: 1 },
-          '100%': { transform: 'scale(1.5)', opacity: 0 },
+          '100%': { transform: 'scale(3)', opacity: 0 }, // Increased scaling factor for larger ripples
         },
       },
     },

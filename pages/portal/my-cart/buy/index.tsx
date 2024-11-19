@@ -52,9 +52,7 @@ export default function Orders() {
       setIsButtonLoading(true);
 
       displayRazorpay(cart.id, orderSuccess).then(() => {
-        setTimeout(() => {
-          setIsButtonLoading(false);
-        }, 1000)
+        setIsButtonLoading(false);
       });
     }
   };
