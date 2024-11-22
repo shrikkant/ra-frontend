@@ -27,6 +27,7 @@ export const AddressPicker = ({
   const [options, setOptions] = React.useState<IOption[]>([]);
   const [place_id, setPlaceId] = React.useState<string>("");
   const [address_line_1, setAddressLine1] = React.useState<string>("");
+  const [line1error, setLine1Error] = React.useState<string>("");
 
   const [loading, setLoading] = React.useState<boolean>(false);
 
@@ -53,9 +54,17 @@ export const AddressPicker = ({
   }
 
   const handleLine1Change = (inputValue: string) => {
-    setAddressLine1(inputValue);
+    if (inputValue.length === 0) {
+      setLine1Error("This field is required");
+    } else {
+      setLine1Error("");
+    }
 
+    setAddressLine1(inputValue);
   }
+
+
+
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!place_id) {
@@ -83,11 +92,17 @@ export const AddressPicker = ({
         />
       )}
       {(!hasAddress) && (
-        <div className="text-center xs:w-full">
-          <div>
-            <Input label={"Flat No, Building/ Society Name"} name={"address_line_1"} onChange={handleLine1Change}></Input>
-            {(address_line_1 && address_line_1.length > 5) && <AutoComplete
-              label={"Lookup on Google Maps"}
+        <div className="text-center xs:w-full pt-4">
+          <div className="flex flex-col gap-y-4">
+            <Input
+              label={"Flat No, Building/ Society Name"}
+              name={"address_line_1"}
+              onChange={handleLine1Change}
+              value={address_line_1}
+              error={line1error}></Input>
+
+            {<AutoComplete
+              label={"Locality, Landmark"}
               name={"title"}
               onChange={lookUpAddress}
               options={options}
@@ -95,14 +110,14 @@ export const AddressPicker = ({
               isLoading={loading} />}
 
             <div className="flex justify-end pt-2">
-              {place_id &&
-                <button
-                  className={"p-2 rounded border-gray-800 text-right " +
-                    "bg-yellow-400"}
-                  type="button"
-                  onClick={onSubmit}>
-                  Add Address
-                </button>}
+
+              <button
+                className={`p-2 rounded border-gray-800 text-right ${place_id ? "bg-yellow-400" : "bg-gray-300"}`}
+                type="button"
+                onClick={onSubmit}
+                disabled={!place_id}>
+                Add Address
+              </button>
             </div>
 
           </div>

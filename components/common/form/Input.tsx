@@ -15,6 +15,10 @@ export default function Input({ ...props }: any) {
     }
   }
 
+  const handleChange = (e) => {
+    props.onChange(e.target.value);
+  }
+
   const onClear = () => {
     // setCurrentValue("");
     props.onClear();
@@ -62,12 +66,13 @@ export default function Input({ ...props }: any) {
           }}
           onKeyDown={props.onKeyDown}
           name={props.name}
-          onChange={(e) => props.onChange(e.target.value)}
+          onChange={handleChange}
           className={
             (props.iconType === INPUT_ICON_TYPES.MAP ? "pl-7" : "") +
             (props.iconType === INPUT_ICON_TYPES.PHONE ? "pl-20" : "") +
             (props.showClear ? " pr-14" : " pr-3") +
-            " border-l-gray-200 shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
+            (props.error ? " border-red-500" : " ") +
+            " shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline"}
           id={props.name}
           type="text"
           placeholder={props.label}
@@ -88,9 +93,9 @@ export default function Input({ ...props }: any) {
 
         }
 
-        <span className="text-sm text-[#E03546] ml-3">
+        {props.error && <div className="text-sm text-[#E03546] ml-2 w-full text-left">
           {props.error}
-        </span>
+        </div>}
 
       </div>
     </div>
