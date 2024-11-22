@@ -63,8 +63,9 @@ export const AddressPicker = ({
     setAddressLine1(inputValue);
   }
 
-
-
+  const isValid = () => {
+    return address_line_1.length > 0 && place_id;
+  }
   const onSubmit = async (e) => {
     e.preventDefault();
     if (!place_id) {
@@ -112,10 +113,10 @@ export const AddressPicker = ({
             <div className="flex justify-end pt-2">
 
               <button
-                className={`p-2 rounded border-gray-800 text-right ${place_id ? "bg-yellow-400" : "bg-gray-300"}`}
+                className={`p-2 rounded border-gray-800 text-right ${isValid() ? "bg-yellow-400" : "bg-gray-300"}`}
                 type="button"
                 onClick={onSubmit}
-                disabled={!place_id}>
+                disabled={!isValid()}>
                 Add Address
               </button>
             </div>
