@@ -1,5 +1,4 @@
 import React from 'react'
-import { Card } from "antd";
 
 export interface Photo {
   path: string
@@ -32,8 +31,9 @@ export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
                   style={{ padding: 20, }}
                   className='w-full h-40 object-cover'
                   alt={addon?.masterProduct.name}
-                  src={addon?.masterProduct?.photos[0].path}
+                  src={`/api/products/${addon?.masterProduct?.id}/photo?width=220`}
                 />
+
                 <div className="text-center p-4"> {addon?.masterProduct.name}</div>
               </div>
             );

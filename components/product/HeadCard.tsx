@@ -1,14 +1,7 @@
 "use client"
-
-import {
-  Card,
-  Divider,
-
-} from "antd";
-import Meta from "antd/lib/card/Meta";
 import { IProduct } from "../../app-store/types";
-import LocationShort from "../LocationShort";
-import React, { useState } from "react";
+
+import React from "react";
 
 interface ProductProps {
   product: IProduct;
