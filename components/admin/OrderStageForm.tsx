@@ -81,6 +81,7 @@ export function OrderStageForm({ order }: { order: IOrder }) {
             <option value={String(2)}>{resolveOrderStage(2)}</option>
             <option value={String(3)}>{resolveOrderStage(3)}</option>
             <option value={String(4)}>{resolveOrderStage(4)}</option>
+            <option value={String(97)}>{resolveOrderStage(97)}</option>
           </select>
         </div>
         <div>
