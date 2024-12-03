@@ -18,13 +18,15 @@ import Loader from "components/Loader";
 import { AppLayout } from "components/AppLayout";
 import { IOrder } from "../../../../app-store/types";
 import Link from "next/link";
+import { fetchRevenueStats } from "../../../../api/admin/index.api";
+import { RevenueSummary } from "../../../../components/admin/ReveneSummary";
 
 export default function Orders() {
   const router = useRouter();
-  const orders = useSelector(getOrders);
+  const orders = useSelector<IOrder[]>(getOrders);
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
-
+  const [revenueStats, setRevenueStats] = useState<any>();
   const { stage } = router.query;
 
   const dispatch = useDispatch();
@@ -42,6 +44,10 @@ export default function Orders() {
   useEffect(() => {
     setActiveKey(parseInt(String(stage)));
     router.isReady && loadOrders();
+
+    !revenueStats && fetchRevenueStats().then((stats) => {
+      setRevenueStats(stats);
+    })
   }, [activeKey, stage, router.isReady]);
 
   const tabChanged = (key: string) => {
@@ -68,6 +74,9 @@ export default function Orders() {
     <AppLayout>
       <MyPageHeader title={"Orders"} subtitle={""}></MyPageHeader>
 
+      <div className="px-4">
+        {revenueStats && <RevenueSummary revenueStats={revenueStats} />}
+      </div>
       {loading ? (
         <Loader />
       ) : (
