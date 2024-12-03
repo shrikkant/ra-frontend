@@ -1,7 +1,8 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AdminState } from '../../app-store/admin/types';
 import { RootState } from 'app-store/store';
-import exp from 'constants';
+
+import { IOrder } from '../types';
 
 const initialState: AdminState = {};
 
@@ -53,11 +54,11 @@ export const getActiveCustomer = (state: RootState) => {
 	return state.admin.activeCustomer;
 };
 
-export const getOrders = (state: RootState) => {
+export const getOrders = (state: RootState): IOrder[] => {
 	return state.admin.orders;
 };
 
-export const getActiveOrder = (state: RootState) => {
+export const getActiveOrder = (state: RootState): IOrder => {
 	return state.admin.activeOrder;
 };
 

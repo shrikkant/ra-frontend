@@ -23,7 +23,7 @@ import { RevenueSummary } from "../../../../components/admin/ReveneSummary";
 
 export default function Orders() {
   const router = useRouter();
-  const orders = useSelector<IOrder[]>(getOrders);
+  const orders = useSelector(getOrders);
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [revenueStats, setRevenueStats] = useState<any>();
