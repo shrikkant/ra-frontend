@@ -91,7 +91,7 @@ export function Avatar({ user }: { user: IUser }) {
   const color = generateColorHsl(userName, saturationRange, lightnessRange);
   const initials = getInitials(user);
   return (<div className="flex">
-    <div className={`bg-[${color}] bg-gray-500`}>
+    <div style={{ backgroundColor: color }} className={`w-12 h-12  text-center rounded-full flex flex-col justify-center font-semibold`}>
       {initials}
     </div>
   </div>)

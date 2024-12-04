@@ -95,12 +95,15 @@ export default function Customers() {
 
                       <div className="flex items-center w-full justify-between">
                         <div onClick={() => visitProfile(person.id)} className="cursor-pointer flex gap-x-2">
-                          <img
-                            className="h-12 w-12 flex-none rounded-full bg-gray-50"
-                            src={person.profile_pic}
-                            alt=""
-                          />
-                          <Avatar user={person}></Avatar>
+                          {person.profile_pic ?
+                            <img
+                              className="h-12 w-12 flex-none rounded-full bg-gray-50"
+                              src={person.profile_pic}
+                              alt=""
+                            />
+                            :
+                            <Avatar user={person}></Avatar>
+                          }
                           <div className="w-56">
                             <div className="text-sm font-semibold leading-6 text-gray-900">
                               {person.firstname + " " + person.lastname}
