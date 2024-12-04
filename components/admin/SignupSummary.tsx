@@ -22,7 +22,7 @@ export function SignupSummary({ signupStats }: SignupSummaryProps) {
       <span className="text-2xl font-semibold text-green-600">
         {current}
       </span>
-      {growth > 0 &&
+      {growth != 0 &&
         <span className={
           (growth > 0 ? "text-green-400" : "text-red-500") +
           " pl-2 text-sm"}>

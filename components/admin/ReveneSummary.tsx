@@ -35,7 +35,7 @@ export function RevenueSummary({ revenueStats }: RevenueSummaryProps) {
       <span className="text-2xl font-semibold text-green-600">
         &#8377;{currentMonth.revenue}
       </span>
-      {reveneGrowth > 0 && <span className={
+      {reveneGrowth != 0 && <span className={
         (reveneGrowth > 0 ? "text-green-400" : "text-red-500") +
         " pl-2 text-sm"
       }>
@@ -46,7 +46,7 @@ export function RevenueSummary({ revenueStats }: RevenueSummaryProps) {
       <span className="text-2xl font-semibold text-green-600">
         {currentMonth.orders}
       </span>
-      {ordersGrowth > 0 && <span className={
+      {ordersGrowth != 0 && <span className={
         (ordersGrowth > 0 ? "text-green-400" : "text-red-500") +
         "pl-2 text-sm"}>
         {ordersGrowth}%
