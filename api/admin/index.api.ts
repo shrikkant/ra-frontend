@@ -25,3 +25,8 @@ export const fetchRevenueStats = async () => {
     return response;
 }
 
+export const fetchSignupStats = async () => {
+    const response = await httpClient.get(`/admin/users/stats`);
+    return response;
+}
+

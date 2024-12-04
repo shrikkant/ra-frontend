@@ -99,6 +99,12 @@ export interface IOrderItem {
   pickup: DropOrPickup;
 }
 
+export interface IMasterProduct {
+  id: number,
+  name: string,
+  photos: ProductPhoto[],
+}
+
 export interface IProduct {
   id: number;
   user_id: number;

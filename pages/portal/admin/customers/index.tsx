@@ -18,16 +18,23 @@ import Link from "next/link";
 import { getAdminAuthUser } from "../../../../api/auth.api";
 import { authUser, logout, setAdminLogin } from "../../../../app-store/auth/auth.slice";
 import Input from "../../../../components/common/form/Input";
+import { Avatar } from "../../../../components/user/Avatar";
+import { fetchSignupStats } from "../../../../api/admin/index.api";
+import { SignupSummary } from "../../../../components/admin/SignupSummary";
 
 export default function Customers() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const customers = useSelector(getCustomers);
+  const [signupStats, setSignupStats] = React.useState<any>();
+
   const dispatch = useDispatch();
   const [phone, setPhone] = React.useState("");
 
   const loadCustomers = () => {
     setLoading(true);
+
+
     fetchCustomers().then((data) => {
       dispatch(setCustomers(data));
       setLoading(false);
@@ -56,6 +63,9 @@ export default function Customers() {
   }
 
   useEffect(() => {
+    !signupStats && fetchSignupStats().then((stats) => {
+      setSignupStats(stats);
+    });
     router.isReady && loadCustomers();
   }, [router.isReady]);
 
@@ -64,6 +74,10 @@ export default function Customers() {
       <MyPageHeader title={"Customers"} subtitle={""}>
         <div><Input onChange={handlePhoneSearch} label="Search by phone" /></div>
       </MyPageHeader>
+
+      {signupStats &&
+        <SignupSummary signupStats={signupStats} />
+      }
 
       <div style={{ padding: "16px 16px" }}>
         {loading ? (
@@ -86,6 +100,7 @@ export default function Customers() {
                             src={person.profile_pic}
                             alt=""
                           />
+                          <Avatar user={person}></Avatar>
                           <div className="w-56">
                             <div className="text-sm font-semibold leading-6 text-gray-900">
                               {person.firstname + " " + person.lastname}

@@ -30,6 +30,42 @@ export function Avatar({ user }: { user: IUser }) {
     return Math.floor((hash % (max - min)) + min);
   };
 
+  const hslToHex = (h, s, l) => {
+    // Convert h, s, l to values between 0 and 1
+    s /= 100;
+    l /= 100;
+
+    // Calculate chroma, X, and match values
+    const c = (1 - Math.abs(2 * l - 1)) * s;
+    const x = c * (1 - Math.abs((h / 60) % 2 - 1));
+    const m = l - c / 2;
+
+    let r = 0, g = 0, b = 0;
+
+    // Determine r, g, b based on hue range
+    if (0 <= h && h < 60) {
+      r = c; g = x; b = 0;
+    } else if (60 <= h && h < 120) {
+      r = x; g = c; b = 0;
+    } else if (120 <= h && h < 180) {
+      r = 0; g = c; b = x;
+    } else if (180 <= h && h < 240) {
+      r = 0; g = x; b = c;
+    } else if (240 <= h && h < 300) {
+      r = x; g = 0; b = c;
+    } else if (300 <= h && h < 360) {
+      r = c; g = 0; b = x;
+    }
+
+    // Convert r, g, b to 0-255 range, add m, and round
+    r = Math.round((r + m) * 255);
+    g = Math.round((g + m) * 255);
+    b = Math.round((b + m) * 255);
+
+    // Convert r, g, b to hex and return the hex color
+    return `#${((1 << 24) + (r << 16) + (g << 8) + b).toString(16).slice(1).toUpperCase()}`;
+  }
+
   const generateHSL = (name, saturationRange, lightnessRange) => {
     const hash = getHashOfString(name);
     const h = normalizeHash(hash, 0, 360);
@@ -43,19 +79,21 @@ export function Avatar({ user }: { user: IUser }) {
   };
 
   const generateColorHsl = (id, saturationRange, lightnessRange) => {
-    return HSLtoString(generateHSL(id, saturationRange, lightnessRange));
+    const hsl = generateHSL(id, saturationRange, lightnessRange);
+    return hslToHex(hsl[0], hsl[1], hsl[2]);
   };
 
   const getInitials = (user) => {
-    return `${user.firstname.first[0]}${user.lastname.last[0]}`
+    return `${user.firstname ? user.firstname[0] : "A"}${user.lastname ? user.lastname[0] : "A"}`;
   }
 
-  const userName = `${name}`;
+  const userName = `${user.firstname} ${user.lastname}`;
   const color = generateColorHsl(userName, saturationRange, lightnessRange);
   const initials = getInitials(user);
-  return (<div className="row">
-    <div className={`avatarColor ${theme} bg-${color}`}>{initials}</div>
-    <div className="userName">{userName}</div>
+  return (<div className="flex">
+    <div className={`bg-[${color}] bg-gray-500`}>
+      {initials}
+    </div>
   </div>)
 
 }
