@@ -19,13 +19,17 @@ export default function PriceTag({
   const textSize = "text=" + size;
 
   return (<div className="flex items-end gap-x-2">
-    {discount > 0 && <div className={"r-comp " + textSize}>
+    {discount > 0 && <div className={"r-comp font-bold text-gray-900" + textSize}>
       {getPrice(priceAfterDiscount)}
-      {sub && <sub className="text-sm font-light">{sub}</sub>}
+      {sub && <sub className="text-sm font-semibold">{sub}</sub>}
     </div>}
-    <div className={"r-comp " + textSize + " " + (discount > 0 ? " line-through text-sm" : "")}>
+
+    <div className={"r-comp font-light text-gray-600 " + textSize + " " + (discount > 0 ? " line-through" : "")}>
       {getPrice(price)}
-      {sub && <sub className="text-sm font-light">{sub}</sub>}
+      {sub && <span className="text-sm font-light">{sub}</span>}
+    </div>
+    <div>
+      {discount > 0 && <span className="text-sm text-green-600">{discount}% off</span>}
     </div>
   </div>);
 }
@@ -35,7 +39,7 @@ function getPrice(price) {
   return price.toLocaleString(APP_LOCALE, {
     style: "currency",
     currency: DEFAULT_CURRENCY,
-    minimumFractionDigits: 2,
-    maximumFractionDigits: 2,
+    minimumFractionDigits: 0,
+    maximumFractionDigits: 0,
   });
 }

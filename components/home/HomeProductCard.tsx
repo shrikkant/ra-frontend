@@ -1,12 +1,10 @@
-
-import React from "react";
+import React, { useEffect } from "react";
 import { IProduct } from "../../app-store/types";
-import PriceTag from "../PriceTag";
+import { ProductPrice } from "../product/ProductPrice";
 
 
 export default function HomeProductCard({ product }: { product: IProduct }) {
-
-
+  const dailyRent = product?.rates ? product.rates[0].rate : 0;
   const resolveURL = () => {
     const city = product?.location?.city?.toLowerCase();
     const citySlug = "bengaluru" === city ? "bangalore" : city;
@@ -38,9 +36,7 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
         }
       </a>
       <div className="px-4">
-        <div className="price-cover pb-2">
-          {product.rates && <PriceTag price={product?.rates[0].rate} />}
-        </div>
+        <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
         <h6 className="prod-title">
           <a href={resolveURL()}>{product.title}</a>
         </h6>

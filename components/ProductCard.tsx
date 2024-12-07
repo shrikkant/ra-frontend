@@ -1,10 +1,10 @@
 import Link from "next/link";
-import PriceTag from "./PriceTag";
 import React from "react";
 import { IProduct } from "../app-store/types";
+import { ProductPrice } from "./product/ProductPrice";
 
 export default function ProductCard({ product }: { product: IProduct }) {
-
+  const dailyRent = product?.rates ? product.rates[0].rate : 0;
 
   const resolveURL = () => {
     const city = product?.location?.city?.toLowerCase();
@@ -39,13 +39,10 @@ export default function ProductCard({ product }: { product: IProduct }) {
 
 
         <div>
-          <div className="font-semibold pb-2 text-red-600">
-            {product.rates && <PriceTag price={product?.rates[0].rate} />}
-          </div>
+          <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
           <div style={{ whiteSpace: "pre-wrap" }} className=" font-semibold ">
             {product.title}
           </div>
-          <div className="text-gray-500 text-xs">{product.location?.city}</div>
 
           <div className="text-center py-4">
             <button className={"p-1 btn"} >
