@@ -67,10 +67,8 @@ export default function OrderSummary({
           </div>
           <div>₹{parseInt(order.total_amount + (order.applied_discount ? order.applied_discount : 0) + "")}</div>
         </div>
-        <div className={styles["detail-row"]}>
-          <div>Taxes</div>
-          <div>₹{order.gst_tax}</div>
-        </div>
+
+
         <div className={styles["detail-row"]}>
           <div>Delivery &amp; Pickup Fee</div>
           <div>₹{order.delivery_fee}</div>

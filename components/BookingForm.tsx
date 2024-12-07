@@ -8,20 +8,22 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch, setLastLink } from "app-store/session/session.slice";
 import { IoIosClose } from "react-icons/io";
 import PriceTag from "./PriceTag";
-import { authUser, selectAuthState } from "../app-store/auth/auth.slice";
-
-import { getAuthUser } from "../api/auth.api";
+import { selectAuthState } from "../app-store/auth/auth.slice";
 import { setCart } from "../app-store/user/orders/orders.slice";
 import { BookingLineItem } from "./cart/BookingLineItem";
 import SignIn from "./user/SignIn";
 import Button from "./common/form/Button";
+import { DISCOUNT_STEPS } from "../config/constants";
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: any[] }) {
   const dispatch = useDispatch();
+  const [finalDiscount, setFinalDiscount] = useState(0);
+
   const loggedUser = useSelector(selectAuthState);
   const [showSignIn, setShowSignIn] = React.useState(false);
   const originalRate = rates[0].rate;
-  const discountedRate = Math.ceil(rates[0].rate - (rates[0].rate * discount / 100));
+
+  const discountedRate = Math.ceil(rates[0].rate - (rates[0].rate * finalDiscount / 100));
 
 
   const router = useRouter();
@@ -94,13 +96,17 @@ export default function BookingForm({ productId, discount, rates }: { productId:
   };
 
   useEffect(() => {
-    if (!loggedUser) {
-      getAuthUser().then((user) => {
-        dispatch(authUser(user))
-      });
+    const days = getDays();
+    const discountStep = DISCOUNT_STEPS.find(
+      (step) => step.days <= days
+    );
+    console.log("Days ", days, discountStep);
+    if (discountStep) {
+      setFinalDiscount(discount + discountStep.discount);
     }
 
-  }, [loggedUser]);
+
+  }, [getDays()]);
 
   const renderForm = (
     <>
@@ -109,7 +115,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
           <span className="flex">
             <span className="text-3xl pl-3 font-semibold">
-              <PriceTag price={originalRate} discount={discount} />
+              <PriceTag price={originalRate} discount={finalDiscount} />
             </span>
             <div className="ml-2 relative">
               <span className="absolute truncate text-sm bottom-0">
@@ -146,7 +152,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
 
 
-      {discount > 0 && <BookingLineItem amount={getSavings()}>
+      {finalDiscount > 0 && <BookingLineItem amount={getSavings()}>
         <span className="text-md font-semibold flex">
           You Save
         </span>
@@ -177,7 +183,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
             </span>
             <span className="text-3xl pl-3 ">
-              <PriceTag price={originalRate} discount={discount} />
+              <PriceTag price={originalRate} discount={finalDiscount} />
             </span>
           </div>
           <button
@@ -206,6 +212,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
       )}
 
       {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
+      <div>{finalDiscount}</div>
     </div>
   );
 }

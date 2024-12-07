@@ -14,7 +14,7 @@ export default function PriceTag({
   discount?: number;
 }) {
   const originalPrice = price;
-  const priceAfterDiscount = originalPrice - (price * discount / 100);
+  const priceAfterDiscount = Math.ceil(originalPrice - (price * discount / 100));
 
   const textSize = "text=" + size;
 

@@ -38,6 +38,33 @@ export const enum INPUT_ICON_TYPES {
   OTP = 5,
 }
 
+export const DISCOUNT_STEPS = [
+  {
+    days: 14,
+    discount: 50
+  },
+  {
+    days: 10,
+    discount: 35
+  },
+  {
+    days: 7,
+    discount: 20
+  },
+  {
+    days: 5,
+    discount: 15
+  },
+  {
+    days: 3,
+    discount: 10
+  },
+  {
+    days: 1,
+    discount: 0
+  },
+]
+
 const COUNTRIES: any = [];
 
 const ind: any = {};
