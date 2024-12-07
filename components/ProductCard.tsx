@@ -2,9 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { IProduct } from "../app-store/types";
 import { ProductPrice } from "./product/ProductPrice";
+import LazyImage from "./../components/product/LazyImage";
+// import { getBlurDataURL } from "./../util/image.blur";
 
 export default function ProductCard({ product }: { product: IProduct }) {
   const dailyRent = product?.rates ? product.rates[0].rate : 0;
+
 
   const resolveURL = () => {
     const city = product?.location?.city?.toLowerCase();
@@ -24,11 +27,12 @@ export default function ProductCard({ product }: { product: IProduct }) {
     className="border justify-end border-gray-100 w-full h-full p-4 bg-white cursor-pointer flex flex-col sm:hover:shadow-md sm:rounded xs:shadow-none"
     href={resolveURL()}
   >
-    {product.master_product_id && <img
-      alt={product.title}
-      className="xs:p-2 sm:p-4"
-      loading="lazy"
-      src={`/api/products/${product.master_product_id}/photo?width=180`}
+    {<LazyImage
+      src={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo'}
+      alt="Product Image"
+      // blurDataURL={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo'}
+      width={800}
+      height={600}
     />}
     <div className="pb-4 font-normal whitespace-pre-wrap">
       {product.title}
