@@ -25,7 +25,15 @@ export default function ProductCard({ product }: { product: IProduct }) {
       href={resolveURL()}
     >
       <div
-        className="w-full flex justify-between flex-col h-full shadow-lg p-4 hover:shadow-xl cursor-pointer bg-white rounded"
+        className="w-full
+        flex justify-between
+        flex-col h-full
+        xs:shadow-none
+
+        p-4 sm:hover:shadow-md
+        cursor-pointer
+        bg-white
+        sm:rounded"
         key={product.id}
       >
         <div>
@@ -44,11 +52,6 @@ export default function ProductCard({ product }: { product: IProduct }) {
             {product.title}
           </div>
           <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
-          {/* <div className="text-center py-4 w-full">
-            <button className={"p-1 btn w-full"} >
-              <span>Book Now</span>
-            </button>
-          </div> */}
         </div>
       </div>
     </Link>
