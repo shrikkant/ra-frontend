@@ -41,14 +41,15 @@ export default function RootLayout({
         <meta property="og:url" content="https://www.rentacross.com" />
 
         <meta name="description"
-          content="Rent DSLR Cameras, Lenses, GoPros, Camping Equipment & More. Premium Quality. Affordable Rates. Hassle free renting." />
+          content="Capture your moments with Rentacross! Explore a wide range of Sony and Canon cameras and lenses at affordable rental prices. Perfect for beginners and professionals.
+          Easy booking, flexible plans—rent the gear you need today!" />
         <meta name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store" />
-        <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
-        <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
-        <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
-        <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
-        <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
+        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/slick.min.css"></link>
+        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/nice-select.css"></link>
+        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/animate.css"></link>
+        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/style.css"></link>
         <meta name="google-site-verification" content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ" />
         <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
