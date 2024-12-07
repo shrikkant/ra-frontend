@@ -32,23 +32,23 @@ export default function ProductCard({ product }: { product: IProduct }) {
           {product.master_product_id &&
             <img
               alt={product.title}
-              className="p-10"
+              className="xs:p-2 sm:p-4"
               src={`/api/products/${product.master_product_id}/photo?width=180`}></img>
           }
         </div>
 
 
         <div>
-          <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
-          <div style={{ whiteSpace: "pre-wrap" }} className=" font-semibold ">
+
+          <div style={{ whiteSpace: "pre-wrap" }} className=" font-normal pb-4">
             {product.title}
           </div>
-
-          <div className="text-center py-4">
-            <button className={"p-1 btn"} >
+          <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
+          {/* <div className="text-center py-4 w-full">
+            <button className={"p-1 btn w-full"} >
               <span>Book Now</span>
             </button>
-          </div>
+          </div> */}
         </div>
       </div>
     </Link>

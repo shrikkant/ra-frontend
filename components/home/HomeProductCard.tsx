@@ -1,6 +1,7 @@
 import React, { useEffect } from "react";
 import { IProduct } from "../../app-store/types";
 import { ProductPrice } from "../product/ProductPrice";
+import Link from "next/link";
 
 
 export default function HomeProductCard({ product }: { product: IProduct }) {
@@ -22,34 +23,29 @@ export default function HomeProductCard({ product }: { product: IProduct }) {
   if (!product)
     return (<div>Product not found</div>)
 
-  return (<div key={product.id}>
-    <div className="shadow-md relative">
+  return (
+    <Link
+      href={resolveURL()}
+    >
 
-      {product.featured ? <div className="top-sale capitalize text-red-600 p-4 absolute">top sale</div> : <></>}
+      <div className="shadow-md relative">
 
-      <a href={resolveURL()} className="product-img">
-        {product.master_product_id &&
-          <img
-            alt={product.title}
-            className="p-10"
-            src={`/api/products/${product.master_product_id}/photo?width=180`}></img>
-        }
-      </a>
-      <div className="px-4">
-        <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
-        <h6 className="prod-title">
-          <a href={resolveURL()}>{product.title}</a>
-        </h6>
-        <div>
-          <p className="text-gray-500 text-xs">{product.location?.city}</p>
+        {product.featured ? <div className="top-sale capitalize text-red-600 p-4 absolute">top sale</div> : <></>}
+
+        <div className="product-img">
+          {product.master_product_id &&
+            <img
+              alt={product.title}
+              className="xs:p-2 sm:p-4"
+              src={`/api/products/${product.master_product_id}/photo?width=180`}></img>
+          }
         </div>
-        <div className="text-center py-4">
-          <a className={"btn"} href={resolveURL()}>
-            <span>Book Now</span>
-          </a>
+        <div className="px-4">
+          <div className="pb-4 font-normal whitespace-pre-wrap">
+            {product.title}
+          </div>
+          <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
         </div>
-
       </div>
-    </div>
-  </div>)
+    </Link>)
 }
