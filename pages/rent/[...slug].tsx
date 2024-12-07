@@ -14,7 +14,8 @@ import { fetchProduct } from 'api/products.api';
 import { Product } from 'components/product/Product';
 import { IProduct, IProductFilter } from 'app-store/types';
 import Custom404 from '../404';
-import HomeProductCard from '../../components/home/HomeProductCard';
+import ProductCard from '../../components/ProductCard';
+
 
 export default function Location() {
   const router = useRouter();
@@ -102,8 +103,7 @@ export default function Location() {
           >
             {products &&
               products.map((product: IProduct) => (
-                <HomeProductCard key={product.id} product={product}></HomeProductCard>
-                // <ProductCard key={product.id} product={product} priority={index < 24}></ProductCard>
+                <ProductCard key={product.id} product={product}></ProductCard>
               ))}
           </div>
         </div>

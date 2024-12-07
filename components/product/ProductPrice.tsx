@@ -42,7 +42,7 @@ export const ProductPrice = ({ dailyRent, discount }: ProductPriceProps) => {
     }
   }, [getDays()]);
 
-  return (<div className="font-semibold pb-2">
+  return (<div className="flex items-end gap-x-2 font-semibold pb-2">
     {
       <PriceTag price={dailyRent} discount={finalDiscount} />
     }

@@ -20,40 +20,19 @@ export default function ProductCard({ product }: { product: IProduct }) {
     );
   }
 
-  return (
-    <Link
-      href={resolveURL()}
-    >
-      <div
-        className="w-full
-        flex justify-between
-        flex-col h-full
-        xs:shadow-none
+  return (<Link
+    className="border justify-end border-gray-100 w-full h-full p-4 bg-white cursor-pointer flex flex-col sm:hover:shadow-md sm:rounded xs:shadow-none"
+    href={resolveURL()}
+  >
+    {product.master_product_id && <img
+      alt={product.title}
+      className="xs:p-2 sm:p-4"
+      src={`/api/products/${product.master_product_id}/photo?width=180`}
+    />}
+    <div className="pb-4 font-normal whitespace-pre-wrap">
+      {product.title}
+    </div>
+    <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
 
-        p-4 sm:hover:shadow-md
-        cursor-pointer
-        bg-white
-        sm:rounded"
-        key={product.id}
-      >
-        <div>
-          {product.master_product_id &&
-            <img
-              alt={product.title}
-              className="xs:p-2 sm:p-4"
-              src={`/api/products/${product.master_product_id}/photo?width=180`}></img>
-          }
-        </div>
-
-
-        <div>
-
-          <div style={{ whiteSpace: "pre-wrap" }} className=" font-normal pb-4">
-            {product.title}
-          </div>
-          <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
-        </div>
-      </div>
-    </Link>
-  );
+  </Link>);
 }
