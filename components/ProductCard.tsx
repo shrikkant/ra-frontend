@@ -27,6 +27,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
     {product.master_product_id && <img
       alt={product.title}
       className="xs:p-2 sm:p-4"
+      loading="lazy"
       src={`/api/products/${product.master_product_id}/photo?width=180`}
     />}
     <div className="pb-4 font-normal whitespace-pre-wrap">
