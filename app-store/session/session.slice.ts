@@ -8,7 +8,7 @@ interface DefaultSearch {
     dates: any[]
 }
 
-interface SessionState {
+export interface SessionState {
     isSessionValid: null | boolean,
     defaultSearch?: DefaultSearch,
     lastLink?: string
