@@ -55,7 +55,7 @@ export default function Customers() {
           {products.map((p) => {
             return (
               <div key={p.id}>
-                {p?.name}
+                {p?.title}
               </div>
             );
           })}
