@@ -54,7 +54,7 @@ export default function RootLayout({
         <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
 
-      <body className="inner-scroll page-loaded" id="home">
+      <body className="inner-scroll page-loaded animated-page" id="home">
 
         <StoreProvider>
           <Header />
