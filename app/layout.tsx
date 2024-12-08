@@ -45,32 +45,34 @@ export default function RootLayout({
           Easy booking, flexible plans—rent the gear you need today!" />
         <meta name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store" />
-        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/slick.min.css"></link>
-        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/font-awesome.min.css"></link>
-        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/nice-select.css"></link>
-        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/animate.css"></link>
-        <link rel="stylesheet" href="https://dev.rentacross.com/assets/v2/css/style.css"></link>
+        <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
+        <link rel="stylesheet" href="/assets/v2/css/font-awesome.min.css"></link>
+        <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
+        <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
+        <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
         <meta name="google-site-verification" content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ" />
         <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
 
       <body>
-        <Suspense fallback={<div>Loading...</div>}>
-          <div className="preloader-cover">
-            <div className="preloader">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
+
+        <div className="preloader-cover">
+          <div className="preloader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
           </div>
-          <StoreProvider>
+        </div>
+        <StoreProvider>
+          <Suspense fallback={<div>Loading...</div>}>
+
+
             <Header />
             {children}
             <Footer />
-          </StoreProvider>
-
-        </Suspense>
+          </Suspense>
+        </StoreProvider>
       </body>
     </html>
   )
