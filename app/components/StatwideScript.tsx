@@ -53,7 +53,7 @@ export const StatwideScript: React.FC = () => {
           city: loggedUser.city
         });
     }
-  }, [loggedUser, window.featurics])
+  }, [loggedUser])
 
   return (<>
   </>)
