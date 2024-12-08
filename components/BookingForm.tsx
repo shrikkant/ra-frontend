@@ -212,7 +212,6 @@ export default function BookingForm({ productId, discount, rates }: { productId:
       )}
 
       {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
-      <div>{finalDiscount}</div>
     </div>
   );
 }
