@@ -36,7 +36,6 @@ export default function KitAddOns() {
   const removeItem = (addon) => {
     const currentAddons: IAddOnItem[] = addons.filter((a) => a.id !== addon.id);
 
-    console.log("Addons Remaining L: ", currentAddons);
     setAddons(currentAddons);
   }
 
@@ -60,7 +59,7 @@ export default function KitAddOns() {
 
     {addons && addons.map((addon, i) => <div key={addon.id} className="flex  items-center justify-center gap-4">
       <div className="flex-1">
-        <Input label={""} placeholder={addon.label + " : " + addon.id } value={addon.label} onChange={(e) => onAddonChange(addon.id, e)} />
+        <Input label={""} placeholder={addon.label + " : " + addon.id} value={addon.label} onChange={(e) => onAddonChange(addon.id, e)} />
       </div>
       <div className={"mb-4 cursor-pointer"} onClick={() => removeItem(addon)}>
         <label className="mb-2"></label>
