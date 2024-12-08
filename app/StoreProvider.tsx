@@ -15,11 +15,21 @@ export default function StoreProvider({ children }: {
   }
   const persistor = persistStore(storeRef.current);
 
-  return (
+  return (<>
     <Provider store={storeRef.current}>
-      <PersistGate loading={false} persistor={persistor}>
+      <PersistGate loading={
+        <div className="preloader-cover">
+          <div className="preloader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>}
+        persistor={persistor}>
         {children}
       </PersistGate>
     </Provider>
+  </>
   );
 }

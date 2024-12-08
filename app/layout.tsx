@@ -54,24 +54,13 @@ export default function RootLayout({
         <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
 
-      <body className="inner-scroll" id="home">
+      <body className="inner-scroll page-loaded" id="home">
 
-        <div className="preloader-cover">
-          <div className="preloader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
         <StoreProvider>
           <Header />
           {children}
           <Footer />
         </StoreProvider>
-
-        <div>
-        </div>
       </body>
     </html>
   )

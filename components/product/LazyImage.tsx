@@ -40,7 +40,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
             : 'scale-110 blur-md'
           }
         `}
-        onLoadingComplete={() => setIsLoaded(true)}
+        onLoad={() => setIsLoaded(true)}
         sizes="(max-width: 768px) 100vw,
                (max-width: 1200px) 50vw,
                33vw"

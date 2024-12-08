@@ -11,6 +11,7 @@ import session from './session/session.slice';
 import admin from "./admin/index.slice";
 import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist';
 import storage from './storage';
+import createCompressor from 'redux-persist-transform-compress';
 
 const SIGNOUT_REQUEST = "authSlice/logout";
 
@@ -18,6 +19,8 @@ const persistConfig = {
   key: "root",
   storage,
   blacklist: ["tracking"],
+  whitelist: ["auth", "appDefaults"],
+  transforms: [createCompressor()], // Compress persisted data
 };
 
 const persistedReducer = persistReducer(persistConfig, combineReducers({
@@ -54,14 +57,7 @@ export const makeStore = () => {
       }),
   });
 
-  // return configureStore({
-  //   reducer: persistedReducer,
-  //   devTools: true,
-  // });
 };
-
-// export type RootState = ReturnType<typeof store.getState>
-// export type AppDispatch = typeof store.dispatch;
 
 export type AppStore = ReturnType<typeof makeStore>;
 export type RootState = ReturnType<AppStore["getState"]>;
