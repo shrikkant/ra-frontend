@@ -1,8 +1,9 @@
 import React from "react";
 import { useState } from "react";
 import AppNav from "./AppNav";
-import { AppFooter } from "./footer";
+
 import AppHeader from "./header";
+import Scripts from "./common/Scripts";
 
 export function AppLayout({ sidebar = false, children, header = true }) {
   const [isNavOpen, setIsNavOpen] = useState(sidebar);
@@ -32,7 +33,7 @@ export function AppLayout({ sidebar = false, children, header = true }) {
         </div>
       </div>
 
-      <AppFooter></AppFooter>
+      <Scripts />
     </>
   );
 }

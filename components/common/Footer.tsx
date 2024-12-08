@@ -27,7 +27,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-      <div className="row footer-item-cover xs:px-4">
+      <div className="row footer-item-cover xs:px-4 pb-8">
         <div className="footer-touch col-md-7 col-lg-8">
 
         </div>
@@ -38,12 +38,6 @@ export default function Footer() {
             <li><a href="/mumbai">Mumbai</a></li>
             <li><a href="/bangalore">Bengaluru</a></li>
           </ul>
-        </div>
-      </div>
-      <div className="footer-bottom">
-        <div className="footer-copyright xs:px-4">
-          <a target="_blank" rel="noreferrer" href="https://www.rentacross.com">RentAcross</a>
-          <span>© 2024. All Rights Reserved.</span>
         </div>
       </div>
     </PageContainer>
