@@ -1,11 +1,16 @@
-import React from "react";
-import { Menu } from "@headlessui/react";
+import React, { Fragment } from "react";
+import { Menu, Transition } from "@headlessui/react";
 import { useDispatch, useSelector } from "react-redux";
 import { selectAuthState, logout } from "../app-store/auth/auth.slice";
 import { logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
 import SignIn from "./user/SignIn";
 import { Avatar } from "./user/Avatar";
+import UserIcon from "@heroicons/react/24/outline/UserIcon";
+import Link from "next/link";
+import { IoMdLogOut } from "react-icons/io";
+import { Divider } from "antd";
+import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 
 export default function TopNavMenu() {
   const loggedUser = useSelector(selectAuthState);
@@ -30,23 +35,54 @@ export default function TopNavMenu() {
 
   return (
     <Menu as="div" className="relative">
-      <div className="flex justify-center align-center ">
+      <div className="flex justify-center align-center w-22">
         {loggedUser ? (
           <>
-            <Menu.Button className="px-0 rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 profileref">
-              <span className="sr-only">Open user menu</span>
+            <Menu.Button className=" rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
               <Avatar user={loggedUser}></Avatar>
             </Menu.Button>
-            <Menu.Items className="absolute truncate top-full right-0 mt-2 w-auto bg-white border rounded-md shadow-lg z-50 p-3">
-              <Menu.Item>
-                <button
-                  className="block w-full text-left px-2 py-1 text-gray-800 bg-gray-100"
-                  onClick={handleLogout}
-                >
-                  Logout
-                </button>
-              </Menu.Item>
-            </Menu.Items>
+            <Transition
+              as={Fragment}
+              enter="transition ease-out duration-100"
+              enterFrom="transform opacity-0 scale-95"
+              enterTo="transform opacity-100 scale-100"
+              leave="transition ease-in duration-75"
+              leaveFrom="transform opacity-100 scale-100"
+              leaveTo="transform opacity-0 scale-95"
+            >
+              <Menu.Items className="mt-2 absolute truncate top-full right-0 w-48 bg-white border rounded-md shadow-lg z-50">
+
+                <Menu.Item>
+                  <Link href="/portal/profile"
+                    className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
+                    <UserIcon className="h-6 w-6" />
+                    <span>My Profile</span>
+                  </Link>
+                </Menu.Item>
+
+
+                <Menu.Item>
+                  <Link href="/portal/orders"
+                    className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
+                    <ShoppingBagIcon className="h-6 w-6" />
+                    <span>My Orders</span>
+                  </Link>
+                </Menu.Item>
+
+                <div className="border-t border-gray-300"></div>
+                <Menu.Item>
+                  <Link
+                    href="#"
+                    className="flex w-full text-left px-4 py-2 gap-x-2 text-gray-800 bg-gray-100"
+                    onClick={handleLogout}
+                  >
+                    <IoMdLogOut className="h-6 w-6" />
+                    <span>Logout</span>
+                  </Link>
+                </Menu.Item>
+
+              </Menu.Items>
+            </Transition>
           </>
         ) : (
           <a
