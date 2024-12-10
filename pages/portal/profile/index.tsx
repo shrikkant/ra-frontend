@@ -9,6 +9,7 @@ import {
   FaCheckCircle,
 } from "react-icons/fa";
 import Link from "next/link";
+import { Avatar } from "../../../components/user/Avatar";
 
 export default function MyProfile() {
 
@@ -23,11 +24,13 @@ export default function MyProfile() {
             <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2  sm:p-6 ">
               <div className="items-center xs:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4 xs:gap-x-4 xs:items-start">
                 <div>
-                  <img
+                  {loggedUser.profile_pic ? <img
                     className="mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0"
                     src={loggedUser.profile_pic}
                     alt="Jese picture"
-                  />
+                  /> :
+                    <Avatar user={loggedUser}></Avatar>
+                  }
                 </div>
                 <div>
                   <h3 className="mb-1 text-xl font-bold text-gray-900 ">
