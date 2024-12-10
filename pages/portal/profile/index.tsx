@@ -29,7 +29,7 @@ export default function MyProfile() {
                     src={loggedUser.profile_pic}
                     alt="Jese picture"
                   /> :
-                    <Avatar user={loggedUser}></Avatar>
+                    <Avatar user={loggedUser} size="12"></Avatar>
                   }
                 </div>
                 <div>

@@ -1,13 +1,16 @@
 import React from "react";
 import { IUser } from "../../app-store/types";
 
-export function Avatar({ user }: { user: IUser }) {
+interface AvatarProps {
+  user: IUser;
+  size?: string;
+}
 
-  const [range, setRange] = React.useState(10);
-  const [saturation, setSaturation] = React.useState(50);
-  const [lightness, setLightness] = React.useState(50);
-  const [theme, setTheme] = React.useState('Light');
+export function Avatar({ user, size = "10" }: AvatarProps) {
 
+  const range = 10;
+  const saturation = 50;
+  const lightness = 50;
 
   const getRange = (value, range) => {
     return [Math.max(0, value - range), Math.min(value + range, 100)];
@@ -118,11 +121,21 @@ export function Avatar({ user }: { user: IUser }) {
   const userName = `${user.firstname} ${user.lastname}`;
   const color = generateColorHsl(userName, saturationRange, lightnessRange);
   const initials = getInitials(user);
-  return (<div className="flex">
-    <div style={{ backgroundColor: color, color: getOptimalTextColor(color) }}
-      className={`w-12 h-12 text-xl  text-center rounded-full flex flex-col justify-center font-normal uppercase`}>
-      {initials}
-    </div>
-  </div>)
+  return (<>
+
+    {user.profile_pic ?
+      <img
+        className={` h-${size} w-${size} rounded-full`}
+        src={user.profile_pic}
+        alt=""
+      /> :
+      <div className="flex">
+        <div style={{ backgroundColor: color, color: getOptimalTextColor(color) }}
+          className={`w-${size} h-${size} text-xl  text-center rounded-full flex flex-col justify-center font-normal uppercase`}>
+          {initials}
+        </div>
+      </div>
+    }
+  </>)
 
 }

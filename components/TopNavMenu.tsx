@@ -5,6 +5,7 @@ import { selectAuthState, logout } from "../app-store/auth/auth.slice";
 import { logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
 import SignIn from "./user/SignIn";
+import { Avatar } from "./user/Avatar";
 
 export default function TopNavMenu() {
   const loggedUser = useSelector(selectAuthState);
@@ -34,11 +35,7 @@ export default function TopNavMenu() {
           <>
             <Menu.Button className="px-0 rounded-full bg-gray-800 text-sm focus:outline-none focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800 profileref">
               <span className="sr-only">Open user menu</span>
-              <img
-                className=" h-8 w-8 rounded-full"
-                src={loggedUser.profile_pic}
-                alt=""
-              />
+              <Avatar user={loggedUser}></Avatar>
             </Menu.Button>
             <Menu.Items className="absolute truncate top-full right-0 mt-2 w-auto bg-white border rounded-md shadow-lg z-50 p-3">
               <Menu.Item>
