@@ -87,11 +87,40 @@ export function Avatar({ user }: { user: IUser }) {
     return `${user.firstname ? user.firstname[0] : "A"}${user.lastname ? user.lastname[0] : "A"}`;
   }
 
+  function hexToRgb(hex: string): { r: number, g: number, b: number } {
+    // Remove the '#' if it's there
+    hex = hex.replace('#', '');
+
+    // Parse the hex string into RGB values
+    const r = parseInt(hex.substring(0, 2), 16);
+    const g = parseInt(hex.substring(2, 4), 16);
+    const b = parseInt(hex.substring(4, 6), 16);
+
+    return { r, g, b };
+  }
+
+  function calculateBrightness(r: number, g: number, b: number): number {
+    // Apply the brightness formula: 0.2126 * R + 0.7152 * G + 0.0722 * B
+    return 0.2126 * r + 0.7152 * g + 0.0722 * b;
+  }
+
+  function getOptimalTextColor(hex: string): string {
+    // Convert the hex code to RGB
+    const { r, g, b } = hexToRgb(hex);
+
+    // Calculate brightness
+    const brightness = calculateBrightness(r, g, b);
+
+    // If brightness is low, return white text, else black text
+    return brightness < 128 ? '#FFFFFF' : '#000000';
+  }
+
   const userName = `${user.firstname} ${user.lastname}`;
   const color = generateColorHsl(userName, saturationRange, lightnessRange);
   const initials = getInitials(user);
   return (<div className="flex">
-    <div style={{ backgroundColor: color }} className={`w-12 h-12  text-center rounded-full flex flex-col justify-center font-semibold`}>
+    <div style={{ backgroundColor: color, color: getOptimalTextColor(color) }}
+      className={`w-12 h-12 text-xl  text-center rounded-full flex flex-col justify-center font-normal uppercase`}>
       {initials}
     </div>
   </div>)
