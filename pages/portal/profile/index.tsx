@@ -5,8 +5,10 @@ import { selectAuthState } from "app-store/auth/auth.slice";
 import { AppLayout } from "components/AppLayout";
 import MyPageHeader from "components/MyPageHeader";
 import {
+  FaAddressCard,
   FaCheckCircle,
 } from "react-icons/fa";
+import Link from "next/link";
 
 export default function MyProfile() {
 
@@ -31,9 +33,15 @@ export default function MyProfile() {
                   <h3 className="mb-1 text-xl font-bold text-gray-900 ">
                     {loggedUser.firstname + " " + loggedUser.lastname}
                   </h3>
-                  {loggedUser?.verified === 3 && <div className="flex items-center gap-x-1 pb-2">
-                    <FaCheckCircle className="text-green-600" /> Aadhaar Verified
-                  </div>}
+                  {(loggedUser?.verified === 3) ?
+                    <div className="flex items-center gap-x-1 pb-2">
+                      <FaCheckCircle className="text-green-600" /> Aadhaar Verified
+                    </div> :
+                    <div>
+                      <Link href="/portal/profile/verify" className="flex justify-center items-center gap-x-2 pb-2">
+                        <FaAddressCard></FaAddressCard> Complete KYC Verification
+                      </Link>
+                    </div>}
 
                   <div className="mb-4 text-sm text-gray-500  flex items-center gap-x-1">
 
