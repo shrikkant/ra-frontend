@@ -1,5 +1,4 @@
-import { Button, Tabs, Tag } from "antd";
-import { PageHeader } from "@ant-design/pro-layout";
+
 import styles from "styles/orders.module.css";
 
 import { getOrders, setOrders } from "app-store/admin/index.slice";
@@ -8,7 +7,7 @@ import { fetchOrders } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
 
-import Moment from "moment";
+
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
@@ -17,9 +16,10 @@ import { resolveOrderStage } from "util/global.util";
 import Loader from "components/Loader";
 import { AppLayout } from "components/AppLayout";
 import { IOrder } from "../../../../app-store/types";
-import Link from "next/link";
 import { fetchRevenueStats } from "../../../../api/admin/index.api";
 import { RevenueSummary } from "../../../../components/admin/ReveneSummary";
+import { Tabs } from "antd";
+import { AdminOrderHeader } from "../../../../components/admin/order/AdminOrderHeader";
 
 export default function Orders() {
   const router = useRouter();
@@ -52,18 +52,6 @@ export default function Orders() {
 
   const tabChanged = (key: string) => {
     router.push(`/portal/admin/orders?stage=${key}`);
-  };
-
-  const orderDuration = (start: Date | undefined, end: Date | undefined) => {
-    if (!start || !end) {
-      return "";
-    }
-
-    return (
-      Moment(start).utcOffset(0).format("DD MMM") +
-      " - " +
-      Moment(end).utcOffset(0).format("DD MMM")
-    );
   };
 
   const canApplyDiscount = (order) => {
@@ -99,37 +87,7 @@ export default function Orders() {
 
                         return (
                           <div className={styles.orderBox + " my-3"} key={order.id}>
-                            <PageHeader
-                              className={styles.orderHeader}
-                              key={order.id}
-                              ghost={false}
-                              tags={[
-                                <Tag key="1" color="red">
-                                  {"₹" + order.amount}
-                                </Tag>,
-                                <Tag key="2" color="purple">
-                                  <Link href={`/portal/admin/customers/${order.user.id}`}>
-                                    {order.user.firstname}
-                                  </Link>
-                                </Tag>,
-                              ]}
-                              title={"#" + order.id}
-                              subTitle={orderDuration(
-                                order.start_date,
-                                order.end_date
-                              )}
-                              extra={[
-                                <Button
-                                  key="1"
-                                  type="primary"
-                                  onClick={() => {
-                                    router.push("/portal/admin/orders/" + order.id);
-                                  }}
-                                >
-                                  Stage
-                                </Button>,
-                              ]}
-                            ></PageHeader>
+                            <AdminOrderHeader order={order} />
 
                             {order.items &&
                               order.items.map((item) => (
