@@ -38,7 +38,7 @@ export default function MyProfile() {
                   </h3>
                   {(loggedUser?.verified === 3) ?
                     <div className="flex items-center gap-x-1 pb-2">
-                      <FaCheckCircle className="text-green-600" /> Aadhaar Verified
+                      <FaCheckCircle className="text-green-600" /> KYC Verified
                     </div> :
                     <div>
                       <Link href="/portal/profile/verify" className="flex justify-center items-center gap-x-2 pb-2">
