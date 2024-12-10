@@ -1,5 +1,13 @@
 import { IDocument } from "./app-defaults/types";
 
+export interface IInvoice {
+  id: number;
+  order_id: number;
+  user_id: number;
+  amount: number;
+  paid_ts: Date;
+  delivery_fee: number;
+}
 export interface IOrder {
   id: number;
   user_id: number;
@@ -33,6 +41,7 @@ export interface IOrder {
   gst_tax?: number;
   days?: number;
   per_day_rate?: number;
+  invoice: IInvoice;
   isPaid(): boolean;
 }
 
