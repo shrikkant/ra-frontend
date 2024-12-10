@@ -13,6 +13,29 @@ interface AdminOrderHeaderProps {
 export const AdminOrderHeader = ({ order }: AdminOrderHeaderProps) => {
   const router = useRouter();
 
+  const tags = [
+    <Tag key="1" color="red">
+      {"₹" + order.amount}
+    </Tag>,
+    <Tag key="2" color="purple">
+      <Link href={`/portal/admin/customers/${order.user.id}`}>
+        {order.user.firstname}
+      </Link>
+    </Tag>,
+  ];
+
+  if (order.invoice) {
+    tags.push(
+      <Tag key="3" color="green">
+        <Link
+          href={`/uploads/${order.user.id}/invoices/invoice-${order.user.id}-${order.invoice.id}.pdf`}
+          target="_blank">
+          Invoice
+        </Link>
+      </Tag>
+    );
+  }
+
   const orderDuration = (start: Date | undefined, end: Date | undefined) => {
     if (!start || !end) {
       return "";
@@ -29,23 +52,7 @@ export const AdminOrderHeader = ({ order }: AdminOrderHeaderProps) => {
     className={styles.orderHeader}
     key={order.id}
     ghost={false}
-    tags={[
-      <Tag key="1" color="red">
-        {"₹" + order.amount}
-      </Tag>,
-      <Tag key="2" color="purple">
-        <Link href={`/portal/admin/customers/${order.user.id}`}>
-          {order.user.firstname}
-        </Link>
-      </Tag>,
-      <Tag key="3" color="green">
-        <Link
-          href={`/uploads/${order.user.id}/invoices/invoice-${order.user.id}-${order.invoice.id}.pdf`}
-          target="_blank">
-          Invoice
-        </Link>
-      </Tag>,
-    ]}
+    tags={tags}
     title={"#" + order.id}
     subTitle={orderDuration(
       order.start_date,
