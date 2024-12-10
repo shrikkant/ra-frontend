@@ -16,7 +16,7 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
         <div>
           {product?.master_product_id &&
             <div className="flex justify-center">
-              <img src={`/api/products/${product.master_product_id}/photo?width=540`}></img>
+              <img src={`/api/products/${product.master_product_id}/photo?width=420`}></img>
             </div>
           }
         </div>
