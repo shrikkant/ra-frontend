@@ -38,7 +38,7 @@ export default function TopNavMenu() {
       <div className="flex justify-center align-center w-22">
         {loggedUser ? (
           <>
-            <Menu.Button className=" rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
+            <Menu.Button className="p-0 rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
               <Avatar user={loggedUser}></Avatar>
             </Menu.Button>
             <Transition
