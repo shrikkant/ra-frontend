@@ -10,71 +10,44 @@ import { Button, Tag } from "antd";
 import styles from "styles/orders.module.css";
 import Moment from "moment";
 import Loader from "../../../../components/Loader";
+import { Section } from "../../common/Section";
 
 export const UserOrders: React.FC = () => {
-  const [isClient, setIsClient] = useState(false);
+
   const loggedUser = useSelector(selectAuthState);
   const [orders, setOrders] = useState<IOrder[]>([]);
 
   useEffect(() => {
-    setIsClient(true);
     if (loggedUser) {
       fetchOrders().then((data: IOrder[]) => {
         setOrders(data);
       });
     }
   }, [loggedUser]);
-
   return (<>
 
-    {isClient &&
-      <div style={{ padding: "16px 16px" }} className="right-panel">
-        {!orders ?
-          <Loader /> :
-          orders.map((order: IOrder) => {
-            const items: JSX.Element[] = [];
 
-            items.push(
-              <PageHeader
-                className={styles.orderHeader}
-                key={order.id}
-                ghost={false}
-                tags={[
-                  <Tag key="1" color="red">
-                    {"₹" + order.amount}
-                  </Tag>,
-                  <Tag key="2" color="purple">
-                    {order.status}
-                  </Tag>,
-                ]}
-                title={"#" + order.id}
-                subTitle={Moment(order.created_ts).format("DD MMM")}
-                extra={[
-                  <Button key="1" type="primary">
-                    Track
-                  </Button>,
-                ]}
-              >
+    <div style={{ padding: "16px 16px" }} className="right-panel">
+      {!orders ?
+        <Loader /> :
+        <div >
+          {orders.map((order: IOrder) =>
 
-              </PageHeader>
-            );
+            <Section title={"Order ID: " + order.id} key={order.id}
+              tags={[
 
-            order.items &&
-              order.items.map((item) => {
-                items.push(
+              ]}>
+              {order.items &&
+                order.items.map((item) =>
                   <OrderItemRow
                     key={item.id}
                     orderItem={item}
                   />
-                );
-              });
-            return (
-              <div key={order.id}>
-                {items}
-              </div>
-            );
-          })}
-      </div>
-    }
+                )}
+            </Section>
+          )}
+        </div>}
+    </div>
+
   </>);
 }
