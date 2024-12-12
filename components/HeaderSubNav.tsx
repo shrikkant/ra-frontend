@@ -1,3 +1,4 @@
+"use client";
 import { useRouter } from "next/navigation";
 
 import "react-date-range/dist/styles.css"; // main css file

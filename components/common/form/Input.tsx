@@ -1,6 +1,6 @@
 
 
-import React, { useState } from "react";
+import React from "react";
 import { FaSpinner } from "react-icons/fa";
 import { INPUT_ICON_TYPES } from "../../../config/constants";
 

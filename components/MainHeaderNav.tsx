@@ -1,3 +1,4 @@
+"use client"
 import { useRouter, useSearchParams } from "next/navigation";
 
 import { selectAuthState } from "../app-store/auth/auth.slice";
@@ -11,9 +12,7 @@ import React, { useEffect, useState } from "react";
 import SearchBar from "./SearchBar";
 import { Disclosure } from "@headlessui/react";
 import {
-  Bars3Icon,
   ShoppingCartIcon,
-  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { SearchInput } from "./SearchInput";
 import TopNavMenu from "components/TopNavMenu";
@@ -27,7 +26,7 @@ import { IOrder } from "../app-store/types";
 
 
 
-export default function MainHeaderNav({ navState, onNavStateChange }: { navState, onNavStateChange: () => void; }) {
+export default function MainHeaderNav() {
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch()
   const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
@@ -59,32 +58,12 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
   }, [cart]);
 
-  const isAdmin = (user) => {
-    return user && user.role === "A";
-  }
-
   return (
     <Disclosure as="nav" className="bg-gray-800">
       <div className=" px-4 sm:px-6 lg:px-8">
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
           <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className=" inset-y-0 left-0 flex items-center sm:gap-x-6 ">
-              {isAdmin(loggedUser) && (
-                <Disclosure.Button
-                  onClick={onNavStateChange}
-                  className={
-                    (navState ? "" : "sm:hidden") +
-                    "inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-gray-700 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white"
-                  }
-                >
-                  <span className="sr-only">Open Menu</span>
-                  {navState ? (
-                    <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
-                  ) : (
-                    <Bars3Icon className="block h-6 w-6" aria-hidden="true" />
-                  )}
-                </Disclosure.Button>
-              )}
               <div className="my-4 justify-center flex xs:hidden sm:block">
                 <img src="/assets/v2/img/logo.png" alt="RentAcross" style={{ height: 36 }} />
               </div>
@@ -102,7 +81,7 @@ export default function MainHeaderNav({ navState, onNavStateChange }: { navState
               {loggedUser && (
                 <a
                   className="relative bg-gray-800  hover:bg-gray-800 hover:text-slate-50 p-2 rounded-md tex-sm font-semibold text-gray-400 content-center"
-                  href="/portal/my-cart"
+                  href="/p/mycart"
                 >
                   <ShoppingCartIcon className="h-6 w-6" />
                   {cart && cart?.items?.length > 0 && (

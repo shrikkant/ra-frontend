@@ -11,12 +11,59 @@ import Link from "next/link";
 import { IoMdLogOut } from "react-icons/io";
 
 import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
+import { FaShopify } from "react-icons/fa";
+
+interface INavLink {
+  title: string;
+  path: string;
+  icon: React.ReactNode;
+}
 
 export default function TopNavMenu() {
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
   const [showSignIn, setShowSignIn] = React.useState(false);
+
+  const userLinks: INavLink[] = [
+    {
+      title: "My Profile",
+      path: "/p/profile",
+      icon: <UserIcon className="h-6 w-6" />
+    },
+    {
+      title: "My Orders",
+      path: "/p/orders",
+      icon: <ShoppingBagIcon className="h-6 w-6" />
+    },
+  ];
+
+  const adminLinks: INavLink[] = [
+    {
+      title: "Customers",
+      path: "/p/admin/customers",
+      icon: <UserIcon className="h-6 w-6" />
+    },
+    {
+      title: "Orders",
+      path: "/p/admin/orders",
+      icon: <ShoppingBagIcon className="h-6 w-6" />
+    },
+    {
+      title: "Brands",
+      path: "/p/admin/brands",
+      icon: <ShoppingBagIcon className="h-6 w-6" />
+    },
+
+    {
+      title: "Products",
+      path: "/p/admin/products",
+      icon: <FaShopify className="h-6 w-6" />
+    },
+  ]
+
+
+
 
   const handleLogout = async () => {
     logoutUser().then(() => {
@@ -52,22 +99,24 @@ export default function TopNavMenu() {
             >
               <MenuItems className="mt-2 absolute truncate top-full right-0 w-48 bg-white border rounded-md shadow-lg z-50">
 
-                <MenuItem>
-                  <Link href="/portal/profile"
-                    className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
-                    <UserIcon className="h-6 w-6" />
-                    <span>My Profile</span>
-                  </Link>
-                </MenuItem>
+                {userLinks.map((link, index) =>
+                  <MenuItem key={index}>
+                    <Link href={link.path}
+                      className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
+                      {link.icon}
+                      <span>{link.title}</span>
+                    </Link>
+                  </MenuItem>)}
 
-
-                <MenuItem>
-                  <Link href="/portal/orders"
-                    className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
-                    <ShoppingBagIcon className="h-6 w-6" />
-                    <span>My Orders</span>
-                  </Link>
-                </MenuItem>
+                <div className="border-t border-gray-300"></div>
+                {adminLinks.map((link, index) =>
+                  <MenuItem key={index}>
+                    <Link href={link.path}
+                      className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
+                      {link.icon}
+                      <span>{link.title}</span>
+                    </Link>
+                  </MenuItem>)}
 
                 <div className="border-t border-gray-300"></div>
                 <MenuItem>

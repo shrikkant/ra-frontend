@@ -1,40 +1,28 @@
 import React from "react";
-import { Tag, Button } from "antd";
+import { Button } from "antd";
 import { IOrder } from "../../../app-store/types";
-import { PageHeader } from "@ant-design/pro-layout";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import styles from "styles/orders.module.css";
 import Moment from "moment";
+import { Section } from "../../../app/components/common/Section";
 
 interface AdminOrderHeaderProps {
-  order: IOrder
+  order: IOrder,
+  children?: React.ReactNode
 }
-export const AdminOrderHeader = ({ order }: AdminOrderHeaderProps) => {
+export const AdminOrderHeader = ({ order, children }: AdminOrderHeaderProps) => {
   const router = useRouter();
 
   const tags = [
-    <Tag key="1" color="red">
+    <div key="1" color="red">
       {"₹" + order.amount}
-    </Tag>,
-    <Tag key="2" color="purple">
-      <Link href={`/portal/admin/customers/${order.user.id}`}>
+    </div>,
+    <div key="2" color="purple">
+      <Link href={`/p/admin/customers/${order.user.id}`}>
         {order.user.firstname}
       </Link>
-    </Tag>,
+    </div>,
   ];
-
-  if (order.invoice) {
-    tags.push(
-      <Tag key="3" color="green">
-        <Link
-          href={`/uploads/${order.user.id}/invoices/invoice-${order.user.id}-${order.invoice.id}.pdf`}
-          target="_blank">
-          Invoice
-        </Link>
-      </Tag>
-    );
-  }
 
   const orderDuration = (start: Date | undefined, end: Date | undefined) => {
     if (!start || !end) {
@@ -48,29 +36,37 @@ export const AdminOrderHeader = ({ order }: AdminOrderHeaderProps) => {
     );
   };
 
-  return (<PageHeader
-    className={styles.orderHeader}
-    key={order.id}
-    ghost={false}
+  tags.push(<div key={"1"}>
+    {orderDuration(order.start_date, order.end_date)}
+  </div>)
+
+  if (order.invoice) {
+    tags.push(
+      <div key="3" color="green">
+        <Link
+          href={`/uploads/${order.user.id}/invoices/invoice-${order.user.id}-${order.invoice.id}.pdf`}
+          target="_blank">
+          Invoice
+        </Link>
+      </div>
+    );
+  }
+
+
+
+  return (<Section title={"#" + order.id}
     tags={tags}
-    title={"#" + order.id}
-    subTitle={orderDuration(
-      order.start_date,
-      order.end_date
-    )}
-    extra={[
+    actions={[
       <Button
         key="1"
         type="primary"
         onClick={() => {
-          router.push("/portal/admin/orders/" + order.id);
+          router.push("/p/admin/orders/" + order.id);
         }}
       >
         Stage
       </Button>,
-    ]}
-  >
-
-  </PageHeader>)
-
+    ]}>
+    {children}
+  </Section>);
 }

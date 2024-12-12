@@ -1,7 +1,5 @@
 import React from "react";
 import { useState } from "react";
-import AppNav from "./AppNav";
-
 import AppHeader from "./header";
 import Scripts from "./common/Scripts";
 
@@ -15,7 +13,7 @@ export function AppLayout({ sidebar = false, children, header = true }) {
   return (
     <>
       <div className="main-content">
-        <AppNav navState={isNavOpen} toggleNavState={toggleNav}></AppNav>
+
         <div className={"overflow-y-auto h-screen w-full"}>
           {header && <AppHeader
             navState={isNavOpen}

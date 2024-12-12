@@ -4,10 +4,9 @@ import type { RcFile, UploadProps } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { addDocument, uploadDocument } from '../api/admin/customers.api';
 import styles from 'styles/documents.module.css';
-import { PageHeader } from '@ant-design/pro-layout';
-import { ArrowDownCircleIcon } from '@heroicons/react/24/outline';
 import { IUser } from '../app-store/types';
 import { IDocument } from '../app-store/app-defaults/types';
+import { Section } from '../app/components/common/Section';
 
 const getBase64 = (file: RcFile): Promise<string> =>
   new Promise((resolve, reject) => {
@@ -88,15 +87,12 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
 
 
   const customRequest = async ({
-    action,
     data,
     file,
     filename,
-    headers,
     onError,
     onProgress,
     onSuccess,
-    withCredentials,
   }, docType: string) => {
     // EXAMPLE: post form-data with 'axios'
     // eslint-disable-next-line no-undef
@@ -116,8 +112,6 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
       const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
         return docs?.find((doc: any) => doc.uid == docType) === undefined;
       });
-
-      console.log("Pending ", pendingDocTypes.length);
 
       setPendingDocTypes(pendingDocTypes);
     }
@@ -150,14 +144,10 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
     return (doc.lastIndexOf("pdf") > -1);
   };
 
-  return (
+  return (<Section title={"Documents"}>
+
     <div className={styles.docsBox}>
-      <PageHeader
-        className={styles.docsHeader}
-        key={customer.id}
-        ghost={false}
-        title={"Documents"}
-      ></PageHeader>
+
       <div className="p-4 flex flex-col gap-y-4">
         <div>
           <Upload
@@ -190,14 +180,14 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
       </div>
 
 
-      <Modal bodyStyle={{ height: "50vh" }} open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
+      <Modal style={{ height: "50vh" }} open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
         {isPdf(previewImage) ?
           <embed src={previewImage} style={{ width: '100%', height: '100%' }} /> :
           <img alt="example" style={{ width: '100%' }} src={previewImage} />
         }
       </Modal>
     </div>
-  );
+  </Section>);
 };
 
 export default DocumentsCard;

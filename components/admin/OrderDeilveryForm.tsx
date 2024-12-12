@@ -3,7 +3,7 @@ import { IOrder } from "../../app-store/types";
 import { DeliveryAssignmentForm } from "./DeliveryAssignmentForm";
 
 export const OrderDeliveryForm = ({ order }: { order: IOrder }) => {
-  console.log("order", order.delivery);
+
   const { customer_address } = order.delivery || {};
   const { items } = order.delivery || {};
   return (

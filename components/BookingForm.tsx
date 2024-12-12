@@ -67,7 +67,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
       dispatch(setCart(cart));
 
       if (bookNow) {
-        router.push("/portal/my-cart");
+        router.push("/p/mycart");
       } else {
         setOpenFormInMobile(false);
       }

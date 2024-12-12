@@ -14,7 +14,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
     const citySlug = "bengaluru" === city ? "bangalore" : city;
 
     return (
-      "/rent/" +
+      "/" +
       citySlug +
       "/" +
       product?.subCategory?.slug +
