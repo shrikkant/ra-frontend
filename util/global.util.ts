@@ -26,7 +26,8 @@ export const enum OrderStages {
 	InProgress = 3,
 	Completed = 4,
 	OwnerCancelled = 97,
-	RenterCancelled = 98
+	RenterCancelled = 98,
+
 
 }
 

@@ -1,6 +1,10 @@
 import React from 'react'
 
-export default function PageContainer({ children }) {
+interface PageContainerProps {
+  children: React.ReactNode
+}
+
+export default function PageContainer({ children }: PageContainerProps) {
   return (
     <div className="sm:container mx-auto">
       {children}

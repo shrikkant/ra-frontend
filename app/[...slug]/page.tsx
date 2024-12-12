@@ -10,7 +10,9 @@ import { IProduct } from '../../app-store/types';
 
 export default async function Location({ params, searchParams }: { params: { slug: string }, searchParams }) {
   const categories = await fetchData(`categories`);
-  const filter = getProductFilter(params, categories) || {};
+  const localParams = await params;
+  const localSearchParams = await searchParams;
+  const filter = getProductFilter(localParams, categories) || {};
   let product: IProduct | null = null;
   let products: IProduct[] = [];
 
@@ -20,10 +22,10 @@ export default async function Location({ params, searchParams }: { params: { slu
   // const [meta, setMeta] = React.useState<any>(null);
 
   if (filter.product) {
-    const productSlug = params.slug.toString().split(",").at(-1);
+    const productSlug = localParams.slug.toString().split(",").at(-1);
     product = productSlug ? await fetchProductBySlug(productSlug) : null;
   } else {
-    const response: { results: IProduct[], meta: any } = await fetchProducts(searchParams?.q, filter);
+    const response: { results: IProduct[], meta: any } = await fetchProducts(localSearchParams?.q, filter);
     products = response.results;
     // meta = response.meta;
   }

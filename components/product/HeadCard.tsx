@@ -1,8 +1,5 @@
-"use client"
 import { IProduct } from "../../app-store/types";
-
 import React from "react";
-
 interface ProductProps {
   product: IProduct;
 }
