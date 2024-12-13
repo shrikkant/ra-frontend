@@ -1,7 +1,7 @@
-import React, { Fragment } from "react";
+import React, { Fragment, useEffect } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthState, logout } from "../app-store/auth/auth.slice";
+import { useDispatch } from "react-redux";
+import { logout, authUser } from "../app-store/auth/auth.slice";
 import { logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
 import SignIn from "./user/SignIn";
@@ -12,6 +12,7 @@ import { IoMdLogOut } from "react-icons/io";
 
 import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 import { FaShopify } from "react-icons/fa";
+import { useUser } from "../app/context/UserContext";
 
 interface INavLink {
   title: string;
@@ -20,7 +21,8 @@ interface INavLink {
 }
 
 export default function TopNavMenu() {
-  const loggedUser = useSelector(selectAuthState);
+  const loggedUser = useUser();
+  // const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
   const [showSignIn, setShowSignIn] = React.useState(false);
@@ -63,7 +65,9 @@ export default function TopNavMenu() {
   ]
 
 
-
+  useEffect(() => {
+    loggedUser && dispatch(authUser(loggedUser));
+  }, [loggedUser]);
 
   const handleLogout = async () => {
     logoutUser().then(() => {
@@ -148,3 +152,4 @@ export default function TopNavMenu() {
     </Menu>
   );
 }
+

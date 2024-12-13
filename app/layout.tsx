@@ -13,6 +13,10 @@ import 'styles/common.css'
 
 import type { Viewport } from 'next'
 import { GoogleTagManager } from '@next/third-parties/google'
+import { fetchData } from './utils/api'
+import { IUser } from '../app-store/types'
+import { UserProvider } from './context/UserContext'
+
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
@@ -22,13 +26,16 @@ export const viewport: Viewport = {
   // interactiveWidget: 'resizes-visual',
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
   children,
 }: {
   children: React.ReactNode
 }) {
+
+  const loggedUser: IUser = await fetchData("/auth");
+
   return (
     <html lang="en">
       <head>
@@ -54,32 +61,27 @@ export default function RootLayout({
         <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
 
-      <body>
-
-        <div className="preloader-cover">
-          <div className="preloader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-        <StoreProvider>
-          <Suspense fallback={<div className="preloader-cover">
-            <div className="preloader">
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>}>
+      <body className="page-loaded animated-page">
 
 
-            <Header />
-            {children}
-            <Footer />
-          </Suspense>
-        </StoreProvider>
+        <UserProvider user={loggedUser}>
+          <StoreProvider>
+            <Suspense fallback={<div className="preloader-cover">
+              <div className="preloader">
+                <span></span>
+                <span></span>
+                <span></span>
+                <span></span>
+              </div>
+            </div>}>
+
+
+              <Header />
+              {children}
+              <Footer />
+            </Suspense>
+          </StoreProvider>
+        </UserProvider>
       </body>
     </html>
   )

@@ -4,7 +4,7 @@ import React, { Fragment } from "react";
 import { ReactNode, useEffect, useState } from "react";
 
 import { ITestimonial } from "../app-store/app-defaults/types";
-import PageContainer from "./common/PageContainer";
+
 import { Transition } from "@headlessui/react";
 
 export function Testimonial({ maxSlides }: { maxSlides?: number }) {

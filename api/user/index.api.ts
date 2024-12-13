@@ -1,5 +1,4 @@
 
-import axios from "axios";
 import { IUser } from "../../app-store/types";
 import httpClient, { HttpService } from "../axios.config";
 

@@ -4,7 +4,6 @@ import {
   Tag,
   Form
 } from "antd";
-import { useRouter } from "next/router";
 import { PageHeader } from "@ant-design/pro-layout";
 
 import styles from "styles/orders.module.css";
@@ -16,8 +15,10 @@ import { IUser } from "../app-store/types";
 import React from "react";
 import { CheckBadgeIcon } from "@heroicons/react/24/outline";
 
-
-const ActivityCard = ({ customer }) => {
+interface ActivityCardProps {
+  customer: IUser
+}
+const ActivityCard = ({ customer }: ActivityCardProps) => {
 
   return (<Content className={styles.orderBox} key={customer.id}>
 

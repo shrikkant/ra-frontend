@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import PageContainer from "./PageContainer";
 import AppHeader from "../header";
 
-export default function Header({ sidebar = false, header = true }) {
+export default function Header() {
 
   return (<div>
     <header className="header">
-      {header && <AppHeader></AppHeader>}
+      <AppHeader></AppHeader>
 
       <div className="header-menu xs:hidden block">
         <PageContainer>
