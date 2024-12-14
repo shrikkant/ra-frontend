@@ -17,6 +17,7 @@ import { DISCOUNT_STEPS } from "../config/constants";
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: any[] }) {
   const dispatch = useDispatch();
+  const [isClient, setIsClient] = React.useState(false);
   const [finalDiscount, setFinalDiscount] = useState(0);
 
   const loggedUser = useSelector(selectAuthState);
@@ -96,11 +97,11 @@ export default function BookingForm({ productId, discount, rates }: { productId:
   };
 
   useEffect(() => {
+    setIsClient(true);
     const days = getDays();
     const discountStep = DISCOUNT_STEPS.find(
       (step) => step.days <= days
     );
-    console.log("Days ", days, discountStep);
     if (discountStep) {
       setFinalDiscount(discount + discountStep.discount);
     }
@@ -167,8 +168,8 @@ export default function BookingForm({ productId, discount, rates }: { productId:
     </>
   );
 
-  return (
-    <div className="">
+  return (<>
+    {isClient && <div className="">
       <div className="md:block hidden bg-white shadow-md  p-5 text-sm h-full w-full  border border-1 border-gray-200 ">
         <div className="flex md:flex-col gap-4">
           {renderForm}
@@ -213,7 +214,8 @@ export default function BookingForm({ productId, discount, rates }: { productId:
 
       {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
     </div>
-  );
+    }
+  </>);
 }
 
 

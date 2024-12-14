@@ -3,8 +3,8 @@ import React from 'react'
 import { useRef } from 'react'
 import { Provider } from 'react-redux'
 import { makeStore, AppStore } from '../app-store/store'
-import { PersistGate } from "redux-persist/integration/react";
-import { persistStore } from "redux-persist";
+// import { PersistGate } from "redux-persist/integration/react";
+// import { persistStore } from "redux-persist";
 
 export default function StoreProvider({ children }: {
   children: React.ReactNode

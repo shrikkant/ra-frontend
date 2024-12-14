@@ -90,7 +90,7 @@ export default function Customers() {
             {customers &&
               customers.map((person) => (
                 <li
-                  key={person.email_address}
+                  key={person.id}
                   className="flex justify-between gap-x-6 py-5 items-center"
                 >
                   <div className="flex gap-x-4 xs:w-full sm:w-72">

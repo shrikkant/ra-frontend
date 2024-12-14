@@ -24,10 +24,6 @@ export function OrderStageForm({ order }: { order: IOrder }) {
     })
   }
 
-  useEffect(() => {
-    console.log(orderChange);
-  }, [orderChange]);
-
   const handleSerialNoInput = async (transactionId, addon, value) => {
 
     const orderUpdate: any = { ...orderChange };

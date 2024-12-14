@@ -29,16 +29,12 @@ export const generateLoginOTP = async (phone: string, newUser: boolean): Promise
 
 // remove this later
 export const verifyLoginOTP = async (phone: string, otp: string): Promise<IUser> => {
-  console.log("phone", phone, "otp", otp);
   const response: IUser = await httpClient.post(`verify-otp`, { phone, otp });
   return response;
 }
 
 export const loginWithOTP = async (phone: string, otp: string): Promise<IUser> => {
-  console.log("phone", phone, "otp", otp);
-
   const httpService = new HttpService("https://www.rentacross.com/");
-
   const response: IUser = await httpService.getClient().post(`auth/local`, { phone, otp });
   return response;
 }

@@ -68,12 +68,12 @@ export const makeStore = () => {
     reducer: rootReducer,
     preloadedState,
   });
-  if (typeof window !== 'undefined') {
-    store.subscribe(() => {
-      saveState('session', store.getState().session);
-      saveState('auth', store.getState().auth);
-    });
-  }
+
+  store.subscribe(() => {
+    saveState('session', store.getState().session);
+    saveState('auth', store.getState().auth);
+  });
+
 
   return store;
 }

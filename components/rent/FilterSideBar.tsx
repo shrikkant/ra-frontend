@@ -59,7 +59,7 @@ export default function FilterSideBar({
   };
 
   const onBrandsChange = (checkedValues: any[]) => {
-    console.log("checked = ", checkedValues)
+
     const query: any = { ...newQuery }
     delete query.br;
     delete query.page;

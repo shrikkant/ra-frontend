@@ -1,16 +1,13 @@
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React from "react";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function EmptyCart() {
   const router = useRouter();
   const backToHome = () => {
-    const query: any = {};
-    router.push({
-      pathname: "/",
-      query,
-    });
+    router.push("/");
   };
+
   return (
     <div className="w-full">
       <div className="flex flex-col items-center justify-center space-y-3">

@@ -8,8 +8,6 @@ import { PageHeader } from "@ant-design/pro-layout";
 
 import styles from "styles/orders.module.css";
 
-import { Content } from "antd/lib/layout/layout";
-
 import Moment from 'moment';
 import { IUser } from "../app-store/types";
 import React from "react";
@@ -20,7 +18,7 @@ interface ActivityCardProps {
 }
 const ActivityCard = ({ customer }: ActivityCardProps) => {
 
-  return (<Content className={styles.orderBox} key={customer.id}>
+  return (<div className={styles.orderBox} key={customer.id}>
 
     <PageHeader
       className={styles.orderHeader}
@@ -29,7 +27,7 @@ const ActivityCard = ({ customer }: ActivityCardProps) => {
       tags={[<Tag key="1" color="red">{customer.verified ? <CheckBadgeIcon /> : ""}</Tag>]}
       title={"Activity Card"}
       subTitle={Moment(customer.created_ts).format('DD MMM')}></PageHeader>
-    <Content style={{ padding: 16 }}>
+    <div className="p-4">
       <Form layout="vertical">
         <Form.Item label="Email">
           <Input placeholder="Email" value={customer.email_address} />
@@ -38,8 +36,8 @@ const ActivityCard = ({ customer }: ActivityCardProps) => {
           <Input placeholder="Phone" value={customer.phone} />
         </Form.Item>
       </Form>
-    </Content>
-  </Content>);
+    </div>
+  </div>);
 }
 
 export default ActivityCard;

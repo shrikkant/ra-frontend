@@ -1,5 +1,4 @@
 import { cookies } from 'next/headers';
-import { TOKEN_HEADER_KEY } from '../../config/constants';
 
 export const fetchData = async (url, customOptions?) => {
   const cookieStore = await cookies();

@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { toast } from "react-toastify";
 
 export const resolveOrderStage = (status: number) => {
 	switch (status) {
@@ -32,5 +32,20 @@ export const enum OrderStages {
 }
 
 export const displayMessage = (type: string, text: string) => {
-	message[type](text);
+	switch (type) {
+		case "success":
+			toast.success(text);
+			break;
+		case "error":
+			toast.error(text);
+			break;
+		case "warning":
+			toast.warning(text);
+			break;
+		case "info":
+			toast.info(text);
+			break;
+	}
+	return;
+
 }

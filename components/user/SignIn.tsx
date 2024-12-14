@@ -183,7 +183,6 @@ export default function SignIn({ onClose }: { onClose: () => void }) {
   }
 
   const onOtpTimeout = () => {
-    console.log("OTP expired");
     setOtpExpiry(0);
   }
 

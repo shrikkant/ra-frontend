@@ -2,7 +2,6 @@ import CategoryRow from "./CategoryRow";
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
 import { getFeaturedProducts } from "../api/products.api";
-import { Content } from "antd/lib/layout/layout";
 import React from "react";
 
 import { useRouter } from "next/router";
@@ -18,18 +17,11 @@ export default function ProductGrid() {
   const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch)
 
 
-  const loadProducts = (city: string) => {
+  const loadProducts = async (city: string) => {
     setLoading(true);
-    getFeaturedProducts(8, city).then((res: any) => {
-      setLoading(false);
-      setCategories(res);
-    })
-      .catch((err) => {
-        // Error handling
-        setLoading(false);
-        console.log(err);
-        return null;
-      });
+    const res: any = await getFeaturedProducts(8, city);
+    setLoading(false);
+    setCategories(res);
   };
 
   useEffect(() => {
@@ -45,10 +37,10 @@ export default function ProductGrid() {
   if (loading) return <Loader></Loader>
 
   return (
-    <Content className="r-comp flex flex-col ">
+    <div className="r-comp flex flex-col ">
       <CategoryRow key="1" category={categories[0]} />
       <CategoryRow key="2" category={categories[1]} />
       {/* <CategoryRow key="3" category={categories[2]} /> */}
-    </Content>
+    </div>
   )
 }

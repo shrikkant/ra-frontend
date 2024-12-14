@@ -1,7 +1,6 @@
 // components/ExcelUpload.tsx
 import React, { useState } from 'react';
 import axios from 'axios';
-import httpClient from '../../api/axios.config';
 
 const BulkUpload: React.FC = () => {
   const [file, setFile] = useState<File | null>(null);
@@ -24,13 +23,8 @@ const BulkUpload: React.FC = () => {
         },
       });
 
-      // const response = await httpClient.post('/admin/products/bulk', formData, {
-      //   headers: {
-      //     'Content-Type': 'multipart/form-data',
-      //   },
-      // });
+      return response.data;
 
-      console.log('Upload successful:', response.data);
     } catch (error) {
       console.error('Upload failed:', error);
     }

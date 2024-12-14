@@ -4,9 +4,10 @@ import ProductCard from 'components/ProductCard'
 import { getProductFilter } from "util/search.util";
 import { fetchProductBySlug, fetchProducts } from 'api/products.api';
 
-import { fetchData } from 'api/axios.config';
+
 import { Product } from 'components/product/Product';
 import { IProduct } from '../../app-store/types';
+import { fetchData } from '../utils/api';
 
 export default async function Location({ params, searchParams }: { params: { slug: string }, searchParams }) {
   const categories = await fetchData(`categories`);

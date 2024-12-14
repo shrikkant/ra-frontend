@@ -47,7 +47,6 @@ export default function VerifyAadhar() {
     if (!isValidAadhar(aadharNumber))
       return
     const updateUser: IUser = await updateAadhaar(aadharNumber);
-    console.log(updateUser);
     if (updateUser.aadhaar_callback_id) {
       setOtpSent(true);
     }

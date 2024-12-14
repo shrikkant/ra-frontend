@@ -15,7 +15,7 @@ export default async function Home() {
   return (<>
 
     <HomeSlider></HomeSlider>
-    {/* <SearchGear></SearchGear> */}
+
 
     <HomeAdvantages></HomeAdvantages>
 

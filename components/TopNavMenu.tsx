@@ -1,8 +1,9 @@
+"use client"
 import React, { Fragment, useEffect } from "react";
 import { Menu, MenuButton, MenuItem, MenuItems, Transition } from "@headlessui/react";
-import { useDispatch } from "react-redux";
-import { logout, authUser } from "../app-store/auth/auth.slice";
-import { logoutUser } from "api/auth.api";
+import { useDispatch, useSelector } from "react-redux";
+import { logout, authUser, selectAuthState } from "../app-store/auth/auth.slice";
+import { getAuthUser, logoutUser } from "api/auth.api";
 import { useRouter } from "next/navigation";
 import SignIn from "./user/SignIn";
 import { Avatar } from "./user/Avatar";
@@ -12,7 +13,6 @@ import { IoMdLogOut } from "react-icons/io";
 
 import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 import { FaShopify } from "react-icons/fa";
-import { useUser } from "../app/context/UserContext";
 
 interface INavLink {
   title: string;
@@ -21,11 +21,12 @@ interface INavLink {
 }
 
 export default function TopNavMenu() {
-  const loggedUser = useUser();
-  // const loggedUser = useSelector(selectAuthState);
+  // const loggedUser = useAppContext()?.loggedUser;
+  const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
   const [showSignIn, setShowSignIn] = React.useState(false);
+  const [isClient, setIsClient] = React.useState(false);
 
   const userLinks: INavLink[] = [
     {
@@ -66,7 +67,10 @@ export default function TopNavMenu() {
 
 
   useEffect(() => {
-    loggedUser && dispatch(authUser(loggedUser));
+    !loggedUser && getAuthUser().then((u) => {
+      setIsClient(true);
+      dispatch(authUser(u));
+    });
   }, [loggedUser]);
 
   const handleLogout = async () => {
@@ -84,8 +88,8 @@ export default function TopNavMenu() {
     setShowSignIn(false);
   }
 
-  return (
-    <Menu as="div" className="relative">
+  return (<>
+    {isClient && <Menu as="div" className="relative">
       <div className="flex justify-center align-center w-22">
         {loggedUser ? (
           <>
@@ -148,8 +152,9 @@ export default function TopNavMenu() {
           </a>
         )}
         {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
+
       </div>
-    </Menu>
-  );
+    </Menu>}
+  </>);
 }
 

@@ -36,6 +36,7 @@
     "react-dom": "18.2.0",
     "react-icons": "^4.10.1",
     "react-redux": "^8.0.5",
+    "react-toastify": "^10.0.6",
     "redux-persist": "^6.0.0",
     "redux-persist-transform-compress": "^4.2.0",
     "swr": "^2.2.5"

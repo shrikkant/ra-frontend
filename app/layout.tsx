@@ -1,6 +1,6 @@
 
 
-import React, { Suspense } from 'react'
+import React from 'react'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import '../styles/global.css'
@@ -14,7 +14,7 @@ import 'styles/common.css'
 import type { Viewport } from 'next'
 import { GoogleTagManager } from '@next/third-parties/google'
 import { fetchData } from './utils/api'
-import { IUser } from '../app-store/types'
+import { IProductCategory } from '../app-store/types'
 import { UserProvider } from './context/UserContext'
 
 export const viewport: Viewport = {
@@ -26,6 +26,10 @@ export const viewport: Viewport = {
   // interactiveWidget: 'resizes-visual',
 }
 
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+
 export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -34,8 +38,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  const loggedUser: IUser = await fetchData("/auth");
-
+  const categories: IProductCategory[] = await fetchData('categories');
+  const appContext = { categories, loggedUser: null }
   return (
     <html lang="en">
       <head>
@@ -61,27 +65,17 @@ export default async function RootLayout({
         <GoogleTagManager gtmId="GTM-TPF56M8" />
       </head>
 
-      <body className="page-loaded animated-page">
+      <body>
 
 
-        <UserProvider user={loggedUser}>
+        <UserProvider appContext={appContext}>
           <StoreProvider>
-            <Suspense fallback={<div className="preloader-cover">
-              <div className="preloader">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
-              </div>
-            </div>}>
-
-
-              <Header />
-              {children}
-              <Footer />
-            </Suspense>
+            <Header />
+            {children}
+            <Footer />
           </StoreProvider>
         </UserProvider>
+        <ToastContainer position="bottom-right" autoClose={3000} />
       </body>
     </html>
   )

@@ -10,7 +10,6 @@ interface PageProps {
 
 export default async function Page({ searchParams }: PageProps) {
   const localSearchParams = await searchParams;
-  console.log(localSearchParams);
   return (
     <Orders stage={localSearchParams.stage} />
   );

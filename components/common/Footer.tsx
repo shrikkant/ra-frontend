@@ -1,10 +1,10 @@
 import React from "react";
 import Scripts from "./Scripts";
-import PageContainer from "./PageContainer";
+
 
 export default function Footer() {
   return (<footer>
-    <PageContainer>
+    <div className="sm:container mx-auto">
       <div className="row footer-item-cover xs:px-4">
         <div className="footer-subscribe col-md-7 col-lg-8">
           <h6>stay in touch</h6>
@@ -40,7 +40,7 @@ export default function Footer() {
           </ul>
         </div>
       </div>
-    </PageContainer>
+    </div>
     <Scripts />
   </footer>)
 }

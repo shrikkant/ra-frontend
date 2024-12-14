@@ -1,6 +1,6 @@
 "use client";
 import Table from "antd/lib/table/Table";
-import { Content } from "antd/lib/layout/layout";
+
 
 import {
   getBrands,
@@ -55,13 +55,13 @@ export default function Brands() {
     <>
       <MyPageHeader title={"Brands"} subtitle={""}></MyPageHeader>
 
-      <Content style={{ padding: "16px 16px" }}>
+      <div className="p-4">
         {loading ? (
           <Loader />
         ) : (
           <Table columns={columns} dataSource={brands} rowKey={"id"} />
         )}
-      </Content>
+      </div>
     </>
   );
 }

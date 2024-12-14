@@ -23,7 +23,6 @@ export default function DocumentUpload() {
   }
 
   function handleSubmit() {
-    console.log("File : ", file)
 
 
 

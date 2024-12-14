@@ -33,14 +33,11 @@ export const LocationPicker = () => {
 
   const cityChange = (city) => {
     const search: any = { ...stateSearch };
-    console.log("Setting location : ", city);
     search.location = {
       city,
     };
 
     dispatch(setSearch(search));
-
-    console.log("Search : ", city.toLowerCase());
 
     router.push("/" + city.toLowerCase() + "/rent-camera");
 
@@ -49,7 +46,6 @@ export const LocationPicker = () => {
   useEffect(() => {
     const currentSearch = { ...stateSearch };
     if (currentSearch && !currentSearch.location) {
-      console.log("Setting default location : ", currentSearch);
       currentSearch.location = {
         city: "Pune",
       }

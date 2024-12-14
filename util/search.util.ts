@@ -110,7 +110,7 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
     if (!city) {
       return null;
     }
-    console.log(country, " : ", getCities(country.code));
+
     if (getCities(country.code).includes(city)) {
 
       productFilter.country = params[0].toLowerCase();

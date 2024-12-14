@@ -94,10 +94,7 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
     onProgress,
     onSuccess,
   }, docType: string) => {
-    // EXAMPLE: post form-data with 'axios'
-    // eslint-disable-next-line no-undef
     onSuccess = (doc) => {
-      console.log("Success ", doc);
       const docs = [...fileList];
 
       docs.push({
@@ -106,7 +103,6 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
         status: 'done',
         url: "/uploads/" + doc.filename,
       });
-      console.log("Docs ", docs);
 
       setFileList(docs);
       const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
@@ -133,7 +129,6 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
 
     return {
       abort() {
-        console.log('upload progress is aborted.');
       },
     };
 
