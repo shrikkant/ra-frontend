@@ -8,11 +8,13 @@ import { Disclosure } from "@headlessui/react";
 import { IProductSubCategory } from "app-store/types";
 
 import Link from "next/link";
-import { useAppContext } from "../../../context/UserContext";
+import { useSelector } from "react-redux";
+import { getCategories } from "app-store/app-defaults/app-defaults.slice";
+
 
 
 export default function HeaderSubNav() {
-  const categories = useAppContext()?.categories;
+  const categories = useSelector(getCategories);
   const subCategories: IProductSubCategory[] = [];
 
 

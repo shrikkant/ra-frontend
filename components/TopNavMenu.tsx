@@ -21,7 +21,6 @@ interface INavLink {
 }
 
 export default function TopNavMenu() {
-  // const loggedUser = useAppContext()?.loggedUser;
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
