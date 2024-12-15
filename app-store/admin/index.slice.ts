@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { AdminState } from '../../app-store/admin/types';
 import { RootState } from 'app-store/store';
@@ -55,11 +56,11 @@ export const getActiveCustomer = (state: RootState) => {
 };
 
 export const getOrders = (state: RootState): IOrder[] => {
-	return state.admin.orders;
+	return state.admin.orders || [];
 };
 
 export const getActiveOrder = (state: RootState): IOrder => {
-	return state.admin.activeOrder;
+	return state.admin.activeOrder || {} as IOrder;
 };
 
 export const getDeliveryReps = (state: RootState) => {
