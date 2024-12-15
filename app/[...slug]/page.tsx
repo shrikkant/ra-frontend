@@ -9,6 +9,7 @@ import { fetchProductBySlug, fetchProducts } from 'api/products.api';
 import { Product } from 'components/product/Product';
 import { IProduct } from '../../app-store/types';
 import { fetchData } from '../utils/api';
+import FilterSideBar from '../../components/rent/FilterSideBar';
 
 // type PageProps<TParams extends Record<string, any> = object, TSearchParams extends Record<string, any> = object> = {
 //   params: TParams; // Dynamic route parameters
@@ -27,6 +28,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   const filter = getProductFilter(localParams, categories) || {};
   let product: IProduct | null = null;
   let products: IProduct[] = [];
+  let meta: any = null;
 
 
 
@@ -39,7 +41,7 @@ export default async function Page({ params, searchParams }: PageProps) {
   } else {
     const response: { results: IProduct[], meta } = await fetchProducts(localSearchParams?.q, filter);
     products = response.results;
-    // meta = response.meta;
+    meta = response.meta;
   }
 
   return (<div style={{ maxWidth: 1280, margin: "auto" }}>
@@ -49,7 +51,7 @@ export default async function Page({ params, searchParams }: PageProps) {
           Rent Cameras, Lenses, GoPro&apos;s  in {filter?.city}
         </h1>
 
-        {/* <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar> */}
+        <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
         <div className={"grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 px-2 pb-4"}>
           {products &&
             products.map((product: IProduct) => (

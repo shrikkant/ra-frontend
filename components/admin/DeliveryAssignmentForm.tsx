@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, Form, Select } from "antd"
+// import { Button, Form, Select } from "antd"
 
 import { useEffect, useState } from "react";
 import { assignDeliveryRep, fetchOrderDelivery } from "../../api/admin/orders.api";
@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { getDeliveryReps, setActiveOrder, setDeliveryReps } from "../../app-store/admin/index.slice";
 import { fetchDeliveryReps } from "../../api/admin/index.api";
 import { IOrder, IUser } from "../../app-store/types";
+import SelectField from "../common/form/SelectField";
 
 enum DeliveryType {
   DELIVERY = 1,
@@ -17,7 +18,7 @@ export function DeliveryAssignmentForm({ order }: { order: IOrder }) {
   const dispatch = useDispatch();
 
   const [deliveyAssignment, setDeliveryAssignment] = useState({ repId: -1, orderId: order.id, type: DeliveryType.DELIVERY });
-  const [form] = Form.useForm();
+  // const [form] = Form.useForm();
   const deliveryReps = useSelector(getDeliveryReps);
 
   useEffect(() => {
@@ -62,23 +63,19 @@ export function DeliveryAssignmentForm({ order }: { order: IOrder }) {
   }
 
   return (<div>
-    {deliveryReps && <Form
-      layout={"inline"}
-      form={form}
-      size="small"
-      initialValues={{ layout: "inline" }}
+    {deliveryReps && <form
       style={{ border: "1px solid #ddd", padding: 10, borderRadius: 4 }}
     >
 
       <div className="flex">
-        <Select style={{ width: 160 }} defaultValue={deliveyAssignment.repId} value={deliveyAssignment.repId} onChange={handleRepChange}
-          options={repOptions()}>
-        </Select>
+        <SelectField defaultValue={deliveyAssignment.repId + ""} onChange={handleRepChange}
+          choices={repOptions()}>
+        </SelectField>
       </div>
       <div>
-        <Button onClick={handleSubmit} type="link">Assign</Button>
+        <button onClick={handleSubmit} >Assign</button>
       </div>
-    </Form>}
+    </form>}
 
   </div>)
 }

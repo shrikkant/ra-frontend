@@ -1,14 +1,13 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
-import { Card, Form, Checkbox, Slider } from "antd";
+// import { Card, Form, Checkbox, Slider } from "antd";
 
-import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import {
-  getRateMarks,
-  getDefaultRateRange,
+  // getRateMarks,
+  // getDefaultRateRange,
   getBrandOptions,
-  paramsToObject,
+  // paramsToObject,
 } from "util/search.util";
 
 
@@ -22,15 +21,15 @@ import { IProductFilter } from "../../app-store/types";
 import { useDispatch, useSelector } from "react-redux";
 import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
 
-const sliderTrack = {
-  background: "lightgreen",
-};
+// const sliderTrack = {
+//   background: "lightgreen",
+// };
 
-const handleStyle = {
-  height: "14px",
-  width: "14px",
-  marginTop: "-2px",
-};
+// const handleStyle = {
+//   height: "14px",
+//   width: "14px",
+//   marginTop: "-2px",
+// };
 
 export default function FilterSideBar({
   searchMeta,
@@ -43,13 +42,14 @@ export default function FilterSideBar({
   const dispatch = useDispatch();
   const router = useRouter();
   const pathname = usePathname();
-  const searchParams = useSearchParams();
+  // const searchParams = useSearchParams();
   const brands = getBrandOptions(searchMeta?.brands);
   const [filters, setFilters] = useState(true);
-  const [newQuery, setNewQuery] = useState(paramsToObject(searchParams));
+  // const [newQuery, setNewQuery] = useState(paramsToObject(searchParams));
+  const newQuery = {};
   const defaultSearch = useSelector(getDefaultSearch);
 
-  const rf = "";
+  // const rf = "";
 
   const toggleNav = () => {
     setFilters(!filters);
@@ -59,31 +59,31 @@ export default function FilterSideBar({
     router.replace("/rent/" + pathname + "?" + new URLSearchParams(newQuery).toString());
   };
 
-  const onBrandsChange = (checkedValues: string[]) => {
+  // const onBrandsChange = (checkedValues: string[]) => {
 
-    const query: any = { ...newQuery }
-    delete query.br;
-    delete query.page;
-    if (checkedValues.length > 0) {
-      let brQuery = "";
-      checkedValues.map((val, index) => {
-        brQuery += val + (index < checkedValues.length - 1 ? "," : "");
-      });
+  //   const query: any = { ...newQuery }
+  //   delete query.br;
+  //   delete query.page;
+  //   if (checkedValues.length > 0) {
+  //     let brQuery = "";
+  //     checkedValues.map((val, index) => {
+  //       brQuery += val + (index < checkedValues.length - 1 ? "," : "");
+  //     });
 
-      query.br = brQuery;
-    }
+  //     query.br = brQuery;
+  //   }
 
-    setNewQuery(query)
-  };
+  //   setNewQuery(query)
+  // };
 
-  const onPriceChange = (values) => {
-    const query: any = { ...newQuery };
+  // const onPriceChange = (values) => {
+  //   const query: any = { ...newQuery };
 
-    const rfQuery: any = values[0] + "-" + values[1];
-    query.rf = rfQuery;
+  //   const rfQuery: any = values[0] + "-" + values[1];
+  //   query.rf = rfQuery;
 
-    setNewQuery(query);
-  };
+  //   setNewQuery(query);
+  // };
 
   useEffect(() => {
     const currentSearch = { ...defaultSearch };
@@ -115,17 +115,17 @@ export default function FilterSideBar({
         </button>
       </div>
       <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
-        {brands?.length > 0 && <Card title="Brands">
-          <Form layout={"vertical"}>
-            <Checkbox.Group
+        {brands?.length > 0 && <div title="Brands">
+          {/* <form >
+            <CheckboxGroup
               className={"brands"}
               options={brands}
               onChange={onBrandsChange}
             />
-          </Form>
-        </Card>}
+          </form> */}
+        </div>}
 
-        <Card title="Price">
+        <div >
           <div className={style.pitsWrapper}>
             {getPits(searchMeta.rate).map((pit, index) => {
               return (
@@ -138,7 +138,7 @@ export default function FilterSideBar({
             })}
           </div>
 
-          <Slider
+          {/* <Slider
             marks={getRateMarks(searchMeta.rate)}
             min={searchMeta.rate.min}
             max={searchMeta.rate.max}
@@ -151,9 +151,9 @@ export default function FilterSideBar({
               rf
             )}
             onChangeComplete={onPriceChange}
-          />
+          /> */}
           {/* <Meta title={searchMeta.total}></Meta> */}
-        </Card>
+        </div>
 
         <div className="text-right pt-2 ">
           <a onClick={onChange} className="bg-green-600 p-2 rounded-sm text-gray-100 cursor-pointer border-green-900 hover:bg-green-700 hover:text-gray-200 " href="#">

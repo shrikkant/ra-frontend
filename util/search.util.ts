@@ -1,4 +1,5 @@
-import { SliderMarks } from "antd/lib/slider";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+// import { SliderMarks } from "antd/lib/slider";
 import { ParsedUrlQuery } from "querystring";
 import COUNTRIES from "../config/constants";
 import {
@@ -36,8 +37,8 @@ export function getSubCategoryOptions(subCategories: IProductSubCategory[]) {
   return options;
 }
 
-export function getRateMarks(rate): SliderMarks {
-  const marks: SliderMarks = {
+export function getRateMarks(rate): any[] {
+  const marks: any = {
     [Math.ceil(rate.min)]: Math.ceil(rate.min),
     [Math.floor(rate.max)]: Math.floor(rate.max),
   };

@@ -6,7 +6,7 @@ import Footer from '../components/common/Footer'
 import '../styles/global.css'
 import StoreProvider from './StoreProvider'
 
-import "antd/dist/reset.css"
+// import "antd/dist/reset.css"
 import 'styles/vars.css'
 import 'styles/global.css'
 import 'styles/common.css'

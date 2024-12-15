@@ -1,10 +1,10 @@
-import { Card, Slider } from "antd";
+// import { Card, Slider } from "antd";
 
 import { useRouter } from "next/router";
 import { useSelector } from "react-redux";
 import {
-  getRateMarks,
-  getDefaultRateRange,
+  // getRateMarks,
+  // getDefaultRateRange,
   getBrandOptions,
 } from "../util/search.util";
 
@@ -14,15 +14,15 @@ import React, { useState } from "react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { getSearchMetaData } from "../app-store/products/products.slice";
 
-const sliderTrack = {
-  background: "lightgreen",
-};
+// const sliderTrack = {
+//   background: "lightgreen",
+// };
 
-const handleStyle = {
-  height: "14px",
-  width: "14px",
-  marginTop: "-2px",
-};
+// const handleStyle = {
+//   height: "14px",
+//   width: "14px",
+//   marginTop: "-2px",
+// };
 
 interface FilterNavProps {
   onChange: (query) => void;
@@ -66,17 +66,17 @@ export default function ProductFilterNav({
     onChange(newQuery);
   };
 
-  const onPriceChange = (values) => {
-    const q = { ...router.query };
-    delete q.rf;
-    delete q.page;
+  // const onPriceChange = (values) => {
+  //   const q = { ...router.query };
+  //   delete q.rf;
+  //   delete q.page;
 
-    const rfQuery = values[0] + "-" + values[1];
-    q.rf = rfQuery;
+  //   const rfQuery = values[0] + "-" + values[1];
+  //   q.rf = rfQuery;
 
-    setQuery(q);
-    onChange(query);
-  };
+  //   setQuery(q);
+  //   onChange(query);
+  // };
 
   return (
     <div
@@ -93,7 +93,7 @@ export default function ProductFilterNav({
         </button>
       </div>
       <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
-        {searchMeta && brands?.length > 0 && <Card title="Brands">
+        {searchMeta && brands?.length > 0 && <div>
           <div>
             {brands.map((brand) => {
               return (
@@ -109,9 +109,9 @@ export default function ProductFilterNav({
               )
             })}
           </div>
-        </Card>}
+        </div>}
 
-        {showPriceFilter(searchMeta.rate) && <Card title="Price">
+        {showPriceFilter(searchMeta.rate) && <div title="Price">
           <div className={style.pitsWrapper}>
             {getPits(searchMeta.rate).map((pit, index) => {
               return (
@@ -124,7 +124,7 @@ export default function ProductFilterNav({
             })}
           </div>
 
-          <Slider
+          {/* <Slider
             marks={getRateMarks(searchMeta.rate)}
             min={searchMeta.rate.min}
             max={searchMeta.rate.max}
@@ -137,9 +137,9 @@ export default function ProductFilterNav({
               query.rf
             )}
             onChangeComplete={onPriceChange}
-          />
+          /> */}
           {/* <Meta title={searchMeta.total}></Meta> */}
-        </Card>}
+        </div>}
       </div>
 
       <div className="flex justify-end p-3 border-t mt-2 sm:hidden">

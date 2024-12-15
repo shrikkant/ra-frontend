@@ -1,8 +1,8 @@
 "use client"
-import {
-  Input,
-  Form
-} from "antd";
+// import {
+//   Input,
+//   Form
+// } from "antd";
 import Moment from "moment";
 
 import React, { useEffect } from "react";
@@ -17,6 +17,8 @@ import { useDispatch } from "react-redux";
 import { fetchCustomerAadhaar } from "../api/admin/customers.api";
 import { IAadhaar } from "../app-store/auth/types";
 import { Section } from "../app/components/common/Section";
+import Input from "./common/form/Input";
+
 
 
 export default function CustomerCard({ customer }: { customer: IUser }) {
@@ -63,14 +65,14 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
           </div>
         </div>}
 
-        <Form layout="vertical" className="my-4">
-          <Form.Item>
-            <Input placeholder="Email" value={customer.email_address} />
-          </Form.Item>
-          <Form.Item>
-            <Input placeholder="Phone" value={customer.phone} />
-          </Form.Item>
-        </Form>
+        <form>
+          <div>
+            <Input placeholder="Email" value={customer.email_address} onChange={() => { }} />
+          </div>
+          <div>
+            <Input placeholder="Phone" value={customer.phone} onChange={() => { }} />
+          </div>
+        </form>
         <div className=" flex justify-end items-center gap-x-2">
           {customer?.verified === 3 &&
             <div>

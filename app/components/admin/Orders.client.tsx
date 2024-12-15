@@ -1,32 +1,32 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getOrders, setOrders } from "app-store/admin/index.slice";
-import { useDispatch, useSelector } from "react-redux";
+import { setOrders } from "app-store/admin/index.slice";
+import { useDispatch } from "react-redux";
 import { fetchOrders } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
 
 
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
+// import { useRouter } from "next/navigation";
+//import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 
-import { resolveOrderStage } from "util/global.util";
+//import { resolveOrderStage } from "util/global.util";
 import Loader from "components/Loader";
 
-import { IOrder } from "app-store/types";
+//import { IOrder } from "app-store/types";
 import { fetchRevenueStats } from "api/admin/index.api";
 import { RevenueSummary } from "components/admin/ReveneSummary";
-import { Tabs } from "antd";
-import { AdminOrderHeader } from "components/admin/order/AdminOrderHeader";
+// import { Tabs } from "antd";
+//import { AdminOrderHeader } from "components/admin/order/AdminOrderHeader";
 
 interface OrdersProps {
   stage: number;
 }
 export default function Orders({ stage }: OrdersProps) {
-  const router = useRouter();
-  const orders = useSelector(getOrders);
+  // const router = useRouter();
+  //  const orders = useSelector(getOrders);
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [revenueStats, setRevenueStats] = useState();
@@ -52,13 +52,13 @@ export default function Orders({ stage }: OrdersProps) {
     });
   }, [activeKey, stage]);
 
-  const tabChanged = (key: string) => {
-    router.push(`/p/admin/orders?stage=${key}`);
-  };
+  // const tabChanged = (key: string) => {
+  //   router.push(`/p/admin/orders?stage=${key}`);
+  // };
 
-  const canApplyDiscount = (order) => {
-    return order.stage < 1;
-  }
+  // const canApplyDiscount = (order) => {
+  //   return order.stage < 1;
+  // }
 
   return (
     <>
@@ -71,7 +71,7 @@ export default function Orders({ stage }: OrdersProps) {
         <Loader />
       ) : (
         <div style={{ padding: "16px 16px" }}>
-          <Tabs
+          {/* <Tabs
             defaultActiveKey="1"
             activeKey={String(activeKey)}
             type="card"
@@ -108,7 +108,7 @@ export default function Orders({ stage }: OrdersProps) {
                 ),
               };
             })}
-          />
+          /> */}
         </div>
       )}
     </>

@@ -1,5 +1,5 @@
 import React from "react";
-import { Button } from "antd";
+// import { Button } from "antd";
 import { IOrder } from "../../../app-store/types";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
@@ -57,15 +57,14 @@ export const AdminOrderHeader = ({ order, children }: AdminOrderHeaderProps) => 
   return (<Section title={"#" + order.id}
     tags={tags}
     actions={[
-      <Button
+      <button
         key="1"
-        type="primary"
         onClick={() => {
           router.push("/p/admin/orders/" + order.id);
         }}
       >
         Stage
-      </Button>,
+      </button>,
     ]}>
     {children}
   </Section>);
