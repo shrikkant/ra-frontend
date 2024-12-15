@@ -5,10 +5,6 @@ import { selectAuthState } from "../../../../app-store/auth/auth.slice";
 import { IOrder } from "../../../../app-store/types";
 import { fetchOrders } from "../../../../api/user/orders.api";
 import OrderItemRow from "../../../../components/OrderItemRow";
-import { PageHeader } from "@ant-design/pro-layout";
-import { Button, Tag } from "antd";
-import styles from "styles/orders.module.css";
-import Moment from "moment";
 import Loader from "../../../../components/Loader";
 import { Section } from "../../common/Section";
 

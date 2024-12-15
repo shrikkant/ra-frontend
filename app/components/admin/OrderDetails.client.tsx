@@ -1,15 +1,15 @@
 "use client"
-import { Button } from "antd";
+
 
 import { getActiveOrder, setActiveOrder } from "app-store/admin/index.slice";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchOrder } from "api/admin/orders.api";
-import MyPageHeader from "components/MyPageHeader";
+
 
 import React, { useEffect, useState } from "react";
 import { AdminOrderItemRow } from "components/admin/AdminOrderItemRow";
 import Loader from "components/Loader";
-import { OrderStages, resolveOrderStage } from "util/global.util";
+import { OrderStages } from "util/global.util";
 import { OrderStageForm } from "components/admin/OrderStageForm";
 
 import { OrderDeliveryForm } from "components/admin/OrderDeilveryForm";
@@ -50,15 +50,15 @@ export default function OrderDetails({ id }: OrderProps) {
       ) : (
 
         <div className="p-4">
-          <MyPageHeader
+          {/* <MyPageHeader
             title={"#" + order.id}
-            subtitle={""}
+
             extra={[
               <Button key="stage_1" type="primary">
                 {resolveOrderStage(order.stage)}
               </Button>,
             ]}
-          ></MyPageHeader>
+          ></MyPageHeader> */}
           {!order ? (
             <Loader />
           ) : (

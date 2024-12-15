@@ -14,8 +14,9 @@ import { BookingLineItem } from "./cart/BookingLineItem";
 import SignIn from "./user/SignIn";
 import Button from "./common/form/Button";
 import { DISCOUNT_STEPS } from "../config/constants";
+import { IProductRatePlan } from "../app-store/types";
 
-export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: any[] }) {
+export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: IProductRatePlan[] }) {
   const dispatch = useDispatch();
   const [isClient, setIsClient] = React.useState(false);
   const [finalDiscount, setFinalDiscount] = useState(0);

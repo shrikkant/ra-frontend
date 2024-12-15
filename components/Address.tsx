@@ -1,6 +1,6 @@
 import React from "react";
 import { ILocation } from "../app-store/types";
-export const Address = ({ name, address }: { name: string, address: ILocation }) => {
+export const Address = ({ address }: { name: string, address: ILocation }) => {
   return (
     <div className={"text-base font-normal flex flex-col p-4"}>
       <div>{address.name}</div>

@@ -27,25 +27,25 @@ const defaultChoices: RatePlan[] = [
 export default function ProductRates() {
   const [ratePlans, setRatePlans] = useState<RatePlan[]>([]);
 
-  const [planChoices, setPlanChoices] = useState<IChoice[]>();
+  // const [planChoices, setPlanChoices] = useState<IChoice[]>();
   useEffect(() => {
-    const planChoices: any = defaultChoices.map((plan) => {
-      return {
-        value: plan.code,
-        label: plan.title
-      }
-    })
-    setPlanChoices(planChoices)
+    // const planChoices = defaultChoices.map((plan) => {
+    //   return {
+    //     value: plan.code,
+    //     label: plan.title
+    //   }
+    // })
+    // setPlanChoices(planChoices)
   }, [])
 
   const addItem = () => {
     const plans = [...ratePlans];
-    const planToAdd: any = defaultChoices[plans.length];
+    const planToAdd = defaultChoices[plans.length];
 
     planToAdd.choices = defaultChoices.filter((c) => { return plans.map((p) => p.code != c.code) }).map((plan) => {
       return {
-        value: plan.code,
-        label: plan.title,
+        value: plan.code || "",
+        label: plan.title || "",
       }
     });
 
@@ -54,11 +54,11 @@ export default function ProductRates() {
   }
 
   const removeItem = (addon) => {
-
+    console.log(addon);
   }
 
   const onRateChange = (id, event) => {
-    const val = event.target.value;
+    console.log(event.target.value);
   }
 
   return (<div className="mt-4">
@@ -75,7 +75,7 @@ export default function ProductRates() {
 
     {ratePlans && ratePlans.map((plan, i) => <div key={i} className="flex  items-center justify-center gap-4">
       <div className="flex-1/2 justify-center flex">
-        <SelectField choices={plan.choices} defaultValue={plan.code}></SelectField>
+        <SelectField choices={plan.choices || []} defaultValue={plan.code} onChange={() => { }}></SelectField>
       </div>
       <div className="flex-1">
         <Input label={""} placeholder={plan.title} value={plan.code} onChange={(e) => onRateChange(e, plan)} />

@@ -13,7 +13,7 @@ export interface Addon {
   masterProduct: MasterProduct
 }
 export interface ProductProps {
-  addons: Addon[] | null
+  addons: Addon[]
 }
 
 export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {

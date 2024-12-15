@@ -16,11 +16,11 @@ export default function VerifyPhone() {
   const [phone, setPhone] = React.useState("");
   const dispatch = useDispatch();
 
-  const handlePhoneChange = (e: any) => {
+  const handlePhoneChange = (e) => {
     setPhone(e.target.value);
   }
 
-  const validatePhone = (event: any) => {
+  const validatePhone = (event) => {
     if (event.keyCode === 8 || event.keyCode === 46) {
       return;
     }

@@ -1,9 +1,10 @@
 import type { MetadataRoute } from 'next'
-import { BASE_URL } from '../../config/constants'
+import { BASE_URL, ICountry } from '../../config/constants'
 import { fetchData } from '../../api/axios.config';
 import { fetchProducts } from '../../api/products.api';
 import { IProductFilter } from '../../app-store/types';
 import COUNTRIES from '../../config/constants';
+
 
 
 interface SitemapLink {
@@ -17,7 +18,7 @@ interface SitemapRef {
 
 export async function generateSitemaps() {
   // Fetch the total number of products and calculate the number of sitemaps needed
-  const countries = COUNTRIES;
+  const countries: ICountry[] = COUNTRIES;
   const urls: SitemapRef[] = [];
 
   for (const country of countries) {

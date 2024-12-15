@@ -1,5 +1,5 @@
 "use client"
-import { fetchCart, fetchOrder, removeFromCart } from "api/user/orders.api";
+import { fetchOrder, removeFromCart } from "api/user/orders.api";
 import React, { useEffect, useState } from "react";
 import OrderSummary from "components/OrderSummary";
 import { ORDER_STEPS } from "config/constants";
@@ -8,7 +8,6 @@ import EmptyCart from "components/cart/EmptyCart";
 import Loader from "components/Loader";
 import { IOrder, IOrderItem } from "app-store/types";
 import OrderItemRow from "components/OrderItemRow";
-import { useRouter } from "next/navigation";
 
 import DocumentUpload from "components/common/DocumentUpload";
 
@@ -22,14 +21,14 @@ export default function OrderDetails({ id }: OrderDetailsProps) {
   const [loading, setLoading] = useState(true);
 
 
-  const onRazorPayCheckout = (mode: number) => {
+  const onRazorPayCheckout = () => {
     console.log("RazorPay Checkout");
   };
 
   const onRemove = async (id: number) => {
     setLoading(true);
     await removeFromCart(id);
-    const cart = await fetchCart();
+
     setLoading(false);
   }
 
@@ -37,7 +36,7 @@ export default function OrderDetails({ id }: OrderDetailsProps) {
     setLoading(true);
     if (id) {
       const orderId = parseInt(String(id));
-      fetchOrder(orderId).then((data: any) => {
+      fetchOrder(orderId).then((data) => {
         setCart(data);
         setLoading(false);
       });

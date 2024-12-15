@@ -7,7 +7,7 @@ import { ITestimonial } from "../app-store/app-defaults/types";
 
 import { Transition } from "@headlessui/react";
 
-export function Testimonial({ maxSlides }: { maxSlides?: number }) {
+export function Testimonial() {
 
 
 
@@ -144,7 +144,7 @@ export function Testimonial({ maxSlides }: { maxSlides?: number }) {
         <div aria-live="polite" className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box' }}>
           <div className="slick-track" role="listbox"
             style={{ transformStyle: "preserve-3d" }}>
-            {items && items.map((item, index) => item)}
+            {items && items.map((item) => item)}
           </div>
         </div>
 

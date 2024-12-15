@@ -21,7 +21,7 @@ export default function KitAddOns() {
     setAddons(kitAddons);
   }, [])
 
-  const addItem = (i) => {
+  const addItem = () => {
     const currentAddons = [...addons];
     const index = currentAddons.length + 1
     currentAddons.push({
@@ -40,8 +40,9 @@ export default function KitAddOns() {
   }
 
   const onAddonChange = (id, event) => {
-    const val = event.target.value;
-    const updateAddon: any = addons.find((a) => a.id === id);
+
+    const updateAddon = addons.find((a) => a.id === id);
+    if (!updateAddon) return;
     updateAddon.label = event.target.value;
   }
 
@@ -57,9 +58,10 @@ export default function KitAddOns() {
       </div>
     </div>
 
-    {addons && addons.map((addon, i) => <div key={addon.id} className="flex  items-center justify-center gap-4">
+    {addons && addons.map((addon) => <div key={addon.id} className="flex  items-center justify-center gap-4">
       <div className="flex-1">
-        <Input label={""} placeholder={addon.label + " : " + addon.id} value={addon.label} onChange={(e) => onAddonChange(addon.id, e)} />
+        <Input label={""} placeholder={addon.label + " : " + addon.id}
+          value={addon.label} onChange={(e) => onAddonChange(addon.id, e)} />
       </div>
       <div className={"mb-4 cursor-pointer"} onClick={() => removeItem(addon)}>
         <label className="mb-2"></label>

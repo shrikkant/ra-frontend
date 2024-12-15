@@ -12,7 +12,6 @@ import MyPageHeader from "components/MyPageHeader";
 
 import React, { useEffect } from "react";
 import { fetchBrands } from "api/admin/index.api";
-import { useRouter } from "next/router";
 import Loader from "components/Loader";
 
 const columns = [
@@ -32,28 +31,27 @@ const columns = [
 ];
 
 export default function Brands() {
-  const router = useRouter();
   const [loading, setLoading] = React.useState(false);
 
-  const brands: any = useSelector(getBrands);
+  const brands = useSelector(getBrands);
   const dispatch = useDispatch();
 
   const loadBrands = () => {
     setLoading(true);
-    router.isReady &&
-      fetchBrands().then((data) => {
-        dispatch(setBrands(data));
-        setLoading(false);
-      });
+
+    fetchBrands().then((data) => {
+      dispatch(setBrands(data));
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
     loadBrands();
-  }, [router.isReady]);
+  }, []);
 
   return (
     <>
-      <MyPageHeader title={"Brands"} subtitle={""}></MyPageHeader>
+      <MyPageHeader title={"Brands"}></MyPageHeader>
 
       <div className="p-4">
         {loading ? (

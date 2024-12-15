@@ -1,9 +1,15 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { fetchBlogBySlug, fetchBlogs } from "../../../api/blog/blog.api";
 import PageContainer from "components/common/PageContainer";
 import BlogSideBar from "../../../components/blog/BlogSideBar";
 
-export default async function Blog({ params }: { params: { slug: string } }) {
+interface PageProps {
+  params: any;
+}
+
+
+export default async function Page({ params }: PageProps) {
   const blogs = await fetchBlogs(0, 5, 0);
   const blog = await fetchBlogBySlug(params.slug);
 

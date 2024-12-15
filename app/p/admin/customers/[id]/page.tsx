@@ -1,11 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import CustomerDetails from "../../../../components/admin/CustomerDetails.client";
 
-interface PageParams {
-  id: string;
-}
 interface Props {
-  params: PageParams;
+  params: any;
 }
 
 export default async function Page({ params }: Props) {

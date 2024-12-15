@@ -1,5 +1,9 @@
+import React from "react";
 import { timeAgo } from "../util/date.util";
 
-export function Time({ time }) {
+interface TimeProps {
+  time: string;
+}
+export function Time({ time }: TimeProps) {
   return <span>{timeAgo(time)}</span>;
 }

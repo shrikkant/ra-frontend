@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import {
   getCustomers,
@@ -28,7 +29,7 @@ export default function Customers() {
   const router = useRouter();
   const [loading, setLoading] = React.useState(false);
   const customers = useSelector(getCustomers);
-  const [signupStats, setSignupStats] = React.useState<any>();
+  const [signupStats, setSignupStats] = React.useState();
 
   const dispatch = useDispatch();
 
@@ -65,7 +66,7 @@ export default function Customers() {
   }
 
   useEffect(() => {
-    !signupStats && fetchSignupStats().then((stats) => {
+    fetchSignupStats().then((stats: any) => {
       setSignupStats(stats);
     });
     loadCustomers();
@@ -74,7 +75,7 @@ export default function Customers() {
   // return (<>  Loading...</>);
   return (
     <>
-      <MyPageHeader title={"Customers"} subtitle={""}>
+      <MyPageHeader title={"Customers"}>
         <div><Input onChange={handlePhoneSearch} label="Search by phone" /></div>
       </MyPageHeader>
 

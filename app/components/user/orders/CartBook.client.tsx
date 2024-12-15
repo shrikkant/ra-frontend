@@ -18,9 +18,9 @@ import { getAuthUser } from "../../../../api/auth.api";
 import { useRouter } from "next/navigation";
 
 export default function CartBook() {
-  const cart: any = useSelector(getCart);
+  const cart = useSelector(getCart);
   const router = useRouter();
-  const loggedUser: any = useSelector(selectAuthState);
+  const loggedUser = useSelector(selectAuthState);
   const [selectedAddress, setSelectedAddress] = useState(null);
   const [addressId, setAddressId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
@@ -120,7 +120,6 @@ export default function CartBook() {
                 {selectedAddress && <OrderItemsReview
                   title="Review your order"
                   order={cart}
-                  selectedAddress={selectedAddress}
                 ></OrderItemsReview>}
               </div>
 

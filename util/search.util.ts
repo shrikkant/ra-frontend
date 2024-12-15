@@ -1,6 +1,6 @@
 import { SliderMarks } from "antd/lib/slider";
 import { ParsedUrlQuery } from "querystring";
-import COUNTRIES, { CITY } from "../config/constants";
+import COUNTRIES from "../config/constants";
 import {
   ICheckboxOption,
   IProductCategory,
@@ -10,7 +10,7 @@ import {
 import { ReadonlyURLSearchParams } from "next/navigation";
 
 
-export function getBrandOptions(brands: any, selected?): ICheckboxOption[] {
+export function getBrandOptions(brands, selected?): ICheckboxOption[] {
   const options: ICheckboxOption[] = [];
   const selectedBrands = selected?.split(",").map((s) => parseInt(s));
 
@@ -64,7 +64,7 @@ const getCities = (code: string) => {
   const country = COUNTRIES.find((c) => c.code === code);
 
   if (!country) {
-    return null;
+    return [];
   }
 
   return country.locations;
@@ -72,7 +72,7 @@ const getCities = (code: string) => {
 
 const getStates = (code: string) => {
   const country = COUNTRIES.find((c) => c.code === code);
-  return country.states;
+  return country ? country.states : [];
 }
 
 const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]): IProductSubCategory | null => {
@@ -111,7 +111,8 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
       return null;
     }
 
-    if (getCities(country.code).includes(city)) {
+    const cities = getCities(country.code);
+    if (cities && cities.includes(city)) {
 
       productFilter.country = params[0].toLowerCase();
       productFilter.city = params[1].toLowerCase();

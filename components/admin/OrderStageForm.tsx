@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { OrderStages, resolveOrderStage } from "../../util/global.util"
 import { updateStage } from "api/admin/orders.api";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useDispatch } from "react-redux";
 import { setActiveOrder } from "app-store/admin/index.slice";
 import { IOrder } from "../../app-store/types";
@@ -10,7 +11,7 @@ import Input from "../common/form/Input";
 
 export function OrderStageForm({ order }: { order: IOrder }) {
   const dispatch = useDispatch();
-  const [orderChange, setOrderChange] = useState({ serialNoInfo: [], stage: order.stage, id: 0 });
+  const [orderChange, setOrderChange] = useState<{ serialNoInfo: { id: number, serial_no_json: { id: number, productId: number, name: string, serial_no: string }[] }[], stage: number, id: number }>({ serialNoInfo: [], stage: order.stage, id: 0 });
 
   const handleStageChange = (value: string) => {
     setOrderChange({ ...orderChange, stage: parseInt(value) });
@@ -19,20 +20,20 @@ export function OrderStageForm({ order }: { order: IOrder }) {
   const updateOrderStage = async (id: number) => {
     const updatedOrder = { ...order };
     updatedOrder.stage = orderChange.stage;
-    updateStage(id, { ...orderChange, id }).then(data => {
+    updateStage(id, { ...orderChange, id }).then(() => {
       dispatch(setActiveOrder(updatedOrder));
     })
   }
 
   const handleSerialNoInput = async (transactionId, addon, value) => {
 
-    const orderUpdate: any = { ...orderChange };
+    const orderUpdate = { ...orderChange };
 
-    const alreadyExists: any = await orderUpdate.serialNoInfo.find((item: any) => (item.id == transactionId));
+    const alreadyExists: any = await orderUpdate.serialNoInfo.find((item) => (item.id == transactionId));
 
 
     if (alreadyExists) {
-      let serialInfo: any = alreadyExists?.serial_no_json.find((item) => (item.id == addon.id));
+      let serialInfo = alreadyExists?.serial_no_json.find((item) => (item.id == addon.id));
       if (serialInfo) {
         serialInfo.serial_no = value;
       } else {
@@ -49,6 +50,7 @@ export function OrderStageForm({ order }: { order: IOrder }) {
 
       newInfo.id = transactionId;
       newInfo.serial_no_json = [];
+
       const serialInfo: any = {};
 
       serialInfo.id = addon.id;

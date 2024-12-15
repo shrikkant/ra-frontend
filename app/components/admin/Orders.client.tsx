@@ -1,5 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
-import styles from "styles/orders.module.css";
 
 import { getOrders, setOrders } from "app-store/admin/index.slice";
 import { useDispatch, useSelector } from "react-redux";
@@ -29,8 +29,7 @@ export default function Orders({ stage }: OrdersProps) {
   const orders = useSelector(getOrders);
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
-  const [revenueStats, setRevenueStats] = useState<any>();
-
+  const [revenueStats, setRevenueStats] = useState();
 
   const dispatch = useDispatch();
 
@@ -48,9 +47,9 @@ export default function Orders({ stage }: OrdersProps) {
     setActiveKey(parseInt(String(stage)));
     loadOrders();
 
-    !revenueStats && fetchRevenueStats().then((stats) => {
+    fetchRevenueStats().then((stats: any) => {
       setRevenueStats(stats);
-    })
+    });
   }, [activeKey, stage]);
 
   const tabChanged = (key: string) => {
@@ -63,7 +62,7 @@ export default function Orders({ stage }: OrdersProps) {
 
   return (
     <>
-      <MyPageHeader title={"Orders"} subtitle={""}></MyPageHeader>
+      <MyPageHeader title={"Orders"}></MyPageHeader>
 
       <div className="px-4">
         {revenueStats && <RevenueSummary revenueStats={revenueStats} />}

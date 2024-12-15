@@ -1,6 +1,10 @@
+import React from "react";
 import PageContainer from "./PageContainer";
 
-export function PageTitle({ title }) {
+interface PageTitleProps {
+  title: string;
+}
+export function PageTitle({ title }: PageTitleProps) {
   return (<section className="s-header-title">
     <PageContainer>
       <h1>{title}</h1>

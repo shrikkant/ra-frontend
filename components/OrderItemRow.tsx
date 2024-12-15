@@ -1,7 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import styles from "./../styles/order-item.module.css";
 
 import { IOrderItem, IProduct } from "../app-store/types";
+
 
 export default function OrderItemRow({
   orderItem,

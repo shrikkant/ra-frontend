@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IProduct, IProductCategory, IProductFilter, ProductPhoto } from '../app-store/types';
 import httpClient, { fetchData } from './axios.config';
 
@@ -21,7 +22,7 @@ export async function fetchCategoriesClient(): Promise<IProductCategory[]> {
 
 export async function fetchProducts(searchString?: string,
   filter?: IProductFilter,
-  client?: boolean): Promise<{ results: IProduct[], meta: any }> {
+  client?: boolean): Promise<{ results: IProduct[], meta }> {
 
   const PAGE_LIMIT = 24;
   const pageNumber = filter ? (filter.page ? filter.page : 0) : 0;

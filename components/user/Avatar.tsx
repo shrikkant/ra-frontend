@@ -77,10 +77,6 @@ export function Avatar({ user, size = "10" }: AvatarProps) {
     return [h, s, l];
   };
 
-  const HSLtoString = (hsl) => {
-    return `hsl(${hsl[0]}, ${hsl[1]}%, ${hsl[2]}%)`;
-  };
-
   const generateColorHsl = (id, saturationRange, lightnessRange) => {
     const hsl = generateHSL(id, saturationRange, lightnessRange);
     return hslToHex(hsl[0], hsl[1], hsl[2]);

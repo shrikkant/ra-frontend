@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
-import Form from './form/Form'
+
 import { useState } from 'react'
-import axios from 'axios'
-import { IDocument } from '../../app-store/app-defaults/types'
+
 import { useSelector } from 'react-redux'
 import { selectAuthState } from '../../app-store/auth/auth.slice'
+import { ILocation } from '../../app-store/types';
 
 export default function DocumentUpload() {
   const loggedUser = useSelector(selectAuthState);
-  const [address, setAddress] = useState<any>()
-  const [file, setFile] = useState()
+  const [address, setAddress] = useState<ILocation>();
+  // const [file, setFile] = useState()
 
 
   useEffect(() => {
@@ -19,14 +19,14 @@ export default function DocumentUpload() {
   }, [loggedUser])
   function handleChange(event) {
     console.log("File : ", event.target.files[0])
-    setFile(event.target.files[0])
+    // setFile(event.target.files[0])
   }
 
   function handleSubmit() {
 
 
 
-    // const document: any = {};
+    // const document = {};
 
     // document.file_name = file.name;
     // document.size = file?.size;

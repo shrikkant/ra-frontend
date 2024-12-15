@@ -3,54 +3,52 @@ import React from 'react'
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { selectAuthState } from '../../app-store/auth/auth.slice'
-import { IUser } from '../../app-store/types'
+
 
 declare global {
   interface Window {
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    featurics: any,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    heap: any
+    featurics,
+    heap
   }
 }
 export const StatwideScript: React.FC = () => {
   const loggedUser = useSelector(selectAuthState)
-  const isAdmin = (user: IUser) => {
-    return user?.role === 'A';
-  }
+  // const isAdmin = (user: IUser) => {
+  //   return user?.role === 'A';
+  // }
 
   useEffect(() => {
     if (!loggedUser?.id || !window.featurics) {
       return;
     }
 
-    window.featurics &&
-      window.featurics.init({
-        visitor: {
-          appVisitorId: loggedUser?.id,
-          email: loggedUser?.email_address,
-          firstName: loggedUser?.firstname || 'User ' + loggedUser?.id,
-          lastName: loggedUser?.lastname || '',
-          // You can include additional visitor level key-values here,
-          // as long as it's not one of the above reserved names.
-          visitorProperties: [
-            {
-              key: 'OrganizationId',
-              value: loggedUser?.id,
-            },
-          ],
-        },
-      })
 
-    window.heap &&
-      window.heap.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
+    window.featurics?.init({
+      visitor: {
+        appVisitorId: loggedUser?.id,
+        email: loggedUser?.email_address,
+        firstName: loggedUser?.firstname || 'User ' + loggedUser?.id,
+        lastName: loggedUser?.lastname || '',
+        // You can include additional visitor level key-values here,
+        // as long as it's not one of the above reserved names.
+        visitorProperties: [
+          {
+            key: 'OrganizationId',
+            value: loggedUser?.id,
+          },
+        ],
+      },
+    })
 
-    window.heap &&
-      window.heap.addUserProperties({
-        name: `${loggedUser.firstname} ${loggedUser.lastname}`,
-        email: loggedUser.email_address,
-        city: loggedUser.city
-      });
+
+    window.heap?.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
+
+
+    window.heap?.addUserProperties({
+      name: `${loggedUser.firstname} ${loggedUser.lastname}`,
+      email: loggedUser.email_address,
+      city: loggedUser.city
+    });
 
   }, [loggedUser])
 

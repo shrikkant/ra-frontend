@@ -4,18 +4,15 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 
 import React from "react";
 
-import { IProductCategory } from "../app-store/types";
 import HeaderSubNav from "../app/components/common/layout/HeaderSubNav";
+import MainHeaderNav from "../app/components/common/layout/MainHeaderNav";
 
-interface AppHeaderProps {
-  categories: IProductCategory[];
-}
-export default function AppHeader({ categories }: AppHeaderProps) {
+export default function AppHeader() {
 
   return (
     <div>
-      {/* <MainHeaderNav /> */}
-      <HeaderSubNav categories={categories} />
+      <MainHeaderNav />
+      <HeaderSubNav />
     </div>
 
   );

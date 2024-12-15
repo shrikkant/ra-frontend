@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React from "react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
 import { Fragment, useEffect, useState } from "react";
 
@@ -32,7 +33,7 @@ export const LocationPicker = () => {
   const stateSearch = useSelector(getDefaultSearch);
 
   const cityChange = (city) => {
-    const search: any = { ...stateSearch };
+    const search = { ...stateSearch };
     search.location = {
       city,
     };
@@ -64,7 +65,7 @@ export const LocationPicker = () => {
 
   return (
     <Popover className="relative">
-      <Popover.Button className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
+      <PopoverButton className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 text-gray-100 px-3">
         {location?.city ?
           <span>
             {locationCity(location.city)}
@@ -74,7 +75,7 @@ export const LocationPicker = () => {
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
           aria-hidden="true"
         />
-      </Popover.Button>
+      </PopoverButton>
 
       <Transition
         as={Fragment}
@@ -85,7 +86,7 @@ export const LocationPicker = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <Popover.Panel className="bg-white absolute left-1/2 flex w-screen max-w-max -translate-x-1/2 px-4 border puy rounded z-10">
+        <PopoverPanel className="bg-white absolute left-1/2 flex w-screen max-w-max -translate-x-1/2 px-4 border puy rounded z-10">
           {({ close }) => {
             return (
               <div className="flex flex-col gap-y-1">
@@ -111,7 +112,7 @@ export const LocationPicker = () => {
               </div>
             );
           }}
-        </Popover.Panel>
+        </PopoverPanel>
       </Transition>
     </Popover>
   );

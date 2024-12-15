@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import CategoryRow from "./CategoryRow";
 import { useEffect, useState } from "react";
 import Loader from "./Loader";
@@ -14,7 +15,7 @@ export default function ProductGrid() {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [categories, setCategories] = useState([]);
-  const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch)
+  const defaultSearch = useSelector<IDefaultSearch>(getDefaultSearch) as IDefaultSearch;
 
 
   const loadProducts = async (city: string) => {

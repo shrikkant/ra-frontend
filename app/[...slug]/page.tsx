@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import ProductCard from 'components/ProductCard'
 
@@ -9,7 +10,17 @@ import { Product } from 'components/product/Product';
 import { IProduct } from '../../app-store/types';
 import { fetchData } from '../utils/api';
 
-export default async function Location({ params, searchParams }: { params: { slug: string }, searchParams }) {
+// type PageProps<TParams extends Record<string, any> = object, TSearchParams extends Record<string, any> = object> = {
+//   params: TParams; // Dynamic route parameters
+//   searchParams: TSearchParams; // Query string parameters
+// };
+
+interface PageProps {
+  params: any;
+  searchParams: any;
+}
+
+export default async function Page({ params, searchParams }: PageProps) {
   const categories = await fetchData(`categories`);
   const localParams = await params;
   const localSearchParams = await searchParams;
@@ -26,7 +37,7 @@ export default async function Location({ params, searchParams }: { params: { slu
     const productSlug = localParams.slug.toString().split(",").at(-1);
     product = productSlug ? await fetchProductBySlug(productSlug) : null;
   } else {
-    const response: { results: IProduct[], meta: any } = await fetchProducts(localSearchParams?.q, filter);
+    const response: { results: IProduct[], meta } = await fetchProducts(localSearchParams?.q, filter);
     products = response.results;
     // meta = response.meta;
   }

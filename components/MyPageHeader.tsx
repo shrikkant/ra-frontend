@@ -3,7 +3,11 @@ import React from "react";
 
 import { ArrowLeftIcon, } from "@heroicons/react/24/outline";
 
-export default function MyPageHeader({ ...props }) {
+interface MyPageHeaderProps {
+  title: string;
+  children?: React.ReactNode;
+}
+export default function MyPageHeader({ ...props }: MyPageHeaderProps) {
 
   return (<div className={"flex p-4 gap-2 justify-between items-center "}>
     <div onClick={() => window.history.back()} className="flex mt-4 gap-x-2">

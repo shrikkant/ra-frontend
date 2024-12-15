@@ -1,16 +1,14 @@
 import React from "react";
-import { ILocation, IOrder, IOrderItem } from "../../app-store/types";
+import { IOrder, IOrderItem } from "../../app-store/types";
 import OrderItemRow from "../OrderItemRow";
 
 import { StepHeader } from "./StepHeader";
 
 export const OrderItemsReview = ({
   order,
-  selectedAddress,
-  title
+  title,
 }: {
   order: IOrder,
-  selectedAddress?: ILocation | null,
   title: string
 }) => {
   return (

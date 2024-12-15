@@ -1,6 +1,7 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useEffect, useState } from 'react';
 import { Modal, Upload } from 'antd';
-import type { RcFile, UploadProps } from 'antd/es/upload';
+import type { RcFile } from 'antd/es/upload';
 import type { UploadFile } from 'antd/es/upload/interface';
 import { addDocument, uploadDocument } from '../api/admin/customers.api';
 import styles from 'styles/documents.module.css';
@@ -16,7 +17,10 @@ const getBase64 = (file: RcFile): Promise<string> =>
     reader.onerror = (error) => reject(error);
   });
 
-const UploadButton = ({ type }) => {
+interface UploadButtonProps {
+  type: string
+}
+const UploadButton = ({ type }: UploadButtonProps) => {
 
   return (
     <div style={{ padding: 10 }}>
@@ -59,10 +63,10 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
         url: "/uploads/" + document.file_name,
       }
     });
-
-    list && setFileList(list);
+    if (list)
+      setFileList(list);
     const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
-      return list?.find((doc: any) => doc.uid == docType) === undefined;
+      return list?.find((doc) => doc.uid == docType) === undefined;
     });
 
     setPendingDocTypes(pendingDocTypes);
@@ -80,9 +84,9 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
   };
 
-  const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-    // setFileList(newFileList);
-  }
+  // const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
+  //   // setFileList(newFileList);
+  // }
 
 
 
@@ -106,7 +110,7 @@ const DocumentsCard = ({ customer }: DocumentsCardPros) => {
 
       setFileList(docs);
       const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
-        return docs?.find((doc: any) => doc.uid == docType) === undefined;
+        return docs?.find((doc) => doc.uid == docType) === undefined;
       });
 
       setPendingDocTypes(pendingDocTypes);

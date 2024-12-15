@@ -9,7 +9,7 @@ export default async function Page() {
   return (
     <>
       <React.StrictMode>
-        <MyPageHeader title={"My Orders"} subtitle={""}></MyPageHeader>
+        <MyPageHeader title={"My Orders"}></MyPageHeader>
         <UserOrders />
 
 

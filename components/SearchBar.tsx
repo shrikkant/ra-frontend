@@ -1,4 +1,4 @@
-import React, { useEffect, useState, Fragment } from "react";
+import React from "react";
 
 import { DateRangePicker } from "./search/DateRangePicker";
 import { LocationPicker } from "./search/LocationPicker";

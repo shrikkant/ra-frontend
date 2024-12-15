@@ -4,7 +4,26 @@ import React from "react";
 import { FaSpinner } from "react-icons/fa";
 import { INPUT_ICON_TYPES } from "../../../config/constants";
 
-export default function Input({ ...props }: any) {
+interface InputProps {
+  name?: string;
+  type?: string;
+  value?: string;
+  label?: string;
+  onChange: (value: string) => void;
+  onClear?: () => void;
+  showClear?: boolean;
+  error?: string;
+  iconType?: INPUT_ICON_TYPES;
+  loading?: boolean;
+  onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  size?: "lg" | "sm";
+  pattern?: string;
+  inputMode?: "search" | "text" | "email" | "tel" | "url" | "none" | "numeric" | "decimal";
+  placeholder?: string;
+  icon?: string;
+}
+
+export default function Input({ ...props }: InputProps) {
   const label = () => {
     if (props.label) {
       return (
@@ -21,7 +40,9 @@ export default function Input({ ...props }: any) {
 
   const onClear = () => {
     // setCurrentValue("");
-    props.onClear();
+    if (props.onClear) {
+      props.onClear();
+    }
   }
 
   return (
@@ -78,7 +99,7 @@ export default function Input({ ...props }: any) {
           placeholder={props.label}
           value={props.value}
           pattern={props?.pattern}
-          inputMode={props?.inputMode}
+          inputMode={props.inputMode ? props.inputMode : "text"}
         />
 
         {props.loading &&

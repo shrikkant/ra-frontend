@@ -36,7 +36,7 @@ export interface IOrder {
   delivery?: IDelivery;
   delivery_id?: number;
   pickup?: IDelivery;
-  delivery_address?: any;
+  delivery_address?;
   applied_discount?: number;
   gst_tax?: number;
   days?: number;
@@ -114,6 +114,13 @@ export interface IMasterProduct {
   photos: ProductPhoto[],
 }
 
+export interface IAddon {
+  id: number,
+  masterProduct?: IMasterProduct,
+  name: string,
+  photos?: ProductPhoto[],
+}
+
 export interface IProduct {
   id: number;
   user_id: number;
@@ -139,13 +146,13 @@ export interface IProduct {
   featured: boolean;
   short_description?: null;
   includes?: null;
-  masterProductList?: null[] | null;
+  masterProductList?: IAddon[];
   photos?: ProductPhoto[] | null;
   masterPhotos?: ProductPhoto[] | null;
   owner: IUser;
   location: ILocation;
   subCategory: IProductSubCategory;
-  masterProduct?: any;
+  masterProduct?;
   rates?: IProductRatePlan[] | null;
 }
 export interface ProductPhoto {

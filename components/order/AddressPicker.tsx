@@ -1,3 +1,4 @@
+
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Address } from "../Address";
@@ -14,16 +15,28 @@ interface IOption {
   value: string;
 }
 
+interface IGooglePlace {
+  description: string;
+  place_id: string;
+}
+
+interface IAddressPickerProps {
+  onAddressReset: () => void;
+  onAddressPick: (address) => void;
+  selectedAddress;
+  onNewAddress: (address) => void;
+}
+
 export const AddressPicker = ({
   onAddressReset,
   onAddressPick,
   selectedAddress,
   onNewAddress
-}) => {
+}: IAddressPickerProps) => {
 
   const dispatch = useDispatch();
 
-  const loggedUser: any = useSelector(selectAuthState);
+  const loggedUser = useSelector(selectAuthState);
   const [options, setOptions] = React.useState<IOption[]>([]);
   const [place_id, setPlaceId] = React.useState<string>("");
   const [address_line_1, setAddressLine1] = React.useState<string>("");
@@ -37,7 +50,7 @@ export const AddressPicker = ({
 
   const lookUpAddress = async (query: string) => {
     setLoading(true);
-    const data: any = await httpClient.get(`user/addresses/lookup/${query}`);
+    const data: IGooglePlace[] = await httpClient.get(`user/addresses/lookup/${query}`);
 
     const options = data.map((item) => ({
       label: item.description,

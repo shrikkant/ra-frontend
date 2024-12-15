@@ -63,7 +63,7 @@ export default async function Page() {
               <b>6. Late Returns</b>
             </div>
             <div>
-              Late returns are penalized as per day's rent. Any penalties will be charged to the Lessee’s form of payment on file with RentAcross.
+              Late returns are penalized as per day&apos;s rent. Any penalties will be charged to the Lessee&apos;s form of payment on file with RentAcross.
             </div>
             <div className="ml-3">
               1. In the event the rental is not returned 3 days after the due date and RentAcross has been unable to collect the applicable penalties, the equipment will be considered stolen and the Lessee’s form of payment will be charged the full replacement value

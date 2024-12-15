@@ -1,6 +1,6 @@
 
 
-import React from 'react'
+import React, { Suspense } from 'react'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import '../styles/global.css'
@@ -13,9 +13,7 @@ import 'styles/common.css'
 
 import type { Viewport } from 'next'
 import { GoogleTagManager } from '@next/third-parties/google'
-import { fetchData } from './utils/api'
-import { IProductCategory } from '../app-store/types'
-import { UserProvider } from './context/UserContext'
+
 
 export const viewport: Viewport = {
   width: 'device-width',
@@ -26,7 +24,7 @@ export const viewport: Viewport = {
   // interactiveWidget: 'resizes-visual',
 }
 
-import { ToastContainer, toast } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
@@ -38,8 +36,8 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
 
-  const categories: IProductCategory[] = await fetchData('categories');
-  const appContext = { categories, loggedUser: null }
+  // const categories: IProductCategory[] = await fetchData('categories');
+
   return (
     <html lang="en">
       <head>
@@ -68,14 +66,22 @@ export default async function RootLayout({
       <body>
 
 
-        <UserProvider appContext={appContext}>
+        <Suspense fallback={<div className="preloader-cover">
+          <div className="preloader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>}>
           <StoreProvider>
             <Header />
             {children}
             <Footer />
           </StoreProvider>
-        </UserProvider>
-        <ToastContainer position="bottom-right" autoClose={3000} />
+
+          <ToastContainer position="bottom-right" autoClose={3000} />
+        </Suspense>
       </body>
     </html>
   )

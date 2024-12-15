@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IAadhaar } from '../../app-store/auth/types';
 import { IUser } from '../../app-store/types';
 import httpClient from './../axios.config';
@@ -18,8 +19,8 @@ export async function fetchCustomerAadhaar(id: number): Promise<IAadhaar> {
     return aadhaar;
 }
 
-export async function addDocument(userId: number, docType: string, file: any): Promise<any> {
-    let document: any = {};
+export async function addDocument(userId: number, docType: string, file): Promise<any> {
+    const document: any = {};
     document.user_id = userId;
     document.file_name = file.name;
     document.size = file.size;
@@ -35,11 +36,11 @@ export async function addDocument(userId: number, docType: string, file: any): P
 
 export async function uploadDocument(id: number,
     docId: number | undefined,
-    file: any,
-    formData: any,
-    onProgress: any,
-    onSuccess: any,
-    onError: any): Promise<any> {
+    file,
+    formData,
+    onProgress,
+    onSuccess,
+    onError): Promise<any> {
 
     if (!docId) {
         return;

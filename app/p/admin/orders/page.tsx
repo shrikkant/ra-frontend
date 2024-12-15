@@ -5,7 +5,7 @@ import Orders from "../../../components/admin/Orders.client";
 
 
 interface PageProps {
-  searchParams: any;
+  searchParams;
 }
 
 export default async function Page({ searchParams }: PageProps) {

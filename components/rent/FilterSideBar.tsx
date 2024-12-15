@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { Card, Form, Checkbox, Slider } from "antd";
 
@@ -35,7 +36,7 @@ export default function FilterSideBar({
   searchMeta,
   filter
 }: {
-  searchMeta: any;
+  searchMeta;
   filter: IProductFilter;
 
 }) {
@@ -58,7 +59,7 @@ export default function FilterSideBar({
     router.replace("/rent/" + pathname + "?" + new URLSearchParams(newQuery).toString());
   };
 
-  const onBrandsChange = (checkedValues: any[]) => {
+  const onBrandsChange = (checkedValues: string[]) => {
 
     const query: any = { ...newQuery }
     delete query.br;
@@ -78,7 +79,7 @@ export default function FilterSideBar({
   const onPriceChange = (values) => {
     const query: any = { ...newQuery };
 
-    const rfQuery = values[0] + "-" + values[1];
+    const rfQuery: any = values[0] + "-" + values[1];
     query.rf = rfQuery;
 
     setNewQuery(query);
@@ -177,8 +178,8 @@ function getPits(rate) {
 
   realValues = rate.bands.map((b) => b.count);
 
-  const max = Math.max.apply(Math, realValues);
-  const min = Math.min.apply(Math, realValues);
+  const max = Math.max(...realValues);
+  const min = Math.min(...realValues);
 
   pits = realValues.map((v) => Math.round(((v - min) / (max - min)) * 100));
 

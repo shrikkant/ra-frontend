@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import styles from "styles/admin-order-item.module.css";
 import React, { useState } from "react";

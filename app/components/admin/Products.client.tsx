@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import MyPageHeader from "components/MyPageHeader";
 
@@ -26,7 +27,7 @@ export default function Products() {
 
   return (
     <>
-      <MyPageHeader title={"Products"} subtitle={""}></MyPageHeader>
+      <MyPageHeader title={"Products"}></MyPageHeader>
 
       <BulkUpload />
 
@@ -37,7 +38,7 @@ export default function Products() {
             <div>Name</div>
 
             <div className="flex gap-x-3">
-              {COUNTRIES.map((c) => {
+              {COUNTRIES.map((c: any) => {
                 return c.locations.map((l) => {
                   return (
                     <div key={l.id}>

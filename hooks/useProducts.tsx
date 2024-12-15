@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import {
   getSearchResultsAction,
   getSearchResults,
@@ -20,7 +20,7 @@ export const useProducts = () => {
   const { q } = query;
   const products = useSelector(getSearchResults);
   const categories = useSelector(getCategories);
-  const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
+  const defaultSearch = useSelector<IDefaultSearch>(getDefaultSearch) as IDefaultSearch;
 
 
   useEffect(() => {

@@ -2,6 +2,12 @@
 
 // const { publicRuntimeConfig: envConfig } = getConfig();
 
+export interface ICountry {
+  code: string;
+  urlBase: string;
+  locations: string[];
+  states: string[];
+}
 export const ENV = process.env.REACT_APP_ENV!;
 // export const BASE_API_URL = envConfig.BASE_API_URL;
 export const BASE_URL = "https://www.rentacross.com";
@@ -65,37 +71,41 @@ export const DISCOUNT_STEPS = [
   },
 ]
 
-const COUNTRIES: any = [];
+const COUNTRIES: ICountry[] = [];
 
-const ind: any = {};
-ind.code = "IN";
-ind.urlBase = "";
-ind.states = ["Goa"];
+const ind: ICountry = {
+  code: "IN",
+  urlBase: "",
+  locations: [
+    "Bangalore",
+    "Jaipur",
+    "Ahmedabad",
+    "Pune",
+    "Kochi",
+    "Navi-Mumbai",
+    "Thane",
+    "Coimbatore",
+    "Mumbai",
+    "Hyderabad",
+    "Chandigarh",
+    "Ahmedabad",
+    "Chennai",
+    "Nashik",
+    "Kolkata",
+    "Patna",
+  ],
+  states: ["Goa"]
+};
 
-ind.locations = [
-  "Bangalore",
-  "Jaipur",
-  "Ahmedabad",
-  "Pune",
-  "Kochi",
-  "Navi-Mumbai",
-  "Thane",
-  "Coimbatore",
-  "Mumbai",
-  "Hyderabad",
-  "Chandigarh",
-  "Ahmedabad",
-  "Chennai",
-  "Nashik",
-  "Kolkata",
-  "Patna",
-];
 
-const nz: any = {};
-nz.code = "NZ";
-nz.urlBase = "nz/";
-nz.locations = ["Auckland"];
-nz.states = [];
+
+const nz: ICountry = {
+  code: "NZ",
+  urlBase: "nz/",
+  locations: ["Auckland"],
+  states: []
+};
+
 
 COUNTRIES.push(ind);
 COUNTRIES.push(nz);

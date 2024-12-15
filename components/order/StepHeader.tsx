@@ -1,9 +1,9 @@
 import React from "react";
 
 interface StepHeaderProps {
-  children?: any;
+  children?;
 
-  onChangeAction?: any;
+  onChangeAction?;
   label: string;
   showChange?: boolean;
 }

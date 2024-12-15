@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from "react";
 import { Content } from "antd/lib/layout/layout";
 import { HeadCard } from "./HeadCard";

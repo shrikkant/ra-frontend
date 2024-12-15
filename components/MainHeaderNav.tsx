@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import { useRouter, useSearchParams } from "next/navigation";
 
-import { selectAuthState } from "app-store/auth/auth.slice";
+import { selectAuthState } from "../app-store/auth/auth.slice";
 import { useDispatch, useSelector } from "react-redux";
 
 import "react-date-range/dist/styles.css"; // main css file
@@ -10,22 +9,19 @@ import "react-date-range/dist/theme/default.css"; // theme css file
 
 import React, { useEffect, useState } from "react";
 
-
+import SearchBar from "./SearchBar";
 import { Disclosure } from "@headlessui/react";
 import {
   ShoppingCartIcon,
 } from "@heroicons/react/24/outline";
+import { SearchInput } from "./SearchInput";
 
-import TopNavMenu from "components/TopNavMenu";
-
-import { getDefaultSearch } from "app-store/session/session.slice";
-import { fetchCart } from "api/user/orders.api";
-import { IDefaultSearch, ISearchLocation } from "app-store/app-defaults/types";
-import { getCart, setCart } from "app-store/user/orders/orders.slice";
-import { IOrder } from "app-store/types";
-import SearchBar from "../../../../components/SearchBar";
-import { SearchInput } from "../../../../components/SearchInput";
-
+import { getDefaultSearch } from "../app-store/session/session.slice";
+import { fetchCart } from "../api/user/orders.api";
+import { IDefaultSearch, ISearchLocation } from "../app-store/app-defaults/types";
+import { getCart, setCart } from "../app-store/user/orders/orders.slice";
+import { IOrder } from "../app-store/types";
+import TopNavMenu from "./TopNavMenu";
 
 
 
@@ -33,7 +29,7 @@ import { SearchInput } from "../../../../components/SearchInput";
 export default function MainHeaderNav() {
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch()
-  const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
+  const defaultSearch = useSelector<IDefaultSearch>(getDefaultSearch) as IDefaultSearch;
 
   const [location, setLocation] = useState<ISearchLocation>();
 
@@ -54,7 +50,6 @@ export default function MainHeaderNav() {
   };
 
   useEffect(() => {
-
     if (loggedUser && !cart) {
       fetchCart().then((o: IOrder) => {
         dispatch(setCart(o));

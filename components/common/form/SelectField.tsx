@@ -3,7 +3,14 @@
 
 
 import React from "react";
-export default function SelectField({ ...props }) {
+
+interface SelectFieldProps {
+  label?: string;
+  defaultValue?: string;
+  choices: { value: string, label: string }[];
+  onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void;
+}
+export default function SelectField({ ...props }: SelectFieldProps) {
   const label = () => {
     if (props.label) {
       return (
@@ -19,7 +26,7 @@ export default function SelectField({ ...props }) {
       {label()}
       <div className="relative">
         <select defaultValue={props.defaultValue} onChange={props.onChange} className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-          {props.choices &&  props.choices.map((choice) =>
+          {props.choices && props.choices.map((choice) =>
             <option key={choice.value} value={choice.value}>{choice.label}</option>
           )}
 

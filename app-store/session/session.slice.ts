@@ -1,11 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import Cookies from 'js-cookie';
-import { TOKEN_COOKIE_KEY } from '../../config/constants';
 import { IDefaultSearch } from '../app-defaults/types';
 
 interface DefaultSearch {
-    location: any,
-    dates: any[]
+    location,
+    dates: []
 }
 
 export interface SessionState {
@@ -38,9 +36,9 @@ export const sessionSlice = createSlice({
 
 export const { deleteSession, setSession, setSearch, setLastLink } = sessionSlice.actions;
 
-export const sessionData = (state: any) => state.session;
+export const sessionData = (state) => state.session;
 
-export const getDefaultSearch = (state: any): IDefaultSearch => state.session.defaultSearch;
-export const getLastLink = (state: any): string => state.session.lastLink;
+export const getDefaultSearch = (state): IDefaultSearch => state.session.defaultSearch;
+export const getLastLink = (state): string => state.session.lastLink;
 
 export default sessionSlice.reducer;

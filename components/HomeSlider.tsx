@@ -11,8 +11,7 @@ export function HomeSlider() {
 
   const INTERVAL_LENGTH = 6000;
   const AUTOPLAY = false;
-
-  const [autoplay, setAutoplay] = useState(AUTOPLAY);
+  const autoplay = AUTOPLAY;
   const [currentItem, setCurrentItem] = useState(0);
   const [items, setItems] = useState<ReactNode[]>([]);
 
@@ -182,7 +181,7 @@ export function HomeSlider() {
     <section className="main-slider relative w-full overflow-hidden">
       <div className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box' }} >
         <div className="slick-track" style={{ transformStyle: "preserve-3d" }}>
-          {items && items.map((item, index) => item)}
+          {items && items.map((item) => item)}
         </div>
       </div>
 

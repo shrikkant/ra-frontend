@@ -27,7 +27,7 @@ export interface ITestimonial {
 }
 export interface AppDefaultsState {
   categories?: IProductCategory[];
-  searchDefaults?: any;
+  searchDefaults?;
 }
 
 export interface IDates {
@@ -48,7 +48,7 @@ export interface IDocument {
   verified?: boolean;
   verified_by?: string;
   document_id?: string;
-  document_data: any;
+  document_data;
   client_id: string;
   address_id: number;
   document_type: string;

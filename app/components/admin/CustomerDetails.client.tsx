@@ -33,7 +33,7 @@ export default function CustomerDetails({ id }: CustomerDetailsProps) {
 
   return (
     <>
-      <MyPageHeader title={"Customers"} subtitle={""}></MyPageHeader>
+      <MyPageHeader title={"Customers"}></MyPageHeader>
 
       {activeCustomer?.id && (
         <div>

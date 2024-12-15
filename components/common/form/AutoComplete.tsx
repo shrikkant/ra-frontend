@@ -2,8 +2,20 @@ import React, { useState } from "react";
 import Input from "./Input";
 import _debounce from "lodash/debounce";
 
+interface IOption {
+  label: string;
+  value: string;
+}
 
-export default function AutoComplete({ name, label, onChange, onSelect, options, isLoading }) {
+interface IAutoCompleteProps {
+  name: string;
+  label: string;
+  onChange: (val: string) => void;
+  onSelect: (val: IOption) => void;
+  options: IOption[];
+  isLoading: boolean;
+}
+export default function AutoComplete({ name, label, onChange, onSelect, options, isLoading }: IAutoCompleteProps) {
   const [inputValue, setInputValue] = React.useState("");
   const debounceFn = _debounce(handleDebounceFn, 1200);
   const [showClear, setShowClear] = useState(false);
@@ -34,7 +46,7 @@ export default function AutoComplete({ name, label, onChange, onSelect, options,
 
   const onClear = () => {
     setInputValue("");
-    onSelect("");
+    onSelect({ label: "Not Selected", value: "-1" });
     setError("Locality or Landmark is required");
     setShowClear(false);
   }

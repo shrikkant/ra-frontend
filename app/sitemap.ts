@@ -1,5 +1,6 @@
+
 import type { MetadataRoute } from 'next'
-import COUNTRIES from '../config/constants';
+import COUNTRIES, { ICountry } from '../config/constants';
 import { BASE_URL } from '../config/constants';
 interface SitemapLink {
   url: string
@@ -8,7 +9,7 @@ interface SitemapLink {
   priority: number
 }
 export default function sitemap(): MetadataRoute.Sitemap {
-  const countries = COUNTRIES;
+  const countries: ICountry[] = COUNTRIES;
   const urls: SitemapLink[] = [];
 
   for (const country of countries) {

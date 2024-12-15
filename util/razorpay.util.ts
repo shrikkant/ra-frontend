@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { createRazorPayOrder, processPayment } from "../api/user/orders.api";
 
 
@@ -14,6 +15,7 @@ function loadScript(src: string) {
         document.body.appendChild(script);
     });
 }
+
 
 
 export const displayRazorpay = async (orderId: number, success) => {

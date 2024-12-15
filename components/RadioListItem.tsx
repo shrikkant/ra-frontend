@@ -1,6 +1,12 @@
 import React from "react";
 
-export const RadioListItem = ({ value, active, children, onCheck }: any) => {
+interface RadioListItemProps {
+  value: string;
+  active: boolean;
+  children: React.ReactNode;
+  onCheck: (value: string) => void;
+}
+export const RadioListItem = ({ value, active, children, onCheck }: RadioListItemProps) => {
   return (
     <div
       onClick={() => {

@@ -22,19 +22,22 @@ export function DeliveryAssignmentForm({ order }: { order: IOrder }) {
 
   useEffect(() => {
     const newOrder = { ...order };
-    (order.delivery_id && !order.delivery) && fetchOrderDelivery(order.delivery_id).then(data => {
-      newOrder.delivery = data;
-      dispatch(setActiveOrder(newOrder));
-    });
-    fetchDeliveryReps().then(data => {
-      dispatch(setDeliveryReps(data));
-    });
+    if (order.delivery_id) {
+      fetchOrderDelivery(order.delivery_id).then(data => {
+        newOrder.delivery = data;
+        dispatch(setActiveOrder(newOrder));
+      });
 
-    setDeliveryAssignment({
-      ...deliveyAssignment,
-      orderId: order.id,
-      repId: order?.delivery?.rep_id || 0
-    });
+      fetchDeliveryReps().then(data => {
+        dispatch(setDeliveryReps(data));
+      });
+
+      setDeliveryAssignment({
+        ...deliveyAssignment,
+        orderId: order.id,
+        repId: order?.delivery?.rep_id || 0
+      });
+    }
   }, [])
 
   const handleSubmit = () => {

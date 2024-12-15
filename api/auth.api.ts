@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { IUser } from '../app-store/types';
 import httpClient from './axios.config';
 

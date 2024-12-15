@@ -1,3 +1,4 @@
+import React from "react";
 import PageContainer from "../../components/common/PageContainer";
 import { PageTitle } from "../../components/common/PageTitle";
 
@@ -53,7 +54,7 @@ export default async function Page() {
               <b>4. What if product Damaged by customer?</b>
             </div>
             <div>
-              Don't worry. RentAcross Will Pay 100% to You.
+              Don&apos;t worry. RentAcross Will Pay 100% to You.
             </div>
           </div>
         </PageContainer>

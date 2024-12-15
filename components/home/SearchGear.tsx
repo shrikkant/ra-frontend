@@ -11,7 +11,7 @@ import { getDefaultSearch } from "../../app-store/session/session.slice";
 export default function SearchGear() {
   const router = useRouter();
   const [search, setSearch] = useState('');
-  const storeSearch: any = useSelector<IDefaultSearch>(getDefaultSearch);
+  const storeSearch: IDefaultSearch = useSelector<IDefaultSearch>(getDefaultSearch) as IDefaultSearch;
 
   const onSearch = () => {
     const { location } = storeSearch;
@@ -20,11 +20,11 @@ export default function SearchGear() {
     return router.push(`/rent/${city}?q=${search}`);
   }
 
-  const onSearchChange = (e: any) => {
+  const onSearchChange = (e) => {
     setSearch(e.target.value)
   }
 
-  const onEnterPress = (e: any) => {
+  const onEnterPress = (e) => {
     if (e.keyCode === 13) {
       onSearch();
     }

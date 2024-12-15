@@ -1,7 +1,13 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { useRef } from "react";
 import { FaSearch } from "react-icons/fa";
 
-export function SearchInput({ currentVal, onChange, onSearch }) {
+interface SearchInputProps {
+  currentVal: any;
+  onChange: (val: string) => void;
+  onSearch: (val: string) => void;
+}
+export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps) {
   const inputRef = useRef<HTMLInputElement>(null);
   const handleReturn = (e) => {
     if (e.keyCode === 13) {
@@ -23,7 +29,7 @@ export function SearchInput({ currentVal, onChange, onSearch }) {
         onKeyUp={(e) => handleReturn(e)}
       />
       <button
-        onClick={onSearch}
+        onClick={() => onSearch(inputRef.current?.value || '')}
         className="h-10 w-10 bg-amber-500 absolute top-0 right-1 flex justify-center content-center p-2 rounded-br rounded-tr"
       >
         <FaSearch className="h-7 w-7 text-gray-800" />

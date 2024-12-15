@@ -24,11 +24,17 @@ const handleStyle = {
   marginTop: "-2px",
 };
 
+interface FilterNavProps {
+  onChange: (query) => void;
+  filters: boolean;
+  toggleFilters: () => void;
+}
+
 export default function ProductFilterNav({
   onChange,
   filters,
   toggleFilters,
-}) {
+}: FilterNavProps) {
   const router = useRouter();
 
   const searchMeta = useSelector(getSearchMetaData);
@@ -36,7 +42,7 @@ export default function ProductFilterNav({
 
   const [brands, setBrands] = useState(getBrandOptions(searchMeta?.brands, query.br));
 
-  const onBrandsChange = (e) => {
+  const onBrandsChange = () => {
     const checkedValues = Array
       .from(document.querySelectorAll('input[name="filterBrands"]'))
       .filter((checkbox: HTMLInputElement) => checkbox.checked)
@@ -65,7 +71,7 @@ export default function ProductFilterNav({
     delete q.rf;
     delete q.page;
 
-    let rfQuery = values[0] + "-" + values[1];
+    const rfQuery = values[0] + "-" + values[1];
     q.rf = rfQuery;
 
     setQuery(q);

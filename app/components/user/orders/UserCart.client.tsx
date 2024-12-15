@@ -20,11 +20,11 @@ import { useRouter } from "next/navigation";
 export default function UserCart() {
   const router = useRouter();
 
-  const cart: any = useSelector(getCart);
+  const cart = useSelector(getCart);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
 
-  const onRazorPayCheckout = (mode: number) => {
+  const onRazorPayCheckout = () => {
     router.push("/p/mycart/book");
   };
 

@@ -27,7 +27,7 @@ export default function VerifyAadhar() {
     setOtp(value);
   }
 
-  const validateInputAadhar = (event: any) => {
+  const validateInputAadhar = (event) => {
     if (event.keyCode === 8 || event.keyCode === 46) {
       return;
     }
