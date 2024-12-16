@@ -8,7 +8,6 @@ import { displayMessage } from '../util/global.util';
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY);
 
-
 export class HttpService {
     private url: string;
     private client: AxiosInstance;
@@ -114,7 +113,7 @@ export const fetchData = async (url, customOptions?) => {
     }
 
 
-    const response: any = await fetch(`https://www.rentacross.com/api/${url}`, options);
+    const response: any = await fetch(`http://raapp:8082/api/${url}`, options);
 
     if (!response.ok) {
         throw new Error('Failed to fetch data')
