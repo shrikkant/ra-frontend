@@ -66,7 +66,7 @@ export default function TopNavMenu() {
 
 
   useEffect(() => {
-    getAuthUser().then((u) => {
+    !loggedUser && getAuthUser().then((u) => {
       setIsClient(true);
       dispatch(authUser(u));
     });
