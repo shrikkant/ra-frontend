@@ -40,7 +40,9 @@ const OTPInput: React.FC<OTPInputProps> = ({ onChange }) => {
           value={otp[index]}
           onChange={(e) => handleChange(e.target.value, index)}
           onKeyDown={(e) => handleKeyDown(e, index)}
-          ref={(el) => (inputRefs.current[index] = el)}
+          ref={(el) => {
+            inputRefs.current[index] = el;
+          }}
           className="rounded-md focus:border-[#E5C71F]"
           style={{
             width: '50px',

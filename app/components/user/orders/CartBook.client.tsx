@@ -16,12 +16,13 @@ import { AddressPicker } from "components/order/AddressPicker";
 import Loader from "components/Loader";
 import { getAuthUser } from "../../../../api/auth.api";
 import { useRouter } from "next/navigation";
+import { ILocation } from "../../../../app-store/types";
 
 export default function CartBook() {
   const cart = useSelector(getCart);
   const router = useRouter();
   const loggedUser = useSelector(selectAuthState);
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState<ILocation | null>();
   const [addressId, setAddressId] = useState<number>(0);
   const [loading, setLoading] = useState(true);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
@@ -31,7 +32,7 @@ export default function CartBook() {
 
   const orderSuccess = () => {
     dispatch(setCart(null));
-    if (loggedUser.verified !== STATUS_AADHAAR_VERIFIED) {
+    if (loggedUser?.verified !== STATUS_AADHAAR_VERIFIED) {
       router.push("/p/profile/verify");
       return;
     }
@@ -40,19 +41,20 @@ export default function CartBook() {
   }
   const onRazorPayCheckout = async (mode: number) => {
 
-    const currentAddr = loggedUser?.address.find(
+    const currentAddr = loggedUser?.address?.find(
       (ad) => ad.id === addressId
     ) || { id: -1, name: "Store Pickup" };
+    if (cart) {
+      if (mode === ORDER_STEPS.ORDER_STEP_DELIVERY) {
+        updateDeliveryAddressAction(cart, currentAddr)(dispatch);
+        setSelectedAddress(currentAddr);
+      } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
+        setIsButtonLoading(true);
 
-    if (mode === ORDER_STEPS.ORDER_STEP_DELIVERY) {
-      updateDeliveryAddressAction(cart, currentAddr)(dispatch);
-      setSelectedAddress(currentAddr);
-    } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
-      setIsButtonLoading(true);
-
-      displayRazorpay(cart.id, orderSuccess).then(() => {
-        setIsButtonLoading(false);
-      });
+        displayRazorpay(cart.id, orderSuccess).then(() => {
+          setIsButtonLoading(false);
+        });
+      }
     }
   };
 
@@ -69,7 +71,7 @@ export default function CartBook() {
   }
 
   const resolveStep = () => {
-    if (!loggedUser.address || loggedUser.address.length === 0) {
+    if (!loggedUser || !loggedUser.address || loggedUser.address.length === 0) {
       return ORDER_STEPS.ORDER_STEP_ADDRESS;
     } else if (addressId !== 0 && !selectedAddress) {
       return ORDER_STEPS.ORDER_STEP_DELIVERY

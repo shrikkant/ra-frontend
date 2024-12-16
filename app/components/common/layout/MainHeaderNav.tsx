@@ -89,7 +89,7 @@ export default function MainHeaderNav() {
                   href="/p/mycart"
                 >
                   <ShoppingCartIcon className="h-6 w-6" />
-                  {cart && cart?.items?.length > 0 && (
+                  {(cart && cart.items) && cart.items.length > 0 && (
                     <span className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
                       {cart.items?.length}
                     </span>

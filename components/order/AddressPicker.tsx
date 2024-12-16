@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -9,6 +10,7 @@ import Input from "../common/form/Input";
 import AutoComplete from "../common/form/AutoComplete";
 import httpClient from "../../api/axios.config";
 import { addNewAddress } from "../../api/user/index.api";
+
 
 interface IOption {
   label: string;
@@ -84,8 +86,8 @@ export const AddressPicker = ({
     if (!place_id) {
       return;
     }
-    const newAddress = await addNewAddress(place_id, address_line_1);
-    const newUser = { ...loggedUser };
+    const newAddress: any = await addNewAddress(place_id, address_line_1);
+    const newUser: any = { ...loggedUser };
     newUser.address = [newAddress];
     onNewAddress(newAddress);
     dispatch(authUser(newUser));
@@ -102,7 +104,7 @@ export const AddressPicker = ({
       {selectedAddress && (
         <Address
           address={selectedAddress}
-          name={loggedUser.firstname + " " + loggedUser.lastname}
+          name={loggedUser?.firstname + " " + loggedUser?.lastname}
         />
       )}
       {(!hasAddress) && (
@@ -144,7 +146,7 @@ export const AddressPicker = ({
         (!selectedAddress && hasAddress) && (
           <AddressList
             onAddressChange={onAddressPick}
-            addressList={loggedUser && loggedUser.address}
+            addressList={loggedUser?.address ? loggedUser.address : []}
             userName={loggedUser?.firstname + " " + loggedUser?.lastname}
           />
         )

@@ -1,4 +1,4 @@
-import { combineReducers, configureStore, PreloadedState } from '@reduxjs/toolkit';
+import { combineReducers, configureStore } from '@reduxjs/toolkit';
 
 import appDefaults from './app-defaults/app-defaults.slice';
 
@@ -55,18 +55,8 @@ export const makeStore = () => {
     return appReducer(state, action);
   };
 
-  const preloadedState: PreloadedState<{
-    session: SessionState;
-  }> = {
-    session: loadState<SessionState>('session') || {
-      isSessionValid: null,
-      lastLink: "",
-    },
-  };
-
   const store = configureStore({
     reducer: rootReducer,
-    preloadedState,
   });
 
   store.subscribe(() => {

@@ -56,9 +56,9 @@ export function DeliveryAssignmentForm({ order }: { order: IOrder }) {
 
   const repOptions = () => {
     const reps = deliveryReps?.map((rep: IUser) => {
-      return { label: (rep.firstname + " " + rep.lastname), value: rep.id }
-    })
-    reps.push({ label: "Unassigned", value: 0 });
+      return { label: (rep.firstname + " " + rep.lastname), value: rep.id + "" }
+    }) || [];
+    reps.push({ label: "Unassigned", value: "0" });
     return reps;
   }
 

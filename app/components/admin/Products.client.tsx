@@ -39,9 +39,9 @@ export default function Products() {
 
             <div className="flex gap-x-3">
               {COUNTRIES.map((c: any) => {
-                return c.locations.map((l) => {
+                return c.locations.map((l, i) => {
                   return (
-                    <div key={l.id}>
+                    <div key={i}>
                       {l}
                     </div>
                   );
