@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { useDispatch, useSelector } from "react-redux";
 import { getLastLink, setLastLink, } from "../../app-store/session/session.slice";
 import { selectAuthState } from "../../app-store/auth/auth.slice";
+import { StatwideScript } from "../../app/components/StatwideScript";
 
 export default function Scripts() {
   const dispatch = useDispatch();
@@ -30,5 +31,6 @@ export default function Scripts() {
   }, [lastLink, loggedUser, pathname]);
 
   return (<>
+    <StatwideScript />
   </>)
 }
