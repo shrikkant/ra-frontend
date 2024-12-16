@@ -24,13 +24,14 @@ import { AdminOrderHeader } from "components/admin/order/AdminOrderHeader";
 import { resolveOrderStage } from "../../../util/global.util";
 import { AdminOrderItemRow } from "../../../components/admin/AdminOrderItemRow";
 import { useRouter } from "next/navigation";
+import { IOrder } from "../../../app-store/types";
 
 interface OrdersProps {
   stage: number;
 }
 export default function Orders({ stage }: OrdersProps) {
   const router = useRouter();
-  const orders = useSelector(getOrders);
+  const [orders, setOrders] = useState<IOrder[]>();
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [revenueStats, setRevenueStats] = useState();
@@ -40,17 +41,15 @@ export default function Orders({ stage }: OrdersProps) {
   const loadOrders = () => {
     setLoading(true);
     const loadStage = parseInt(String(stage));
-
     fetchOrders(loadStage).then((data) => {
       setLoading(false);
-      dispatch(setOrders(data));
+      setOrders(data);
     });
   };
 
   useEffect(() => {
     setActiveKey(parseInt(String(stage)));
     loadOrders();
-
     fetchRevenueStats().then((stats: any) => {
       setRevenueStats(stats);
     });
