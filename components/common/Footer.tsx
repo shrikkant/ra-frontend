@@ -9,10 +9,10 @@ export default function Footer() {
         <div className="footer-subscribe col-md-7 col-lg-8">
           <h6>stay in touch</h6>
           <ul className="footer-soc social-list">
-            <li><a target="_blank" rel="noreferrer" href="https://www.facebook.com/rentacross"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
-            <li><a target="_blank" rel="noreferrer" href="https://x.com/rentacross"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
-            <li><a target="_blank" rel="noreferrer" href="https://www.instagram.com/rent_across"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
-            <li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/@rentacross"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://www.facebook.com/rentacross" aria-label="Visit our Facebook page"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://x.com/rentacross" aria-label="Follow us on X"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://www.instagram.com/rent_across" aria-label="Follow us on Instagram"><i className="fa fa-instagram" aria-hidden="true"></i></a></li>
+            <li><a target="_blank" rel="noreferrer" href="https://www.youtube.com/@rentacross" aria-label="Subscribe our YouTube channel"><i className="fa fa-youtube-play" aria-hidden="true"></i></a></li>
           </ul>
         </div>
         <div className="footer-item col-md-5 col-lg-4">

@@ -29,6 +29,8 @@ export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps
         onKeyUp={(e) => handleReturn(e)}
       />
       <button
+        type="button"
+        aria-label="Search"
         onClick={() => onSearch(inputRef.current?.value || '')}
         className="h-10 w-10 bg-amber-500 absolute top-0 right-1 flex justify-center content-center p-2 rounded-br rounded-tr"
       >
