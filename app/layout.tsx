@@ -64,7 +64,14 @@ export default async function RootLayout({
       </head>
 
       <body>
-
+        <div className="preloader-cover">
+          <div className="preloader">
+            <span></span>
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+        </div>
 
         <Suspense fallback={<div className="preloader-cover">
           <div className="preloader">
