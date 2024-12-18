@@ -30,9 +30,6 @@ export default async function Page({ params, searchParams }: PageProps) {
   let products: IProduct[] = [];
   let meta: any = null;
 
-
-
-
   // const [meta, setMeta] = React.useState<any>(null);
 
   if (filter.product) {
@@ -45,12 +42,11 @@ export default async function Page({ params, searchParams }: PageProps) {
   }
 
   return (<div style={{ maxWidth: 1280, margin: "auto" }}>
+    {!filter?.product && <h1 className="text-4xl text-center py-6 capitalize font-semibold">
+      Rent Cameras, Lenses, GoPro&apos;s in {filter?.city}
+    </h1>}
     {(!filter?.product && products) &&
       (<>
-        <h1 className="text-4xl text-center py-6 capitalize font-semibold">
-          Rent Cameras, Lenses, GoPro&apos;s  in {filter?.city}
-        </h1>
-
         <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
         <div className={"grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 px-2 pb-4"}>
           {products &&
