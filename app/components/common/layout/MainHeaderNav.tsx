@@ -45,8 +45,7 @@ export default function MainHeaderNav() {
   const cart = useSelector(getCart);
   const searchProducts = () => {
     const city = location?.city?.toLowerCase() || "pune";
-
-    router.push("/rent/" + city + "?q=" + searchText);
+    router.push("/" + city + "?q=" + searchText);
   };
 
   const onSearch = (value: string) => {
