@@ -18,7 +18,7 @@ import { GoogleTagManager } from '@next/third-parties/google'
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
-  maximumScale: 1,
+  maximumScale: 5,
   // userScalable: false,
   // Also supported by less commonly used
   // interactiveWidget: 'resizes-visual',

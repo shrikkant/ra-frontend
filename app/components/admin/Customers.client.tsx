@@ -62,7 +62,7 @@ export default function Customers() {
   }
 
   const visitProfile = (id) => {
-    router.push("/portal/admin/customers/" + id);
+    router.push("/p/admin/customers/" + id);
   }
 
   useEffect(() => {

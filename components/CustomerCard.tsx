@@ -60,9 +60,9 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
               </div>
             </div>
           </div>
-          <div className="p-4">
+          {customerAadhaar.address && <div className="p-4">
             {Object.values(customerAadhaar.address).join(", ")}
-          </div>
+          </div>}
         </div>}
 
         <form>
