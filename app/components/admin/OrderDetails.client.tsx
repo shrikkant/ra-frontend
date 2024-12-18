@@ -1,8 +1,5 @@
 "use client"
-
-
 import { getActiveOrder, setActiveOrder } from "app-store/admin/index.slice";
-import { useDispatch, useSelector } from "react-redux";
 import { fetchOrder } from "api/admin/orders.api";
 
 
@@ -20,7 +17,7 @@ interface OrderProps {
 }
 export default function OrderDetails({ id }: OrderProps) {
 
-  const order: IOrder = useSelector(getActiveOrder);
+  const [order, setOrder] = useState<IOrder>();
   const [loading, setLoading] = useState(true);
 
   const [orderChange, setOrderChange] = useState({
@@ -29,11 +26,9 @@ export default function OrderDetails({ id }: OrderProps) {
     id: 0,
   });
 
-  const dispatch = useDispatch();
-
   const loadOrder = () => {
     fetchOrder(id).then((data) => {
-      dispatch(setActiveOrder(data));
+      setOrder(data);
       setOrderChange({ ...orderChange, id: data?.id, stage: data?.stage });
       setLoading(false);
     });
@@ -42,6 +37,10 @@ export default function OrderDetails({ id }: OrderProps) {
   useEffect(() => {
     loadOrder();
   }, [order?.stage, id]);
+
+  const handleStageChange = (order: IOrder) => {
+    setOrder(order);
+  }
 
   return (
     <>
@@ -77,7 +76,7 @@ export default function OrderDetails({ id }: OrderProps) {
               </div>
               <div className="xs:flex xs:flex-col">
                 {!(order.stage === OrderStages.Leads) && (
-                  <OrderStageForm order={order}></OrderStageForm>
+                  <OrderStageForm order={order} onUpdate={handleStageChange}></OrderStageForm>
                 )}
 
                 {order.delivery_fee > 0 && <div className="p-4">

@@ -3,14 +3,12 @@ import React from "react";
 import { OrderStages, resolveOrderStage } from "../../util/global.util"
 import { updateStage } from "api/admin/orders.api";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { setActiveOrder } from "app-store/admin/index.slice";
 import { IOrder } from "../../app-store/types";
 import Input from "../common/form/Input";
 
 
-export function OrderStageForm({ order }: { order: IOrder }) {
-  const dispatch = useDispatch();
+export function OrderStageForm({ order, onUpdate }: { order: IOrder, onUpdate: (order: IOrder) => void }) {
+
   const [orderChange, setOrderChange] = useState<{ serialNoInfo: { id: number, serial_no_json: { id: number, productId: number, name: string, serial_no: string }[] }[], stage: number, id: number }>({ serialNoInfo: [], stage: order.stage, id: 0 });
 
   const handleStageChange = (value: string) => {
@@ -20,9 +18,10 @@ export function OrderStageForm({ order }: { order: IOrder }) {
   const updateOrderStage = async (id: number) => {
     const updatedOrder = { ...order };
     updatedOrder.stage = orderChange.stage;
-    updateStage(id, { ...orderChange, id }).then(() => {
-      dispatch(setActiveOrder(updatedOrder));
-    })
+    await updateStage(id, { ...orderChange, id });
+    return;
+    //onUpdate(updatedOrder);
+    // dispatch(setActiveOrder(updatedOrder));
   }
 
   const handleSerialNoInput = async (transactionId, addon, value) => {
@@ -83,7 +82,7 @@ export function OrderStageForm({ order }: { order: IOrder }) {
           </select>
         </div>
         <div>
-          <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded inline-flex items-center h-8" style={{ textAlign: "right" }}
+          <button type="button" className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-1 px-4 rounded inline-flex items-center h-8" style={{ textAlign: "right" }}
             onClick={() => updateOrderStage(order?.id)}>
             Update
           </button>
