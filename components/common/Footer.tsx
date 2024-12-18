@@ -7,7 +7,6 @@ export default function Footer() {
     <div className="sm:container mx-auto">
       <div className="row footer-item-cover xs:px-4">
         <div className="footer-subscribe col-md-7 col-lg-8">
-          <h6>stay in touch</h6>
           <ul className="footer-soc social-list">
             <li><a target="_blank" rel="noreferrer" href="https://www.facebook.com/rentacross" aria-label="Visit our Facebook page"><i className="fa fa-facebook" aria-hidden="true"></i></a></li>
             <li><a target="_blank" rel="noreferrer" href="https://x.com/rentacross" aria-label="Follow us on X"><i className="fa fa-twitter" aria-hidden="true"></i></a></li>
@@ -16,7 +15,6 @@ export default function Footer() {
           </ul>
         </div>
         <div className="footer-item col-md-5 col-lg-4">
-          <h6>info</h6>
           <ul className="footer-list">
             <li><a href="/blog">Blog</a></li>
             <li><a href="/terms-of-use">Terms of Use</a></li>
@@ -32,7 +30,6 @@ export default function Footer() {
 
         </div>
         <div className="footer-item col-md-5 col-lg-4">
-          <h6>Locations</h6>
           <ul className="footer-list">
             <li><a href="/pune">Pune</a></li>
             <li><a href="/mumbai">Mumbai</a></li>
