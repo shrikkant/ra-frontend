@@ -4,13 +4,13 @@ import Orders from "../../../components/admin/Orders.client";
 
 
 
-interface PageProps {
-  searchParams;
-}
+type SearchParams = Promise<{ [key: string]: string | string[] | undefined }>
 
-export default async function Page({ searchParams }: PageProps) {
-  const localSearchParams = await searchParams;
+
+export default async function Page(props: { searchParams: SearchParams }) {
+  const searchParams = await props.searchParams
+  const stage = searchParams.stage ? parseInt(String(searchParams.stage)) : 0;
   return (
-    <Orders stage={localSearchParams.stage} />
+    <Orders stage={stage} />
   );
 }
