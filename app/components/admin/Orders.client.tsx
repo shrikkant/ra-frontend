@@ -76,10 +76,10 @@ export default function Orders({ stage }: OrdersProps) {
         <div style={{ padding: "16px 16px" }}>
           <TabGroup>
             <TabList className="flex gap-4">
-              {[0, 1, 3].map((i) => (
+              {[0, 1, 3].map((i, index) => (
                 <Tab
                   key={i}
-                  onClick={() => tabChanged(String(i))}
+                  onClick={() => tabChanged(String(index))}
                   className="rounded-full py-1 px-3 text-sm/6 font-semibold focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
                 >
                   {resolveOrderStage(i)}
