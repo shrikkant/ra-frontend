@@ -2,14 +2,12 @@
 import React from "react";
 import CustomerDetails from "../../../../components/admin/CustomerDetails.client";
 
-interface Props {
-  params: any;
-}
+type Params = Promise<{ id: string }>
 
-export default async function Page({ params }: Props) {
-  const localParams = await params;
+export default async function Page(props: { params: Params }) {
+  const params = await props.params
 
   return (
-    <CustomerDetails id={localParams.id} />
+    <CustomerDetails id={params.id} />
   );
 }
