@@ -9,7 +9,7 @@ interface MyPageHeaderProps {
 }
 export default function MyPageHeader({ ...props }: MyPageHeaderProps) {
 
-  return (<div className={"flex p-4 gap-2 justify-between items-center "}>
+  return (<div className={"flex py-4 gap-2 justify-between items-center "}>
     <div onClick={() => window.history.back()} className="flex mt-4 gap-x-2">
       <span>
         <ArrowLeftIcon className="h-6 w-6" />

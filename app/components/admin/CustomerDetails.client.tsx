@@ -37,7 +37,7 @@ export default function CustomerDetails({ id }: CustomerDetailsProps) {
 
       {activeCustomer?.id && (
         <div>
-          <div className="flex xs:flex-col p-4 xs:gap-y-4">
+          <div>
             <div style={{ flex: 1 }}>
               <CustomerCard customer={activeCustomer} ></CustomerCard>
             </div>

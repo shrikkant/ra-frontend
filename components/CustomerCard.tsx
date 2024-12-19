@@ -47,25 +47,27 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
     <Section title={customer.firstname + " " + customer.lastname}>
       <div className="px-4">
-        {customerAadhaar && <div className="   shadow-md w-[320px] rounded-md my-4 border">
-          <div className="flex gap-x-2">
-            <div className="rounded-tl-md border">
-              <img src={`data:image/png;base64,${customerAadhaar.profile_image}`}></img>
-            </div>
-            <div className="flex flex-col gap-y-4 w-96 py-4 " >
-              <div>
-                <p className="font-bold">{customerAadhaar.full_name}</p>
-                <p>{Moment(customerAadhaar.dob).format("D MMM YYYY")}</p>
-                <p>{customer.phone}</p>
+        {customerAadhaar?.profile_image &&
+          <div className="   shadow-md w-[320px] rounded-md my-4 border">
+            <div className="flex gap-x-2">
+              <div className="rounded-tl-md border">
+                <img src={`data:image/png;base64,${customerAadhaar.profile_image}`}></img>
+              </div>
+              <div className="flex flex-col gap-y-4 w-96 py-4 " >
+                <div>
+                  <p className="font-bold">{customerAadhaar.full_name}</p>
+                  <p>{Moment(customerAadhaar.dob).format("D MMM YYYY")}</p>
+                  <p>{customer.phone}</p>
+                </div>
               </div>
             </div>
+            <div className="p-4">
+              {Object.values(customerAadhaar.address).join(", ")}
+            </div>
           </div>
-          {customerAadhaar.address && <div className="p-4">
-            {Object.values(customerAadhaar.address).join(", ")}
-          </div>}
-        </div>}
+        }
 
-        <form>
+        <form className="py-4 flex flex-col gap-y-4">
           <div>
             <Input placeholder="Email" value={customer.email_address} onChange={() => { }} />
           </div>

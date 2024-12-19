@@ -1,8 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { getOrders, setOrders } from "app-store/admin/index.slice";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { fetchOrders } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 
@@ -25,6 +24,7 @@ import { resolveOrderStage } from "../../../util/global.util";
 import { AdminOrderItemRow } from "../../../components/admin/AdminOrderItemRow";
 import { useRouter } from "next/navigation";
 import { IOrder } from "../../../app-store/types";
+import Moment from "moment";
 
 interface OrdersProps {
   stage: number;
@@ -35,8 +35,6 @@ export default function Orders({ stage }: OrdersProps) {
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
   const [revenueStats, setRevenueStats] = useState();
-
-  const dispatch = useDispatch();
 
   const loadOrders = () => {
     setLoading(true);
@@ -63,35 +61,52 @@ export default function Orders({ stage }: OrdersProps) {
     return order.stage < 1;
   }
 
+  const orderDuration = (start: Date | undefined, end: Date | undefined) => {
+    if (!start || !end) {
+      return "";
+    }
+
+    return (
+      Moment(start).utcOffset(0).format("DD MMM") +
+      " - " +
+      Moment(end).utcOffset(0).format("DD MMM")
+    );
+  };
+
+
   return (
     <>
       <MyPageHeader title={"Orders !!"}></MyPageHeader>
 
-      <div className="px-4">
+      <div>
         {revenueStats && <RevenueSummary revenueStats={revenueStats} />}
       </div>
       {loading ? (
         <Loader />
       ) : (
-        <div style={{ padding: "16px 16px" }}>
-          <TabGroup>
-            <TabList className="flex gap-4">
-              {[0, 1, 3].map((i, index) => (
-                <Tab
-                  key={i}
-                  onClick={() => tabChanged(String(index))}
-                  className="rounded-full py-1 px-3 text-sm/6 font-semibold focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
-                >
-                  {resolveOrderStage(i)}
-                </Tab>
-              ))}
-            </TabList>
-            <TabPanels className="mt-3">
-              {[0, 1, 3].map((i) => (
-                <TabPanel key={i} className="rounded-xl bg-white/5 p-3">
-                  <div>
-                    {orders && orders.map((order) => <AdminOrderHeader order={order} key={order.id}>
 
+        <TabGroup>
+          <TabList className="flex gap-4">
+            {[0, 1, 3].map((i, index) => (
+              <Tab
+                key={i}
+                onClick={() => tabChanged(String(index))}
+                className="rounded-full py-1 px-3 text-sm/6 font-semibold focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+              >
+                {resolveOrderStage(i)}
+              </Tab>
+            ))}
+          </TabList>
+          <TabPanels className="mt-3">
+            {[0, 1, 3].map((i) => (
+              <TabPanel key={i} className="rounded-xl bg-white/5">
+                <div>
+                  {orders && orders.map((order) =>
+                    <AdminOrderHeader order={order} key={order.id}>
+
+                      <div className="p-4">
+                        {orderDuration(order.start_date, order.end_date)}
+                      </div>
                       {order.items &&
                         order.items.map((item) => (
                           <AdminOrderItemRow
@@ -102,12 +117,12 @@ export default function Orders({ stage }: OrdersProps) {
                           />
                         ))}
                     </AdminOrderHeader>)}
-                  </div>
-                </TabPanel>
-              ))}
-            </TabPanels>
-          </TabGroup>
-        </div>
+                </div>
+              </TabPanel>
+            ))}
+          </TabPanels>
+        </TabGroup>
+
       )}
     </>
   );

@@ -83,7 +83,7 @@ export default function Customers() {
         <SignupSummary signupStats={signupStats} />
       }
 
-      <div style={{ padding: "16px 16px" }}>
+      <div>
         {loading ? (
           <Loader />
         ) : (
