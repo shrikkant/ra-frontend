@@ -24,7 +24,7 @@ import Input from "./common/form/Input";
 export default function CustomerCard({ customer }: { customer: IUser }) {
   const router = useRouter();
   const dispatch = useDispatch();
-  const [customerAadhaar, setCustomerAadhaar] = React.useState<IAadhaar>();
+  const [customerAadhaar, setCustomerAadhaar] = React.useState<IAadhaar | null>();
 
   const adminLogin = (customerId: number) => {
     dispatch(logout());
@@ -37,9 +37,11 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
 
   useEffect(() => {
-    fetchCustomerAadhaar(customer.id).then((data: IAadhaar) => {
-      setCustomerAadhaar(data);
-    });
+    if (!customerAadhaar) {
+      fetchCustomerAadhaar(customer.id).then((data: IAadhaar) => {
+        setCustomerAadhaar(data);
+      });
+    }
   }, [customerAadhaar]);
 
   return (<div>
