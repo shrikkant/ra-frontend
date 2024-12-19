@@ -25,6 +25,7 @@ import { getCart, setCart } from "app-store/user/orders/orders.slice";
 import { IOrder } from "app-store/types";
 import SearchBar from "../../../../components/SearchBar";
 import { SearchInput } from "../../../../components/SearchInput";
+import { FaHome } from "react-icons/fa";
 
 
 
@@ -44,6 +45,7 @@ export default function MainHeaderNav() {
   const [searchText, setSearchText] = useState(q);
   const cart = useSelector(getCart);
   const searchProducts = () => {
+    console.log("Store Search ", storeSearch);
     const city = location?.city?.toLowerCase() || "pune";
     router.push("/" + city + "?q=" + searchText);
   };
@@ -60,16 +62,19 @@ export default function MainHeaderNav() {
       });
     }
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location);
-  }, [cart]);
+  }, [cart, storeSearch]);
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
-      <div className=" px-4 sm:px-6 lg:px-8">
+      <div className=" px-4 container m-auto">
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
-          <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+          <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto">
             <div className=" inset-y-0 left-0 flex items-center sm:gap-x-6 ">
-              <div className="my-4 justify-center flex xs:hidden sm:block">
-                <img src="/assets/v2/img/logo.png" alt="RentAcross" style={{ height: 36 }} />
+              <div className="my-4 justify-center ">
+                <a href="/">
+                  <img className="hidden lg:block h-6" src="/assets/v2/img/logo.png" alt="RentAcross" />
+                  <FaHome className="block lg:hidden h-6 w-6 text-amber-500" />
+                </a>
               </div>
 
               <SearchBar></SearchBar>

@@ -111,6 +111,9 @@ export interface IOrderItem {
 export interface IMasterProduct {
   id: number,
   name: string,
+  sub_category_id: number,
+  category_id: number,
+  brand_id: number,
   photos: ProductPhoto[],
 }
 
@@ -120,6 +123,8 @@ export interface IAddon {
   name: string,
   photos?: ProductPhoto[],
 }
+
+
 
 export interface IProduct {
   id: number;

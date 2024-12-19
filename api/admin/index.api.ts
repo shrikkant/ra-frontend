@@ -1,4 +1,4 @@
-import { IBrand, IProduct, IUser } from '../../app-store/types';
+import { IBrand, IMasterProduct, IUser } from '../../app-store/types';
 import httpClient from './../axios.config';
 
 export async function fetchBrands(): Promise<IBrand[]> {
@@ -14,9 +14,9 @@ export async function fetchDeliveryReps(): Promise<IUser[]> {
 
 export async function fetchMasterProducts(
     pageNumber,
-    pageLimit): Promise<IProduct[]> {
+    pageLimit): Promise<IMasterProduct[]> {
 
-    const products: IProduct[] = await httpClient.get(`/admin/inventory?&pageNumber=${pageNumber}&pageLimit=${pageLimit}`);
+    const products: IMasterProduct[] = await httpClient.get(`/admin/inventory?&pageNumber=${pageNumber}&pageLimit=${pageLimit}`);
     return products;
 }
 

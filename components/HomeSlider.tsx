@@ -4,6 +4,7 @@ import { ReactNode, useEffect, useState } from "react";
 import { IHomeSlide } from "../app-store/products/types";
 import Image from "next/image";
 import PageContainer from "./common/PageContainer";
+import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 export function HomeSlider() {
 
@@ -81,15 +82,15 @@ export function HomeSlider() {
         return (
           <div key={index} className={"main-slide " + (currentItem === index ? "slick-current slick-active" : "")}
             style={{
-              width: '100vw',
+              width: '100%',
               top: 0,
               zIndex: (currentItem === index ? 999 : 998),
               opacity: 1
             }}>
             <div className="main-slide-bg" style={{ backgroundImage: 'url(' + p.imgBg + ')' }}></div>
-            <PageContainer>
+            <div>
               <div className="main-slide-info">
-                <h1 className="title">{p.title}</h1>
+                <h1 className="title text-2xl">{p.title}</h1>
                 <p>{p.subtitle}</p>
                 <a href={p.url} className="btn">
                   <span>Book Now</span>
@@ -124,7 +125,7 @@ export function HomeSlider() {
 
 
               </div>
-            </PageContainer>
+            </div>
           </div>
         )
       }
@@ -147,26 +148,9 @@ export function HomeSlider() {
 
 
 
-  return (<section className="s-main-slider">
+  return (<section className="m-auto sm:container">
 
-    <div className="main-slide-navigation" role="toolbar">
-      <span className="slick-arrow-prev slick-arrow" style={{ display: 'flex' }} onClick={prev}>
-        <i className="fa fa-angle-up" aria-hidden="true"></i>
-      </span>
-      <span className="slick-arrow-next slick-arrow" style={{ display: 'flex' }} onClick={next}>
-        <i className="fa fa-angle-down" aria-hidden="true"></i>
-      </span>
 
-      <ul className="slick-dots" role="tablist" style={{ display: 'block' }}>
-        {items && items.map((_, index) => {
-          return (
-            <li key={index} onClick={() => changeSlide(index)} aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation30" id={"slick-slide3" + index} className={index == currentItem ? "slick-active" : ""}>
-              <button type="button" data-role="none" role="button">{index + 1}</button>
-            </li>
-          )
-        })}
-      </ul>
-    </div>
 
     <ul className="main-soc-list">
       <li>
@@ -178,14 +162,36 @@ export function HomeSlider() {
           instagram</a></li>
     </ul>
 
-    <section className="main-slider relative w-full overflow-hidden">
+    <section className="main-slider relative w-full overflow-hidden xs:px-4 xs:h-[420px] sm:h-[640px] lg:h-[720px]">
       <div className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box' }} >
         <div className="slick-track" style={{ transformStyle: "preserve-3d" }}>
           {items && items.map((item) => item)}
         </div>
       </div>
-
     </section>
+    <div role="toolbar" className="">
+      <div className="flex justify-center bg-gradient-to-t from-gray-200 to-transparent  rounded-full pt-2 w-96 m-auto" role="tablist">
+        <div>
+          <button type="button" onClick={prev} className='px-2'>
+            <FaAngleLeft className="h-6" />
+          </button>
+        </div>
+
+        {items && items.map((_, index) => {
+          return (
+            <div key={index} onClick={() => changeSlide(index)} aria-hidden="true" role="presentation" aria-selected="false" aria-controls="navigation30" id={"slick-slide3" + index}
+              className={"font-normal text-gray-400 hover:text-gray-800 hover:font-semibold hover:text-2xl" + (index == currentItem ? " font-semibold text-gray-800 text-2xl" : "")}>
+              <button type="button" data-role="none" role="button">{index + 1}</button>
+            </div>
+          )
+        })}
+        <div>
+          <button type="button" onClick={next} className='px-2'>
+            <FaAngleRight className="h-6" />
+          </button>
+        </div>
+      </div>
+    </div>
   </section>
   );
 }

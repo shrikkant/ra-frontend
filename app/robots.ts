@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: ['/portal/', '/api/', '/rent/', '/uploads/', '/a/rent/'],
+      disallow: ['/p/', '/api/', '/rent/', '/uploads/', '/a/rent/'],
 
     },
     sitemap: 'https://www.rentacross.com/sitemap.xml',
