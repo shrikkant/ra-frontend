@@ -18,7 +18,7 @@ export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps
     }
   };
   return (
-    <div className=" w-auto sm:w-80 lg:w-96 gap-x-3 text-gray-800 relative px-1">
+    <div className=" w-full sm:w-80 lg:w-96 gap-x-3 text-gray-800 relative px-1">
       <input
         ref={inputRef}
         defaultValue={currentVal}
