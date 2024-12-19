@@ -43,7 +43,7 @@ export const LoggedUserCard = () => {
                     <FaCheckCircle className="text-green-600" /> KYC Verified
                   </div> :
                   <div>
-                    <Link href="/portal/profile/verify" className="flex justify-center items-center gap-x-2 pb-2">
+                    <Link href="/p/profile/verify" className="flex justify-center items-center gap-x-2 pb-2">
                       <FaAddressCard></FaAddressCard> Complete KYC Verification
                     </Link>
                   </div>}
