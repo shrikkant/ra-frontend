@@ -1,4 +1,3 @@
-"use client";
 import "react-date-range/dist/styles.css"; // main css file
 import "react-date-range/dist/theme/default.css"; // theme css file
 
@@ -8,13 +7,12 @@ import { Disclosure } from "@headlessui/react";
 import { IProductSubCategory } from "app-store/types";
 
 import Link from "next/link";
-import { useSelector } from "react-redux";
-import { getCategories } from "app-store/app-defaults/app-defaults.slice";
+import { fetchData } from "../../../utils/api";
 
 
 
-export default function HeaderSubNav() {
-  const categories = useSelector(getCategories);
+export default async function HeaderSubNav() {
+  const categories = await fetchData("categories");
   const subCategories: IProductSubCategory[] = [];
 
 
@@ -25,8 +23,6 @@ export default function HeaderSubNav() {
     }) : [];
 
   subCategories.push(...subCats);
-
-
 
   return (
     <Disclosure as="nav" className="bg-gray-700 ">
