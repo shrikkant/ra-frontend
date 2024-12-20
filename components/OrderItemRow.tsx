@@ -18,7 +18,11 @@ export default function OrderItemRow({
     <div className={"p-2 border-b-gray-50 border last:border-none "} key={product.id}>
       <div className="flex gap-x-2">
         <div className={"w-1/4 flex justify-center align-top"}>
-          {(product && product.photos) && <img className={styles.img} src={product?.photos[0]?.path}></img>}
+          {(product && product.master_product_id) &&
+            <img className={styles.img}
+              src={`/api/products/${product.master_product_id}/photo?width=240`}
+            >
+            </img>}
         </div>
         <div className={"w-3/4"}>
           <h3 className="text-lg font-bold mb-3">{product.title}</h3>
