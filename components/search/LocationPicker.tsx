@@ -67,8 +67,8 @@ export const LocationPicker = () => {
   return (
     <>
       <Menu as="div" className="relative">
-        <MenuButton className="p-0 rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
-          <div className="flex">
+        <MenuButton className="w-20 p-0  rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
+          <div className="flex w-full justify-end">
             {location?.city ?
               <span className=" text-gray-100 font-semibold">
                 {locationCity(location.city)}
