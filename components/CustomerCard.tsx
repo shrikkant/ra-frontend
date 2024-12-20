@@ -69,6 +69,14 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
           </div>
         }
 
+        <div>
+          {customer.address && customer.address.map((addr) => (
+            <div className="p-4" key={addr.id}>
+              {Object.values(addr).join(", ")}
+            </div>
+          ))}
+        </div>
+
         <form className="py-4 flex flex-col gap-y-4">
           <div>
             <Input placeholder="Email" value={customer.email_address} onChange={() => { }} />
