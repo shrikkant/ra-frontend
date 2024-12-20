@@ -15,7 +15,7 @@ export default function OrderItemRow({
   const product: IProduct = orderItem.product;
 
   return (
-    <div className={"p-2 border-b-gray-50 border last:border-none "} key={product.id}>
+    <div className={"p-4 border-b-gray-50 border last:border-none "} key={product.id}>
       <div className="flex gap-x-2">
         <div className={"w-1/4 flex justify-center align-top"}>
           {(product && product.master_product_id) &&
