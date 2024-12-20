@@ -24,11 +24,10 @@ export default function CartBook() {
   const loggedUser = useSelector(selectAuthState);
   const [selectedAddress, setSelectedAddress] = useState<ILocation | null>();
   const [addressId, setAddressId] = useState<number>(0);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(false);
   const [isButtonLoading, setIsButtonLoading] = useState(false);
 
   const dispatch = useDispatch();
-
 
   const orderSuccess = () => {
     dispatch(setCart(null));
@@ -40,17 +39,9 @@ export default function CartBook() {
     router.push("/p/orders");
   }
   const onRazorPayCheckout = async (mode: number) => {
-
-    const currentAddr = loggedUser?.address?.find(
-      (ad) => ad.id === addressId
-    ) || { id: -1, name: "Store Pickup" };
     if (cart) {
-      if (mode === ORDER_STEPS.ORDER_STEP_DELIVERY) {
-        updateDeliveryAddressAction(cart, currentAddr)(dispatch);
-        setSelectedAddress(currentAddr);
-      } else if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
+      if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
         setIsButtonLoading(true);
-
         displayRazorpay(cart.id, orderSuccess).then(() => {
           setIsButtonLoading(false);
         });
@@ -62,12 +53,26 @@ export default function CartBook() {
     setSelectedAddress(null);
   };
 
-  const checkRadio = (addressId: number) => {
-    setAddressId(addressId);
+  const selectAddress = (addr) => {
+    if (cart) {
+      setSelectedAddress(addr);
+      setAddressId(addressId);
+      updateDeliveryAddressAction(cart, addr)(dispatch);
+      setLoading(false);
+    }
+  }
+
+
+  const checkRadio = (addressIdStr: number) => {
+    setLoading(true);
+    const addressId = parseInt(String(addressIdStr));
+    const addr = loggedUser?.address?.find((ad) => ad.id === addressId) ||
+      { id: -1, name: "Store Pickup" };
+    selectAddress(addr);
   };
 
   const onNewAddress = (newAddress) => {
-    setSelectedAddress(newAddress);
+    selectAddress(newAddress);
   }
 
   const resolveStep = () => {
@@ -82,22 +87,20 @@ export default function CartBook() {
   }
 
   useEffect(() => {
-    setLoading(true);
     if (!loggedUser) {
       getAuthUser().then((user) => dispatch(authUser(user)));
     }
 
     if (!cart) {
+      setLoading(true);
       fetchCart().then((data) => {
         dispatch(setCart(data));
         setLoading(false);
       });
-    } else {
-      setLoading(false);
     }
 
     if (loggedUser?.address && loggedUser.address.length > 0) {
-      setSelectedAddress(loggedUser.address[0]);
+      selectAddress(loggedUser.address[0]);
     }
   }, []);
 
