@@ -56,7 +56,7 @@ export default function FilterSideBar({
   };
 
   const onChange = () => {
-    router.replace("/rent/" + pathname + "?" + new URLSearchParams(newQuery).toString());
+    router.replace(pathname + "?" + new URLSearchParams(newQuery).toString());
   };
 
   // const onBrandsChange = (checkedValues: string[]) => {

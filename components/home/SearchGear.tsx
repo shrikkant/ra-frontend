@@ -17,7 +17,7 @@ export default function SearchGear() {
     const { location } = storeSearch;
     const city = location?.city || "pune";
 
-    return router.push(`/rent/${city}?q=${search}`);
+    return router.push(`/${city}?q=${search}`);
   }
 
   const onSearchChange = (e) => {

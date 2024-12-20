@@ -42,7 +42,7 @@ export function HomeSlider() {
         imgBg: '/assets/v2/img/bg-slider.svg',
         price: 800,
         model: 'Canon R10',
-        url: '/rent/pune/rent-camera/canon-eos-r10-mirrorless-digital-camera-3494'
+        url: '/pune/rent-camera/canon-eos-r10-mirrorless-digital-camera-3494'
       },
       {
         id: 2,
