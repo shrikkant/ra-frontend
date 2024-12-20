@@ -7,7 +7,7 @@ export default function Layout({
   children: React.ReactNode
 }) {
 
-  return (<section className="container m-auto ">
+  return (<section className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
     {children}
   </section>);
 }
