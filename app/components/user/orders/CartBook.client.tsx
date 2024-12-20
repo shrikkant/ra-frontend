@@ -113,7 +113,7 @@ export default function CartBook() {
         <>
           {cart ? (
             <div
-              className={"flex flex-col-reverse md:flex-row w-full xs:pb-20"}
+              className={"flex flex-col-reverse md:flex-row w-full xs:pb-20 gap-x-4"}
             >
               <div className={"md:w-3/4 w-full"}>
                 <AddressPicker
@@ -129,7 +129,7 @@ export default function CartBook() {
               </div>
 
               <div className={"md:w-1/4 w-full"}>
-                <div className="md:fixed md:w-max w-full top-20 xs:p-4 md:p-0">
+                <div className="md:fixed md:w-max w-full top-24 xs:p-4 md:p-0">
                   <OrderSummary
                     order={cart}
                     step={

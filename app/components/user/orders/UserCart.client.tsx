@@ -73,7 +73,7 @@ export default function UserCart() {
               </div>
 
               <div className={"md:w-1/4 w-full"}>
-                <div className="md:fixed top-100 md:w-80 w-full p-4">
+                <div className="md:fixed top-24 md:w-80 w-full p-4">
                   <OrderSummary
                     order={cart}
                     step={ORDER_STEPS.ORDER_STEP_CART
