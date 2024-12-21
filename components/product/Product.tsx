@@ -11,8 +11,8 @@ export const Product = ({ product }: { product: IProduct }) => {
   const rates: any = product?.rates;
   return (
     <>
-      <div style={{ maxWidth: 1240, margin: "auto" }} className={"pt-5 p-4"}>
-        <div className={"flex flex-col sm:flex-row gap-5"}>
+      <div className="p-4">
+        <div className={"flex flex-col sm:flex-row gap-4"}>
           <div className="sm:w-3/4 w-full">
             <HeadCard product={product}></HeadCard>
             {(addons && addons.length) > 0 &&
@@ -23,7 +23,7 @@ export const Product = ({ product }: { product: IProduct }) => {
             ></Description>
           </div>
 
-          <div className={"sm:w-1/4 w-full"}>
+          <div className={"sm:w-1/4 w-full flex justify-center"}>
             <div className="sm:fixed top-100 w-80">
 
               <BookingForm
