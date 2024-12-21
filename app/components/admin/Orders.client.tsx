@@ -76,7 +76,7 @@ export default function Orders({ stage }: OrdersProps) {
 
   return (
     <>
-      <MyPageHeader title={"Orders !!"}></MyPageHeader>
+      <MyPageHeader title={"Orders"}></MyPageHeader>
 
       <div>
         {revenueStats && <RevenueSummary revenueStats={revenueStats} />}
@@ -91,7 +91,7 @@ export default function Orders({ stage }: OrdersProps) {
               <Tab
                 key={i}
                 onClick={() => tabChanged(String(index))}
-                className="rounded-full py-1 px-3 text-sm/6 font-semibold focus:outline-none data-[selected]:bg-white/10 data-[hover]:bg-white/5 data-[selected]:data-[hover]:bg-white/10 data-[focus]:outline-1 data-[focus]:outline-white"
+                className={" py-0 px-4  font-semibold focus:outline-none text-sm " + (activeKey === index ? "border-b-2 border-b-amber-500" : "")}
               >
                 {resolveOrderStage(i)}
               </Tab>

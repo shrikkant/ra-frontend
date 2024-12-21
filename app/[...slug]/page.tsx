@@ -41,7 +41,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     meta = response.meta;
   }
 
-  return (<div style={{ maxWidth: 1280, margin: "auto" }}>
+  return (<div className="container m-auto">
     {!filter?.product && <h1 className="text-4xl text-center py-6 capitalize font-semibold">
       Rent Cameras, Lenses, GoPro&apos;s in {filter?.city}
     </h1>}
