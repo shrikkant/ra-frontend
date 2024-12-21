@@ -1,5 +1,5 @@
 
-import { IMasterProduct, IProduct, IUser } from "../../app-store/types";
+import { ILocation, IMasterProduct, IProduct, IUser } from "../../app-store/types";
 import httpClient, { HttpService } from "../axios.config";
 
 
@@ -14,6 +14,23 @@ export const addNewAddress = async (
   });
   return newAddress;
 
+};
+
+export const addLocalAddress = async (
+  address_line_1: string,
+  address_line_2: string,
+  city: string,
+  state: string,
+  postal_code: string
+): Promise<ILocation> => {
+  const newAddress: ILocation = await httpClient.post(`/user/addresses`, {
+    address_line_1,
+    address_line_2,
+    city,
+    state,
+    postal_code,
+  });
+  return newAddress;
 };
 
 export const updatePhone = async (phone: string): Promise<IUser> => {

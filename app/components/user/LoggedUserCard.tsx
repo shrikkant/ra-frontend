@@ -48,19 +48,14 @@ export const LoggedUserCard = () => {
                     </Link>
                   </div>}
 
-                <div className="mb-4 text-sm text-gray-500  flex items-center gap-x-1">
-
-                  <div>
-                    {loggedUser.email_address}
-                  </div>
-
+                <div className="text-sm">
+                  Profile ID : {loggedUser.id}
                 </div>
-                <div className="mb-4 text-sm text-gray-500  flex items-center gap-x-1">
-
-                  <div>
-                    {loggedUser.phone}
-                  </div>
-
+                <div className="text-sm">
+                  {loggedUser.email_address}
+                </div>
+                <div className="text-sm">
+                  {loggedUser.phone}
                 </div>
 
               </div>
