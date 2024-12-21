@@ -1,5 +1,5 @@
 
-import { IUser } from "../../app-store/types";
+import { IMasterProduct, IProduct, IUser } from "../../app-store/types";
 import httpClient, { HttpService } from "../axios.config";
 
 
@@ -44,6 +44,25 @@ export const signupWithOTP = async (phone: string, otp: string, name: string): P
   const httpService = new HttpService("https://www.rentacross.com/");
 
   const response: IUser = await httpService.getClient().post(`auth/signup`, { phone, otp, name });
+  return response;
+}
+
+export const listNewProduct = async (masterProduct: IMasterProduct, rate: number, addressId: number): Promise<IProduct> => {
+
+  const rates = [
+    { rate, duration: "D" },
+  ]
+  const newProduct = {
+    address_id: addressId,
+    master_product_id: masterProduct.id,
+    title: masterProduct.name,
+    category_id: masterProduct.category_id,
+    sub_category_id: masterProduct.sub_category_id,
+    qty: 1,
+    rates,
+  }
+
+  const response: IProduct = await httpClient.post(`user/products/`, newProduct);
   return response;
 }
 

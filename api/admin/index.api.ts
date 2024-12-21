@@ -19,6 +19,10 @@ export async function fetchMasterProducts(
     const products: IMasterProduct[] = await httpClient.get(`/admin/inventory?&pageNumber=${pageNumber}&pageLimit=${pageLimit}`);
     return products;
 }
+export async function fetchMasterProduct(id: number): Promise<IMasterProduct> {
+    const product: IMasterProduct = await httpClient.get(`/admin/inventory/${id}`);
+    return product;
+}
 
 export const fetchRevenueStats = async () => {
     const response = await httpClient.get(`/admin/revenue`);

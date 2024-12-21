@@ -29,7 +29,7 @@ export function Section({ title, tags, actions, children }: SectionProps) {
         </div>
       </div>
 
-      <div>
+      <div className="p-4">
         {children}
       </div>
     </div>
