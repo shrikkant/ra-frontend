@@ -102,7 +102,7 @@ export default function CartBook() {
     if (loggedUser?.address && loggedUser.address.length > 0) {
       selectAddress(loggedUser.address[0]);
     }
-  }, []);
+  }, [cart, loggedUser]);
 
   return (
 
