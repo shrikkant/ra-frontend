@@ -94,7 +94,7 @@ export const AddressPicker = ({
   }
 
   return (
-    <div className="p-4">
+    <div>
       <StepHeader
         label={"Delivery Address"}
         onChangeAction={onAddressReset}
