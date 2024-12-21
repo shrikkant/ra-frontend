@@ -14,7 +14,7 @@ import React, { useEffect } from "react";
 import Loader from "components/Loader";
 import { Time } from "components/Time";
 import { PhoneIcon } from "@heroicons/react/24/outline";
-import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
+import { FaCheckDouble, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
 import Link from "next/link";
 import { getAdminAuthUser } from "../../../api/auth.api";
 import { authUser, logout, setAdminLogin } from "../../../app-store/auth/auth.slice";
@@ -109,8 +109,14 @@ export default function Customers() {
                             <Avatar user={person}></Avatar>
                           }
                           <div className="w-56">
-                            <div className="text-sm font-semibold leading-6 text-gray-900">
-                              {person.firstname + " " + person.lastname}
+                            <div className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-x-2">
+                              <span>
+                                {person.firstname + " " + person.lastname}
+                              </span>
+                              {person?.verified === 3 &&
+                                <span className="font-normal">
+                                  <FaCheckDouble />
+                                </span>}
                             </div>
                             <div className="mt-1 truncate text-xs leading-5 text-gray-500">
                               {person.email_address}
@@ -120,10 +126,6 @@ export default function Customers() {
 
 
                         <div className=" flex justify-center items-center gap-x-2">
-                          {person?.verified === 3 &&
-                            <div>
-                              <FaCheckCircle className="text-green-600" size={"28"} />
-                            </div>}
 
                           {person?.phone &&
                             <Link
