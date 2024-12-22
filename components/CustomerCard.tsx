@@ -48,7 +48,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
 
     <Section title={customer.firstname + " " + customer.lastname}>
-      <div className="px-4">
+      <div >
         {customerAadhaar?.profile_image &&
           <div className="   shadow-md w-[320px] rounded-md my-4 border">
             <div className="flex gap-x-2">
@@ -63,7 +63,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
                 </div>
               </div>
             </div>
-            <div className="p-4">
+            <div>
               {Object.values(customerAadhaar.address).join(", ")}
             </div>
           </div>
@@ -71,7 +71,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
         <div>
           {customer.address && customer.address.map((addr) => (
-            <div className="p-4" key={addr.id}>
+            <div key={addr.id}>
               {Object.values(addr).join(", ")}
             </div>
           ))}
