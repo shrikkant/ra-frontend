@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
-import { useDispatch } from "react-redux";
 import { fetchOrders } from "api/admin/orders.api";
 import MyPageHeader from "components/MyPageHeader";
 

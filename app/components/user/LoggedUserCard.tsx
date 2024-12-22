@@ -21,7 +21,7 @@ export const LoggedUserCard = () => {
   return (<>
     {isClient && (!loggedUser ?
       <Loader /> :
-      <div className="p-4">
+      <div>
         <div className="col-span-full xl:col-auto">
           <div className="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2  sm:p-6 ">
             <div className="items-center xs:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4 xs:gap-x-4 xs:items-start">

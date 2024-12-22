@@ -23,7 +23,7 @@ export const UserOrders: React.FC = () => {
   return (<>
 
 
-    <div style={{ padding: "16px 16px" }} className="right-panel">
+    <div>
       {!orders ?
         <Loader /> :
         <div >
