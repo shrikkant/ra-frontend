@@ -13,7 +13,7 @@ export const Product = ({ product }: { product: IProduct }) => {
     <>
       <div className="p-4">
         <div className={"flex flex-col sm:flex-row gap-4"}>
-          <div className="sm:w-3/4 w-full">
+          <div className="sm:w-3/5 w-full md:w-3/4">
             <HeadCard product={product}></HeadCard>
             {(addons && addons.length) > 0 &&
               <Package addons={addons}></Package>
@@ -23,7 +23,7 @@ export const Product = ({ product }: { product: IProduct }) => {
             ></Description>
           </div>
 
-          <div className={"sm:w-1/4 w-full flex justify-center"}>
+          <div className={"sm:w-2/5 w-full flex justify-center md:w-1/4"}>
             <div className="sm:fixed top-100 w-80">
 
               <BookingForm

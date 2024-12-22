@@ -41,7 +41,7 @@ export default async function Page({ params, searchParams }: PageProps) {
     meta = response.meta;
   }
 
-  return (<div className="container m-auto">
+  return (<div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
     {!filter?.product && <h1 className="text-4xl text-center py-6 capitalize font-semibold">
       Rent Cameras, Lenses, GoPro&apos;s in {filter?.city}
     </h1>}
