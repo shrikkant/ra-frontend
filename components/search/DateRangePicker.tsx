@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 "use client"
 import React from "react";
-import { Popover, Transition } from "@headlessui/react";
+import { Popover, PopoverButton, PopoverPanel, Transition } from "@headlessui/react";
 import { rangeDisplay } from "util/date.util";
 import { Fragment, useEffect, useState } from "react";
 import { ChevronDownIcon } from "@heroicons/react/24/outline";
@@ -26,12 +26,12 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
 
     if (!currentSearch.dates) {
       const today = new Date();
-      const tomorrow = new Date(today);
-      tomorrow.setDate(tomorrow.getDate() + 1);
-
+      const twoWeeksLater = new Date(today);
+      twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
+      console.log("Today ", today);
       const currentDates = {
         startDate: '' + today,
-        endDate: '' + tomorrow,
+        endDate: '' + twoWeeksLater,
         key: "selection",
       };
       currentSearch.dates = currentDates;
@@ -74,13 +74,13 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
 
   return (
     <Popover className="relative ">
-      <Popover.Button className={"active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6  px-3 " + textColor}>
+      <PopoverButton className={"active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6  px-3 " + textColor}>
         <span>{dates && rangeDisplay(dates)}</span>
         <ChevronDownIcon
           className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
           aria-hidden="true"
         />
-      </Popover.Button>
+      </PopoverButton>
 
       <Transition
         as={Fragment}
@@ -92,7 +92,7 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
         leaveTo="opacity-0 translate-y-1"
 
       >
-        <Popover.Panel className="bg-white sm:absolute
+        <PopoverPanel className="bg-white sm:absolute
         xs:fixed
         xs:left-6
         z-10 mt-5
@@ -118,7 +118,7 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
               </div>
             );
           }}
-        </Popover.Panel>
+        </PopoverPanel>
       </Transition>
     </Popover>
   );
