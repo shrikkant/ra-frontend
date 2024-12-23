@@ -23,21 +23,32 @@ export default function ProductCard({ product }: { product: IProduct }) {
     );
   }
 
-  return (<Link
-    className="border justify-end border-gray-100 w-full h-full p-4 bg-white cursor-pointer flex flex-col sm:hover:shadow-md sm:rounded xs:shadow-none"
-    href={resolveURL()}
-  >
-    {<LazyImage
-      src={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo?width=240'}
-      alt="Product Image"
-      // blurDataURL={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo'}
-      width={800}
-      height={600}
-    />}
-    <div className="pb-4 font-normal whitespace-pre-wrap">
+  return (<div className="border justify-end border-gray-100 w-full h-full p-4 bg-white  flex flex-col sm:rounded xs:shadow-none">
+
+
+    {<Link
+      href={resolveURL()}
+    >
+      <LazyImage
+        src={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo?width=240'}
+        alt="Product Image"
+        className="p-4"
+        // blurDataURL={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo'}
+        width={800}
+        height={600}
+      /> </Link>}
+    <Link
+      className="cursor-pointer pb-4"
+      href={resolveURL()}
+    >
       {product.title}
-    </div>
+    </Link>
+
     <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
 
-  </Link>);
+    <button className="bg-[#ffd814] w-36 rounded-full text-[#0f1111] hover:bg-[#f7ca00] h-10">
+      Rent Now
+    </button>
+
+  </div >);
 }
