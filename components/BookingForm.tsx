@@ -15,6 +15,7 @@ import SignIn from "./user/SignIn";
 import Button from "./common/form/Button";
 import { DISCOUNT_STEPS } from "../config/constants";
 import { IProductRatePlan } from "../app-store/types";
+import { getDiffInDays } from "../app/utils/datetime.util";
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: IProductRatePlan[] }) {
   const dispatch = useDispatch();
@@ -45,11 +46,8 @@ export default function BookingForm({ productId, discount, rates }: { productId:
       storeSearch && storeSearch.dates
         ? new Date(storeSearch.dates.endDate)
         : new Date();
-    const differenceInTime = endDate.getTime() - startDate.getTime();
-    const differenceInDays = Math.ceil(
-      differenceInTime / (1000 * 60 * 60 * 24)
-    );
-    return differenceInDays;
+
+    return getDiffInDays(startDate, endDate);
   };
 
   const getPlural = (text: string, days: number) => {

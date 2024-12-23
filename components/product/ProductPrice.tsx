@@ -4,6 +4,7 @@ import PriceTag from "../PriceTag";
 import { getDefaultSearch } from "../../app-store/session/session.slice";
 import { useSelector } from "react-redux";
 import { DISCOUNT_STEPS } from "../../config/constants";
+import { getDiffInDays } from "../../app/utils/datetime.util";
 
 interface ProductPriceProps {
   dailyRent: number;
@@ -24,11 +25,8 @@ export const ProductPrice = ({ dailyRent, discount }: ProductPriceProps) => {
       storeSearch && storeSearch.dates
         ? new Date(storeSearch.dates.endDate)
         : new Date();
-    const differenceInTime = endDate.getTime() - startDate.getTime();
-    const differenceInDays = Math.ceil(
-      differenceInTime / (1000 * 60 * 60 * 24)
-    );
-    return differenceInDays;
+
+    return getDiffInDays(startDate, endDate);
   };
 
   useEffect(() => {
