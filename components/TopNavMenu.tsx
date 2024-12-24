@@ -25,7 +25,6 @@ export default function TopNavMenu() {
   const dispatch = useDispatch();
   const router = useRouter();
   const [showSignIn, setShowSignIn] = React.useState(false);
-  const [isClient, setIsClient] = React.useState(false);
 
   const userLinks: INavLink[] = [
     {
@@ -68,7 +67,6 @@ export default function TopNavMenu() {
   useEffect(() => {
     if (!loggedUser) {
       getAuthUser().then((u) => {
-        setIsClient(true);
         dispatch(authUser(u));
       });
     }
@@ -90,7 +88,7 @@ export default function TopNavMenu() {
   }
 
   return (<>
-    {isClient && <Menu as="div" className="relative">
+    {<Menu as="div" className="relative">
       <div className="flex justify-center align-center w-22">
         {loggedUser ? (
           <>

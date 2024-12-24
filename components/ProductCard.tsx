@@ -3,11 +3,11 @@ import React from "react";
 import { IProduct } from "../app-store/types";
 import { ProductPrice } from "./product/ProductPrice";
 import LazyImage from "./../components/product/LazyImage";
+import RentNowButton from "../app/components/product/RentNowButton.client";
 // import { getBlurDataURL } from "./../util/image.blur";
 
 export default function ProductCard({ product }: { product: IProduct }) {
   const dailyRent = product?.rates ? product.rates[0].rate : 0;
-
 
   const resolveURL = () => {
     const city = product?.location?.city?.toLowerCase();
@@ -46,9 +46,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
 
     <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
 
-    <button className="bg-[#ffd814] w-36 rounded-full text-[#0f1111] hover:bg-[#f7ca00] h-10">
-      Rent Now
-    </button>
+    <RentNowButton productId={product.id} pathname={resolveURL()} />
 
   </div >);
 }
