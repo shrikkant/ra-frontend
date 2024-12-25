@@ -24,7 +24,7 @@ export function AdminOrderItemRow({
     setItem(item);
   }
 
-  return (<div className={styles.productRow} key={product.id}>
+  return (<div key={product.id}>
     {!hideImages && <div className={styles.productImg}>
       {
         product.photos && <img className={styles.img} src={product.photos[0]?.path}></img>

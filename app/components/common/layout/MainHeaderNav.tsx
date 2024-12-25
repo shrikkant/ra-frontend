@@ -66,7 +66,7 @@ export default function MainHeaderNav() {
 
   return (
     <Disclosure as="nav" className="bg-gray-800">
-      <div className=" px-4 container m-auto">
+      <div className="px-2 md:px-4 container m-auto">
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
           <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto">
             <div className=" inset-y-0 left-0 flex items-center sm:gap-x-6 ">

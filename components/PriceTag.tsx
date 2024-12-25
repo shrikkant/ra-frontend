@@ -24,7 +24,7 @@ export default function PriceTag({
       {sub && <sub className="text-sm font-semibold">{sub}</sub>}
     </div>}
 
-    <div className={"r-comp font-light text-gray-600 " + textSize + " " + (discount > 0 ? " line-through" : "")}>
+    <div className={"r-comp font-light text-gray-600 text-sm " + textSize + " " + (discount > 0 ? " line-through" : "")}>
       {getPrice(price)}
       {sub && <span className="text-sm font-light">{sub}</span>}
     </div>

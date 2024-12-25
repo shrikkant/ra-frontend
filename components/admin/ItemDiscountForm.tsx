@@ -5,6 +5,7 @@ import { useState } from "react";
 import { IOrder, IOrderItem } from "../../app-store/types";
 import { useDispatch } from "react-redux";
 import Input from "../common/form/Input";
+import Link from "next/link";
 
 export function ItemDiscountForm({ item, handleItemChange }: { item: IOrderItem, handleItemChange: (item: IOrderItem) => void }) {
   const dispatch = useDispatch();
@@ -42,22 +43,20 @@ export function ItemDiscountForm({ item, handleItemChange }: { item: IOrderItem,
     testApplyDiscount(percent, discount);
   }
 
-  return (<form
-    style={{ border: "1px solid #ddd", padding: 10, borderRadius: 4 }}
-  >
+  return (<form className="w-40">
     <div className="flex gap-x-2">
       <div className="w-3/4">
         <Input label="Discount" type="number" placeholder="Discount" onChange={handleDiscountChange} />
       </div>
-      <div className="flex-1">
+      <div className="w-1/4">
         <Input label="%" type="number" placeholder="Discount %" onChange={handleDiscountPercent} />
       </div>
     </div>
     {/* <Form.Item label="Delivery" >
       <Switch checked={transactionUpdate.waiveDelivery} onChange={(checked) => handleDeliveryChange(transaction.id, checked)} />
     </Form.Item> */}
-    <div className="flex justify-end w-full">
-      <button onClick={handleSubmit}>Apply</button>
+    <div className="flex justify-end w-full py-2">
+      <button type="button" onClick={handleSubmit} className="h-8 p-2">Apply</button>
     </div>
   </form>)
 }

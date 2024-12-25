@@ -103,7 +103,7 @@ export default function Orders({ stage }: OrdersProps) {
                   {orders && orders.map((order) =>
                     <AdminOrderHeader order={order} key={order.id}>
 
-                      <div className="p-4">
+                      <div>
                         {orderDuration(order.start_date, order.end_date)}
                       </div>
                       {order.items &&

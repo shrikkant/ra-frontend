@@ -18,7 +18,7 @@ export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps
     }
   };
   return (
-    <div className=" w-full sm:w-80 lg:w-96 gap-x-3 text-gray-800 relative px-1">
+    <div className=" w-full sm:w-80 lg:w-96 gap-x-3 text-gray-800 relative my-2">
       <input
         ref={inputRef}
         defaultValue={currentVal}
@@ -32,7 +32,7 @@ export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps
         type="button"
         aria-label="Search"
         onClick={() => onSearch(inputRef.current?.value || '')}
-        className="h-10 w-10 bg-amber-500 absolute top-0 right-1 flex justify-center content-center p-2 rounded-br rounded-tr"
+        className="h-10 w-10 bg-amber-500 absolute top-0 right-0 flex justify-center content-center p-2 rounded-br rounded-tr"
       >
         <FaSearch className="h-7 w-7 text-gray-800" />
       </button>

@@ -9275,11 +9275,8 @@ body.modal {
 	}
 }
 
-
-
 @media (max-width: 440px) {
     .container {
         max-width: 100%;
-				padding: 8px 24px;
     }
 }

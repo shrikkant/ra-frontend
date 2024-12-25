@@ -83,7 +83,9 @@ export default async function RootLayout({
         </div>}>
           <StoreProvider>
             <Header />
-            {children}
+            <div className="px-2">
+              {children}
+            </div>
             <Footer />
           </StoreProvider>
 
