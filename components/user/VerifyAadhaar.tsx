@@ -61,7 +61,7 @@ export default function VerifyAadhar() {
 
 
   return (
-    <div className="p-4 rounded-md xs:w-full">
+    <div className="rounded-md xs:w-full py-4">
       <div className="w-full   flex  rounded-sm justify-center">
         <div className="xs:w-full h-max bg-slate-300  sm:w-[320px] xs:mx-4 flex flex-col justify-center align-bottom  m-auto gap-y-5 p-4 mb-4 rounded-lg shadow-sm 2xl:col-span-2 sm:p-4">
           <div className="text-gray-100">
