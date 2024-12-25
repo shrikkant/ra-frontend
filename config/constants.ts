@@ -47,27 +47,27 @@ export const enum INPUT_ICON_TYPES {
 export const DISCOUNT_STEPS = [
   {
     days: 14,
-    discount: 60
-  },
-  {
-    days: 10,
     discount: 50
   },
   {
+    days: 10,
+    discount: 35
+  },
+  {
     days: 7,
-    discount: 40
+    discount: 25
   },
   {
     days: 5,
-    discount: 30
+    discount: 15
   },
   {
     days: 3,
-    discount: 20
+    discount: 10
   },
   {
     days: 2,
-    discount: 15
+    discount: 5
   },
   {
     days: 1,
