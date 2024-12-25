@@ -1,7 +1,6 @@
-import { useEffect, useState } from "react";
-import { useRouter } from "next/router";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getCategories, getCategoriesAction, setCategories } from "../app-store/app-defaults/app-defaults.slice";
+import { getCategories, getCategoriesAction } from "../app-store/app-defaults/app-defaults.slice";
 
 
 export const useCategories = () => {
@@ -9,7 +8,9 @@ export const useCategories = () => {
   const categories = useSelector(getCategories);
 
   useEffect(() => {
-    !categories && getCategoriesAction()(dispatch);
+    if (!categories) {
+      getCategoriesAction()(dispatch);
+    }
   }, []);
 
   return { categories };
