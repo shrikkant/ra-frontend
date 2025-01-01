@@ -1,23 +1,25 @@
 import React from "react";
 
-interface RevenueSummaryProps {
-  revenueStats: {
-    overall: {
+export interface RevenueStats {
+  overall: {
+    cost_basis: number;
+    net_revenue: number;
+    orders: number;
+    revenue: number;
+  },
+  stats: {
+    revenue: {
+      month: string;
+      revenue: number;
+      orders: number;
       cost_basis: number;
       net_revenue: number;
-      orders: number;
-      revenue: number;
-    },
-    stats: {
-      revenue: {
-        month: string;
-        revenue: number;
-        orders: number;
-        cost_basis: number;
-        net_revenue: number;
-      }[]
-    }
+    }[]
   }
+}
+
+interface RevenueSummaryProps {
+  revenueStats: RevenueStats
 };
 
 export function RevenueSummary({ revenueStats }: RevenueSummaryProps) {

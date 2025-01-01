@@ -15,7 +15,7 @@ import Loader from "components/Loader";
 
 //import { IOrder } from "app-store/types";
 import { fetchRevenueStats } from "api/admin/index.api";
-import { RevenueSummary } from "components/admin/ReveneSummary";
+import { RevenueSummary, RevenueStats } from "components/admin/ReveneSummary";
 import { Tab, TabGroup, TabList, TabPanel, TabPanels } from '@headlessui/react'
 
 import { AdminOrderHeader } from "components/admin/order/AdminOrderHeader";
@@ -28,12 +28,13 @@ import Moment from "moment";
 interface OrdersProps {
   stage: number;
 }
+
 export default function Orders({ stage }: OrdersProps) {
   const router = useRouter();
   const [orders, setOrders] = useState<IOrder[]>();
   const [activeKey, setActiveKey] = useState<number>(1);
   const [loading, setLoading] = useState(false);
-  const [revenueStats, setRevenueStats] = useState();
+  const [revenueStats, setRevenueStats] = useState<RevenueStats>();
 
   const loadOrders = () => {
     setLoading(true);
@@ -72,13 +73,17 @@ export default function Orders({ stage }: OrdersProps) {
     );
   };
 
+  const canDisplayRevenueStats = () => {
+    return revenueStats && revenueStats.stats.revenue.length > 1;
+  }
+
 
   return (
     <>
       <MyPageHeader title={"Orders"}></MyPageHeader>
 
       <div>
-        {revenueStats && <RevenueSummary revenueStats={revenueStats} />}
+        {(canDisplayRevenueStats() && revenueStats) && <RevenueSummary revenueStats={revenueStats} />}
       </div>
       {loading ? (
         <Loader />
