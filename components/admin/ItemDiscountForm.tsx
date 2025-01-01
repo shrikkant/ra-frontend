@@ -5,7 +5,6 @@ import { useState } from "react";
 import { IOrder, IOrderItem } from "../../app-store/types";
 import { useDispatch } from "react-redux";
 import Input from "../common/form/Input";
-import Link from "next/link";
 
 export function ItemDiscountForm({ item, handleItemChange }: { item: IOrderItem, handleItemChange: (item: IOrderItem) => void }) {
   const dispatch = useDispatch();

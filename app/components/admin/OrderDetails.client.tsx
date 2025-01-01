@@ -1,5 +1,4 @@
 "use client"
-import { getActiveOrder, setActiveOrder } from "app-store/admin/index.slice";
 import { fetchOrder } from "api/admin/orders.api";
 
 
@@ -38,10 +37,6 @@ export default function OrderDetails({ id }: OrderProps) {
     loadOrder();
   }, [order?.stage, id]);
 
-  const handleStageChange = (order: IOrder) => {
-    setOrder(order);
-  }
-
   return (
     <>
       {loading ? (
@@ -76,7 +71,7 @@ export default function OrderDetails({ id }: OrderProps) {
               </div>
               <div className="xs:flex xs:flex-col">
                 {!(order.stage === OrderStages.Leads) && (
-                  <OrderStageForm order={order} onUpdate={handleStageChange}></OrderStageForm>
+                  <OrderStageForm order={order} ></OrderStageForm>
                 )}
 
                 {order.delivery_fee > 0 && <div className="p-4">

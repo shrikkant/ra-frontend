@@ -7,7 +7,7 @@ import { IOrder } from "../../app-store/types";
 import Input from "../common/form/Input";
 
 
-export function OrderStageForm({ order, onUpdate }: { order: IOrder, onUpdate: (order: IOrder) => void }) {
+export function OrderStageForm({ order }: { order: IOrder }) {
 
   const [orderChange, setOrderChange] = useState<{ serialNoInfo: { id: number, serial_no_json: { id: number, productId: number, name: string, serial_no: string }[] }[], stage: number, id: number }>({ serialNoInfo: [], stage: order.stage, id: 0 });
 
@@ -20,8 +20,6 @@ export function OrderStageForm({ order, onUpdate }: { order: IOrder, onUpdate: (
     updatedOrder.stage = orderChange.stage;
     await updateStage(id, { ...orderChange, id });
     return;
-    //onUpdate(updatedOrder);
-    // dispatch(setActiveOrder(updatedOrder));
   }
 
   const handleSerialNoInput = async (transactionId, addon, value) => {

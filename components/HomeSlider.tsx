@@ -3,7 +3,6 @@ import React from 'react';
 import { ReactNode, useEffect, useState } from "react";
 import { IHomeSlide } from "../app-store/products/types";
 import Image from "next/image";
-import PageContainer from "./common/PageContainer";
 import { FaAngleLeft, FaAngleRight } from 'react-icons/fa';
 
 export function HomeSlider() {
