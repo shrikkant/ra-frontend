@@ -94,7 +94,7 @@ export const AddressPicker = ({
 
 
 
-      <AddAddress onNewAddress={onNewAddressSuccess} />
+      {!hasAddress && <AddAddress onNewAddress={onNewAddressSuccess} />}
 
       {
         (!selectedAddress && hasAddress) && (
