@@ -13,6 +13,7 @@ import { IoMdLogOut } from "react-icons/io";
 
 import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 import { FaShopify } from "react-icons/fa";
+import { IUser } from "../app-store/types";
 
 interface INavLink {
   title: string;
@@ -26,6 +27,9 @@ export default function TopNavMenu() {
   const router = useRouter();
   const [showSignIn, setShowSignIn] = React.useState(false);
 
+  const isAdmin = (user: IUser) => {
+    return user?.role === 'A';
+  }
   const userLinks: INavLink[] = [
     {
       title: "My Profile",
@@ -116,7 +120,7 @@ export default function TopNavMenu() {
                   </MenuItem>)}
 
                 <div className="border-t border-gray-300"></div>
-                {adminLinks.map((link, index) =>
+                {isAdmin(loggedUser) && adminLinks.map((link, index) =>
                   <MenuItem key={index}>
                     <Link href={link.path}
                       className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100">
