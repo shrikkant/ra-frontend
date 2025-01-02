@@ -1,4 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { IDocument } from '../../app-store/app-defaults/types';
 import { IAadhaar } from '../../app-store/auth/types';
 import { IUser } from '../../app-store/types';
 import httpClient from './../axios.config';
@@ -19,14 +20,16 @@ export async function fetchCustomerAadhaar(id: number): Promise<IAadhaar> {
     return aadhaar;
 }
 
-export async function addDocument(userId: number, docType: string, file): Promise<any> {
-    const document: any = {};
-    document.user_id = userId;
-    document.file_name = file.name;
-    document.size = file.size;
-    document.file_type = file.type;
-    document.type = 1;
-    document.document_type = docType;
+export async function addDocument(userId: number, docType: string, side: "front" | "back", file): Promise<any> {
+    const document: IDocument = {
+        user_id: userId,
+        file_name: file.name,
+        size: file.size,
+        file_type: file.type,
+        type: 1,
+        document_type: docType,
+        side
+    };
 
     const doc = await httpClient.post('/admin/users/' + userId + '/documents', document);
 
@@ -37,11 +40,16 @@ export async function addDocument(userId: number, docType: string, file): Promis
 export async function uploadDocument(id: number,
     docId: number | undefined,
     file,
-    formData,
+    documentType,
+    side,
     onProgress,
     onSuccess,
     onError): Promise<any> {
 
+    const formData = new FormData();
+    formData.append('file', file);
+    formData.append('documentType', documentType);
+    formData.append('side', side);
     if (!docId) {
         return;
     }
@@ -54,7 +62,7 @@ export async function uploadDocument(id: number,
             onProgress({ percent: Math.round((loaded / t) * 100).toFixed(2) }, file);
         },
     }).then((data) => {
-        onSuccess(data);
+        onSuccess(data, documentType, side);
     }).catch((er) => {
         onError(er, file);
         console.error(er);

@@ -48,11 +48,12 @@ export interface IDocument {
   verified?: boolean;
   verified_by?: string;
   document_id?: string;
-  document_data;
-  client_id: string;
-  address_id: number;
+  document_data?;
+  client_id?: string;
+  address_id?: number;
   document_type: string;
-  url: string;
+  url?: string;
+  side: "front" | "back";
 
 }
 

@@ -6,9 +6,9 @@ import MyPageHeader from "components/MyPageHeader";
 import React, { useEffect, useState } from "react";
 
 import { fetchActiveCustomer } from "api/admin/customers.api";
-import CustomerCard from "components/CustomerCard";
 
 import { IUser } from "../../../app-store/types";
+import { ProfileCard } from "../user/ProfileCard.client";
 
 interface CustomerDetailsProps {
   id: string;
@@ -39,12 +39,12 @@ export default function CustomerDetails({ id }: CustomerDetailsProps) {
         <div>
           <div>
             <div style={{ flex: 1 }}>
-              <CustomerCard customer={activeCustomer} ></CustomerCard>
+              <ProfileCard user={activeCustomer} />
             </div>
           </div>
-          <div className="p-4">
+          <div>
             <div style={{ flex: 1 }}>
-              <DocumentsCard customer={activeCustomer}></DocumentsCard>
+              <DocumentsCard user={activeCustomer}></DocumentsCard>
             </div>
           </div>
         </div>

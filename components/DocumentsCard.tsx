@@ -1,205 +1,259 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { FaPlus } from 'react-icons/fa';
+// import { Upload, X, Plus, AlertCircle } from 'lucide-react';
+import { ToastContainer, toast } from 'react-toastify';
+import Loader from './Loader';
 import { IUser } from '../app-store/types';
+import { addDocument, uploadDocument } from '../api/admin/customers.api';
+import { IDocument } from '../app-store/app-defaults/types';
+import { IoMdRemove } from 'react-icons/io';
+// import { Alert, AlertDescription } from '@/components/ui/alert';
 
-const DocumentsCard = ({ customer }: { customer: IUser }) => {
+const DocumentsCard = ({ user }: { user: IUser }) => {
+  const [documents, setDocuments] = useState({
+    panCard: {
+      front: null,
+      requires: ['front'],
+      label: 'Pan Card'
+    },
+    drivingLicense: {
+      front: null,
+      requires: ['front'],
+      label: 'Driving License'
+    },
+    passport: {
+      front: null,
+      requires: ['front'],
+      label: 'Passport'
+    },
+    utilityBill: {
+      front: null,
+      requires: ['front'],
+      label: 'Utility Bill'
+    },
+    bankStatement: {
+      front: null,
+      requires: ['front'],
+      label: 'Bank Statement'
+    },
+    rentAgreement: {
+      front: null,
+      back: null,
+      requires: ['front'],
+      label: 'Rent Agreement'
+    },
+    // aadharCard: {
+    //   front: null,
+    //   back: null,
+    //   requires: ['front', 'back'],
+    //   label: 'Aadhar Card'
+    // },
+
+    index2: {
+      front: null,
+      requires: ['front'],
+      label: 'Index 2'
+    },
+  });
+
+  const [error, setError] = useState('');
+  const [uploading, setUploading] = useState({});
+
+
+  Object.keys(documents).map((docType) => {
+    user?.documents?.map((userDoc) => {
+      if (docType === userDoc.document_type) {
+        if (userDoc.side === 'front') {
+          documents[docType].front = {
+            file: null,
+            preview: "/uploads/" + userDoc.file_name
+          };
+        }
+        if (userDoc.side === 'back') {
+          documents[docType].back = {
+            file: null,
+            preview: "/uploads/" + userDoc.file_name
+          };
+        }
+
+      }
+    });
+  });
+
+
+  const onProgress = (progressEvent) => {
+
+    console.log('Upload progress:', progressEvent);
+  }
+
+  const onSuccess = (data, documentType, side) => {
+    console.log("Setting Document " + documentType + " <> " + side + " >>>", data);
+    setDocuments(prev => ({
+      ...prev,
+      [documentType]: {
+        ...prev[documentType],
+        [side]: {
+          ...prev[documentType][side],
+          preview: "/uploads/" + data.filename,
+          serverUrl: data.url, // Store the server URL
+          uploadedAt: new Date().toISOString()
+        }
+      }
+    }));
+
+    console.log("Documents >>>", documents);
+  }
+
+  const onError = (err) => {
+    console.error('Upload failed:', err);
+  }
+
+  const uploadToServer = async (file, documentType, side) => {
+    // Create form data
+
+
+    try {
+      // Set uploading state for this specific document side
+      setUploading(prev => ({
+        ...prev,
+        [`${documentType}-${side}`]: true
+      }));
+
+      const document: IDocument = await addDocument(user.id, documentType, side, file);
+      // Make the API call
+      uploadDocument(user.id, document?.id, file, documentType, side, onProgress, onSuccess, onError);
+
+    } catch (err) {
+      setError(`Failed to upload ${documentType} ${side}: ${err.message}`);
+      // Revert the document state on error
+      removeFile(documentType, side);
+    } finally {
+      // Clear uploading state
+      setUploading(prev => ({
+        ...prev,
+        [`${documentType}-${side}`]: false
+      }));
+    }
+  };
+
+  const handleFileUpload = (documentType, side) => async (e) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
+
+    // File validation
+    if (!file.type.startsWith('image/')) {
+      setError('Please upload an image file');
+      return;
+    }
+
+    if (file.size > 5 * 1024 * 1024) { // 5MB limit
+      setError('File size should be less than 5MB');
+      return;
+    }
+
+    try {
+      // Create a preview URL
+      const previewUrl = URL.createObjectURL(file);
+
+      setDocuments(prev => ({
+        ...prev,
+        [documentType]: {
+          ...prev[documentType],
+          [side]: {
+            file,
+            preview: previewUrl
+          }
+        }
+      }));
+
+      await uploadToServer(file, documentType, side);
+
+      setError('');
+    } catch (err) {
+      toast.error('Error uploading file. Please try again. ', err);
+      // setError('Error uploading file. Please try again.');
+    }
+  };
+
+  const removeFile = (documentType, side) => {
+    setDocuments(prev => {
+      const updated = {
+        ...prev,
+        [documentType]: {
+          ...prev[documentType],
+          [side]: null
+        }
+      };
+
+      // Clean up preview URL
+      if (prev[documentType][side]?.preview) {
+        URL.revokeObjectURL(prev[documentType][side].preview);
+      }
+
+      return updated;
+    });
+  };
+
   return (
     <div>
-      DocumentsCard : {customer.id}
+      {error && (
+        <ToastContainer></ToastContainer>
+      )}
+
+      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
+        {Object.entries(documents).map(([docType, doc]) => (
+          <div key={docType} className="border rounded-lg p-4 space-y-3">
+            <h3 className="font-medium text-lg">{doc.label}</h3>
+
+            <div className="space-y-2">
+              {doc.requires.map(side => (
+                <div key={`${docType}-${side}`} className="relative">
+                  {/* <label className="block text-sm text-gray-600 mb-1">
+                    {side.charAt(0).toUpperCase() + side.slice(1)}
+                  </label> */}
+
+                  {doc[side] ? (
+                    <div className="relative h-48 bg-gray-100 rounded-lg overflow-hidden">
+                      <img
+                        src={doc[side].preview}
+                        alt={`${doc.label} ${side}`}
+                        className="object-contain h-full"
+                      />
+
+                      {uploading[`${docType}-${side}`] ? (
+                        <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
+                          <Loader />
+                        </div>
+                      ) : (
+                        <button
+                          onClick={() => removeFile(docType, side)}
+                          className="absolute top-2 right-2 p-1 bg-red-500 text-white rounded-full hover:bg-red-600 h-auto hidden"
+                          disabled={uploading[`${docType}-${side}`]}
+                        >
+                          <IoMdRemove />
+                        </button>)
+                      }
+                    </div>
+                  ) : (
+                    <label className="flex flex-col items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 cursor-pointer bg-gray-50 transition-colors">
+                      <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleFileUpload(docType, side)}
+                        className="hidden"
+                      />
+                      <FaPlus className="h-6 w-6 text-gray-500" />
+                      <span className="text-sm text-gray-500">Upload</span>
+                    </label>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
     </div>
-  )
-}
+  );
+};
 
 export default DocumentsCard;
-
-// /* eslint-disable @typescript-eslint/no-explicit-any */
-// import React, { useEffect, useState } from 'react';
-// import { Modal, Upload } from 'antd';
-// import type { RcFile } from 'antd/es/upload';
-// import type { UploadFile } from 'antd/es/upload/interface';
-// import { addDocument, uploadDocument } from '../api/admin/customers.api';
-// import styles from 'styles/documents.module.css';
-// import { IUser } from '../app-store/types';
-// import { IDocument } from '../app-store/app-defaults/types';
-// import { Section } from '../app/components/common/Section';
-
-// const getBase64 = (file: RcFile): Promise<string> =>
-//   new Promise((resolve, reject) => {
-//     const reader = new FileReader();
-//     reader.readAsDataURL(file);
-//     reader.onload = () => resolve(reader.result as string);
-//     reader.onerror = (error) => reject(error);
-//   });
-
-// interface UploadButtonProps {
-//   type: string
-// }
-// const UploadButton = ({ type }: UploadButtonProps) => {
-
-//   return (
-//     <div style={{ padding: 10 }}>
-//       {/* <ArrowDownCircleIcon /> */}
-//       <div style={{ marginTop: 8 }}>{DocTypes[type]}</div>
-//     </div>
-//   );
-// }
-
-// enum DocTypes {
-//   "pan" = "Pan Card",
-//   "passport" = "Passport",
-//   "electricity-bill" = "Electricity Bill",
-//   "aadhaar-front" = "Aadhar Front",
-//   "aadhaar-back" = "Aadhar Back",
-//   "driving-license" = "Driving Licence",
-//   "rent-agreement" = "Rent Agreement",
-//   "index-2" = "Index 2",
-// };
-
-// interface DocumentsCardPros {
-//   customer: IUser
-// }
-
-// const DocumentsCard = ({ customer }: DocumentsCardPros) => {
-
-
-//   const [previewOpen, setPreviewOpen] = useState(false);
-//   const [previewImage, setPreviewImage] = useState('');
-//   const [previewTitle, setPreviewTitle] = useState('');
-//   const [fileList, setFileList] = useState<UploadFile[]>([]);
-//   const [pendingDocTypes, setPendingDocTypes] = useState<string[]>(Object.keys(DocTypes));
-
-//   useEffect(() => {
-//     const list = customer?.documents?.map((document): UploadFile => {
-//       return {
-//         uid: document.document_type,
-//         name: document.document_name ? document.document_name : DocTypes[document.document_type],
-//         status: 'done',
-//         url: "/uploads/" + document.file_name,
-//       }
-//     });
-//     if (list)
-//       setFileList(list);
-//     const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
-//       return list?.find((doc) => doc.uid == docType) === undefined;
-//     });
-
-//     setPendingDocTypes(pendingDocTypes);
-//   }, [customer]);
-
-//   const handleCancel = () => setPreviewOpen(false);
-
-//   const handlePreview = async (file: UploadFile) => {
-//     if (!file.url && !file.preview) {
-//       file.preview = await getBase64(file.originFileObj as RcFile);
-//     }
-
-//     setPreviewImage(file.url || (file.preview as string));
-//     setPreviewOpen(true);
-//     setPreviewTitle(file.name || file.url!.substring(file.url!.lastIndexOf('/') + 1));
-//   };
-
-//   // const handleChange: UploadProps['onChange'] = ({ fileList: newFileList }) => {
-//   //   // setFileList(newFileList);
-//   // }
-
-
-
-//   const customRequest = async ({
-//     data,
-//     file,
-//     filename,
-//     onError,
-//     onProgress,
-//     onSuccess,
-//   }, docType: string) => {
-//     onSuccess = (doc) => {
-//       const docs = [...fileList];
-
-//       docs.push({
-//         uid: docType,
-//         name: DocTypes[docType],
-//         status: 'done',
-//         url: "/uploads/" + doc.filename,
-//       });
-
-//       setFileList(docs);
-//       const pendingDocTypes = Object.keys(DocTypes).filter((docType) => {
-//         return docs?.find((doc) => doc.uid == docType) === undefined;
-//       });
-
-//       setPendingDocTypes(pendingDocTypes);
-//     }
-
-//     file.document_type = docType;
-//     file.document_name = DocTypes[docType];
-
-//     const document: IDocument = await addDocument(customer.id, docType, file);
-
-//     const formData = new FormData();
-//     if (data) {
-//       Object.keys(data).forEach(key => {
-//         formData.append(key, data[key]);
-//       });
-//     }
-//     formData.append(filename, file);
-
-//     uploadDocument(customer.id, document?.id, file, formData, onProgress, onSuccess, onError);
-
-//     return {
-//       abort() {
-//       },
-//     };
-
-
-//   }
-
-//   const isPdf = (doc) => {
-//     return (doc.lastIndexOf("pdf") > -1);
-//   };
-
-//   return (<Section title={"Documents"}>
-
-//     <div className={styles.docsBox}>
-
-//       <div className="p-4 flex flex-col gap-y-4">
-//         <div>
-//           <Upload
-//             listType="picture-card"
-//             fileList={fileList}
-//             showUploadList={{ showRemoveIcon: false }}
-//             onPreview={handlePreview}
-//           >
-//           </Upload>
-//         </div>
-
-//         <div className={"flex flex-wrap gap-x-2 xs:gap-y-4"}>
-//           {pendingDocTypes.map((docType: string) => {
-//             return <div key={docType}>
-//               <Upload
-//                 action="/api/upload.do"
-//                 listType="picture-card"
-//                 fileList={fileList}
-//                 showUploadList={false}
-//                 onPreview={handlePreview}
-//                 customRequest={(options: any) => customRequest(options, docType)}
-//               >
-//                 <UploadButton type={docType} />
-
-//               </Upload>
-//             </div>
-//           })}
-//         </div>
-
-//       </div>
-
-
-//       <Modal style={{ height: "50vh" }} open={previewOpen} title={previewTitle} footer={null} onCancel={handleCancel}>
-//         {isPdf(previewImage) ?
-//           <embed src={previewImage} style={{ width: '100%', height: '100%' }} /> :
-//           <img alt="example" style={{ width: '100%' }} src={previewImage} />
-//         }
-//       </Modal>
-//     </div>
-//   </Section>);
-// };
-
-// export default DocumentsCard;

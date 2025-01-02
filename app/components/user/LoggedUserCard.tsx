@@ -20,6 +20,8 @@ export const LoggedUserCard = () => {
       <Loader /> :
       <div>
         <ProfileCard user={loggedUser} />
+
+
       </div>)
     }
   </>)
