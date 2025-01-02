@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { ILocation } from "../app-store/types";
 import { RadioListItem } from "./RadioListItem";
+import { Address } from "../app/components/user/Address.client";
 
 interface IAddressList {
   userName: string;
@@ -44,17 +45,7 @@ export const AddressList = ({
               onCheck={checkRadio}
               active={addr.id === selectedAddress}
             >
-              <div>
-                <div className={"font-semibold"}>{userName}</div>
-                <div>
-                  <span>{addr.address_line_1},</span>
-                  <span>{addr.address_line_2},</span>
-                  <span>{addr.city},</span>
-                  <span>{addr.state},</span>
-                  <span>{addr.postal_code}</span>
-                </div>
-
-              </div>
+              <Address address={addr} name={userName} />
             </RadioListItem>
           ))}
       </div>

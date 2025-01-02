@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { Address } from "../Address";
+
 import { StepHeader } from "./StepHeader";
 import { authUser, selectAuthState } from "../../app-store/auth/auth.slice";
 import { AddressList } from "../AddressList";
@@ -8,6 +8,7 @@ import { AddressList } from "../AddressList";
 // import AutoComplete from "../common/form/AutoComplete";
 // import httpClient from "../../api/axios.config";
 import { AddAddress } from "../../app/components/user/AddAddress.client";
+import { Address } from "../../app/components/user/Address.client";
 
 
 // interface IOption {
@@ -81,12 +82,17 @@ export const AddressPicker = ({
         showChange={selectedAddress}
       >
       </StepHeader>
-      {selectedAddress && (
-        <Address
-          address={selectedAddress}
-          name={loggedUser?.firstname + " " + loggedUser?.lastname}
-        />
-      )}
+      {selectedAddress ?
+        (selectedAddress.id > 0 ?
+          <Address
+            address={selectedAddress}
+            name={loggedUser?.firstname + " " + loggedUser?.lastname}
+          /> :
+          <div className="py-4">Store Pickup</div>) :
+        ""
+      }
+
+
 
       <AddAddress onNewAddress={onNewAddressSuccess} />
 
