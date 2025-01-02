@@ -73,9 +73,6 @@ export const AddressPicker = ({
     onNewAddress(address);
   }
 
-
-
-
   return (
     <div>
       <StepHeader
