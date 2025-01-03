@@ -9,6 +9,7 @@ import { fetchActiveCustomer } from "api/admin/customers.api";
 
 import { IUser } from "../../../app-store/types";
 import { ProfileCard } from "../user/ProfileCard.client";
+import CustomerCard from "../../../components/CustomerCard";
 
 interface CustomerDetailsProps {
   id: string;
@@ -41,7 +42,11 @@ export default function CustomerDetails({ id }: CustomerDetailsProps) {
             <div style={{ flex: 1 }}>
               <ProfileCard user={activeCustomer} />
             </div>
+            <div>
+              <CustomerCard customer={activeCustomer} />
+            </div>
           </div>
+
           <div>
             <div style={{ flex: 1 }}>
               <DocumentsCard user={activeCustomer}></DocumentsCard>
