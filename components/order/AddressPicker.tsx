@@ -9,6 +9,7 @@ import { AddressList } from "../AddressList";
 // import httpClient from "../../api/axios.config";
 import { AddAddress } from "../../app/components/user/AddAddress.client";
 import { Address } from "../../app/components/user/Address.client";
+import { ILocation } from "../../app-store/types";
 
 
 // interface IOption {
@@ -68,7 +69,13 @@ export const AddressPicker = ({
 
 
   const onNewAddressSuccess = (address) => {
-    const newAddressList = [...loggedUser.address, address];
+    let newAddressList: ILocation[] = [];
+    if (loggedUser?.address) {
+      newAddressList = [...loggedUser.address, address];
+    } else {
+      newAddressList = [address];
+    }
+
     const updatedUser = { ...loggedUser, address: newAddressList };
     dispatch(authUser(updatedUser));
     onNewAddress(address);

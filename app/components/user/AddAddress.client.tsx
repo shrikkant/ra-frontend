@@ -64,9 +64,9 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
     if (!isValid()) {
       return;
     }
-    e.preventDefault();
     const newAddress: ILocation = await addLocalAddress(address_line_1, address_line_2, city, state, postal_code);
     onNewAddress(newAddress);
+    e.preventDefault();
   }
 
   const isValid = () => {
