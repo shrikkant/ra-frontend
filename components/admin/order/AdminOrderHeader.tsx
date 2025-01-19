@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 
 import { Section } from "../../../app/components/common/Section";
+import { FaShippingFast } from "react-icons/fa";
 
 interface AdminOrderHeaderProps {
   order: IOrder,
@@ -33,6 +34,14 @@ export const AdminOrderHeader = ({ order, children }: AdminOrderHeaderProps) => 
         </Link>
       </div>
     );
+
+    if (order.delivery_fee_paid > 0) {
+      tags.push(
+        <div key="4" >
+          <FaShippingFast />
+        </div>
+      );
+    }
   }
 
 

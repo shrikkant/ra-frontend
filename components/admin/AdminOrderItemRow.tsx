@@ -49,7 +49,6 @@ export function AdminOrderItemRow({
 
       <div className="mt-4 flex xs:flex-col justify-between gap-y-4">
         <div>
-          <h3>Rent</h3>
           <div className="flex gap-x-3">
             <span className={"text-2xl  " + (item.applied_discount_amount > 0 ? "line-through text-gray-700" : " text-red-700")} >
               <RupeeSymbol />{item.original_rent}
