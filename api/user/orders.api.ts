@@ -29,12 +29,14 @@ export const addToCart = async (
 ): Promise<ITransaction> => {
   const { startDate, endDate } = dates;
 
+  const START_HOUR = 9; // 9 AM
+  const END_HOUR = 19; // 7 PM
   const transaction: ITransaction = await httpClient.post(`/user/carts`, {
     date: {
       startDate: Moment(new Date(startDate)).format("YYYY-MM-DD"),
       endDate: Moment(new Date(endDate)).format("YYYY-MM-DD"),
-      startTime: 9,
-      endTime: 9,
+      startTime: START_HOUR,
+      endTime: END_HOUR,
       rentalDays: 1,
     },
     product_id: productId,

@@ -28,7 +28,6 @@ export const DateRangePicker = ({ mode }: { mode: string }) => {
       const today = new Date();
       const twoWeeksLater = new Date(today);
       twoWeeksLater.setDate(twoWeeksLater.getDate() + 14);
-      console.log("Today ", today);
       const currentDates = {
         startDate: '' + today,
         endDate: '' + twoWeeksLater,
