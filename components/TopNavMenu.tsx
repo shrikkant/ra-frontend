@@ -14,6 +14,7 @@ import { IoMdLogOut } from "react-icons/io";
 import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 import { FaShopify } from "react-icons/fa";
 import { IUser } from "../app-store/types";
+import { useSearchParams } from "next/navigation";
 
 interface INavLink {
   title: string;
@@ -22,10 +23,13 @@ interface INavLink {
 }
 
 export default function TopNavMenu() {
+
+  const searchParams = useSearchParams();
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
-  const [showSignIn, setShowSignIn] = React.useState(false);
+  const signUp = searchParams.get("signUp") || false;
+  const [showSignIn, setShowSignIn] = React.useState(signUp);
 
   const isAdmin = (user: IUser) => {
     return user?.role === 'A';
