@@ -42,6 +42,7 @@ export default function Analytics() {
         <Select name="status" aria-label="Year"
           value={year}
           onChange={onYearChange}>
+          <option value="-1">All Time</option>
           <option value="2025">2025</option>
           <option value="2024">2024</option>
           <option value="2023">2023</option>
@@ -49,14 +50,15 @@ export default function Analytics() {
         </Select>
       </MyPageHeader>
       <div className="flex py-2 border-b border-b-gray-400 font-semibold">
-        <div className="w-3/4">Product</div>
+        <div className="w-full">Product</div>
         <div>Revenue</div>
       </div>
       {analytics && analytics.map((item, index) => {
         return (
-          <div key={index} className="flex py-2 border-b border-b-gray-300">
-            <div className="w-3/4">{item.name}</div>
-            <div>{item.revenue}</div>
+          <div key={index} className="gap-x-2 flex py-2 border-b border-b-gray-300">
+            <div className="">{index + 1}.</div>
+            <div className="w-full">{item.name}</div>
+            <div className="text-right w-full">{item.revenue}</div>
           </div>
         )
       })}
