@@ -29,6 +29,7 @@ export default function Analytics() {
 
   const onYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const year = e.target.value;
+    setYear(year);
     fetchData(parseInt(year));
 
     router.push("/p/admin/analytics?year=" + year);
@@ -38,7 +39,9 @@ export default function Analytics() {
   return (
     <>
       <MyPageHeader title={"Analytics"}>
-        <Select name="status" aria-label="Year" onChange={onYearChange}>
+        <Select name="status" aria-label="Year"
+          value={year}
+          onChange={onYearChange}>
           <option value="2025">2025</option>
           <option value="2024">2024</option>
           <option value="2023">2023</option>
