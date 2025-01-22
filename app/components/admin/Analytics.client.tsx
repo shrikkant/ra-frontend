@@ -16,19 +16,21 @@ export default function Analytics() {
   const [year, setYear] = useState(searchParams.get("year") || "2025");
   const [analytics, setAnalytics] = useState<IProductRevene[] | null>();
 
+  const fetchData = async (year: number) => {
+    const response: IProductRevene[] = await fetchAnalytics(year);
+    setAnalytics(response);
+  };
+
   useEffect(() => {
-    const fetchData = async () => {
-      const response: IProductRevene[] = await fetchAnalytics(parseInt(year));
-      setAnalytics(response);
-    };
-    if (!analytics || analytics.length === 0) {
-      fetchData();
+    if (!analytics) {
+      fetchData(parseInt(year));
     }
-  }, [analytics, year]);
+  }, [analytics]);
 
   const onYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const year = e.target.value;
-    setAnalytics(null);
+    fetchData(parseInt(year));
+
     router.push("/p/admin/analytics?year=" + year);
     return;
   }
