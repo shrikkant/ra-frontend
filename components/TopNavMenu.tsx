@@ -15,6 +15,7 @@ import ShoppingBagIcon from "@heroicons/react/24/outline/ShoppingBagIcon";
 import { FaShopify } from "react-icons/fa";
 import { IUser } from "../app-store/types";
 import { useSearchParams } from "next/navigation";
+import { ChartBarIcon } from "@heroicons/react/24/outline";
 
 interface INavLink {
   title: string;
@@ -68,6 +69,11 @@ export default function TopNavMenu() {
       title: "Products",
       path: "/p/admin/products",
       icon: <FaShopify className="h-6 w-6" />
+    },
+    {
+      title: "Analytics",
+      path: "/p/admin/analytics",
+      icon: <ChartBarIcon className="h-6 w-6" />
     },
   ]
 
