@@ -15,23 +15,24 @@ export default function Analytics() {
   const router = useRouter();
   const [year, setYear] = useState(searchParams.get("year") || "2025");
   const [month, setMonth] = useState(searchParams.get("month") || "-1");
+  const [status, setStatus] = useState(searchParams.get("status") || "1");
   const [analytics, setAnalytics] = useState<IProductRevene[] | null>();
 
-  const fetchData = async (year: number, month: number) => {
-    const response: IProductRevene[] = await fetchAnalytics(year, month);
+  const fetchData = async (status: number, year: number, month: number) => {
+    const response: IProductRevene[] = await fetchAnalytics(status, year, month);
     setAnalytics(response);
   };
 
   useEffect(() => {
     if (!analytics) {
-      fetchData(parseInt(year), parseInt(month));
+      fetchData(parseInt(status), parseInt(year), parseInt(month));
     }
   }, [analytics]);
 
   const onYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const year = e.target.value;
     setYear(year);
-    fetchData(parseInt(year), parseInt(month));
+    fetchData(parseInt(status), parseInt(year), parseInt(month));
 
     router.push("/p/admin/analytics?year=" + year);
     return;
@@ -40,8 +41,16 @@ export default function Analytics() {
   const onMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const month = e.target.value;
     setMonth(month);
-    fetchData(parseInt(year), parseInt(month));
+    fetchData(parseInt(status), parseInt(year), parseInt(month));
     router.push("/p/admin/analytics?year=" + year + "&month=" + month);
+    return;
+  }
+
+  const onStatusChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const status = e.target.value;
+    setStatus(status);
+    fetchData(parseInt(status), parseInt(month), parseInt(status));
+    router.push("/p/admin/analytics?year=" + year + "&month=" + month + "&status=" + status);
     return;
   }
 
@@ -49,6 +58,12 @@ export default function Analytics() {
     <>
       <MyPageHeader title={"Analytics"}>
         <div className="flex gap-x-2 justify-center">
+          <Select name="status" aria-label="Status"
+            value={status}
+            onChange={onStatusChange}>
+            <option value="1">Paid</option>
+            <option value="0">Unpaid</option>
+          </Select>
           <Select name="status" aria-label="Year"
             value={year}
             onChange={onYearChange}>
