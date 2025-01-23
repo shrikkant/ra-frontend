@@ -8,8 +8,8 @@ export interface IProductRevene {
   orders: number;
 }
 
-export async function fetchAnalytics(year: number): Promise<IProductRevene[]> {
-  const analytics: IProductRevene[] = await httpClient.get(`/admin/revenue/analytics?year=${year}`);
+export async function fetchAnalytics(year: number, month: number): Promise<IProductRevene[]> {
+  const analytics: IProductRevene[] = await httpClient.get(`/admin/revenue/analytics?year=${year}&month=${month}`);
 
   return analytics;
 }

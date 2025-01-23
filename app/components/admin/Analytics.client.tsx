@@ -14,40 +14,69 @@ export default function Analytics() {
   const searchParams = useSearchParams();
   const router = useRouter();
   const [year, setYear] = useState(searchParams.get("year") || "2025");
+  const [month, setMonth] = useState(searchParams.get("month") || "-1");
   const [analytics, setAnalytics] = useState<IProductRevene[] | null>();
 
-  const fetchData = async (year: number) => {
-    const response: IProductRevene[] = await fetchAnalytics(year);
+  const fetchData = async (year: number, month: number) => {
+    const response: IProductRevene[] = await fetchAnalytics(year, month);
     setAnalytics(response);
   };
 
   useEffect(() => {
     if (!analytics) {
-      fetchData(parseInt(year));
+      fetchData(parseInt(year), parseInt(month));
     }
   }, [analytics]);
 
   const onYearChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
     const year = e.target.value;
     setYear(year);
-    fetchData(parseInt(year));
+    fetchData(parseInt(year), parseInt(month));
 
     router.push("/p/admin/analytics?year=" + year);
+    return;
+  }
+
+  const onMonthChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const month = e.target.value;
+    setMonth(month);
+    fetchData(parseInt(year), parseInt(month));
+    router.push("/p/admin/analytics?year=" + year + "&month=" + month);
     return;
   }
 
   return (
     <>
       <MyPageHeader title={"Analytics"}>
-        <Select name="status" aria-label="Year"
-          value={year}
-          onChange={onYearChange}>
-          <option value="-1">All Time</option>
-          <option value="2025">2025</option>
-          <option value="2024">2024</option>
-          <option value="2023">2023</option>
-          <option value="2022">2022</option>
-        </Select>
+        <div className="flex gap-x-2 justify-center">
+          <Select name="status" aria-label="Year"
+            value={year}
+            onChange={onYearChange}>
+            <option value="-1">All Time</option>
+            <option value="2025">2025</option>
+            <option value="2024">2024</option>
+            <option value="2023">2023</option>
+            <option value="2022">2022</option>
+          </Select>
+          <Select name="status" aria-label="Month"
+            value={month}
+            onChange={onMonthChange}>
+            <option value="-1">Full Year</option>
+            <option value="1">Jan</option>
+            <option value="2">Feb</option>
+            <option value="3">Ma</option>
+            <option value="4">Apr</option>
+            <option value="5">May</option>
+            <option value="6">Jun</option>
+            <option value="7">Jul</option>
+            <option value="8">Aug</option>
+            <option value="9">Sep</option>
+            <option value="10">Oct</option>
+            <option value="11">Nov</option>
+            <option value="12">Dec</option>
+          </Select>
+        </div>
+
       </MyPageHeader>
       <div className="flex gap-x-2 py-2 border-b border-b-gray-400 font-semibold">
         <div className="">#</div>
