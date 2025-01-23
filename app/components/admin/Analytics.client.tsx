@@ -49,16 +49,19 @@ export default function Analytics() {
           <option value="2022">2022</option>
         </Select>
       </MyPageHeader>
-      <div className="flex py-2 border-b border-b-gray-400 font-semibold">
+      <div className="flex gap-x-2 py-2 border-b border-b-gray-400 font-semibold">
+        <div className="">#</div>
         <div className="w-full">Product</div>
-        <div>Revenue</div>
+        <div className="w-24 text-right">Orders</div>
+        <div className="w-24 text-right">Revenue</div>
       </div>
       {analytics && analytics.map((item, index) => {
         return (
           <div key={index} className="gap-x-2 flex py-2 border-b border-b-gray-300">
             <div className="">{index + 1}.</div>
             <div className="w-full">{item.name}</div>
-            <div className="text-right w-full">{item.revenue}</div>
+            <div className="text-right w-24">{item.orders}</div>
+            <div className="text-right w-24">{item.revenue}</div>
           </div>
         )
       })}

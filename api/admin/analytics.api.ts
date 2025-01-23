@@ -5,6 +5,7 @@ export interface IProductRevene {
   name: string;
   revenue: number;
   delivery_revenue: number;
+  orders: number;
 }
 
 export async function fetchAnalytics(year: number): Promise<IProductRevene[]> {
