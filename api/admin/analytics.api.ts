@@ -13,3 +13,10 @@ export async function fetchAnalytics(status: number, year: number, month: number
 
   return analytics;
 }
+
+export async function fetchSignupAnalytics(): Promise<IProductRevene[]> {
+  const analytics: IProductRevene[] = await httpClient.get(`/admin/revenue/analytics/signups`);
+
+  return analytics;
+}
+
