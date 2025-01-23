@@ -57,7 +57,8 @@ export default function Analytics() {
       </div>
       {analytics && analytics.map((item, index) => {
         return (
-          <div key={index} className="gap-x-2 flex py-2 border-b border-b-gray-300">
+          <div key={index}
+            className={`gap-x-2 flex py-2 border-b ` + ((index === analytics.length - 1) ? "border-b-gray-400" : "border-b-gray-300")}>
             <div className="">{index + 1}.</div>
             <div className="w-full">{item.name}</div>
             <div className="text-right w-24">{item.orders}</div>
@@ -65,6 +66,14 @@ export default function Analytics() {
           </div>
         )
       })}
-    </>
-  );
+
+      {analytics &&
+        <div className="flex gap-x-2 py-2 font-semibold">
+          {/* <div className=""></div> */}
+          <div className="w-full">Total</div>
+          <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + (item.orders), 0)}</div>
+          <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + Number(item.revenue), 0)}</div>
+        </div>
+      }
+    </>);
 }
