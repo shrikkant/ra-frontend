@@ -56,8 +56,8 @@ export default function Analytics() {
 
   return (
     <>
-      <MyPageHeader title={"Analytics"}>
-        <div className="flex gap-x-2 justify-center">
+      <div>
+        <div className="flex gap-x-2 justify-end">
           <Select name="status" aria-label="Status"
             value={status}
             onChange={onStatusChange}>
@@ -92,7 +92,7 @@ export default function Analytics() {
           </Select>
         </div>
 
-      </MyPageHeader>
+      </div>
       <div className="flex gap-x-2 py-2 border-b border-b-gray-400 font-semibold">
         <div className="">#</div>
         <div className="w-full">Product</div>

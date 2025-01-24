@@ -26,11 +26,8 @@ export default function SignupAnalytics() {
 
   return (
     <>
-      <MyPageHeader title={"Signups"}>
-
-      </MyPageHeader>
       {analytics &&
-        <div style={{ width: '100%', height: 300 }}>
+        <div style={{ width: '100%', height: 300 }} className="border border-gray-400 rounded-md">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={analytics}

@@ -26,11 +26,9 @@ export default function OrderAnalytics() {
 
   return (
     <>
-      <MyPageHeader title={"Orders"}>
 
-      </MyPageHeader>
       {analytics &&
-        <div style={{ width: '100%', height: 300 }}>
+        <div style={{ width: '100%', height: 300 }} className="border border-gray-400 py-4 rounded-md">
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={analytics}
