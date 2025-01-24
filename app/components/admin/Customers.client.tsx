@@ -12,9 +12,8 @@ import MyPageHeader from "components/MyPageHeader";
 import React, { useEffect } from "react";
 
 import Loader from "components/Loader";
-import { Time } from "components/Time";
-import { PhoneIcon } from "@heroicons/react/24/outline";
-import { FaCheckDouble, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
+
+import { FaCheckDouble, FaSignInAlt, FaWhatsapp } from "react-icons/fa";
 import Link from "next/link";
 import { getAdminAuthUser } from "../../../api/auth.api";
 import { authUser, logout, setAdminLogin } from "../../../app-store/auth/auth.slice";
@@ -87,15 +86,15 @@ export default function Customers() {
         {loading ? (
           <Loader />
         ) : (
-          <ul role="list" className="divide-y divide-gray-100">
+          <div>
             {customers &&
               customers.map((person) => (
-                <li
+                <div
                   key={person.id}
                   className="flex justify-between gap-x-6 py-5 items-center"
                 >
-                  <div className="flex gap-x-4 xs:w-full sm:w-72">
-                    <div className="min-w-0 flex-auto xs:w-full">
+                  <div className="flex gap-x-4 xs:w-full sm:w-80">
+                    <div className=" xs:w-full">
 
                       <div className="flex items-center w-full justify-between">
                         <div onClick={() => visitProfile(person.id)} className="cursor-pointer flex gap-x-2">
@@ -108,7 +107,7 @@ export default function Customers() {
                             :
                             <Avatar user={person}></Avatar>
                           }
-                          <div className="w-56">
+                          <div>
                             <div className="text-sm font-semibold leading-6 text-gray-900 flex items-center gap-x-2">
                               <span>
                                 {person.firstname + " " + person.lastname}
@@ -121,18 +120,20 @@ export default function Customers() {
                             <div className="mt-1 truncate text-xs leading-5 text-gray-500">
                               {person.email_address}
                             </div>
+                            <div className="mt-1 truncate text-xs leading-5 text-gray-500">
+                            </div>
                           </div>
                         </div>
 
 
                         <div className=" flex justify-center items-center gap-x-2">
 
-                          {person?.phone &&
+                          {/* {person?.phone &&
                             <Link
                               target="_blank"
                               href={`https://wa.me/91${person.phone}?text=Hi ${person.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}>
                               <FaWhatsappSquare size={"28"} />
-                            </Link>}
+                            </Link>} */}
 
                           <button onClick={() => adminLogin(person.id)} className="p-2">
                             <FaSignInAlt size={"28"} />
@@ -145,19 +146,25 @@ export default function Customers() {
                   </div>
 
                   <div className="hidden sm:flex sm:flex-col sm:items-end">
-                    <div className="text-md leading-6 text-gray-900 flex gap-x-1">
-                      <PhoneIcon style={{ width: "1.1rem" }} />
-                      <div>{person.phone}</div>
-                    </div>
+
+                    {person?.phone && <Link
+                      target="_blank"
+                      href={`https://wa.me/91${person.phone}?text=Hi ${person.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}>
+                      <div className="text-md leading-6 text-gray-900 flex gap-x-1 items-center">
+                        <FaWhatsapp style={{ width: "1.1rem" }} />
+                        <div>{person.phone}</div>
+                      </div>
+                    </Link>}
+
 
                     <div className="mt-1 text-xs leading-5 text-gray-500">
-                      <Time time={person.created_ts} />
+                      {person.city}
                     </div>
                   </div>
 
-                </li>
+                </div>
               ))}
-          </ul>
+          </div>
         )}
       </div>
     </>
