@@ -43,7 +43,7 @@ const OTPInput: React.FC<OTPInputProps> = ({ onChange }) => {
           ref={(el) => {
             inputRefs.current[index] = el;
           }}
-          className="rounded-md focus:border-[#E5C71F]"
+          className="rounded-md focus:border-[#E5C71F] border border-[#FFDC2DAD]"
           style={{
             width: '50px',
             height: '50px',
