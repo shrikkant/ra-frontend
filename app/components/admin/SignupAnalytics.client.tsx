@@ -4,7 +4,7 @@ import MyPageHeader from "components/MyPageHeader";
 import React, { useEffect, useState } from "react";
 
 import { fetchSignupAnalytics } from "../../../api/admin/analytics.api";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
 
 
 export default function SignupAnalytics() {
@@ -42,12 +42,13 @@ export default function SignupAnalytics() {
               }}
             >
               <XAxis dataKey="name" />
-              <YAxis />
+              <YAxis yAxisId={0} />
               <Tooltip />
+              <Legend />
               <CartesianGrid stroke="#f5f5f5" />
               <Line type="monotone" dataKey="2023" stroke="#387300" yAxisId={0} />
               <Line type="monotone" dataKey="2024" stroke="#ff7300" yAxisId={0} />
-              <Line type="monotone" dataKey="2025" stroke="#387908" yAxisId={1} />
+              <Line type="monotone" dataKey="2025" stroke="#387908" yAxisId={0} />
             </LineChart>
           </ResponsiveContainer>
         </div>
