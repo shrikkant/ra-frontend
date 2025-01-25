@@ -97,7 +97,9 @@ httpClient.interceptors.response.use(
         return resultFormatted;
     }, (error) => {
         if (error.status === 403) {
-            window.location.href = '/?signUp=true';
+            if (window.location.href.indexOf('signUp=true') === -1) {
+                window.location.href = '/?signUp=true';
+            }
         }
         return;
     }
