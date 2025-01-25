@@ -1,7 +1,7 @@
 "use client"
 import Moment from "moment";
 
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { IUser } from "../app-store/types";
 import { FaCheckCircle, FaSignInAlt, FaWhatsappSquare } from "react-icons/fa";
@@ -10,17 +10,23 @@ import { authUser, logout, setAdminLogin } from "../app-store/auth/auth.slice";
 import { getAdminAuthUser } from "../api/auth.api";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { fetchCustomerAadhaar } from "../api/admin/customers.api";
+import { fetchCustomerAadhaar, updateCustomer } from "../api/admin/customers.api";
 import { IAadhaar } from "../app-store/auth/types";
 import { Section } from "../app/components/common/Section";
 import Input from "./common/form/Input";
+import { Button } from "@headlessui/react";
 
 
 
 export default function CustomerCard({ customer }: { customer: IUser }) {
   const router = useRouter();
   const dispatch = useDispatch();
+
   const [customerAadhaar, setCustomerAadhaar] = React.useState<IAadhaar | null>();
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [firstname, setFirstname] = useState<string>("");
+  const [lastname, setLastname] = useState<string>("");
 
   const adminLogin = (customerId: number) => {
     dispatch(logout());
@@ -31,14 +37,38 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
     });
   }
 
+  const handleEmailChange = (email: string) => {
+    setEmail(email);
+  };
+
+  const handlePhoneChange = (phone: string) => {
+    setPhone(phone);
+  }
+
+  const handleFirstnameChange = (firstname: string) => {
+    setFirstname(firstname);
+  }
+
+  const handleLastnameChange = (lastname: string) => {
+    setLastname(lastname);
+  }
+
+  const handleSubmit = async () => {
+    await updateCustomer(customer.id, email, phone, firstname, lastname);
+    router.refresh();
+  }
 
   useEffect(() => {
+    setPhone(customer.phone);
+    setEmail(customer.email_address);
+    setFirstname(customer.firstname ? customer.firstname : "");
+    setLastname(customer.lastname ? customer.lastname : "");
     if (!customerAadhaar) {
       fetchCustomerAadhaar(customer.id).then((data: IAadhaar) => {
         setCustomerAadhaar(data);
       });
     }
-  }, [customerAadhaar]);
+  }, [customerAadhaar, customer]);
 
   return (<div>
 
@@ -73,14 +103,41 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
           ))}
         </div>
 
-        <form className="py-4 flex flex-col gap-y-4">
-          <div>
-            <Input placeholder="Email" value={customer.email_address} onChange={() => { }} />
+        <form className="flex flex-col gap-y-4 w-96  border border-gray-400 p-4 rounded-md m-auto">
+          <div className="flex gap-x-4">
+            <div>
+              <Input
+                placeholder="First Name"
+                value={firstname}
+                onChange={handleFirstnameChange} />
+            </div>
+            <div>
+              <Input
+                placeholder="Last Name"
+                value={lastname}
+                onChange={handleLastnameChange} />
+            </div>
           </div>
           <div>
-            <Input placeholder="Phone" value={customer.phone} onChange={() => { }} />
+            <Input
+              placeholder="Email"
+              value={email}
+              onChange={handleEmailChange} />
+          </div>
+          <div>
+            <Input placeholder="Phone"
+              value={phone}
+              onChange={handlePhoneChange} />
+          </div>
+          <div className="text-right">
+            <Button onClick={handleSubmit}
+              className={"border hover:border-[#E5C71F] border-[#FFDC2DAD]"}
+              type="button">
+              Save
+            </Button>
           </div>
         </form>
+
         <div className=" flex justify-end items-center gap-x-2">
           {customer?.verified === 3 &&
             <div>

@@ -37,6 +37,23 @@ export async function addDocument(userId: number, docType: string, side: "front"
 
 }
 
+export async function updateCustomer(id: number,
+    email_address: string,
+    phone: string,
+    firstname: string,
+    lastname: string): Promise<IUser> {
+    const updateUser = {
+        email_address,
+        phone,
+        firstname,
+        lastname
+    }
+
+    const user: IUser = await httpClient.put(`/admin/users/${id}`, updateUser);
+    console.log("Updated User : ", user);
+    return user;
+}
+
 export async function uploadDocument(id: number,
     docId: number | undefined,
     file,
