@@ -24,13 +24,14 @@ export default function VerifyPhone() {
     if (event.keyCode === 8 || event.keyCode === 46) {
       return;
     }
-    if (!/^[0-9]*$/.test(event.key)) {
+    if (!/^[0-9]*$/.test(event.key) && !((event.ctrlKey || event.metaKey) && (event.key === "v" || event.key === "a"))) {
       event.preventDefault();
     }
   }
 
   const submitPhone = async () => {
     const updateUser: IUser = await updatePhone(phone);
+    window.analytics?.track("Phone Updated");
     if (updateUser?.verified) {
       dispatch(authUser(updateUser));
       router.push("/");

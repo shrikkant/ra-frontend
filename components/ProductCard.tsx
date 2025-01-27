@@ -46,7 +46,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
 
     <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
 
-    <RentNowButton productId={product.id} pathname={resolveURL()} />
+    <RentNowButton pathname={resolveURL()} />
 
   </div >);
 }

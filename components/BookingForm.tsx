@@ -55,9 +55,6 @@ export default function BookingForm({ productId, discount, rates }: { productId:
   };
 
   const onAddToCart = async (bookNow?: boolean) => {
-    window?.analytics?.track('Added to Cart', {
-      product: productId,
-    });
     if (!loggedUser && (pathname && pathname?.length > 0)) {
       dispatch(setLastLink(pathname))
       setShowSignIn(true);
@@ -79,6 +76,7 @@ export default function BookingForm({ productId, discount, rates }: { productId:
   };
 
   const onBookNow = () => {
+    window.analytics?.track('Book Now');
     onAddToCart(true);
   }
   const getSavings = () => {

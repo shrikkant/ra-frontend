@@ -51,6 +51,9 @@ export default function MainHeaderNav() {
   };
 
   const onSearch = (value: string) => {
+    window.analytics.track("Search Product", {
+      query: value,
+    });
     setSearchText(value);
   };
 

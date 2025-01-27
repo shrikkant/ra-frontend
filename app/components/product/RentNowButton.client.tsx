@@ -1,30 +1,33 @@
 "use client"
 
 import React from "react";
-import { getDefaultSearch, setLastLink } from "../../../app-store/session/session.slice";
-import { useDispatch, useSelector } from "react-redux";
-import { selectAuthState } from "../../../app-store/auth/auth.slice";
+// import { getDefaultSearch, setLastLink } from "../../../app-store/session/session.slice";
+// import { useDispatch } from "react-redux";
+// import { selectAuthState } from "../../../app-store/auth/auth.slice";
 import { useRouter } from "next/navigation";
 import SignIn from "../../../components/user/SignIn";
-import { setCart } from "../../../app-store/user/orders/orders.slice";
-import { addToCart, fetchCart } from "../../../api/user/orders.api";
+// import { setCart } from "../../../app-store/user/orders/orders.slice";
+// import { addToCart, fetchCart } from "../../../api/user/orders.api";
 
 
-export default function RentNowButton({ productId, pathname }: { productId: number, pathname: string }) {
+export default function RentNowButton({ pathname }: { pathname: string }) {
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const router = useRouter();
 
-  const loggedUser = useSelector(selectAuthState);
+  // const loggedUser = useSelector(selectAuthState);
   const [showSignIn, setShowSignIn] = React.useState(false);
-  const storeSearch = useSelector(getDefaultSearch);
+  // const storeSearch = useSelector(getDefaultSearch);
 
   const closeSignInModal = () => {
     setShowSignIn(false);
   }
 
   const onBookNow = async () => {
-    console.log("Pathname > ", pathname);
+
+    router.push(pathname);
+    return;
+    /* Later
     if (!loggedUser && (pathname && pathname?.length > 0)) {
       dispatch(setLastLink(pathname))
       setShowSignIn(true);
@@ -38,6 +41,7 @@ export default function RentNowButton({ productId, pathname }: { productId: numb
       router.push("/p/mycart");
 
     }
+    */
   };
 
   return (<>

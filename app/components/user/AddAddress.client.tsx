@@ -65,6 +65,7 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
       return;
     }
     const newAddress: ILocation = await addLocalAddress(address_line_1, address_line_2, city, state, postal_code);
+    window.analytics.track('Added Address');
     onNewAddress(newAddress);
     e.preventDefault();
   }

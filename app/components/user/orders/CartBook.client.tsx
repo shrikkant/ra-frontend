@@ -42,6 +42,7 @@ export default function CartBook() {
     if (cart) {
       if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
         setIsButtonLoading(true);
+        window.analytics.track('Place Your Order');
         displayRazorpay(cart.id, orderSuccess).then(() => {
           setIsButtonLoading(false);
         });
