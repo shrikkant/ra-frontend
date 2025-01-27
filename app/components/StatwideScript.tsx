@@ -25,6 +25,14 @@ export const StatwideScript: React.FC = () => {
 
 
     window.featurics?.init({
+      account: {
+        accountName: loggedUser?.city || "N/A",
+        accountProperties: [
+          {
+            city: loggedUser?.city
+          },
+        ]
+      },
       visitor: {
         appVisitorId: loggedUser?.id,
         email: loggedUser?.email_address,
