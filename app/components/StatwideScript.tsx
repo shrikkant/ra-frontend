@@ -45,6 +45,10 @@ export const StatwideScript: React.FC = () => {
             key: 'OrganizationId',
             value: loggedUser?.id,
           },
+          {
+            key: 'City',
+            value: loggedUser?.city,
+          }
         ],
       },
     })
