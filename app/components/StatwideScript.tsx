@@ -48,25 +48,32 @@ export const StatwideScript: React.FC = () => {
         ],
       },
     })
+    if (window.analytics) {
+
+      window.analytics?.identify(loggedUser.id, {
+        email: loggedUser.email_address,
+        // Optional
+        name: `${loggedUser.firstname} ${loggedUser.lastname}`,
+        avatar: `${loggedUser.profile_pic}`,
+        city: loggedUser.city,
+        // Add anything else about the user here
+      });
+    }
+
+    if (window.heap) {
 
 
-    window.heap?.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
+
+      window.heap?.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
 
 
-    window.analytics?.identify(loggedUser.id, {
-      email: loggedUser.email_address,
-      // Optional
-      name: `${loggedUser.firstname} ${loggedUser.lastname}`,
-      avatar: `${loggedUser.profile_pic}`,
-      city: loggedUser.city,
-      // Add anything else about the user here
-    });
 
-    window.heap?.addUserProperties({
-      name: `${loggedUser.firstname} ${loggedUser.lastname}`,
-      email: loggedUser.email_address,
-      city: loggedUser.city
-    });
+      window.heap?.addUserProperties({
+        name: `${loggedUser.firstname} ${loggedUser.lastname}`,
+        email: loggedUser.email_address,
+        city: loggedUser.city
+      });
+    }
 
   }, [loggedUser])
 
