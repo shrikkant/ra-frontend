@@ -52,17 +52,17 @@ export const StatwideScript: React.FC = () => {
         ],
       },
     })
-    // if (window.analytics) {
+    if (window.analytics && window.analytics.identify) {
 
-    //   window.analytics?.identify(loggedUser.id, {
-    //     email: loggedUser.email_address,
-    //     // Optional
-    //     name: `${loggedUser.firstname} ${loggedUser.lastname}`,
-    //     avatar: `${loggedUser.profile_pic}`,
-    //     city: loggedUser.city,
-    //     // Add anything else about the user here
-    //   });
-    // }
+      window.analytics?.identify(loggedUser.id, {
+        email: loggedUser.email_address,
+        // Optional
+        name: `${loggedUser.firstname} ${loggedUser.lastname}`,
+        avatar: `${loggedUser.profile_pic}`,
+        city: loggedUser.city,
+        // Add anything else about the user here
+      });
+    }
 
     if (window.heap) {
 
