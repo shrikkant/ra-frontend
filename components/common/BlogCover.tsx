@@ -10,11 +10,13 @@ export default function BlogCover({ blogs }: { blogs: IBlog[] }) {
           <h4 className="title title-line-left"><a href={`/blog/${blog.slug}`}>
             {blog.title}
           </a></h4>
+
           <div className="post-content">
             <div className="text">
               <div className="content" dangerouslySetInnerHTML={{ __html: blog.short_desc }}></div>
             </div>
           </div>
+
           <div className="post-footer">
             <a href={`/blog/${blog.slug}`} className="btn"><span>more</span></a>
           </div>

@@ -29,7 +29,7 @@ export default function TopNavMenu() {
   const loggedUser = useSelector(selectAuthState);
   const dispatch = useDispatch();
   const router = useRouter();
-  const signUp = searchParams.get("signUp") || false;
+  const signUp = searchParams?.get("signUp") || false;
   const [showSignIn, setShowSignIn] = React.useState(signUp);
 
   const isAdmin = (user: IUser) => {
@@ -107,7 +107,7 @@ export default function TopNavMenu() {
         {loggedUser ? (
           <>
             <MenuButton className="p-0 rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
-              <Avatar user={loggedUser}></Avatar>
+              <Avatar user={loggedUser} size="8"></Avatar>
             </MenuButton>
             <Transition
               as={Fragment}

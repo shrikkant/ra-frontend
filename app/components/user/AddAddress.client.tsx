@@ -150,8 +150,10 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
 
 
 
-        <div className="border-2 border-gray-500 rounded-md p-2">
-          We will need at least 2 original documents to verify your address. Your address should match the address on the documents.
+        <div className="border-2 border-gray-200 rounded-md p-2">
+        We require at least one valid document as address proof. 
+        Please ensure that the address on the document matches the one provided above. 
+        Acceptable documents include the latest electricity bill or an active rent agreement.
         </div>
         {/* {<AutoComplete
               label={"Locality, Landmark"}
@@ -159,7 +161,7 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
               onChange={lookUpAddress}
               options={options}
               onSelect={onSelectPlace}
-              isLoading={loading} />} */}
+              isLoading={loading} />} */}s
 
         <div className="flex justify-end pt-2">
 

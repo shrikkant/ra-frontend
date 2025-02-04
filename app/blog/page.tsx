@@ -12,11 +12,7 @@ export default async function Blog() {
   return (<>
     <section className="s-header-title">
       <PageContainer>
-        <h1>Blog</h1>
-        <ul className="breadcrambs">
-          <li><a href="/">Home</a></li>
-          <li>Blog</li>
-        </ul>
+        <h4>Blog</h4>
       </PageContainer>
     </section>
 

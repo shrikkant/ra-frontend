@@ -161,14 +161,14 @@ export function HomeSlider() {
           instagram</a></li>
     </ul>
 
-    <section className="main-slider relative w-full overflow-hidden xs:px-4 xs:h-[420px] sm:h-[640px] lg:h-[720px]">
+    <section className="main-slider py-2 relative w-full overflow-hidden xs:px-4 xs:h-[420px] sm:h-[640px] lg:h-[720px]">
       <div className="slick-list draggable" style={{ position: 'relative', overflow: "hidden", boxSizing: 'border-box' }} >
         <div className="slick-track" style={{ transformStyle: "preserve-3d" }}>
           {items && items.map((item) => item)}
         </div>
       </div>
     </section>
-    <div role="toolbar" className="">
+    <div role="toolbar" className='py-4'>
       <div className="flex justify-center bg-gradient-to-t from-gray-200 to-transparent  rounded-full pt-2 w-96 m-auto" role="tablist">
         <div>
           <button type="button" onClick={prev} className='px-2'>

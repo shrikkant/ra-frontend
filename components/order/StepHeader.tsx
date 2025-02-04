@@ -23,7 +23,9 @@ export const StepHeader = ({
         </div>
         {showChange && onChangeAction && (
           <button
-            onClick={() => {
+          className="font-semibold border rounded-md bg-gray-200"
+          disabled={false} 
+          onClick={() => {
               onChangeAction();
             }}
           >

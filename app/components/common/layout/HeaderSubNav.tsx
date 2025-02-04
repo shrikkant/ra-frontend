@@ -45,10 +45,14 @@ export default async function HeaderSubNav() {
                       </Link>
                     );
                   })}
+  {/* <div className="ml-auto sm:mr-8 md:mr-12"> */}
+              <div className="ml-auto sm:mr-8">
+                <a href="/about-us" className="whitespace-nowrap text-sm text-gray-100 hover:bg-gray-700 hover:text-yellow focus:outline-none ">About Us</a>
+              </div>
+            </div>
             </div>
           </div>
         </div>
-      </div>
     </Disclosure>
   );
 }

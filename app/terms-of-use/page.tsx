@@ -10,9 +10,13 @@ export default async function Page() {
     <PageTitle title={"Terms of Use"} />
     <section className="s-news">
       <PageContainer>
+        {/* <div className="post-title">
+          <h2>Terms of Use</h2>
+        </div> */}
+        <div className="flex flex-col">
         <div className="post-title">
           <h2>Terms of Use</h2>
-        </div>
+        </div> 
         <div className="post-body">
           <p>The rentacross.com website and other related listing &amp; marketing services including
             other interactive properties through which the service is delivered (collectively, the &#34;Services&#34;) are owned, o
@@ -77,6 +81,7 @@ export default async function Page() {
             <li>All refunds (if any) will be processed within 5-7 working days. For COD payment, refunds will be processed by cheque issued in the name of the customer.</li>
 
           </ul>
+        </div>
         </div>
       </PageContainer>
     </section>

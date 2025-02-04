@@ -17,11 +17,16 @@ export default function Footer() {
         <div className="footer-item col-md-5 col-lg-4">
           <ul className="footer-list">
             <li><a href="/blog">Blog</a></li>
-            <li><a href="/terms-of-use">Terms of Use</a></li>
+            <li><a href="/about-us">About Us</a></li>
             <li><a href="/rental-agreement">Rental Agreement</a></li>
-            <li><a href="/rental-agreement">Legal Terms</a></li>
+            <li><a href="/why-us">Why Us ?</a></li>
+            <li><a href="/terms-of-use">Terms of Use </a></li>
+            <li><a href="/our-story">Our Story</a></li>
+
+            {/* Old Privacy Policy,return-refund code
             <li><a href="/privacy-policy">Privacy Policy</a></li>
-            <li><a href="/return-refund-policy">Returns & Refunds</a></li>
+            <li><a href="/return-refund-policy">Returns & Refunds</a></li> */}
+
           </ul>
         </div>
       </div>

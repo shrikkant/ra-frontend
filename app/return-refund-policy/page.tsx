@@ -50,12 +50,6 @@ export default async function Page() {
               If you choose to cancel the order, before the product is shipped or picked up by you, you will be entitled to a 100% refund.
             </div>
 
-            <div className="pt-1">
-              <b>4. What if product Damaged by customer?</b>
-            </div>
-            <div>
-              Don&apos;t worry. RentAcross Will Pay 100% to You.
-            </div>
           </div>
         </PageContainer>
       </section>

@@ -6,7 +6,7 @@ interface PageContainerProps {
 
 export default function PageContainer({ children }: PageContainerProps) {
   return (
-    <div className="sm:container mx-auto">
+    <div className="sm:container mx-auto ">
       {children}
     </div>
   )
