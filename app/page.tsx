@@ -5,8 +5,6 @@ import { Testimonial } from '../components/Testimonial'
 
 import TopSales from '../components/TopSales'
 import HomeAdvantages from '../components/home/HomeAdvantages'
-import HowItWorks from '../components/home/HowItWorks'
-
 import { getFeaturedProducts } from '../api/products.api'
 
 
@@ -17,14 +15,8 @@ export default async function Home() {
   return (<>
 
     <HomeSlider></HomeSlider>
-
-
-   {/* <HomeAdvantages></HomeAdvantages> */}
-    <HowItWorks></HowItWorks>
-
+    <HomeAdvantages></HomeAdvantages>
     <TopSales categories={categories}></TopSales>
     <Testimonial></Testimonial>
-
-
-  </>)  
+  </>)
 }
