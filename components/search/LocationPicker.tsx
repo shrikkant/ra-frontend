@@ -89,7 +89,7 @@ export const LocationPicker = () => {
           leaveFrom="transform opacity-100 scale-100"
           leaveTo="transform opacity-0 scale-95"
         >
-          <MenuItems className="mt-2 absolute truncate top-full right-0 w-48 bg-white border rounded-md shadow-lg z-50">
+          <MenuItems className="mt-2 absolute truncate top-full right-0 w-28 bg-white border rounded-md shadow-lg z-50">
             {locations &&
               locations.map((loc, i) => {
                 // const icon = "bg-[url(/assets/img/city_images/" + loc.label + ".png)]";
