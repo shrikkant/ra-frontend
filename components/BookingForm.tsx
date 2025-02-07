@@ -14,7 +14,7 @@ import { BookingLineItem } from "./cart/BookingLineItem";
 import SignIn from "./user/SignIn";
 import Button from "./common/form/Button";
 import { DISCOUNT_STEPS } from "../config/constants";
-import { IProductRatePlan } from "../app-store/types";
+import { IOrder, IProductRatePlan } from "../app-store/types";
 import { getDiffInDays } from "../app/utils/datetime.util";
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: IProductRatePlan[] }) {
@@ -62,16 +62,17 @@ export default function BookingForm({ productId, discount, rates }: { productId:
       if (!storeSearch?.dates)
         return;
 
-      await addToCart(productId, storeSearch?.dates);
-      const cart = await fetchCart();
-      dispatch(setCart(cart));
+      const newCart: IOrder = await addToCart(productId, storeSearch?.dates);
 
-      if (bookNow) {
-        router.push("/p/mycart");
-      } else {
-        setOpenFormInMobile(false);
+      if (newCart.id) {
+        dispatch(setCart(newCart));
+
+        if (bookNow) {
+          router.push("/p/mycart");
+        } else {
+          setOpenFormInMobile(false);
+        }
       }
-
     }
   };
 

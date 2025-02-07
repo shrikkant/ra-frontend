@@ -26,12 +26,12 @@ export async function fetchOrder(orderId: number): Promise<IOrder> {
 export const addToCart = async (
   productId: number,
   dates: IDates
-): Promise<ITransaction> => {
+): Promise<IOrder> => {
   const { startDate, endDate } = dates;
 
   const START_HOUR = 9; // 9 AM
   const END_HOUR = 19; // 7 PM
-  const transaction: ITransaction = await httpClient.post(`/user/carts`, {
+  const order: IOrder = await httpClient.post(`/user/carts`, {
     date: {
       startDate: Moment(new Date(startDate)).format("YYYY-MM-DD"),
       endDate: Moment(new Date(endDate)).format("YYYY-MM-DD"),
@@ -41,7 +41,7 @@ export const addToCart = async (
     },
     product_id: productId,
   });
-  return transaction;
+  return order;
 };
 
 export const removeFromCart = async (productId: number) => {
