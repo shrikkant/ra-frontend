@@ -41,12 +41,14 @@ export async function updateCustomer(id: number,
     email_address: string,
     phone: string,
     firstname: string,
-    lastname: string): Promise<IUser> {
+    lastname: string,
+    city: string): Promise<IUser> {
     const updateUser = {
         email_address,
         phone,
         firstname,
-        lastname
+        lastname,
+        city
     }
 
     const user: IUser = await httpClient.put(`/admin/users/${id}`, updateUser);

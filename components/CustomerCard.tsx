@@ -25,6 +25,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
   const [customerAadhaar, setCustomerAadhaar] = React.useState<IAadhaar | null>();
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
+  const [city, setCity] = useState<string>("");
   const [firstname, setFirstname] = useState<string>("");
   const [lastname, setLastname] = useState<string>("");
 
@@ -45,6 +46,10 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
     setPhone(phone);
   }
 
+  const handleCityChange = (city: string) => {
+    setCity(city);
+  }
+
   const handleFirstnameChange = (firstname: string) => {
     setFirstname(firstname);
   }
@@ -54,12 +59,13 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
   }
 
   const handleSubmit = async () => {
-    await updateCustomer(customer.id, email, phone, firstname, lastname);
+    await updateCustomer(customer.id, email, phone, firstname, lastname, city);
     router.refresh();
   }
 
   useEffect(() => {
     setPhone(customer.phone);
+    setCity(customer.city);
     setEmail(customer.email_address);
     setFirstname(customer.firstname ? customer.firstname : "");
     setLastname(customer.lastname ? customer.lastname : "");
@@ -128,6 +134,11 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
             <Input placeholder="Phone"
               value={phone}
               onChange={handlePhoneChange} />
+          </div>
+          <div>
+            <Input placeholder="City"
+              value={city}
+              onChange={handleCityChange} />
           </div>
           <div className="text-right">
             <Button onClick={handleSubmit}
