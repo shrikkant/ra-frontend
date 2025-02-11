@@ -29,7 +29,8 @@ export const StatwideScript: React.FC = () => {
         accountName: loggedUser?.city || "N/A",
         accountProperties: [
           {
-            city: loggedUser?.city
+            key: "City",
+            value: loggedUser?.city
           },
         ]
       },
@@ -47,7 +48,7 @@ export const StatwideScript: React.FC = () => {
           },
           {
             key: 'City',
-            value: loggedUser?.city,
+            value: loggedUser?.city || '',
           }
         ],
       },
