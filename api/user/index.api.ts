@@ -21,7 +21,8 @@ export const addLocalAddress = async (
   address_line_2: string,
   city: string,
   state: string,
-  postal_code: string
+  postal_code: string,
+  place_id: string
 ): Promise<ILocation> => {
   const newAddress: ILocation = await httpClient.post(`/user/addresses`, {
     address_line_1,
@@ -29,6 +30,7 @@ export const addLocalAddress = async (
     city,
     state,
     postal_code,
+    place_id,
   });
   return newAddress;
 };
