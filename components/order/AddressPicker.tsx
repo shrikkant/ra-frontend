@@ -5,22 +5,10 @@ import { StepHeader } from "./StepHeader";
 import { authUser, selectAuthState } from "../../app-store/auth/auth.slice";
 import { AddressList } from "../AddressList";
 
-// import AutoComplete from "../common/form/AutoComplete";
-// import httpClient from "../../api/axios.config";
+
 import { AddAddress } from "../../app/components/user/AddAddress.client";
 import { Address } from "../../app/components/user/Address.client";
 import { ILocation } from "../../app-store/types";
-
-
-// interface IOption {
-//   label: string;
-//   value: string;
-// }
-
-// interface IGooglePlace {
-//   description: string;
-//   place_id: string;
-// }
 
 interface IAddressPickerProps {
   onAddressReset: () => void;
@@ -39,33 +27,8 @@ export const AddressPicker = ({
   const dispatch = useDispatch();
 
   const loggedUser = useSelector(selectAuthState);
-  // const [options, setOptions] = React.useState<IOption[]>([]);
-  // const [place_id, setPlaceId] = React.useState<string>("");
-
-
-  // const [loading, setLoading] = React.useState<boolean>(false);
 
   const hasAddress = loggedUser && loggedUser.address && loggedUser.address.length > 0;
-
-
-
-  // const lookUpAddress = async (query: string) => {
-  //   setLoading(true);
-  //   const data: IGooglePlace[] = await httpClient.get(`user/addresses/lookup/${query}`);
-
-  //   const options = data.map((item) => ({
-  //     label: item.description,
-  //     value: item.place_id,
-  //   }));
-  //   setLoading(false);
-  //   setOptions(options);
-
-  // }
-
-  // const onSelectPlace = (place: IOption) => {
-  //   setPlaceId(place?.value);
-  //   setOptions([]);
-  // }
 
 
   const onNewAddressSuccess = (address) => {

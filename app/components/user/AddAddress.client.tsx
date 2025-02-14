@@ -4,7 +4,8 @@ import React from "react";
 import { addLocalAddress } from "../../../api/user/index.api";
 import { ILocation } from "../../../app-store/types";
 import Input from "components/common/form/Input";
-
+import AutoComplete from "components/common/form/AutoComplete";
+import httpClient from "api/axios.config";
 
 interface IAddressErrors {
   address_line_1?: string;
@@ -15,7 +16,17 @@ interface IAddressErrors {
 }
 
 
-export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation) => void }) {
+interface IOption {
+  label: string;
+  value: string;
+}
+
+interface IGooglePlace {
+  description: string;
+  place_id: string;
+}
+
+export function AddAddress({ onNewAddress, googleLookup = false }: { onNewAddress: (address: ILocation) => void, googleLookup?: boolean }) {
 
   const [address_line_1, setAddressLine1] = React.useState<string>("");
   const [address_line_2, setAddressLine2] = React.useState<string>("");
@@ -23,6 +34,31 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
   const [state, setState] = React.useState<string>("");
   const [postal_code, setPostalCode] = React.useState<string>("");
   const [errors, setErrors] = React.useState<IAddressErrors | null>();
+
+  const [options, setOptions] = React.useState<IOption[]>([]);
+  const [place_id, setPlaceId] = React.useState<string>("");
+
+  const [loading, setLoading] = React.useState<boolean>(false);
+
+
+
+  const lookUpAddress = async (query: string) => {
+    setLoading(true);
+    const data: IGooglePlace[] = await httpClient.get(`user/addresses/lookup/${query}`);
+
+    const options = data.map((item) => ({
+      label: item.description,
+      value: item.place_id,
+    }));
+    setLoading(false);
+    setOptions(options);
+
+  }
+
+  const onSelectPlace = (place: IOption) => {
+    setPlaceId(place?.value);
+    setOptions([]);
+  }
 
   const handleLine1Change = (inputValue: string) => {
     if (errors?.address_line_1) {
@@ -64,7 +100,7 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
     if (!isValid()) {
       return;
     }
-    const newAddress: ILocation = await addLocalAddress(address_line_1, address_line_2, city, state, postal_code);
+    const newAddress: ILocation = await addLocalAddress(address_line_1, address_line_2, city, state, postal_code, place_id);
     window.analytics.track('Added Address');
     onNewAddress(newAddress);
     e.preventDefault();
@@ -148,23 +184,21 @@ export function AddAddress({ onNewAddress }: { onNewAddress: (address: ILocation
           ></Input>
         </div>
 
+        {googleLookup && <AutoComplete
+          label={"Locality, Landmark"}
+          name={"title"}
+          onChange={lookUpAddress}
+          options={options}
+          onSelect={onSelectPlace}
+          isLoading={loading} />}
 
-
-        <div className="border-2 border-gray-200 rounded-md p-2">
-        We require at least one valid document as address proof. 
-        Please ensure that the address on the document matches the one provided above. 
-        Acceptable documents include the latest electricity bill or an active rent agreement.
-        </div>
-        {/* {<AutoComplete
-              label={"Locality, Landmark"}
-              name={"title"}
-              onChange={lookUpAddress}
-              options={options}
-              onSelect={onSelectPlace}
-              isLoading={loading} />} */}s
+        {!googleLookup && <div className="border-2 border-gray-200 rounded-md p-2">
+          We require at least one valid document as address proof.
+          Please ensure that the address on the document matches the one provided above.
+          Acceptable documents include the latest electricity bill or an active rent agreement.
+        </div>}
 
         <div className="flex justify-end pt-2">
-
           <button
             className={`p-2 rounded border-gray-800 text-right bg-yellow-400`}
             type="button"
