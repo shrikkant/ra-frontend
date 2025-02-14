@@ -11,6 +11,7 @@ import { IProduct } from '../../app-store/types';
 import { fetchData } from '../utils/api';
 import FilterSideBar from '../../components/rent/FilterSideBar';
 
+import { notFound } from 'next/navigation';
 // type PageProps<TParams extends Record<string, any> = object, TSearchParams extends Record<string, any> = object> = {
 //   params: TParams; // Dynamic route parameters
 //   searchParams: TSearchParams; // Query string parameters
@@ -41,6 +42,9 @@ export default async function Page({ params, searchParams }: PageProps) {
     meta = response.meta;
   }
 
+  if (!filter.city) {
+    return notFound();
+  }
   return (<div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
     {!filter?.product && <h1 className="text-4xl text-center py-6 capitalize font-semibold">
       Rent Cameras, Lenses, GoPro&apos;s in {filter?.city}
