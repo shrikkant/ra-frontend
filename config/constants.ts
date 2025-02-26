@@ -97,6 +97,7 @@ const ind: ICountry = {
     "Nashik",
     "Kolkata",
     "Patna",
+    "Indore",
   ],
   states: ["Goa"]
 };
