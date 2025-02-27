@@ -24,7 +24,7 @@ export async function generateSitemaps() {
   for (const country of countries) {
     for (const city of country.locations) {
       urls.push({
-        id: city.toLowerCase()
+        id: city.toLowerCase().split(" ").join("-"),
       })
     }
   }

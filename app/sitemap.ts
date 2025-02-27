@@ -16,7 +16,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
 
     for (const city of country.locations) {
       urls.push({
-        url: `${BASE_URL}/s/sitemap/${city.toLowerCase()}.xml`,
+        url: `${BASE_URL}/s/sitemap/${city.toLowerCase().split(" ").join("-")}.xml`,
         lastModified: new Date("2024-08-31"),
         changeFrequency: 'weekly',
         priority: 1,
