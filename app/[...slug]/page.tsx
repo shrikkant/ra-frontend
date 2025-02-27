@@ -32,20 +32,21 @@ export default async function Page({ params, searchParams }: PageProps) {
   let meta: any = null;
 
   // const [meta, setMeta] = React.useState<any>(null);
-
-  if (filter && filter.product) {
-    const productSlug = localParams.slug.toString().split(",").at(-1);
-    product = productSlug ? await fetchProductBySlug(productSlug) : null;
-  } else {
-    const response: { results: IProduct[], meta } = await fetchProducts(localSearchParams?.q, filter);
-    products = response.results;
-    meta = response.meta;
+  if (filter) {
+    if (filter.product) {
+      const productSlug = localParams.slug.toString().split(",").at(-1);
+      product = productSlug ? await fetchProductBySlug(productSlug) : null;
+    } else {
+      const response: { results: IProduct[], meta } = await fetchProducts(localSearchParams?.q, filter);
+      products = response.results;
+      meta = response.meta;
+    }
   }
 
-  console.log("Filter: ", filter);
   if (!filter || (filter && !filter.city)) {
     return notFound();
   }
+
   return (<div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
     {!filter?.product && <h1 className="text-4xl text-center py-6 capitalize font-semibold">
       Rent Cameras, Lenses, GoPro&apos;s in {filter?.city}
