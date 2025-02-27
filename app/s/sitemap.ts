@@ -41,7 +41,7 @@ export default async function sitemap({
 
   const categories = await fetchData(`categories`);
   const filter: IProductFilter = {
-    city: id,
+    city: id.split("-").join(" "),
   }
 
   const sitemap: SitemapLink[] = [];
