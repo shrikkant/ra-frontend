@@ -76,6 +76,10 @@ const getStates = (code: string) => {
   return country ? country.states : [];
 }
 
+function capitalize(str) {
+  return str.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('-');
+}
+
 const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]): IProductSubCategory | null => {
 
   const activeCategory = categories.find((category: IProductCategory) => {
@@ -102,7 +106,7 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
     // first param is country.
     // TO_DO: Check if the country is valid.
     const country = COUNTRIES.find((c) => c.code === params[0].toUpperCase());
-    const city = params[1].charAt(0).toUpperCase() + params[1].slice(1);
+    const city = capitalize(params[1]);
 
     if (!country) {
       return null;
@@ -131,7 +135,8 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
     }
 
   } else if (params[0]) {
-    const citySlug = params[0].charAt(0).toUpperCase() + params[0].slice(1);
+    const citySlug = capitalize(params[0]);
+
     const city = getCities("IN").find((city: string) => city === citySlug);
     const state = getStates("IN").find((state: string) => state === citySlug);
 
@@ -162,7 +167,6 @@ export const getFilterByQueryString = (params: string | string[] | undefined, su
     }
 
   }
-
   return productFilter;
 }
 
@@ -206,6 +210,6 @@ export function getProductFilter(obj: ParsedUrlQuery, categories: IProductCatego
       .map((brand) => productFilter.brand?.push(parseInt(brand)));
   }
 
-
+  console.log("Filter <> ", productFilter);
   return productFilter;
 }

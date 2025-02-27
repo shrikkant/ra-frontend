@@ -26,14 +26,14 @@ export default async function Page({ params, searchParams }: PageProps) {
   const categories = await fetchData(`categories`);
   const localParams = await params;
   const localSearchParams = await searchParams;
-  const filter = getProductFilter(localParams, categories) || {};
+  const filter = getProductFilter(localParams, categories);
   let product: IProduct | null = null;
   let products: IProduct[] = [];
   let meta: any = null;
 
   // const [meta, setMeta] = React.useState<any>(null);
 
-  if (filter.product) {
+  if (filter && filter.product) {
     const productSlug = localParams.slug.toString().split(",").at(-1);
     product = productSlug ? await fetchProductBySlug(productSlug) : null;
   } else {
@@ -42,7 +42,8 @@ export default async function Page({ params, searchParams }: PageProps) {
     meta = response.meta;
   }
 
-  if (!filter.city) {
+  console.log("Filter: ", filter);
+  if (!filter || (filter && !filter.city)) {
     return notFound();
   }
   return (<div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
