@@ -77,7 +77,7 @@ const getStates = (code: string) => {
 }
 
 function capitalize(str) {
-  return str.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join('-');
+  return str.split('-').map(word => word.charAt(0).toUpperCase() + word.slice(1)).join(' ');
 }
 
 const getSubCategoryFromCategories = (slug: string, categories: IProductCategory[]): IProductSubCategory | null => {

@@ -86,7 +86,7 @@ const ind: ICountry = {
     "Ahmedabad",
     "Pune",
     "Kochi",
-    "Navi-Mumbai",
+    "Navi Mumbai",
     "Thane",
     "Coimbatore",
     "Mumbai",
