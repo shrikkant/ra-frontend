@@ -98,6 +98,17 @@ const ind: ICountry = {
     "Kolkata",
     "Patna",
     "Indore",
+    "Kolhapur",
+    "Surat",
+    "Vadodara",
+    "Nagpur",
+    "Bhopal",
+    "Madurai",
+    "Gandhinagar",
+    "Rajkot",
+    "Jodhpur",
+    "Udaipur",
+    "Jaisalmer",
   ],
   states: ["Goa"]
 };
