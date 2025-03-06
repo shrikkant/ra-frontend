@@ -13,6 +13,7 @@ import _debounce from "lodash/debounce";
 
 // import COUNTRIES from "config/constants";
 import Input from "../../../components/common/form/Input";
+import Link from "next/link";
 
 export default function Products() {
   const PAGE_SIZE = 50;
@@ -86,7 +87,11 @@ export default function Products() {
                 <td className="px-4 py-2">{p.brand_id}</td>
                 <td className="px-4 py-2">{p.category_id}</td>
                 <td className="px-4 py-2">{p.sub_category_id}</td>
-                <td className="px-4 py-2">{p.name}</td>
+                <td className="px-4 py-2">
+                  <Link href={`/p/admin/products/${p.id}`}>
+                    {p.name}
+                  </Link>
+                </td>
               </tr>
             )
             )}
