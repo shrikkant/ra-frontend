@@ -47,9 +47,7 @@ export const AddressPicker = ({
   return (
     <div>
       <StepHeader
-        label={"Your Address"}
-        onChangeAction={onAddressReset}
-        showChange={selectedAddress}
+        label={!hasAddress ? "Your Address" : "Delivery Address"}
       >
       </StepHeader>
       {selectedAddress ?
@@ -58,8 +56,15 @@ export const AddressPicker = ({
             address={selectedAddress}
             name={loggedUser?.firstname + " " + loggedUser?.lastname}
           /> :
-          <div className="py-4">Store Pickup</div>) :
+          <div className="py-4">
+            Store Pickup
+          </div>) :
         ""
+      }
+      {selectedAddress &&
+        <span onClick={onAddressReset} className="px-2 py-1 border border-gray-300 rounded-md bg-gray-500 cursor-pointer text-gray-50">
+          Change
+        </span>
       }
 
 

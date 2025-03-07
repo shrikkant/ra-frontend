@@ -33,7 +33,7 @@ export default function OrderSummary({
   }
 
   return (
-    <div className={"p-3 bg-gray-50 shadow-lg rounded-md min-w-[276px]"}>
+    <div className={"p-4 bg-gray- border border-amber-400 shadow-lg rounded-md min-w-[276px]"}>
       <div>
         <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none">
           {callToAction(step) &&
