@@ -35,17 +35,10 @@ export default function OrderSummary({
   return (
     <div className={"p-4 bg-gray- border border-amber-400 shadow-lg rounded-md min-w-[276px]"}>
       <div>
-        <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none">
-          {callToAction(step) &&
-            <Button
-              isLoading={isLoading}
-              variant="primary"
-              onClick={() => onCallToAction(step)}
-              label={callToAction(step)} />
-          }
+        <div className="text-center text-2xl font-bold border-b border-gray-200 pb-2">
+          Order Summary
         </div>
       </div>
-
       <div className={"flex border-gray-200 border justify-around rounded-md mt-5"}>
         <div className={"p-2 flex-col flex"}>
           <span className={""}>Starting</span>
@@ -91,6 +84,17 @@ export default function OrderSummary({
           </div>
         </div>
 
+      </div>
+      <div>
+        <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none mt-4">
+          {callToAction(step) &&
+            <Button
+              isLoading={isLoading}
+              variant="primary"
+              onClick={() => onCallToAction(step)}
+              label={callToAction(step)} />
+          }
+        </div>
       </div>
     </div>
   );

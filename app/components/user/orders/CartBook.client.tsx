@@ -52,6 +52,7 @@ export default function CartBook() {
 
   const changeAddress = () => {
     setSelectedAddress(null);
+    updateDeliveryAddressAction(cart, { id: -1, name: "Store Pickup" })(dispatch);
   };
 
   const selectAddress = (addr) => {
@@ -73,7 +74,7 @@ export default function CartBook() {
   };
 
   const onNewAddress = (newAddress) => {
-    selectAddress(newAddress);
+    // selectAddress(newAddress);
   }
 
   const resolveStep = () => {
@@ -111,23 +112,26 @@ export default function CartBook() {
         <>
           {cart ? (
             <div
-              className={"flex flex-col-reverse md:flex-row w-full xs:pb-20 gap-x-4"}
+              className={"flex flex-col-reverse md:flex-row w-full xs:pb-20 gap-x-4 pt-4  rounded-md"}
             >
               <div className={"md:w-3/4 w-full"}>
-                <AddressPicker
-                  onAddressPick={checkRadio}
-                  onAddressReset={changeAddress}
-                  onNewAddress={onNewAddress}
-                  selectedAddress={selectedAddress}
-                ></AddressPicker>
-                {selectedAddress && <OrderItemsReview
-                  title="Review your order"
-                  order={cart}
-                ></OrderItemsReview>}
+                <div className="border border-gray-300 rounded-md p-4 flex flex-col gap-y-4 xs:m-4">
+                  <AddressPicker
+                    onAddressPick={checkRadio}
+                    onAddressReset={changeAddress}
+                    onNewAddress={onNewAddress}
+                    selectedAddress={selectedAddress}
+                  ></AddressPicker>
+
+                  {selectedAddress && <OrderItemsReview
+                    title="Shopping Cart"
+                    order={cart}
+                  ></OrderItemsReview>}
+                </div>
               </div>
 
               <div className={"md:w-1/4 w-full"}>
-                <div className="md:fixed md:w-max w-full top-24 xs:p-4 md:p-0">
+                <div className="md:fixed md:w-max w-full top-32 xs:p-4 md:p-0">
                   <OrderSummary
                     order={cart}
                     step={
