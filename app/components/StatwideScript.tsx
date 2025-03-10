@@ -9,7 +9,8 @@ declare global {
   interface Window {
     featurics,
     heap,
-    analytics
+    analytics,
+    aptrinsic
   }
 }
 export const StatwideScript: React.FC = () => {
@@ -66,18 +67,29 @@ export const StatwideScript: React.FC = () => {
     }
 
     if (window.heap) {
-
-
-
       window.heap?.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
-
-
-
       window.heap?.addUserProperties({
         name: `${loggedUser.firstname} ${loggedUser.lastname}`,
         email: loggedUser.email_address,
         city: loggedUser.city
       });
+    }
+
+    if (window.aptrinsic) {
+      window.aptrinsic("identify",
+        {
+          //User Fields
+          "id": loggedUser.id, // Required for logged in app users
+          "email": loggedUser.email_address,
+          "firstName": loggedUser.firstname,
+          "lastName": loggedUser.lastname,
+          "signUpDate": loggedUser.created_ts, //unix time in ms
+        },
+        {
+          //Account Fields
+          "id": loggedUser.city, //Required
+          "name": loggedUser.city,
+        });
     }
 
   }, [loggedUser])
