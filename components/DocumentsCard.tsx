@@ -7,6 +7,7 @@ import { IUser } from '../app-store/types';
 import { addDocument, uploadDocument } from '../api/admin/customers.api';
 import { IDocument } from '../app-store/app-defaults/types';
 import { IoMdRemove } from 'react-icons/io';
+import Link from 'next/link';
 // import { Alert, AlertDescription } from '@/components/ui/alert';
 
 const DocumentsCard = ({ user }: { user: IUser }) => {
@@ -141,8 +142,8 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
     if (!file) return;
 
     // File validation
-    if (!file.type.startsWith('image/')) {
-      setError('Please upload an image file');
+    if (!file.type.startsWith('image/') && !file.type.startsWith('application/pdf')) {
+      setError('Please upload an image or pdf file');
       return;
     }
 
@@ -214,11 +215,18 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
 
                   {doc[side] ? (
                     <div className="relative h-48 bg-gray-100 rounded-lg overflow-hidden">
-                      <img
-                        src={doc[side].preview}
-                        alt={`${doc.label} ${side}`}
-                        className="object-contain h-full"
-                      />
+                      {doc[side].preview.endsWith('.pdf') ? (
+                        <div className="flex items-center justify-center h-full">
+                          <Link href={doc[side].preview} target="_blank">
+                            View
+                          </Link>
+                        </div>
+                      ) : (
+                        <img
+                          src={doc[side].preview}
+                          alt={`${doc.label} ${side}`}
+                          className="object-contain h-full"
+                        />)}
 
                       {uploading[`${docType}-${side}`] ? (
                         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
@@ -238,7 +246,7 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
                     <label className="flex flex-col items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 cursor-pointer bg-gray-50 transition-colors">
                       <input
                         type="file"
-                        accept="image/*"
+                        accept="image/*, application/pdf"
                         onChange={handleFileUpload(docType, side)}
                         className="hidden"
                       />
