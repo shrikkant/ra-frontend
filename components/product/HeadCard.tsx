@@ -20,6 +20,7 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
 
       </div>
       <h1 className="text-xl font-bold py-2 capitalize">{product.title}</h1>
+      <h6 className="text-gray-500 font-normal text-sm">{product.location.city}</h6>
     </div>
   );
 };
