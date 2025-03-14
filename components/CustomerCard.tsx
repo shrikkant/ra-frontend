@@ -10,11 +10,12 @@ import { authUser, logout, setAdminLogin } from "../app-store/auth/auth.slice";
 import { getAdminAuthUser } from "../api/auth.api";
 import { useRouter } from "next/navigation";
 import { useDispatch } from "react-redux";
-import { fetchCustomerAadhaar, updateCustomer } from "../api/admin/customers.api";
+import { fetchCustomerAadhaar, syncCustomerDocuments, updateCustomer } from "../api/admin/customers.api";
 import { IAadhaar } from "../app-store/auth/types";
 import { Section } from "../app/components/common/Section";
 import Input from "./common/form/Input";
 import { Button } from "@headlessui/react";
+import { IoMdRefresh } from "react-icons/io";
 
 
 
@@ -56,6 +57,12 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
   const handleLastnameChange = (lastname: string) => {
     setLastname(lastname);
+  }
+
+  const syncDocuments = () => {
+    syncCustomerDocuments(customer.id).then((data) => {
+      console.log("Syncing Documents", data);
+    });
   }
 
   const handleSubmit = async () => {
@@ -162,6 +169,9 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
               <FaWhatsappSquare size={"28"} />
             </Link>}
 
+          <button onClick={() => syncDocuments()} className="p-2">
+            <IoMdRefresh></IoMdRefresh>
+          </button>
           <button onClick={() => adminLogin(customer.id)} className="p-2">
             <FaSignInAlt size={"28"} />
           </button>
