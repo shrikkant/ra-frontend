@@ -57,7 +57,7 @@ export async function updateCustomer(id: number,
 }
 
 export async function uploadDocument(id: number,
-    docId: number | undefined,
+    userId: number,
     file,
     documentType,
     side,
@@ -66,13 +66,16 @@ export async function uploadDocument(id: number,
     onError): Promise<any> {
 
     const formData = new FormData();
+    formData.append('user_id', userId.toString());
     formData.append('file', file);
-    formData.append('documentType', documentType);
+    formData.append('document_type', documentType);
     formData.append('side', side);
-    if (!docId) {
-        return;
-    }
-    httpClient.post(`/admin/users/${id}/documents/${docId}/files`, formData, {
+    formData.append('file_name', file.name);
+    formData.append('size', file.size.toString());
+    formData.append('file_type', file.type);
+    formData.append('type', '1');
+
+    httpClient.post(`/admin/users/${id}/documents/files`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

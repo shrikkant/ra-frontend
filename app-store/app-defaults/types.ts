@@ -52,6 +52,8 @@ export interface IDocument {
   client_id?: string;
   address_id?: number;
   document_type: string;
+  front?: string;
+  back?: string;
   url?: string;
   side: "front" | "back";
 

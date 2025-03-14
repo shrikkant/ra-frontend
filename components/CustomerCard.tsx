@@ -65,7 +65,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
 
   useEffect(() => {
     setPhone(customer.phone);
-    setCity(customer.city);
+    setCity(customer.city ? customer.city : "");
     setEmail(customer.email_address);
     setFirstname(customer.firstname ? customer.firstname : "");
     setLastname(customer.lastname ? customer.lastname : "");
@@ -136,7 +136,7 @@ export default function CustomerCard({ customer }: { customer: IUser }) {
               onChange={handlePhoneChange} />
           </div>
           <div>
-            <Input placeholder="City"
+            <Input label="City"
               value={city}
               onChange={handleCityChange} />
           </div>

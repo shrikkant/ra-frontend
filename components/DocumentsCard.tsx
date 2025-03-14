@@ -67,13 +67,13 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
         if (userDoc.side === 'front') {
           documents[docType].front = {
             file: null,
-            preview: "/uploads/" + userDoc.file_name
+            preview: userDoc?.front ? Buffer.from(userDoc?.front).toString('base64') : null
           };
         }
         if (userDoc.side === 'back') {
           documents[docType].back = {
             file: null,
-            preview: "/uploads/" + userDoc.file_name
+            preview: "/uploads/" + userDoc.back
           };
         }
 
@@ -88,14 +88,14 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
   }
 
   const onSuccess = (data, documentType, side) => {
-    console.log("Setting Document " + documentType + " <> " + side + " >>>", data);
+
     setDocuments(prev => ({
       ...prev,
       [documentType]: {
         ...prev[documentType],
         [side]: {
           ...prev[documentType][side],
-          preview: "/uploads/" + data.filename,
+          preview: data?.front ? Buffer.from(data?.front).toString('base64') : null,
           serverUrl: data.url, // Store the server URL
           uploadedAt: new Date().toISOString()
         }
@@ -120,9 +120,9 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
         [`${documentType}-${side}`]: true
       }));
 
-      const document: IDocument = await addDocument(user.id, documentType, side, file);
+      // const document: IDocument = await addDocument(user.id, documentType, side, file);
       // Make the API call
-      uploadDocument(user.id, document?.id, file, documentType, side, onProgress, onSuccess, onError);
+      uploadDocument(user.id, user.id, file, documentType, side, onProgress, onSuccess, onError);
 
     } catch (err) {
       setError(`Failed to upload ${documentType} ${side}: ${err.message}`);
@@ -215,18 +215,12 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
 
                   {doc[side] ? (
                     <div className="relative h-48 bg-gray-100 rounded-lg overflow-hidden">
-                      {doc[side].preview.endsWith('.pdf') ? (
-                        <div className="flex items-center justify-center h-full">
-                          <Link href={doc[side].preview} target="_blank">
-                            View
-                          </Link>
-                        </div>
-                      ) : (
-                        <img
-                          src={doc[side].preview}
-                          alt={`${doc.label} ${side}`}
-                          className="object-contain h-full"
-                        />)}
+
+                      <img
+                        src={`data:image/png;base64,${doc[side].preview}`}
+                        alt={`${doc.label} ${side}`}
+                        className="object-contain h-full"
+                      />
 
                       {uploading[`${docType}-${side}`] ? (
                         <div className="absolute inset-0 bg-black bg-opacity-50 flex items-center justify-center">
