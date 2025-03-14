@@ -56,6 +56,11 @@ export async function updateCustomer(id: number,
     return user;
 }
 
+export async function syncCustomerDocuments(id: number): Promise<any> {
+    const sync: any = await httpClient.post(`/admin/users/${id}/documents/sync`);
+    return sync;
+}
+
 export async function uploadDocument(id: number,
     userId: number,
     file,
