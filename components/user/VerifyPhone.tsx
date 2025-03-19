@@ -31,7 +31,6 @@ export default function VerifyPhone() {
 
   const submitPhone = async () => {
     const updateUser: IUser = await updatePhone(phone);
-    window.analytics?.track("Phone Updated");
     if (updateUser?.verified) {
       dispatch(authUser(updateUser));
       router.push("/");

@@ -51,9 +51,6 @@ export default function MainHeaderNav() {
   };
 
   const onSearch = (value: string) => {
-    window.analytics.track("Search Product", {
-      query: value,
-    });
     setSearchText(value);
   };
 
@@ -92,20 +89,20 @@ export default function MainHeaderNav() {
             <div className="flex items-center gap-x-2 md:px-2 lg:gap-x-4">
               {loggedUser && (
                 <div className="flex items-center gap-x-2 lg:gap-x-4 text-green-500">
-                   <a href="https://wa.me/7720829444?text=Hello%20I%20need%20support" target="_blank" className="bg-green-500 hover:bg-green-600 text-white p-1 rounded-full shadow-lg flex items-center justify-center">
-                <FaWhatsapp className="h-6 w-6" />
-                </a>
-                <a
-                  className="relative bg-gray-800  hover:bg-gray-800 hover:text-slate-50 p-1 rounded-md tex-sm font-semibold text-gray-400 content-center"
-                  href="/p/mycart"
-                >
-                  <ShoppingCartIcon className="h-7 w-7" />
-                  {(cart && cart.items) && cart.items.length > 0 && (
-                    <span className="absolute teFxt-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
-                      {cart.items?.length}
-                    </span>
-                  )}
-                </a>
+                  <a href="https://wa.me/7720829444?text=Hello%20I%20need%20support" target="_blank" className="bg-green-500 hover:bg-green-600 text-white p-1 rounded-full shadow-lg flex items-center justify-center" rel="noreferrer">
+                    <FaWhatsapp className="h-6 w-6" />
+                  </a>
+                  <a
+                    className="relative bg-gray-800  hover:bg-gray-800 hover:text-slate-50 p-1 rounded-md tex-sm font-semibold text-gray-400 content-center"
+                    href="/p/mycart"
+                  >
+                    <ShoppingCartIcon className="h-7 w-7" />
+                    {(cart && cart.items) && cart.items.length > 0 && (
+                      <span className="absolute teFxt-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
+                        {cart.items?.length}
+                      </span>
+                    )}
+                  </a>
                 </div>
               )}
 

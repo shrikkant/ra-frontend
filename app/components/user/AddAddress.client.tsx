@@ -101,7 +101,6 @@ export function AddAddress({ onNewAddress, googleLookup = false }: { onNewAddres
       return;
     }
     const newAddress: ILocation = await addLocalAddress(address_line_1, address_line_2, city, state, postal_code, place_id);
-    window.analytics.track('Added Address');
     onNewAddress(newAddress);
     e.preventDefault();
   }

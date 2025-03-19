@@ -47,7 +47,6 @@ export default function VerifyAadhar() {
     if (!isValidAadhar(aadharNumber))
       return
     const updateUser: IUser = await updateAadhaar(aadharNumber);
-    window.analytics?.track("Aadhaar Updated");
     if (updateUser.aadhaar_callback_id) {
       setOtpSent(true);
     }
@@ -55,7 +54,7 @@ export default function VerifyAadhar() {
 
   const verifyOTP = async () => {
     const updateUser: IUser = await verifyAadhaarOTP(otp);
-    window.analytics?.track("Aadhaar Verified");
+
     dispatch(authUser(updateUser));
     router.push("/");
   }
