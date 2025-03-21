@@ -11,7 +11,7 @@ import 'styles/vars.css'
 import 'styles/global.css'
 import 'styles/common.css'
 
-import type { Viewport } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { GoogleTagManager } from '@next/third-parties/google'
 
 
@@ -28,6 +28,64 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 
+interface PageProps {
+  params: unknown
+}
+
+interface IOpenImage {
+  url: string,
+  alt: string,
+}
+
+interface IMetadata {
+  title: string,
+  description: string
+  openGraph?: {
+    title: string,
+    description: string,
+    url: string,
+    siteName: string,
+    images: IOpenImage[],
+    type: string,
+  },
+}
+
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const title = "Top-Quality Camera Rentals – Shoot Without Limits";
+  const description =
+    "Get high-quality cameras, lenses, and accessories on rent." +
+    "Flexible rental plans, top brands, and easy booking for photographers, filmmakers, and content creators. Shoot without limits! "
+  const metadata: IMetadata = {
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: "https://www.rentacross.com",
+      images: [{
+        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental.webp",
+        alt: "Top-Quality Camera Rentals – Shoot Without Limits"
+      },
+      {
+        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental-1.webp",
+        alt: "Capture More, Spend Less – Rent Cameras & Gear"
+      }, {
+        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental-2.webp",
+        alt: "Rent. Shoot. Create. Hassle-Free Camera Rentals"
+      },
+      {
+        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental-3.webp",
+        alt: "Shoot Like a Pro – Rent Cameras & Lenses with Ease"
+      }
+      ],
+      type: "website",
+      siteName: "RentAcross"
+    }
+  }
+
+  return metadata;
+}
+
 export default async function RootLayout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -41,17 +99,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <head>
-        <title>RentAcross | Rent Cameras, Lenses, GoPros.</title>
-        <meta property="og:title" content="Rent DSLR Cameras, Lenses & GoPro's. India's First Camera Rental Community" key="title" />
 
-        <meta property="og:site_name" content="RentAcross" />
-        <meta property="og:type" content="website" />
         <meta name="robots" content="index, follow"></meta>
-        <meta property="og:url" content="https://www.rentacross.com" />
 
-        <meta name="description"
-          content="Capture your moments with Rentacross! Explore a wide range of Sony and Canon cameras and lenses at affordable rental prices. Perfect for beginners and professionals.
-          Easy booking, flexible plans—rent the gear you need today!" />
         <meta name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store" />
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
