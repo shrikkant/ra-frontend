@@ -53,14 +53,14 @@ export const verifyLoginOTP = async (phone: string, otp: string): Promise<IUser>
 }
 
 export const loginWithOTP = async (phone: string, otp: string): Promise<IUser> => {
-  const httpService = new HttpService("https://www.rentacross.com/");
+  const httpService = new HttpService("https://rentacross.com/");
   const response: IUser = await httpService.getClient().post(`auth/local`, { phone, otp });
   return response;
 }
 
 export const signupWithOTP = async (phone: string, otp: string, name: string): Promise<IUser> => {
 
-  const httpService = new HttpService("https://www.rentacross.com/");
+  const httpService = new HttpService("https://rentacross.com/");
 
   const response: IUser = await httpService.getClient().post(`auth/signup`, { phone, otp, name });
   return response;

@@ -59,7 +59,7 @@ export class HttpService {
 
 }
 const httpClient = axios.create({
-    baseURL: "https://www.rentacross.com/api/"
+    baseURL: "https://rentacross.com/api/"
 });
 
 
@@ -118,7 +118,7 @@ export const fetchData = async (url, customOptions?) => {
     }
 
 
-    const response: any = await fetch(`https://www.rentacross.com/api/${url}`, options);
+    const response: any = await fetch(`https://rentacross.com/api/${url}`, options);
 
     if (!response.ok) {
         throw new Error('Failed to fetch data')
