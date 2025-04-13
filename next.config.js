@@ -36,13 +36,13 @@ const nextConfig = {
     remotePatterns: [
       {
         protocol: 'https',
-        hostname: 'www.rentacross.com',
+        hostname: 'rentacross.com',
         port: '',
         pathname: '/uploads/**',
       },
       {
         protocol: 'https',
-        hostname: 'www.rentacross.com',
+        hostname: 'rentacross.com',
         port: '',
         pathname: '/api/products/**',
       },
