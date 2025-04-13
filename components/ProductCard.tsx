@@ -30,7 +30,7 @@ export default function ProductCard({ product }: { product: IProduct }) {
       href={resolveURL()}
     >
       <LazyImage
-        src={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo?width=240'}
+        src={'https://rentacross.com/api/products/' + product.master_product_id + '/photo?width=240'}
         alt="Product Image"
         className="p-4"
         // blurDataURL={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo'}
