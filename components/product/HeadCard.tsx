@@ -11,11 +11,20 @@ export const HeadCard: React.FC<ProductProps> = ({ product }: ProductProps) => {
 
       <div className="w-full flex flex-col justify-center items-center pb-4">
         <div>
-          {product?.master_product_id &&
+          {product?.master_product_id && (
             <div className="flex justify-center">
-              <img src={`/api/products/${product.master_product_id}/photo?width=420`}></img>
+              <div className="aspect-w-16 aspect-h-9 w-full max-w-[420px]">
+                <img
+                  src={`/api/products/${product.master_product_id}/photo?width=420`}
+                  alt={product.title}
+                  className="object-cover w-full h-full"
+                  width={420}
+                  height={236}
+                  loading="eager"
+                />
+              </div>
             </div>
-          }
+          )}
         </div>
 
       </div>

@@ -15,25 +15,24 @@ export const Product = ({ product }: { product: IProduct }) => {
         <div className={"flex flex-col sm:flex-row gap-4"}>
           <div className="sm:w-3/5 w-full md:w-3/4">
             <HeadCard product={product}></HeadCard>
-            {(addons && addons.length) > 0 &&
-              <Package addons={addons}></Package>
-            }
+            <div className="min-h-[50px]">
+              {(addons && addons.length) > 0 && (
+                <Package addons={addons}></Package>
+              )}
+            </div>
             <Description
               description={product?.masterProduct?.description}
               specifications={product?.masterProduct?.specifications}
             ></Description>
           </div>
 
-          <div className={"sm:w-2/5 w-full flex justify-center md:w-1/4"}>
-            <div className="sm:fixed top-100 w-80">
-
+          <div className={"sm:w-2/5 w-full md:w-1/4"}>
+            <div className="sm:sticky sm:top-4 w-full max-w-[320px] mx-auto">
               <BookingForm
                 discount={product?.discount_percent}
                 rates={rates}
-                productId={product.id}>
-
-              </BookingForm>
-
+                productId={product.id}
+              />
             </div>
           </div>
         </div>
