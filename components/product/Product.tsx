@@ -20,6 +20,7 @@ export const Product = ({ product }: { product: IProduct }) => {
             }
             <Description
               description={product?.masterProduct?.description}
+              specifications={product?.masterProduct?.specifications}
             ></Description>
           </div>
 
