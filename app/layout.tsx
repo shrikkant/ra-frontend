@@ -61,20 +61,20 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
     openGraph: {
       title,
       description,
-      url: "https://www.rentacross.com",
+      url: "https://rentacross.com/",
       images: [{
-        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental.webp",
+        url: "https://rentacross.com//assets/v2/img/rentacross-camera-rental.webp",
         alt: "Top-Quality Camera Rentals – Shoot Without Limits"
       },
       {
-        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental-1.webp",
+        url: "https://rentacross.com//assets/v2/img/rentacross-camera-rental-1.webp",
         alt: "Capture More, Spend Less – Rent Cameras & Gear"
       }, {
-        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental-2.webp",
+        url: "https://rentacross.com//assets/v2/img/rentacross-camera-rental-2.webp",
         alt: "Rent. Shoot. Create. Hassle-Free Camera Rentals"
       },
       {
-        url: "https://www.rentacross.com/assets/v2/img/rentacross-camera-rental-3.webp",
+        url: "https://rentacross.com//assets/v2/img/rentacross-camera-rental-3.webp",
         alt: "Shoot Like a Pro – Rent Cameras & Lenses with Ease"
       }
       ],

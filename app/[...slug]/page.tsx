@@ -70,10 +70,10 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       metadata.openGraph = {
         title,
         description,
-        url: `https://www.rentacross.com/${localParams.slug.join("/")}`,
+        url: `https://rentacross.com/${localParams.slug.join("/")}`,
         images: [
           {
-            url: `https://www.rentacross.com/api/products/${product?.master_product_id}/photo`,
+            url: `https://rentacross.com/api/products/${product?.master_product_id}/photo`,
             alt: title
           }
         ],
