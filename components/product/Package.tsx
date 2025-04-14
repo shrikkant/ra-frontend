@@ -36,10 +36,6 @@ export const Package: React.FC<ProductProps> = ({ addons }: ProductProps) => {
                     alt={addon?.masterProduct.name}
                     src={`/api/products/${addon?.masterProduct?.id}/photo?width=220`}
                     loading="lazy"
-                    onError={(e) => {
-                      const img = e.target as HTMLImageElement;
-                      img.style.opacity = '0.5';
-                    }}
                   />
                 </div>
                 <div className="text-center p-4">{addon?.masterProduct.name}</div>
