@@ -28,7 +28,7 @@ export const AdminOrderHeader = ({ order, children }: AdminOrderHeaderProps) => 
       <div key="3" color="green">
         <Link
           className="p-0"
-          href={`/uploads/${order.user.id}/invoices/invoice-${order.user.id}-${order.invoice.id}.pdf`}
+          href={`/api/admin/orders/${order.user.id}/invoice`}
           target="_blank">
           Invoice
         </Link>
