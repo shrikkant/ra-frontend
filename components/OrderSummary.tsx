@@ -4,6 +4,7 @@ import { ORDER_STEPS } from "../config/constants";
 import { dateDisplay } from "../util/date.util";
 import { IOrder } from "../app-store/types";
 import Button from "./common/form/Button";
+import Decimal from "decimal.js";
 
 export default function OrderSummary({
   order,
@@ -18,7 +19,10 @@ export default function OrderSummary({
     isLoading?: boolean,
     onCallToAction: (mode: number) => void
   }) {
-
+  const discount = new Decimal(order.applied_discount ? order.applied_discount : 0);
+  const totalRent = new Decimal(order.amount).add(discount);
+  const deliveryFee = new Decimal(order.delivery_fee);
+  const totalAmount = totalRent.add(deliveryFee).sub(discount);
   const callToAction = (step: number) => {
     switch (step) {
       case ORDER_STEPS.ORDER_STEP_CART:
@@ -58,18 +62,18 @@ export default function OrderSummary({
           <div>
             Rent for <span>{order.days}</span> days
           </div>
-          <div>₹{parseInt(order.total_amount + (order.applied_discount ? order.applied_discount : 0) + "")}</div>
+          <div>₹{totalRent.toFixed(2)}</div>
         </div>
 
 
         <div className={styles["detail-row"]}>
           <div>Delivery &amp; Pickup Fee</div>
-          <div>₹{order.delivery_fee}</div>
+          <div>₹{new Decimal(order.delivery_fee).toFixed(2)}</div>
         </div>
 
         {(order.applied_discount && order.applied_discount > 0) && <div className={styles["detail-row"] + " text-red-600"}>
           <div>You Save</div>
-          <div className="font-semibold">₹{order.applied_discount}</div>
+          <div className="font-semibold">₹{new Decimal(order.applied_discount).toFixed(2)}</div>
         </div>}
 
         <div
@@ -80,7 +84,7 @@ export default function OrderSummary({
           <div>Order Total</div>
           <div>
             <span>₹</span>
-            <span>{order.total_amount}</span>
+            <span>{totalAmount.toFixed(2)}</span>
           </div>
         </div>
 
