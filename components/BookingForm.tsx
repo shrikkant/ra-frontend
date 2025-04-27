@@ -16,6 +16,7 @@ import Button from "./common/form/Button";
 import { DISCOUNT_STEPS } from "../config/constants";
 import { IOrder, IProductRatePlan } from "../app-store/types";
 import { getDiffInDays } from "../app/utils/datetime.util";
+import { trackGAEvent, GA_EVENTS } from '../utils/analytics';
 
 export default function BookingForm({ productId, discount, rates }: { productId: number, discount: number, rates: IProductRatePlan[] }) {
   const dispatch = useDispatch();
@@ -59,6 +60,16 @@ export default function BookingForm({ productId, discount, rates }: { productId:
       dispatch(setLastLink(pathname))
       setShowSignIn(true);
     } else {
+
+      trackGAEvent(GA_EVENTS.ADD_TO_CART, {
+        product_id: productId,
+        discounted_rate: discountedRate,
+        rental_days: getDays(),
+        total_rent: discountedRate * getDays(),
+      });
+
+
+
       if (!storeSearch?.dates)
         return;
 
