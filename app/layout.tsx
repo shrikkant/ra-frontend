@@ -26,6 +26,7 @@ export const viewport: Viewport = {
 
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import SetUTMCookie from './components/common/SetUTMCookie'
 
 
 interface PageProps {
@@ -111,14 +112,39 @@ export default async function RootLayout({
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
         <meta name="google-site-verification" content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ" />
 
-        <GoogleTagManager gtmId="GTM-TPF56M8" />
+        {/* <GoogleTagManager gtmId="GTM-TPF56M8" /> */}
         <link rel="dns-prefetch" href="https://app.statwide.com" />
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://cdn.heapanalytics.com" />
-      </head>
+        <script dangerouslySetInnerHTML={{
+          __html: `
+    (function (apiKey) {
+      (function (a, b, c, d, e) {
+        var v, w, x, y, z;
+        e = a[d] = a[d] || {};
+        e._q = [];
+        v = ['init', 'identify', 'track'];
+        for (w = 0, x = v.length; w < x; ++w)(function (m) {
+          e[m] = e[m] || function () {
+            e._q[m === v[0] ? 'unshift' : 'push']([m].concat([].slice.call(arguments, 0)));
+          };
+        })(v[w]);
+        y = b.createElement(c);
+        y.src = 'http://localhost:13400/tracker.dev.js';
+        y.async = !0;
+        y.type = 'text/javascript';
+        z = b.getElementsByTagName(c)[0];
+        z.parentNode.insertBefore(y, z);
+        a['_awa_key'] = apiKey;
+        a['_awa_project_id'] = 1000003;
 
+      })(window, document, 'script', 'featurics');
+    })('5ec6c67d-d10b-447b-8374-161a4ed22ed6');`
+        }}></script>
+      </head>
+      <SetUTMCookie />
       <body>
         <div className="preloader-cover">
           <div className="preloader">
