@@ -116,7 +116,7 @@ export default function Analytics() {
           {/* <div className=""></div> */}
           <div className="w-full">Total</div>
           <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + (item.orders), 0)}</div>
-          <div className="w-24 text-right">0</div>
+          <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + (item.rental_days), 0)}</div>
           <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + Number(item.revenue), 0)}</div>
         </div>
       }
