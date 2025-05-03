@@ -4,6 +4,7 @@ export interface IProductRevene {
   id: number;
   name: string;
   revenue: number;
+  rental_days: number;
   delivery_revenue: number;
   orders: number;
 }

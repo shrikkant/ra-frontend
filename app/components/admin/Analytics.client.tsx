@@ -1,6 +1,4 @@
 "use client"
-import MyPageHeader from "components/MyPageHeader";
-
 import React, { useEffect, useState } from "react";
 
 import { fetchAnalytics, IProductRevene } from "../../../api/admin/analytics.api";
@@ -97,6 +95,7 @@ export default function Analytics() {
         <div className="">#</div>
         <div className="w-full">Product</div>
         <div className="w-24 text-right">Orders</div>
+        <div className="w-24 text-right">Days</div>
         <div className="w-24 text-right">Revenue</div>
       </div>
       {analytics && analytics.map((item, index) => {
@@ -106,6 +105,7 @@ export default function Analytics() {
             <div className="">{index + 1}.</div>
             <div className="w-full">{item.name}</div>
             <div className="text-right w-24">{item.orders}</div>
+            <div className="text-right w-24">{item.rental_days}</div>
             <div className="text-right w-24">{item.revenue}</div>
           </div>
         )
@@ -116,6 +116,7 @@ export default function Analytics() {
           {/* <div className=""></div> */}
           <div className="w-full">Total</div>
           <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + (item.orders), 0)}</div>
+          <div className="w-24 text-right">0</div>
           <div className="w-24 text-right">{analytics.reduce((acc, item) => Number(acc) + Number(item.revenue), 0)}</div>
         </div>
       }
