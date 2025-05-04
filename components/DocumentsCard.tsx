@@ -118,7 +118,6 @@ const DocumentsCard = ({user}: {user: IUser}) => {
       // Make the API call
       uploadDocument(
         user.id,
-        user.id,
         file,
         documentType,
         side,
