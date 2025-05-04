@@ -16,7 +16,7 @@ export async function fetchProductCategories(): Promise<IProductCategory[]> {
 }
 
 export async function fetchCategoriesClient(): Promise<IProductCategory[]> {
-  const response = await httpClient.get<string, IProductCategory[]>(`categories`);
+  const response = await httpClient.get<IProductCategory[]>(`categories`);
   return response;
 }
 
