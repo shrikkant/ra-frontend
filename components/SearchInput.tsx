@@ -1,22 +1,26 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import React, { useRef } from "react";
-import { FaSearch } from "react-icons/fa";
+import React, {useRef} from 'react'
+import {FaSearch} from 'react-icons/fa'
 
 interface SearchInputProps {
-  currentVal: any;
-  onChange: (val: string) => void;
-  onSearch: (val: string) => void;
+  currentVal: any
+  onChange: (val: string) => void
+  onSearch: (val: string) => void
 }
-export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps) {
-  const inputRef = useRef<HTMLInputElement>(null);
-  const handleReturn = (e) => {
+export function SearchInput({
+  currentVal,
+  onChange,
+  onSearch,
+}: SearchInputProps) {
+  const inputRef = useRef<HTMLInputElement>(null)
+  const handleReturn = e => {
     if (e.keyCode === 13) {
       if (inputRef.current) {
-        inputRef.current.blur();
+        inputRef.current.blur()
       }
-      onSearch(e.target.value);
+      onSearch(e.target.value)
     }
-  };
+  }
   return (
     <div className=" w-full sm:w-80 lg:w-96 gap-x-3 text-gray-800 relative my-2">
       <input
@@ -25,8 +29,8 @@ export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps
         type="text"
         className="h-10 rounded px-2 w-full"
         placeholder="Canon 200D"
-        onChange={(e) => onChange(e.target.value)}
-        onKeyUp={(e) => handleReturn(e)}
+        onChange={e => onChange(e.target.value)}
+        onKeyUp={e => handleReturn(e)}
       />
       <button
         type="button"
@@ -37,5 +41,5 @@ export function SearchInput({ currentVal, onChange, onSearch }: SearchInputProps
         <FaSearch className="h-7 w-7 text-gray-800" />
       </button>
     </div>
-  );
+  )
 }

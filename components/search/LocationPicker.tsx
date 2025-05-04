@@ -1,67 +1,74 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-"use client"
-import React from "react";
-import { MenuButton, MenuItem, MenuItems, Transition, Menu } from "@headlessui/react";
-import { Fragment, useEffect, useState } from "react";
+'use client'
+import React from 'react'
+import {
+  MenuButton,
+  MenuItem,
+  MenuItems,
+  Transition,
+  Menu,
+} from '@headlessui/react'
+import {Fragment, useEffect, useState} from 'react'
 
+import {useDispatch, useSelector} from 'react-redux'
+import {
+  getDefaultSearch,
+  setSearch,
+} from '../../app-store/session/session.slice'
+import {useRouter} from 'next/navigation'
+import Link from 'next/link'
 
-import { useDispatch, useSelector } from "react-redux";
-import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
-import { useRouter } from "next/navigation";
-import Link from "next/link";
-
-import ChevronDownIcon from "@heroicons/react/24/outline/ChevronDownIcon";
+import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon'
 
 const locations = [
   {
-    value: "Pune",
-    label: "Pune",
+    value: 'Pune',
+    label: 'Pune',
   },
   {
-    value: "Mumbai",
-    label: "Mumbai",
+    value: 'Mumbai',
+    label: 'Mumbai',
   },
   {
-    value: "bengaluru",
-    label: "Bangalore",
+    value: 'bengaluru',
+    label: 'Bangalore',
   },
-];
+]
 
 export const LocationPicker = () => {
-  const router = useRouter();
-  const dispatch = useDispatch();
+  const router = useRouter()
+  const dispatch = useDispatch()
 
-  const [location, setLocation] = useState<any>(null);
-  const stateSearch = useSelector(getDefaultSearch);
+  const [location, setLocation] = useState<any>(null)
+  const stateSearch = useSelector(getDefaultSearch)
 
-  const cityChange = (city) => {
-    const search = { ...stateSearch };
+  const cityChange = city => {
+    const search = {...stateSearch}
     search.location = {
       city,
-    };
-
-    dispatch(setSearch(search));
-    router.push("/" + city.toLowerCase() + "/rent-camera");
-
-  };
-
-  useEffect(() => {
-    const currentSearch = { ...stateSearch };
-    if (currentSearch && !currentSearch.location) {
-      currentSearch.location = {
-        city: "Pune",
-      }
-      dispatch(setSearch(currentSearch));
     }
 
-    const location: any = stateSearch?.location;
+    dispatch(setSearch(search))
+    router.push('/' + city.toLowerCase() + '/rent-camera')
+  }
 
-    setLocation(location);
-  }, [stateSearch]);
+  useEffect(() => {
+    const currentSearch = {...stateSearch}
+    if (currentSearch && !currentSearch.location) {
+      currentSearch.location = {
+        city: 'Pune',
+      }
+      dispatch(setSearch(currentSearch))
+    }
 
-  const locationCity = (city) => {
-    const cityName = city.toLowerCase() === "bengaluru" ? "Bangalore" : city;
-    return cityName.slice(0, 1).toUpperCase() + cityName.slice(1);
+    const location: any = stateSearch?.location
+
+    setLocation(location)
+  }, [stateSearch])
+
+  const locationCity = city => {
+    const cityName = city.toLowerCase() === 'bengaluru' ? 'Bangalore' : city
+    return cityName.slice(0, 1).toUpperCase() + cityName.slice(1)
   }
 
   return (
@@ -69,11 +76,13 @@ export const LocationPicker = () => {
       <Menu as="div" className="relative">
         <MenuButton className="w-20 p-0  rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
           <div className="flex w-full justify-end">
-            {location?.city ?
+            {location?.city ? (
               <span className=" text-gray-100 font-semibold">
                 {locationCity(location.city)}
-              </span> :
-              <span>{"Select City"}</span>}
+              </span>
+            ) : (
+              <span>{'Select City'}</span>
+            )}
             <ChevronDownIcon
               className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
               aria-hidden="true"
@@ -94,23 +103,25 @@ export const LocationPicker = () => {
               locations.map((loc, i) => {
                 // const icon = "bg-[url(/assets/img/city_images/" + loc.label + ".png)]";
 
-
-                return (<MenuItem key={i}>
-                  <Link href={"#"}
-                    type="button"
-                    onClick={() => {
-                      cityChange(loc.value);
-                      close();
-                    }}
-                    className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100 justify-start items-center">
-                    {loc.label}
-                  </Link>
-                </MenuItem>)
-              }
-              )}
+                return (
+                  <MenuItem key={i}>
+                    <Link
+                      href={'#'}
+                      type="button"
+                      onClick={() => {
+                        cityChange(loc.value)
+                        close()
+                      }}
+                      className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100 justify-start items-center"
+                    >
+                      {loc.label}
+                    </Link>
+                  </MenuItem>
+                )
+              })}
           </MenuItems>
         </Transition>
       </Menu>
     </>
-  );
-};
+  )
+}

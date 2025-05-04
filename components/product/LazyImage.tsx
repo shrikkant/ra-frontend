@@ -1,15 +1,15 @@
-"use client"
-import React from 'react';
-import Image from 'next/image';
-import { useState } from 'react';
+'use client'
+import React from 'react'
+import Image from 'next/image'
+import {useState} from 'react'
 
 interface LazyImageProps {
-  src: string;
-  alt: string;
-  width: number;
-  height: number;
-  blurDataURL?: string;
-  className?: string;
+  src: string
+  alt: string
+  width: number
+  height: number
+  blurDataURL?: string
+  className?: string
 }
 
 const LazyImage: React.FC<LazyImageProps> = ({
@@ -18,9 +18,9 @@ const LazyImage: React.FC<LazyImageProps> = ({
   width,
   height,
   blurDataURL,
-  className
+  className,
 }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false)
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
@@ -35,10 +35,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
         loading="lazy"
         className={`
           duration-700 ease-in-out
-          ${isLoaded
-            ? 'scale-100 blur-0'
-            : 'scale-110 blur-md'
-          }
+          ${isLoaded ? 'scale-100 blur-0' : 'scale-110 blur-md'}
         `}
         onLoad={() => setIsLoaded(true)}
         sizes="(max-width: 768px) 100vw,
@@ -46,7 +43,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
                33vw"
       />
     </div>
-  );
-};
+  )
+}
 
-export default LazyImage;
+export default LazyImage

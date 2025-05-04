@@ -1,112 +1,116 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from 'react';
-import { FaPlus, FaEye, FaTimes } from 'react-icons/fa';
-import Loader from '../Loader';
-import { uploadUserDocument } from '../../api/user/documents.api';
-import { displayMessage } from '../../util/global.util';
-import { IDocument } from '../../app-store/app-defaults/types';
-import DocumentModal from './DocumentModal';
+import React, {useState, useEffect} from 'react'
+import {FaPlus, FaEye, FaTimes} from 'react-icons/fa'
+import Loader from '../Loader'
+import {uploadUserDocument} from '../../api/user/documents.api'
+import {displayMessage} from '../../util/global.util'
+import {IDocument} from '../../app-store/app-defaults/types'
+import DocumentModal from './DocumentModal'
 
 interface DocumentUploadCardProps {
-  title: string;
-  documentType: string;
-  onUpload?: (file: IDocument) => void;
-  existingDocument?: IDocument;
+  title: string
+  documentType: string
+  onUpload?: (file: IDocument) => void
+  existingDocument?: IDocument
 }
 
 const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
   title,
   documentType,
   onUpload,
-  existingDocument
+  existingDocument,
 }) => {
   const [document, setDocument] = useState<{
-    file: File | null;
-    status?: 'pending' | 'verified' | 'rejected';
-  } | null>(null);
-  const [uploading, setUploading] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+    file: File | null
+    status?: 'pending' | 'verified' | 'rejected'
+  } | null>(null)
+  const [uploading, setUploading] = useState(false)
+  const [showModal, setShowModal] = useState(false)
 
   useEffect(() => {
     if (existingDocument) {
       setDocument({
         file: null,
-        status: existingDocument.verified ? 'verified' : 'pending'
-      });
+        status: existingDocument.verified ? 'verified' : 'pending',
+      })
     }
-  }, [existingDocument]);
+  }, [existingDocument])
 
   const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+    const file = e.target.files?.[0]
+    if (!file) return
 
     // File validation
-    if (!file.type.startsWith('image/') && !file.type.startsWith('application/pdf')) {
+    if (
+      !file.type.startsWith('image/') &&
+      !file.type.startsWith('application/pdf')
+    ) {
       displayMessage('error', 'Please upload image or pdf')
-      return;
+      return
     }
 
-    if (file.size > 20 * 1024 * 1024) { // 20MB limit
-      displayMessage('error', 'File size should be less than 5MB');
-      return;
+    if (file.size > 20 * 1024 * 1024) {
+      // 20MB limit
+      displayMessage('error', 'File size should be less than 5MB')
+      return
     }
 
     try {
-      setDocument({ file, status: 'pending' });
-      setUploading(true);
+      setDocument({file, status: 'pending'})
+      setUploading(true)
 
       await uploadUserDocument(
         file,
         documentType,
-        (progress) => {
-          console.log('Upload progress:', progress);
+        progress => {
+          console.log('Upload progress:', progress)
         },
         (data: IDocument) => {
-          setUploading(false);
+          setUploading(false)
           if (onUpload) {
-            onUpload(data);
+            onUpload(data)
           }
-          console.log("Document Uploaded : ", data);
-          displayMessage('success', 'Document uploaded successfully');
+          console.log('Document Uploaded : ', data)
+          displayMessage('success', 'Document uploaded successfully')
         },
         () => {
-          setUploading(false);
-          setDocument(null);
-          displayMessage('error', 'Failed to upload document');
-        }
-      );
+          setUploading(false)
+          setDocument(null)
+          displayMessage('error', 'Failed to upload document')
+        },
+      )
     } catch {
-      displayMessage('error','Document upload error');
-      setUploading(false);
-      setDocument(null);
+      displayMessage('error', 'Document upload error')
+      setUploading(false)
+      setDocument(null)
     }
-  };
+  }
 
   const removeFile = () => {
-    setDocument(null);
-  };
+    setDocument(null)
+  }
 
   const getStatusColor = (status?: string) => {
     switch (status) {
       case 'verified':
-        return 'bg-green-100 text-green-800';
+        return 'bg-green-100 text-green-800'
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800';
+        return 'bg-yellow-100 text-yellow-800'
       case 'rejected':
-        return 'bg-red-100 text-red-800';
+        return 'bg-red-100 text-red-800'
       default:
-        return 'bg-gray-100 text-gray-800';
+        return 'bg-gray-100 text-gray-800'
     }
-  };
+  }
 
   const renderDocumentView = () => {
-    if (!existingDocument || !existingDocument.front) return null;
+    if (!existingDocument || !existingDocument.front) return null
 
-    const isPDF = existingDocument.file_type?.startsWith('application/pdf');
-    const documentData = Buffer.from(existingDocument.front).toString('base64');
+    const isPDF = existingDocument.file_type?.startsWith('application/pdf')
+    const documentData = Buffer.from(existingDocument.front).toString('base64')
 
-    if (!documentData) return null;
+    if (!documentData) return null
 
     if (isPDF) {
       return (
@@ -115,7 +119,7 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
           className="w-full h-full"
           title={`${title} PDF`}
         />
-      );
+      )
     }
 
     return (
@@ -124,8 +128,8 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
         alt={title}
         className="w-full h-full object-contain"
       />
-    );
-  };
+    )
+  }
 
   return (
     <div className="border rounded-lg p-4 space-y-3">
@@ -133,8 +137,11 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
         <h3 className="font-medium text-lg">{title}</h3>
         <div className="flex items-center gap-2">
           {document?.status && (
-            <span className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(document.status)}`}>
-              {document.status.charAt(0).toUpperCase() + document.status.slice(1)}
+            <span
+              className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(document.status)}`}
+            >
+              {document.status.charAt(0).toUpperCase() +
+                document.status.slice(1)}
             </span>
           )}
           {document && !uploading && (
@@ -186,7 +193,7 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
         {renderDocumentView()}
       </DocumentModal>
     </div>
-  );
-};
+  )
+}
 
-export default DocumentUploadCard;
+export default DocumentUploadCard

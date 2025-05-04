@@ -1,8 +1,13 @@
 import React from 'react'
-import { Dialog, DialogPanel, Transition, TransitionChild } from '@headlessui/react'
-import { Fragment, useState } from 'react'
-import { FaPlus } from 'react-icons/fa'
-import { AddAddress } from '../../app/components/user/AddAddress.client'
+import {
+  Dialog,
+  DialogPanel,
+  Transition,
+  TransitionChild,
+} from '@headlessui/react'
+import {Fragment, useState} from 'react'
+import {FaPlus} from 'react-icons/fa'
+import {AddAddress} from '../../app/components/user/AddAddress.client'
 
 export default function MyModal() {
   const [isOpen, setIsOpen] = useState(false)
@@ -18,11 +23,7 @@ export default function MyModal() {
   return (
     <>
       <div className="flex justify-center">
-        <button
-          type="button"
-          className={"p-0 h-6"}
-          onClick={openModal}
-        >
+        <button type="button" className={'p-0 h-6'} onClick={openModal}>
           <FaPlus />
         </button>
       </div>
@@ -60,7 +61,10 @@ export default function MyModal() {
                     Add Address
                   </Dialog.Title>
                   <div className="mt-2">
-                    <AddAddress onNewAddress={closeModal} googleLookup={true}></AddAddress>
+                    <AddAddress
+                      onNewAddress={closeModal}
+                      googleLookup={true}
+                    ></AddAddress>
                   </div>
                 </DialogPanel>
               </TransitionChild>

@@ -1,77 +1,77 @@
-"use client";
+'use client'
 
-import React from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { authUser, selectAuthState } from "../../app-store/auth/auth.slice";
-import { updateAadhaar, verifyAadhaarOTP } from "../../api/user/index.api";
-import { IUser } from "../../app-store/types";
-import { useRouter } from "next/navigation";
-import Input from "../common/form/Input";
-import Button from "../common/form/Button";
-import { FaCheckCircle } from "react-icons/fa";
-import { STATUS_AADHAAR_VERIFIED } from "../../config/constants";
+import React from 'react'
+import {useDispatch, useSelector} from 'react-redux'
+import {authUser, selectAuthState} from '../../app-store/auth/auth.slice'
+import {updateAadhaar, verifyAadhaarOTP} from '../../api/user/index.api'
+import {IUser} from '../../app-store/types'
+import {useRouter} from 'next/navigation'
+import Input from '../common/form/Input'
+import Button from '../common/form/Button'
+import {FaCheckCircle} from 'react-icons/fa'
+import {STATUS_AADHAAR_VERIFIED} from '../../config/constants'
 
 export default function VerifyAadhar() {
-  const router = useRouter();
-  const [aadharNumber, setAadharNumber] = React.useState("");
-  const [otp, setOtp] = React.useState("");
-  const [otpSent, setOtpSent] = React.useState(false);
-  const [isLoading, setIsLoading] = React.useState(false);
-  const user = useSelector(selectAuthState);
+  const router = useRouter()
+  const [aadharNumber, setAadharNumber] = React.useState('')
+  const [otp, setOtp] = React.useState('')
+  const [otpSent, setOtpSent] = React.useState(false)
+  const [isLoading, setIsLoading] = React.useState(false)
+  const user = useSelector(selectAuthState)
 
-  const dispatch = useDispatch();
+  const dispatch = useDispatch()
 
   const handleInputChange = (value: string) => {
-    setAadharNumber(value);
+    setAadharNumber(value)
   }
 
   const handleOTPChange = (value: string) => {
-    setOtp(value);
+    setOtp(value)
   }
 
-  const validateInputAadhar = (event) => {
+  const validateInputAadhar = event => {
     if (event.keyCode === 8 || event.keyCode === 46) {
-      return;
+      return
     }
     if (!/^[0-9]*$/.test(event.key)) {
-      event.preventDefault();
+      event.preventDefault()
     }
   }
 
   const isValidAadhar = (aadhar: string) => {
     if (aadhar.length !== 12) {
-      return false;
+      return false
     }
-    return true;
+    return true
   }
 
   const submitAadhar = async () => {
     if (!isValidAadhar(aadharNumber)) {
-      return;
+      return
     }
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const updateUser: IUser = await updateAadhaar(aadharNumber);
+      const updateUser: IUser = await updateAadhaar(aadharNumber)
       if (updateUser.aadhaar_callback_id) {
-        setOtpSent(true);
+        setOtpSent(true)
       }
     } catch (error) {
-      console.error('Failed to submit Aadhaar:', error);
+      console.error('Failed to submit Aadhaar:', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
   const verifyOTP = async () => {
-    setIsLoading(true);
+    setIsLoading(true)
     try {
-      const updateUser: IUser = await verifyAadhaarOTP(otp);
-      dispatch(authUser(updateUser));
-      router.push("/");
+      const updateUser: IUser = await verifyAadhaarOTP(otp)
+      dispatch(authUser(updateUser))
+      router.push('/')
     } catch (error) {
-      console.error('Failed to verify OTP:', error);
+      console.error('Failed to verify OTP:', error)
     } finally {
-      setIsLoading(false);
+      setIsLoading(false)
     }
   }
 
@@ -88,7 +88,7 @@ export default function VerifyAadhar() {
           </div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -144,5 +144,5 @@ export default function VerifyAadhar() {
         )}
       </div>
     </div>
-  );
+  )
 }

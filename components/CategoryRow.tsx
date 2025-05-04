@@ -1,12 +1,11 @@
-
-import ProductCard from "./ProductCard";
-import React from "react";
-import { IProduct } from "../app-store/types";
+import ProductCard from './ProductCard'
+import React from 'react'
+import {IProduct} from '../app-store/types'
 
 interface CategoryRowProps {
   category: {
-    products: IProduct[];
-  };
+    products: IProduct[]
+  }
 }
 
 export default function CategoryRow(props: CategoryRowProps) {
@@ -16,5 +15,5 @@ export default function CategoryRow(props: CategoryRowProps) {
         <ProductCard key={product.id} product={product}></ProductCard>
       ))}
     </div>
-  );
+  )
 }

@@ -1,12 +1,12 @@
-import { useRouter } from "next/navigation";
-import React from "react";
-import { FaArrowRight } from "react-icons/fa";
+import {useRouter} from 'next/navigation'
+import React from 'react'
+import {FaArrowRight} from 'react-icons/fa'
 
 export default function EmptyCart() {
-  const router = useRouter();
+  const router = useRouter()
   const backToHome = () => {
-    router.push("/");
-  };
+    router.push('/')
+  }
 
   return (
     <div className="w-full">
@@ -31,5 +31,5 @@ export default function EmptyCart() {
         </div>
       </div>
     </div>
-  );
+  )
 }

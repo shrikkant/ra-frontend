@@ -1,25 +1,27 @@
-"use client"
+'use client'
 // import { Card, Form, Checkbox, Slider } from "antd";
 
-import { usePathname, useRouter } from "next/navigation";
+import {usePathname, useRouter} from 'next/navigation'
 
 import {
   // getRateMarks,
   // getDefaultRateRange,
   getBrandOptions,
   // paramsToObject,
-} from "util/search.util";
+} from 'util/search.util'
 
+import style from 'styles/search.module.css'
+import React, {useEffect} from 'react'
+import {XMarkIcon} from '@heroicons/react/24/outline'
+import {useState} from 'react'
 
-import style from "styles/search.module.css";
-import React, { useEffect } from "react";
-import { XMarkIcon } from "@heroicons/react/24/outline";
-import { useState } from "react";
+import {IProductFilter} from '../../app-store/types'
 
-import { IProductFilter } from "../../app-store/types";
-
-import { useDispatch, useSelector } from "react-redux";
-import { getDefaultSearch, setSearch } from "../../app-store/session/session.slice";
+import {useDispatch, useSelector} from 'react-redux'
+import {
+  getDefaultSearch,
+  setSearch,
+} from '../../app-store/session/session.slice'
 
 // const sliderTrack = {
 //   background: "lightgreen",
@@ -33,31 +35,30 @@ import { getDefaultSearch, setSearch } from "../../app-store/session/session.sli
 
 export default function FilterSideBar({
   searchMeta,
-  filter
+  filter,
 }: {
-  searchMeta;
-  filter: IProductFilter;
-
+  searchMeta
+  filter: IProductFilter
 }) {
-  const dispatch = useDispatch();
-  const router = useRouter();
-  const pathname = usePathname();
+  const dispatch = useDispatch()
+  const router = useRouter()
+  const pathname = usePathname()
   // const searchParams = useSearchParams();
-  const brands = getBrandOptions(searchMeta?.brands);
-  const [filters, setFilters] = useState(true);
+  const brands = getBrandOptions(searchMeta?.brands)
+  const [filters, setFilters] = useState(true)
   // const [newQuery, setNewQuery] = useState(paramsToObject(searchParams));
-  const newQuery = {};
-  const defaultSearch = useSelector(getDefaultSearch);
+  const newQuery = {}
+  const defaultSearch = useSelector(getDefaultSearch)
 
   // const rf = "";
 
   const toggleNav = () => {
-    setFilters(!filters);
-  };
+    setFilters(!filters)
+  }
 
   const onChange = () => {
-    router.replace(pathname + "?" + new URLSearchParams(newQuery).toString());
-  };
+    router.replace(pathname + '?' + new URLSearchParams(newQuery).toString())
+  }
 
   // const onBrandsChange = (checkedValues: string[]) => {
 
@@ -86,55 +87,55 @@ export default function FilterSideBar({
   // };
 
   useEffect(() => {
-    const currentSearch = { ...defaultSearch };
+    const currentSearch = {...defaultSearch}
 
     if (filter && currentSearch?.location) {
-      if (filter.city?.toLowerCase() !== currentSearch?.location?.city?.toLowerCase()) {
+      if (
+        filter.city?.toLowerCase() !==
+        currentSearch?.location?.city?.toLowerCase()
+      ) {
         currentSearch.location = {
           city: filter.city,
         }
-        dispatch(setSearch(currentSearch));
+        dispatch(setSearch(currentSearch))
       }
     }
-
-
   }, [filter, defaultSearch])
 
   return (
     <div
       className={`pt-5 xs:hidden bg-white w-full h-screen sm:h-auto sm:w-72 top-30 sm:relative z-[200] fixed  transition-transform sm:translate-y-0
 
-      ${filters ? "translate-y-0" : "translate-y-full"}`}
+      ${filters ? 'translate-y-0' : 'translate-y-full'}`}
     >
       <div className="flex justify-end py-3 border-b sm:hidden">
-        <button
-          className="text-xl px-6 flex justify-end"
-          onClick={toggleNav}
-        >
+        <button className="text-xl px-6 flex justify-end" onClick={toggleNav}>
           <XMarkIcon className="block h-6 w-6" aria-hidden="true" />
         </button>
       </div>
       <div className=" flex flex-col gap-y-3 overflow-y-auto h-[calc(100vh-220px)] px-3 overscroll-contain w-full sm:w-72">
-        {brands?.length > 0 && <div title="Brands">
-          {/* <form >
+        {brands?.length > 0 && (
+          <div title="Brands">
+            {/* <form >
             <CheckboxGroup
               className={"brands"}
               options={brands}
               onChange={onBrandsChange}
             />
           </form> */}
-        </div>}
+          </div>
+        )}
 
-        <div >
+        <div>
           <div className={style.pitsWrapper}>
             {getPits(searchMeta.rate).map((pit, index) => {
               return (
                 <div
-                  key={"p_" + index}
+                  key={'p_' + index}
                   className={style.pit}
-                  style={{ height: pit + "%" }}
+                  style={{height: pit + '%'}}
                 ></div>
-              );
+              )
             })}
           </div>
 
@@ -156,7 +157,11 @@ export default function FilterSideBar({
         </div>
 
         <div className="text-right pt-2 ">
-          <a onClick={onChange} className="bg-green-600 p-2 rounded-sm text-gray-100 cursor-pointer border-green-900 hover:bg-green-700 hover:text-gray-200 " href="#">
+          <a
+            onClick={onChange}
+            className="bg-green-600 p-2 rounded-sm text-gray-100 cursor-pointer border-green-900 hover:bg-green-700 hover:text-gray-200 "
+            href="#"
+          >
             Apply Filters
           </a>
         </div>
@@ -169,19 +174,19 @@ export default function FilterSideBar({
         </button>
       </div>
     </div>
-  );
+  )
 }
 
 function getPits(rate) {
-  let pits: number[] = [];
-  let realValues: number[] = [];
+  let pits: number[] = []
+  let realValues: number[] = []
 
-  realValues = rate.bands.map((b) => b.count);
+  realValues = rate.bands.map(b => b.count)
 
-  const max = Math.max(...realValues);
-  const min = Math.min(...realValues);
+  const max = Math.max(...realValues)
+  const min = Math.min(...realValues)
 
-  pits = realValues.map((v) => Math.round(((v - min) / (max - min)) * 100));
+  pits = realValues.map(v => Math.round(((v - min) / (max - min)) * 100))
 
-  return pits;
+  return pits
 }

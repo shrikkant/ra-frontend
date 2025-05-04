@@ -1,44 +1,43 @@
-import React, { useState } from 'react';
-import { FaPlus } from 'react-icons/fa';
-import { ToastContainer, toast } from 'react-toastify';
-import Loader from './Loader';
-import { IUser } from '../app-store/types';
-import {  uploadDocument } from '../api/admin/customers.api';
-import { IoMdRemove } from 'react-icons/io';
+import React, {useState} from 'react'
+import {FaPlus} from 'react-icons/fa'
+import {ToastContainer, toast} from 'react-toastify'
+import Loader from './Loader'
+import {IUser} from '../app-store/types'
+import {uploadDocument} from '../api/admin/customers.api'
+import {IoMdRemove} from 'react-icons/io'
 
-
-const DocumentsCard = ({ user }: { user: IUser }) => {
+const DocumentsCard = ({user}: {user: IUser}) => {
   const [documents, setDocuments] = useState({
     panCard: {
       front: null,
       requires: ['front'],
-      label: 'Pan Card'
+      label: 'Pan Card',
     },
     drivingLicense: {
       front: null,
       requires: ['front'],
-      label: 'Driving License'
+      label: 'Driving License',
     },
     passport: {
       front: null,
       requires: ['front'],
-      label: 'Passport'
+      label: 'Passport',
     },
     utilityBill: {
       front: null,
       requires: ['front'],
-      label: 'Utility Bill'
+      label: 'Utility Bill',
     },
     bankStatement: {
       front: null,
       requires: ['front'],
-      label: 'Bank Statement'
+      label: 'Bank Statement',
     },
     rentAgreement: {
       front: null,
       back: null,
       requires: ['front'],
-      label: 'Rent Agreement'
+      label: 'Rent Agreement',
     },
     // aadharCard: {
     //   front: null,
@@ -50,108 +49,118 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
     index2: {
       front: null,
       requires: ['front'],
-      label: 'Index 2'
+      label: 'Index 2',
     },
-  });
+  })
 
-  const [error, setError] = useState('');
-  const [uploading, setUploading] = useState({});
+  const [error, setError] = useState('')
+  const [uploading, setUploading] = useState({})
 
-
-  Object.keys(documents).map((docType) => {
-    user?.documents?.map((userDoc) => {
+  Object.keys(documents).map(docType => {
+    user?.documents?.map(userDoc => {
       if (docType === userDoc.document_type) {
         if (userDoc.side === 'front') {
           documents[docType].front = {
             file: null,
-            preview: userDoc?.front ? Buffer.from(userDoc?.front).toString('base64') : null
-          };
+            preview: userDoc?.front
+              ? Buffer.from(userDoc?.front).toString('base64')
+              : null,
+          }
         }
         if (userDoc.side === 'back') {
           documents[docType].back = {
             file: null,
-            preview: "/uploads/" + userDoc.back
-          };
+            preview: '/uploads/' + userDoc.back,
+          }
         }
-
       }
-    });
-  });
+    })
+  })
 
-
-  const onProgress = (progressEvent) => {
-
-    console.log('Upload progress:', progressEvent);
+  const onProgress = progressEvent => {
+    console.log('Upload progress:', progressEvent)
   }
 
   const onSuccess = (data, documentType, side) => {
-
     setDocuments(prev => ({
       ...prev,
       [documentType]: {
         ...prev[documentType],
         [side]: {
           ...prev[documentType][side],
-          preview: data?.front ? Buffer.from(data?.front).toString('base64') : null,
+          preview: data?.front
+            ? Buffer.from(data?.front).toString('base64')
+            : null,
           serverUrl: data.url, // Store the server URL
-          uploadedAt: new Date().toISOString()
-        }
-      }
-    }));
+          uploadedAt: new Date().toISOString(),
+        },
+      },
+    }))
 
-    console.log("Documents >>>", documents);
+    console.log('Documents >>>', documents)
   }
 
-  const onError = (err) => {
-    console.error('Upload failed:', err);
+  const onError = err => {
+    console.error('Upload failed:', err)
   }
 
   const uploadToServer = async (file, documentType, side) => {
     // Create form data
 
-
     try {
       // Set uploading state for this specific document side
       setUploading(prev => ({
         ...prev,
-        [`${documentType}-${side}`]: true
-      }));
+        [`${documentType}-${side}`]: true,
+      }))
 
       // const document: IDocument = await addDocument(user.id, documentType, side, file);
       // Make the API call
-      uploadDocument(user.id, user.id, file, documentType, side, onProgress, onSuccess, onError);
-
+      uploadDocument(
+        user.id,
+        user.id,
+        file,
+        documentType,
+        side,
+        onProgress,
+        onSuccess,
+        onError,
+      )
     } catch (err) {
-      setError(`Failed to upload ${documentType} ${side}: ${err.message}`);
+      setError(`Failed to upload ${documentType} ${side}: ${err.message}`)
       // Revert the document state on error
-      removeFile(documentType, side);
+      removeFile(documentType, side)
     } finally {
       // Clear uploading state
       setUploading(prev => ({
         ...prev,
-        [`${documentType}-${side}`]: false
-      }));
+        [`${documentType}-${side}`]: false,
+      }))
     }
-  };
+  }
 
-  const handleFileUpload = (documentType, side) => async (e) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+  const handleFileUpload = (documentType, side) => async e => {
+    const file = e.target.files?.[0]
+    if (!file) return
 
     // File validation
-    if (!file.type.startsWith('image/') && !file.type.startsWith('application/pdf')) {
-      setError('Please upload an image or pdf file');
-      return;
+    if (
+      !file.type.startsWith('image/') &&
+      !file.type.startsWith('application/pdf')
+    ) {
+      setError('Please upload an image or pdf file')
+      return
     }
 
-    if (file.size > 5 * 1024 * 1024) { // 5MB limit
-      setError('File size should be less than 5MB');
-      return;
+    if (file.size > 5 * 1024 * 1024) {
+      // 5MB limit
+      setError('File size should be less than 5MB')
+      return
     }
 
     try {
       // Create a preview URL
-      const previewUrl = URL.createObjectURL(file);
+      const previewUrl = URL.createObjectURL(file)
 
       setDocuments(prev => ({
         ...prev,
@@ -159,19 +168,19 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
           ...prev[documentType],
           [side]: {
             file,
-            preview: previewUrl
-          }
-        }
-      }));
+            preview: previewUrl,
+          },
+        },
+      }))
 
-      await uploadToServer(file, documentType, side);
+      await uploadToServer(file, documentType, side)
 
-      setError('');
+      setError('')
     } catch (err) {
-      toast.error('Error uploading file. Please try again. ', err);
+      toast.error('Error uploading file. Please try again. ', err)
       // setError('Error uploading file. Please try again.');
     }
-  };
+  }
 
   const removeFile = (documentType, side) => {
     setDocuments(prev => {
@@ -179,24 +188,22 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
         ...prev,
         [documentType]: {
           ...prev[documentType],
-          [side]: null
-        }
-      };
+          [side]: null,
+        },
+      }
 
       // Clean up preview URL
       if (prev[documentType][side]?.preview) {
-        URL.revokeObjectURL(prev[documentType][side].preview);
+        URL.revokeObjectURL(prev[documentType][side].preview)
       }
 
-      return updated;
-    });
-  };
+      return updated
+    })
+  }
 
   return (
     <div>
-      {error && (
-        <ToastContainer></ToastContainer>
-      )}
+      {error && <ToastContainer></ToastContainer>}
 
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 w-full">
         {Object.entries(documents).map(([docType, doc]) => (
@@ -212,7 +219,6 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
 
                   {doc[side] ? (
                     <div className="relative h-48 bg-gray-100 rounded-lg overflow-hidden">
-
                       <img
                         src={`data:image/png;base64,${doc[side].preview}`}
                         alt={`${doc.label} ${side}`}
@@ -230,8 +236,8 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
                           disabled={uploading[`${docType}-${side}`]}
                         >
                           <IoMdRemove />
-                        </button>)
-                      }
+                        </button>
+                      )}
                     </div>
                   ) : (
                     <label className="flex flex-col items-center justify-center h-40 border-2 border-dashed border-gray-300 rounded-lg hover:border-gray-400 cursor-pointer bg-gray-50 transition-colors">
@@ -252,7 +258,7 @@ const DocumentsCard = ({ user }: { user: IUser }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default DocumentsCard;
+export default DocumentsCard

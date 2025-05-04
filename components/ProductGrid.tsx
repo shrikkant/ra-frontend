@@ -1,39 +1,39 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import CategoryRow from "./CategoryRow";
-import { useEffect, useState } from "react";
-import Loader from "./Loader";
-import { getFeaturedProducts } from "../api/products.api";
-import React from "react";
+import CategoryRow from './CategoryRow'
+import {useEffect, useState} from 'react'
+import Loader from './Loader'
+import {getFeaturedProducts} from '../api/products.api'
+import React from 'react'
 
-import { useRouter } from "next/router";
-import { IDefaultSearch } from "../app-store/app-defaults/types";
-import { useSelector } from "react-redux";
-import { getDefaultSearch } from "../app-store/session/session.slice";
-
+import {useRouter} from 'next/router'
+import {IDefaultSearch} from '../app-store/app-defaults/types'
+import {useSelector} from 'react-redux'
+import {getDefaultSearch} from '../app-store/session/session.slice'
 
 export default function ProductGrid() {
-  const router = useRouter();
-  const [loading, setLoading] = useState(true);
-  const [categories, setCategories] = useState([]);
-  const defaultSearch = useSelector<IDefaultSearch>(getDefaultSearch) as IDefaultSearch;
-
+  const router = useRouter()
+  const [loading, setLoading] = useState(true)
+  const [categories, setCategories] = useState([])
+  const defaultSearch = useSelector<IDefaultSearch>(
+    getDefaultSearch,
+  ) as IDefaultSearch
 
   const loadProducts = async (city: string) => {
-    setLoading(true);
-    const res: any = await getFeaturedProducts(8, city);
-    setLoading(false);
-    setCategories(res);
-  };
+    setLoading(true)
+    const res: any = await getFeaturedProducts(8, city)
+    setLoading(false)
+    setCategories(res)
+  }
 
   useEffect(() => {
-    const city = defaultSearch?.location?.city || "Pune";
+    const city = defaultSearch?.location?.city || 'Pune'
 
     if (!defaultSearch || !defaultSearch.location) {
-      router.push("/pune/rent-camera");
+      router.push('/pune/rent-camera')
     } else {
-      loadProducts(city);
+      loadProducts(city)
     }
-  }, [router.isReady]);
+  }, [router.isReady])
 
   if (loading) return <Loader></Loader>
 
