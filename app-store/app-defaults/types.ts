@@ -56,7 +56,7 @@ export interface IDocument {
   back?: string;
   url?: string;
   side: "front" | "back";
-
+  preview?: string;
 }
 
 export interface ISearchLocation {
