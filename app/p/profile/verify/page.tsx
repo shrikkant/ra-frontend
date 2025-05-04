@@ -1,42 +1,44 @@
-"use client";
+'use client'
 
-import React, { useState, useEffect } from "react";
-import VerifyAadhar from "../../../../components/user/VerifyAadhaar";
-import DocumentUploadCard from "../../../../components/common/DocumentUploadCard";
-import { IDocument } from "../../../../app-store/app-defaults/types";
-import { getUserDocuments } from "../../../../api/user/documents.api";
+import React, {useState, useEffect} from 'react'
+import VerifyAadhar from '../../../../components/user/VerifyAadhaar'
+import DocumentUploadCard from '../../../../components/common/DocumentUploadCard'
+import {IDocument} from '../../../../app-store/app-defaults/types'
+import {getUserDocuments} from '../../../../api/user/documents.api'
 
 export default function Page() {
-  const [existingDocuments, setExistingDocuments] = useState<Record<string, IDocument>>({});
-  const [isLoading, setIsLoading] = useState(true);
+  const [existingDocuments, setExistingDocuments] = useState<
+    Record<string, IDocument>
+  >({})
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const documents = await getUserDocuments() as IDocument[];
+        const documents = (await getUserDocuments()) as IDocument[]
         if (documents) {
-          const docsMap: Record<string, IDocument> = {};
-          documents.forEach((doc) => {
-            docsMap[doc.document_type] = doc;
-          });
+          const docsMap: Record<string, IDocument> = {}
+          documents.forEach(doc => {
+            docsMap[doc.document_type] = doc
+          })
 
-          setExistingDocuments(docsMap);
+          setExistingDocuments(docsMap)
         }
       } catch (error) {
-        console.error('Failed to fetch documents:', error);
+        console.error('Failed to fetch documents:', error)
       } finally {
-        setIsLoading(false);
+        setIsLoading(false)
       }
-    };
-    fetchDocuments();
-  }, []);
+    }
+    fetchDocuments()
+  }, [])
 
   const handleDocumentUpload = async (newDoc: IDocument) => {
     setExistingDocuments(prev => ({
       ...prev,
-      [newDoc.document_type]: newDoc
-    }));
-  };
+      [newDoc.document_type]: newDoc,
+    }))
+  }
 
   if (isLoading) {
     return (
@@ -45,7 +47,7 @@ export default function Page() {
           <div className="text-center">Loading documents...</div>
         </div>
       </div>
-    );
+    )
   }
 
   return (
@@ -54,7 +56,9 @@ export default function Page() {
         <div className="space-y-8">
           {/* Verification Section */}
           <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">Verification</h2>
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
+              Verification
+            </h2>
             <div className="space-y-8">
               {/* Aadhaar Verification */}
               <div className="space-y-4">
@@ -69,7 +73,7 @@ export default function Page() {
                     title="Utility Bill / Rental Agreement"
                     documentType="utility_bill"
                     onUpload={handleDocumentUpload}
-                    existingDocument={existingDocuments["utility_bill"]}
+                    existingDocument={existingDocuments['utility_bill']}
                   />
 
                   {/* Driving License */}
@@ -77,9 +81,8 @@ export default function Page() {
                     title="Driving License"
                     documentType="driving_license"
                     onUpload={handleDocumentUpload}
-                    existingDocument={existingDocuments["driving_license"]}
+                    existingDocument={existingDocuments['driving_license']}
                   />
-
 
                   {/* OR Separator */}
                   <div className="relative">
@@ -95,9 +98,8 @@ export default function Page() {
                     title="Passport"
                     documentType="passport"
                     onUpload={handleDocumentUpload}
-                    existingDocument={existingDocuments["passport"]}
+                    existingDocument={existingDocuments['passport']}
                   />
-
                 </div>
               </div>
             </div>
@@ -105,5 +107,5 @@ export default function Page() {
         </div>
       </div>
     </div>
-  );
+  )
 }

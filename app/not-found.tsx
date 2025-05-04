@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 export default function NotFoundPage() {
   return (
     <div className="flex flex-col items-center justify-center h-screen text-center">
@@ -14,5 +14,5 @@ export default function NotFoundPage() {
         Go Home
       </a>
     </div>
-  );
+  )
 }

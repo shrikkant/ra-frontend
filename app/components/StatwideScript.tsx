@@ -1,15 +1,14 @@
-"use client"
+'use client'
 import React from 'react'
-import { useEffect } from 'react'
-import { useSelector } from 'react-redux'
-import { selectAuthState } from '../../app-store/auth/auth.slice'
-
+import {useEffect} from 'react'
+import {useSelector} from 'react-redux'
+import {selectAuthState} from '../../app-store/auth/auth.slice'
 
 declare global {
   interface Window {
-    featurics,
-    heap,
-    analytics,
+    featurics
+    heap
+    analytics
     aptrinsic
   }
 }
@@ -21,19 +20,18 @@ export const StatwideScript: React.FC = () => {
 
   useEffect(() => {
     if (!loggedUser?.id || !window.featurics) {
-      return;
+      return
     }
-
 
     window.featurics?.init({
       account: {
-        accountName: loggedUser?.city || "N/A",
+        accountName: loggedUser?.city || 'N/A',
         accountProperties: [
           {
-            key: "City",
-            value: loggedUser?.city
+            key: 'City',
+            value: loggedUser?.city,
           },
-        ]
+        ],
       },
       visitor: {
         appVisitorId: loggedUser?.id,
@@ -50,7 +48,7 @@ export const StatwideScript: React.FC = () => {
           {
             key: 'City',
             value: loggedUser?.city || '',
-          }
+          },
         ],
       },
     })
@@ -68,33 +66,35 @@ export const StatwideScript: React.FC = () => {
     // }
 
     if (window.heap) {
-      window.heap?.identify(loggedUser.id + "_" + loggedUser.email_address.split('@')[0]);
+      window.heap?.identify(
+        loggedUser.id + '_' + loggedUser.email_address.split('@')[0],
+      )
       window.heap?.addUserProperties({
         name: `${loggedUser.firstname} ${loggedUser.lastname}`,
         email: loggedUser.email_address,
-        city: loggedUser.city
-      });
+        city: loggedUser.city,
+      })
     }
 
     if (window.aptrinsic) {
-      window.aptrinsic("identify",
+      window.aptrinsic(
+        'identify',
         {
           //User Fields
-          "id": loggedUser.id, // Required for logged in app users
-          "email": loggedUser.email_address,
-          "firstName": loggedUser.firstname,
-          "lastName": loggedUser.lastname,
-          "signUpDate": loggedUser.created_ts, //unix time in ms
+          id: loggedUser.id, // Required for logged in app users
+          email: loggedUser.email_address,
+          firstName: loggedUser.firstname,
+          lastName: loggedUser.lastname,
+          signUpDate: loggedUser.created_ts, //unix time in ms
         },
         {
           //Account Fields
-          "id": loggedUser.city, //Required
-          "name": loggedUser.city,
-        });
+          id: loggedUser.city, //Required
+          name: loggedUser.city,
+        },
+      )
     }
-
   }, [loggedUser])
 
-  return (<>
-  </>)
+  return <></>
 }

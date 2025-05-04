@@ -1,32 +1,41 @@
-"use client"
+'use client'
 
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from 'react'
 
-import { fetchSignupAnalytics } from "../../../api/admin/analytics.api";
-import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts";
-
+import {fetchSignupAnalytics} from '../../../api/admin/analytics.api'
+import {
+  CartesianGrid,
+  Legend,
+  Line,
+  LineChart,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
 
 export default function SignupAnalytics() {
-
-  const [analytics, setAnalytics] = useState<unknown[] | undefined>(undefined);
+  const [analytics, setAnalytics] = useState<unknown[] | undefined>(undefined)
 
   const fetchData = async () => {
-    const response = await fetchSignupAnalytics();
-    console.log(response);
-    setAnalytics(response);
-  };
+    const response = await fetchSignupAnalytics()
+    console.log(response)
+    setAnalytics(response)
+  }
 
   useEffect(() => {
     if (!analytics) {
-      fetchData();
+      fetchData()
     }
-  }, [analytics]);
-
+  }, [analytics])
 
   return (
     <>
-      {analytics &&
-        <div style={{ width: '100%', height: 300 }} className="border border-gray-400 rounded-md">
+      {analytics && (
+        <div
+          style={{width: '100%', height: 300}}
+          className="border border-gray-400 rounded-md"
+        >
           <ResponsiveContainer width="100%" height="100%">
             <LineChart
               data={analytics}
@@ -42,12 +51,28 @@ export default function SignupAnalytics() {
               <Tooltip />
               <Legend />
               <CartesianGrid stroke="#f5f5f5" />
-              <Line type="monotone" dataKey="2023" stroke="#387300" yAxisId={0} />
-              <Line type="monotone" dataKey="2024" stroke="#ff7300" yAxisId={0} />
-              <Line type="monotone" dataKey="2025" stroke="#387908" yAxisId={0} />
+              <Line
+                type="monotone"
+                dataKey="2023"
+                stroke="#387300"
+                yAxisId={0}
+              />
+              <Line
+                type="monotone"
+                dataKey="2024"
+                stroke="#ff7300"
+                yAxisId={0}
+              />
+              <Line
+                type="monotone"
+                dataKey="2025"
+                stroke="#387908"
+                yAxisId={0}
+              />
             </LineChart>
           </ResponsiveContainer>
         </div>
-      }
-    </>);
+      )}
+    </>
+  )
 }

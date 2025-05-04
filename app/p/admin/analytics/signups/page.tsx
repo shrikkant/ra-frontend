@@ -1,12 +1,6 @@
-
-import React from "react";
-import SignupAnalytics from "../../../../components/admin/SignupAnalytics.client";
-
-
-
+import React from 'react'
+import SignupAnalytics from '../../../../components/admin/SignupAnalytics.client'
 
 export default function Page() {
-  return (
-    <SignupAnalytics />
-  );
+  return <SignupAnalytics />
 }

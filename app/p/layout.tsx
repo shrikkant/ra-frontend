@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 export default function Layout({
   // Layouts must accept a children prop.
   // This will be populated with nested layouts or pages
@@ -6,8 +6,9 @@ export default function Layout({
 }: {
   children: React.ReactNode
 }) {
-
-  return (<section className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
-    {children}
-  </section>);
+  return (
+    <section className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
+      {children}
+    </section>
+  )
 }
