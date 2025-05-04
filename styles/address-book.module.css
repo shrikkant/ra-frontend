@@ -1,6 +1,6 @@
 .grid {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
-    align-items: stretch;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  align-items: stretch;
 }

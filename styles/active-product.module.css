@@ -1,56 +1,56 @@
 .contentStyle {
-    height: '160px';
-    color: '#fff';
-    line-height: '160px';
-    text-align: 'center';
-    background: '#364d79';
+  height: '160px';
+  color: '#fff';
+  line-height: '160px';
+  text-align: 'center';
+  background: '#364d79';
 }
 
 .sbsContent {
-    display: flex;
-    flex-direction: row;
-    padding: '16px 24px';
+  display: flex;
+  flex-direction: row;
+  padding: '16px 24px';
 }
 
 .imageSection {
-    display: flex;
-    flex-direction: 'row';
-    column-gap: 24px;
+  display: flex;
+  flex-direction: 'row';
+  column-gap: 24px;
 }
 
 .imageIcons {
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
 }
 
 .carouselImg {
-    padding: 40px;
-    margin: auto;
-    height: 320px;
-    max-width: 100%;
+  padding: 40px;
+  margin: auto;
+  height: 320px;
+  max-width: 100%;
 }
 
 .bookingForm {
-    padding-top: 24px;
+  padding-top: 24px;
 }
 
 @media only screen and (max-width: 600px) {
-    .sbsContent {
-        flex-direction: column;
-    }
-    .carouselImg {
-        padding: 10px;
-        margin: auto;
-        height: 240px;
-        max-width: 100%;
-    }
-    .imageIcons {
-        flex-direction: row;
-    }
-    .imageSection {
-        flex-direction: column-reverse;
-        row-gap: 16px;
-    }
+  .sbsContent {
+    flex-direction: column;
+  }
+  .carouselImg {
+    padding: 10px;
+    margin: auto;
+    height: 240px;
+    max-width: 100%;
+  }
+  .imageIcons {
+    flex-direction: row;
+  }
+  .imageSection {
+    flex-direction: column-reverse;
+    row-gap: 16px;
+  }
 }

@@ -1,42 +1,42 @@
 .promAlert {
-    background: 'lightgreen';
+  background: 'lightgreen';
 }
 
 .handleStyle {
-    height: '14px';
-    width: '14px';
-    margin-top: '-2px';
+  height: '14px';
+  width: '14px';
+  margin-top: '-2px';
 }
 
 .searchGrid {
-    display: flex;
-    grid-gap: 24px;
-    flex-wrap: wrap;
-    padding: 12px;
-    /* justify-content: space-between; */
+  display: flex;
+  grid-gap: 24px;
+  flex-wrap: wrap;
+  padding: 12px;
+  /* justify-content: space-between; */
 }
 
 .pitsWrapper {
-    height: 24px;
-    width: 100%;
-    margin: 0px 4px;
-    display: flex;
-    align-items: baseline;
+  height: 24px;
+  width: 100%;
+  margin: 0px 4px;
+  display: flex;
+  align-items: baseline;
 }
 
 .pitsWrapper .pit {
-    width: 5%;
-    background: #ccc;
+  width: 5%;
+  background: #ccc;
 }
 
 .navContent {
-    width: 280px;
-    background: #fff;
-    padding-top: 24px;
+  width: 280px;
+  background: #fff;
+  padding-top: 24px;
 }
 
 .searchContent {
-    display: flex;
-    max-width: 1280px;
-    margin: auto;
+  display: flex;
+  max-width: 1280px;
+  margin: auto;
 }

@@ -1,11 +1,11 @@
 .productRow {
   display: flex;
-  padding:20px;
+  padding: 20px;
   column-gap: 20px;
 }
 
 .productDesc {
-  flex:1;
+  flex: 1;
 }
 
 .productImg {
@@ -17,15 +17,15 @@
 }
 
 .imgWrap {
-  padding:20px;
+  padding: 20px;
 }
 
 .ownerInfo {
-  padding:16px 0px;
+  padding: 16px 0px;
 }
 
 @media only screen and (max-width: 600px) {
   .productRow {
-      flex-direction: column;
+    flex-direction: column;
   }
 }

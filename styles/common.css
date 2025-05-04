@@ -1,46 +1,44 @@
 .ant-card-cover {
-    justify-content: center;
-    display: flex;
+  justify-content: center;
+  display: flex;
 }
 
 .brands .ant-checkbox-wrapper {
-    width: 100%;
-    padding: 4px 0px;
+  width: 100%;
+  padding: 4px 0px;
 }
 
 .full-height {
-    min-height: '100vh';
+  min-height: '100vh';
 }
 
 .main-content {
-    background: #fff;
-    height: 100vh;
-    display: flex;
-    width: 100%;
+  background: #fff;
+  height: 100vh;
+  display: flex;
+  width: 100%;
 }
 
 .ant-descriptions-title {
-    white-space: pre-wrap!important;
+  white-space: pre-wrap !important;
 }
 
 .ant-menu-item {
-    padding-left: 24px !important;
+  padding-left: 24px !important;
 }
 
-.r-comp .ant-input, .r-comp .ant-btn-default {
-    border-radius: 0px !important;
+.r-comp .ant-input,
+.r-comp .ant-btn-default {
+  border-radius: 0px !important;
 }
 .r-comp .ant-select-selector {
-    border-radius: 6px 0px 0px 6px;
+  border-radius: 6px 0px 0px 6px;
 }
 
 .ant-upload-list-item-name {
-    display: block !important;
-    position: absolute;
-    margin-top: 70px;
+  display: block !important;
+  position: absolute;
+  margin-top: 70px;
 
-    text-align: center;
+  text-align: center;
 }
-
-
-

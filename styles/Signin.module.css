@@ -1,22 +1,22 @@
 .loginBox {
-    width: 320px;
-    height: 220px;
-    display: flex;
-    margin: auto;
-    padding: 20px;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+  width: 320px;
+  height: 220px;
+  display: flex;
+  margin: auto;
+  padding: 20px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .loginWrapper {
-    display: flex;
-    height: 100vh;
-    justify-content: center;
+  display: flex;
+  height: 100vh;
+  justify-content: center;
 }
 
 .loginBox .signinBtn {
-    width: 196px;
-    display: inline-flex;
-    align-items: center;
+  width: 196px;
+  display: inline-flex;
+  align-items: center;
 }

@@ -1,28 +1,28 @@
 .productRow {
-    display: flex;
-    width: 100%;
-    padding:20px;
-    column-gap: 20px;
+  display: flex;
+  width: 100%;
+  padding: 20px;
+  column-gap: 20px;
 }
 
 .productDesc {
-    flex:1;
+  flex: 1;
 }
 
 .productImg {
-    width: 120px;
+  width: 120px;
 }
 
 .img {
-    height: 96px;
+  height: 96px;
 }
 
 .imgWrap {
-    padding:20px;
+  padding: 20px;
 }
 
 @media only screen and (max-width: 600px) {
-    .productRow {
-        flex-direction: column;
-    }
+  .productRow {
+    flex-direction: column;
+  }
 }
