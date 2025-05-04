@@ -1,38 +1,48 @@
-import { combineReducers, configureStore } from '@reduxjs/toolkit';
+import {combineReducers, configureStore} from '@reduxjs/toolkit'
 
-import appDefaults from './app-defaults/app-defaults.slice';
+import appDefaults from './app-defaults/app-defaults.slice'
 
-import auth from './auth/auth.slice';
+import auth from './auth/auth.slice'
 import products from './products/products.slice'
 import myProducts from './user/products/products.slice'
 import orders from './user/orders/orders.slice'
-import session from './session/session.slice';
+import session from './session/session.slice'
 
-import admin from "./admin/index.slice";
-import { FLUSH, PAUSE, PERSIST, PURGE, REGISTER, REHYDRATE, persistReducer } from 'redux-persist';
-import storage from './storage';
-import createCompressor from 'redux-persist-transform-compress';
+import admin from './admin/index.slice'
+import {
+  FLUSH,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+  REHYDRATE,
+  persistReducer,
+} from 'redux-persist'
+import storage from './storage'
+import createCompressor from 'redux-persist-transform-compress'
 
-const SIGNOUT_REQUEST = "authSlice/logout";
+const SIGNOUT_REQUEST = 'authSlice/logout'
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
-  blacklist: ["tracking"],
-  whitelist: ["auth", "appDefaults", "session"],
+  blacklist: ['tracking'],
+  whitelist: ['auth', 'appDefaults', 'session'],
   transforms: [createCompressor()], // Compress persisted data
-};
+}
 
-const persistedReducer = persistReducer(persistConfig, combineReducers({
-  appDefaults,
-  auth,
-  session,
-  products,
-  myProducts,
-  orders,
-  admin
-}))
-
+const persistedReducer = persistReducer(
+  persistConfig,
+  combineReducers({
+    appDefaults,
+    auth,
+    session,
+    products,
+    myProducts,
+    orders,
+    admin,
+  }),
+)
 
 /*
 export const makeStore = () => {
@@ -73,7 +83,7 @@ export const makeStore = () => {
 export const appReducer = (state, action) => {
   if (action.type === SIGNOUT_REQUEST) {
     storage.removeItem('persist:root')
-    return persistedReducer(undefined, action);
+    return persistedReducer(undefined, action)
   }
 
   return persistedReducer(state, action)
@@ -82,18 +92,16 @@ export const appReducer = (state, action) => {
 export const makeStore = () => {
   return configureStore({
     reducer: appReducer,
-    devTools: process.env.NODE_ENV !== "production",
-    middleware: (getDefaultMiddleware) =>
+    devTools: process.env.NODE_ENV !== 'production',
+    middleware: getDefaultMiddleware =>
       getDefaultMiddleware({
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
       }),
-  });
-};
+  })
+}
 
-
-export type AppStore = ReturnType<typeof makeStore>;
-export type RootState = ReturnType<AppStore["getState"]>;
-export type AppDispatch = AppStore["dispatch"];
-
+export type AppStore = ReturnType<typeof makeStore>
+export type RootState = ReturnType<AppStore['getState']>
+export type AppDispatch = AppStore['dispatch']

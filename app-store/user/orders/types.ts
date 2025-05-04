@@ -1,6 +1,6 @@
-import { IOrder } from "../../types";
+import {IOrder} from '../../types'
 
 export interface OrdersState {
-	orders?: IOrder[] | null, 
-  cart?: IOrder | null,
+  orders?: IOrder[] | null
+  cart?: IOrder | null
 }

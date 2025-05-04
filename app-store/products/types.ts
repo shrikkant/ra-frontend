@@ -1,18 +1,18 @@
-import { IProduct, IProductCategory } from "../types";
+import {IProduct, IProductCategory} from '../types'
 
 export interface IHomeSlide {
-	id: number;
-	title: string;
-	img: string;
-	subtitle: string;
-	imgBg: string;
-	price: number;
-	model: string;
-	url?: string;
+  id: number
+  title: string
+  img: string
+  subtitle: string
+  imgBg: string
+  price: number
+  model: string
+  url?: string
 }
 export interface ProductsState {
-	featuredProducts?: IProduct[];
-	activeProduct?: IProduct;
-	searchResults?: IProduct[];
-	searchMetaData?;
+  featuredProducts?: IProduct[]
+  activeProduct?: IProduct
+  searchResults?: IProduct[]
+  searchMetaData?
 }
