@@ -1,14 +1,11 @@
 import React, { useState } from 'react';
 import { FaPlus } from 'react-icons/fa';
-// import { Upload, X, Plus, AlertCircle } from 'lucide-react';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from './Loader';
 import { IUser } from '../app-store/types';
-import { addDocument, uploadDocument } from '../api/admin/customers.api';
-import { IDocument } from '../app-store/app-defaults/types';
+import {  uploadDocument } from '../api/admin/customers.api';
 import { IoMdRemove } from 'react-icons/io';
-import Link from 'next/link';
-// import { Alert, AlertDescription } from '@/components/ui/alert';
+
 
 const DocumentsCard = ({ user }: { user: IUser }) => {
   const [documents, setDocuments] = useState({

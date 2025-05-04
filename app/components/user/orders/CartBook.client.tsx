@@ -72,10 +72,6 @@ export default function CartBook() {
     selectAddress(addr);
   };
 
-  const onNewAddress = (newAddress) => {
-    // selectAddress(newAddress);
-  }
-
   const resolveStep = () => {
     if (!loggedUser || !loggedUser.address || loggedUser.address.length === 0) {
       return ORDER_STEPS.ORDER_STEP_ADDRESS;
@@ -117,8 +113,7 @@ export default function CartBook() {
                 <div className="border border-gray-300 rounded-md p-4 flex flex-col gap-y-4 xs:m-4">
                   <AddressPicker
                     onAddressPick={checkRadio}
-                    onAddressReset={changeAddress}
-                    onNewAddress={onNewAddress}
+                    onAddressReset={changeAddress}                    onNewAddress={onNewAddress}
                     selectedAddress={selectedAddress}
                   ></AddressPicker>
 

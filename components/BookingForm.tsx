@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from "react";
 import { DateRangePicker } from "./search/DateRangePicker";
-import { addToCart, fetchCart } from "../api/user/orders.api";
+import { addToCart} from "../api/user/orders.api";
 import { usePathname, useRouter } from "next/navigation";
 
 import { useDispatch, useSelector } from "react-redux";

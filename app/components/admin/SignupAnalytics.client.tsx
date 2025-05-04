@@ -1,5 +1,4 @@
 "use client"
-import MyPageHeader from "components/MyPageHeader";
 
 import React, { useEffect, useState } from "react";
 
@@ -9,7 +8,7 @@ import { CartesianGrid, Legend, Line, LineChart, ResponsiveContainer, Tooltip, X
 
 export default function SignupAnalytics() {
 
-  const [analytics, setAnalytics] = useState<any[] | undefined>(undefined);
+  const [analytics, setAnalytics] = useState<unknown[] | undefined>(undefined);
 
   const fetchData = async () => {
     const response = await fetchSignupAnalytics();

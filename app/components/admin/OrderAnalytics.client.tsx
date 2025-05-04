@@ -1,5 +1,4 @@
 "use client"
-import MyPageHeader from "components/MyPageHeader";
 
 import React, { useEffect, useState } from "react";
 

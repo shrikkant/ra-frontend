@@ -14,7 +14,7 @@ interface IAddressPickerProps {
   onAddressReset: () => void;
   onAddressPick: (address) => void;
   selectedAddress;
-  onNewAddress: (address) => void;
+  onNewAddress?: (address) => void;
 }
 
 export const AddressPicker = ({
@@ -41,7 +41,7 @@ export const AddressPicker = ({
 
     const updatedUser = { ...loggedUser, address: newAddressList };
     dispatch(authUser(updatedUser));
-    onNewAddress(address);
+    onNewAddress?.(address);
   }
 
   return (
