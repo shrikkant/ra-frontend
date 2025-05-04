@@ -61,8 +61,7 @@ export async function syncCustomerDocuments(id: number): Promise<any> {
     return sync;
 }
 
-export async function uploadDocument(id: number,
-    userId: number,
+export async function uploadDocument(userId: number,
     file,
     documentType,
     side,
@@ -80,7 +79,7 @@ export async function uploadDocument(id: number,
     formData.append('file_type', file.type);
     formData.append('type', '1');
 
-    httpClient.post(`/admin/users/${id}/documents/files`, formData, {
+    httpClient.post(`/admin/users/${userId}/documents/files`, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

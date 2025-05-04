@@ -1,21 +1,23 @@
-
 "use client";
 
 import React from "react";
-import { useDispatch } from "react-redux";
-import { authUser } from "../../app-store/auth/auth.slice";
-
+import { useDispatch, useSelector } from "react-redux";
+import { authUser, selectAuthState } from "../../app-store/auth/auth.slice";
 import { updateAadhaar, verifyAadhaarOTP } from "../../api/user/index.api";
 import { IUser } from "../../app-store/types";
 import { useRouter } from "next/navigation";
 import Input from "../common/form/Input";
-
+import Button from "../common/form/Button";
+import { FaCheckCircle } from "react-icons/fa";
+import { STATUS_AADHAAR_VERIFIED } from "../../config/constants";
 
 export default function VerifyAadhar() {
   const router = useRouter();
   const [aadharNumber, setAadharNumber] = React.useState("");
   const [otp, setOtp] = React.useState("");
   const [otpSent, setOtpSent] = React.useState(false);
+  const [isLoading, setIsLoading] = React.useState(false);
+  const user = useSelector(selectAuthState);
 
   const dispatch = useDispatch();
 
@@ -44,60 +46,102 @@ export default function VerifyAadhar() {
   }
 
   const submitAadhar = async () => {
-    if (!isValidAadhar(aadharNumber))
-      return
-    const updateUser: IUser = await updateAadhaar(aadharNumber);
-    if (updateUser.aadhaar_callback_id) {
-      setOtpSent(true);
+    if (!isValidAadhar(aadharNumber)) {
+      return;
+    }
+    setIsLoading(true);
+    try {
+      const updateUser: IUser = await updateAadhaar(aadharNumber);
+      if (updateUser.aadhaar_callback_id) {
+        setOtpSent(true);
+      }
+    } catch (error) {
+      console.error('Failed to submit Aadhaar:', error);
+    } finally {
+      setIsLoading(false);
     }
   }
 
   const verifyOTP = async () => {
-    const updateUser: IUser = await verifyAadhaarOTP(otp);
-
-    dispatch(authUser(updateUser));
-    router.push("/");
+    setIsLoading(true);
+    try {
+      const updateUser: IUser = await verifyAadhaarOTP(otp);
+      dispatch(authUser(updateUser));
+      router.push("/");
+    } catch (error) {
+      console.error('Failed to verify OTP:', error);
+    } finally {
+      setIsLoading(false);
+    }
   }
 
-
+  if (user?.verified === STATUS_AADHAAR_VERIFIED) {
+    return (
+      <div className="border rounded-lg p-4 space-y-3">
+        <div className="flex justify-between items-center">
+          <h3 className="font-medium text-lg">Aadhaar</h3>
+          <div className="flex items-center gap-2">
+            <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
+              Verified
+            </span>
+            <FaCheckCircle className="h-5 w-5 text-green-600" />
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
-    <div className="rounded-md xs:w-full py-4">
-      <div className="w-full   flex  rounded-sm justify-center">
-        <div className="xs:w-full h-max bg-slate-300  sm:w-[320px] xs:mx-4 flex flex-col justify-center align-bottom  m-auto gap-y-5 p-4 mb-4 rounded-lg shadow-sm 2xl:col-span-2 sm:p-4">
-          <div className="text-gray-100">
-            <h2 className="text-4xl text-gray-700  font-semibol font-normal normal-case">Verify Aadhaar</h2>
-          </div>
+    <div className="border rounded-lg p-4 space-y-3">
+      <div className="flex justify-between items-center">
+        <h3 className="font-medium text-lg">Aadhaar</h3>
+        {otpSent && (
+          <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
+            Pending
+          </span>
+        )}
+      </div>
 
-          {!otpSent &&
-            <div className="flex flex-col gap-y-4">
-              <div className="w-full">
-                <Input label="Aadhaar Number" pattern="[0-9]*" inputMode="numeric" onKeyDown={validateInputAadhar} onChange={handleInputChange} />
-              </div>
-              <div className="flex justify-end">
-                <button className="text-gray-700 hover:text-gray-700 btn" onClick={submitAadhar} >
-                  <span>
-                    Send OTP
-                  </span>
-                </button>
-              </div>
-            </div>}
-
-          {otpSent && <>
-            <div className="w-full">
-              <Input label="OTP" pattern="[0-9]*" inputMode="numeric" onKeyDown={validateInputAadhar} onChange={handleOTPChange} />
-            </div>
-            <div className="flex justify-end">
-              <button className="text-gray-700 btn hover:text-gray-500 " onClick={verifyOTP} >
-                <span>
-                  Submit OTP
-                </span>
-              </button>
-            </div>
-
-          </>}
-
-        </div>
+      <div className="space-y-4">
+        {!otpSent ? (
+          <>
+            <Input
+              label="Aadhaar Number"
+              pattern="[0-9]*"
+              inputMode="numeric"
+              onKeyDown={validateInputAadhar}
+              onChange={handleInputChange}
+              value={aadharNumber}
+              size="lg"
+            />
+            <Button
+              variant="primary"
+              label="Send OTP"
+              onClick={submitAadhar}
+              isLoading={isLoading}
+              disabled={!isValidAadhar(aadharNumber)}
+            />
+          </>
+        ) : (
+          <>
+            <Input
+              label="OTP"
+              pattern="[0-9]*"
+              inputMode="numeric"
+              onKeyDown={validateInputAadhar}
+              onChange={handleOTPChange}
+              value={otp}
+              size="lg"
+            />
+            <Button
+              variant="primary"
+              label="Verify OTP"
+              onClick={verifyOTP}
+              isLoading={isLoading}
+              disabled={otp.length !== 6}
+            />
+          </>
+        )}
       </div>
     </div>
   );

@@ -67,7 +67,6 @@ httpClient.interceptors.request.use(
     async (config: any) => {
         const token = await getToken();
         config.rejectUnauthorized = true;
-        console.log("Token: ", token);
         if (!config.headers?.[TOKEN_HEADER_KEY]) {
 
             config.headers = {
@@ -86,22 +85,21 @@ httpClient.interceptors.request.use(
 );
 
 httpClient.interceptors.response.use(
-    async function (res: AxiosResponse<any>) {
-        const response: any = res;
-        const { resultFormatted } = response.data;
+    async function <T>(res: AxiosResponse<{ resultFormatted: T; successMessage?: string; errorMessage?: string }>): Promise<T> {
+        const response = res;
         if (response.data?.successMessage) {
-            displayMessage('success', response.data?.successMessage);
+            displayMessage('success', response.data.successMessage);
         } else if (response.data?.errorMessage) {
-            displayMessage('error', response.data?.errorMessage);
+            displayMessage('error', response.data.errorMessage);
         }
-        return resultFormatted;
+        return response.data.resultFormatted;
     }, (error) => {
         if (error.status === 403) {
             if (window.location.href.indexOf('signUp=true') === -1) {
                 window.location.href = '/?signUp=true';
             }
         }
-        return;
+        return Promise.reject(error);
     }
 )
 
@@ -109,7 +107,7 @@ export const fetchData = async (url, customOptions?) => {
 
     const commonOptions = {
         headers: { 'Content-Type': 'application/json' },
-        referrer: 'https://www.rentacross.com'
+        referrer: 'https://rentacross.com'
     }
 
     const options = {
@@ -130,3 +128,13 @@ export const fetchData = async (url, customOptions?) => {
 }
 
 export default httpClient;
+
+// Override the default axios types
+declare module 'axios' {
+    interface AxiosInstance {
+        get<T = any>(url: string): Promise<T>;
+        post<T = any>(url: string, data?: any, config?: any): Promise<T>;
+        put<T = any>(url: string, data?: any): Promise<T>;
+        delete<T = any>(url: string): Promise<T>;
+    }
+}
