@@ -1,12 +1,15 @@
-export const trackGAEvent = (event: string, props: Record<string, string | number | boolean> = {}) => {
+export const trackGAEvent = (
+  event: string,
+  props: Record<string, string | number | boolean> = {},
+) => {
   if (typeof window !== 'undefined') {
-    window.dataLayer = window.dataLayer || [];
+    window.dataLayer = window.dataLayer || []
     window.dataLayer.push({
       event,
-      ...props
-    });
+      ...props,
+    })
   }
-};
+}
 
 // Common event types
 export const GA_EVENTS = {
@@ -23,5 +26,5 @@ export const GA_EVENTS = {
   SHARE: 'share',
   DOWNLOAD: 'download',
   VIDEO_PLAY: 'video_play',
-  ERROR: 'error'
-} as const;
+  ERROR: 'error',
+} as const

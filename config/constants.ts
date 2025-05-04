@@ -3,22 +3,22 @@
 // const { publicRuntimeConfig: envConfig } = getConfig();
 
 export interface ICountry {
-  code: string;
-  urlBase: string;
-  locations: string[];
-  states: string[];
+  code: string
+  urlBase: string
+  locations: string[]
+  states: string[]
 }
-export const ENV = process.env.REACT_APP_ENV!;
+export const ENV = process.env.REACT_APP_ENV!
 // export const BASE_API_URL = envConfig.BASE_API_URL;
-export const BASE_URL = "https://rentacross.com";
-export const BASE_API_URL = process.env.REACT_APP_API_URL!;
-export const REACT_APP_URL = process.env.REACT_APP_URL!;
-export const TOKEN_COOKIE_KEY = "access_token";
-export const TOKEN_HEADER_KEY = "authorization";
-export const CITY = "Pune";
-export const APP_LOCALE = "en-GB";
+export const BASE_URL = 'https://rentacross.com'
+export const BASE_API_URL = process.env.REACT_APP_API_URL!
+export const REACT_APP_URL = process.env.REACT_APP_URL!
+export const TOKEN_COOKIE_KEY = 'access_token'
+export const TOKEN_HEADER_KEY = 'authorization'
+export const CITY = 'Pune'
+export const APP_LOCALE = 'en-GB'
 
-export const STATUS_AADHAAR_VERIFIED = 3;
+export const STATUS_AADHAAR_VERIFIED = 3
 
 export const enum ARTICLE_TYPES {
   BLOG = 0,
@@ -26,7 +26,7 @@ export const enum ARTICLE_TYPES {
   HELP_ARTICLE = 2,
 }
 
-export const DEFAULT_CURRENCY = "INR";
+export const DEFAULT_CURRENCY = 'INR'
 
 export const enum ORDER_STEPS {
   ORDER_STEP_CART = 0,
@@ -47,83 +47,80 @@ export const enum INPUT_ICON_TYPES {
 export const DISCOUNT_STEPS = [
   {
     days: 14,
-    discount: 50
+    discount: 50,
   },
   {
     days: 10,
-    discount: 35
+    discount: 35,
   },
   {
     days: 7,
-    discount: 25
+    discount: 25,
   },
   {
     days: 5,
-    discount: 15
+    discount: 15,
   },
   {
     days: 3,
-    discount: 10
+    discount: 10,
   },
   {
     days: 2,
-    discount: 5
+    discount: 5,
   },
   {
     days: 1,
-    discount: 0
+    discount: 0,
   },
 ]
 
-const COUNTRIES: ICountry[] = [];
+const COUNTRIES: ICountry[] = []
 
 const ind: ICountry = {
-  code: "IN",
-  urlBase: "",
+  code: 'IN',
+  urlBase: '',
   locations: [
-    "Bangalore",
-    "Jaipur",
-    "Ahmedabad",
-    "Pune",
-    "Kochi",
-    "Navi Mumbai",
-    "Thane",
-    "Coimbatore",
-    "Mumbai",
-    "Hyderabad",
-    "Chandigarh",
-    "Ahmedabad",
-    "Chennai",
-    "Nashik",
-    "Kolkata",
-    "Patna",
-    "Indore",
-    "Kolhapur",
-    "Surat",
-    "Vadodara",
-    "Nagpur",
-    "Bhopal",
-    "Madurai",
-    "Gandhinagar",
-    "Rajkot",
-    "Jodhpur",
-    "Udaipur",
-    "Jaisalmer",
+    'Bangalore',
+    'Jaipur',
+    'Ahmedabad',
+    'Pune',
+    'Kochi',
+    'Navi Mumbai',
+    'Thane',
+    'Coimbatore',
+    'Mumbai',
+    'Hyderabad',
+    'Chandigarh',
+    'Ahmedabad',
+    'Chennai',
+    'Nashik',
+    'Kolkata',
+    'Patna',
+    'Indore',
+    'Kolhapur',
+    'Surat',
+    'Vadodara',
+    'Nagpur',
+    'Bhopal',
+    'Madurai',
+    'Gandhinagar',
+    'Rajkot',
+    'Jodhpur',
+    'Udaipur',
+    'Jaisalmer',
   ],
-  states: ["Goa"]
-};
-
-
+  states: ['Goa'],
+}
 
 const nz: ICountry = {
-  code: "NZ",
-  urlBase: "nz/",
-  locations: ["Auckland"],
-  states: []
-};
+  code: 'NZ',
+  urlBase: 'nz/',
+  locations: ['Auckland'],
+  states: [],
+}
 
+COUNTRIES.push(ind)
+COUNTRIES.push(nz)
 
-COUNTRIES.push(ind);
-COUNTRIES.push(nz);
-
-export default COUNTRIES;
+export default COUNTRIES
