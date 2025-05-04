@@ -8,24 +8,23 @@ export const fetchData = async (url, customOptions?) => {
   const commonOptions = {
     headers: {
       'Content-Type': 'application/json',
-      'authorization': accessToken?.value,
+      authorization: accessToken?.value,
     },
     referrer: 'https://www.rentacross.com',
     Cookie: cookieHeader,
-
-  }
+  };
 
   const options = {
     ...commonOptions,
-    ...customOptions
-  }
+    ...customOptions,
+  };
 
-  const response = await fetch(`https://rentacross.com/api/${url}`, options);
+  const response = await fetch(`http://rentacross.com/api/${url}`, options);
   if (!response.ok) {
-    throw new Error('Failed to fetch data')
+    throw new Error('Failed to fetch data');
   }
 
   const { resultFormatted } = await response.json();
 
   return resultFormatted;
-}
+};
