@@ -115,7 +115,6 @@ export default function CartBook() {
                   <AddressPicker
                     onAddressPick={checkRadio}
                     onAddressReset={changeAddress}
-                    onNewAddress={onNewAddress}
                     selectedAddress={selectedAddress}
                   ></AddressPicker>
 
