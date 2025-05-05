@@ -38,5 +38,6 @@ export async function uploadUserDocument(
 }
 
 export async function getUserDocuments(): Promise<IDocument[]> {
-  return httpClient.get<IDocument[]>('/user/documents')
+  const response = await httpClient.get<IDocument[]>('/user/documents')
+  return response as unknown as IDocument[]
 }

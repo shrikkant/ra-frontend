@@ -100,7 +100,7 @@ export async function uploadDocument(
       },
     })
     .then(data => {
-      onSuccess(data, documentType, side)
+      onSuccess(data)
     })
     .catch(er => {
       onError(er, file)

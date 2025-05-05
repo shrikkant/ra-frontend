@@ -1,18 +1,26 @@
 'use client'
 
-import React, {useState, useEffect} from 'react'
-import {FaPlus, FaEye, FaTimes} from 'react-icons/fa'
+import React, {useEffect} from 'react'
+import {FaPlus} from 'react-icons/fa'
 import Loader from '../Loader'
-import {uploadUserDocument} from '../../api/user/documents.api'
+import {verifyDocument} from '../../api/admin/documents.api'
 import {displayMessage} from '../../util/global.util'
 import {IDocument} from '../../app-store/app-defaults/types'
 import DocumentModal from './DocumentModal'
+import DocumentVerificationModal from './DocumentVerificationModal'
+import {MESSAGE_TYPES} from '../../util/messageTypes'
+import {useDocumentUpload} from '../../hooks/useDocumentUpload'
+import DocumentViewer from './DocumentViewer'
+import DocumentStatusBadge from './DocumentStatusBadge'
+import DocumentActionButtons from './DocumentActionButtons'
 
 interface DocumentUploadCardProps {
   title: string
   documentType: string
   onUpload?: (file: IDocument) => void
   existingDocument?: IDocument
+  isAdmin?: boolean
+  userId?: number
 }
 
 const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
@@ -20,115 +28,42 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
   documentType,
   onUpload,
   existingDocument,
+  isAdmin = false,
+  userId,
 }) => {
-  const [document, setDocument] = useState<{
-    file: File | null
-    status?: 'pending' | 'verified' | 'rejected'
-  } | null>(null)
-  const [uploading, setUploading] = useState(false)
-  const [showModal, setShowModal] = useState(false)
+  const [showModal, setShowModal] = React.useState(false)
+  const [showVerificationModal, setShowVerificationModal] =
+    React.useState(false)
+
+  const {document, uploading, handleFileUpload, removeFile, setDocument} =
+    useDocumentUpload({
+      isAdmin,
+      userId,
+      documentType,
+      onUpload,
+    })
 
   useEffect(() => {
     if (existingDocument) {
-      setDocument({
-        file: null,
-        status: existingDocument.verified ? 'verified' : 'pending',
-      })
+      setDocument(existingDocument)
     }
-  }, [existingDocument])
+  }, [existingDocument, setDocument])
 
-  const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-
-    // File validation
-    if (
-      !file.type.startsWith('image/') &&
-      !file.type.startsWith('application/pdf')
-    ) {
-      displayMessage('error', 'Please upload image or pdf')
-      return
-    }
-
-    if (file.size > 20 * 1024 * 1024) {
-      // 20MB limit
-      displayMessage('error', 'File size should be less than 5MB')
-      return
-    }
+  const handleVerify = async (documentId: string) => {
+    if (!existingDocument?.id) return
 
     try {
-      setDocument({file, status: 'pending'})
-      setUploading(true)
-
-      await uploadUserDocument(
-        file,
-        documentType,
-        progress => {
-          console.log('Upload progress:', progress)
-        },
-        (data: IDocument) => {
-          setUploading(false)
-          if (onUpload) {
-            onUpload(data)
-          }
-          console.log('Document Uploaded : ', data)
-          displayMessage('success', 'Document uploaded successfully')
-        },
-        () => {
-          setUploading(false)
-          setDocument(null)
-          displayMessage('error', 'Failed to upload document')
-        },
+      const updatedDoc = await verifyDocument(
+        existingDocument.user_id!,
+        existingDocument.id,
       )
-    } catch {
-      displayMessage('error', 'Document upload error')
-      setUploading(false)
-      setDocument(null)
+      debugger
+      console.log('Updated Doc : ', updatedDoc)
+      return
+    } catch (error) {
+      console.log('Error : ', error)
+      //throw error
     }
-  }
-
-  const removeFile = () => {
-    setDocument(null)
-  }
-
-  const getStatusColor = (status?: string) => {
-    switch (status) {
-      case 'verified':
-        return 'bg-green-100 text-green-800'
-      case 'pending':
-        return 'bg-yellow-100 text-yellow-800'
-      case 'rejected':
-        return 'bg-red-100 text-red-800'
-      default:
-        return 'bg-gray-100 text-gray-800'
-    }
-  }
-
-  const renderDocumentView = () => {
-    if (!existingDocument || !existingDocument.front) return null
-
-    const isPDF = existingDocument.file_type?.startsWith('application/pdf')
-    const documentData = Buffer.from(existingDocument.front).toString('base64')
-
-    if (!documentData) return null
-
-    if (isPDF) {
-      return (
-        <iframe
-          src={`data:application/pdf;base64,${documentData}`}
-          className="w-full h-full"
-          title={`${title} PDF`}
-        />
-      )
-    }
-
-    return (
-      <img
-        src={`data:image/png;base64,${documentData}`}
-        alt={title}
-        className="w-full h-full object-contain"
-      />
-    )
   }
 
   return (
@@ -136,31 +71,16 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
       <div className="flex justify-between items-center">
         <h3 className="font-medium text-lg">{title}</h3>
         <div className="flex items-center gap-2">
-          {document?.status && (
-            <span
-              className={`px-2 py-1 rounded-full text-xs font-medium ${getStatusColor(document.status)}`}
-            >
-              {document.status.charAt(0).toUpperCase() +
-                document.status.slice(1)}
-            </span>
-          )}
+          <DocumentStatusBadge document={document} />
           {document && !uploading && (
-            <>
-              {existingDocument && (
-                <button
-                  onClick={() => setShowModal(true)}
-                  className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 w-8 h-8 flex items-center justify-center"
-                >
-                  <FaEye className="h-4 w-4" />
-                </button>
-              )}
-              <button
-                onClick={removeFile}
-                className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 w-8 h-8 flex items-center justify-center"
-              >
-                <FaTimes className="h-4 w-4" />
-              </button>
-            </>
+            <DocumentActionButtons
+              document={document}
+              existingDocument={existingDocument}
+              isAdmin={isAdmin}
+              onView={() => setShowModal(true)}
+              onVerify={() => setShowVerificationModal(true)}
+              onRemove={removeFile}
+            />
           )}
         </div>
       </div>
@@ -170,7 +90,9 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
             <input
               type="file"
               accept="image/*, application/pdf"
-              onChange={handleFileUpload}
+              onChange={e =>
+                e.target.files?.[0] && handleFileUpload(e.target.files[0])
+              }
               className="hidden"
               disabled={uploading}
             />
@@ -190,8 +112,19 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
         onClose={() => setShowModal(false)}
         title={title}
       >
-        {renderDocumentView()}
+        {existingDocument && (
+          <DocumentViewer document={existingDocument} title={title} />
+        )}
       </DocumentModal>
+
+      {existingDocument && (
+        <DocumentVerificationModal
+          isOpen={showVerificationModal}
+          onClose={() => setShowVerificationModal(false)}
+          document={existingDocument}
+          onVerify={handleVerify}
+        />
+      )}
     </div>
   )
 }
