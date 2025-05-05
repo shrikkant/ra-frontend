@@ -1,27 +1,19 @@
-import React, {useEffect, useState} from 'react'
+import React from 'react'
 import DocumentUploadCard from './common/DocumentUploadCard'
 import {IUser} from '../app-store/types'
 import {IDocument} from '../app-store/app-defaults/types'
-import {getUserDocuments} from '../api/user/documents.api'
 
-const DocumentsCard = ({user}: {user: IUser}) => {
-  const [documents, setDocuments] = useState<IDocument[]>([])
-  const [isLoading, setIsLoading] = useState(true)
-
-  useEffect(() => {
-    const fetchDocuments = async () => {
-      try {
-        const fetchedDocuments = await getUserDocuments()
-        setDocuments(fetchedDocuments)
-      } catch (error) {
-        console.error('Failed to fetch documents:', error)
-      } finally {
-        setIsLoading(false)
-      }
-    }
-    fetchDocuments()
-  }, [])
-
+const DocumentsCard = ({
+  user,
+  documents,
+  isLoading = false,
+  onUpload,
+}: {
+  user: IUser
+  documents: IDocument[]
+  isLoading?: boolean
+  onUpload?: (newDoc: IDocument) => void
+}) => {
   const documentTypes = {
     panCard: {
       label: 'Pan Card',
@@ -76,14 +68,7 @@ const DocumentsCard = ({user}: {user: IUser}) => {
             existingDocument={getExistingDocument(doc.type)}
             isAdmin={true}
             userId={user.id}
-            onUpload={newDoc => {
-              setDocuments(prev => {
-                const filtered = prev.filter(
-                  d => d.document_type !== newDoc.document_type,
-                )
-                return [...filtered, newDoc]
-              })
-            }}
+            onUpload={onUpload}
           />
         ))}
       </div>

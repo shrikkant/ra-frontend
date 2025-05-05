@@ -5,8 +5,11 @@ import VerifyAadhar from '../../../../components/user/VerifyAadhaar'
 import DocumentUploadCard from '../../../../components/common/DocumentUploadCard'
 import {IDocument} from '../../../../app-store/app-defaults/types'
 import {getUserDocuments} from '../../../../api/user/documents.api'
+import {useSelector} from 'react-redux'
+import {selectAuthState} from '../../../../app-store/auth/auth.slice'
 
 export default function Page() {
+  const loggedUser = useSelector(selectAuthState)
   const [existingDocuments, setExistingDocuments] = useState<
     Record<string, IDocument>
   >({})
@@ -15,13 +18,12 @@ export default function Page() {
   useEffect(() => {
     const fetchDocuments = async () => {
       try {
-        const documents = (await getUserDocuments()) as IDocument[]
+        const documents = await getUserDocuments()
         if (documents) {
           const docsMap: Record<string, IDocument> = {}
           documents.forEach(doc => {
             docsMap[doc.document_type] = doc
           })
-
           setExistingDocuments(docsMap)
         }
       } catch (error) {
@@ -33,7 +35,7 @@ export default function Page() {
     fetchDocuments()
   }, [])
 
-  const handleDocumentUpload = async (newDoc: IDocument) => {
+  const handleDocumentUpload = (newDoc: IDocument) => {
     setExistingDocuments(prev => ({
       ...prev,
       [newDoc.document_type]: newDoc,
@@ -93,6 +95,7 @@ export default function Page() {
                       <span className="px-2 bg-white text-gray-500">OR</span>
                     </div>
                   </div>
+
                   {/* Passport */}
                   <DocumentUploadCard
                     title="Passport"

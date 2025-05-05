@@ -107,3 +107,12 @@ export async function uploadDocument(
       console.error(er)
     })
 }
+
+export async function getCustomerDocuments(
+  userId: number,
+): Promise<IDocument[]> {
+  const documents: IDocument[] = await httpClient.get(
+    `/admin/users/${userId}/documents`,
+  )
+  return documents
+}
