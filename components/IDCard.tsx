@@ -9,7 +9,7 @@ interface IDCardProps {
 }
 
 export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
-  const hasAadhaar = !!aadhaar
+  const hasAadhaar = !!aadhaar && Object.keys(aadhaar).length > 0
   const hasCustomer = !!customer
 
   if (!hasAadhaar && !hasCustomer) {
