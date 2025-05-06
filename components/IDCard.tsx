@@ -27,13 +27,19 @@ export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
               alt="Profile"
             />
           )}
-          {hasCustomer && !hasAadhaar && (
-            <img
-              className="w-full h-full object-cover"
-              src={customer.profile_pic}
-              alt="Jese picture"
-            />
-          )}
+          {hasCustomer &&
+            !hasAadhaar &&
+            (customer.profile_pic ? (
+              <img
+                className="w-full h-full object-cover"
+                src={customer.profile_pic}
+                alt="Profile"
+              />
+            ) : (
+              <div className="w-full h-full flex items-center justify-center bg-gray-100">
+                <span className="text-gray-500">No Photo</span>
+              </div>
+            ))}
         </div>
         <div className="flex-1 p-4">
           <div className="space-y-2">
