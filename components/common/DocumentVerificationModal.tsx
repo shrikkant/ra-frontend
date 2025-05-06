@@ -5,6 +5,7 @@ import {displayMessage} from '../../util/global.util'
 import {MESSAGE_TYPES} from '../../util/messageTypes'
 import {IDocument} from '../../app-store/app-defaults/types'
 import {fetchDocumentDetails} from '../../api/admin/documents.api'
+import AdminDocumentViewer from './AdminDocumentViewer'
 
 interface DocumentVerificationModalProps {
   isOpen: boolean
@@ -96,6 +97,9 @@ const DocumentVerificationModal: React.FC<DocumentVerificationModalProps> = ({
           >
             <FaTimes className="h-5 w-5" />
           </button>
+        </div>
+        <div className="mb-4 h-96">
+          <AdminDocumentViewer document={document} title="Document Preview" />
         </div>
 
         <div className="space-y-4">
