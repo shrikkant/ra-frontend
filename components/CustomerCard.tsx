@@ -20,6 +20,8 @@ import {Section} from '../app/components/common/Section'
 import Input from './common/form/Input'
 import {Button} from '@headlessui/react'
 import {IoMdRefresh} from 'react-icons/io'
+import AddressDisplay from './AddressDisplay'
+import IDCard from './IDCard'
 
 export default function CustomerCard({customer}: {customer: IUser}) {
   const router = useRouter()
@@ -87,103 +89,120 @@ export default function CustomerCard({customer}: {customer: IUser}) {
   }, [customerAadhaar, customer])
 
   return (
-    <div>
+    <div className=" mx-auto  py-6">
       <Section title={customer.firstname + ' ' + customer.lastname}>
-        <div>
-          {customerAadhaar?.profile_image && (
-            <div className="   shadow-md w-[320px] rounded-md my-4 border">
-              <div className="flex gap-x-2">
-                <div className="rounded-tl-md border">
-                  <img
-                    src={`data:image/png;base64,${customerAadhaar.profile_image}`}
-                  ></img>
-                </div>
-                <div className="flex flex-col gap-y-4 w-96 py-4 ">
+        <div className="space-y-6">
+          {/* Main Content Grid */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            {/* Left Column - ID Card */}
+            <div>
+              {customerAadhaar?.profile_image && (
+                <IDCard aadhaar={customerAadhaar} phone={customer.phone} />
+              )}
+            </div>
+
+            {/* Right Column - Update Form */}
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">
+                Update Information
+              </h3>
+              <form className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div>
-                    <p className="font-bold">{customerAadhaar.full_name}</p>
-                    <p>{Moment(customerAadhaar.dob).format('D MMM YYYY')}</p>
-                    <p>{customer.phone}</p>
+                    <Input
+                      placeholder="First Name"
+                      value={firstname}
+                      onChange={handleFirstnameChange}
+                    />
+                  </div>
+                  <div>
+                    <Input
+                      placeholder="Last Name"
+                      value={lastname}
+                      onChange={handleLastnameChange}
+                    />
                   </div>
                 </div>
-              </div>
-              <div>{Object.values(customerAadhaar.address).join(', ')}</div>
+                <div>
+                  <Input
+                    placeholder="Email"
+                    value={email}
+                    onChange={handleEmailChange}
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="Phone"
+                    value={phone}
+                    onChange={handlePhoneChange}
+                  />
+                </div>
+                <div>
+                  <Input
+                    label="City"
+                    value={city}
+                    onChange={handleCityChange}
+                  />
+                </div>
+                <div className="flex justify-end space-x-4 pt-4">
+                  <Button
+                    onClick={handleSubmit}
+                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                    type="button"
+                  >
+                    Save Changes
+                  </Button>
+                </div>
+              </form>
+            </div>
+          </div>
+
+          {/* Full Width Addresses Section */}
+          {customer.address && (
+            <div className="bg-white rounded-lg shadow-md p-6">
+              <h3 className="text-lg font-semibold text-gray-800 mb-6">
+                Addresses
+              </h3>
+              <AddressDisplay addresses={customer.address} />
             </div>
           )}
 
-          <div>
-            {customer.address &&
-              customer.address.map(addr => (
-                <div key={addr.id}>{Object.values(addr).join(', ')}</div>
-              ))}
-          </div>
-
-          <form className="flex flex-col gap-y-4 w-96  border border-gray-400 p-4 rounded-md m-auto">
-            <div className="flex gap-x-4">
-              <div>
-                <Input
-                  placeholder="First Name"
-                  value={firstname}
-                  onChange={handleFirstnameChange}
-                />
-              </div>
-              <div>
-                <Input
-                  placeholder="Last Name"
-                  value={lastname}
-                  onChange={handleLastnameChange}
-                />
-              </div>
-            </div>
-            <div>
-              <Input
-                placeholder="Email"
-                value={email}
-                onChange={handleEmailChange}
-              />
-            </div>
-            <div>
-              <Input
-                placeholder="Phone"
-                value={phone}
-                onChange={handlePhoneChange}
-              />
-            </div>
-            <div>
-              <Input label="City" value={city} onChange={handleCityChange} />
-            </div>
-            <div className="text-right">
-              <Button
-                onClick={handleSubmit}
-                className={'border hover:border-[#E5C71F] border-[#FFDC2DAD]'}
-                type="button"
-              >
-                Save
-              </Button>
-            </div>
-          </form>
-
-          <div className=" flex justify-end items-center gap-x-2">
+          {/* Action Buttons */}
+          <div className="flex justify-end items-center gap-x-4 mt-6">
             {customer?.verified === 3 && (
-              <div>
-                <FaCheckCircle className="text-green-600" size={'28'} />
+              <div className="flex items-center gap-2">
+                <FaCheckCircle className="text-green-600" size={'24'} />
+                <span className="text-sm text-green-600">Verified</span>
               </div>
             )}
 
-            {customer?.phone && (
-              <Link
-                target="_blank"
-                href={`https://wa.me/91${customer.phone}?text=Hi ${customer.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}
-              >
-                <FaWhatsappSquare size={'28'} />
-              </Link>
-            )}
+            <div className="flex items-center gap-4">
+              {customer?.phone && (
+                <Link
+                  target="_blank"
+                  href={`https://wa.me/91${customer.phone}?text=Hi ${customer.firstname}, Thank you for joining RentAcross. What are you looking to rent today?`}
+                  className="text-green-600 hover:text-green-700"
+                >
+                  <FaWhatsappSquare size={'24'} />
+                </Link>
+              )}
 
-            <button onClick={() => syncDocuments()} className="p-2">
-              <IoMdRefresh></IoMdRefresh>
-            </button>
-            <button onClick={() => adminLogin(customer.id)} className="p-2">
-              <FaSignInAlt size={'28'} />
-            </button>
+              <button
+                onClick={() => syncDocuments()}
+                className="p-2 text-gray-600 hover:text-gray-800"
+                title="Sync Documents"
+              >
+                <IoMdRefresh size={'24'} />
+              </button>
+
+              <button
+                onClick={() => adminLogin(customer.id)}
+                className="p-2 text-gray-600 hover:text-gray-800"
+                title="Login as User"
+              >
+                <FaSignInAlt size={'24'} />
+              </button>
+            </div>
           </div>
         </div>
       </Section>
