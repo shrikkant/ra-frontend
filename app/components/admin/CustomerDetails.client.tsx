@@ -65,23 +65,15 @@ export default function CustomerDetails({id}: CustomerDetailsProps) {
       {activeCustomer?.id && (
         <div>
           <div>
-            <div style={{flex: 1}}>
-              <ProfileCard user={activeCustomer} />
-            </div>
-            <div>
-              <CustomerCard customer={activeCustomer} />
-            </div>
+            <CustomerCard customer={activeCustomer} />
           </div>
-
           <div>
-            <div style={{flex: 1}}>
-              <DocumentsCard
-                user={activeCustomer}
-                documents={documents}
-                isLoading={isLoadingDocuments}
-                onUpload={handleDocumentUpload}
-              />
-            </div>
+            <DocumentsCard
+              user={activeCustomer}
+              documents={documents}
+              isLoading={isLoadingDocuments}
+              onUpload={handleDocumentUpload}
+            />
           </div>
         </div>
       )}

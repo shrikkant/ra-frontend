@@ -27,8 +27,9 @@ export default function CustomerCard({customer}: {customer: IUser}) {
   const router = useRouter()
   const dispatch = useDispatch()
 
-  const [customerAadhaar, setCustomerAadhaar] =
-    React.useState<IAadhaar | null>()
+  const [customerAadhaar, setCustomerAadhaar] = React.useState<
+    IAadhaar | null | undefined
+  >()
   const [email, setEmail] = useState<string>('')
   const [phone, setPhone] = useState<string>('')
   const [city, setCity] = useState<string>('')
@@ -89,16 +90,18 @@ export default function CustomerCard({customer}: {customer: IUser}) {
   }, [customerAadhaar, customer])
 
   return (
-    <div className=" mx-auto  py-6">
-      <Section title={customer.firstname + ' ' + customer.lastname}>
+    <div className=" mx-auto">
+      <Section>
         <div className="space-y-6">
           {/* Main Content Grid */}
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
             {/* Left Column - ID Card */}
             <div>
-              {customerAadhaar?.profile_image && (
-                <IDCard aadhaar={customerAadhaar} phone={customer.phone} />
-              )}
+              <IDCard
+                aadhaar={customerAadhaar || undefined}
+                customer={customer}
+                phone={customer.phone}
+              />
             </div>
 
             {/* Right Column - Update Form */}
