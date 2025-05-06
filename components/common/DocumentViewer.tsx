@@ -7,17 +7,15 @@ interface DocumentViewerProps {
 }
 
 const DocumentViewer: React.FC<DocumentViewerProps> = ({document, title}) => {
-  if (!document || !document.front) return null
+  if (!document) return null
 
   const isPDF = document.file_type?.startsWith('application/pdf')
-  const documentData = Buffer.from(document.front).toString('base64')
 
-  if (!documentData) return null
-
+  console.log('Dooc ', isPDF, ' : ', document)
   if (isPDF) {
     return (
       <iframe
-        src={`data:application/pdf;base64,${documentData}`}
+        src={`/api/user/documents/${document.id}/pdf`}
         className="w-full h-full"
         title={`${title} PDF`}
       />
@@ -26,7 +24,7 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({document, title}) => {
 
   return (
     <img
-      src={`data:image/png;base64,${documentData}`}
+      src={`/api/user/documents/${document.id}/photo`}
       alt={title}
       className="w-full h-full object-contain"
     />
