@@ -11,6 +11,7 @@ import DocumentVerificationModal from './DocumentVerificationModal'
 import {MESSAGE_TYPES} from '../../util/messageTypes'
 import {useDocumentUpload} from '../../hooks/useDocumentUpload'
 import DocumentViewer from './DocumentViewer'
+import AdminDocumentViewer from './AdminDocumentViewer'
 import DocumentStatusBadge from './DocumentStatusBadge'
 import DocumentActionButtons from './DocumentActionButtons'
 
@@ -112,9 +113,12 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
         onClose={() => setShowModal(false)}
         title={title}
       >
-        {existingDocument && (
-          <DocumentViewer document={existingDocument} title={title} />
-        )}
+        {existingDocument &&
+          (isAdmin ? (
+            <AdminDocumentViewer document={existingDocument} title={title} />
+          ) : (
+            <DocumentViewer document={existingDocument} title={title} />
+          ))}
       </DocumentModal>
 
       {existingDocument && (
