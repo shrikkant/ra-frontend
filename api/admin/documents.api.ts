@@ -42,7 +42,7 @@ export async function verifyDocument(
 export async function fetchDocumentDetails(
   userId: number,
   internalDocumentId: number,
-  documentId: number,
+  documentId: string,
   dateOfBirth: string,
 ): Promise<unknown> {
   const url = getDocumentVerificationUrl(userId, internalDocumentId)

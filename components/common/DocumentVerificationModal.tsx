@@ -46,7 +46,7 @@ const DocumentVerificationModal: React.FC<DocumentVerificationModalProps> = ({
       const data: any = await fetchDocumentDetails(
         document.user_id!,
         document.id!,
-        +documentId,
+        documentId,
         dateOfBirth,
       )
 
