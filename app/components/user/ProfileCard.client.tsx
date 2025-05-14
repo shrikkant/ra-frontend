@@ -24,21 +24,15 @@ export function ProfileCard({user}: {user: IUser}) {
             <h3 className="mb-1 text-xl font-bold text-gray-900 ">
               {user.firstname + ' ' + user.lastname}
             </h3>
-            {user?.verified === 3 ? (
-              <div className="flex items-center gap-x-1 pb-2">
-                <FaCheckCircle className="text-green-600" /> KYC Verified
-              </div>
-            ) : (
-              <div>
-                <Link
-                  href="/p/profile/verify"
-                  className="flex justify-center items-center gap-x-2 pb-2"
-                >
-                  <FaAddressCard></FaAddressCard> Complete KYC Verification
-                </Link>
-              </div>
-            )}
 
+            <div>
+              <Link
+                href="/p/profile/verify"
+                className="flex justify-center items-center gap-x-2 pb-2"
+              >
+                <FaAddressCard></FaAddressCard> Complete Verification
+              </Link>
+            </div>
             <div className="text-sm">Profile ID : {user.id}</div>
             <div className="text-sm">{user.email_address}</div>
             <div className="text-sm">{user.phone}</div>
