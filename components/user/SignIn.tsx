@@ -216,7 +216,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
                   error={errors.phone}
                 ></Input>
               </div>
-              <div>
+              <div className="mt-5">
                 <Button
                   disabled={hasErrors()}
                   variant="primary"
