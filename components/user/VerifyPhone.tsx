@@ -8,6 +8,7 @@ import PageContainer from '../common/PageContainer'
 import {updatePhone} from '../../api/user/index.api'
 import {IUser} from '../../app-store/types'
 import {useRouter} from 'next/navigation'
+import {isVerified, VERIFICATION_FLAGS} from '../../config/constants'
 
 export default function VerifyPhone() {
   const router = useRouter()
@@ -35,7 +36,7 @@ export default function VerifyPhone() {
 
   const submitPhone = async () => {
     const updateUser: IUser = await updatePhone(phone)
-    if (updateUser?.verified) {
+    if (isVerified(updateUser?.verified, VERIFICATION_FLAGS.PHONE)) {
       dispatch(authUser(updateUser))
       router.push('/')
     }

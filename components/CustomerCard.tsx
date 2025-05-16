@@ -22,6 +22,7 @@ import {Button} from '@headlessui/react'
 import {IoMdRefresh} from 'react-icons/io'
 import AddressDisplay from './AddressDisplay'
 import IDCard from './IDCard'
+import {isVerified, VERIFICATION_FLAGS} from '../config/constants'
 
 export default function CustomerCard({customer}: {customer: IUser}) {
   const router = useRouter()
@@ -172,7 +173,7 @@ export default function CustomerCard({customer}: {customer: IUser}) {
 
           {/* Action Buttons */}
           <div className="flex justify-end items-center gap-x-4 mt-6">
-            {customer?.verified === 3 && (
+            {isVerified(customer?.verified, VERIFICATION_FLAGS.AADHAAR) && (
               <div className="flex items-center gap-2">
                 <FaCheckCircle className="text-green-600" size={'24'} />
                 <span className="text-sm text-green-600">Verified</span>

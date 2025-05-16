@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {getLastLink, setLastLink} from '../../app-store/session/session.slice'
 import {selectAuthState} from '../../app-store/auth/auth.slice'
 import {StatwideScript} from '../../app/components/StatwideScript'
+import {isVerified, VERIFICATION_FLAGS} from '../../config/constants'
 
 export default function Scripts() {
   const dispatch = useDispatch()
@@ -14,7 +15,10 @@ export default function Scripts() {
   const loggedUser = useSelector(selectAuthState)
   useEffect(() => {
     const link = lastLink
-    if (loggedUser && loggedUser.verified) {
+    if (
+      loggedUser &&
+      isVerified(loggedUser.verified, VERIFICATION_FLAGS.PHONE)
+    ) {
       if (link === pathname) {
         dispatch(setLastLink(''))
       }
