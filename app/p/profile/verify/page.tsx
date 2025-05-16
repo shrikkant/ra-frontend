@@ -2,6 +2,7 @@
 
 import React, {useState, useEffect} from 'react'
 import VerifyAadhar from '../../../../components/user/VerifyAadhaar'
+import VerifyEmail from '../../../../components/user/VerifyEmail'
 import DocumentUploadCard from '../../../../components/common/DocumentUploadCard'
 import {IDocument} from '../../../../app-store/app-defaults/types'
 import {getUserDocuments} from '../../../../api/user/documents.api'
@@ -65,6 +66,11 @@ export default function Page() {
               {/* Aadhaar Verification */}
               <div className="space-y-4">
                 <VerifyAadhar />
+              </div>
+
+              {/* Email Verification */}
+              <div className="space-y-4">
+                <VerifyEmail />
               </div>
 
               {/* Document Upload */}

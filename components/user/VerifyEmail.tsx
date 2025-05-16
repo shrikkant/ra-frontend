@@ -3,7 +3,7 @@
 import React from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {authUser, selectAuthState} from '../../app-store/auth/auth.slice'
-import {updateAadhaar, verifyAadhaarOTP} from '../../api/user/index.api'
+import {updateEmail, verifyEmailOTP} from '../../api/user/index.api'
 import {IUser} from '../../app-store/types'
 import {useRouter} from 'next/navigation'
 import Input from '../common/form/Input'
@@ -11,9 +11,9 @@ import Button from '../common/form/Button'
 import {FaCheckCircle} from 'react-icons/fa'
 import {VERIFICATION_FLAGS, isVerified} from '../../config/constants'
 
-export default function VerifyAadhar() {
+export default function VerifyEmail() {
   const router = useRouter()
-  const [aadharNumber, setAadharNumber] = React.useState('')
+  const [email, setEmail] = React.useState('')
   const [otp, setOtp] = React.useState('')
   const [otpSent, setOtpSent] = React.useState(false)
   const [isLoading, setIsLoading] = React.useState(false)
@@ -21,42 +21,34 @@ export default function VerifyAadhar() {
 
   const dispatch = useDispatch()
 
+  // Don't show email verification for Google or Facebook signins
+  if (user?.signin_source === 'G' || user?.signin_source === 'F') {
+    return null
+  }
+
   const handleInputChange = (value: string) => {
-    setAadharNumber(value)
+    setEmail(value)
   }
 
   const handleOTPChange = (value: string) => {
     setOtp(value)
   }
 
-  const validateInputAadhar = event => {
-    if (event.keyCode === 8 || event.keyCode === 46) {
-      return
-    }
-    if (!/^[0-9]*$/.test(event.key)) {
-      event.preventDefault()
-    }
+  const isValidEmail = (email: string) => {
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
+    return emailRegex.test(email)
   }
 
-  const isValidAadhar = (aadhar: string) => {
-    if (aadhar.length !== 12) {
-      return false
-    }
-    return true
-  }
-
-  const submitAadhar = async () => {
-    if (!isValidAadhar(aadharNumber)) {
+  const submitEmail = async () => {
+    if (!isValidEmail(email)) {
       return
     }
     setIsLoading(true)
     try {
-      const updateUser: IUser = await updateAadhaar(aadharNumber)
-      if (updateUser.aadhaar_callback_id) {
-        setOtpSent(true)
-      }
+      const updateUser: IUser = await updateEmail(email)
+      setOtpSent(true)
     } catch (error) {
-      console.error('Failed to submit Aadhaar:', error)
+      console.error('Failed to submit email:', error)
     } finally {
       setIsLoading(false)
     }
@@ -65,7 +57,7 @@ export default function VerifyAadhar() {
   const verifyOTP = async () => {
     setIsLoading(true)
     try {
-      const updateUser: IUser = await verifyAadhaarOTP(otp)
+      const updateUser: IUser = await verifyEmailOTP(otp)
       dispatch(authUser(updateUser))
       router.push('/')
     } catch (error) {
@@ -75,11 +67,11 @@ export default function VerifyAadhar() {
     }
   }
 
-  if (isVerified(user?.verified || 0, VERIFICATION_FLAGS.AADHAAR)) {
+  if (isVerified(user?.verified || 0, VERIFICATION_FLAGS.EMAIL)) {
     return (
       <div className="border rounded-lg p-4 space-y-3">
         <div className="flex justify-between items-center">
-          <h3 className="font-medium text-lg">Aadhaar</h3>
+          <h3 className="font-medium text-lg">Email</h3>
           <div className="flex items-center gap-2">
             <span className="px-2 py-1 rounded-full text-xs font-medium bg-green-100 text-green-800">
               Verified
@@ -94,7 +86,7 @@ export default function VerifyAadhar() {
   return (
     <div className="border rounded-lg p-4 space-y-3">
       <div className="flex justify-between items-center">
-        <h3 className="font-medium text-lg">Aadhaar</h3>
+        <h3 className="font-medium text-lg">Email</h3>
         {otpSent && (
           <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
             Pending
@@ -106,29 +98,25 @@ export default function VerifyAadhar() {
         {!otpSent ? (
           <>
             <Input
-              label="Aadhaar Number"
-              pattern="[0-9]*"
-              inputMode="numeric"
-              onKeyDown={validateInputAadhar}
+              label="Email Address"
+              type="email"
               onChange={handleInputChange}
-              value={aadharNumber}
+              value={email}
               size="lg"
             />
             <Button
               variant="primary"
               label="Send OTP"
-              onClick={submitAadhar}
+              onClick={submitEmail}
               isLoading={isLoading}
-              disabled={!isValidAadhar(aadharNumber)}
+              disabled={!isValidEmail(email)}
             />
           </>
         ) : (
           <>
             <Input
               label="OTP"
-              pattern="[0-9]*"
-              inputMode="numeric"
-              onKeyDown={validateInputAadhar}
+              type="text"
               onChange={handleOTPChange}
               value={otp}
               size="lg"

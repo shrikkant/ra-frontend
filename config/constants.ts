@@ -18,8 +18,6 @@ export const TOKEN_HEADER_KEY = 'authorization'
 export const CITY = 'Pune'
 export const APP_LOCALE = 'en-GB'
 
-export const STATUS_AADHAAR_VERIFIED = 3
-
 export const enum ARTICLE_TYPES {
   BLOG = 0,
   SEO_ARTICLE = 1,
@@ -124,3 +122,15 @@ COUNTRIES.push(ind)
 COUNTRIES.push(nz)
 
 export default COUNTRIES
+
+// Verification Flags
+export const VERIFICATION_FLAGS = {
+  PHONE: 0b001, // 1
+  AADHAAR: 0b010, // 2
+  EMAIL: 0b100, // 4
+} as const
+
+// Helper function to check verification status
+export const isVerified = (userVerified: number, flag: number): boolean => {
+  return (userVerified & flag) === flag
+}

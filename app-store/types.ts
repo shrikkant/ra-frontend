@@ -68,6 +68,7 @@ export interface IUser {
   address?: ILocation[]
   role: string
   aadhaar_callback_id?: string
+  signin_source?: string
   documents?: IDocument[]
 }
 

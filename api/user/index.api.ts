@@ -110,3 +110,13 @@ export const verifyAadhaarOTP = async (otp: string): Promise<IUser> => {
   const response: IUser = await httpClient.put(`user?mode=5`, {code: otp})
   return response
 }
+
+export const updateEmail = async (email: string): Promise<IUser> => {
+  const response: IUser = await httpClient.put(`user?mode=7`, {email})
+  return response
+}
+
+export const verifyEmailOTP = async (otp: string): Promise<IUser> => {
+  const response: IUser = await httpClient.put(`user?mode=8`, {code: otp})
+  return response
+}

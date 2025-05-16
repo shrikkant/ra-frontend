@@ -11,7 +11,7 @@ import OrderSummary from 'components/OrderSummary'
 import {displayRazorpay} from 'util/razorpay.util'
 import {authUser, selectAuthState} from 'app-store/auth/auth.slice'
 import {OrderItemsReview} from 'components/order/OrderItemsReview'
-import {ORDER_STEPS, STATUS_AADHAAR_VERIFIED} from 'config/constants'
+import {isVerified, ORDER_STEPS, VERIFICATION_FLAGS} from 'config/constants'
 import {AddressPicker} from 'components/order/AddressPicker'
 import Loader from 'components/Loader'
 import {getAuthUser} from '../../../../api/auth.api'
@@ -31,7 +31,7 @@ export default function CartBook() {
 
   const orderSuccess = () => {
     dispatch(setCart(null))
-    if (loggedUser?.verified !== STATUS_AADHAAR_VERIFIED) {
+    if (isVerified(loggedUser?.verified || 0, VERIFICATION_FLAGS.AADHAAR)) {
       router.push('/p/profile/verify')
       return
     }
