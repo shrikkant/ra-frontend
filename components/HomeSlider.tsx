@@ -103,7 +103,7 @@ export function HomeSlider() {
             <div className="slide-img-cover">
               <a href={p.url} className="lable-bike">
                 <div className="lable-bike-img p-2">
-                  <Image src={p.img} alt="img" width={89} height={-1} />
+                  <Image src={p.img} alt="img" width={64} height={-1} />
                 </div>
                 <div className="lable-bike-item">
                   <div className="model">Starting</div>
