@@ -110,6 +110,8 @@ export function HomeSlider() {
                     width={64}
                     height={64}
                     style={{objectFit: 'cover'}}
+                    sizes="64px"
+                    quality={75}
                   />
                 </div>
                 <div className="lable-bike-item">
