@@ -4,7 +4,7 @@ export default function HomeAdvantages() {
   return (
     <section
       className="s-our-advantages"
-      style={{backgroundImage: 'url(/assets/v2/img/bg-advantages.jpg)'}}
+      style={{backgroundImage: 'url(/assets/v2/img/bg-advantages.webp)'}}
     >
       <span className="mask"></span>
       <div className="sm:container mx-auto relative z-[1]">
