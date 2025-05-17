@@ -62,10 +62,9 @@ export function HomeSlider() {
       },
       {
         id: 3,
-        title: 'Capture the details with DSLR',
-        subtitle:
-          'Complete your photography kit with a Sony A7 III DSLR camera.',
-        img: '/assets/v2/img/sony-a7-III-dslr-camera-1.webp',
+        title: 'Sony A7 M3',
+        subtitle: 'Go mirrorless with Sony A7 M3',
+        img: '/assets/v2/img/sony-a7-m3-camera.webp',
         imgBg: '/assets/v2/img/bg-slider.svg',
         price: 1500,
         model: 'model X-230',
@@ -89,8 +88,10 @@ export function HomeSlider() {
           }}
         >
           <div
-            className="main-slide-bg"
-            style={{backgroundImage: 'url(' + p.imgBg + ')'}}
+            className="main-slide-bg bg-contain bg-center bg-no-repeat absolute inset-0 -z-10 sm:bg-cover"
+            style={{
+              backgroundImage: 'url(' + p.imgBg + ')',
+            }}
           ></div>
           <div>
             <div className="main-slide-info">
@@ -117,43 +118,20 @@ export function HomeSlider() {
                 </div>
               </a>
 
-              <div className="block sm:hidden">
+              <div>
                 <Image
                   src={p.img}
                   alt="img"
                   className={'slide-img'}
-                  width={200}
-                  height={-1}
-                />
-              </div>
-
-              <div className="lg:hidden md:block hidden">
-                <Image
-                  src={p.img}
-                  alt="img"
-                  className={'slide-img'}
-                  width={320}
-                  height={-1}
-                />
-              </div>
-
-              <div className="xl:hidden lg:block hidden">
-                <Image
-                  src={p.img}
-                  alt="img"
-                  className={'slide-img'}
-                  width={360}
-                  height={-1}
-                />
-              </div>
-
-              <div className="xl:block hidden">
-                <Image
-                  src={p.img}
-                  alt="img"
-                  className={'slide-img'}
-                  width={360}
-                  height={-1}
+                  width={0}
+                  height={0}
+                  sizes="(max-width: 640px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 70vw, 50vw"
+                  style={{
+                    objectFit: 'cover',
+                    width: '100%',
+                    height: 'auto',
+                    maxHeight: '100%',
+                  }}
                 />
               </div>
             </div>
