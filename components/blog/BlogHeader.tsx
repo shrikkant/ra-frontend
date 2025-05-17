@@ -6,7 +6,7 @@ export default function BlogHeader({blog}: {blog: IBlog}) {
   const imgURL =
     typeof blog.content.split('src="')[1] != 'undefined'
       ? blog.content.split('src="')[1].split('"')[0]
-      : 'assets/v2/img/blog-1.jpg'
+      : 'assets/v2/img/blog-1.webp'
 
   const getAuthorName = author => {
     return author.firstname + ' ' + author.lastname

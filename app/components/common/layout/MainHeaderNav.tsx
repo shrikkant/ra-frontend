@@ -66,7 +66,7 @@ export default function MainHeaderNav() {
                 <a href="/">
                   <img
                     className="hidden lg:block h-6"
-                    src="/assets/v2/img/logo.png"
+                    src="/assets/v2/img/logo.webp"
                     alt="RentAcross"
                   />
                   <FaHome className="block lg:hidden h-6 w-6 text-amber-500" />
