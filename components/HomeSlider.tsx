@@ -62,7 +62,7 @@ export function HomeSlider() {
       },
       {
         id: 3,
-        title: 'Sony A7 M3',
+        title: 'Sony A7 M3 ',
         subtitle: 'Go mirrorless with Sony A7 M3',
         img: '/assets/v2/img/sony-a7-m3-camera.webp',
         imgBg: '/assets/v2/img/bg-slider.svg',
@@ -127,7 +127,7 @@ export function HomeSlider() {
                   className={'slide-img'}
                   width={0}
                   height={0}
-                  sizes="(max-width: 640px) 90vw, (max-width: 768px) 80vw, (max-width: 1024px) 70vw, 50vw"
+                  sizes="100vw"
                   style={{
                     objectFit: 'cover',
                     width: '100%',
@@ -189,9 +189,18 @@ export function HomeSlider() {
             position: 'relative',
             overflow: 'hidden',
             boxSizing: 'border-box',
+            width: '100%',
+            height: '100%',
           }}
         >
-          <div className="slick-track" style={{transformStyle: 'preserve-3d'}}>
+          <div
+            className="slick-track"
+            style={{
+              transformStyle: 'preserve-3d',
+              width: '100%',
+              height: '100%',
+            }}
+          >
             {items && items.map(item => item)}
           </div>
         </div>
