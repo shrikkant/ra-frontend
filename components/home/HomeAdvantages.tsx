@@ -4,7 +4,7 @@ export default function HomeAdvantages() {
   return (
     <section
       className="s-our-advantages"
-      style={{backgroundImage: 'url(/assets/v2/img/bg-advantages.webp)'}}
+      style={{backgroundImage: 'url(/assets/v2/img/bg-advantages.jpg)'}}
     >
       <span className="mask"></span>
       <div className="sm:container mx-auto relative z-[1]">
@@ -13,7 +13,7 @@ export default function HomeAdvantages() {
           <div className="our-advantages-item">
             <img
               className="lazy"
-              src="assets/v2/img/placeholder-all.webp"
+              src="assets/v2/img/placeholder-all.png"
               data-src="assets/v2/img/advantages-1.svg"
               alt="icon"
             />
@@ -22,7 +22,7 @@ export default function HomeAdvantages() {
           <div className="our-advantages-item">
             <img
               className="lazy"
-              src="assets/v2/img/placeholder-all.webp"
+              src="assets/v2/img/placeholder-all.png"
               data-src="assets/v2/img/advantages-2.svg"
               alt="icon"
             />
@@ -31,7 +31,7 @@ export default function HomeAdvantages() {
           <div className="our-advantages-item">
             <img
               className="lazy"
-              src="assets/v2/img/placeholder-all.webp"
+              src="assets/v2/img/placeholder-all.png"
               data-src="assets/v2/img/advantages-3.svg"
               alt="icon"
             />
@@ -40,7 +40,7 @@ export default function HomeAdvantages() {
           <div className="our-advantages-item">
             <img
               className="lazy"
-              src="assets/v2/img/placeholder-all.webp"
+              src="assets/v2/img/placeholder-all.png"
               data-src="assets/v2/img/advantages-4.svg"
               alt="icon"
             />

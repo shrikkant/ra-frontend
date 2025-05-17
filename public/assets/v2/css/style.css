@@ -2781,7 +2781,7 @@ footer .social-list {
   background-position: right center;
   background-repeat: no-repeat;
   background-size: auto 100%;
-  background-image: url(../img/hover.webp);
+  background-image: url(../img/hover.png);
   -webkit-transition: 0.5s cubic-bezier(0, 0, 0.35, 1.15);
   transition: 0.5s cubic-bezier(0, 0, 0.35, 1.15);
   opacity: 0;
@@ -3379,7 +3379,7 @@ footer .social-list {
 }
 
 .s-subscribe.s-dark-subscribe .mask {
-  background-image: url(../img/dark-effect-subscribe.webp);
+  background-image: url(../img/dark-effect-subscribe.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -3529,7 +3529,7 @@ footer .social-list {
 }
 
 .s-feedback.s-dark-feedback .feedback-slider .feedback-item {
-  background-image: url(../img/dark-item-feedback.webp);
+  background-image: url(../img/dark-item-feedback.png);
   border-radius: 0;
   background-position: center;
   background-repeat: no-repeat;
@@ -3644,7 +3644,7 @@ footer .social-list {
 }
 
 .s-our-news.dark-our-news .news-item {
-  background-image: url(../img/bg-dark-news.webp);
+  background-image: url(../img/bg-dark-news.png);
   background-position: center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -4120,7 +4120,7 @@ footer .social-list {
 
 .s-dark-instagram .instagram-item:before {
   background-color: transparent;
-  background-image: url(../img/insta-hover-bg.webp);
+  background-image: url(../img/insta-hover-bg.png);
   background-position: center;
   background-repeat: no-repeat;
 }
@@ -7060,7 +7060,7 @@ body.modal {
 }
 
 .product-item.product-item-dark .product-item-content {
-  background-image: url(../img/dark-prod-bg.webp);
+  background-image: url(../img/dark-prod-bg.png);
   background-position: bottom center;
   background-repeat: no-repeat;
   background-size: cover;
@@ -7072,7 +7072,7 @@ body.modal {
 .product-item.product-item-dark .prod-info {
   border-radius: 0;
   background-color: #000;
-  background-image: url(../img/dark-prod-bg-1.webp);
+  background-image: url(../img/dark-prod-bg-1.png);
   background-position: top center;
   background-repeat: no-repeat;
   background-size: cover;

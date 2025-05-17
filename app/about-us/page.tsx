@@ -13,7 +13,7 @@ export default async function Page() {
             <h1 className="text-xl font-bold mb-4">Who We Are</h1>
             <p className="text-lg text-gray-700">
               At Rentacross, we believe everyone deserves access to the tools
-              they need to tell their story, whether it's through stunning
+              they need to tell their story, whether it’s through stunning
               photography or captivating videos. Our mission is simple: to make
               high-quality photography gear accessible, affordable, and
               available to everyone, especially photographers, travelers, and
@@ -29,14 +29,14 @@ export default async function Page() {
                   <img
                     alt="Camera in hand"
                     className="rounded-lg"
-                    src="/assets/v2/img/about-us-image.webp"
+                    src="/assets/v2/img/about-us-image.png"
                   />
                 </div>
                 <div className="md:w-2/3 md:pl-6">
                   <h2 className="text-xl font-bold mb-4">Our mission</h2>
                   <p className="text-lg text-gray-700">
                     To bridge the gap between creativity and resources,
-                    empowering individuals to capture life's best moments with
+                    empowering individuals to capture life’s best moments with
                     professional-grade gear at affordable prices.
                   </p>
                 </div>
@@ -48,7 +48,7 @@ export default async function Page() {
           <div className="max-w-4xl mx-auto px-4 py-10">
             <h2 className="text-xl font-bold mb-4">Our Vision</h2>
             <p className="text-lg text-gray-700">
-              To build a vibrant creative community, inspired by the founder's
+              To build a vibrant creative community, inspired by the founder’s
               values of resilience, innovation, and passion for exploration.
               Rentacross strives to be the go-to platform for photographers and
               storytellers, helping them turn fleeting moments into lasting

@@ -145,7 +145,7 @@ export function Testimonial() {
   return (
     <section
       className="s-feedback"
-      style={{backgroundImage: 'url(assets/v2/img/bg-feedback.webp)'}}
+      style={{backgroundImage: 'url(assets/v2/img/bg-feedback.jpg)'}}
     >
       <span
         className="effwct-bg-feedback"

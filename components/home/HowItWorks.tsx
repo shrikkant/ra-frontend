@@ -30,7 +30,7 @@ export default function HowItWorks() {
           <div className="w-full sm:w-1/2 aspect-w-3 aspect-h-4 h-auto flex justify-center items-center">
             <div className="text-center">
               <img
-                src="/assets/v2/img/process-steps-mobile-view-image-black.webp"
+                src="/assets/v2/img/process-steps-mobile-view-image-black.png"
                 alt="How it Works Diagram"
                 className="w-full h-full object-contain"
               />
@@ -45,14 +45,14 @@ export default function HowItWorks() {
     //        <div className="border-t-2 border-gray-200 px-10 mt-10 mx-20"></div>
     //        <div className="mx-auto text-center font-semibold text-2xl my-10 text-[#f7ca00]">How it Works</div>
     //       <img
-    //         src="/assets/v2/img/process-steps-mobile-view-image-yellow.webp"
+    //         src="/assets/v2/img/process-steps-mobile-view-image-yellow.png"
     //         alt="How it Works Diagram"
     //         className="block ml-4 w-full md:hidden" // Visible only on small screens
     //       />
 
     //        Image for large screens
     //       <img
-    //         src="/assets/v2/img/process-steps-mobile-view-image-black.webp"
+    //         src="/assets/v2/img/process-steps-mobile-view-image-black.png"
     //         alt="How it Works Diagram"
     //         className="hidden md:block mx-auto" // Visible only on medium and larger screens
     //       />
