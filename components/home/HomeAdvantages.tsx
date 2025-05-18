@@ -38,12 +38,12 @@ export default function HomeAdvantages() {
     },
     {
       title: 'Affordable Rentals',
-      description: 'Flexible plans that fit your budget',
+      description: 'Flexible rentals that fit your budget',
       step: '02',
     },
     {
-      title: 'Exchange and return within 14 days',
-      description: 'Hassle-free exchange and return policy',
+      title: 'Well Maintained Equipment',
+      description: 'We maintain all our equipment to the highest standards',
       step: '03',
     },
     {
@@ -57,7 +57,7 @@ export default function HomeAdvantages() {
     <section className="relative -mt-[30px] z-10 s-our-advantages">
       {/* Background with diagonal clip */}
       <div className="absolute inset-0 bg-[url('/assets/v2/img/bg-advantages.webp')] bg-cover bg-center" />
-      <div className="absolute inset-0 bg-gradient-to-b from-black/90 via-black/80 to-black/90" />
+      <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60" />
 
       {/* Animated waves */}
       <div className="absolute inset-0 overflow-hidden">
@@ -74,9 +74,6 @@ export default function HomeAdvantages() {
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24">
         <div className="text-center mb-20">
-          <span className="text-[#f7ca00] text-sm font-semibold tracking-wider uppercase mb-4 block">
-            Our Process
-          </span>
           <h2 className="text-4xl md:text-5xl font-bold text-white mb-6">
             Why Choose Us
           </h2>
@@ -91,9 +88,9 @@ export default function HomeAdvantages() {
               <div className="absolute -inset-0.5 bg-gradient-to-r from-[#f7ca00]/20 to-transparent rounded-xl blur opacity-0 group-hover:opacity-100 transition duration-500" />
               <div className="relative bg-gray-900/50 backdrop-blur-sm rounded-xl p-8 border border-gray-800/50">
                 <div className="flex flex-col">
-                  <span className="text-[#f7ca00] text-sm font-semibold mb-4">
+                  {/* <span className="text-[#f7ca00] text-sm font-semibold mb-4">
                     {advantage.step}
-                  </span>
+                  </span> */}
                   <h3 className="text-xl font-semibold text-white mb-3 group-hover:text-[#f7ca00] transition-colors duration-300">
                     {advantage.title}
                   </h3>
