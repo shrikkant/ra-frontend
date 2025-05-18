@@ -152,7 +152,7 @@ export function Testimonial() {
         style={{backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)'}}
       ></span>
       <span className="mask"></span>
-      <div className="sm:container mx-auto relative z-10">
+      <div className="sm:container mx-auto relative z-10 sm:px-2 xs:px-2">
         <h2 className="title">feedback</h2>
         <div className="feedback-slider relative">
           <span onClick={prev} className="slick-arrow-prev slick-arrow">

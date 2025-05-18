@@ -2,6 +2,7 @@ import React from 'react'
 
 import {HomeSlider} from '../components/HomeSlider'
 import {Testimonial} from '../components/Testimonial'
+import {CategorySlider} from '../components/CategorySlider'
 
 import TopSales from '../components/TopSales'
 import HomeAdvantages from '../components/home/HomeAdvantages'
@@ -13,6 +14,7 @@ export default async function Home() {
   return (
     <>
       <HomeSlider></HomeSlider>
+      <CategorySlider></CategorySlider>
       <HomeAdvantages></HomeAdvantages>
       <TopSales categories={categories}></TopSales>
       <Testimonial></Testimonial>

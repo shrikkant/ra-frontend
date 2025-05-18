@@ -236,9 +236,13 @@ export interface IProductCategory {
 export interface IProductSubCategory {
   id?: number
   category_id: number
+  description: string
   key?: string
   slug: string
   title: string
+  image_url?: string
+  created_ts: string
+  product_count: number
 }
 
 export interface IDeliveryItem {

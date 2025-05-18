@@ -144,7 +144,7 @@ export default async function RootLayout({
         >
           <StoreProvider>
             <Header />
-            <div className="px-2">{children}</div>
+            <div>{children}</div>
             <Footer />
           </StoreProvider>
 
