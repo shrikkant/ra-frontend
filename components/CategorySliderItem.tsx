@@ -1,4 +1,5 @@
 import React from 'react'
+import Image from 'next/image'
 
 interface CategorySliderItemProps {
   image?: string
@@ -18,9 +19,12 @@ export const CategorySliderItem: React.FC<CategorySliderItemProps> = ({
     >
       {image && (
         <div className="relative w-full h-full p-4">
-          <img
+          <Image
             src={image}
             alt={title}
+            width={326}
+            height={326}
+            sizes="(max-width: 640px) 146px, 326px"
             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 rounded-lg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
