@@ -25,7 +25,7 @@ export const CategorySliderItem: React.FC<CategorySliderItemProps> = ({
             width={384}
             height={384}
             priority
-            sizes="(max-width: 640px) 146px, 326px"
+            sizes="(max-width: 640px) 256px, 384px"
             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 rounded-lg"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/30 to-transparent" />
