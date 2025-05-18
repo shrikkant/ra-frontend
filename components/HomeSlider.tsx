@@ -230,9 +230,9 @@ export function HomeSlider() {
               <div className="grid md:grid-cols-2 gap-8 items-center h-full max-w-[1400px] mx-auto px-4 md:px-8">
                 <div className="pt-8 md:pt-0">
                   <div className="max-w-lg">
-                    <h2 className="text-2xl md:text-4xl font-bold text-white mb-4">
+                    <h1 className="text-2xl md:text-4xl font-bold text-white mb-4">
                       {p.title}
-                    </h2>
+                    </h1>
                     <p className="text-base md:text-lg text-gray-200 mb-8">
                       {p.subtitle}
                     </p>
