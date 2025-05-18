@@ -22,6 +22,7 @@ import {FaShopify} from 'react-icons/fa'
 import {IUser} from '../app-store/types'
 import {useSearchParams} from 'next/navigation'
 import {ChartBarIcon} from '@heroicons/react/24/outline'
+import SignupButton from './common/SignupButton'
 
 interface INavLink {
   title: string
@@ -166,14 +167,7 @@ export default function TopNavMenu() {
                 </Transition>
               </>
             ) : (
-              <a
-                href="#"
-                onClick={showSignInModal}
-                className=" bg-gray-800 p-1 text-gray-300 font-semibold hover:text-white focus:outline-none focus:ring-offset-gray-800 cursor-pointer"
-              >
-                <span className="sr-only">Sign up</span>
-                Sign up
-              </a>
+              <SignupButton onClick={showSignInModal} />
             )}
             {showSignIn && <SignIn onClose={closeSignInModal}></SignIn>}
           </div>
