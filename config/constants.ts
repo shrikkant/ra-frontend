@@ -42,6 +42,18 @@ export const enum INPUT_ICON_TYPES {
   OTP = 5,
 }
 
+export const enum SIGNIN_SOURCE {
+  GOOGLE = 'G',
+  FACEBOOK = 'F',
+  PHONE = 'P',
+}
+
+export const SIGNIN_SOURCE_LABELS = {
+  [SIGNIN_SOURCE.GOOGLE]: 'Google',
+  [SIGNIN_SOURCE.FACEBOOK]: 'Facebook',
+  [SIGNIN_SOURCE.PHONE]: 'Phone',
+} as const
+
 export const DISCOUNT_STEPS = [
   {
     days: 14,

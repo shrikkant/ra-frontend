@@ -1,11 +1,21 @@
 import Moment from 'moment'
 import {IAadhaar} from '../app-store/auth/types'
 import {IUser} from '../app-store/types'
-
+import {SIGNIN_SOURCE} from '../config/constants'
 interface IDCardProps {
   aadhaar?: IAadhaar
   customer?: IUser
   phone: string
+}
+
+const getProfilePicUrl = (profilePic: string | undefined, source: string | undefined) => {
+  if (!profilePic || !source) return null;
+
+  if (source === SIGNIN_SOURCE.GOOGLE) {
+    return profilePic.substring(0, profilePic.lastIndexOf("="));
+  }
+
+  return null;
 }
 
 export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
@@ -32,7 +42,7 @@ export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
             (customer.profile_pic ? (
               <img
                 className="w-full h-full object-cover"
-                src={customer.profile_pic}
+                src={getProfilePicUrl(customer.profile_pic, customer.signin_source) || ''}
                 alt="Profile"
               />
             ) : (
@@ -73,3 +83,4 @@ export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
     </div>
   )
 }
+https://lh3.googleusercontent.com/a/ACg8ocJy-nISmuGORC2hgbaLkOuce_xOMRm-7MFWE0azK0_SVnml-PzK=s96-c
