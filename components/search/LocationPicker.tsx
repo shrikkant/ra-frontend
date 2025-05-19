@@ -48,8 +48,7 @@ export const LocationPicker = () => {
       city,
     }
 
-    dispatch(setSearch(search))
-    router.push('/' + city.toLowerCase() + '/rent-camera')
+    window.location.href = '/' + locationCity(city).toLowerCase()
   }
 
   useEffect(() => {
