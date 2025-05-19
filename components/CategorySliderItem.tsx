@@ -24,6 +24,7 @@ export const CategorySliderItem: React.FC<CategorySliderItemProps> = ({
             alt={title}
             width={384}
             height={384}
+            quality={80}
             priority
             sizes="(max-width: 640px) 256px, 384px"
             className="w-full h-full object-cover transform group-hover:scale-105 transition-transform duration-300 rounded-lg"

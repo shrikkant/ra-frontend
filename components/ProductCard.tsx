@@ -19,8 +19,8 @@ export default function ProductCard({product}: {product: IProduct}) {
   }
 
   return (
-    <div className="border justify-end border-gray-100 w-full h-full p-4 bg-white  flex flex-col sm:rounded xs:shadow-none">
-      {
+    <div className="border border-gray-100 w-full h-full bg-white flex flex-col sm:rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
+      <div className="flex-grow p-4">
         <Link href={resolveURL()}>
           <LazyImage
             src={
@@ -29,20 +29,28 @@ export default function ProductCard({product}: {product: IProduct}) {
               '/photo?width=240'
             }
             alt="Product Image"
-            className="p-4"
-            // blurDataURL={'https://www.rentacross.com/api/products/' + product.master_product_id + '/photo'}
+            className="hover:opacity-90 transition-opacity duration-300"
             width={800}
             height={600}
-          />{' '}
+          />
         </Link>
-      }
-      <Link className="cursor-pointer pb-4" href={resolveURL()}>
-        {product.title}
-      </Link>
+      </div>
 
-      <ProductPrice dailyRent={dailyRent} discount={product.discount_percent} />
+      <div className="mt-auto bg-gradient-to-t from-gray-200 via-gray-100 to-transparent px-4 pb-4 sm:rounded-b-lg">
+        <Link
+          className="cursor-pointer block py-4 text-gray-800 hover:text-gray-600 transition-colors duration-300"
+          href={resolveURL()}
+        >
+          {product.title}
+        </Link>
 
-      <RentNowButton pathname={resolveURL()} />
+        <ProductPrice
+          dailyRent={dailyRent}
+          discount={product.discount_percent}
+        />
+
+        <RentNowButton pathname={resolveURL()} />
+      </div>
     </div>
   )
 }

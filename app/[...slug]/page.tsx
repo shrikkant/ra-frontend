@@ -2,6 +2,7 @@
 import {Metadata} from 'next'
 import React from 'react'
 import ProductCard from 'components/ProductCard'
+import CityHeroBanner from 'components/CityHeroBanner'
 
 import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
@@ -126,30 +127,68 @@ export default async function Page({params, searchParams}: PageProps) {
     return notFound()
   }
 
-  return (
-    <div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
-      {!filter?.product && (
-        <h1 className="text-4xl text-center py-6 capitalize font-semibold">
-          Rent Cameras, Lenses, GoPro&apos;s in {filter?.city}
-        </h1>
-      )}
+  // Get city image based on city name
+  const getCityImage = (city: string) => {
+    const cityImages: {[key: string]: string} = {
+      pune: '/assets/v2/img/cities/pune-banner.webp',
+      mumbai: '/assets/v2/img/cities/mumbai-banner.webp',
+      bangalore: '/assets/v2/img/cities/bangalore-banner.webp',
+      bengaluru: '/assets/v2/img/cities/bangalore-banner.webp',
+      // Add more cities as needed
+    }
+    return (
+      cityImages[city.toLowerCase()] ||
+      '/assets/v2/img/cities/default-banner.webp'
+    )
+  }
 
-      {!filter?.product && products && (
-        <>
-          <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
-          <div
-            className={
-              'grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4'
+  // Get category title from categories data
+  const getCategoryTitle = (subCategoryId: number) => {
+    for (const category of categories) {
+      const subCategory = category.subCategories?.find(
+        sc => sc.id === subCategoryId,
+      )
+      if (subCategory) {
+        return subCategory.title
+      }
+    }
+    return 'Cameras & Equipment'
+  }
+
+  return (
+    <div className="min-h-screen">
+      {!filter?.product &&
+        filter?.city &&
+        Object.keys(localSearchParams).length === 0 && (
+          <CityHeroBanner
+            city={filter.city}
+            category={
+              filter.subCategory
+                ? getCategoryTitle(filter.subCategory)
+                : 'Cameras & Equipment'
             }
-          >
-            {products &&
-              products.map((product: IProduct) => (
-                <ProductCard key={product.id} product={product}></ProductCard>
-              ))}
-          </div>
-        </>
-      )}
-      {filter?.product && product && <Product product={product}></Product>}
+            cityImage={getCityImage(filter.city)}
+          />
+        )}
+
+      <div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
+        {!filter?.product && products && (
+          <>
+            <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
+            <div
+              className={
+                'grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4'
+              }
+            >
+              {products &&
+                products.map((product: IProduct) => (
+                  <ProductCard key={product.id} product={product}></ProductCard>
+                ))}
+            </div>
+          </>
+        )}
+        {filter?.product && product && <Product product={product}></Product>}
+      </div>
     </div>
   )
 }
