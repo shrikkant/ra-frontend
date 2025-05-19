@@ -8,14 +8,17 @@ interface IDCardProps {
   phone: string
 }
 
-const getProfilePicUrl = (profilePic: string | undefined, source: string | undefined) => {
-  if (!profilePic || !source) return null;
+const getProfilePicUrl = (
+  profilePic: string | undefined,
+  source: string | undefined,
+) => {
+  if (!profilePic || !source) return null
 
   if (source === SIGNIN_SOURCE.GOOGLE) {
-    return profilePic.substring(0, profilePic.lastIndexOf("="));
+    return profilePic.substring(0, profilePic.lastIndexOf('='))
   }
 
-  return null;
+  return null
 }
 
 export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
@@ -42,7 +45,12 @@ export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
             (customer.profile_pic ? (
               <img
                 className="w-full h-full object-cover"
-                src={getProfilePicUrl(customer.profile_pic, customer.signin_source) || ''}
+                src={
+                  getProfilePicUrl(
+                    customer.profile_pic,
+                    customer.signin_source,
+                  ) || ''
+                }
                 alt="Profile"
               />
             ) : (
@@ -83,4 +91,3 @@ export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
     </div>
   )
 }
-https://lh3.googleusercontent.com/a/ACg8ocJy-nISmuGORC2hgbaLkOuce_xOMRm-7MFWE0azK0_SVnml-PzK=s96-c
