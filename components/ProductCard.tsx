@@ -29,7 +29,7 @@ export default function ProductCard({product}: {product: IProduct}) {
               '/photo?width=240'
             }
             alt="Product Image"
-            className="hover:opacity-90 transition-opacity duration-300"
+            className="hover:opacity-90 transition-opacity duration-300 max-h-[240px] object-contain"
             width={800}
             height={600}
           />

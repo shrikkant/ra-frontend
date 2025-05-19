@@ -34,7 +34,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
         quality={75}
         loading="lazy"
         className={`
-          duration-700 ease-in-out
+          duration-700 ease-in-out max-h-[240px] object-contain
           ${isLoaded ? 'scale-100 blur-0' : 'scale-110 blur-md'}
         `}
         onLoad={() => setIsLoaded(true)}
