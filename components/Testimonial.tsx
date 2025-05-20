@@ -1,6 +1,7 @@
 'use client'
 import React, {Fragment} from 'react'
 import {ReactNode, useEffect, useState} from 'react'
+import {StarIcon} from '@heroicons/react/24/solid'
 
 import {ITestimonial} from '../app-store/app-defaults/types'
 
@@ -115,25 +116,36 @@ export function Testimonial() {
             {group.map((t, index) => (
               <div
                 key={index}
-                className="feedback-item transition duration-300 ease-in bg-white/90 backdrop-blur-sm rounded-lg p-6"
+                className="feedback-item transition duration-300 ease-in rounded-2xl p-6 shadow-[0_8px_30px_rgb(0,0,0,0.04)] hover:shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100/50 flex flex-col h-full relative overflow-hidden bg-gradient-to-br from-white via-white to-gray-50"
               >
-                <div className="feedback-content mb-4">
-                  <p className="text-gray-700">{t.description}</p>
+                <div
+                  className="absolute inset-0 opacity-5 pointer-events-none"
+                  style={{
+                    backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23000000' fill-opacity='1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
+                  }}
+                ></div>
+                <div className="feedback-content flex-grow flex items-center justify-center relative z-10 min-h-[200px]">
+                  <p className="text-gray-700 text-base leading-7 italic text-center">
+                    "{t.description}"
+                  </p>
                 </div>
-                <div className="feedback-item-top flex items-center gap-4">
-                  <img
-                    src={t.img}
-                    alt="photo"
-                    className="w-12 h-12 rounded-full object-cover"
-                  />
-                  <div className="feedback-title">
-                    <h5 className="title font-semibold text-gray-900">
-                      <span>{t.name}</span>
+                <div className="feedback-item-top flex items-center gap-4 border-t border-gray-100/50 pt-4 mt-auto relative z-10 bg-gradient-to-r from-transparent via-gray-50/50 to-transparent">
+                  <div className="relative flex-shrink-0">
+                    <div className="absolute inset-0 rounded-full bg-gradient-to-r from-[#f7ca00] to-yellow-400 opacity-20 blur-sm"></div>
+                    <img
+                      src={t.img}
+                      alt={`${t.name}'s profile`}
+                      className="w-12 h-12 rounded-full object-cover ring-2 ring-[#f7ca00] relative shadow-sm"
+                    />
+                  </div>
+                  <div className="feedback-title flex flex-col justify-center">
+                    <h5 className="title font-semibold text-gray-900 text-sm bg-gradient-to-r from-gray-900 to-gray-700 bg-clip-text text-transparent">
+                      {t.name}
                     </h5>
-                    <ul className="rating flex gap-1 mt-1">
+                    <ul className="rating flex gap-1 mt-1.5">
                       {[...Array(t.rating)].map((_, i) => (
-                        <li key={i} className="star-bg text-yellow-400">
-                          <i className="fa fa-star"></i>
+                        <li key={i} className="text-[#f7ca00]">
+                          <StarIcon className="w-4 h-4 drop-shadow-sm" />
                         </li>
                       ))}
                     </ul>
@@ -199,13 +211,13 @@ export function Testimonial() {
           onMouseEnter={() => setIsPaused(true)}
           onMouseLeave={() => setIsPaused(false)}
         >
-          <div className="relative h-[400px] md:h-[300px] overflow-hidden">
+          <div className="relative h-[480px] md:h-[380px] overflow-hidden">
             <div className="relative w-full h-full">
               {items && items.map(item => item)}
             </div>
           </div>
 
-          <div className="absolute bottom-[-40px] left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-4">
+          <div className="absolute bottom-[-70px] left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-4">
             <button
               onClick={() => prev()}
               className="text-[#f7ca00] hover:text-[#e6b800] transition-all duration-300 hover:scale-110 group"
