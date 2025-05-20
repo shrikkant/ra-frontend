@@ -157,20 +157,6 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 
     return {
       ...metadata,
-      other: {
-        'application/ld+json': JSON.stringify(
-          generateStructuredData(
-            filter,
-            filter.product
-              ? await fetchProductBySlug(
-                  localParams.slug.toString().split(',').at(-1) || '',
-                )
-              : null,
-            localParams.slug,
-            getCategoryTitle,
-          ),
-        ),
-      },
     }
   }
 
