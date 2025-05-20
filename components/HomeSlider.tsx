@@ -300,13 +300,13 @@ export function HomeSlider() {
             <FaAngleLeft className="h-5 w-5" />
           </button>
 
-          <div className="flex gap-1.5">
+          <div className="flex gap-4 ">
             {items &&
               items.map((_, index) => (
                 <button
                   key={index}
                   onClick={() => changeSlide(index)}
-                  className={`w-2 h-2 rounded-full transition-all ${
+                  className={`w-2 p-0 h-2 rounded-full transition-all ${
                     index === currentItem
                       ? 'bg-[#f7ca00] scale-125'
                       : 'bg-white/50 hover:bg-white/70'

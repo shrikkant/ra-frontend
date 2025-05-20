@@ -214,13 +214,13 @@ export function Testimonial() {
               <i className="fa fa-angle-left text-3xl group-hover:scale-110 transition-transform duration-300"></i>
             </button>
 
-            <div className="flex items-center gap-4 px-2">
+            <div className="flex items-center gap-4">
               {items &&
                 items.map((_, index) => (
                   <button
                     key={index}
                     onClick={() => setCurrentItem(index)}
-                    className={`w-2 h-2 rounded-full transition-all ${
+                    className={`w-2 p-0 h-2 rounded-full transition-all ${
                       index === currentItem
                         ? 'bg-[#f7ca00] scale-125'
                         : 'bg-white/50 hover:bg-white/70'
