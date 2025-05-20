@@ -3,6 +3,7 @@ import {Metadata} from 'next'
 import React from 'react'
 import ProductCard from 'components/ProductCard'
 import CityHeroBanner from 'components/CityHeroBanner'
+import Script from 'next/script'
 
 import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
@@ -43,6 +44,58 @@ interface IMetadata {
   }
 }
 
+const generateStructuredData = (
+  filter: any,
+  product: IProduct | null,
+  slug: string[],
+  getCategoryTitle: (id: number) => string,
+) => {
+  if (filter.product && product) {
+    return {
+      '@context': 'https://schema.org',
+      '@type': 'Product',
+      name: product.title,
+      description: product.description,
+      image: `https://rentacross.com/api/products/${product.master_product_id}/photo`,
+      offers: {
+        '@type': 'Offer',
+        price: product.rates?.[0]?.rate || 0,
+        priceCurrency: 'INR',
+        availability:
+          product.qty && product.qty > 0
+            ? 'https://schema.org/InStock'
+            : 'https://schema.org/OutOfStock',
+        url: `https://rentacross.com/${slug.join('/')}`,
+      },
+      brand: {
+        '@type': 'Brand',
+        name: 'Unknown',
+      },
+      category: getCategoryTitle(filter.subCategory ?? 0),
+    }
+  }
+
+  const categoryTitle = getCategoryTitle(filter?.subCategory ?? 0)
+  const location = filter?.city ? ` in ${filter.city}` : ''
+
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'ItemList',
+    name: `${categoryTitle}${location}`,
+    description: `Browse and rent ${categoryTitle.toLowerCase()}${location} at affordable rates.`,
+    url: `https://rentacross.com/${slug.join('/')}`,
+    itemListElement: {
+      '@type': 'ListItem',
+      position: 1,
+      item: {
+        '@type': 'ItemList',
+        name: categoryTitle,
+        description: `List of ${categoryTitle.toLowerCase()} available for rent${location}`,
+      },
+    },
+  }
+}
+
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const metadata: IMetadata = {
     title:
@@ -56,6 +109,17 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const localParams = await params
 
   const filter = getProductFilter(localParams, categories)
+  const getCategoryTitle = (subCategoryId: number = 0) => {
+    for (const category of categories) {
+      const subCategory = category.subCategories?.find(
+        sc => sc.id === subCategoryId,
+      )
+      if (subCategory) {
+        return subCategory.title
+      }
+    }
+    return 'Cameras & Equipment'
+  }
 
   if (filter) {
     if (filter.product) {
@@ -91,8 +155,22 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
       }
     }
 
-    if (filter.city) {
-      metadata.title = metadata.title + ' | ' + capitalize(localParams.slug[0])
+    return {
+      ...metadata,
+      other: {
+        'application/ld+json': JSON.stringify(
+          generateStructuredData(
+            filter,
+            filter.product
+              ? await fetchProductBySlug(
+                  localParams.slug.toString().split(',').at(-1) || '',
+                )
+              : null,
+            localParams.slug,
+            getCategoryTitle,
+          ),
+        ),
+      },
     }
   }
 
@@ -143,7 +221,7 @@ export default async function Page({params, searchParams}: PageProps) {
   }
 
   // Get category title from categories data
-  const getCategoryTitle = (subCategoryId: number) => {
+  const getCategoryTitle = (subCategoryId: number = 0) => {
     for (const category of categories) {
       const subCategory = category.subCategories?.find(
         sc => sc.id === subCategoryId,
