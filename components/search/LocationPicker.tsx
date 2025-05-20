@@ -2,14 +2,13 @@
 'use client'
 import React from 'react'
 import {
-  MenuButton,
-  MenuItem,
-  MenuItems,
+  Popover,
+  PopoverButton,
+  PopoverPanel,
   Transition,
-  Menu,
 } from '@headlessui/react'
 import {Fragment, useEffect, useState} from 'react'
-
+import {ChevronDownIcon} from '@heroicons/react/24/outline'
 import {useDispatch, useSelector} from 'react-redux'
 import {
   getDefaultSearch,
@@ -17,8 +16,6 @@ import {
 } from '../../app-store/session/session.slice'
 import {useRouter} from 'next/navigation'
 import Link from 'next/link'
-
-import ChevronDownIcon from '@heroicons/react/24/outline/ChevronDownIcon'
 
 const locations = [
   {
@@ -71,56 +68,56 @@ export const LocationPicker = () => {
   }
 
   return (
-    <>
-      <Menu as="div" className="relative">
-        <MenuButton className="w-20 p-0  rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
-          <div className="flex w-full justify-end">
-            {location?.city ? (
-              <span className=" text-gray-100 font-semibold">
-                {locationCity(location.city)}
-              </span>
-            ) : (
-              <span>{'Select City'}</span>
-            )}
-            <ChevronDownIcon
-              className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
-              aria-hidden="true"
-            />
-          </div>
-        </MenuButton>
-        <Transition
-          as={Fragment}
-          enter="transition ease-out duration-100"
-          enterFrom="transform opacity-0 scale-95"
-          enterTo="transform opacity-100 scale-100"
-          leave="transition ease-in duration-75"
-          leaveFrom="transform opacity-100 scale-100"
-          leaveTo="transform opacity-0 scale-95"
-        >
-          <MenuItems className="mt-2 absolute truncate top-full right-0 w-28 bg-white border rounded-md shadow-lg z-50">
-            {locations &&
-              locations.map((loc, i) => {
-                // const icon = "bg-[url(/assets/img/city_images/" + loc.label + ".png)]";
+    <Popover className="relative">
+      <PopoverButton className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 px-3 text-gray-100">
+        <span>
+          {location?.city ? locationCity(location.city) : 'Select City'}
+        </span>
+        <ChevronDownIcon
+          className="ml-2 -mr-1 h-5 w-5 text-violet-200 hover:text-violet-100"
+          aria-hidden="true"
+        />
+      </PopoverButton>
 
-                return (
-                  <MenuItem key={i}>
-                    <Link
-                      href={'#'}
-                      type="button"
-                      onClick={() => {
-                        cityChange(loc.value)
-                        close()
-                      }}
-                      className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100 justify-start items-center"
-                    >
-                      {loc.label}
-                    </Link>
-                  </MenuItem>
-                )
-              })}
-          </MenuItems>
-        </Transition>
-      </Menu>
-    </>
+      <Transition
+        as={Fragment}
+        enter="transition ease-out duration-200"
+        enterFrom="opacity-0 translate-y-1"
+        enterTo="opacity-100 translate-y-0"
+        leave="transition ease-in duration-150"
+        leaveFrom="opacity-100 translate-y-0"
+        leaveTo="opacity-0 translate-y-1"
+      >
+        <PopoverPanel
+          className="bg-white sm:absolute
+          xs:fixed
+          xs:left-6
+          z-10 mt-5
+          ml-5
+          mr-5
+          max-w-max
+          sm:-translate-x-1/2 px-4 border
+          rounded"
+        >
+          {({close}) => (
+            <div className="py-2">
+              {locations.map((loc, i) => (
+                <Link
+                  key={i}
+                  href="#"
+                  onClick={() => {
+                    cityChange(loc.value)
+                    close()
+                  }}
+                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                >
+                  {loc.label}
+                </Link>
+              ))}
+            </div>
+          )}
+        </PopoverPanel>
+      </Transition>
+    </Popover>
   )
 }

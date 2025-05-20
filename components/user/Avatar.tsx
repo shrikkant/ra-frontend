@@ -134,7 +134,7 @@ export function Avatar({user, size = '10'}: AvatarProps) {
     <>
       {user.profile_pic ? (
         <img
-          className={` h-${size} w-${size} rounded-full`}
+          className={`h-${size} w-${size} rounded-full object-cover`}
           src={user.profile_pic}
           alt=""
         />
@@ -142,7 +142,7 @@ export function Avatar({user, size = '10'}: AvatarProps) {
         <div className="flex">
           <div
             style={{backgroundColor: color, color: getOptimalTextColor(color)}}
-            className={`w-${size} h-${size} text-xl  text-center rounded-full flex flex-col justify-center font-normal uppercase`}
+            className={`w-${size} h-${size} text-xl text-center rounded-full flex items-center justify-center font-normal uppercase`}
           >
             {initials}
           </div>

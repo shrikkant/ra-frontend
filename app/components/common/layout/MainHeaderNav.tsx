@@ -57,7 +57,7 @@ export default function MainHeaderNav() {
   }, [cart, storeSearch])
 
   return (
-    <Disclosure as="nav" className="bg-gray-800">
+    <Disclosure as="nav">
       <div className="px-2 md:px-4 container m-auto py-2">
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
           <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto">
@@ -94,12 +94,18 @@ export default function MainHeaderNav() {
                     <FaWhatsapp className="h-6 w-6" />
                   </a>
                   <a
-                    className="relative bg-gray-800  hover:bg-gray-800 hover:text-slate-50 p-1 rounded-md tex-sm font-semibold text-gray-400 content-center"
+                    className="relative    hover:text-slate-50 p-0 rounded-md tex-sm font-semibold text-gray-400 content-center"
                     href="/p/mycart"
                   >
-                    <ShoppingCartIcon className="h-7 w-7" />
+                    <ShoppingCartIcon className="h-8 w-8" />
                     {cart && cart.items && cart.items.length > 0 && (
-                      <span className="absolute teFxt-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 m-0 flex justify-center items-center">
+                      <span
+                        className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 flex justify-center items-center"
+                        style={{
+                          top: '-4px',
+                          right: '-4px',
+                        }}
+                      >
                         {cart.items?.length}
                       </span>
                     )}

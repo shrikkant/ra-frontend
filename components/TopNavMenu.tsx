@@ -50,7 +50,9 @@ export default function TopNavMenu() {
     {
       title: 'My Orders',
       path: '/p/orders',
-      icon: <ShoppingBagIcon className="h-6 w-6" />,
+      icon: (
+        <ShoppingBagIcon className="h-6 w-6 text-gray-600 hover:text-amber-500 transition-colors" />
+      ),
     },
   ]
 
@@ -63,7 +65,9 @@ export default function TopNavMenu() {
     {
       title: 'Orders',
       path: '/p/admin/orders',
-      icon: <ShoppingBagIcon className="h-6 w-6" />,
+      icon: (
+        <ShoppingBagIcon className="h-6 w-6 text-gray-600 hover:text-amber-500 transition-colors" />
+      ),
     },
     {
       title: 'Brands',
@@ -113,7 +117,7 @@ export default function TopNavMenu() {
           <div className="flex justify-center align-center w-22">
             {loggedUser ? (
               <>
-                <MenuButton className="p-0 rounded-full bg-gray-800 text-sm focus:outline-none  focus:ring-white focus:ring-offset-gray-800 profileref">
+                <MenuButton className="p-0">
                   <Avatar user={loggedUser} size="8"></Avatar>
                 </MenuButton>
                 <Transition

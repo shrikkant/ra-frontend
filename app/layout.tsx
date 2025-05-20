@@ -99,6 +99,12 @@ export default async function RootLayout({
           name="keywords"
           content="Rent DSLR Cameras, Rent GoPro, Rent Video Cameras, Rent DSLR Lenses, Camera Rental Community, Online Camera Rental Store"
         />
+        <link
+          rel="icon"
+          type="image/x-icon"
+          href="/assets/v2/img/favicon.ico"
+        />
+
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
         <link
           rel="stylesheet"

@@ -224,7 +224,7 @@ export function HomeSlider() {
               }}
             />
             <BackgroundComponent />
-            <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30" />
+            <div className="absolute inset-0 bg-gradient-to-b from-zinc-700 via-zinc-700/40 to-white" />
 
             <div className="w-full h-full relative z-10">
               <div className="grid md:grid-cols-2 gap-8 items-center h-full max-w-[1400px] mx-auto px-4 md:px-8">
