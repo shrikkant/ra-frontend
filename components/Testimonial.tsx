@@ -9,6 +9,7 @@ import {Transition} from '@headlessui/react'
 export function Testimonial() {
   const [items, setItems] = useState<ReactNode[]>([])
   const [currentItem, setCurrentItem] = useState(0)
+  const [isPaused, setIsPaused] = useState(false)
 
   const prev = () => {
     if (currentItem === 0) {
@@ -81,66 +82,105 @@ export function Testimonial() {
       },
     ]
 
-    const items = testimonials.map((t, index) => {
+    // For mobile: one testimonial per slide
+    // For desktop: three testimonials per slide
+    const groupedTestimonials: ITestimonial[][] = []
+    const isMobile = window.innerWidth < 768 // md breakpoint
+
+    if (isMobile) {
+      // One testimonial per slide for mobile
+      testimonials.forEach(testimonial => {
+        groupedTestimonials.push([testimonial])
+      })
+    } else {
+      // Three testimonials per slide for desktop
+      for (let i = 0; i < testimonials.length; i += 3) {
+        groupedTestimonials.push(testimonials.slice(i, i + 3))
+      }
+    }
+
+    const items = groupedTestimonials.map((group, groupIndex) => {
       return (
         <div
-          key={index}
-          className={
-            'feedback-slide ' +
-            (currentItem === index ? 'slick-current slick-active' : '')
-          }
+          key={groupIndex}
+          className="absolute inset-0 transition-transform duration-500 ease-in-out"
           style={{
-            top: 0,
-            zIndex: 999,
+            transform: `translateX(${(groupIndex - currentItem) * 100}%)`,
           }}
+          role="group"
+          aria-roledescription="slide"
+          aria-label={`Slide ${groupIndex + 1} of ${groupedTestimonials.length}`}
         >
-          <Transition
-            as={Fragment}
-            enter="transition ease-out duration-1000"
-            enterFrom="opacity-0 translate-y-1"
-            enterTo="opacity-100 translate-y-0"
-            leave="transition ease-in duration-750"
-            leaveFrom="opacity-100 translate-y-0"
-            leaveTo="opacity-0 translate-y-1"
-            show={isActive(index)}
-          >
-            <div className="feedback-item transition duration-300 ease-in data-[closed]:opacity-0">
-              <div className="feedback-content">
-                <p>{t.description}</p>
-              </div>
-              <div className="feedback-item-top">
-                <img src={t.img} alt="photo" />
-                <div className="feedback-title">
-                  <h5 className="title">
-                    <span>{t.name}</span>
-                  </h5>
-                  <ul className="rating">
-                    <li className="star-bg">
-                      <i className="fa fa-star"></i>
-                    </li>
-                    <li className="star-bg">
-                      <i className="fa fa-star"></i>
-                    </li>
-                    <li className="star-bg">
-                      <i className="fa fa-star"></i>
-                    </li>
-                    <li className="star-bg">
-                      <i className="fa fa-star"></i>
-                    </li>
-                    <li className="star-bg">
-                      <i className="fa fa-star"></i>
-                    </li>
-                  </ul>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 px-4 md:px-0">
+            {group.map((t, index) => (
+              <div
+                key={index}
+                className="feedback-item transition duration-300 ease-in bg-white/90 backdrop-blur-sm rounded-lg p-6"
+              >
+                <div className="feedback-content mb-4">
+                  <p className="text-gray-700">{t.description}</p>
+                </div>
+                <div className="feedback-item-top flex items-center gap-4">
+                  <img
+                    src={t.img}
+                    alt="photo"
+                    className="w-12 h-12 rounded-full object-cover"
+                  />
+                  <div className="feedback-title">
+                    <h5 className="title font-semibold text-gray-900">
+                      <span>{t.name}</span>
+                    </h5>
+                    <ul className="rating flex gap-1 mt-1">
+                      {[...Array(t.rating)].map((_, i) => (
+                        <li key={i} className="star-bg text-yellow-400">
+                          <i className="fa fa-star"></i>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
                 </div>
               </div>
-            </div>
-          </Transition>
+            ))}
+          </div>
         </div>
       )
     })
 
     setItems(items)
+
+    // Add resize listener to update grouping on window resize
+    const handleResize = () => {
+      const newIsMobile = window.innerWidth < 768
+      if (newIsMobile !== isMobile) {
+        // Re-trigger the grouping logic
+        const newGroupedTestimonials: ITestimonial[][] = []
+        if (newIsMobile) {
+          testimonials.forEach(testimonial => {
+            newGroupedTestimonials.push([testimonial])
+          })
+        } else {
+          for (let i = 0; i < testimonials.length; i += 3) {
+            newGroupedTestimonials.push(testimonials.slice(i, i + 3))
+          }
+        }
+        setCurrentItem(0) // Reset to first slide when switching layouts
+      }
+    }
+
+    window.addEventListener('resize', handleResize)
+    return () => window.removeEventListener('resize', handleResize)
   }, [currentItem])
+
+  // Add auto-scroll effect
+  useEffect(() => {
+    if (isPaused) return
+
+    const interval = setInterval(() => {
+      next()
+    }, 3000)
+
+    return () => clearInterval(interval)
+  }, [currentItem, isPaused])
 
   return (
     <section
@@ -154,35 +194,51 @@ export function Testimonial() {
       <span className="mask"></span>
       <div className="sm:container mx-auto relative z-10 sm:px-2 xs:px-2">
         <h2 className="title">feedback</h2>
-        <div className="feedback-slider relative">
-          <span onClick={prev} className="slick-arrow-prev slick-arrow">
-            <i className="fa fa-angle-left"></i>
-          </span>
-
-          <div
-            aria-live="polite"
-            className="slick-list draggable"
-            style={{
-              position: 'relative',
-              overflow: 'hidden',
-              boxSizing: 'border-box',
-            }}
-          >
-            <div
-              className="slick-track"
-              role="listbox"
-              style={{transformStyle: 'preserve-3d'}}
-            >
+        <div
+          className="feedback-slider relative"
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+        >
+          <div className="relative h-[400px] md:h-[300px] overflow-hidden">
+            <div className="relative w-full h-full">
               {items && items.map(item => item)}
             </div>
           </div>
 
-          <span
-            className="slick-arrow-next slick-arrow z-[10000]"
-            onClick={next}
-          >
-            <i className="fa fa-angle-right"></i>
-          </span>
+          <div className="absolute bottom-[-40px] left-1/2 transform -translate-x-1/2 z-30 flex items-center gap-4">
+            <button
+              onClick={() => prev()}
+              className="text-[#f7ca00] hover:text-[#e6b800] transition-all duration-300 hover:scale-110 group"
+              aria-label="Previous slide"
+            >
+              <i className="fa fa-angle-left text-3xl group-hover:scale-110 transition-transform duration-300"></i>
+            </button>
+
+            <div className="flex items-center gap-4 px-2">
+              {items &&
+                items.map((_, index) => (
+                  <button
+                    key={index}
+                    onClick={() => setCurrentItem(index)}
+                    className={`w-2 h-2 rounded-full transition-all ${
+                      index === currentItem
+                        ? 'bg-[#f7ca00] scale-125'
+                        : 'bg-white/50 hover:bg-white/70'
+                    }`}
+                    aria-label={`Go to slide ${index + 1}`}
+                    aria-current={index === currentItem}
+                  />
+                ))}
+            </div>
+
+            <button
+              onClick={() => next()}
+              className="text-[#f7ca00] hover:text-[#e6b800] transition-all duration-300 hover:scale-110 group"
+              aria-label="Next slide"
+            >
+              <i className="fa fa-angle-right text-3xl group-hover:scale-110 transition-transform duration-300"></i>
+            </button>
+          </div>
         </div>
       </div>
     </section>
