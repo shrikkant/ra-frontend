@@ -10,7 +10,7 @@ export default async function HeaderSubNav() {
   const categories = await fetchData('categories')
   const subCategories: IProductSubCategory[] = []
 
-  const hiddenCategories: number[] = [59, 60, 62, 48, 32, 50, 30]
+  const hiddenCategories: number[] = [59, 60, 62, 48, 50, 30]
   const subCats: IProductSubCategory[] =
     categories && categories[0].subCategories
       ? categories[0]?.subCategories?.filter((sc: IProductSubCategory) => {
