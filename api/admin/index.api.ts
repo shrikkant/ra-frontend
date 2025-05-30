@@ -12,11 +12,12 @@ export async function fetchDeliveryReps(): Promise<IUser[]> {
 }
 
 export async function fetchMasterProducts(
-  pageNumber,
-  pageLimit,
+  query: string,
+  pageNumber: number,
+  pageLimit: number,
 ): Promise<IMasterProduct[]> {
   const products: IMasterProduct[] = await httpClient.get(
-    `/admin/inventory?&pageNumber=${pageNumber}&pageLimit=${pageLimit}`,
+    `/admin/inventory?query=${query}&pageNumber=${pageNumber}&pageLimit=${pageLimit}`,
   )
   return products
 }
@@ -32,5 +33,15 @@ export const fetchRevenueStats = async () => {
 
 export const fetchSignupStats = async () => {
   const response = await httpClient.get(`/admin/users/stats`)
+  return response
+}
+
+export async function createMasterProductLink(
+  data: {
+    product_id: number
+    master_product_id: number
+  }[],
+): Promise<any> {
+  const response = await httpClient.post('/admin/addons', data)
   return response
 }

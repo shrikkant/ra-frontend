@@ -146,6 +146,7 @@ export interface IProduct {
   tags?: null
   tou?: null
   master_product_id?: null
+  master_product_ids?: number[]
   discount_percent: number
   featured: boolean
   short_description?: null
@@ -156,6 +157,7 @@ export interface IProduct {
   owner: IUser
   location: ILocation
   subCategory: IProductSubCategory
+  category: IProductCategory
   masterProduct?
   rates?: IProductRatePlan[] | null
 }
