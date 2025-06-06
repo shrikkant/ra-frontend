@@ -34,7 +34,7 @@ export default function Products() {
 
   useEffect(() => {
     setLoading(true)
-    fetchMasterProducts(0, PAGE_SIZE).then(data => {
+    fetchMasterProducts('', 0, PAGE_SIZE).then(data => {
       setProducts(data)
       console.log('Products : ', data)
       setLoading(false)
