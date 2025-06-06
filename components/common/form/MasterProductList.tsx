@@ -33,7 +33,7 @@ export default function MasterProductList({
 
     setLoading(true)
     try {
-      const products = await fetchMasterProducts(query, 1, 10)
+      const products = await fetchMasterProducts(query, 0, 25)
       const newOptions = products.map(p => ({
         label: p.name,
         value: p.id.toString(),
