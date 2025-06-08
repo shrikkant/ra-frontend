@@ -67,10 +67,8 @@ export const createProductInventory = async (
     `/v1/users/${userId}/address/${addressId}/inventory`,
     data,
   )
-  if (!response.ok) {
-    throw new Error('Failed to create inventory')
-  }
-  return response.json()
+
+  return response
 }
 
 export const updateProductInventory = async (
@@ -83,8 +81,6 @@ export const updateProductInventory = async (
     `/v1/users/${userId}/address/${addressId}/inventory/${id}`,
     data,
   )
-  if (!response.ok) {
-    throw new Error('Failed to update inventory')
-  }
-  return response.json()
+
+  return response
 }
