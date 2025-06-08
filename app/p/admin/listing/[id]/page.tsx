@@ -92,7 +92,7 @@ export default function ListingDetailPage({params}: Props) {
         <div>
           <SelectField
             label="Category"
-            defaultValue={product.category_id?.toString()}
+            value={product.category_id?.toString()}
             onChange={handleCategoryChange}
             choices={categories.map(c => ({
               label: c.title,
@@ -105,7 +105,7 @@ export default function ListingDetailPage({params}: Props) {
         <div>
           <SelectField
             label="Subcategory"
-            defaultValue={product.sub_category_id?.toString()}
+            value={product.sub_category_id?.toString()}
             onChange={handleSubCategoryChange}
             choices={getSubCategories(product.category_id).map(sc => ({
               label: sc.title,

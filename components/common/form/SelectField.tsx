@@ -2,7 +2,7 @@ import React from 'react'
 
 interface SelectFieldProps {
   label?: string
-  defaultValue?: string
+  value?: string
   choices: {value: string; label: string}[]
   onChange: (event: React.ChangeEvent<HTMLSelectElement>) => void
 }
@@ -25,14 +25,14 @@ export default function SelectField({...props}: SelectFieldProps) {
       {label()}
       <div className="relative">
         <select
-          defaultValue={props.defaultValue}
+          value={props.value}
           onChange={props.onChange}
           className="block appearance-none w-full bg-gray-200 border border-gray-200 text-gray-700 py-2 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
           id="grid-state"
         >
           {props.choices &&
-            props.choices.map(choice => (
-              <option key={choice.value} value={choice.value}>
+            props.choices.map((choice, index) => (
+              <option key={index} value={choice.value}>
                 {choice.label}
               </option>
             ))}

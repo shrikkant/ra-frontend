@@ -76,7 +76,7 @@ export default function MainHeaderNav() {
               <SearchBar></SearchBar>
               <div className="hidden sm:block">
                 <SearchInput
-                  currentVal={q}
+                  currentVal={q || ''}
                   onSearch={searchProducts}
                   onChange={onSearch}
                 ></SearchInput>

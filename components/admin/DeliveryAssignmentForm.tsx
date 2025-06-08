@@ -77,7 +77,7 @@ export function DeliveryAssignmentForm({order}: {order: IOrder}) {
         <form style={{border: '1px solid #ddd', padding: 10, borderRadius: 4}}>
           <div className="flex">
             <SelectField
-              defaultValue={deliveyAssignment.repId + ''}
+              value={deliveyAssignment.repId + ''}
               onChange={handleRepChange}
               choices={repOptions()}
             ></SelectField>

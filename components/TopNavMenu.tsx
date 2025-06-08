@@ -81,6 +81,16 @@ export default function TopNavMenu() {
       icon: <FaShopify className="h-6 w-6" />,
     },
     {
+      title: 'Inventory',
+      path: '/p/admin/inventory',
+      icon: <FaShopify className="h-6 w-6" />,
+    },
+    {
+      title: 'Listing',
+      path: '/p/admin/listing',
+      icon: <FaShopify className="h-6 w-6" />,
+    },
+    {
       title: 'Analytics',
       path: '/p/admin/analytics',
       icon: <ChartBarIcon className="h-6 w-6" />,

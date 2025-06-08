@@ -45,3 +45,46 @@ export async function createMasterProductLink(
   const response = await httpClient.post('/admin/addons', data)
   return response
 }
+
+export async function fetchProductInventory(
+  userId: number,
+  addressId: number,
+  pageNumber: number = 0,
+  pageLimit: number = 50,
+): Promise<any[]> {
+  const inventory = await httpClient.get(
+    `/v1/users/${userId}/address/${addressId}/inventory?pageNumber=${pageNumber}&pageLimit=${pageLimit}`,
+  )
+  return inventory
+}
+
+export const createProductInventory = async (
+  userId: number,
+  addressId: number,
+  data: any,
+) => {
+  const response = await httpClient.post(
+    `/v1/users/${userId}/address/${addressId}/inventory`,
+    data,
+  )
+  if (!response.ok) {
+    throw new Error('Failed to create inventory')
+  }
+  return response.json()
+}
+
+export const updateProductInventory = async (
+  userId: number,
+  addressId: number,
+  id: number,
+  data: any,
+) => {
+  const response = await httpClient.patch(
+    `/v1/users/${userId}/address/${addressId}/inventory/${id}`,
+    data,
+  )
+  if (!response.ok) {
+    throw new Error('Failed to update inventory')
+  }
+  return response.json()
+}

@@ -28,8 +28,12 @@ export default function Products() {
       return
     }
     console.log('Debounce : ', inputValue)
-
-    // onChange(inputValue);
+    setLoading(true)
+    fetchMasterProducts(inputValue, 0, PAGE_SIZE).then(data => {
+      setProducts(data)
+      console.log('Products : ', data)
+      setLoading(false)
+    })
   }
 
   useEffect(() => {
@@ -80,18 +84,20 @@ export default function Products() {
                 <th className="px-4 py-2">Name</th>
               </tr>
             </thead>
-            {products &&
-              products.map(p => (
-                <tr key={p.id}>
-                  <td className="px-4 py-2">{p.id}</td>
-                  <td className="px-4 py-2">{p.brand_id}</td>
-                  <td className="px-4 py-2">{p.category_id}</td>
-                  <td className="px-4 py-2">{p.sub_category_id}</td>
-                  <td className="px-4 py-2">
-                    <Link href={`/p/admin/products/${p.id}`}>{p.name}</Link>
-                  </td>
-                </tr>
-              ))}
+            <tbody>
+              {products &&
+                products.map(p => (
+                  <tr key={p.id}>
+                    <td className="px-4 py-2">{p.id}</td>
+                    <td className="px-4 py-2">{p.brand_id}</td>
+                    <td className="px-4 py-2">{p.category_id}</td>
+                    <td className="px-4 py-2">{p.sub_category_id}</td>
+                    <td className="px-4 py-2">
+                      <Link href={`/p/admin/products/${p.id}`}>{p.name}</Link>
+                    </td>
+                  </tr>
+                ))}
+            </tbody>
           </table>
         </div>
       )}

@@ -80,7 +80,7 @@ export default function ProductRates() {
             <div className="flex-1/2 justify-center flex">
               <SelectField
                 choices={plan.choices || []}
-                defaultValue={plan.code}
+                value={plan.code || ''}
                 onChange={() => {}}
               ></SelectField>
             </div>
@@ -88,7 +88,7 @@ export default function ProductRates() {
               <Input
                 label={''}
                 placeholder={plan.title}
-                value={plan.code}
+                value={plan.code || ''}
                 onChange={e => onRateChange(e, plan)}
               />
             </div>
