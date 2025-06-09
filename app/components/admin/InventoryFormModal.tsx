@@ -30,6 +30,8 @@ export default function InventoryFormModal({
     purchase_date: '',
     last_maintenance_date: '',
     status: '',
+    warranty_expiry_date: '',
+    purchase_price: '',
   })
   const [productList, setProductList] = React.useState<
     {label: string; value: string}[]
@@ -53,6 +55,12 @@ export default function InventoryFormModal({
               .split('T')[0]
           : '',
         status: String(initialData.status || ''),
+        warranty_expiry_date: initialData.warranty_expiry_date
+          ? new Date(initialData.warranty_expiry_date)
+              .toISOString()
+              .split('T')[0]
+          : '',
+        purchase_price: initialData.purchase_price || '',
       })
     }
   }, [initialData])
@@ -70,10 +78,12 @@ export default function InventoryFormModal({
         const products = await getProductsByAddress(Number(formData.address_id))
         console.log('Products : ', products)
 
-        const formattedProducts = products.map(p => ({
-          label: p.title,
-          value: String(p.master_product_id),
-        }))
+        const formattedProducts = products
+          .filter(p => p.master_product_id && p.master_product_id > 0)
+          .map(p => ({
+            label: p.title,
+            value: String(p.master_product_id),
+          }))
         setProductList(formattedProducts)
       } catch (error) {
         console.error('Failed to load products:', error)
@@ -108,8 +118,10 @@ export default function InventoryFormModal({
     const processedData = {
       ...formData,
       master_product_id: Number(formData.master_product_id),
+      purchase_price: Number(formData.purchase_price),
     }
     onSubmit(processedData)
+    onClose()
   }
 
   return (
@@ -139,16 +151,34 @@ export default function InventoryFormModal({
           onChange={value => handleInputChange(value, 'serial_number')}
         />
 
-        <Input
+        <SelectField
           label="Condition Status"
           value={formData.condition_status}
-          onChange={value => handleInputChange(value, 'condition_status')}
+          onChange={e => handleInputChange(e.target.value, 'condition_status')}
+          choices={[
+            {label: 'New', value: 'New'},
+            {label: 'Refurbished', value: 'Refurbished'},
+            {label: 'Reused', value: 'Reused'},
+          ]}
+        />
+
+        <Input
+          label="Purchase Price"
+          type="number"
+          value={formData.purchase_price}
+          onChange={value => handleInputChange(value, 'purchase_price')}
         />
 
         <DatePicker
           label="Purchase Date"
           value={formData.purchase_date}
           onChange={value => handleInputChange(value, 'purchase_date')}
+        />
+
+        <DatePicker
+          label="Warranty Expiry Date"
+          value={formData.warranty_expiry_date}
+          onChange={value => handleInputChange(value, 'warranty_expiry_date')}
         />
 
         <DatePicker
