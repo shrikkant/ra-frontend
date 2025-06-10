@@ -40,13 +40,13 @@ export function HomeBanner() {
     <section className="relative bg-gradient-to-b from-[#1f2937] via-[#1a2234]/95 to-[#111827]/90 min-h-[60vh] md:min-h-[50vh] flex items-center overflow-hidden py-12 md:py-8">
       {/* Floating Elements */}
       <div className="absolute inset-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-[10%] left-[10%] text-white/10 text-6xl animate-float">
+        <div className="absolute top-[10%] left-[10%] text-white/3 text-6xl animate-float blur-[2px]">
           📷
         </div>
-        <div className="absolute top-[20%] right-[15%] text-white/10 text-6xl animate-float animation-delay-2000">
+        <div className="absolute top-[20%] right-[15%] text-white/3 text-6xl animate-float animation-delay-2000 blur-[2px]">
           🎬
         </div>
-        <div className="absolute bottom-[20%] left-[20%] text-white/10 text-6xl animate-float animation-delay-4000">
+        <div className="absolute bottom-[20%] left-[20%] text-white/3 text-6xl animate-float animation-delay-4000 blur-[2px]">
           📸
         </div>
       </div>
