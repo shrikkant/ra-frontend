@@ -132,8 +132,8 @@ export function HomeBanner() {
 
           {/* Visual Content */}
           <div className="relative">
-            <div className="bg-white/15 backdrop-blur-xl rounded-2xl p-8 md:p-10 border border-white/20">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-6">
+            <div className="bg-white/15 backdrop-blur-xl rounded-2xl p-4 sm:p-6 md:p-10 border border-white/20">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
                 {featuredProducts.map((product, index) => (
                   <HomeProductCard
                     key={index}
@@ -146,7 +146,7 @@ export function HomeBanner() {
                 ))}
               </div>
 
-              <div className="text-[#f7ca00] py-2 px-4 rounded-lg text-center font-semibold">
+              <div className="text-[#f7ca00] py-2 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-semibold">
                 🔥 Weekend slots filling fast - Book now!
               </div>
             </div>
