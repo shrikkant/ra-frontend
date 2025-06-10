@@ -326,6 +326,7 @@ export function HomeSlider() {
           </button>
         </div>
       </div>
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-b from-zinc-700/30 to-transparent -mb-32" />
     </section>
   )
 }
