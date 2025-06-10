@@ -7,7 +7,7 @@ import MainHeaderNav from './MainHeaderNav'
 
 export default function AppHeader() {
   return (
-    <div className="bg-gradient-to-b from-zinc-900 via-zinc-800 to-zinc-700">
+    <div className="bg-gradient-to-br from-[#1f2937] to-[#111827]">
       <MainHeaderNav />
       <HeaderSubNav />
     </div>

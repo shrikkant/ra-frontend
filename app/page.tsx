@@ -1,7 +1,7 @@
 import React from 'react'
 import {Metadata} from 'next'
 
-import {HomeSlider} from '../components/HomeSlider'
+import {HomeBanner} from '../components/HomeBanner'
 import {Testimonial} from '../components/Testimonial'
 import {CategorySlider} from '../components/CategorySlider'
 
@@ -23,7 +23,9 @@ export default async function Home() {
 
   return (
     <>
-      <HomeSlider></HomeSlider>
+      <main>
+        <HomeBanner />
+      </main>
       <CategorySlider></CategorySlider>
       <HomeAdvantages></HomeAdvantages>
       <TopSales categories={categories}></TopSales>
