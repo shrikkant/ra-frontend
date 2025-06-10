@@ -116,9 +116,15 @@ export const DateRangePicker = ({mode}: {mode: string}) => {
         left = rect.left + rect.width / 2 - pickerWidth / 2 + window.scrollX
       }
 
+      // Adjust left position for mobile screens
+      if (windowWidth < 640) {
+        // sm breakpoint
+        left = 16 // 16px from left on mobile
+      }
+
       setPosition({
         top: rect.bottom + window.scrollY,
-        left: Math.max(10, Math.min(left, windowWidth - pickerWidth - 10)), // Keep within viewport with padding
+        left: Math.max(16, Math.min(left, windowWidth - pickerWidth - 16)), // Keep within viewport with padding
       })
     }
   }
@@ -166,7 +172,7 @@ export const DateRangePicker = ({mode}: {mode: string}) => {
                     top: `${position.top}px`,
                     left: `${position.left}px`,
                   }}
-                  className="z-[9999] bg-white rounded-lg shadow-xl"
+                  className="z-[9999] bg-white rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 backdrop-blur-sm"
                 >
                   {({close: panelClose}) => (
                     <div className="p-4">
@@ -183,6 +189,8 @@ export const DateRangePicker = ({mode}: {mode: string}) => {
                             setIsOpen(false)
                           })
                         }}
+                        rangeColors={['#FDC002']}
+                        color="#FDC002"
                       />
                     </div>
                   )}
