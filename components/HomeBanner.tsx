@@ -37,9 +37,9 @@ export function HomeBanner() {
   ]
 
   return (
-    <section className="relative bg-gradient-to-b from-[#1f2937] via-[#1a2234]/95 to-[#111827]/90 min-h-[60vh] md:min-h-[50vh] flex items-center overflow-hidden py-12 md:py-8">
+    <section className="relative bg-gradient-to-b from-[#1f2937] via-[#1a2234]/95 to-[#111827]/90 min-h-[60vh] md:min-h-[50vh] flex items-center overflow-hidden py-12 md:py-8 z-0">
       {/* Floating Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
         <div className="absolute top-[10%] left-[10%] text-white/3 text-6xl animate-float blur-[2px]">
           📷
         </div>
@@ -59,17 +59,12 @@ export function HomeBanner() {
         }}
       />
 
-      <div className="container mx-auto px-4 md:px-8 relative z-10">
+      <div className="container mx-auto px-4 md:px-8 relative z-0">
         <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
           {/* Text Content */}
           <div className="text-white">
-            <div className="inline-flex items-center bg-white/20 backdrop-blur-md px-4 py-2 rounded-full text-sm font-semibold mb-6 border border-white/30">
-              <span className="mr-2">🚀</span>
-              India's #1 Camera Rental Community
-            </div>
-
             <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
-              Professional Cameras
+              Rent Cameras
               <br />
               Starting <span className="text-[#f7ca00]">₹450/day</span>
             </h1>
