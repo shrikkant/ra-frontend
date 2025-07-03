@@ -29,7 +29,8 @@ const nextConfig = {
     // enable dangerous use of SVG images
     dangerouslyAllowSVG: false,
     // set the Content-Security-Policy header
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
+    contentSecurityPolicy:
+      "default-src 'self'; script-src 'none'; sandbox; img-src 'self' data: https://cdn.sanity.io https://rentacross.com;",
     // sets the Content-Disposition header (inline or attachment)
     contentDispositionType: 'inline',
     // limit of 50 objects
@@ -51,6 +52,12 @@ const nextConfig = {
         hostname: 'dev.rentacross.com',
         port: '',
         pathname: '/api/products/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'cdn.sanity.io',
+        port: '',
+        pathname: '/images/**',
       },
     ],
     // when true, every image will be unoptimized

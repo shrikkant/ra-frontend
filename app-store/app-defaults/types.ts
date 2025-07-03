@@ -7,15 +7,14 @@ export interface IAuthor {
   img: string
 }
 export interface IBlog {
-  id: number
+  _id: string
   title: string
-  description: string
-  img: string
+  slug: {
+    current: string
+  }
+  body: string
   short_desc: string
-  content: string
-  author: IAuthor
-  creationDate: string
-  slug: string
+  publishedAt: Date
 }
 
 export interface ITestimonial {

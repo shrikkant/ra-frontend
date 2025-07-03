@@ -25,9 +25,9 @@ export default function BlogSideBar({
           <ul>
             {blogs &&
               blogs.map(blog => (
-                <li key={blog.id}>
+                <li key={blog._id}>
                   <a
-                    href={`/${type === ARTICLE_TYPES.HELP_ARTICLE ? 'help' : 'blog'}/${blog.slug}`}
+                    href={`/${type === ARTICLE_TYPES.HELP_ARTICLE ? 'help' : 'blog'}/${blog.slug.current}`}
                   >
                     {blog.title}
                   </a>

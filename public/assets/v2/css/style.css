@@ -9368,3 +9368,7 @@ body.modal {
     max-width: 100%;
   }
 }
+
+.post-item-cover p {
+  margin-top: 1rem;
+}
