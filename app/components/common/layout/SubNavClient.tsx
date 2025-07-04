@@ -18,15 +18,14 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
   const search = useSelector(getDefaultSearch)
   const [location, setLocation] = useState<any>(null)
 
+  useEffect(() => {
+    const location: any = search?.location
+    setLocation(location)
+  }, [search])
+
   if (pathname === '/') {
     return null
   }
-
-  useEffect(() => {
-    const location: any = search?.location
-
-    setLocation(location)
-  }, [search])
 
   return (
     <Disclosure as="nav">
