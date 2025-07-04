@@ -16,6 +16,7 @@ import {
 } from '../../app-store/session/session.slice'
 import {useRouter} from 'next/navigation'
 import Link from 'next/link'
+import {locationCity} from '../../util/search.util'
 
 const locations = [
   {
@@ -45,7 +46,7 @@ export const LocationPicker = () => {
       city,
     }
 
-    window.location.href = '/' + locationCity(city).toLowerCase()
+    window.location.href = '/' + locationCity(city, true)
   }
 
   useEffect(() => {
@@ -61,11 +62,6 @@ export const LocationPicker = () => {
 
     setLocation(location)
   }, [stateSearch])
-
-  const locationCity = city => {
-    const cityName = city.toLowerCase() === 'bengaluru' ? 'Bangalore' : city
-    return cityName.slice(0, 1).toUpperCase() + cityName.slice(1)
-  }
 
   return (
     <Popover className="relative">

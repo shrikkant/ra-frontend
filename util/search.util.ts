@@ -180,6 +180,19 @@ export const getFilterByQueryString = (
   return productFilter
 }
 
+/**
+ * Transforms city names for display purposes
+ * Handles special cases like 'bengaluru' -> 'Bangalore'
+ * @param city - The city name to transform
+ * @returns The transformed city name with proper capitalization
+ */
+export const locationCity = (city: string, slug: boolean = false): string => {
+  const cityName = city.toLowerCase() === 'bengaluru' ? 'Bangalore' : city
+  return slug
+    ? cityName.toLowerCase()
+    : cityName.slice(0, 1).toUpperCase() + cityName.slice(1)
+}
+
 export const paramsToObject = (params: ReadonlyURLSearchParams | null) => {
   if (!params) {
     return {}

@@ -1,10 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, {useEffect, useState} from 'react'
 import {Disclosure} from '@headlessui/react'
 import {IProductSubCategory} from 'app-store/types'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
+import {getDefaultSearch} from '../../../../app-store/session/session.slice'
+import {useSelector} from 'react-redux'
+import {locationCity} from '../../../../util/search.util'
 
 interface SubNavClientProps {
   subCategories: IProductSubCategory[]
@@ -12,10 +15,18 @@ interface SubNavClientProps {
 
 export default function SubNavClient({subCategories}: SubNavClientProps) {
   const pathname = usePathname()
+  const search = useSelector(getDefaultSearch)
+  const [location, setLocation] = useState<any>(null)
 
   if (pathname === '/') {
     return null
   }
+
+  useEffect(() => {
+    const location: any = search?.location
+
+    setLocation(location)
+  }, [search])
 
   return (
     <Disclosure as="nav">
@@ -23,7 +34,8 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
         <div className="relative flex flex-col sm:flex-row h-22 items-center justify-around border-gray-400">
           <div className="relative justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="inset-y-0 left-0 items-center sm:gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">
-              {subCategories &&
+              {location &&
+                subCategories &&
                 subCategories.map((cat: IProductSubCategory) => {
                   return (
                     <Link
@@ -31,7 +43,7 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
                       className={
                         'whitespace-nowrap text-sm inline-flex items-center justify-center rounded-md p-2 text-gray-100 hover:bg-gray-700 hover:text-white focus:outline-none'
                       }
-                      href={'/pune/' + cat.slug}
+                      href={`/${locationCity(location?.city, true)}/${cat.slug}`}
                     >
                       {cat.title}
                     </Link>
