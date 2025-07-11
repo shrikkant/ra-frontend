@@ -4,7 +4,7 @@ import {fetchData} from '../app/utils/api'
 import {IProductSubCategory} from '../app-store/types'
 
 export const CategorySlider = async () => {
-  const categories = await fetchData('v1/categories')
+  const categories = await fetchData('categories')
   const subCategories: IProductSubCategory[] = []
 
   const hiddenCategories: number[] = [59, 60, 62, 48, 32, 50, 30]

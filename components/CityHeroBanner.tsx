@@ -3,13 +3,13 @@ import Image from 'next/image'
 
 interface CityHeroBannerProps {
   city: string
-  category: string
+  title: string
   cityImage: string
 }
 
 const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
   city,
-  category,
+  title,
   cityImage,
 }) => {
   return (
@@ -31,7 +31,7 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
       <div className="relative h-full flex items-center justify-center">
         <div className="text-center px-4">
           <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
-            Rent {category} in {city}
+            {title}
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto">
             Capture your moments with premium equipment. Fast delivery, flexible
