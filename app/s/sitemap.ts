@@ -35,7 +35,7 @@ export default async function sitemap({
 }: {
   id: string
 }): Promise<MetadataRoute.Sitemap> {
-  const categories = await fetchData(`categories`)
+  const categories = await fetchData(`v1/categories`)
   const filter: IProductFilter = {
     city: id.split('-').join(' '),
   }
