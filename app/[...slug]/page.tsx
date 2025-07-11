@@ -6,7 +6,7 @@ import CityHeroBanner from 'components/CityHeroBanner'
 
 import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
-import {getCategoryTitle} from 'util/category.util'
+import {getCategoryDescription, getCategoryTitle} from 'util/category.util'
 import {
   generateProductMetadata,
   generateDefaultMetadata,
@@ -49,6 +49,11 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
           filter.subCategory,
           filter.city,
           true,
+        )
+        metadata.description = getCategoryDescription(
+          categories,
+          filter.subCategory,
+          filter.city,
         )
       }
     }
