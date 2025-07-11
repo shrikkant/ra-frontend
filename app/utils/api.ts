@@ -19,12 +19,15 @@ export const fetchData = async (url, customOptions?) => {
     ...customOptions,
   }
 
-  const response = await fetch(`https://rentacross.com/api/v1/${url}`, options)
-  if (!response.ok) {
-    throw new Error('Failed to fetch data')
+  try {
+    const response = await fetch(
+      `https://rentacross.com/api/v1/${url}`,
+      options,
+    )
+    const {resultFormatted} = await response.json()
+    return resultFormatted
+  } catch (error) {
+    console.error('Error fetching data:', error)
+    throw error
   }
-
-  const {resultFormatted} = await response.json()
-
-  return resultFormatted
 }
