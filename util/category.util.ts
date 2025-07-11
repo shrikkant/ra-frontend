@@ -8,8 +8,36 @@ export interface SubCategory {
   id: number
   title: string
   seo_title?: string
+  seo_description?: string
 }
 
+const getFallbackDescription = (city?: string): string => {
+  if (city) {
+    const capitalizedCity = capitalizeCity(city)
+    return `Professional Camera Rental in ${capitalizedCity} - DSLR & Mirrorless Cameras | RentAcross`
+  }
+  return 'Professional Camera Rental - DSLR & Mirrorless Cameras | RentAcross'
+}
+
+export const getCategoryDescription = (
+  categories: Category[],
+  subCategoryId: number = 0,
+  city?: string,
+): string => {
+  for (const category of categories) {
+    const subCategory = category.subCategories?.find(
+      sc => sc.id === subCategoryId,
+    )
+    if (subCategory?.seo_description) {
+      if (city && subCategory.seo_description) {
+        const capitalizedCity = capitalizeCity(city)
+        return subCategory.seo_description.replace('${city}', capitalizedCity)
+      }
+      return subCategory.seo_description
+    }
+  }
+  return getFallbackDescription(city)
+}
 /**
  * Gets the appropriate category title based on subcategory ID and city
  * @param categories - Array of categories with subcategories
