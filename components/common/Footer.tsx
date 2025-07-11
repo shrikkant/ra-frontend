@@ -4,7 +4,7 @@ import Scripts from './Scripts'
 export default function Footer() {
   return (
     <footer>
-      <div className="sm:container mx-auto">
+      <div className="sm:container mx-auto p-4">
         <div className="row footer-item-cover xs:px-4">
           <div className="footer-subscribe col-md-7 col-lg-8">
             <ul className="footer-soc social-list">
