@@ -48,7 +48,7 @@ const generateStructuredData = (
   filter: any,
   product: IProduct | null,
   slug: string[],
-  getCategoryTitle: (id: number) => string,
+  getCategoryTitle: (id: number, city?: string) => string,
 ) => {
   if (filter.product && product) {
     return {
@@ -71,11 +71,10 @@ const generateStructuredData = (
         '@type': 'Brand',
         name: 'Unknown',
       },
-      category: getCategoryTitle(filter.subCategory ?? 0),
     }
   }
 
-  const categoryTitle = getCategoryTitle(filter?.subCategory ?? 0)
+  const categoryTitle = getCategoryTitle(filter?.subCategory ?? 0, filter?.city)
   const location = filter?.city ? ` in ${filter.city}` : ''
 
   return {
@@ -89,8 +88,8 @@ const generateStructuredData = (
       position: 1,
       item: {
         '@type': 'ItemList',
-        name: categoryTitle,
-        description: `List of ${categoryTitle.toLowerCase()} available for rent${location}`,
+        name: filter.subCategory.title,
+        description: categoryTitle,
       },
     },
   }
@@ -109,16 +108,27 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const localParams = await params
 
   const filter = getProductFilter(localParams, categories)
-  const getCategoryTitle = (subCategoryId: number = 0) => {
+
+  const getCategoryTitle = (subCategoryId: number = 0, city?: string) => {
     for (const category of categories) {
       const subCategory = category.subCategories?.find(
         sc => sc.id === subCategoryId,
       )
       if (subCategory) {
+        if (city && subCategory.description) {
+          const capitalizedCity =
+            city.charAt(0).toUpperCase() + city.slice(1).toLowerCase()
+          return subCategory.description.replace('${city}', capitalizedCity)
+        }
         return subCategory.title
       }
     }
-    return 'Cameras & Equipment'
+    if (city) {
+      const capitalizedCity =
+        city.charAt(0).toUpperCase() + city.slice(1).toLowerCase()
+      return `Professional Camera Rental in ${city} - DSLR & Mirrorless Cameras | RentAcross`
+    }
+    return 'Professional Camera Rental - DSLR & Mirrorless Cameras | RentAcross'
   }
 
   if (filter) {
@@ -127,12 +137,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
       const product = productSlug ? await fetchProductBySlug(productSlug) : null
       const title = 'Rent ' + product?.title
       const description =
-        'Rent ' +
-        productSlug +
-        ' in ' +
-        filter.city +
-        ' at most affordable rates.' +
-        'Hasslefree camera rental. Doorstep delivery & Pickup. Zero Deposit. '
+        'Rent professional cameras in Bangalore starting ₹500/day. DSLR, mirrorless, GoPro, action cameras & lenses. Doorstep delivery & Pickup. Zero Deposit.'
 
       metadata.title = title
       metadata.description = description
@@ -151,7 +156,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
       }
     } else {
       if (filter.subCategory) {
-        metadata.title = capitalize(localParams.slug[1])
+        metadata.title = getCategoryTitle(filter.subCategory, filter.city)
       }
     }
 
@@ -207,14 +212,24 @@ export default async function Page({params, searchParams}: PageProps) {
   }
 
   // Get category title from categories data
-  const getCategoryTitle = (subCategoryId: number = 0) => {
+  const getCategoryTitle = (subCategoryId: number = 0, city?: string) => {
     for (const category of categories) {
       const subCategory = category.subCategories?.find(
         sc => sc.id === subCategoryId,
       )
       if (subCategory) {
+        if (city && subCategory.description) {
+          const capitalizedCity =
+            city.charAt(0).toUpperCase() + city.slice(1).toLowerCase()
+          return subCategory.description.replace('${city}', capitalizedCity)
+        }
         return subCategory.title
       }
+    }
+    if (city) {
+      const capitalizedCity =
+        city.charAt(0).toUpperCase() + city.slice(1).toLowerCase()
+      return `Professional Camera Rental in ${capitalizedCity}- DSLR & Mirrorless Cameras`
     }
     return 'Cameras & Equipment'
   }
@@ -226,9 +241,9 @@ export default async function Page({params, searchParams}: PageProps) {
         Object.keys(localSearchParams).length === 0 && (
           <CityHeroBanner
             city={filter.city}
-            category={
+            title={
               filter.subCategory
-                ? getCategoryTitle(filter.subCategory)
+                ? getCategoryTitle(filter.subCategory, filter.city)
                 : 'Cameras & Equipment'
             }
             cityImage={getCityImage(filter.city)}
