@@ -5,12 +5,14 @@ interface CityHeroBannerProps {
   city: string
   title: string
   cityImage: string
+  description: string
 }
 
 const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
   city,
   title,
   cityImage,
+  description,
 }) => {
   return (
     <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
@@ -34,8 +36,7 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
             {title}
           </h1>
           <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto">
-            Capture your moments with premium equipment. Fast delivery, flexible
-            rentals, and expert support.
+            {description}
           </p>
         </div>
       </div>

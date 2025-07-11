@@ -111,6 +111,15 @@ export default async function Page({params, searchParams}: PageProps) {
                 : 'Cameras & Equipment'
             }
             cityImage={getCityImage(filter.city)}
+            description={
+              filter.subCategory
+                ? getCategoryDescription(
+                    categories,
+                    filter.subCategory,
+                    filter.city,
+                  )
+                : 'Professional Camera Rental - DSLR & Mirrorless Cameras'
+            }
           />
         )}
 
