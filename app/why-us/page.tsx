@@ -1,6 +1,7 @@
 import React from 'react'
 import PageContainer from '../../components/common/PageContainer'
 import {PageTitle} from '../../components/common/PageTitle'
+import {ReviewsSection} from '../../components/ReviewsSection'
 
 export default async function Page() {
   return (
@@ -57,6 +58,14 @@ export default async function Page() {
             </div>
           </div>
         </div>
+
+        {/* Customer Reviews Section */}
+        <ReviewsSection
+          title="What Our Customers Say About Us"
+          subtitle="Real experiences from photographers, travelers, and creators who trust us"
+          variant="compact"
+          maxReviews={3}
+        />
       </PageContainer>
     </>
   )

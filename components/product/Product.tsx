@@ -5,6 +5,7 @@ import {Package} from './Package'
 import {Description} from './Description'
 import BookingForm from '../BookingForm'
 import {IProduct} from '../../app-store/types'
+import {ReviewsSection} from '../ReviewsSection'
 
 export const Product = ({product}: {product: IProduct}) => {
   const addons: any = product?.masterProductList
@@ -37,6 +38,16 @@ export const Product = ({product}: {product: IProduct}) => {
           </div>
         </div>
       </div>
+
+      {/* Customer Reviews Section */}
+      <ReviewsSection
+        title="Customer Reviews"
+        subtitle="See what others are saying about our equipment"
+        variant="compact"
+        maxReviews={3}
+        showCTA={false}
+        className="mt-8"
+      />
     </>
   )
 }

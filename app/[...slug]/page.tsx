@@ -18,6 +18,7 @@ import {Product} from 'components/product/Product'
 import {IProduct} from '../../app-store/types'
 import {fetchData} from '../utils/api'
 import FilterSideBar from '../../components/rent/FilterSideBar'
+import {ReviewsSection} from '../../components/ReviewsSection'
 
 import {notFound} from 'next/navigation'
 
@@ -126,7 +127,6 @@ export default async function Page({params, searchParams}: PageProps) {
       <div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
         {!filter?.product && products && (
           <>
-            <FilterSideBar searchMeta={meta} filter={filter}></FilterSideBar>
             <div
               className={
                 'grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4'
@@ -137,6 +137,9 @@ export default async function Page({params, searchParams}: PageProps) {
                   <ProductCard key={product.id} product={product}></ProductCard>
                 ))}
             </div>
+
+            {/* Customer Reviews Section */}
+            {products && products.length > 0 && <ReviewsSection />}
           </>
         )}
         {filter?.product && product && <Product product={product}></Product>}
