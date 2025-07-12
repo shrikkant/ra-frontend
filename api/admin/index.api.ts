@@ -90,3 +90,18 @@ export const syncProductWithAI = async (productId: number): Promise<any> => {
   console.log('Sync Product with AI Response : ', response)
   return response
 }
+
+export const getAISyncStatus = async (): Promise<{
+  synced: number
+  toSync: number
+}> => {
+  const response = await httpClient.get(`/v1/products/ai-sync/stats`)
+  return response
+}
+
+export const syncNextProducts = async (count: number = 10): Promise<any> => {
+  const response = await httpClient.post(`/v1/products/ai-sync`, {
+    count,
+  })
+  return response
+}

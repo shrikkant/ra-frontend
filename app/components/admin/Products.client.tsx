@@ -4,6 +4,7 @@ import MyPageHeader from 'components/MyPageHeader'
 import React, {useEffect} from 'react'
 
 import BulkUpload from 'components/admin/BulkUpload'
+import AISyncSection from 'components/admin/AISyncSection'
 import {fetchMasterProducts, syncProductWithAI} from 'api/admin/index.api'
 import {IMasterProduct} from 'app-store/types'
 import Loader from 'components/Loader'
@@ -76,6 +77,8 @@ export default function Products() {
       </MyPageHeader>
 
       <BulkUpload />
+
+      <AISyncSection />
 
       {loading ? (
         <Loader />
