@@ -84,3 +84,9 @@ export const updateProductInventory = async (
 
   return response
 }
+
+export const syncProductWithAI = async (productId: number): Promise<any> => {
+  const response = await httpClient.put(`/v1/products/${productId}/ai-sync`)
+  console.log('Sync Product with AI Response : ', response)
+  return response
+}
