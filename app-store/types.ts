@@ -116,6 +116,11 @@ export interface IMasterProduct {
   category_id: number
   brand_id: number
   photos: ProductPhoto[]
+  details_json: {
+    overview: string[]
+    features: Array<{[key: string]: string}>
+    specifications: Array<{[key: string]: string}>
+  }
 }
 
 export interface IAddon {

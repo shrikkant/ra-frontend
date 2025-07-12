@@ -10,6 +10,7 @@ import {ReviewsSection} from '../ReviewsSection'
 export const Product = ({product}: {product: IProduct}) => {
   const addons: any = product?.masterProductList
   const rates: any = product?.rates
+
   return (
     <>
       <div className="p-4">
@@ -21,10 +22,11 @@ export const Product = ({product}: {product: IProduct}) => {
                 <Package addons={addons}></Package>
               )}
             </div>
-            <Description
-              description={product?.masterProduct?.description}
-              specifications={product?.masterProduct?.specifications}
-            ></Description>
+            {product.masterProduct.details_json && (
+              <Description
+                details={JSON.parse(product.masterProduct.details_json)}
+              />
+            )}
           </div>
 
           <div className={'sm:w-2/5 w-full md:w-1/4'}>
