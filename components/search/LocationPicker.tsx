@@ -45,7 +45,7 @@ export const LocationPicker = () => {
     search.location = {
       city,
     }
-
+    dispatch(setSearch(search))
     window.location.href = '/' + locationCity(city, true)
   }
 
