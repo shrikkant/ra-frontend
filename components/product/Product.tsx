@@ -25,9 +25,7 @@ export const Product = ({product}: {product: IProduct}) => {
               )}
             </div>
             {product.masterProduct.details_json && (
-              <Description
-                details={JSON.parse(product.masterProduct.details_json)}
-              />
+              <Description details={product.masterProduct.details_json} />
             )}
           </div>
 
