@@ -38,3 +38,14 @@ export const hasCityImage = (city: string): boolean => {
 export const getAvailableCities = (): string[] => {
   return Object.keys(CITY_IMAGES)
 }
+
+/**
+ * Gets the city slug from a location city name
+ * @param city - City name from location (case insensitive)
+ * @returns City slug for URL generation
+ */
+export const getCitySlug = (city?: string): string => {
+  if (!city) return ''
+  const normalizedCity = city.toLowerCase()
+  return normalizedCity === 'bengaluru' ? 'bangalore' : normalizedCity
+}

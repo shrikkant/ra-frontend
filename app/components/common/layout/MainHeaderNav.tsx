@@ -23,6 +23,7 @@ import {IOrder} from 'app-store/types'
 import SearchBar from '../../../../components/SearchBar'
 import {SearchInput} from '../../../../components/SearchInput'
 import {FaHome, FaWhatsapp} from 'react-icons/fa'
+import {getCitySlug} from '../../../../util/city.util'
 
 export default function MainHeaderNav() {
   const loggedUser = useSelector(selectAuthState)
@@ -39,7 +40,7 @@ export default function MainHeaderNav() {
   const cart = useSelector(getCart)
   const searchProducts = () => {
     console.log('Store Search ', storeSearch)
-    const city = location?.city?.toLowerCase() || 'pune'
+    const city = getCitySlug(location?.city) || 'pune'
     router.push('/' + city + '?q=' + searchText)
   }
 
