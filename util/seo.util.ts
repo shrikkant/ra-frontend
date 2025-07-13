@@ -125,8 +125,10 @@ export const generateProductMetadata = (
   slug: string[],
 ): IMetadata => {
   const title = 'Rent ' + product?.title
-  const description =
-    'Rent professional cameras in Bangalore starting ₹500/day. DSLR, mirrorless, GoPro, action cameras & lenses. Doorstep delivery & Pickup. Zero Deposit.'
+  const rate = (product?.rates?.[0]?.rate || 500) / 2
+  const description = `Rent ${product?.title} starting ₹${rate}/day.
+    Rent DSLR, Mirrorless, GoPro, Action Cameras & Lenses.
+    Doorstep Delivery & Pickup. Zero Deposit.`
 
   return {
     title,
