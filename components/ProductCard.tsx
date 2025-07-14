@@ -23,7 +23,7 @@ export default function ProductCard({product}: {product: IProduct}) {
       <div className="flex-grow p-4">
         <Link href={resolveURL()}>
           {/* Fixed aspect ratio container to prevent layout shift */}
-          <div className="relative w-full h-[240px] bg-gray-100 rounded-lg overflow-hidden">
+          <div className="relative w-full h-[240px] overflow-hidden">
             <LazyImage
               src={
                 'https://rentacross.com/api/products/' +
