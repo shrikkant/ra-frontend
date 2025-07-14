@@ -169,7 +169,7 @@ importers:
         specifier: ^10.9.2
         version: 10.9.2(@types/node@22.16.3)(typescript@5.8.3)
       typescript:
-        specifier: ^5.8.3
+        specifier: ^5.7.3
         version: 5.8.3
 
 packages:
