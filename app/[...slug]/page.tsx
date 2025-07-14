@@ -3,11 +3,7 @@ import {Metadata} from 'next'
 import React from 'react'
 import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
-import {
-  generateProductMetadata,
-  generateDefaultMetadata,
-  IMetadata,
-} from 'util/seo.util'
+import {generateProductMetadata, generateDefaultMetadata} from 'util/seo.util'
 import {IProduct} from '../../app-store/types'
 import {fetchData} from '../utils/api'
 import {notFound} from 'next/navigation'
@@ -22,7 +18,7 @@ interface PageProps {
 }
 
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
-  const metadata: IMetadata = generateDefaultMetadata()
+  const metadata: Metadata = generateDefaultMetadata()
 
   const categories = await fetchData(`categories`)
   const localParams = await params

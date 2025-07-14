@@ -50,10 +50,8 @@ const DocumentVerificationModal: React.FC<DocumentVerificationModalProps> = ({
         dateOfBirth,
       )
 
-      console.log('Verification Data : ', data)
       setVerificationData(data)
     } catch (error) {
-      console.log('Error ??? ', error)
       displayMessage(MESSAGE_TYPES.ERROR, 'Failed to fetch document details')
     } finally {
       setIsLoading(false)

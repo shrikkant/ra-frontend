@@ -1,23 +1,6 @@
+import {Metadata} from 'next'
 import type {IProduct} from '../app-store/types'
 import {getCategoryTitle} from './category.util'
-
-export interface IOpenImage {
-  url: string
-  alt: string
-}
-
-export interface IMetadata {
-  title: string
-  description: string
-  openGraph?: {
-    title: string
-    description: string
-    url: string
-    siteName: string
-    images: IOpenImage[]
-    type: string
-  }
-}
 
 export interface ProductFilter {
   product?: boolean
@@ -25,14 +8,6 @@ export interface ProductFilter {
   city?: string
 }
 
-/**
- * Generates structured data for SEO based on filter and product
- * @param filter - Product filter object
- * @param product - Product data (if available)
- * @param slug - URL slug array
- * @param categories - Categories data
- * @returns Structured data object for SEO
- */
 export const generateStructuredData = (
   filter: ProductFilter,
   product: IProduct | null,
@@ -46,12 +21,6 @@ export const generateStructuredData = (
   return generateCategoryStructuredData(filter, slug, categories)
 }
 
-/**
- * Generates structured data for a specific product
- * @param product - Product data
- * @param slug - URL slug array
- * @returns Product structured data
- */
 const generateProductStructuredData = (product: IProduct, slug: string[]) => {
   return {
     '@context': 'https://schema.org',
@@ -123,7 +92,7 @@ const generateCategoryStructuredData = (
 export const generateProductMetadata = (
   product: IProduct,
   slug: string[],
-): IMetadata => {
+): Metadata => {
   const title = 'Rent ' + product?.title
   const rate = (product?.rates?.[0]?.rate || 500) / 2
   const description = `Rent ${product?.title} starting ₹${rate}/day.
@@ -153,7 +122,7 @@ export const generateProductMetadata = (
  * Generates default metadata
  * @returns Default metadata object
  */
-export const generateDefaultMetadata = (): IMetadata => {
+export const generateDefaultMetadata = (): Metadata => {
   return {
     title:
       "Rent DSLR & Mirrorless Cameras, Lenses, Lights & GoPro's. Fast, Affordable, Reliable.",

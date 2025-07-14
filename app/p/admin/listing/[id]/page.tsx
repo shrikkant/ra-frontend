@@ -33,7 +33,7 @@ export default function ListingDetailPage({params}: Props) {
         const response = await httpClient.get(
           `/admin/products/${resolvedParams.id}`,
         )
-        console.log('Product : ', response)
+
         setProduct(response)
       } catch (error) {
         console.error('Error fetching product:', error)
