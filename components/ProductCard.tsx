@@ -4,14 +4,14 @@ import {IProduct} from '../app-store/types'
 import {ProductPrice} from './product/ProductPrice'
 import LazyImage from './../components/product/LazyImage'
 import RentNowButton from '../app/components/product/RentNowButton.client'
+import {getCitySlug} from '../util/city.util'
 // import { getBlurDataURL } from "./../util/image.blur";
 
 export default function ProductCard({product}: {product: IProduct}) {
   const dailyRent = product?.rates ? product.rates[0].rate : 0
 
   const resolveURL = () => {
-    const city = product?.location?.city?.toLowerCase()
-    const citySlug = 'bengaluru' === city ? 'bangalore' : city
+    const citySlug = getCitySlug(product?.location?.city)
 
     return (
       '/' + citySlug + '/' + product?.subCategory?.slug + '/' + product.slug
@@ -22,17 +22,20 @@ export default function ProductCard({product}: {product: IProduct}) {
     <div className="border border-gray-100 w-full h-full bg-white flex flex-col sm:rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
       <div className="flex-grow p-4">
         <Link href={resolveURL()}>
-          <LazyImage
-            src={
-              'https://rentacross.com/api/products/' +
-              product.master_product_id +
-              '/photo?width=240'
-            }
-            alt="Product Image"
-            className="hover:opacity-90 transition-opacity duration-300 max-h-[240px] object-contain"
-            width={800}
-            height={600}
-          />
+          {/* Fixed aspect ratio container to prevent layout shift */}
+          <div className="relative w-full h-[240px] bg-gray-100 rounded-lg overflow-hidden">
+            <LazyImage
+              src={
+                'https://rentacross.com/api/products/' +
+                product.master_product_id +
+                '/photo?width=240'
+              }
+              alt="Product Image"
+              className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
+              width={800}
+              height={600}
+            />
+          </div>
         </Link>
       </div>
 

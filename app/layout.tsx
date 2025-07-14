@@ -8,6 +8,7 @@ import StoreProvider from './StoreProvider'
 import 'styles/vars.css'
 import 'styles/global.css'
 import 'styles/common.css'
+import 'styles/layout-shift-prevention.css'
 
 import type {Metadata, Viewport} from 'next'
 import {GoogleTagManager} from '@next/third-parties/google'

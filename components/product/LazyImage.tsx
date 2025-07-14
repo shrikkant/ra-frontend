@@ -21,27 +21,36 @@ const LazyImage: React.FC<LazyImageProps> = ({
   className,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false)
+  const [hasError, setHasError] = useState(false)
 
   return (
     <div className={`relative overflow-hidden ${className}`}>
-      <Image
-        src={src}
-        alt={alt}
-        width={width}
-        height={height}
-        placeholder={blurDataURL ? 'blur' : 'empty'}
-        blurDataURL={blurDataURL}
-        quality={75}
-        loading="lazy"
-        className={`
-          duration-700 ease-in-out max-h-[240px] object-contain
-          ${isLoaded ? 'scale-100 blur-0' : 'scale-110 blur-md'}
-        `}
-        onLoad={() => setIsLoaded(true)}
-        sizes="(max-width: 768px) 100vw,
-               (max-width: 1200px) 50vw,
-               33vw"
-      />
+      {!hasError ? (
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          placeholder={blurDataURL ? 'blur' : 'empty'}
+          blurDataURL={blurDataURL}
+          quality={75}
+          loading="lazy"
+          className={`
+            duration-700 ease-in-out w-full h-full object-contain
+            ${isLoaded ? 'scale-100 blur-0' : 'scale-110 blur-md'}
+          `}
+          onLoad={() => setIsLoaded(true)}
+          onError={() => setHasError(true)}
+          sizes="(max-width: 768px) 100vw,
+                 (max-width: 1200px) 50vw,
+                 33vw"
+        />
+      ) : (
+        // Fallback placeholder when image fails to load
+        <div className="w-full h-full bg-gray-200 flex items-center justify-center">
+          <div className="text-gray-400 text-sm">Image unavailable</div>
+        </div>
+      )}
     </div>
   )
 }
