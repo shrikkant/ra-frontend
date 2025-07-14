@@ -107,10 +107,6 @@ export default async function RootLayout({
         />
 
         <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
-        <link
-          rel="stylesheet"
-          href="/assets/v2/css/font-awesome.min.css"
-        ></link>
         <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>

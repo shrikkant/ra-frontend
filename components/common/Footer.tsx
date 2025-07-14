@@ -1,5 +1,6 @@
 import React from 'react'
 import Scripts from './Scripts'
+import {FaFacebook, FaTwitter, FaInstagram, FaYoutube} from 'react-icons/fa'
 
 export default function Footer() {
   return (
@@ -15,7 +16,7 @@ export default function Footer() {
                   href="https://www.facebook.com/rentacross"
                   aria-label="Visit our Facebook page"
                 >
-                  <i className="fa fa-facebook" aria-hidden="true"></i>
+                  <FaFacebook className="w-5 h-5" aria-hidden="true" />
                 </a>
               </li>
               <li>
@@ -25,7 +26,7 @@ export default function Footer() {
                   href="https://x.com/rentacross"
                   aria-label="Follow us on X"
                 >
-                  <i className="fa fa-twitter" aria-hidden="true"></i>
+                  <FaTwitter className="w-5 h-5" aria-hidden="true" />
                 </a>
               </li>
               <li>
@@ -35,7 +36,7 @@ export default function Footer() {
                   href="https://www.instagram.com/rent_across"
                   aria-label="Follow us on Instagram"
                 >
-                  <i className="fa fa-instagram" aria-hidden="true"></i>
+                  <FaInstagram className="w-5 h-5" aria-hidden="true" />
                 </a>
               </li>
               <li>
@@ -45,7 +46,7 @@ export default function Footer() {
                   href="https://www.youtube.com/@rentacross"
                   aria-label="Subscribe our YouTube channel"
                 >
-                  <i className="fa fa-youtube-play" aria-hidden="true"></i>
+                  <FaYoutube className="w-5 h-5" aria-hidden="true" />
                 </a>
               </li>
             </ul>

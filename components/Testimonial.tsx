@@ -2,6 +2,7 @@
 import React, {Fragment} from 'react'
 import {ReactNode, useEffect, useState} from 'react'
 import {StarIcon} from '@heroicons/react/24/solid'
+import {ChevronLeftIcon, ChevronRightIcon} from '@heroicons/react/24/outline'
 
 import {ITestimonial} from '../app-store/app-defaults/types'
 
@@ -223,7 +224,7 @@ export function Testimonial() {
               className="text-[#f7ca00] hover:text-[#e6b800] transition-all duration-300 hover:scale-110 group"
               aria-label="Previous slide"
             >
-              <i className="fa fa-angle-left text-3xl group-hover:scale-110 transition-transform duration-300"></i>
+              <ChevronLeftIcon className="h-8 w-8 group-hover:scale-110 transition-transform duration-300" />
             </button>
 
             <div className="flex items-center gap-4">
@@ -248,7 +249,7 @@ export function Testimonial() {
               className="text-[#f7ca00] hover:text-[#e6b800] transition-all duration-300 hover:scale-110 group"
               aria-label="Next slide"
             >
-              <i className="fa fa-angle-right text-3xl group-hover:scale-110 transition-transform duration-300"></i>
+              <ChevronRightIcon className="h-8 w-8 group-hover:scale-110 transition-transform duration-300" />
             </button>
           </div>
         </div>

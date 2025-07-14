@@ -1048,14 +1048,6 @@ body.no-scroll {
   font-size: 17px;
 }
 
-.header-cont i.fa-phone {
-  font-size: 20px;
-  -webkit-transform: rotateY(180deg);
-  transform: rotateY(180deg);
-  position: relative;
-  top: 2px;
-}
-
 .header-menu {
   padding: 18px 0;
 }

@@ -27,6 +27,31 @@ interface PageProps {
   searchParams: any
 }
 
+// Skeleton components for loading states
+const ProductCardSkeleton = () => (
+  <div className="border border-gray-100 w-full h-full bg-white flex flex-col sm:rounded-lg shadow-sm overflow-hidden">
+    <div className="flex-grow p-4">
+      <div className="bg-gray-200 h-[240px] rounded-lg skeleton"></div>
+    </div>
+    <div className="mt-auto bg-gradient-to-t from-gray-200 via-gray-100 to-transparent px-4 pb-4 sm:rounded-b-lg">
+      <div className="bg-gray-200 h-4 rounded mb-4 skeleton"></div>
+      <div className="bg-gray-200 h-6 rounded mb-4 skeleton"></div>
+      <div className="bg-gray-200 h-10 rounded skeleton"></div>
+    </div>
+  </div>
+)
+
+const HeroBannerSkeleton = () => (
+  <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8 bg-gray-200">
+    <div className="absolute inset-0 flex items-center justify-center">
+      <div className="text-center px-4">
+        <div className="bg-gray-300 h-12 md:h-16 rounded mb-4 w-3/4 mx-auto skeleton"></div>
+        <div className="bg-gray-300 h-6 md:h-8 rounded w-1/2 mx-auto skeleton"></div>
+      </div>
+    </div>
+  </div>
+)
+
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const metadata: IMetadata = generateDefaultMetadata()
 
@@ -94,11 +119,17 @@ export default async function Page({params, searchParams}: PageProps) {
     return notFound()
   }
 
+  // Determine if hero banner should be shown
+  const shouldShowHeroBanner =
+    !filter?.product &&
+    filter?.city &&
+    Object.keys(localSearchParams).length === 0
+
   return (
     <div className="min-h-screen">
-      {!filter?.product &&
-        filter?.city &&
-        Object.keys(localSearchParams).length === 0 && (
+      {/* Always reserve space for hero banner to prevent layout shift */}
+      <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
+        {shouldShowHeroBanner && filter.city ? (
           <CityHeroBanner
             city={filter.city}
             title={
@@ -122,24 +153,41 @@ export default async function Page({params, searchParams}: PageProps) {
                 : 'Professional Camera Rental - DSLR & Mirrorless Cameras'
             }
           />
+        ) : (
+          <HeroBannerSkeleton />
         )}
+      </div>
 
       <div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
-        {!filter?.product && products && (
+        {!filter?.product && (
           <>
             <div
               className={
                 'grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4'
               }
             >
-              {products &&
-                products.map((product: IProduct) => (
-                  <ProductCard key={product.id} product={product}></ProductCard>
-                ))}
+              {products && products.length > 0
+                ? products.map((product: IProduct) => (
+                    <ProductCard
+                      key={product.id}
+                      product={product}
+                    ></ProductCard>
+                  ))
+                : // Show skeleton loading state when no products
+                  Array.from({length: 8}).map((_, index) => (
+                    <ProductCardSkeleton key={index} />
+                  ))}
             </div>
 
-            {/* Customer Reviews Section */}
-            {products && products.length > 0 && <ReviewsSection />}
+            {/* Always render ReviewsSection to prevent layout shift */}
+            <ReviewsSection
+              title="Customer Reviews"
+              subtitle="See what others are saying about our equipment"
+              variant="compact"
+              maxReviews={3}
+              showCTA={false}
+              className="mt-8"
+            />
           </>
         )}
         {filter?.product && product && <Product product={product}></Product>}
