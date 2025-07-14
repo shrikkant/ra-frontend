@@ -46,6 +46,6 @@ export const getAvailableCities = (): string[] => {
  */
 export const getCitySlug = (city?: string): string => {
   if (!city) return ''
-  const normalizedCity = city.toLowerCase()
+  const normalizedCity = city.toLowerCase().replaceAll(' ', '-')
   return normalizedCity === 'bengaluru' ? 'bangalore' : normalizedCity
 }
