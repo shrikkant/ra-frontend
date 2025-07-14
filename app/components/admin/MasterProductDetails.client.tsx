@@ -32,7 +32,6 @@ export default function MasterProductDetails({id}: CustomerDetailsProps) {
   const [addressList, setAddressList] = useState<IAddressChoice[]>([])
 
   useEffect(() => {
-    console.log('MasterProductDetails : ', id)
     if (id && !masterProduct) {
       const productId = parseInt(String(id))
       fetchMasterProduct(productId).then((product: IMasterProduct) => {
@@ -58,14 +57,11 @@ export default function MasterProductDetails({id}: CustomerDetailsProps) {
   const handleAddressChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value
     setAddressId(parseInt(value))
-    console.log('Address change : ', value)
   }
 
-  const addNewListing = () => {
+  const addNewListing = async () => {
     if (masterProduct) {
-      listNewProduct(masterProduct, perDayRate, addressId).then(data => {
-        console.log('New listing added : ', data)
-      })
+      await listNewProduct(masterProduct, perDayRate, addressId)
     }
   }
 

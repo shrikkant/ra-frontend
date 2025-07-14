@@ -39,7 +39,6 @@ export default function InventoryFormModal({
   const [loading, setLoading] = React.useState(false)
 
   useEffect(() => {
-    console.log('Initial Data : ', initialData)
     if (initialData) {
       setFormData({
         master_product_id: String(initialData.master_product_id),
@@ -66,7 +65,6 @@ export default function InventoryFormModal({
   }, [initialData])
 
   useEffect(() => {
-    console.log('Form Data : ', formData)
     const loadProducts = async () => {
       if (!formData.address_id || formData.address_id === '0') {
         setProductList([])
@@ -76,7 +74,6 @@ export default function InventoryFormModal({
       setLoading(true)
       try {
         const products = await getProductsByAddress(Number(formData.address_id))
-        console.log('Products : ', products)
 
         const formattedProducts = products
           .filter(p => p.master_product_id && p.master_product_id > 0)

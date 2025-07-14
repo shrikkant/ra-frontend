@@ -66,10 +66,8 @@ export default function CustomerCard({customer}: {customer: IUser}) {
     setLastname(lastname)
   }
 
-  const syncDocuments = () => {
-    syncCustomerDocuments(customer.id).then(data => {
-      console.log('Syncing Documents', data)
-    })
+  const syncDocuments = async () => {
+    await syncCustomerDocuments(customer.id)
   }
 
   const handleSubmit = async () => {

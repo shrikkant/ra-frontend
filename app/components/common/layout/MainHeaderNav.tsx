@@ -39,7 +39,6 @@ export default function MainHeaderNav() {
   const [searchText, setSearchText] = useState(q)
   const cart = useSelector(getCart)
   const searchProducts = () => {
-    console.log('Store Search ', storeSearch)
     const city = getCitySlug(location?.city) || 'pune'
     router.push('/' + city + '?q=' + searchText)
   }

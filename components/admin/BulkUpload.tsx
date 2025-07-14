@@ -239,7 +239,6 @@ const BulkUpload: React.FC = () => {
         <button
           onClick={() => {
             // TODO: Implement template download
-            console.log('Download template')
           }}
           className="text-blue-600 hover:text-blue-700 text-sm font-medium"
         >

@@ -32,11 +32,10 @@ export default function Products() {
     if (inputValue.length < 3) {
       return
     }
-    console.log('Debounce : ', inputValue)
+
     setLoading(true)
     fetchMasterProducts(inputValue, 0, PAGE_SIZE).then(data => {
       setProducts(data)
-      console.log('Products : ', data)
       setLoading(false)
     })
   }
@@ -45,7 +44,6 @@ export default function Products() {
     setSyncingProducts(prev => new Set(prev).add(productId))
     try {
       await syncProductWithAI(productId)
-      console.log(`AI sync completed for product ${productId}`)
       // Optionally refresh the product list or show success message
     } catch (error) {
       console.error(`AI sync failed for product ${productId}:`, error)
@@ -63,7 +61,6 @@ export default function Products() {
     setLoading(true)
     fetchMasterProducts('', 0, PAGE_SIZE).then(data => {
       setProducts(data)
-      console.log('Products : ', data)
       setLoading(false)
     })
   }, [])

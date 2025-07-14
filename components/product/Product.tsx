@@ -11,8 +11,6 @@ export const Product = ({product}: {product: IProduct}) => {
   const addons: any = product?.masterProductList
   const rates: any = product?.rates
 
-  console.log('product', product)
-
   return (
     <>
       <div className="p-4">

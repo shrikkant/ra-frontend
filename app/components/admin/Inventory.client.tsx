@@ -78,7 +78,6 @@ export default function Inventory() {
     }
     setLoading(true)
     fetchProductInventory(loggedUser.id, addressId, 0, PAGE_SIZE).then(data => {
-      console.log('data : ', data)
       setInventory(data)
       setLoading(false)
     })
@@ -100,7 +99,6 @@ export default function Inventory() {
   const handleAddressChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const value = event.target.value
     setAddressId(parseInt(value))
-    console.log('Address change : ', value)
   }
 
   const handleEditInventory = (inventory: IProductInventory) => {
@@ -111,7 +109,6 @@ export default function Inventory() {
   const handleModalSubmit = async (processedData: any) => {
     try {
       // Convert master_product_id to number
-      console.log('processedData : ', processedData)
 
       if (selectedInventory) {
         await updateProductInventory(
@@ -121,7 +118,6 @@ export default function Inventory() {
           processedData,
         )
       } else {
-        console.log('data : ', loggedUser.id, addressId, processedData)
         await createProductInventory(
           loggedUser.id,
           processedData.address_id,

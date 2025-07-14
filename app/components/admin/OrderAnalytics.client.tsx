@@ -22,7 +22,6 @@ export default function OrderAnalytics() {
 
   const fetchData = async () => {
     const response = await fetchOrderAnalytics()
-    console.log(response)
     setAnalytics(response)
   }
 

@@ -19,7 +19,6 @@ export default function SignupAnalytics() {
 
   const fetchData = async () => {
     const response = await fetchSignupAnalytics()
-    console.log(response)
     setAnalytics(response)
   }
 

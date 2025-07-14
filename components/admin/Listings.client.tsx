@@ -34,7 +34,6 @@ export default function Listings() {
         `/admin/products?pageNumber=${page}&pageLimit=${PAGE_SIZE}&search=${query}`,
       )
 
-      console.log(response.products[0])
       setListings(response.products)
     } catch (error) {
       console.error('Error loading listings:', error)

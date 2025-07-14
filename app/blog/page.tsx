@@ -4,7 +4,7 @@ import BlogCover from '../../components/common/BlogCover'
 import PageContainer from '../../components/common/PageContainer'
 import BlogSideBar from '../../components/blog/BlogSideBar'
 import {client} from '../../sanity/client'
-import {SanityDocument} from '@sanity/client/stega'
+import {type SanityDocument} from 'next-sanity'
 import {IBlog} from '../../app-store/app-defaults/types'
 
 const POSTS_QUERY = `*[

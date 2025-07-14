@@ -58,8 +58,6 @@ const DocumentUploadCard: React.FC<DocumentUploadCardProps> = ({
         existingDocument.user_id!,
         existingDocument.id,
       )
-      debugger
-      console.log('Updated Doc : ', updatedDoc)
       return
     } catch (error) {
       console.log('Error : ', error)

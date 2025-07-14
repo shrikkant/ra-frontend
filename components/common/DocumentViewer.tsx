@@ -11,7 +11,6 @@ const DocumentViewer: React.FC<DocumentViewerProps> = ({document, title}) => {
 
   const isPDF = document.file_type?.startsWith('application/pdf')
 
-  console.log('Dooc ', isPDF, ' : ', document)
   if (isPDF) {
     return (
       <iframe
