@@ -17,7 +17,7 @@ export const Product = ({product}: {product: IProduct}) => {
     <>
       <div className="p-4">
         <div className={'flex flex-col sm:flex-row gap-4'}>
-          <div className="sm:w-3/5 w-full md:w-3/4">
+          <div className="sm:w-3/5 w-full md:w-3/4 flex flex-col gap-4">
             <HeadCard product={product}></HeadCard>
             <div className="min-h-[50px]">
               {(addons && addons.length) > 0 && (
