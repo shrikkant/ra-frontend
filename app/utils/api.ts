@@ -20,7 +20,7 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   try {
-    const response = await fetch(`http://raapp:8082/api/v1/${url}`, options)
+    const response = await fetch(`http://rentacross.com/api/v1/${url}`, options)
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
