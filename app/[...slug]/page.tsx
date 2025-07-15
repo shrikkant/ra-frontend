@@ -5,7 +5,7 @@ import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
 import {generateProductMetadata, generateDefaultMetadata} from 'util/seo.util'
 import {IProduct} from '../../app-store/types'
-import {fetchData} from '../utils/api'
+import {fetchDataSSR} from '../utils/api'
 import {notFound} from 'next/navigation'
 
 // Import the new specialized components
@@ -17,50 +17,50 @@ interface PageProps {
   searchParams: any
 }
 
-// export async function generateMetadata({params}: PageProps): Promise<Metadata> {
-//   const metadata: Metadata = generateDefaultMetadata()
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const metadata: Metadata = generateDefaultMetadata()
 
-//   const categories = await fetchData(`categories`)
-//   const localParams = await params
-//   const filter = getProductFilter(localParams, categories)
+  const categories = await fetchDataSSR(`categories`)
+  const localParams = await params
+  const filter = getProductFilter(localParams, categories)
 
-//   if (filter) {
-//     if (filter.product) {
-//       const productSlug = localParams.slug.toString().split(',').at(-1)
-//       const product = productSlug ? await fetchProductBySlug(productSlug) : null
+  if (filter) {
+    if (filter.product) {
+      const productSlug = localParams.slug.toString().split(',').at(-1)
+      const product = productSlug ? await fetchProductBySlug(productSlug) : null
 
-//       if (product) {
-//         return generateProductMetadata(product, localParams.slug)
-//       }
-//     } else {
-//       if (filter.subCategory) {
-//         const {getCategoryTitle, getCategoryDescription} = await import(
-//           'util/category.util'
-//         )
-//         metadata.title = getCategoryTitle(
-//           categories,
-//           filter.subCategory,
-//           filter.city,
-//           true,
-//         )
-//         metadata.description = getCategoryDescription(
-//           categories,
-//           filter.subCategory,
-//           filter.city,
-//         )
-//       }
-//     }
+      if (product) {
+        return generateProductMetadata(product, localParams.slug)
+      }
+    } else {
+      if (filter.subCategory) {
+        const {getCategoryTitle, getCategoryDescription} = await import(
+          'util/category.util'
+        )
+        metadata.title = getCategoryTitle(
+          categories,
+          filter.subCategory,
+          filter.city,
+          true,
+        )
+        metadata.description = getCategoryDescription(
+          categories,
+          filter.subCategory,
+          filter.city,
+        )
+      }
+    }
 
-//     return {
-//       ...metadata,
-//     }
-//   }
+    return {
+      ...metadata,
+    }
+  }
 
-//   return metadata
-// }
+  return metadata
+}
 
 export default async function Page({params, searchParams}: PageProps) {
-  const categories = await fetchData(`categories`)
+  const categories = await fetchDataSSR(`categories`)
   const localParams = await params
   const localSearchParams = await searchParams
   const filter = getProductFilter(localParams, categories)
