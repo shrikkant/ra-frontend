@@ -10,7 +10,7 @@ export const fetchDataStatic = async (url: string) => {
   }
 
   try {
-    const response = await fetch(`http://localhost:8082/api/v1/${url}`, options)
+    const response = await fetch(`http://caramel:8484/api/v1/${url}`, options)
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
@@ -41,7 +41,7 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   try {
-    const response = await fetch(`http://localhost:8082/api/v1/${url}`, options)
+    const response = await fetch(`http://caramel:8484/api/v1/${url}`, options)
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
