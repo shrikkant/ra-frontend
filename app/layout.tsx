@@ -1,10 +1,9 @@
 import React, {Suspense} from 'react'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
-import '../styles/global.css'
 import StoreProvider from './StoreProvider'
 
-// import "antd/dist/reset.css"
+// CSS imports - ensure proper order
 import 'styles/vars.css'
 import 'styles/global.css'
 import 'styles/common.css'
