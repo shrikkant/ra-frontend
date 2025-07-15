@@ -33,20 +33,5 @@ export const fetchData = async (url, customOptions?) => {
 }
 
 export async function fetchDataSSR(url: string) {
-  const res = await fetch(`http://raapp:8082/api/v1/${url}`, {
-    method: 'GET',
-    cache: 'no-store', // force SSR call
-    headers: {
-      'Content-Type': 'application/json',
-    },
-  })
-
-  if (!res.ok) {
-    console.error(`Error fetching: ${res.status} ${res.statusText}`)
-    throw new Error('Failed to fetch data from Nest')
-  }
-
-  const {resultFormatted} = await res.json()
-
-  return resultFormatted
+  return fetchData(url)
 }
