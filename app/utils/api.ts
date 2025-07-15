@@ -12,6 +12,7 @@ export const fetchData = async (url, customOptions?) => {
     },
     referrer: 'https://www.rentacross.com',
     Cookie: cookieHeader,
+    cache: 'no-store',
   }
 
   const options = {
