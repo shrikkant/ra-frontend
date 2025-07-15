@@ -130,7 +130,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 }
 
 export default async function Page({params, searchParams}: PageProps) {
-  const categories = await fetchDataStatic(`categories`)
+  const categories = await fetchStaticData(`categories`)
   const localParams = await params
   const localSearchParams = await searchParams
   const filter = getProductFilter(localParams, categories)
