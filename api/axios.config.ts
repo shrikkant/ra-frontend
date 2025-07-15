@@ -57,7 +57,7 @@ export class HttpService {
   }
 }
 const httpClient = axios.create({
-  baseURL: 'https://alpha.rentacross.com/api/',
+  baseURL: 'https://rentacross.com/api/',
 })
 
 httpClient.interceptors.request.use(
@@ -118,7 +118,10 @@ export const fetchData = async (url, customOptions?) => {
     ...customOptions,
   }
 
-  const response: any = await fetch(`http://raapp:8082/api/${url}`, options)
+  const response: any = await fetch(
+    `https://rentacross.com/api/${url}`,
+    options,
+  )
 
   if (!response.ok) {
     throw new Error('Failed to fetch data')
