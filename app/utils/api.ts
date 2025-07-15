@@ -21,7 +21,10 @@ export const fetchStaticData = async (
   }
 
   try {
-    const response = await fetch(`http://rentacross.com/api/v1/${url}`, options)
+    const response = await fetch(
+      `https://rentacross.com/api/v1/${url}`,
+      options,
+    )
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
@@ -53,7 +56,10 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
   }
 
   try {
-    const response = await fetch(`http://rentacross.com/api/v1/${url}`, options)
+    const response = await fetch(
+      `https://rentacross.com/api/v1/${url}`,
+      options,
+    )
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
