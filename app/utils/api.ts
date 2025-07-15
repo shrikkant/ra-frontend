@@ -1,38 +1,18 @@
 import {cookies} from 'next/headers'
 
-// Function for static generation that doesn't require cookies
-export const fetchDataStatic = async (url: string) => {
-  const options = {
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    cache: 'force-cache' as RequestCache,
-  }
-
-  try {
-    const response = await fetch(`http://caramel:8484/api/v1/${url}`, options)
-    const {resultFormatted} = await response.json()
-    return resultFormatted
-  } catch (error) {
-    console.error('Error fetching data:', error)
-    throw error
-  }
-}
-
-export const fetchData = async (url, customOptions?) => {
-  const cookieStore = await cookies()
-  const cookieHeader = await cookieStore.toString() // Get cookies as a string
-  const accessToken = cookieStore.get('access_token')
-
+// For static generation (build time)
+export const fetchStaticData = async (
+  url: string,
+  customOptions?: RequestInit,
+) => {
   const commonOptions = {
+    redirect: 'follow',
     headers: {
       'Content-Type': 'application/json',
-      authorization: accessToken?.value,
     },
     referrer: 'https://www.rentacross.com',
-    Cookie: cookieHeader,
-    // Use cache for static generation, but allow override
-    cache: customOptions?.cache || 'force-cache',
+    // Enable caching for static generation
+    next: {revalidate: 3600 * 24}, // Revalidate every 24 hours
   }
 
   const options = {
@@ -41,7 +21,39 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   try {
-    const response = await fetch(`http://caramel:8484/api/v1/${url}`, options)
+    const response = await fetch(`http://raapp:8082/api/v1/${url}`, options)
+    const {resultFormatted} = await response.json()
+    return resultFormatted
+  } catch (error) {
+    console.error('Error fetching static data:', error)
+    throw error
+  }
+}
+
+// For server-side rendering with authentication
+export const fetchData = async (url: string, customOptions?: RequestInit) => {
+  const cookieStore = await cookies()
+  const cookieHeader = await cookieStore.toString() // Get cookies as a string
+  const accessToken = cookieStore.get('access_token')
+
+  const commonOptions = {
+    redirect: 'follow',
+    headers: {
+      'Content-Type': 'application/json',
+      ...(accessToken?.value && {authorization: accessToken.value}),
+    },
+    referrer: 'https://www.rentacross.com',
+    Cookie: cookieHeader,
+    cache: 'no-store' as const,
+  }
+
+  const options = {
+    ...commonOptions,
+    ...customOptions,
+  }
+
+  try {
+    const response = await fetch(`http://raapp:8082/api/v1/${url}`, options)
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {

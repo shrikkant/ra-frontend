@@ -5,7 +5,7 @@ import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
 import {generateProductMetadata, generateDefaultMetadata} from 'util/seo.util'
 import {IProduct} from '../../app-store/types'
-import {fetchData, fetchDataStatic} from '../utils/api'
+import {fetchStaticData} from '../utils/api'
 import {notFound} from 'next/navigation'
 import COUNTRIES from '../../config/constants'
 
@@ -27,7 +27,7 @@ interface PageProps {
 // - /country/city/subcategory (for other countries: /nz/auckland/rent-camera, etc.)
 export async function generateStaticParams() {
   try {
-    const categories = await fetchDataStatic(`categories`)
+    const categories = await fetchStaticData(`categories`)
     const staticParams: {slug: string[]}[] = []
 
     // Generate params for each country
@@ -90,7 +90,7 @@ export const revalidate = 86400
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const metadata: Metadata = generateDefaultMetadata()
   const localParams = await params
-  const categories = await fetchDataStatic(`categories`)
+  const categories = await fetchStaticData(`categories`)
 
   const filter = getProductFilter(localParams, categories)
 
