@@ -31,7 +31,3 @@ export const fetchData = async (url, customOptions?) => {
     throw error
   }
 }
-
-export async function fetchDataSSR(url: string) {
-  return fetchData(url)
-}
