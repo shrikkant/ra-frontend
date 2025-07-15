@@ -12,8 +12,9 @@ services:
     ports:
       - 8084:3000
     networks:
-      - local-dev
+      - shared
 
 networks:
-  local-dev:
-    driver: bridge
+  shared:
+    external: true
+    name: ra-network
