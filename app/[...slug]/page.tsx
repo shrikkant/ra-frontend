@@ -19,9 +19,16 @@ interface PageProps {
 
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const metadata: Metadata = generateDefaultMetadata()
-
-  const categories = await fetchData(`categories`)
   const localParams = await params
+  const response = await fetch(`http://localhost:8484/api/v1/categories`, {
+    next: {
+      revalidate: 3600,
+    },
+  })
+
+  const jsonResponse = await response.json()
+  const categories = jsonResponse.resultFormatted
+
   const filter = getProductFilter(localParams, categories)
 
   if (filter) {
