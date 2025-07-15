@@ -5,8 +5,8 @@ export const fetchStaticData = async (
   url: string,
   customOptions?: RequestInit,
 ) => {
-  const commonOptions = {
-    redirect: 'follow',
+  const commonOptions: RequestInit = {
+    redirect: 'follow' as const,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -36,14 +36,14 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
   const cookieHeader = await cookieStore.toString() // Get cookies as a string
   const accessToken = cookieStore.get('access_token')
 
-  const commonOptions = {
-    redirect: 'follow',
+  const commonOptions: RequestInit = {
+    redirect: 'follow' as const,
     headers: {
       'Content-Type': 'application/json',
       ...(accessToken?.value && {authorization: accessToken.value}),
+      Cookie: cookieHeader,
     },
     referrer: 'https://www.rentacross.com',
-    Cookie: cookieHeader,
     cache: 'no-store' as const,
   }
 
