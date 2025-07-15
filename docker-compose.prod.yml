@@ -12,9 +12,8 @@ services:
     ports:
       - 8084:3000
     networks:
-      - shared
+      - ra-network
 
 networks:
-  shared:
+  ra-network:
     external: true
-    name: ra-network
