@@ -4,10 +4,6 @@ const nextConfig = {
   compress: true,
   reactStrictMode: true,
   output: 'standalone',
-  experimental: {
-    // Ensure CSS is properly handled in standalone builds
-    optimizeCss: true,
-  },
   publicRuntimeConfig: {
     BASE_API_URL: process.env.REACT_APP_API_URL,
   },
