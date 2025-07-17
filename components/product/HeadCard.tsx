@@ -37,13 +37,6 @@ export const HeadCard: React.FC<ProductProps> = ({product}: ProductProps) => {
             {product.location.city}
           </span>
         </div>
-
-        {/* Product Badge/Tag */}
-        <div className="inline-flex items-center px-4 lg:px-6 py-2 lg:py-3 rounded-full bg-amber-50 border border-amber-200">
-          <span className="text-amber-800 font-semibold text-sm lg:text-base">
-            Professional Camera Equipment
-          </span>
-        </div>
       </div>
     </div>
   )
