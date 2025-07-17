@@ -60,11 +60,23 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
                 />
               )}
             </div>
-            <p className="text-xs sm:text-sm text-gray-500 truncate">
+            <p className="text-xs sm:text-sm text-gray-500 truncate mt-1">
               {customer.email_address}
             </p>
+            {customer.phone && (
+              <Link
+                href={`tel:+91${customer.phone}`}
+                className="text-xs sm:text-sm text-blue-600 hover:text-blue-800 transition-colors truncate block mt-1"
+                onClick={e => e.stopPropagation()}
+                title="Call customer"
+              >
+                📞 {customer.phone}
+              </Link>
+            )}
             {customer.city && (
-              <p className="text-xs text-gray-400 truncate">{customer.city}</p>
+              <p className="text-xs text-gray-400 truncate mt-1">
+                {customer.city}
+              </p>
             )}
           </div>
         </div>
