@@ -4,8 +4,8 @@ import {FaFacebook, FaTwitter, FaInstagram, FaYoutube} from 'react-icons/fa'
 
 export default function Footer() {
   return (
-    <footer className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="sm:container mx-auto p-4">
+    <footer className="max-w-7xl mx-auto sm:px-6 lg:px-8">
+      <div className="sm:container mx-auto p-4 mb-12">
         <div className="row footer-item-cover xs:px-4">
           <div className="footer-subscribe col-md-7 col-lg-8">
             <ul className="footer-soc social-list">
