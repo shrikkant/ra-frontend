@@ -11,11 +11,9 @@ export const Product: React.FC<ProductProps> = ({product}) => {
   const rates: any = product?.rates
 
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
       {/* Main Product Container */}
-      <div
-        className={`${PRODUCT_LAYOUT.CONTAINER_MAX_WIDTH} mx-auto sm:px-6 lg:px-8 py-8`}
-      >
+      <div className={`${PRODUCT_LAYOUT.CONTAINER_MAX_WIDTH} mx-auto py-8`}>
         {/* Product Layout - Flexbox with standard width classes */}
         <div className={`flex flex-col md:flex-row ${PRODUCT_LAYOUT.GAP}`}>
           {/* Product Details Section - 2/3 width */}
