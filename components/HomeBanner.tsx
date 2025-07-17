@@ -59,7 +59,7 @@ export function HomeBanner() {
         }}
       />
 
-      <div className="container mx-auto px-4 md:px-8 relative z-0">
+      <div className="max-w-7xl mx-auto relative z-0">
         <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
           {/* Text Content */}
           <div className="text-white">

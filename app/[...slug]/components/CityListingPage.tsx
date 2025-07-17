@@ -42,7 +42,7 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
   return (
     <div className="min-h-screen">
       {/* Hero Banner Section */}
-      {shouldShowHeroBanner && filter.city ? (
+      {shouldShowHeroBanner && filter.city && (
         <CityHeroBanner
           city={filter.city}
           title={
@@ -66,32 +66,10 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
               : 'Professional Camera Rental - DSLR & Mirrorless Cameras'
           }
         />
-      ) : (
-        // Show a smaller header when search params are present
-        <div className="bg-gray-50 py-8 border-b">
-          <div className="container mx-auto px-4">
-            <h1 className="text-2xl font-bold text-gray-900">
-              {filter.subCategory && filter.city
-                ? getCategoryTitle(
-                    categories,
-                    filter.subCategory,
-                    filter.city,
-                    false,
-                  )
-                : 'Search Results'}
-            </h1>
-            {products.length > 0 && (
-              <p className="text-gray-600 mt-2">
-                {products.length} product{products.length !== 1 ? 's' : ''}{' '}
-                found
-              </p>
-            )}
-          </div>
-        </div>
       )}
 
       {/* Products Grid Section */}
-      <div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
+      <div className="max-w-7xl mx-auto md:min-h-[calc(100vh-100px-418px)] p-4">
         <div className="grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4">
           {products && products.length > 0
             ? products.map((product: IProduct) => (

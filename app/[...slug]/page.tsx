@@ -97,6 +97,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   if (filter) {
     if (filter.product) {
       const productSlug = localParams.slug.toString().split(',').at(-1)
+      // TODO: Add city and subcategory to the request query.
       const product = productSlug ? await fetchProductBySlug(productSlug) : null
 
       if (product) {

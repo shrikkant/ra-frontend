@@ -58,7 +58,7 @@ export default function MainHeaderNav() {
 
   return (
     <Disclosure as="nav">
-      <div className="px-2 md:px-4 container m-auto py-2">
+      <div className="px-4 md:px-4 max-w-7xl mx-auto py-2">
         <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
           <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto">
             <div className=" inset-y-0 left-0 flex items-center sm:gap-x-6 ">
@@ -94,7 +94,7 @@ export default function MainHeaderNav() {
                     <FaWhatsapp className="h-6 w-6" />
                   </a>
                   <a
-                    className="relative    hover:text-slate-50 p-0 rounded-md tex-sm font-semibold text-gray-400 content-center"
+                    className="relative    hover:text-gray-600 p-0 rounded-md tex-sm font-semibold text-gray-600 content-center"
                     href="/p/mycart"
                   >
                     <ShoppingCartIcon className="h-8 w-8" />

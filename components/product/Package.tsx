@@ -1,4 +1,5 @@
 import React from 'react'
+import {CheckCircleIcon} from '@heroicons/react/24/solid'
 
 export interface Photo {
   path: string
@@ -18,34 +19,67 @@ export interface ProductProps {
 
 export const Package: React.FC<ProductProps> = ({addons}: ProductProps) => {
   return (
-    <>
-      <h2 className="text-xl py-4 capitalize">Includes</h2>
-      <div className="grid xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
+    <div>
+      {/* Section Header */}
+      <div className="mb-4">
+        <div className="flex items-center gap-2 mb-1">
+          <CheckCircleIcon className="w-5 h-5 text-green-500" />
+          <h3 className="text-lg font-semibold text-gray-900">
+            What's Included
+          </h3>
+        </div>
+        <p className="text-gray-600 text-sm">
+          Your rental package includes all the essential equipment
+        </p>
+      </div>
+
+      {/* Compact Addons List */}
+      <div className="space-y-2">
         {addons &&
           addons.map(addon => {
+            if (!addon?.masterProduct?.id) {
+              return null
+            }
             return (
               <div
                 key={addon?.masterProduct?.id}
-                className="border-2 border-gray-200 rounded-sm"
+                className="flex items-center gap-3 p-2 rounded-lg hover:bg-gray-50 transition-colors duration-200"
               >
-                <div className="relative w-full pt-[100%]">
+                {/* Small Thumbnail */}
+                <div className="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-md overflow-hidden">
                   <img
-                    width={220}
-                    height={220}
-                    style={{padding: 20}}
-                    className="absolute top-0 left-0 w-full h-full object-contain"
+                    width={48}
+                    height={48}
+                    className="w-full h-full object-contain p-1"
                     alt={addon?.masterProduct.name}
-                    src={`/api/products/${addon?.masterProduct?.id}/photo?width=220`}
+                    src={`/api/products/${addon?.masterProduct?.id}/photo?width=48`}
                     loading="lazy"
                   />
                 </div>
-                <div className="text-center p-4">
-                  {addon?.masterProduct.name}
+
+                {/* Product Name */}
+                <div className="flex-1 min-w-0">
+                  <p className="text-sm font-medium text-gray-900 truncate">
+                    {addon?.masterProduct.name}
+                  </p>
+                </div>
+
+                {/* Check Icon */}
+                <div className="flex-shrink-0">
+                  <CheckCircleIcon className="w-4 h-4 text-green-500" />
                 </div>
               </div>
             )
           })}
       </div>
-    </>
+
+      {/* Compact Info Note */}
+      <div className="mt-3 p-3 bg-gray-50 rounded-lg border border-gray-200">
+        <p className="text-xs text-gray-600 leading-relaxed">
+          All equipment is professionally cleaned, tested, and ready for your
+          shoot. Includes protective cases and basic accessories.
+        </p>
+      </div>
+    </div>
   )
 }

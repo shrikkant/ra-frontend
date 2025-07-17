@@ -23,9 +23,8 @@ export default async function Home() {
 
   return (
     <>
-      <main>
-        <HomeBanner />
-      </main>
+      <HomeBanner />
+
       <CategorySlider></CategorySlider>
       <HomeAdvantages></HomeAdvantages>
       <TopSales categories={categories}></TopSales>

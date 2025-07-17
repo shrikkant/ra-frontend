@@ -197,7 +197,7 @@ export function Testimonial() {
 
   return (
     <section
-      className="s-feedback"
+      className="s-feedback px-4"
       style={{backgroundImage: 'url(assets/v2/img/bg-feedback.webp)'}}
     >
       <span
@@ -205,7 +205,7 @@ export function Testimonial() {
         style={{backgroundImage: 'url(assets/v2/img/effect-bg-feedback.svg)'}}
       ></span>
       <span className="mask"></span>
-      <div className="sm:container mx-auto relative z-10 sm:px-2 xs:px-2">
+      <div className="max-w-7xl mx-auto relative z-10 px-4">
         <h2 className="title">feedback</h2>
         <div
           className="feedback-slider relative"

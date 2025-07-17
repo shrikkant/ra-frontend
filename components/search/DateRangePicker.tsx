@@ -175,7 +175,7 @@ export const DateRangePicker = ({mode}: {mode: string}) => {
                   className="z-[9999] bg-white rounded-lg shadow-[0_8px_30px_rgb(0,0,0,0.08)] border border-gray-100 backdrop-blur-sm"
                 >
                   {({close: panelClose}) => (
-                    <div className="p-4">
+                    <div>
                       <DateRange
                         startDatePlaceholder="Starting"
                         endDatePlaceholder="Ending"

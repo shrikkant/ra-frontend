@@ -26,7 +26,7 @@ export const CategorySlider = async () => {
             'linear-gradient(to top, rgba(63, 63, 70, 0.05) 0%, rgba(63, 63, 70, 0.02) 30%, white 100%)',
         }}
       />
-      <div className="container mx-auto px-4 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 relative z-10">
         <div className="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
           {subCategories.map(category => (
             <CategorySliderItem

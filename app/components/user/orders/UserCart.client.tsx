@@ -52,9 +52,7 @@ export default function UserCart() {
         <>
           {cart ? (
             <div
-              className={
-                'flex flex-col-reverse md:flex-row w-full md:space-x-8 xs:pb-20'
-              }
+              className={'flex flex-col-reverse md:flex-row w-full  xs:pb-20'}
             >
               <div className={'md:w-3/4 w-full'}>
                 <div className="p-4">

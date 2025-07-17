@@ -1,53 +1,44 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import {HeadCard} from './HeadCard'
-import {Package} from './Package'
-import {Description} from './Description'
-import BookingForm from '../BookingForm'
-import {IProduct} from '../../app-store/types'
+import {ProductDetailsSection} from './ProductDetailsSection'
+import {BookingFormSection} from './BookingFormSection'
 import {ReviewsSection} from '../ReviewsSection'
+import {PRODUCT_LAYOUT, REVIEWS_CONFIG} from './constants'
+import {ProductProps} from './types'
 
-export const Product = ({product}: {product: IProduct}) => {
+export const Product: React.FC<ProductProps> = ({product}) => {
   const addons: any = product?.masterProductList
   const rates: any = product?.rates
 
   return (
-    <>
-      <div className="p-4">
-        <div className={'flex flex-col sm:flex-row gap-4'}>
-          <div className="sm:w-3/5 w-full md:w-3/4 flex flex-col gap-4">
-            <HeadCard product={product}></HeadCard>
-            <div className="min-h-[50px]">
-              {(addons && addons.length) > 0 && (
-                <Package addons={addons}></Package>
-              )}
-            </div>
-            {product.masterProduct.details_json && (
-              <Description details={product.masterProduct.details_json} />
-            )}
-          </div>
+    <div className="min-h-screen bg-gray-50">
+      {/* Main Product Container */}
+      <div
+        className={`${PRODUCT_LAYOUT.CONTAINER_MAX_WIDTH} mx-auto px-4 sm:px-6 lg:px-8 py-8`}
+      >
+        {/* Product Layout - Flexbox with standard width classes */}
+        <div className={`flex flex-col md:flex-row ${PRODUCT_LAYOUT.GAP}`}>
+          {/* Product Details Section - 2/3 width */}
+          <ProductDetailsSection product={product} addons={addons} />
 
-          <div className={'sm:w-2/5 w-full md:w-1/4'}>
-            <div className="sm:sticky sm:top-4 w-full max-w-[320px] mx-auto">
-              <BookingForm
-                discount={product?.discount_percent}
-                rates={rates}
-                productId={product.id}
-              />
-            </div>
-          </div>
+          {/* Booking Form Section - 1/3 width */}
+          <BookingFormSection
+            productId={product.id}
+            discount={product?.discount_percent}
+            rates={rates}
+          />
         </div>
       </div>
 
       {/* Customer Reviews Section */}
       <ReviewsSection
-        title="Customer Reviews"
-        subtitle="See what others are saying about our equipment"
-        variant="compact"
-        maxReviews={3}
-        showCTA={false}
-        className="mt-8"
+        title={REVIEWS_CONFIG.title}
+        subtitle={REVIEWS_CONFIG.subtitle}
+        variant={REVIEWS_CONFIG.variant}
+        maxReviews={REVIEWS_CONFIG.maxReviews}
+        showCTA={REVIEWS_CONFIG.showCTA}
+        className={REVIEWS_CONFIG.className}
       />
-    </>
+    </div>
   )
 }

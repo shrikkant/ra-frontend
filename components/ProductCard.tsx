@@ -24,17 +24,19 @@ export default function ProductCard({product}: {product: IProduct}) {
         <Link href={resolveURL()}>
           {/* Fixed aspect ratio container to prevent layout shift */}
           <div className="relative w-full h-[240px] overflow-hidden">
-            <LazyImage
-              src={
-                'https://rentacross.com/api/products/' +
-                product.master_product_id +
-                '/photo?width=240'
-              }
-              alt="Product Image"
-              className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
-              width={800}
-              height={600}
-            />
+            {product.master_product_id && (
+              <LazyImage
+                src={
+                  'https://rentacross.com/api/products/' +
+                  product.master_product_id +
+                  '/photo?width=240'
+                }
+                alt="Product Image"
+                className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
+                width={800}
+                height={600}
+              />
+            )}
           </div>
         </Link>
       </div>

@@ -29,7 +29,7 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
 
   return (
     <Disclosure as="nav">
-      <div className="container m-auto">
+      <div className="max-w-7xl mx-auto">
         <div className="relative flex flex-col sm:flex-row h-22 items-center justify-around border-gray-400">
           <div className="relative justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
             <div className="inset-y-0 left-0 items-center sm:gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">

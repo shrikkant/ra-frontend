@@ -11,7 +11,7 @@ export const ProductDetailPage: React.FC<ProductDetailPageProps> = ({
 }) => {
   return (
     <div className="min-h-screen">
-      <div className="container m-auto md:min-h-[calc(100vh-100px-418px)]">
+      <div className="max-w-7xl px-4 mx-auto md:min-h-[calc(100vh-100px-418px)]">
         <Product product={product} />
       </div>
     </div>
