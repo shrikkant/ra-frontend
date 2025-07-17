@@ -12,11 +12,11 @@ export const HeadCard: React.FC<ProductProps> = ({product}: ProductProps) => {
       {/* Product Image */}
       {product?.master_product_id && (
         <div className="mb-6 lg:mb-8 px-4 lg:px-8">
-          <div className="relative aspect-[4/3] w-full max-w-lg mx-auto rounded-xl overflow-hidden bg-gray-100">
+          <div className="relative aspect-[4/3] w-full max-w-lg mx-auto rounded-xl overflow-hidden bg-transparent">
             <img
               src={`/api/products/${product.master_product_id}/photo?width=800`}
               alt={product.title}
-              className="object-cover w-full h-full transition-transform duration-300 hover:scale-10"
+              className="object-contain w-full h-full transition-transform duration-300 hover:scale-10"
               width={800}
               height={600}
               loading="eager"
