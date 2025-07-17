@@ -16,13 +16,11 @@ export const HeadCard: React.FC<ProductProps> = ({product}: ProductProps) => {
             <img
               src={`/api/products/${product.master_product_id}/photo?width=800`}
               alt={product.title}
-              className="object-cover w-full h-full transition-transform duration-300 hover:scale-105"
+              className="object-cover w-full h-full transition-transform duration-300 hover:scale-10"
               width={800}
               height={600}
               loading="eager"
             />
-            {/* Image overlay for better text readability */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/20 via-transparent to-transparent" />
           </div>
         </div>
       )}

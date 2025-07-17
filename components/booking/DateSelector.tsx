@@ -72,7 +72,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
           <div className="flex items-center gap-6 w-full">
             <div className="flex flex-col min-w-0">
               <span className="text-xs text-gray-500 font-medium mb-1">
-                Delivery
+                Start
               </span>
               <span className="text-base text-gray-900 font-semibold truncate">
                 {hasDates
@@ -82,7 +82,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
             </div>
             <div className="flex flex-col min-w-0">
               <span className="text-xs text-gray-500 font-medium mb-1">
-                Return
+                End
               </span>
               <span className="text-base text-gray-900 font-semibold truncate">
                 {hasDates
