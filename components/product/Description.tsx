@@ -130,22 +130,12 @@ export const Description: React.FC<ProductProps> = ({
 
       {/* Additional Information */}
       <div className="mt-8 lg:mt-10 p-6 lg:p-8 bg-gradient-to-r from-blue-50 to-amber-50 rounded-xl border border-blue-200">
-        <div className="flex items-start gap-4 lg:gap-6">
-          <div className="flex-shrink-0 w-12 h-12 lg:w-14 lg:h-14 bg-blue-100 rounded-full flex items-center justify-center">
-            <span className="text-blue-600 text-lg lg:text-xl font-bold">
-              ℹ
-            </span>
-          </div>
-          <div>
-            <h4 className="font-bold text-gray-900 mb-2 lg:mb-3 text-lg lg:text-xl">
-              Professional Equipment
-            </h4>
-            <p className="text-gray-700 leading-relaxed text-base lg:text-lg">
-              This equipment is maintained to professional standards and comes
-              with full support. Our team ensures everything is in perfect
-              working condition before delivery.
-            </p>
-          </div>
+        <div className="flex">
+          <p className="text-gray-700 leading-relaxed text-base lg:text-lg">
+            This equipment is maintained to professional standards and comes
+            with full support. Our team ensures everything is in perfect working
+            condition before delivery.
+          </p>
         </div>
       </div>
     </div>
