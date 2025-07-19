@@ -92,7 +92,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
             </div>
             {hasDates && (
               <div className="flex flex-col justify-center items-center ml-auto">
-                <span className="text-xs text-[#FDC002] font-semibold whitespace-nowrap">
+                <span className="text-md text-[#FDC002] font-semibold whitespace-nowrap">
                   {getDays(storeSearch)}{' '}
                   {getPlural('day', getDays(storeSearch))}
                 </span>
