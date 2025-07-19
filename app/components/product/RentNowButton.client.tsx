@@ -45,7 +45,7 @@ export default function RentNowButton({pathname}: {pathname: string}) {
     <>
       <button
         onClick={onBookNow}
-        className="bg-[#ffd814] w-36 rounded-full text-[#0f1111] hover:bg-[#f7ca00] h-10"
+        className="bg-[#ffd814] w-24 sm:w-36 rounded-full text-[#0f1111] hover:bg-[#f7ca00] h-8 sm:h-10 text-sm sm:text-base px-2 py-1 sm:px-4 sm:py-2"
       >
         Rent Now
       </button>

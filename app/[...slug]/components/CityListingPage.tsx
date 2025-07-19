@@ -71,7 +71,7 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
       )}
 
       {/* Products Grid Section */}
-      <div className="max-w-7xl mx-auto md:min-h-[calc(100vh-100px-418px)] p-4">
+      <div className="max-w-7xl mx-auto md:min-h-[calc(100vh-100px-418px)] sm:p-4 p-2">
         <div className="grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4">
           {loading ? (
             // Show skeleton loading state when loading
