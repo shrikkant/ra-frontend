@@ -1,6 +1,7 @@
 import React from 'react'
 import Link from 'next/link'
 import {FaCheckDouble, FaSignInAlt, FaWhatsapp, FaUser} from 'react-icons/fa'
+import {timeAgo} from '../../util/date.util'
 
 interface Customer {
   id: number
@@ -11,6 +12,7 @@ interface Customer {
   city?: string
   profile_pic?: string
   verified?: number
+  created_ts?: string
 }
 
 interface CustomerCardProps {
@@ -73,11 +75,15 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
                 📞 {customer.phone}
               </Link>
             )}
-            {customer.city && (
-              <p className="text-xs text-gray-400 truncate mt-1">
-                {customer.city}
-              </p>
-            )}
+            <p className="text-xs text-gray-400 truncate mt-1">
+              {customer.created_ts && timeAgo(customer.created_ts)}
+              {customer.city && (
+                <>
+                  <span className="px-2">•</span>
+                  {customer.city}
+                </>
+              )}
+            </p>
           </div>
         </div>
 
