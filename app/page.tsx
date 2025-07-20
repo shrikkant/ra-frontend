@@ -2,7 +2,7 @@ import React from 'react'
 import {Metadata} from 'next'
 
 import {HomeBanner} from '../components/HomeBanner'
-import {Testimonial} from '../components/Testimonial'
+import {ReviewsSection} from '../components/ReviewsSection'
 import {CategorySlider} from '../components/CategorySlider'
 
 import TopSales from '../components/TopSales'
@@ -28,7 +28,7 @@ export default async function Home() {
       <CategorySlider></CategorySlider>
       <HomeAdvantages></HomeAdvantages>
       <TopSales categories={categories}></TopSales>
-      <Testimonial></Testimonial>
+      <ReviewsSection></ReviewsSection>
     </>
   )
 }
