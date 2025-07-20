@@ -81,7 +81,7 @@ const BulkUpload: React.FC = () => {
     formData.append('file', file)
 
     try {
-      const response = await axios.post('/api/admin/products/bulk', formData, {
+      const response = await axios.post('/api/v1/products/upload', formData, {
         headers: {
           'Content-Type': 'multipart/form-data',
         },
