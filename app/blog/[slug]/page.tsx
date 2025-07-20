@@ -42,7 +42,7 @@ export default async function Page({params}: PageProps) {
   // const blog = await fetchBlogBySlug(params.slug)
 
   return (
-    <section className="s-news">
+    <section className="py-24 relative z-10 text-center">
       <PageContainer>
         <div className="flex gap-x-10 justify-center">
           <div className="basis-1/2">

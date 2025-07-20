@@ -10,9 +10,9 @@ export default async function Help() {
 
   return (
     <>
-      <section className="s-header-title">
+      <section className="bg-[#192330] min-h-[100px] py-[30px] pb-[45px] flex items-center text-center relative overflow-hidden">
         <PageContainer>
-          <h1>Blog</h1>
+          <h1 className="text-[#ffd910] leading-tight">Blog</h1>
           <ul className="breadcrambs">
             <li>
               <a href="/">Home</a>
@@ -22,7 +22,7 @@ export default async function Help() {
         </PageContainer>
       </section>
 
-      <section className="s-news">
+      <section className="py-24 relative z-10 text-center">
         <PageContainer>
           <div className="flex gap-x-10 justify-center">
             <div className="basis-1/2">

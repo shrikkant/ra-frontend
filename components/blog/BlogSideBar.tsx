@@ -12,7 +12,10 @@ export default function BlogSideBar({
 }: BlogSideBarProps) {
   return (
     <>
-      <a href="#" className="btn btn-sidebar">
+      <a
+        href="#"
+        className="inline-block uppercase font-bold border-2 border-yellow-400 px-8 py-3 rounded text-yellow-900 bg-transparent hover:bg-yellow-400 transition"
+      >
         <span>Widgets</span>
       </a>
       <ul className="widgets">

@@ -6,7 +6,7 @@ export default async function Page() {
   return (
     <>
       <PageTitle title={'Legal Terms'} />
-      <section className="s-news">
+      <section className="py-24 relative z-10 text-center">
         <PageContainer>
           <div className="post-body">
             <p>

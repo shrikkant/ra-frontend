@@ -7,7 +7,7 @@ export default async function Page() {
   return (
     <>
       <PageTitle title={'Rental Agreement'} />
-      <section className="s-news">
+      <section className="py-24 relative z-10 text-center">
         <PageContainer>
           <div className="mt-5">
             <div>

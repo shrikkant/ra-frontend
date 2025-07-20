@@ -197,7 +197,7 @@ export function Testimonial() {
 
   return (
     <section
-      className="s-feedback px-4"
+      className="px-4 py-24 relative bg-cover bg-center"
       style={{backgroundImage: 'url(assets/v2/img/bg-feedback.webp)'}}
     >
       <span

@@ -8,7 +8,7 @@ export default async function Page() {
   return (
     <>
       <PageTitle title={'Terms of Use'} />
-      <section className="s-news">
+      <section className="py-24 relative z-10 text-center">
         <PageContainer>
           {/* <div className="post-title">
           <h2>Terms of Use</h2>

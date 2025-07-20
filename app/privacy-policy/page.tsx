@@ -6,7 +6,7 @@ export default function Page() {
   return (
     <>
       <PageTitle title="Privacy Policy" />
-      <section className="s-news">
+      <section className="py-24 relative z-10 text-center">
         <PageContainer>
           <div className="post-body">
             <p>

@@ -54,7 +54,7 @@ export default function HomeAdvantages() {
   ]
 
   return (
-    <section className="relative mt-[30px] z-10 s-our-advantages max-w-7xl mx-auto">
+    <section className="relative mt-[30px] z-10 max-w-7xl mx-auto">
       {/* Background with diagonal clip */}
       <div className="absolute inset-0 bg-[url('/assets/v2/img/bg-advantages.webp')] bg-cover bg-center" />
       <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/60" />

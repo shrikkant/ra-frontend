@@ -105,9 +105,6 @@ export default async function RootLayout({
           href="/assets/v2/img/favicon.ico"
         />
 
-        <link rel="stylesheet" href="/assets/v2/css/slick.min.css"></link>
-        <link rel="stylesheet" href="/assets/v2/css/nice-select.css"></link>
-        <link rel="stylesheet" href="/assets/v2/css/animate.css"></link>
         <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
         <meta
           name="google-site-verification"
