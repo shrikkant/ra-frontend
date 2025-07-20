@@ -206,7 +206,7 @@ h4,
 h5,
 h6 {
   font-family: 'Jost', sans-serif;
-  color: #192330;
+  /* color: #192330; */
   font-weight: 600;
   line-height: 0.85em;
   letter-spacing: 0;
