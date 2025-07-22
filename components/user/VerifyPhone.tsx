@@ -9,6 +9,7 @@ import {updatePhone} from '../../api/user/index.api'
 import {IUser} from '../../app-store/types'
 import {useRouter} from 'next/navigation'
 import {isVerified, VERIFICATION_FLAGS} from '../../config/constants'
+import {GA_EVENTS, trackGAEvent} from '../../utils/analytics'
 
 export default function VerifyPhone() {
   const router = useRouter()
@@ -39,12 +40,9 @@ export default function VerifyPhone() {
     if (isVerified(updateUser?.verified, VERIFICATION_FLAGS.PHONE)) {
       dispatch(authUser(updateUser))
       // lets push GA4 event here for sinup
-      window.dataLayer = window.dataLayer || []
-      window.dataLayer.push({
-        event: 'signup_complete',
+      trackGAEvent(GA_EVENTS.SIGNUP, {
         method: 'google',
       })
-
       router.push('/')
     }
   }

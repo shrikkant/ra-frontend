@@ -18,6 +18,7 @@ import {
 import {IUser} from '../../app-store/types'
 import CountdownTimer from '../CountDownTimer'
 import OTPInput from './OTPInput'
+import {GA_EVENTS, trackGAEvent} from '../../utils/analytics'
 
 export default function SignIn({onClose}: {onClose: () => void}) {
   const dispatch = useDispatch()
@@ -134,9 +135,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const handleSignup = async () => {
     const loggedUser: IUser = await signupWithOTP(phone, otp, name)
     if (loggedUser?.id) {
-      window.dataLayer = window.dataLayer || []
-      window.dataLayer.push({
-        event: 'signup_complete',
+      trackGAEvent(GA_EVENTS.SIGNUP, {
         method: 'phone',
       })
       dispatch(authUser(loggedUser))
