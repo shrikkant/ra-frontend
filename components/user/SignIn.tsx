@@ -134,6 +134,11 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const handleSignup = async () => {
     const loggedUser: IUser = await signupWithOTP(phone, otp, name)
     if (loggedUser?.id) {
+      window.dataLayer = window.dataLayer || []
+      window.dataLayer.push({
+        event: 'signup_complete',
+        method: 'phone',
+      })
       dispatch(authUser(loggedUser))
       onClose()
     }

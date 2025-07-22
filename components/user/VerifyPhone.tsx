@@ -38,6 +38,13 @@ export default function VerifyPhone() {
     const updateUser: IUser = await updatePhone(phone)
     if (isVerified(updateUser?.verified, VERIFICATION_FLAGS.PHONE)) {
       dispatch(authUser(updateUser))
+      // lets push GA4 event here for sinup
+      window.dataLayer = window.dataLayer || []
+      window.dataLayer.push({
+        event: 'signup_complete',
+        method: 'google',
+      })
+
       router.push('/')
     }
   }
