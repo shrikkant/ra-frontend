@@ -40,7 +40,7 @@ export default function VerifyPhone() {
     if (isVerified(updateUser?.verified, VERIFICATION_FLAGS.PHONE)) {
       dispatch(authUser(updateUser))
       // lets push GA4 event here for sinup
-      trackGAEvent(GA_EVENTS.SIGNUP, {
+      trackGAEvent(GA_EVENTS.SIGN_UP, {
         method: 'google',
       })
       router.push('/')
