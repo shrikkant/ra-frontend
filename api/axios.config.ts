@@ -11,9 +11,9 @@ export class HttpService {
   private url: string
   private client: AxiosInstance
 
-  constructor(url: string) {
+  constructor(url?: string) {
     this.client = axios.create({
-      baseURL: url,
+      baseURL: url || 'https://rentacross.com/api/',
     })
 
     this.client.interceptors.request.use(
