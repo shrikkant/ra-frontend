@@ -64,7 +64,7 @@ export const LocationPicker = () => {
   }, [stateSearch])
 
   return (
-    <Popover className="relative">
+    <Popover className="relative inline-block">
       <PopoverButton className="active:border-none focus:border-none focus:appearance-none inline-flex items-center gap-x-1 text-sm font-semibold leading-6 px-3 text-gray-100">
         <span>
           {location?.city ? locationCity(location.city) : 'Select City'}
@@ -84,17 +84,7 @@ export const LocationPicker = () => {
         leaveFrom="opacity-100 translate-y-0"
         leaveTo="opacity-0 translate-y-1"
       >
-        <PopoverPanel
-          className="bg-white sm:absolute
-          xs:fixed
-          xs:left-6
-          z-10 mt-5
-          ml-5
-          mr-5
-          max-w-max
-          sm:-translate-x-1/2 px-4 border
-          rounded"
-        >
+        <PopoverPanel className="absolute z-50 mt-2 w-56 bg-white rounded-md shadow-lg border border-gray-200 py-1 left-0 transform">
           {({close}) => (
             <div className="py-2">
               {locations.map((loc, i) => (

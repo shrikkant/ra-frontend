@@ -7,7 +7,9 @@ export default function SearchBar() {
   return (
     <div className={'flex flex-col gap-y-4 sm:flex-row items-center gap-x-3'}>
       <div className="flex gap-x-4 w-full items-center">
-        <LocationPicker></LocationPicker>
+        <div className="relative">
+          <LocationPicker></LocationPicker>
+        </div>
         <DateRangePicker mode={'light'}></DateRangePicker>
       </div>
     </div>
