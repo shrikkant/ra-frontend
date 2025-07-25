@@ -58,7 +58,9 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     const updatedErrors = {...errors}
 
     if (/^\d*$/.test(phone)) {
-      setPhone(phone)
+      // Limit to 10 digits only
+      const limitedPhone = phone.slice(0, 10)
+      setPhone(limitedPhone)
       updatedErrors.phone = ''
     } else {
       updatedErrors.phone = 'Invalid phone number'
@@ -97,6 +99,10 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     return errors.phone.length > 0
   }
 
+  const isPhoneValid = (): boolean => {
+    return phone.length === 10 && errors.phone.length === 0
+  }
+
   const resetErrors = () => {
     setErrors({phone: ''})
   }
@@ -117,11 +123,17 @@ export default function SignIn({onClose}: {onClose: () => void}) {
           show={showModal}
           onClose={handleCloseModal}
           title={'Signup/Login'}
+          logoTitle={true}
         >
           <div className=" m-auto">
+            {/* <h1 className="text-center text-xl font-semibold py-4">
+              Signup / Login
+            </h1> */}
+
             <div>
-              <div className="text-center text-lg font-normal">
-                Use your phone to login
+              <div className="text-lg font-normal  ml-1">
+                <span className="font-semibold">Login</span> or{' '}
+                <span className="font-semibold">Signup</span>
               </div>
               <div>
                 <Input
@@ -136,11 +148,21 @@ export default function SignIn({onClose}: {onClose: () => void}) {
               </div>
               <div className="mt-5 w-1/2 m-auto">
                 <Button
-                  disabled={hasErrors()}
+                  disabled={!isPhoneValid()}
                   variant="primary"
                   onClick={sendOneTimePassword}
                   label="Send OTP"
                 />
+              </div>
+              <div
+                className="text-center text-lg font-normal mt-4"
+                style={{
+                  fontFamily: "'Jost', sans-serif",
+                  fontWeight: 300,
+                  letterSpacing: '0.5px',
+                }}
+              >
+                Quick, reliable, and trusted
               </div>
             </div>
           </div>
@@ -152,6 +174,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
           show={showModal}
           onClose={handleCloseModal}
           title={'OTP Verification'}
+          logoTitle={true}
         >
           <div className="m-auto">
             <div>
