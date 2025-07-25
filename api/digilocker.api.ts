@@ -1,5 +1,6 @@
 import {DIGILOCKER_CONFIG} from '../config/digilocker.config'
 import {fetchData, HttpService} from './axios.config'
+import {ENV_CONFIG} from '../config/environment'
 // import {fetchData} from '../app/utils/api'
 
 export interface VerificationData {
@@ -30,7 +31,7 @@ class DigiLockerAPI {
   private baseURL = '/api/v1/digilocker/'
 
   async initializeVerification(): Promise<VerificationData> {
-    const service = new HttpService('https://rentacross.com/api/v1/')
+    const service = new HttpService(ENV_CONFIG.DIGILOCKER_API_URL)
     const client = service.getClient()
     const response = await client.post(
       `digilocker/initialize`,
@@ -39,7 +40,7 @@ class DigiLockerAPI {
           signup_flow: true,
           logo_url: DIGILOCKER_CONFIG.LOGO_URL,
           skip_main_screen: false,
-          webhook_url: `https://rentacross.com/api/v1/digilocker/webhook`,
+          webhook_url: `${ENV_CONFIG.DIGILOCKER_API_URL}/digilocker/webhook`,
         },
       },
       {
@@ -55,7 +56,7 @@ class DigiLockerAPI {
   }
 
   async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
-    const service = new HttpService('https://rentacross.com/api/v1/')
+    const service = new HttpService(ENV_CONFIG.DIGILOCKER_API_URL)
     const client = service.getClient()
     const response = await client.get(`digilocker/download-aadhaar/${clientId}`)
 

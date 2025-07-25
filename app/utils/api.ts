@@ -1,4 +1,5 @@
 import {cookies} from 'next/headers'
+import {ENV_CONFIG} from '../../config/environment'
 
 // For static generation (build time)
 export const fetchStaticData = async (
@@ -10,7 +11,7 @@ export const fetchStaticData = async (
     headers: {
       'Content-Type': 'application/json',
     },
-    referrer: 'https://www.rentacross.com',
+    referrer: ENV_CONFIG.BASE_URL_WWW,
     // Enable caching for static generation
     next: {revalidate: 3600 * 24}, // Revalidate every 24 hours
   }
@@ -21,10 +22,7 @@ export const fetchStaticData = async (
   }
 
   try {
-    const response = await fetch(
-      `https://rentacross.com/api/v1/${url}`,
-      options,
-    )
+    const response = await fetch(`${ENV_CONFIG.API_V1_URL}/${url}`, options)
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
@@ -46,7 +44,7 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
       ...(accessToken?.value && {authorization: accessToken.value}),
       Cookie: cookieHeader,
     },
-    referrer: 'https://www.rentacross.com',
+    referrer: ENV_CONFIG.BASE_URL_WWW,
     cache: 'no-store' as const,
   }
 
@@ -56,10 +54,7 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
   }
 
   try {
-    const response = await fetch(
-      `https://rentacross.com/api/v1/${url}`,
-      options,
-    )
+    const response = await fetch(`${ENV_CONFIG.API_V1_URL}/${url}`, options)
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {

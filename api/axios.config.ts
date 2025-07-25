@@ -4,6 +4,7 @@ import Cookies from 'js-cookie'
 
 import {TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY} from '../config/constants'
 import {displayMessage} from '../util/global.util'
+import {ENV_CONFIG} from '../config/environment'
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY)
 
@@ -13,7 +14,7 @@ export class HttpService {
 
   constructor(url?: string) {
     this.client = axios.create({
-      baseURL: url || 'https://rentacross.com/api/',
+      baseURL: url || ENV_CONFIG.API_BASE_URL,
     })
 
     this.client.interceptors.request.use(
@@ -57,7 +58,7 @@ export class HttpService {
   }
 }
 const httpClient = axios.create({
-  baseURL: 'https://rentacross.com/api/',
+  baseURL: ENV_CONFIG.API_BASE_URL,
 })
 
 httpClient.interceptors.request.use(
@@ -107,9 +108,10 @@ httpClient.interceptors.response.use(
 )
 
 export const fetchData = async (url, customOptions?) => {
+  console.log(' URL > ', ENV_CONFIG.API_BASE_URL)
   const commonOptions = {
     headers: {'Content-Type': 'application/json'},
-    referrer: 'https://rentacross.com',
+    referrer: ENV_CONFIG.BASE_URL,
     cache: 'force-cache',
   }
 
@@ -119,7 +121,7 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   const response: any = await fetch(
-    `https://rentacross.com/api/${url}`,
+    `${ENV_CONFIG.API_BASE_URL}/${url}`,
     options,
   )
 

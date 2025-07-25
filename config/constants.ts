@@ -8,11 +8,13 @@ export interface ICountry {
   locations: string[]
   states: string[]
 }
-export const ENV = process.env.REACT_APP_ENV!
+import {ENV_CONFIG} from './environment'
+
+export const ENV = ENV_CONFIG.REACT_APP_ENV!
 // export const BASE_API_URL = envConfig.BASE_API_URL;
-export const BASE_URL = 'https://rentacross.com'
-export const BASE_API_URL = process.env.REACT_APP_API_URL!
-export const REACT_APP_URL = process.env.REACT_APP_URL!
+export const BASE_URL = ENV_CONFIG.BASE_URL
+export const BASE_API_URL = ENV_CONFIG.REACT_APP_API_URL!
+export const REACT_APP_URL = ENV_CONFIG.REACT_APP_URL!
 export const TOKEN_COOKIE_KEY = 'access_token'
 export const TOKEN_HEADER_KEY = 'authorization'
 export const CITY = 'Pune'
