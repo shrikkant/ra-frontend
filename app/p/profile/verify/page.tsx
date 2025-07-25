@@ -1,7 +1,7 @@
 'use client'
 
 import React, {useState, useEffect} from 'react'
-import VerifyAadhar from '../../../../components/user/VerifyAadhaar'
+import DigilockerKYC from '../../../../components/user/DigilockerKYC'
 import VerifyEmail from '../../../../components/user/VerifyEmail'
 import DocumentUploadCard from '../../../../components/common/DocumentUploadCard'
 import {IDocument} from '../../../../app-store/app-defaults/types'
@@ -63,9 +63,9 @@ export default function Page() {
               Verification
             </h2>
             <div className="space-y-8">
-              {/* Aadhaar Verification */}
+              {/* DigiLocker KYC Verification */}
               <div className="space-y-4">
-                <VerifyAadhar />
+                <DigilockerKYC />
               </div>
 
               {/* Email Verification */}
