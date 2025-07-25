@@ -63,10 +63,10 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const validateSignup = () => {
     const updateErrors = {...errors}
     let hasErrors = false
-    if (!name || name.length < 1) {
-      updateErrors.name = 'Name is required'
-      hasErrors = true
-    }
+    // if (!name || name.length < 1) {
+    //   updateErrors.name = 'Name is required'
+    //   hasErrors = true
+    // }
 
     if (name && name.split(' ').length < 2) {
       updateErrors.name = 'Please enter full name'
@@ -197,7 +197,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
         >
           <div className="w-full m-auto">
             <div>
-              {isSignup && (
+              {/* {isSignup && (
                 <div>
                   <Input
                     name="name"
@@ -208,7 +208,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
                     error={errors.name}
                   ></Input>
                 </div>
-              )}
+              )} */}
               <div>
                 <Input
                   name="phone"
@@ -230,7 +230,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
               </div>
             </div>
 
-            <div className="text-center mb-4  mt-5 flex justify-center items-center">
+            {/* <div className="text-center mb-4  mt-5 flex justify-center items-center">
               <div className="border-b border-b-[#FDC002] w-1/2 mb-1 mr-1"></div>
               <div className="mb-2">Or</div>
               <div className="border-b border-b-[#FDC002] w-1/2 mb-1 ml-1"></div>
@@ -239,7 +239,8 @@ export default function SignIn({onClose}: {onClose: () => void}) {
               <GoogleSignInButton
                 onClick={() => (window.location.href = '/auth/google')}
               />
-            </div>
+            </div> */}
+
             {!isSignup && (
               <div className="py-4 mt-4 text-center">
                 New to RentAcross?{' '}
