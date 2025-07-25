@@ -30,7 +30,9 @@ class DigiLockerAPI {
   private baseURL = '/api/v1/digilocker/'
 
   async initializeVerification(): Promise<VerificationData> {
-    const response = await fetch(`${this.baseURL}initialize`, {
+    const service = new HttpService()
+    const client = service.getClient()
+    const response = await client.post(`/digilocker/initialize`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -54,7 +56,11 @@ class DigiLockerAPI {
   }
 
   async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
-    const response = await fetch(`${this.baseURL}download-aadhaar/${clientId}`)
+    const service = new HttpService()
+    const client = service.getClient()
+    const response = await client.get(
+      `/digilocker/download-aadhaar/${clientId}`,
+    )
 
     if (!response.ok) {
       throw new Error('Failed to download Aadhaar data')
