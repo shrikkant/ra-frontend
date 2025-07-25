@@ -135,7 +135,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const handleSignup = async () => {
     const loggedUser: IUser = await signupWithOTP(phone, otp, name)
     if (loggedUser?.id) {
-      trackGAEvent(GA_EVENTS.SIGNUP, {
+      trackGAEvent(GA_EVENTS.SIGN_UP, {
         method: 'phone',
       })
       dispatch(authUser(loggedUser))
