@@ -59,10 +59,6 @@ class DigiLockerAPI {
     const client = service.getClient()
     const response = await client.get(`digilocker/download-aadhaar/${clientId}`)
 
-    if (!response.ok) {
-      throw new Error('Failed to download Aadhaar data')
-    }
-
     return response.data
   }
 
