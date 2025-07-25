@@ -58,58 +58,54 @@ export default function Page() {
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="space-y-8">
           {/* Verification Section */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-              Verification
-            </h2>
-            <div className="space-y-8">
-              {/* DigiLocker KYC Verification */}
-              <div className="space-y-4">
-                <DigilockerKYC />
-              </div>
 
-              {/* Email Verification */}
-              <div className="space-y-4">
-                <VerifyEmail />
-              </div>
+          <div className="space-y-8">
+            {/* DigiLocker KYC Verification */}
+            <div className="space-y-4">
+              <DigilockerKYC />
+            </div>
 
-              {/* Document Upload */}
-              <div className="space-y-4">
-                <div className="space-y-6">
-                  {/* Utility Bill (Required) */}
-                  <DocumentUploadCard
-                    title="Utility Bill / Rental Agreement"
-                    documentType="utility_bill"
-                    onUpload={handleDocumentUpload}
-                    existingDocument={existingDocuments['utility_bill']}
-                  />
+            {/* Email Verification */}
+            <div className="space-y-4">
+              <VerifyEmail />
+            </div>
 
-                  {/* Driving License */}
-                  <DocumentUploadCard
-                    title="Driving License"
-                    documentType="driving_license"
-                    onUpload={handleDocumentUpload}
-                    existingDocument={existingDocuments['driving_license']}
-                  />
+            {/* Document Upload */}
+            <div className="space-y-4">
+              <div className="space-y-6">
+                {/* Utility Bill (Required) */}
+                <DocumentUploadCard
+                  title="Utility Bill / Rental Agreement"
+                  documentType="utility_bill"
+                  onUpload={handleDocumentUpload}
+                  existingDocument={existingDocuments['utility_bill']}
+                />
 
-                  {/* OR Separator */}
-                  <div className="relative">
-                    <div className="absolute inset-0 flex items-center">
-                      <div className="w-full border-t border-gray-300"></div>
-                    </div>
-                    <div className="relative flex justify-center text-sm">
-                      <span className="px-2 bg-white text-gray-500">OR</span>
-                    </div>
+                {/* Driving License */}
+                <DocumentUploadCard
+                  title="Driving License"
+                  documentType="driving_license"
+                  onUpload={handleDocumentUpload}
+                  existingDocument={existingDocuments['driving_license']}
+                />
+
+                {/* OR Separator */}
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300"></div>
                   </div>
-
-                  {/* Passport */}
-                  <DocumentUploadCard
-                    title="Passport"
-                    documentType="passport"
-                    onUpload={handleDocumentUpload}
-                    existingDocument={existingDocuments['passport']}
-                  />
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">OR</span>
+                  </div>
                 </div>
+
+                {/* Passport */}
+                <DocumentUploadCard
+                  title="Passport"
+                  documentType="passport"
+                  onUpload={handleDocumentUpload}
+                  existingDocument={existingDocuments['passport']}
+                />
               </div>
             </div>
           </div>
