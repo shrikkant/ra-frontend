@@ -53,7 +53,7 @@ const Modal: React.FC<ModalProps> = ({
               <div>
                 <div className="border-b-[#FFDC2DAD] border-b relative">
                   {logoTitle ? (
-                    <div className="p-4 flex justify-center items-center pr-12">
+                    <div className="p-4 flex justify-center items-center">
                       <img
                         src="/assets/v2/img/logo.png"
                         alt="Logo"
@@ -62,7 +62,7 @@ const Modal: React.FC<ModalProps> = ({
                     </div>
                   ) : (
                     <h1
-                      className="p-4 text-gray-900 text-xl m-auto text-center font-semibold pr-12"
+                      className="p-4 text-gray-900 text-xl m-auto text-center font-semibold"
                       id="modal-title"
                     >
                       {title}
