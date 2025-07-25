@@ -118,7 +118,9 @@ export default function Input({...props}: InputProps) {
           onChange={handleChange}
           className={
             (props.iconType === INPUT_ICON_TYPES.MAP ? 'pl-7' : '') +
-            (props.iconType === INPUT_ICON_TYPES.PHONE ? 'pl-12' : '') +
+            (props.iconType === INPUT_ICON_TYPES.PHONE
+              ? 'pl-12 letter-spacing-0.5'
+              : '') +
             (props.showClear ? ' pr-14' : ' pr-3') +
             (props.error ? ' border-red-500' : ' ') +
             ' shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'
