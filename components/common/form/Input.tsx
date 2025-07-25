@@ -103,9 +103,6 @@ export default function Input({...props}: InputProps) {
           <div
             className={`absolute left-2 ${props.size === 'lg' ? 'top-[12px]' : 'top-[5px]'} flex gap-1 border-r border-r-[#FFDC2DAD]`}
           >
-            <span>
-              <img src={'/assets/img/countries/in.webp'} className="h-6"></img>
-            </span>
             <span className=" text-gray-700 text-[16px] mt-[1px] mr-1">
               +91
             </span>
@@ -121,7 +118,7 @@ export default function Input({...props}: InputProps) {
           onChange={handleChange}
           className={
             (props.iconType === INPUT_ICON_TYPES.MAP ? 'pl-7' : '') +
-            (props.iconType === INPUT_ICON_TYPES.PHONE ? 'pl-20' : '') +
+            (props.iconType === INPUT_ICON_TYPES.PHONE ? 'pl-12' : '') +
             (props.showClear ? ' pr-14' : ' pr-3') +
             (props.error ? ' border-red-500' : ' ') +
             ' shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline'

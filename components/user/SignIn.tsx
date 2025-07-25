@@ -10,11 +10,7 @@ import Input from '../../components/common/form/Input'
 import Link from 'next/link'
 import {INPUT_ICON_TYPES} from '../../config/constants'
 import Button from '../../components/common/form/Button'
-import {
-  generateLoginOTP,
-  loginWithOTP,
-  signupWithOTP,
-} from '../../api/user/index.api'
+import {generateLoginOTP, loginWithOTP} from '../../api/user/index.api'
 import {IUser} from '../../app-store/types'
 import CountdownTimer from '../CountDownTimer'
 import OTPInput from './OTPInput'
@@ -24,14 +20,12 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const dispatch = useDispatch()
   const loggedUser = useSelector(selectAuthState)
   const [phone, setPhone] = useState('')
-  const [name, setName] = useState('')
   const [otp, setOtp] = useState<string>('')
-  const [isSignup, setIsSignup] = useState(true)
 
   const [otpSent, setOtpSent] = useState(false)
   const [otpExpiry, setOtpExpiry] = useState(0)
 
-  const [errors, setErrors] = useState({name: '', phone: ''})
+  const [errors, setErrors] = useState({phone: ''})
 
   const [showModal, setShowModal] = useState(true)
 
@@ -60,33 +54,6 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     return !hasErrors
   }
 
-  const validateSignup = () => {
-    const updateErrors = {...errors}
-    let hasErrors = false
-    // if (!name || name.length < 1) {
-    //   updateErrors.name = 'Name is required'
-    //   hasErrors = true
-    // }
-
-    // if (name && name.split(' ').length < 2) {
-    //   updateErrors.name = 'Please enter full name'
-    //   hasErrors = true
-    // }
-
-    if (!phone || phone.length < 1) {
-      updateErrors.phone = 'Phone is required'
-      hasErrors = true
-    }
-
-    if (phone.length !== 10) {
-      updateErrors.phone = 'Invalid phone number'
-      hasErrors = true
-    }
-
-    setErrors(updateErrors)
-    return !hasErrors
-  }
-
   const onPhoneChange = (phone: string) => {
     const updatedErrors = {...errors}
 
@@ -99,47 +66,18 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     setErrors(updatedErrors)
   }
 
-  const onNameChange = (name: string) => {
-    const updatedErrors = {...errors}
-
-    if (/^[a-zA-Z\s]*$/.test(name)) {
-      setName(name)
-      updatedErrors.name = ''
-    } else {
-      updatedErrors.name = 'Only alphabets are allowed'
-    }
-    setErrors(updatedErrors)
-  }
-
   const onOTPChange = (otp: string) => {
     setOtp(otp)
   }
 
   const sendOneTimePassword = async () => {
-    if (isSignup) {
-      if (!validateSignup()) {
-        return
-      }
-    } else {
-      if (!validateLogin()) {
-        return
-      }
+    if (!validateLogin()) {
+      return
     }
-    const response: any = await generateLoginOTP(phone, isSignup)
+    const response: any = await generateLoginOTP(phone, false)
     if (response.success) {
       setOtpSent(true)
       setOtpExpiry(response.expiryTimeInSeconds)
-    }
-  }
-
-  const handleSignup = async () => {
-    const loggedUser: IUser = await signupWithOTP(phone, otp, name)
-    if (loggedUser?.id) {
-      trackGAEvent(GA_EVENTS.SIGN_UP, {
-        method: 'phone',
-      })
-      dispatch(authUser(loggedUser))
-      onClose()
     }
   }
 
@@ -148,9 +86,6 @@ export default function SignIn({onClose}: {onClose: () => void}) {
       return
     }
 
-    if (isSignup) {
-      return handleSignup()
-    }
     const loggedUser: IUser = await loginWithOTP(phone, otp)
     if (loggedUser?.id) {
       dispatch(authUser(loggedUser))
@@ -158,28 +93,16 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     }
   }
 
-  const onSignup = () => {
-    resetFields()
-    resetErrors()
-    setIsSignup(true)
-  }
-
-  const onLogin = () => {
-    resetFields()
-    resetErrors()
-    setIsSignup(false)
-  }
-
   const hasErrors = (): boolean => {
-    return errors.name.length > 0 || errors.phone.length > 0
+    return errors.phone.length > 0
   }
 
   const resetErrors = () => {
-    setErrors({name: '', phone: ''})
+    setErrors({phone: ''})
   }
+
   const resetFields = () => {
     setPhone('')
-    setName('')
     setOtp('')
   }
 
@@ -193,22 +116,13 @@ export default function SignIn({onClose}: {onClose: () => void}) {
         <Modal
           show={showModal}
           onClose={handleCloseModal}
-          title={isSignup ? 'Sign up' : 'Login'}
+          title={'Signup/Login'}
         >
-          <div className="w-full m-auto">
+          <div className=" m-auto">
             <div>
-              {/* {isSignup && (
-                <div>
-                  <Input
-                    name="name"
-                    label="Full name"
-                    onChange={onNameChange}
-                    value={name}
-                    size="lg"
-                    error={errors.name}
-                  ></Input>
-                </div>
-              )} */}
+              <div className="text-center text-lg font-normal">
+                Use your phone to login
+              </div>
               <div>
                 <Input
                   name="phone"
@@ -220,48 +134,15 @@ export default function SignIn({onClose}: {onClose: () => void}) {
                   error={errors.phone}
                 ></Input>
               </div>
-              <div className="mt-5">
+              <div className="mt-5 w-1/2 m-auto">
                 <Button
                   disabled={hasErrors()}
                   variant="primary"
                   onClick={sendOneTimePassword}
-                  label="Send One Time Password"
+                  label="Send OTP"
                 />
               </div>
             </div>
-
-            {/* <div className="text-center mb-4  mt-5 flex justify-center items-center">
-              <div className="border-b border-b-[#FDC002] w-1/2 mb-1 mr-1"></div>
-              <div className="mb-2">Or</div>
-              <div className="border-b border-b-[#FDC002] w-1/2 mb-1 ml-1"></div>
-            </div>
-            <div>
-              <GoogleSignInButton
-                onClick={() => (window.location.href = '/auth/google')}
-              />
-            </div> */}
-
-            {!isSignup && (
-              <div className="py-4 mt-4 text-center">
-                New to RentAcross?{' '}
-                <span>
-                  <Link href="#" className="text-[orange]" onClick={onSignup}>
-                    Create account
-                  </Link>
-                </span>
-              </div>
-            )}
-
-            {isSignup && (
-              <div className="py-4 mt-4 text-center">
-                Already have an account?{' '}
-                <span>
-                  <Link href="#" className="text-[orange]" onClick={onLogin}>
-                    Sign in
-                  </Link>
-                </span>
-              </div>
-            )}
           </div>
         </Modal>
       )}
