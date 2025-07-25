@@ -68,10 +68,10 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     //   hasErrors = true
     // }
 
-    if (name && name.split(' ').length < 2) {
-      updateErrors.name = 'Please enter full name'
-      hasErrors = true
-    }
+    // if (name && name.split(' ').length < 2) {
+    //   updateErrors.name = 'Please enter full name'
+    //   hasErrors = true
+    // }
 
     if (!phone || phone.length < 1) {
       updateErrors.phone = 'Phone is required'
