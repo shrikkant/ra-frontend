@@ -30,7 +30,7 @@ class DigiLockerAPI {
   private baseURL = '/api/v1/digilocker/'
 
   async initializeVerification(): Promise<VerificationData> {
-    const service = new HttpService('https://alpha.rentacross.com/api/v1/')
+    const service = new HttpService('https://rentacross.com/api/v1/')
     const client = service.getClient()
     const response = await client.post(
       `/digilocker/initialize`,
@@ -55,7 +55,7 @@ class DigiLockerAPI {
   }
 
   async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
-    const service = new HttpService('https://alpha.rentacross.com/api/v1/')
+    const service = new HttpService('https://rentacross.com/api/v1/')
     const client = service.getClient()
     const response = await client.get(
       `/digilocker/download-aadhaar/${clientId}`,
