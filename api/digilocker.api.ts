@@ -30,33 +30,32 @@ class DigiLockerAPI {
   private baseURL = '/api/v1/digilocker/'
 
   async initializeVerification(): Promise<VerificationData> {
-    const service = new HttpService('https://rentacross.com/api/v1/')
+    const service = new HttpService('https://alpha.rentacross.com/api/v1/')
     const client = service.getClient()
-    const response = await client.post(`/digilocker/initialize`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
+    const response = await client.post(
+      `/digilocker/initialize`,
+      {
         data: {
           signup_flow: true,
           logo_url: DIGILOCKER_CONFIG.LOGO_URL,
           skip_main_screen: false,
           webhook_url: `https://rentacross.com/api/v1/digilocker/webhook`,
         },
-      }),
-    })
+      },
+      {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      },
+    )
 
-    if (!response.ok) {
-      throw new Error('Failed to initialize verification')
-    }
-
-    const {resultFormatted}: VerificationResponse = await response.json()
-    return resultFormatted.data
+    console.log('initializeVerification response', response)
+    return response
   }
 
   async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
-    const service = new HttpService('https://rentacross.com/api/v1/')
+    const service = new HttpService('https://alpha.rentacross.com/api/v1/')
     const client = service.getClient()
     const response = await client.get(
       `/digilocker/download-aadhaar/${clientId}`,
@@ -66,9 +65,8 @@ class DigiLockerAPI {
       throw new Error('Failed to download Aadhaar data')
     }
 
-    const {resultFormatted} = await response.json()
-    console.log('Aadhaar data downloaded:', resultFormatted.data)
-    return resultFormatted.data
+    console.log('downloadAadhaarData response', response)
+    return response
   }
 
   async verifyUser(request: UserVerificationRequest): Promise<any> {
