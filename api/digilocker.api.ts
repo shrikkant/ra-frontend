@@ -51,8 +51,7 @@ class DigiLockerAPI {
       },
     )
 
-    console.log('initializeVerification response', response)
-    return response
+    return response.data
   }
 
   async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
@@ -64,8 +63,7 @@ class DigiLockerAPI {
       throw new Error('Failed to download Aadhaar data')
     }
 
-    console.log('downloadAadhaarData response', response)
-    return response
+    return response.data
   }
 
   async verifyUser(request: UserVerificationRequest): Promise<any> {
