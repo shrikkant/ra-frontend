@@ -121,7 +121,7 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   const response: any = await fetch(
-    `${ENV_CONFIG.CLIENT_API_BASE_URL}/${url}`,
+    `${ENV_CONFIG.CLIENT_API_BASE_URL}${url}`,
     options,
   )
 

@@ -1,12 +1,12 @@
 import React from 'react'
-import {fetchBlogs} from '../../api/blog/blog.api'
+import {fetchBlogsServer} from '../../api/server-fetch'
 import BlogCover from '../../components/common/BlogCover'
 import PageContainer from '../../components/common/PageContainer'
 import {ARTICLE_TYPES} from '../../config/constants'
 import BlogSideBar from '../../components/blog/BlogSideBar'
 
 export default async function Help() {
-  const blogs = await fetchBlogs(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
+  const blogs = await fetchBlogsServer(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
 
   return (
     <>

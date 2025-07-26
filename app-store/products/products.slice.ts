@@ -39,7 +39,7 @@ export const getSearchMetaData = (state: RootState) =>
 export const getSearchResultsAction =
   (searchString: string, filter: IProductFilter) =>
   async (dispatch: AppDispatch) => {
-    const response = await fetchProducts(searchString, filter, true)
+    const response = await fetchProducts(searchString, filter)
     dispatch(productsSlice.actions.setSearchResults(response.results))
     dispatch(productsSlice.actions.setSearchMetaData(response.meta))
   }

@@ -2,7 +2,7 @@
 import {Metadata} from 'next'
 import React from 'react'
 import {getProductFilter} from 'util/search.util'
-import {fetchProductBySlug, fetchProducts} from 'api/products.api'
+import {fetchProductBySlugServer, fetchProductsServer} from 'api/server-fetch'
 import {generateProductMetadata, generateDefaultMetadata} from 'util/seo.util'
 import {IProduct} from '../../app-store/types'
 import {fetchStaticData} from '../utils/api'
@@ -98,7 +98,9 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
     if (filter.product) {
       const productSlug = localParams.slug.toString().split(',').at(-1)
       // TODO: Add city and subcategory to the request query.
-      const product = productSlug ? await fetchProductBySlug(productSlug) : null
+      const product = productSlug
+        ? await fetchProductBySlugServer(productSlug)
+        : null
 
       if (product) {
         return generateProductMetadata(product, localParams.slug)
@@ -144,7 +146,9 @@ export default async function Page({params, searchParams}: PageProps) {
   if (filter.product) {
     // Product detail page
     const productSlug = localParams.slug.toString().split(',').at(-1)
-    const product = productSlug ? await fetchProductBySlug(productSlug) : null
+    const product = productSlug
+      ? await fetchProductBySlugServer(productSlug)
+      : null
 
     if (!product) {
       return notFound()
@@ -153,7 +157,7 @@ export default async function Page({params, searchParams}: PageProps) {
     return <ProductDetailPage product={product} />
   } else {
     // City listing page
-    const response: {results: IProduct[]; meta} = await fetchProducts(
+    const response: {results: IProduct[]; meta} = await fetchProductsServer(
       localSearchParams?.q,
       filter,
     )

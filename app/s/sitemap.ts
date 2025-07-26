@@ -1,7 +1,7 @@
 import type {MetadataRoute} from 'next'
 import {BASE_URL, ICountry} from '../../config/constants'
 
-import {fetchProducts} from '../../api/products.api'
+import {fetchProductsServer} from '../../api/server-fetch'
 import {IProductFilter} from '../../app-store/types'
 import COUNTRIES from '../../config/constants'
 import {fetchStaticData} from '../utils/api'
@@ -49,7 +49,8 @@ export default async function sitemap({
     for (const subCategory of category.subCategories) {
       filter.subCategory = subCategory.id
 
-      const response = await fetchProducts('', filter)
+      // Use server-side fetch for static generation
+      const response = await fetchProductsServer('', filter)
 
       const map = response.results.map(product => ({
         url: `${BASE_URL}/${id}/${subCategory.slug}/${product.slug}`,

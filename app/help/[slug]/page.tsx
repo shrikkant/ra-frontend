@@ -1,6 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import {fetchBlogBySlug, fetchBlogs} from '../../../api/blog/blog.api'
+import {
+  fetchBlogBySlugServer,
+  fetchBlogsServer,
+} from '../../../api/server-fetch'
 import PageContainer from '../../../components/common/PageContainer'
 import {ARTICLE_TYPES} from '../../../config/constants'
 import BlogSideBar from '../../../components/blog/BlogSideBar'
@@ -10,9 +13,9 @@ interface PageProps {
 }
 
 export default async function Blog({params}: PageProps) {
-  const blogs = await fetchBlogs(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
+  const blogs = await fetchBlogsServer(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
 
-  const blog = await fetchBlogBySlug(params.slug)
+  const blog = await fetchBlogBySlugServer(params.slug)
   return (
     <>
       <PageContainer>

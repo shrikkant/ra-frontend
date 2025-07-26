@@ -5,33 +5,33 @@ import {
   IProductFilter,
   ProductPhoto,
 } from '../app-store/types'
-import {fetchStaticData} from '../app/utils/api'
+// import {fetchStaticData} from '../app/utils/api'
 import httpClient, {fetchData} from './axios.config'
 
 export async function getFeaturedProducts(
   pageLimit: number,
   city: string,
 ): Promise<any[]> {
-  const response = fetchData(
+  const response = await httpClient.get(
     `getFeaturedProducts?pageLimit=${pageLimit}&city=${city}`,
-  ) //await httpClient.get<IProduct[], IProduct[]>(``);
+  )
   return response
 }
 
 export async function fetchProductCategories(): Promise<IProductCategory[]> {
-  const response = await fetchData(`categories`)
+  const response = await httpClient.get(`categories`)
   return response
 }
 
 export async function fetchCategoriesClient(): Promise<IProductCategory[]> {
-  const response = await httpClient.get<IProductCategory[]>(`v1/categories`)
-  return response
+  return []
+  // const response = await fetchData(`categories`)
+  // return response
 }
 
 export async function fetchProducts(
   searchString?: string,
   filter?: IProductFilter,
-  client?: boolean,
 ): Promise<{results: IProduct[]; meta}> {
   const PAGE_LIMIT = 24
   const pageNumber = filter ? (filter.page ? filter.page : 0) : 0
@@ -49,15 +49,12 @@ export async function fetchProducts(
   const catFilter = filter?.subCategory ? '&subCat=' + filter?.subCategory : ''
 
   const url = `products/?searchString=${searchQuery + pageFilter + stateFilter + cityFilter + rateFilter + brandFilter + catFilter}`
-  if (client) {
-    return httpClient.get(url)
-  } else {
-    return fetchStaticData(url)
-  }
+
+  return httpClient.get(url)
 }
 
 export async function fetchProductBySlug(slug: string): Promise<IProduct> {
-  const response = await fetchData(`products/.by.slug/${slug}`)
+  const response = await httpClient.get(`products/.by.slug/${slug}`)
   return response
 }
 
