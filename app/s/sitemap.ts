@@ -1,9 +1,10 @@
 import type {MetadataRoute} from 'next'
 import {BASE_URL, ICountry} from '../../config/constants'
-import {fetchData} from '../../api/axios.config'
+
 import {fetchProducts} from '../../api/products.api'
 import {IProductFilter} from '../../app-store/types'
 import COUNTRIES from '../../config/constants'
+import {fetchStaticData} from '../utils/api'
 
 interface SitemapLink {
   url: string
@@ -35,7 +36,7 @@ export default async function sitemap({
 }: {
   id: string
 }): Promise<MetadataRoute.Sitemap> {
-  const categories = await fetchData(`v1/categories`)
+  const categories = await fetchStaticData(`categories`)
   const filter: IProductFilter = {
     city: id.split('-').join(' '),
   }
