@@ -1,7 +1,9 @@
 import React from 'react'
 import {CategorySliderItem} from './CategorySliderItem'
-import {fetchData} from '../app/utils/api'
 import {IProductSubCategory} from '../app-store/types'
+import {fetchData} from '../app/utils/api'
+
+// import {fetchData} from '../api/axios.config'
 
 export const CategorySlider = async () => {
   const categories = await fetchData('categories')

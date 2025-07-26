@@ -6,6 +6,7 @@ export const fetchStaticData = async (
   url: string,
   customOptions?: RequestInit,
 ) => {
+  console.log('fetchStaticData', url)
   const commonOptions: RequestInit = {
     redirect: 'follow' as const,
     headers: {
@@ -36,6 +37,7 @@ export const fetchStaticData = async (
 
 // For server-side rendering with authentication
 export const fetchData = async (url: string, customOptions?: RequestInit) => {
+  console.log('fetchData', url)
   const cookieStore = await cookies()
   const cookieHeader = await cookieStore.toString() // Get cookies as a string
   const accessToken = cookieStore.get('access_token')

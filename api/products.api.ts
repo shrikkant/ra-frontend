@@ -5,7 +5,7 @@ import {
   IProductFilter,
   ProductPhoto,
 } from '../app-store/types'
-import {fetchStaticData} from '../app/utils/api'
+// import {fetchStaticData} from '../app/utils/api'
 import httpClient, {fetchData} from './axios.config'
 
 export async function getFeaturedProducts(
@@ -52,7 +52,7 @@ export async function fetchProducts(
   if (client) {
     return httpClient.get(url)
   } else {
-    return fetchStaticData(url)
+    return fetchData(url)
   }
 }
 
