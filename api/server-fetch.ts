@@ -12,6 +12,7 @@ export const fetchDataServer = async (url: string, customOptions?: any) => {
   const commonOptions = {
     headers: {'Content-Type': 'application/json'},
     cache: 'force-cache',
+    referrer: ENV_CONFIG.BASE_URL_WWW,
   }
 
   const options = {
