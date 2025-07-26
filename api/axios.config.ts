@@ -14,7 +14,7 @@ export class HttpService {
 
   constructor(url?: string) {
     this.client = axios.create({
-      baseURL: url || ENV_CONFIG.API_BASE_URL,
+      baseURL: url || ENV_CONFIG.CLIENT_API_BASE_URL,
     })
 
     this.client.interceptors.request.use(
@@ -58,7 +58,7 @@ export class HttpService {
   }
 }
 const httpClient = axios.create({
-  baseURL: ENV_CONFIG.API_BASE_URL,
+  baseURL: ENV_CONFIG.CLIENT_API_BASE_URL,
 })
 
 httpClient.interceptors.request.use(
@@ -108,7 +108,7 @@ httpClient.interceptors.response.use(
 )
 
 export const fetchData = async (url, customOptions?) => {
-  console.log(' URL > ', ENV_CONFIG.API_BASE_URL)
+  console.log(' URL > ', ENV_CONFIG.CLIENT_API_BASE_URL)
   const commonOptions = {
     headers: {'Content-Type': 'application/json'},
     referrer: ENV_CONFIG.BASE_URL,
@@ -121,7 +121,7 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   const response: any = await fetch(
-    `${ENV_CONFIG.API_BASE_URL}/${url}`,
+    `${ENV_CONFIG.CLIENT_API_BASE_URL}/${url}`,
     options,
   )
 

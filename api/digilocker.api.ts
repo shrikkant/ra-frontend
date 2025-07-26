@@ -31,7 +31,7 @@ class DigiLockerAPI {
   private baseURL = '/api/v1/digilocker/'
 
   async initializeVerification(): Promise<VerificationData> {
-    const service = new HttpService(ENV_CONFIG.DIGILOCKER_API_URL)
+    const service = new HttpService(ENV_CONFIG.CLIENT_API_V1_URL)
     const client = service.getClient()
     const response = await client.post(
       `digilocker/initialize`,
@@ -40,7 +40,7 @@ class DigiLockerAPI {
           signup_flow: true,
           logo_url: DIGILOCKER_CONFIG.LOGO_URL,
           skip_main_screen: false,
-          webhook_url: `${ENV_CONFIG.DIGILOCKER_API_URL}/digilocker/webhook`,
+          webhook_url: `https://rentacross.com/api/v1/digilocker/webhook`,
         },
       },
       {
@@ -55,7 +55,7 @@ class DigiLockerAPI {
   }
 
   async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
-    const service = new HttpService(ENV_CONFIG.DIGILOCKER_API_URL)
+    const service = new HttpService(ENV_CONFIG.CLIENT_API_V1_URL)
     const client = service.getClient()
     const response = await client.get(`digilocker/download-aadhaar/${clientId}`)
 

@@ -22,7 +22,10 @@ export const fetchStaticData = async (
   }
 
   try {
-    const response = await fetch(`${ENV_CONFIG.API_V1_URL}/${url}`, options)
+    const response = await fetch(
+      `${ENV_CONFIG.SERVER_API_V1_URL}/${url}`,
+      options,
+    )
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
@@ -54,7 +57,10 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
   }
 
   try {
-    const response = await fetch(`${ENV_CONFIG.API_V1_URL}/${url}`, options)
+    const response = await fetch(
+      `${ENV_CONFIG.SERVER_API_V1_URL}/${url}`,
+      options,
+    )
     const {resultFormatted} = await response.json()
     return resultFormatted
   } catch (error) {
