@@ -1,7 +1,7 @@
 'use client'
 
 import React from 'react'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {authUser} from '../../app-store/auth/auth.slice'
 
 import PageContainer from '../common/PageContainer'
@@ -10,10 +10,12 @@ import {IUser} from '../../app-store/types'
 import {useRouter} from 'next/navigation'
 import {isVerified, VERIFICATION_FLAGS} from '../../config/constants'
 import {GA_EVENTS, trackGAEvent} from '../../utils/analytics'
+import {getLastLink} from '../../app-store/session/session.slice'
 
 export default function VerifyPhone() {
   const router = useRouter()
   const [phone, setPhone] = React.useState('')
+  const lastLink = useSelector(getLastLink)
   const dispatch = useDispatch()
 
   const handlePhoneChange = e => {
@@ -37,13 +39,19 @@ export default function VerifyPhone() {
 
   const submitPhone = async () => {
     const updateUser: IUser = await updatePhone(phone)
+
     if (isVerified(updateUser?.verified, VERIFICATION_FLAGS.PHONE)) {
       dispatch(authUser(updateUser))
       // lets push GA4 event here for sinup
       trackGAEvent(GA_EVENTS.SIGN_UP, {
         method: 'google',
       })
-      router.push('/')
+
+      if (lastLink && lastLink.length > 0) {
+        router.push(lastLink)
+      } else {
+        router.push('/')
+      }
     }
   }
 

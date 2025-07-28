@@ -61,7 +61,8 @@ export const loginWithOTP = async (
   phone: string,
   otp: string,
 ): Promise<IUser> => {
-  const httpService = new HttpService('https://rentacross.com/')
+  const httpService = new HttpService('/')
+
   const response: IUser = await httpService
     .getClient()
     .post(`auth/local`, {phone, otp})
@@ -73,7 +74,7 @@ export const signupWithOTP = async (
   otp: string,
   name: string,
 ): Promise<IUser> => {
-  const httpService = new HttpService('https://rentacross.com/')
+  const httpService = new HttpService('/')
 
   const response: IUser = await httpService
     .getClient()
