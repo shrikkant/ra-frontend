@@ -7,6 +7,7 @@ interface ModalProps {
   children: ReactNode
   title: string
   logoTitle?: boolean
+  fullScreen?: boolean
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -15,6 +16,7 @@ const Modal: React.FC<ModalProps> = ({
   title,
   children,
   logoTitle = false,
+  fullScreen = false,
 }) => {
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
@@ -26,11 +28,18 @@ const Modal: React.FC<ModalProps> = ({
 
     if (show) {
       document.addEventListener('mousedown', handleOutsideClick)
+      // Prevent body scroll when modal is open
+      document.body.style.overflow = 'hidden'
     } else {
       document.removeEventListener('mousedown', handleOutsideClick)
+      // Restore body scroll when modal is closed
+      document.body.style.overflow = 'unset'
     }
 
-    return () => document.removeEventListener('mousedown', handleOutsideClick)
+    return () => {
+      document.removeEventListener('mousedown', handleOutsideClick)
+      document.body.style.overflow = 'unset'
+    }
   }, [show, onClose])
 
   if (!show) return null
@@ -43,15 +52,29 @@ const Modal: React.FC<ModalProps> = ({
       aria-modal="true"
     >
       <div
-        className="modal-overlay fixed bg-opacity-75 bg-gray-500 h-screen w-screen left-0 top-0"
+        className="fixed bg-opacity-75 bg-gray-500 h-screen w-screen left-0 top-0"
         aria-hidden="true"
       ></div>
       <div className="fixed inset-0 w-screen overflow-y-auto h-screen left-0 top-0">
-        <div className="modal-content flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0">
-          <div className="relative transform overflow-hidden rounded-lg bg-white text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm w-full mx-4">
-            <div className="border border-[#FFDC2DAD]">
-              <div>
-                <div className="border-b-[#FFDC2DAD] border-b relative">
+        <div
+          className={`modal-content flex min-h-full items-center justify-center p-4 text-center sm:items-center sm:p-0 ${
+            fullScreen ? 'p-0 h-full items-stretch' : ''
+          }`}
+        >
+          <div
+            className={`relative transform overflow-hidden bg-white text-left shadow-xl transition-all ${
+              fullScreen
+                ? 'w-full h-full rounded-none'
+                : 'rounded-lg sm:my-8 sm:w-full sm:max-w-sm w-full mx-4'
+            }`}
+          >
+            <div
+              className={`${fullScreen ? 'h-full border border-[#FFDC2DAD] rounded-lg' : 'border border-[#FFDC2DAD]'}`}
+            >
+              <div className={fullScreen ? 'h-full flex flex-col' : ''}>
+                <div
+                  className={`${fullScreen ? 'flex-shrink-0' : 'border-b-[#FFDC2DAD] border-b'} relative`}
+                >
                   {logoTitle ? (
                     <div className="p-4 flex justify-center items-center">
                       <img
@@ -89,7 +112,11 @@ const Modal: React.FC<ModalProps> = ({
                     </svg>
                   </button>
                 </div>
-                <div className="p-4">{children}</div>
+                <div
+                  className={`${fullScreen ? 'flex-1 flex flex-col' : 'p-4'}`}
+                >
+                  {children}
+                </div>
               </div>
             </div>
           </div>

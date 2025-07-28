@@ -21,20 +21,30 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const loggedUser = useSelector(selectAuthState)
   const [phone, setPhone] = useState('')
   const [otp, setOtp] = useState<string>('')
-
   const [otpSent, setOtpSent] = useState(false)
   const [otpExpiry, setOtpExpiry] = useState(0)
-
   const [errors, setErrors] = useState({phone: ''})
-
   const [showModal, setShowModal] = useState(true)
+  const [isLoading, setIsLoading] = useState(false)
+
+  // Check if device is mobile
+  const [isMobile, setIsMobile] = useState(false)
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768)
+    }
+    checkMobile()
+    window.addEventListener('resize', checkMobile)
+    return () => window.removeEventListener('resize', checkMobile)
+  }, [])
+
+  useEffect(() => {}, [loggedUser])
 
   const handleCloseModal = () => {
     setShowModal(false)
     onClose()
   }
-
-  useEffect(() => {}, [loggedUser])
 
   const validateLogin = () => {
     const updateErrors = {...errors}
@@ -76,10 +86,18 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     if (!validateLogin()) {
       return
     }
-    const response: any = await generateLoginOTP(phone, false)
-    if (response.success) {
-      setOtpSent(true)
-      setOtpExpiry(response.expiryTimeInSeconds)
+    setIsLoading(true)
+    try {
+      const response: any = await generateLoginOTP(phone, false)
+      if (response.success) {
+        setOtpSent(true)
+        setOtpExpiry(response.expiryTimeInSeconds)
+        trackGAEvent(GA_EVENTS.FORM_SUBMIT, {phone})
+      }
+    } catch (error) {
+      console.error('Error sending OTP:', error)
+    } finally {
+      setIsLoading(false)
     }
   }
 
@@ -87,12 +105,23 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     if (hasErrors()) {
       return
     }
-
-    const loggedUser: IUser = await loginWithOTP(phone, otp)
-    if (loggedUser?.id) {
-      dispatch(authUser(loggedUser))
-      onClose()
+    setIsLoading(true)
+    try {
+      const loggedUser: IUser = await loginWithOTP(phone, otp)
+      if (loggedUser?.id) {
+        dispatch(authUser(loggedUser))
+        trackGAEvent(GA_EVENTS.LOGIN, {method: 'phone'})
+        onClose()
+      }
+    } catch (error) {
+      console.error('Error logging in:', error)
+    } finally {
+      setIsLoading(false)
     }
+  }
+
+  const handleGoogleSignIn = () => {
+    window.location.href = '/auth/google'
   }
 
   const hasErrors = (): boolean => {
@@ -122,47 +151,105 @@ export default function SignIn({onClose}: {onClose: () => void}) {
         <Modal
           show={showModal}
           onClose={handleCloseModal}
-          title={'Signup/Login'}
+          title={'Welcome'}
           logoTitle={true}
+          fullScreen={isMobile}
         >
-          <div className=" m-auto">
-            {/* <h1 className="text-center text-xl font-semibold py-4">
-              Signup / Login
-            </h1> */}
-
-            <div>
-              <div className="text-lg font-normal  ml-1">
-                <span className="font-semibold">Login</span> or{' '}
-                <span className="font-semibold">Signup</span>
+          <div
+            className={`${isMobile ? 'flex-1 flex flex-col justify-center px-6' : 'm-auto'}`}
+          >
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="text-left space-y-2">
+                <h1 className="text-lg font-normal text-gray-900">
+                  <span className="font-semibold">Login</span> or{' '}
+                  <span className="font-semibold">Signup</span>
+                </h1>
               </div>
-              <div>
+
+              {/* Phone Input - Primary Method */}
+              <div className="space-y-4">
                 <Input
                   name="phone"
-                  label="Phone"
+                  label="Phone number"
                   iconType={INPUT_ICON_TYPES.PHONE}
                   onChange={onPhoneChange}
                   value={phone}
                   size="lg"
                   error={errors.phone}
-                ></Input>
-              </div>
-              <div className="mt-5 w-1/2 m-auto">
+                  placeholder="Enter your 10-digit phone number"
+                />
+
                 <Button
-                  disabled={!isPhoneValid()}
+                  disabled={!isPhoneValid() || isLoading}
                   variant="primary"
                   onClick={sendOneTimePassword}
-                  label="Send OTP"
+                  label={isLoading ? 'Sending...' : 'Send OTP'}
                 />
               </div>
-              <div
-                className="text-center text-lg font-normal mt-4"
-                style={{
-                  fontFamily: "'Jost', sans-serif",
-                  fontWeight: 300,
-                  letterSpacing: '0.5px',
-                }}
-              >
-                Quick, reliable, and trusted
+
+              {/* Google Sign-In - Secondary Option */}
+              <div className="space-y-4">
+                <div className="relative">
+                  <div className="absolute inset-0 flex items-center">
+                    <div className="w-full border-t border-gray-300" />
+                  </div>
+                  <div className="relative flex justify-center text-sm">
+                    <span className="px-2 bg-white text-gray-500">or</span>
+                  </div>
+                </div>
+
+                <div className="text-center">
+                  <GoogleSignInButton onClick={handleGoogleSignIn} />
+                </div>
+              </div>
+
+              {/* Trust Indicators */}
+              <div className="text-center space-y-2">
+                <div className="flex items-center justify-center space-x-4 text-xs text-gray-500">
+                  <div className="flex items-center space-x-1">
+                    <svg
+                      className="w-4 h-4 text-green-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Secure</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <svg
+                      className="w-4 h-4 text-blue-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Quick</span>
+                  </div>
+                  <div className="flex items-center space-x-1">
+                    <svg
+                      className="w-4 h-4 text-purple-500"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                    <span>Trusted</span>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -173,35 +260,75 @@ export default function SignIn({onClose}: {onClose: () => void}) {
         <Modal
           show={showModal}
           onClose={handleCloseModal}
-          title={'OTP Verification'}
+          title={'Verify OTP'}
           logoTitle={true}
+          fullScreen={isMobile}
         >
-          <div className="m-auto">
-            <div>
-              <div className="text-md font-light py-4 text-center text-gray-600">
-                Check text messages for your OTP
+          <div
+            className={`${isMobile ? 'flex-1 flex flex-col justify-center px-6' : 'm-auto'}`}
+          >
+            <div className="space-y-6">
+              {/* Header */}
+              <div className="text-center space-y-2">
+                <h1 className="text-2xl font-bold text-gray-900">
+                  Verify your phone
+                </h1>
+                <p className="text-gray-600 text-sm">
+                  We've sent a 6-digit code to {phone}
+                </p>
               </div>
-              <div className="flex gap-x-2">
+
+              {/* OTP Input */}
+              <div className="space-y-4">
                 <OTPInput onChange={otp => onOTPChange(otp)} />
+
+                <Button
+                  variant="primary"
+                  onClick={handleLogin}
+                  label={isLoading ? 'Verifying...' : 'Verify & Continue'}
+                  disabled={otp.length !== 6 || isLoading}
+                />
               </div>
-              <div>
-                <Button variant="primary" onClick={handleLogin} label="Login" />
+
+              {/* Timer and Resend */}
+              <div className="text-center space-y-4">
+                {otpExpiry > 0 && (
+                  <div className="text-sm text-gray-600">
+                    <CountdownTimer
+                      seconds={otpExpiry}
+                      onTimeUp={onOtpTimeout}
+                    />
+                  </div>
+                )}
+
+                {otpExpiry === 0 && (
+                  <div className="text-sm text-gray-600">
+                    Didn't receive the code?{' '}
+                    <button
+                      onClick={sendOneTimePassword}
+                      className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+                      disabled={isLoading}
+                    >
+                      Resend code
+                    </button>
+                  </div>
+                )}
+              </div>
+
+              {/* Back to phone input */}
+              <div className="text-center">
+                <button
+                  onClick={() => {
+                    setOtpSent(false)
+                    setOtp('')
+                    setOtpExpiry(0)
+                  }}
+                  className="text-sm text-gray-500 hover:text-gray-700 transition-colors"
+                >
+                  ← Use different phone number
+                </button>
               </div>
             </div>
-            {otpExpiry > 0 && (
-              <CountdownTimer seconds={otpExpiry} onTimeUp={onOtpTimeout} />
-            )}
-            {otpExpiry === 0 && (
-              <div className="text-gray-600 text-center font-light py-4">
-                Not received OTP?{' '}
-                <span
-                  onClick={sendOneTimePassword}
-                  className="font-normal cursor-pointer text-[#E5C71F]"
-                >
-                  Resend Now
-                </span>
-              </div>
-            )}
           </div>
         </Modal>
       )}
