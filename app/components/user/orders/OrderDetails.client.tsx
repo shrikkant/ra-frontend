@@ -9,7 +9,7 @@ import Loader from 'components/Loader'
 import {IOrder, IOrderItem} from 'app-store/types'
 import OrderItemRow from 'components/OrderItemRow'
 
-import DocumentUpload from 'components/common/DocumentUpload'
+import RentalAgreement from 'components/common/RentalAgreement'
 
 interface OrderDetailsProps {
   id: number
@@ -56,12 +56,6 @@ export default function OrderDetails({id}: OrderDetailsProps) {
               >
                 <div className={'md:w-3/4 w-full'}>
                   <div className="p-4">
-                    <div className={'border rounded-md border-gray-400 p-3'}>
-                      <DocumentUpload />
-                    </div>
-                  </div>
-
-                  <div className="p-4">
                     <div className={'border rounded-md border-gray-400'}>
                       {cart?.items &&
                         cart?.items.map((item: IOrderItem) => (
@@ -73,15 +67,21 @@ export default function OrderDetails({id}: OrderDetailsProps) {
                         ))}
                     </div>
                   </div>
+
+                  <div className="p-4">
+                    <RentalAgreement orderId={cart.id} />
+                  </div>
                 </div>
 
                 <div className={'md:w-1/4 w-full'}>
                   <div className="md:fixed top-100 md:w-80 w-full p-4">
-                    <OrderSummary
-                      order={cart}
-                      step={ORDER_STEPS.ORDER_PAID}
-                      onCallToAction={onRazorPayCheckout}
-                    ></OrderSummary>
+                    {cart && (
+                      <OrderSummary
+                        order={cart}
+                        step={ORDER_STEPS.ORDER_PAID}
+                        onCallToAction={onRazorPayCheckout}
+                      ></OrderSummary>
+                    )}
                   </div>
                 </div>
               </div>
