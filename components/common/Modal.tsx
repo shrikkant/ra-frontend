@@ -64,7 +64,7 @@ const Modal: React.FC<ModalProps> = ({
           <div
             className={`relative transform overflow-hidden bg-white text-left shadow-xl transition-all ${
               fullScreen
-                ? 'w-full h-full rounded-none'
+                ? 'w-full h-full rounded-lg'
                 : 'rounded-lg sm:my-8 sm:w-full sm:max-w-sm w-full mx-4'
             }`}
           >

@@ -153,11 +153,9 @@ export default function SignIn({onClose}: {onClose: () => void}) {
           onClose={handleCloseModal}
           title={'Welcome'}
           logoTitle={true}
-          fullScreen={isMobile}
+          fullScreen={false}
         >
-          <div
-            className={`${isMobile ? 'flex-1 flex flex-col justify-center px-6' : 'm-auto'}`}
-          >
+          <div className={`${isMobile ? 'px-2 py-8' : 'm-auto'}`}>
             <div className="space-y-6">
               {/* Header */}
               <div className="text-left space-y-2">
@@ -262,11 +260,9 @@ export default function SignIn({onClose}: {onClose: () => void}) {
           onClose={handleCloseModal}
           title={'Verify OTP'}
           logoTitle={true}
-          fullScreen={isMobile}
+          fullScreen={false}
         >
-          <div
-            className={`${isMobile ? 'flex-1 flex flex-col justify-center px-6' : 'm-auto'}`}
-          >
+          <div className={`${isMobile ? 'px-2 py-8' : 'm-auto'}`}>
             <div className="space-y-6">
               {/* Header */}
               <div className="text-center space-y-2">
