@@ -269,3 +269,16 @@ export interface IDelivery {
   customer_address: ILocation
   items: IDeliveryItem[]
 }
+
+export interface UtmData {
+  utm_source?: string
+  utm_medium?: string
+  utm_campaign?: string
+  utm_term?: string
+  utm_content?: string
+
+  gclid?: string // Google Click Identifier
+  gad_source?: string // Google Ads Source
+  gad_campaignid?: string // Google Ads Campaign ID
+  gbraid?: string // Google Bridge ID (for offline tracking or GAds)
+}

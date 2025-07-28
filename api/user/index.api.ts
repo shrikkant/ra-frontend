@@ -1,4 +1,10 @@
-import {ILocation, IMasterProduct, IProduct, IUser} from '../../app-store/types'
+import {
+  ILocation,
+  IMasterProduct,
+  IProduct,
+  IUser,
+  UtmData,
+} from '../../app-store/types'
 import httpClient, {HttpService} from '../axios.config'
 
 export const addNewAddress = async (
@@ -60,12 +66,13 @@ export const verifyLoginOTP = async (
 export const loginWithOTP = async (
   phone: string,
   otp: string,
+  utmData?: UtmData,
 ): Promise<IUser> => {
   const httpService = new HttpService('/')
 
   const response: IUser = await httpService
     .getClient()
-    .post(`auth/local`, {phone, otp})
+    .post(`auth/local`, {phone, otp, utm: utmData})
   return response
 }
 

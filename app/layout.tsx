@@ -23,7 +23,6 @@ export const viewport: Viewport = {
 
 import {ToastContainer} from 'react-toastify'
 import 'react-toastify/dist/ReactToastify.css'
-import SetUTMCookie from './components/common/SetUTMCookie'
 
 interface IOpenImage {
   url: string
@@ -118,7 +117,6 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
         <link rel="dns-prefetch" href="https://cdn.heapanalytics.com" />
       </head>
-      <SetUTMCookie />
       <body>
         <div className="preloader-cover">
           <div className="preloader">

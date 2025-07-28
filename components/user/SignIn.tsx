@@ -7,18 +7,23 @@ import {authUser, selectAuthState} from 'app-store/auth/auth.slice'
 import GoogleSignInButton from 'components/common/GoogleSignInBtn'
 import Modal from '../../components/common/Modal'
 import Input from '../../components/common/form/Input'
-import Link from 'next/link'
+
 import {INPUT_ICON_TYPES} from '../../config/constants'
 import Button from '../../components/common/form/Button'
 import {generateLoginOTP, loginWithOTP} from '../../api/user/index.api'
-import {IUser} from '../../app-store/types'
+import {IUser, UtmData} from '../../app-store/types'
 import CountdownTimer from '../CountDownTimer'
 import OTPInput from './OTPInput'
 import {GA_EVENTS, trackGAEvent} from '../../utils/analytics'
+import {useSearchParams} from 'next/navigation'
+import {extractUTMParams} from '../../util/utm.util'
+import httpClient, {HttpService} from '../../api/axios.config'
+import {getUTMData} from '../../app-store/session/session.slice'
 
 export default function SignIn({onClose}: {onClose: () => void}) {
   const dispatch = useDispatch()
   const loggedUser = useSelector(selectAuthState)
+  const searchParams = useSearchParams()
   const [phone, setPhone] = useState('')
   const [otp, setOtp] = useState<string>('')
   const [otpSent, setOtpSent] = useState(false)
@@ -26,6 +31,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   const [errors, setErrors] = useState({phone: ''})
   const [showModal, setShowModal] = useState(true)
   const [isLoading, setIsLoading] = useState(false)
+  const utmData = useSelector(getUTMData)
 
   // Check if device is mobile
   const [isMobile, setIsMobile] = useState(false)
@@ -107,7 +113,7 @@ export default function SignIn({onClose}: {onClose: () => void}) {
     }
     setIsLoading(true)
     try {
-      const loggedUser: IUser = await loginWithOTP(phone, otp)
+      const loggedUser: IUser = await loginWithOTP(phone, otp, utmData)
       if (loggedUser?.id) {
         dispatch(authUser(loggedUser))
         trackGAEvent(GA_EVENTS.LOGIN, {method: 'phone'})
@@ -121,7 +127,16 @@ export default function SignIn({onClose}: {onClose: () => void}) {
   }
 
   const handleGoogleSignIn = () => {
-    window.location.href = '/auth/google'
+    console.log('UTM data', utmData)
+    const httpService = new HttpService('/')
+    httpService
+      .getClient()
+      .post(`/auth/google`, utmData)
+      .then(res => {
+        if (res.success) {
+          window.location.href = '/auth/google'
+        }
+      })
   }
 
   const hasErrors = (): boolean => {
