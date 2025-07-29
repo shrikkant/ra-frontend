@@ -166,7 +166,7 @@ export function ReviewsSection({
                   isCompact ? 'text-xs' : 'text-sm'
                 }`}
               >
-                "
+                &ldquo;
                 {review.description.split('\n').map((line, index) => (
                   <React.Fragment key={index}>
                     {line}
@@ -175,7 +175,7 @@ export function ReviewsSection({
                     )}
                   </React.Fragment>
                 ))}
-                "
+                &rdquo;
               </div>
 
               {/* Customer Info */}

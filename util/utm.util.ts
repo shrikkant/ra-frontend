@@ -70,22 +70,3 @@ const getParamValue = (
 
   return value
 }
-
-// Example usage:
-// const searchParams = {
-//   utm_source: 'google',
-//   utm_medium: 'cpc',
-//   gad_source: '1',
-//   gad_campaignid: '22482682050',
-//   gbraid: '0AAAAA_Y1z4_SaIqWh8QpaavQnPmZrvGwE',
-//   gclid: 'EAIaIQobChMIi8OdwdXfjgMVI6pLBR0qWSubEAAYAiAAEgLKqPD_BwE'
-// }
-// const utmData = extractUTMParams(searchParams)
-// Result: {
-//   utm_source: 'google',
-//   utm_medium: 'cpc',
-//   gad_source: '1',
-//   gad_campaignid: '22482682050',
-//   gbraid: '0AAAAA_Y1z4_SaIqWh8QpaavQnPmZrvGwE',
-//   gclid: 'EAIaIQobChMIi8OdwdXfjgMVI6pLBR0qWSubEAAYAiAAEgLKqPD_BwE'
-// }

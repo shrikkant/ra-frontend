@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import {fetchBlogs} from '../../api/blog/blog.api'
 import BlogCover from '../../components/common/BlogCover'
 import PageContainer from '../../components/common/PageContainer'
@@ -15,7 +16,7 @@ export default async function Help() {
           <h1 className="text-[#ffd910] leading-tight">Blog</h1>
           <ul className="breadcrambs">
             <li>
-              <a href="/">Home</a>
+              <Link href="/">Home</Link>
             </li>
             <li>Blog</li>
           </ul>

@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 import {useRouter, useSearchParams} from 'next/navigation'
+import Link from 'next/link'
 
 import {selectAuthState} from 'app-store/auth/auth.slice'
 import {useDispatch, useSelector} from 'react-redux'
@@ -57,72 +58,84 @@ export default function MainHeaderNav() {
   }, [cart, storeSearch])
 
   return (
-    <Disclosure as="nav">
-      <div className="px-4 md:px-4 max-w-7xl mx-auto py-2">
-        <div className="relative flex flex-col sm:flex-row h-28 sm:h-16 items-center justify-around border-gray-400">
-          <div className="justify-between w-full inset-y-0 right-0 flex items-center sm:static sm:inset-auto">
-            <div className=" inset-y-0 left-0 flex items-center sm:gap-x-6 ">
-              <div className="my-4 justify-center ">
-                <a href="/">
-                  <img
-                    className="hidden lg:block h-6"
-                    src="/assets/v2/img/logo.png"
-                    alt="RentAcross"
-                  />
-                  <FaHome className="block lg:hidden h-6 w-6 text-amber-500" />
-                </a>
-              </div>
+    <Disclosure
+      as="nav"
+      className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 sticky top-0 z-40 shadow-lg"
+    >
+      <div className="px-3 sm:px-4 max-w-7xl mx-auto">
+        {/* Main header row */}
+        <div className="flex items-center justify-between h-14 sm:h-16">
+          {/* Logo */}
 
-              <SearchBar></SearchBar>
-              <div className="hidden sm:block">
-                <SearchInput
-                  currentVal={q || ''}
-                  onSearch={searchProducts}
-                  onChange={onSearch}
-                ></SearchInput>
+          <div className="flex-shrink-0">
+            <Link href="/" className="flex items-center">
+              <img
+                className="hidden sm:block h-7 lg:h-8"
+                src="/assets/v2/img/logo.png"
+                alt="RentAcross"
+              />
+              <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 p-2 rounded-lg shadow-md">
+                <img
+                  className=" sm:block  h-4"
+                  src="/assets/v2/img/logo.png"
+                  alt="RentAcross"
+                />
               </div>
-            </div>
-            <div className="flex items-center gap-x-2 md:px-2 lg:gap-x-4">
-              {loggedUser && (
-                <div className="flex items-center gap-x-2 lg:gap-x-4 text-green-500">
-                  <a
-                    href="https://wa.me/7720829444?text=Hello%20I%20need%20support"
-                    target="_blank"
-                    className="bg-green-500 hover:bg-green-600 text-white p-1 rounded-full shadow-lg flex items-center justify-center"
-                    rel="noreferrer"
-                  >
-                    <FaWhatsapp className="h-6 w-6" />
-                  </a>
-                  <a
-                    className="relative    hover:text-gray-600 p-0 rounded-md tex-sm font-semibold text-gray-600 content-center"
-                    href="/p/mycart"
-                  >
-                    <ShoppingCartIcon className="h-8 w-8" />
-                    {cart && cart.items && cart.items.length > 0 && (
-                      <span
-                        className="absolute text-white right-0 top-0 rounded-full bg-red-600 w-4 h-4 font-sans text-xs top right p-0 flex justify-center items-center"
-                        style={{
-                          top: '-4px',
-                          right: '-4px',
-                        }}
-                      >
-                        {cart.items?.length}
-                      </span>
-                    )}
-                  </a>
-                </div>
-              )}
-
-              <TopNavMenu />
+            </Link>
+          </div>
+          {/* Desktop search bar - hidden on mobile */}
+          <div className="hidden lg:flex flex-1 max-w-2xl mx-6">
+            <div className="flex items-center gap-x-3 w-full">
+              <SearchBar />
+              <SearchInput
+                currentVal={q || ''}
+                onSearch={searchProducts}
+                onChange={onSearch}
+              />
             </div>
           </div>
+          {/* Right side actions */}
+          <div className="flex items-center gap-x-3">
+            {loggedUser && (
+              <div className="flex items-center gap-x-2">
+                <a
+                  href="https://wa.me/7720829444?text=Hello%20I%20need%20support"
+                  target="_blank"
+                  className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md transition-all duration-200 hover:scale-105"
+                  rel="noreferrer"
+                  aria-label="WhatsApp Support"
+                >
+                  <FaWhatsapp className="h-4 w-4 sm:h-5 sm:w-5" />
+                </a>
+                <Link
+                  className="relative p-2 hover:bg-gray-700 rounded-full transition-colors"
+                  href="/p/mycart"
+                  aria-label="Shopping Cart"
+                >
+                  <ShoppingCartIcon className="h-6 w-6 text-gray-300 hover:text-[#ffd910]" />
+                  {cart && cart.items && cart.items.length > 0 && (
+                    <span className="absolute -top-1 -right-1 bg-[#ffd910] text-gray-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                      {cart.items?.length}
+                    </span>
+                  )}
+                </Link>
+              </div>
+            )}
+            <TopNavMenu />
+          </div>
+        </div>
 
-          <div className="flex justify-center gap-x-5 w-full sm:hidden">
+        {/* Mobile search bar */}
+        <div className="lg:hidden pb-3  border-gray-700">
+          <div className="pt-3 space-y-3">
+            <div className="flex items-center gap-x-2">
+              <SearchBar />
+            </div>
             <SearchInput
-              currentVal={q}
+              currentVal={q || ''}
               onSearch={searchProducts}
               onChange={onSearch}
-            ></SearchInput>
+            />
           </div>
         </div>
       </div>

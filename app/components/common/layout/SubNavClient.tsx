@@ -28,38 +28,53 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
   }
 
   return (
-    <Disclosure as="nav">
-      <div className="max-w-7xl mx-auto">
-        <div className="relative flex flex-col sm:flex-row h-22 items-center justify-around border-gray-400">
-          <div className="relative justify-center w-full inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
-            <div className="inset-y-0 left-0 items-center sm:gap-x-6 flex overscroll-contain w-full overflow-x-auto relative">
+    <Disclosure
+      as="nav"
+      className="bg-gradient-to-r from-gray-800 to-gray-700 border-b border-gray-600 sticky top-14 sm:top-16 z-30"
+    >
+      <div className="max-w-7xl mx-auto px-3 sm:px-4">
+        <div className="flex items-center h-12">
+          {/* Mobile: Horizontal scrolling categories */}
+          <div className="flex items-center w-full overflow-x-auto scrollbar-hide">
+            <div className="flex items-center gap-x-1 sm:gap-x-2 min-w-max">
               {location &&
                 subCategories &&
                 subCategories.map((cat: IProductSubCategory) => {
                   return (
                     <Link
                       key={cat.id}
-                      className={
-                        'whitespace-nowrap text-sm inline-flex items-center justify-center rounded-md p-2 text-gray-100 hover:bg-gray-700 hover:text-white focus:outline-none'
-                      }
+                      className="whitespace-nowrap text-sm font-medium px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-[#ffd910] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffd910] focus:ring-offset-2 focus:ring-offset-gray-800"
                       href={`/${locationCity(location?.city, true)}/${cat.slug}`}
                     >
                       {cat.title}
                     </Link>
                   )
                 })}
-              <div className="ml-auto sm:mr-8">
-                <a
-                  href="/about-us"
-                  className="whitespace-nowrap text-sm text-gray-100 hover:bg-gray-700 hover:text-yellow focus:outline-none"
-                >
-                  About Us
-                </a>
-              </div>
+            </div>
+
+            {/* About Us link - positioned at the end */}
+            <div className="ml-auto pl-4 border-l border-gray-600">
+              <Link
+                href="/about-us"
+                className="whitespace-nowrap text-sm font-medium px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-[#ffd910] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffd910] focus:ring-offset-2 focus:ring-offset-gray-800"
+              >
+                About Us
+              </Link>
             </div>
           </div>
         </div>
       </div>
+
+      {/* Add custom scrollbar styles */}
+      <style jsx>{`
+        .scrollbar-hide {
+          -ms-overflow-style: none;
+          scrollbar-width: none;
+        }
+        .scrollbar-hide::-webkit-scrollbar {
+          display: none;
+        }
+      `}</style>
     </Disclosure>
   )
 }

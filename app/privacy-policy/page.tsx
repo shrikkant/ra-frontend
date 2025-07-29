@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import PageContainer from 'components/common/PageContainer'
 import {PageTitle} from 'components/common/PageTitle'
 
@@ -28,7 +29,7 @@ export default function Page() {
               By mere use of the website, you expressly consent to our use and
               disclosure of your personal information in accordance with this
               Privacy Policy. This Privacy Policy is incorporated into and
-              subject to the <a href="/terms-of-use">Terms of Use</a>.
+              subject to the <Link href="/terms-of-use">Terms of Use</Link>.
             </p>
           </div>
 

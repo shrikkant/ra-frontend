@@ -139,12 +139,12 @@ export default function TopNavMenu() {
                   leaveFrom="transform opacity-100 scale-100"
                   leaveTo="transform opacity-0 scale-95"
                 >
-                  <MenuItems className="mt-2 absolute truncate top-full right-0 w-48 bg-white border rounded-md shadow-lg z-50">
+                  <MenuItems className="mt-2 absolute truncate top-full right-0 w-48 bg-gray-800 border border-gray-600 rounded-md shadow-xl z-50">
                     {userLinks.map((link, index) => (
                       <MenuItem key={index}>
                         <Link
                           href={link.path}
-                          className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100"
+                          className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-[#ffd910] transition-colors"
                         >
                           {link.icon}
                           <span>{link.title}</span>
@@ -152,13 +152,13 @@ export default function TopNavMenu() {
                       </MenuItem>
                     ))}
 
-                    <div className="border-t border-gray-300"></div>
+                    <div className="border-t border-gray-600"></div>
                     {isAdmin(loggedUser) &&
                       adminLinks.map((link, index) => (
                         <MenuItem key={index}>
                           <Link
                             href={link.path}
-                            className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-800 bg-gray-100"
+                            className="flex gap-x-2 w-full text-left px-4 py-3 text-gray-300 hover:bg-gray-700 hover:text-[#ffd910] transition-colors"
                           >
                             {link.icon}
                             <span>{link.title}</span>
@@ -166,11 +166,11 @@ export default function TopNavMenu() {
                         </MenuItem>
                       ))}
 
-                    <div className="border-t border-gray-300"></div>
+                    <div className="border-t border-gray-600"></div>
                     <MenuItem>
                       <Link
                         href="#"
-                        className="flex w-full text-left px-4 py-2 gap-x-2 text-gray-800 bg-gray-100"
+                        className="flex w-full text-left px-4 py-2 gap-x-2 text-gray-300 hover:bg-gray-700 hover:text-red-400 transition-colors"
                         onClick={handleLogout}
                       >
                         <IoMdLogOut className="h-6 w-6" />

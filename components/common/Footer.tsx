@@ -1,4 +1,5 @@
 import React from 'react'
+import Link from 'next/link'
 import Scripts from './Scripts'
 import {
   FaFacebook,
@@ -85,52 +86,52 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               <li>
-                <a
+                <Link
                   href="/blog"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Blog
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/about-us"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   About Us
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/rental-agreement"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Rental Agreement
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/why-us"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Why Us?
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/terms-of-use"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Terms of Use
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/our-story"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Our Story
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -142,28 +143,28 @@ export default function Footer() {
             </h3>
             <ul className="space-y-3">
               <li>
-                <a
+                <Link
                   href="/pune"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Pune
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/mumbai"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Mumbai
-                </a>
+                </Link>
               </li>
               <li>
-                <a
+                <Link
                   href="/bangalore"
                   className="text-gray-300 hover:text-[#ffd910] transition-colors duration-300 text-sm"
                 >
                   Bengaluru
-                </a>
+                </Link>
               </li>
             </ul>
           </div>
@@ -176,18 +177,18 @@ export default function Footer() {
               © {new Date().getFullYear()} RentAcross™. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
-              <a
+              <Link
                 href="/privacy-policy"
                 className="text-gray-400 hover:text-[#ffd910] transition-colors duration-300"
               >
                 Privacy Policy
-              </a>
-              <a
+              </Link>
+              <Link
                 href="/return-refund-policy"
                 className="text-gray-400 hover:text-[#ffd910] transition-colors duration-300"
               >
                 Returns & Refunds
-              </a>
+              </Link>
             </div>
           </div>
         </div>

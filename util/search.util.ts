@@ -106,7 +106,7 @@ const getSubCategoryBySlug = (slug, categories): IProductSubCategory | null => {
 
 export const getFilterByQueryString = (
   params: string | string[] | undefined,
-  subCategories: IProductCategory[],
+  categories: IProductCategory[],
 ) => {
   const productFilter: IProductFilter = {}
   if (!params) {
@@ -133,7 +133,7 @@ export const getFilterByQueryString = (
       productFilter.city = params[1].toLowerCase()
 
       if (params[2]) {
-        const subCategory = getSubCategoryBySlug(params[2], subCategories)
+        const subCategory = getSubCategoryBySlug(params[2], categories)
         if (!subCategory) {
           return null
         }
@@ -163,13 +163,13 @@ export const getFilterByQueryString = (
     }
 
     if (params[1]) {
-      const subCategory = getSubCategoryBySlug(params[1], subCategories)
+      const subCategory = getSubCategoryBySlug(params[1], categories)
       if (!subCategory) {
         return null
       }
       productFilter.subCategory = getSubCategoryBySlug(
         params[1],
-        subCategories,
+        categories,
       )?.id
     }
 
@@ -213,6 +213,7 @@ export function getProductFilter(
   categories: IProductCategory[],
 ) {
   const {slug} = obj
+
   const productFilter: IProductFilter | null = getFilterByQueryString(
     slug,
     categories,

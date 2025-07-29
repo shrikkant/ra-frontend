@@ -108,7 +108,7 @@ httpClient.interceptors.response.use(
 )
 
 export const fetchData = async (url, customOptions?) => {
-  console.log(' URL > ', ENV_CONFIG.CLIENT_API_BASE_URL)
+  // console.log(' URL > ', ENV_CONFIG.CLIENT_API_BASE_URL)
   const commonOptions = {
     headers: {'Content-Type': 'application/json'},
     referrer: ENV_CONFIG.BASE_URL,
@@ -121,7 +121,7 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   const response: any = await fetch(
-    `${ENV_CONFIG.CLIENT_API_BASE_URL}/${url}`,
+    `${ENV_CONFIG.SERVER_API_BASE_URL}${url}`,
     options,
   )
 

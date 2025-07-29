@@ -42,7 +42,7 @@ export const BookingFormContent: React.FC<BookingFormContentProps> = ({
 
         {!storeSearch?.dates && (
           <p className="text-center text-sm text-gray-500">
-            You won't be charged until you confirm your booking
+            You won&apos;t be charged until you confirm your booking
           </p>
         )}
       </div>

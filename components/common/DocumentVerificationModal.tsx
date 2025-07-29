@@ -59,7 +59,6 @@ const DocumentVerificationModal: React.FC<DocumentVerificationModalProps> = ({
   }
 
   const handleVerify = async (e: React.MouseEvent<HTMLButtonElement>) => {
-    debugger
     e.preventDefault()
 
     if (!documentId) {

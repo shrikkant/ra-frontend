@@ -25,7 +25,7 @@ export const Package: React.FC<ProductProps> = ({addons}: ProductProps) => {
         <div className="flex items-center gap-2 mb-1">
           <CheckCircleIcon className="w-5 h-5 text-green-500" />
           <h3 className="text-lg font-semibold text-gray-900">
-            What's Included
+            What&apos;s Included
           </h3>
         </div>
         <p className="text-gray-600 text-sm">
