@@ -26,14 +26,14 @@ export const HeadCard: React.FC<ProductProps> = ({product}: ProductProps) => {
       )}
 
       {/* Product Title and Location */}
-      <div className="text-center lg:text-left">
-        <h1 className="text-3xl sm:text-4xl lg:text-4xl font-bold text-gray-900 mb-3 lg:mb-4 leading-tight">
+      <div className="lg:text-left">
+        <h1 className="text-md sm:text-xl lg:text-2xl font-bold text-gray-900 mb-3 lg:mb-4 leading-tight">
           {product.title}
         </h1>
 
-        <div className="flex items-center justify-center lg:justify-start text-gray-600 mb-4 lg:mb-6">
-          <MapPinIcon className="w-5 h-5 lg:w-6 lg:h-6 mr-2 text-gray-400" />
-          <span className="text-lg lg:text-xl font-medium">
+        <div className="flex items-start lg:justify-start text-gray-600 lg:mb-6">
+          <MapPinIcon className="w-5 h-5 lg:w-6 lg:h-6 mr-1 text-gray-400" />
+          <span className="text-sm lg:text-xl font-medium">
             {product.location.city}
           </span>
         </div>
