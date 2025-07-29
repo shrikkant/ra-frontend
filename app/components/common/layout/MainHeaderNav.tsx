@@ -62,7 +62,7 @@ export default function MainHeaderNav() {
       as="nav"
       className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 sticky top-0 z-40 shadow-lg"
     >
-      <div className="px-3 sm:px-4 max-w-7xl mx-auto">
+      <div className="px-3 sm:px-4 max-w-7xl mx-auto py-2">
         {/* Main header row */}
         <div className="flex items-center justify-between h-14 sm:h-16">
           {/* Logo */}
