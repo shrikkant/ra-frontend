@@ -96,17 +96,18 @@ export default function MainHeaderNav() {
           </div>
           {/* Right side actions */}
           <div className="flex items-center gap-x-3">
-            {loggedUser && (
-              <div className="flex items-center gap-x-2">
-                <a
-                  href="https://wa.me/7720829444?text=Hello%20I%20need%20support"
-                  target="_blank"
-                  className="bg-green-500 hover:bg-green-600 text-white p-2 rounded-full shadow-md transition-all duration-200 hover:scale-105"
-                  rel="noreferrer"
-                  aria-label="WhatsApp Support"
-                >
-                  <FaWhatsapp className="h-4 w-4 sm:h-5 sm:w-5" />
-                </a>
+            <div className="flex items-center gap-x-2">
+              <Link
+                href="https://wa.me/7720829444?text=Hello%20I%20need%20support"
+                target="_blank"
+                className="bg-green-500 hover:bg-green-600 text-white h-8 w-8 items-center justify-center flex rounded-full shadow-md transition-all duration-200 hover:scale-105"
+                rel="noreferrer"
+                aria-label="WhatsApp Support"
+              >
+                <FaWhatsapp className="h-4 w-4 sm:h-5 sm:w-5" />
+              </Link>
+
+              {loggedUser && (
                 <Link
                   className="relative p-2 hover:bg-gray-700 rounded-full transition-colors"
                   href="/p/mycart"
@@ -119,8 +120,9 @@ export default function MainHeaderNav() {
                     </span>
                   )}
                 </Link>
-              </div>
-            )}
+              )}
+            </div>
+
             <TopNavMenu />
           </div>
         </div>
