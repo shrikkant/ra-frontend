@@ -35,15 +35,15 @@ export const ENV_CONFIG = {
 // Log environment configuration on initialization
 if (typeof window !== 'undefined') {
   // Client-side logging
-  console.log('🌍 Environment Configuration (Client):', {
-    CLIENT_API_BASE_URL: ENV_CONFIG.CLIENT_API_BASE_URL,
-    CLIENT_API_V1_URL: ENV_CONFIG.CLIENT_API_V1_URL,
-    BASE_URL: ENV_CONFIG.BASE_URL,
-    BASE_URL_WWW: ENV_CONFIG.BASE_URL_WWW,
-    NODE_ENV: ENV_CONFIG.NODE_ENV,
-    IS_DEVELOPMENT: ENV_CONFIG.IS_DEVELOPMENT,
-    IS_PRODUCTION: ENV_CONFIG.IS_PRODUCTION,
-  })
+  // console.log('🌍 Environment Configuration (Client):', {
+  //   CLIENT_API_BASE_URL: ENV_CONFIG.CLIENT_API_BASE_URL,
+  //   CLIENT_API_V1_URL: ENV_CONFIG.CLIENT_API_V1_URL,
+  //   BASE_URL: ENV_CONFIG.BASE_URL,
+  //   BASE_URL_WWW: ENV_CONFIG.BASE_URL_WWW,
+  //   NODE_ENV: ENV_CONFIG.NODE_ENV,
+  //   IS_DEVELOPMENT: ENV_CONFIG.IS_DEVELOPMENT,
+  //   IS_PRODUCTION: ENV_CONFIG.IS_PRODUCTION,
+  // })
 } else {
   // Server-side logging
   console.log('🌍 Environment Configuration (Server):', {

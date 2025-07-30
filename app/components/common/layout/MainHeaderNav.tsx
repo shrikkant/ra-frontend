@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
-import {useRouter, useSearchParams} from 'next/navigation'
+import {usePathname, useRouter, useSearchParams} from 'next/navigation'
 import Link from 'next/link'
 
 import {selectAuthState} from 'app-store/auth/auth.slice'
@@ -16,18 +16,22 @@ import {ShoppingCartIcon} from '@heroicons/react/24/outline'
 
 import TopNavMenu from 'components/TopNavMenu'
 
-import {getDefaultSearch} from 'app-store/session/session.slice'
+import {getDefaultSearch, setSearch} from 'app-store/session/session.slice'
 import {fetchCart} from 'api/user/orders.api'
 import {IDefaultSearch, ISearchLocation} from 'app-store/app-defaults/types'
 import {getCart, setCart} from 'app-store/user/orders/orders.slice'
 import {IOrder} from 'app-store/types'
 import SearchBar from '../../../../components/SearchBar'
 import {SearchInput} from '../../../../components/SearchInput'
-import {FaHome, FaWhatsapp} from 'react-icons/fa'
+import {DateSelector} from '../../../../components/booking/DateSelector'
+import {FaWhatsapp} from 'react-icons/fa'
 import {getCitySlug} from '../../../../util/city.util'
+import {LocationPicker} from '../../../../components/search/LocationPicker'
 
 export default function MainHeaderNav() {
   const loggedUser = useSelector(selectAuthState)
+  const pathname = usePathname()
+  const pathSegments = pathname.split('/').filter(Boolean)
   const dispatch = useDispatch()
   const defaultSearch: any = useSelector<IDefaultSearch>(getDefaultSearch)
 
@@ -48,6 +52,18 @@ export default function MainHeaderNav() {
     setSearchText(value)
   }
 
+  const handleDateChange = (newDates: any) => {
+    const updatedSearch = {
+      ...storeSearch,
+      dates: {
+        startDate: newDates.selection.startDate.toString(),
+        endDate: newDates.selection.endDate.toString(),
+        key: 'selection',
+      },
+    }
+    dispatch(setSearch(updatedSearch))
+  }
+
   useEffect(() => {
     if (loggedUser && !cart) {
       fetchCart().then((o: IOrder) => {
@@ -62,31 +78,43 @@ export default function MainHeaderNav() {
       as="nav"
       className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 sticky top-0 z-40 shadow-lg"
     >
-      <div className="px-3 sm:px-4 max-w-7xl mx-auto py-2">
+      <div className="px-4 sm:px-4 max-w-7xl mx-auto py-2">
         {/* Main header row */}
-        <div className="flex items-center justify-between h-14 sm:h-16">
-          {/* Logo */}
-
-          <div className="flex-shrink-0">
+        <div className="flex items-center justify-between h-14 sm:h-16 ">
+          <div className="flex-shrink-0 sm:hidden flex justify-center items-center">
             <Link href="/" className="flex items-center">
-              <img
-                className="hidden sm:block h-7 lg:h-8"
-                src="/assets/v2/img/logo.png"
-                alt="RentAcross"
-              />
-              <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 p-2 rounded-lg shadow-md">
+              <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 py-2 rounded-lg shadow-md">
                 <img
-                  className=" sm:block  h-4"
-                  src="/assets/v2/img/logo.png"
+                  className=" sm:block  h-8 w-8"
+                  src="/assets/v2/img/logo-sq.png"
                   alt="RentAcross"
                 />
               </div>
             </Link>
+            <div className="ml-2">
+              <LocationPicker theme="dark" size="sm" />
+            </div>
           </div>
-          {/* Desktop search bar - hidden on mobile */}
-          <div className="hidden lg:flex flex-1 max-w-2xl mx-6">
-            <div className="flex items-center gap-x-3 w-full">
+          <div className="hidden sm:flex flex-1 max-w-full mx-6  ">
+            <div className="flex-shrink-0 justify-center items-center flex">
+              <Link href="/" className="flex items-center">
+                <img
+                  className="hidden sm:block h-7 lg:h-8"
+                  src="/assets/v2/img/logo.png"
+                  alt="RentAcross"
+                />
+                <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 p-2 rounded-lg shadow-md">
+                  <img
+                    className=" sm:block  h-4"
+                    src="/assets/v2/img/logo.png"
+                    alt="RentAcross"
+                  />
+                </div>
+              </Link>
+            </div>
+            <div className="flex items-center gap-x-3 ">
               <SearchBar />
+
               <SearchInput
                 currentVal={q || ''}
                 onSearch={searchProducts}
@@ -128,16 +156,23 @@ export default function MainHeaderNav() {
         </div>
 
         {/* Mobile search bar */}
-        <div className="lg:hidden pb-3  border-gray-700">
-          <div className="pt-3 space-y-3">
-            <div className="flex items-center gap-x-2">
-              <SearchBar />
+        <div className="lg:hidden border-t border-gray-700">
+          <div className="pt-3">
+            <div className="mb-3">
+              <DateSelector
+                storeSearch={storeSearch}
+                size="sm"
+                onDateChange={handleDateChange}
+                theme="dark"
+              />
             </div>
-            <SearchInput
-              currentVal={q || ''}
-              onSearch={searchProducts}
-              onChange={onSearch}
-            />
+            {pathname !== '/' && pathSegments.length < 3 && (
+              <SearchInput
+                currentVal={q || ''}
+                onSearch={searchProducts}
+                onChange={onSearch}
+              />
+            )}
           </div>
         </div>
       </div>

@@ -4,7 +4,7 @@ import React, {useEffect, useState} from 'react'
 import {Disclosure} from '@headlessui/react'
 import {IProductSubCategory} from 'app-store/types'
 import Link from 'next/link'
-import {usePathname} from 'next/navigation'
+import {usePathname, useSearchParams} from 'next/navigation'
 import {getDefaultSearch} from '../../../../app-store/session/session.slice'
 import {useSelector} from 'react-redux'
 import {locationCity} from '../../../../util/search.util'
@@ -15,6 +15,8 @@ interface SubNavClientProps {
 
 export default function SubNavClient({subCategories}: SubNavClientProps) {
   const pathname = usePathname()
+  const pathSegments = pathname.split('/').filter(Boolean)
+
   const search = useSelector(getDefaultSearch)
   const [location, setLocation] = useState<any>(null)
 
@@ -23,7 +25,7 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
     setLocation(location)
   }, [search])
 
-  if (pathname === '/') {
+  if (pathname === '/' || pathSegments.length > 2) {
     return null
   }
 
