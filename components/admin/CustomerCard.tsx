@@ -2,21 +2,10 @@ import React from 'react'
 import Link from 'next/link'
 import {FaCheckDouble, FaSignInAlt, FaWhatsapp, FaUser} from 'react-icons/fa'
 import {timeAgo} from '../../util/date.util'
-
-interface Customer {
-  id: number
-  firstname: string
-  lastname: string
-  email_address: string
-  phone?: string
-  city?: string
-  profile_pic?: string
-  verified?: number
-  created_ts?: string
-}
+import {IUser} from '../../app-store/types'
 
 interface CustomerCardProps {
-  customer: Customer
+  customer: IUser
   onAdminLogin: (customerId: number) => void
   onVisitProfile: (customerId: number) => void
 }
@@ -81,6 +70,12 @@ export const CustomerCard: React.FC<CustomerCardProps> = ({
                 <>
                   <span className="px-2">•</span>
                   {customer.city}
+                </>
+              )}
+              {customer.utm_source && customer.utm_source.utm_medium && (
+                <>
+                  <span className="px-2">•</span>
+                  {customer.utm_source.utm_medium}
                 </>
               )}
             </p>
