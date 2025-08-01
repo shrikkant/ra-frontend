@@ -69,6 +69,7 @@ export interface IUser {
   role: string
   aadhaar_callback_id?: string
   signin_source?: string
+  utm_source?: UtmData
   documents?: IDocument[]
 }
 
