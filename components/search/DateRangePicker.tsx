@@ -20,6 +20,7 @@ import {IDates} from '../../app-store/app-defaults/types'
 import {createPortal} from 'react-dom'
 
 import 'react-date-range/dist/styles.css' // main style file
+import {DateSelector} from '../booking/DateSelector'
 
 export const DateRangePicker = ({mode}: {mode: string}) => {
   const dispatch = useDispatch()
@@ -84,6 +85,7 @@ export const DateRangePicker = ({mode}: {mode: string}) => {
   }, [storeSearch])
 
   const setBookingDates = dates => {
+    console.log('dates', dates)
     const search: any = {...storeSearch}
     search.dates = {
       startDate: '' + dates.selection.startDate,
@@ -131,6 +133,16 @@ export const DateRangePicker = ({mode}: {mode: string}) => {
 
   const textColor = mode === 'dark' ? 'text-gray-700' : 'text-gray-100'
 
+  return (
+    <div className="min-w-[270px]">
+      <DateSelector
+        storeSearch={storeSearch}
+        size="sm"
+        onDateChange={setBookingDates}
+        theme="dark"
+      />
+    </div>
+  )
   return (
     <Popover className="relative">
       {({open, close}) => (

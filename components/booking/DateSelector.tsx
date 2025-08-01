@@ -221,7 +221,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
   const styles = getThemeStyles()
 
   return (
-    <div className="relative" ref={containerRef}>
+    <div className="relative w-full" ref={containerRef}>
       <div
         className={styles.container}
         onClick={() => setIsDatePickerOpen(!isDatePickerOpen)}

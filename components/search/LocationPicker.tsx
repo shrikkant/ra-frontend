@@ -23,20 +23,14 @@ const locations = [
   {
     value: 'Pune',
     label: 'Pune',
-    icon: '/assets/v2/img/cities/icons/Pune.png',
-    hoverIcon: '/assets/v2/img/cities/icons/Pune_hover.png',
   },
   {
     value: 'Mumbai',
     label: 'Mumbai',
-    icon: '/assets/v2/img/cities/icons/Mumbai.png',
-    hoverIcon: '/assets/v2/img/cities/icons/Mumbai_hover.png',
   },
   {
     value: 'bengaluru',
     label: 'Bangalore',
-    icon: '/assets/v2/img/cities/icons/Bengaluru.png',
-    hoverIcon: '/assets/v2/img/cities/icons/Bengaluru_hover.png',
   },
 ]
 
@@ -138,13 +132,6 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
 
   const styles = getThemeStyles()
 
-  // Get current location data
-  const getCurrentLocation = () => {
-    return locations.find(loc => loc.value === location?.city) || locations[0]
-  }
-
-  const currentLocation = getCurrentLocation()
-
   return (
     <Popover className="relative inline-block">
       {({open}) => (
@@ -152,24 +139,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
           <PopoverButton
             className={`${styles.button} focus:outline-none focus:ring-2 focus:ring-[#FDC002]/20`}
           >
-            {location?.city ? (
-              <div
-                className={`relative ${styles.icon.replace('text-[#FDC002]', '')} group ${theme === 'dark' ? 'bg-white/10 rounded' : ''} p-0.5`}
-              >
-                <img
-                  src={currentLocation.icon}
-                  alt={currentLocation.label}
-                  className="w-full h-full object-contain transition-opacity duration-200 group-hover:opacity-0"
-                />
-                <img
-                  src={currentLocation.hoverIcon}
-                  alt={`${currentLocation.label} hover`}
-                  className="absolute top-0.5 left-0.5 w-full h-full object-contain transition-opacity duration-200 opacity-0 group-hover:opacity-100"
-                />
-              </div>
-            ) : (
-              <IoLocationOutline className={styles.icon} />
-            )}
+            <IoLocationOutline className={styles.icon} />
             <span className={styles.text}>
               {location?.city ? locationCity(location.city) : 'Select City'}
             </span>
@@ -200,22 +170,8 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
                         cityChange(loc.value)
                         close()
                       }}
-                      className={`${styles.dropdownItem} w-full text-left flex items-center gap-3 group relative overflow-hidden`}
+                      className={`${styles.dropdownItem} w-full text-left`}
                     >
-                      <div
-                        className={`relative flex-shrink-0 ${size === 'sm' ? 'w-6 h-6' : 'w-5 h-5'} ${theme === 'dark' ? 'bg-white/10 rounded' : ''} p-0.5`}
-                      >
-                        <img
-                          src={loc.icon}
-                          alt={loc.label}
-                          className={`${size === 'sm' ? 'w-full h-full' : 'w-full h-full'} object-contain transition-opacity duration-200 group-hover:opacity-0`}
-                        />
-                        <img
-                          src={loc.hoverIcon}
-                          alt={`${loc.label} hover`}
-                          className={`absolute top-0.5 left-0.5 ${size === 'sm' ? 'w-full h-full' : 'w-full h-full'} object-contain transition-opacity duration-200 opacity-0 group-hover:opacity-100`}
-                        />
-                      </div>
                       <span className="font-medium">{loc.label}</span>
                     </button>
                   ))}

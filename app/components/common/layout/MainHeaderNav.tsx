@@ -78,10 +78,10 @@ export default function MainHeaderNav() {
       as="nav"
       className="bg-gradient-to-r from-gray-900 to-gray-800 border-b border-gray-700 sticky top-0 z-40 shadow-lg"
     >
-      <div className="px-4 sm:px-4 max-w-7xl mx-auto py-2">
+      <div className="px-4 sm:px-4 max-w-7xl mx-auto ">
         {/* Main header row */}
-        <div className="flex items-center justify-between h-14 sm:h-16 ">
-          <div className="flex-shrink-0 sm:hidden flex justify-center items-center">
+        <div className="flex items-center justify-between h-16 sm:h-16">
+          <div className="flex-shrink-0 sm:hidden flex justify-center items-center gap-x-4">
             <Link href="/" className="flex items-center">
               <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 py-2 rounded-lg shadow-md">
                 <img
@@ -91,11 +91,11 @@ export default function MainHeaderNav() {
                 />
               </div>
             </Link>
-            <div className="ml-2">
+            <div>
               <LocationPicker theme="dark" size="sm" />
             </div>
           </div>
-          <div className="hidden sm:flex flex-1 max-w-full mx-6  ">
+          <div className="hidden sm:flex flex-1 max-w-full mx-6 gap-x-4">
             <div className="flex-shrink-0 justify-center items-center flex">
               <Link href="/" className="flex items-center">
                 <img
@@ -112,7 +112,7 @@ export default function MainHeaderNav() {
                 </div>
               </Link>
             </div>
-            <div className="flex items-center gap-x-3 ">
+            <div className="flex items-center gap-x-3 sm:ml-4">
               <SearchBar />
 
               <SearchInput
