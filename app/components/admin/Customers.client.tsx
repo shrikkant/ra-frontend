@@ -9,6 +9,7 @@ import {CustomerCard} from '../../../components/admin/CustomerCard'
 import Loader from 'components/Loader'
 import MyPageHeader from 'components/MyPageHeader'
 import {useCustomers} from '../../../hooks/useCustomers'
+import {IUser} from '../../../app-store/types'
 
 // Types
 interface Customer {
@@ -27,7 +28,7 @@ interface CustomerSearchProps {
 }
 
 interface CustomerListProps {
-  customers: Customer[]
+  customers: IUser[]
   onAdminLogin: (customerId: number) => void
   onVisitProfile: (customerId: number) => void
 }
