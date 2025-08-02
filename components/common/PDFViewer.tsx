@@ -18,7 +18,7 @@ export default function PDFViewer({
   const [isLoading, setIsLoading] = useState(true)
   const [iframeError, setIframeError] = useState(false)
 
-  console.log('PDFViewer received URL:', pdfUrl)
+  // console.log('PDFViewer received URL:', pdfUrl)
 
   // Add timeout for iframe loading
   useEffect(() => {

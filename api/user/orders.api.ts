@@ -114,10 +114,6 @@ export const getRentalAgreementPDF = async (orderId: number): Promise<Blob> => {
   }
 
   const blob = await response.blob()
-  console.log('Blob received:', {
-    size: blob.size,
-    type: blob.type,
-  })
 
   // Check if the blob is actually a PDF
   if (blob.size === 0) {
@@ -144,6 +140,16 @@ export const getRentalAgreementPDF = async (orderId: number): Promise<Blob> => {
 
   console.log('Valid PDF detected, size:', blob.size, 'bytes')
   return blob
+}
+
+export const verifyDoucmentSignSuccess = async (
+  orderId: number,
+): Promise<{success: boolean}> => {
+  const response = await httpClient.get(
+    `/v1/users/orders/${orderId}/rental-agreement/success`,
+  )
+  console.log('verifyDoucmentSignSuccess : response', response)
+  return response
 }
 
 export const initializeRentalAgreementSign = async (

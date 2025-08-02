@@ -2,6 +2,7 @@ import {useState, useCallback, useEffect} from 'react'
 import {
   getRentalAgreementPDF,
   initializeRentalAgreementSign,
+  verifyDoucmentSignSuccess,
 } from '../api/user/orders.api'
 
 export type SignatureStatus = 'unsigned' | 'initializing' | 'ready' | 'signed'
@@ -14,6 +15,7 @@ interface UseRentalAgreementReturn {
   error: string | null
   loadPDF: () => Promise<void>
   resetError: () => void
+  checkSignSuccess: () => Promise<void>
 }
 
 export const useRentalAgreement = (
@@ -30,12 +32,9 @@ export const useRentalAgreement = (
     try {
       setLoading(true)
       setError(null)
-      console.log('Loading PDF for order:', orderId)
+      checkSignSuccess()
+
       const pdfBlob = await getRentalAgreementPDF(orderId)
-      console.log('PDF blob received in hook:', {
-        size: pdfBlob.size,
-        type: pdfBlob.type,
-      })
 
       // Convert blob to data URL instead of blob URL
       const reader = new FileReader()
@@ -57,6 +56,13 @@ export const useRentalAgreement = (
       setError('Failed to load rental agreement. Please try again.')
     } finally {
       setLoading(false)
+    }
+  }, [orderId])
+
+  const checkSignSuccess = useCallback(async () => {
+    const response = await verifyDoucmentSignSuccess(orderId)
+    if (response.success) {
+      setSignatureStatus('signed')
     }
   }, [orderId])
 
@@ -105,5 +111,6 @@ export const useRentalAgreement = (
     error,
     loadPDF,
     resetError,
+    checkSignSuccess,
   }
 }
