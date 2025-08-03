@@ -49,6 +49,11 @@ export const useDigiLockerVerification = () => {
   }
 
   const handleVerificationSuccess = async (data: any) => {
+    console.log('handleVerificationSuccess', data)
+    console.log(
+      'handleVerificationSuccess => verificationData',
+      verificationData,
+    )
     if (!verificationData) return
 
     try {
