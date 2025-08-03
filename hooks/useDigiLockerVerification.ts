@@ -106,16 +106,25 @@ export const useDigiLockerVerification = () => {
 
     try {
       console.log('Creating DigiLocker SDK instance...')
-      const sdk = window.DigiboostSdk({
-        gateway: verificationData.gateway,
+      window.DigiboostSdk({
+        gateway: DIGILOCKER_CONFIG.GATEWAY,
         token: verificationData.token,
         selector: DIGILOCKER_CONFIG.BUTTON_SELECTOR,
         style: DIGILOCKER_CONFIG.BUTTON_STYLE,
         onSuccess: handleVerificationSuccess,
         onFailure: handleVerificationFailure,
       })
-
-      console.log('SDK initialized successfully:', sdk)
+      /*
+      const sdk = window.DigiboostSdk({
+        gateway: 'production',
+        token: verificationData.token,
+        selector: DIGILOCKER_CONFIG.BUTTON_SELECTOR,
+        style: DIGILOCKER_CONFIG.BUTTON_STYLE,
+        onSuccess: handleVerificationSuccess,
+        onFailure: handleVerificationFailure,
+      })
+      */
+      console.log('SDK initialized successfully:')
     } catch (err) {
       console.error('Failed to start verification:', err)
       setError(

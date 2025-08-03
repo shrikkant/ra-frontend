@@ -1,4 +1,5 @@
 export const DIGILOCKER_CONFIG = {
+  GATEWAY: 'production',
   SDK_URL:
     'https://cdn.jsdelivr.net/gh/surepassio/surepass-digiboost-web-sdk@latest/index.min.js',
   BUTTON_SELECTOR: '#digilocker-button',
