@@ -39,7 +39,7 @@ class DigiLockerAPI {
         data: {
           signup_flow: true,
           logo_url: DIGILOCKER_CONFIG.LOGO_URL,
-          skip_main_screen: false,
+          skip_main_screen: true,
           webhook_url: `https://rentacross.com/api/v1/digilocker/webhook`,
         },
       },
