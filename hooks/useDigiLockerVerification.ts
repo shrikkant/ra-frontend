@@ -69,7 +69,7 @@ export const useDigiLockerVerification = () => {
 
       console.log('User verified successfully:', updateUser)
       dispatch(authUser(updateUser))
-      router.push('/')
+      router.push('/p/profile')
     } catch (err) {
       console.error('Error completing verification:', err)
       setError('Failed to complete verification. Please try again.')
