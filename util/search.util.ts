@@ -99,6 +99,22 @@ const getSubCategoryFromCategories = (
   return subCategory ? subCategory : null
 }
 
+// Get subcategory slug from ID
+export const getSubCategorySlugById = (
+  id: number,
+  categories: IProductCategory[],
+): string | null => {
+  for (const category of categories) {
+    const subCategory = category.subCategories?.find(
+      (sc: IProductSubCategory) => sc.id === id,
+    )
+    if (subCategory) {
+      return subCategory.slug
+    }
+  }
+  return null
+}
+
 const getSubCategoryBySlug = (slug, categories): IProductSubCategory | null => {
   const found = getSubCategoryFromCategories(slug, categories)
   return found

@@ -1,38 +1,63 @@
-'use client'
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
 import {HomeProductCard} from './HomeProductCard'
+import {locationCity, getSubCategorySlugById} from '../util/search.util'
+import {IProductFilter, IProductCategory} from '../app-store/types'
 
-export function HomeBanner() {
+interface HomeBannerProps {
+  city?: string
+  category?: string
+  filter?: IProductFilter
+  categories?: IProductCategory[]
+}
+
+export function HomeBanner({
+  city,
+  category,
+  filter,
+  categories,
+}: HomeBannerProps) {
+  // Extract city and category from filter if provided, otherwise use direct props
+  const currentCity = filter?.city || city || 'pune'
+
+  // Get the correct category slug
+  let currentCategory = category || 'rent-camera'
+  if (filter?.subCategory && categories) {
+    const categorySlug = getSubCategorySlugById(filter.subCategory, categories)
+    if (categorySlug) {
+      currentCategory = categorySlug
+    }
+  }
+
   const featuredProducts = [
     {
       title: 'Canon R10',
       price: 800,
       image: '/assets/v2/img/canon-r10-mirrorless-camera.webp',
       features: ['Mirrorless Camera', 'APS-C Sensor'],
-      href: '/pune/rent-camera/canon-eos-r10-mirrorless-digital-camera-3494',
+      href: `/${currentCity}/${currentCategory}/canon-eos-r10-mirrorless-digital-camera-3494`,
     },
     {
       title: 'Insta360 X3',
       price: 900,
       image: '/assets/v2/img/insta-360-x3.webp',
       features: ['360° Camera', '5.7K Video'],
-      href: '/pune/rent-gopro-cameras/Insta360-ONE-X2-3452',
+      href: `/${currentCity}/${currentCategory}/Insta360-ONE-X2-3452`,
     },
     {
       title: 'GoPro Hero 12 Black',
       price: 500,
       image: '/assets/v2/img/gopro-hero-12-black.webp',
       features: ['4K Video', '12MP Photo'],
-      href: '/pune/rent-gopro-cameras/GoPro-HERO12-Black-3497',
+      href: `/${currentCity}/${currentCategory}/GoPro-HERO12-Black-3497`,
     },
     {
       title: 'Sony A7 M3',
       price: 1500,
       image: '/assets/v2/img/sony-a7-m3-camera.webp',
       features: ['Full Frame', '4K Video'],
-      href: '/pune/rent-camera/Sony-A7-M-III-3317',
+      href: `/${currentCity}/${currentCategory}/Sony-A7-M-III-3317`,
     },
   ]
 
@@ -96,7 +121,7 @@ export function HomeBanner() {
 
             <div className="mb-12">
               <Link
-                href="/pune/rent-camera"
+                href={`/${locationCity(currentCity, true)}/${currentCategory}?q=`}
                 className="inline-flex items-center justify-center px-8 py-4 bg-[#f7ca00] font-semibold rounded-xl transition-all duration-300 hover:bg-[#f4c500] hover:shadow-sm hover:shadow-[#f4c500]/10 active:bg-[#f2c000] text-gray-900"
               >
                 Browse Cameras →

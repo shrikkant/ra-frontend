@@ -25,6 +25,11 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
     setLocation(location)
   }, [search])
 
+  // Function to check if a subcategory is active
+  const isActiveSubcategory = (slug: string) => {
+    return pathSegments.length >= 2 && pathSegments[1] === slug
+  }
+
   if (pathname === '/' || pathSegments.length > 2) {
     return null
   }
@@ -42,11 +47,16 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
               {location &&
                 subCategories &&
                 subCategories.map((cat: IProductSubCategory) => {
+                  const isActive = isActiveSubcategory(cat.slug)
                   return (
                     <Link
                       key={cat.id}
-                      className="whitespace-nowrap text-sm font-medium px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-[#ffd910] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffd910] focus:ring-offset-2 focus:ring-offset-gray-800"
-                      href={`/${locationCity(location?.city, true)}/${cat.slug}`}
+                      className={`whitespace-nowrap text-sm font-medium px-3 py-2 transition-all duration-200 ${
+                        isActive
+                          ? 'text-[#ffd910] bg-gray-600'
+                          : 'text-gray-300 hover:bg-gray-600 hover:text-[#ffd910]'
+                      }`}
+                      href={`/${locationCity(location?.city, true)}/${cat.slug}?q=`}
                     >
                       {cat.title}
                     </Link>
@@ -58,7 +68,7 @@ export default function SubNavClient({subCategories}: SubNavClientProps) {
             <div className="ml-auto pl-4 border-l border-gray-600">
               <Link
                 href="/about-us"
-                className="whitespace-nowrap text-sm font-medium px-3 py-2 rounded-lg text-gray-300 hover:bg-gray-600 hover:text-[#ffd910] transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-[#ffd910] focus:ring-offset-2 focus:ring-offset-gray-800"
+                className="whitespace-nowrap text-sm font-medium px-3 py-2 text-gray-300 hover:bg-gray-600 hover:text-[#ffd910] transition-all duration-200"
               >
                 About Us
               </Link>
