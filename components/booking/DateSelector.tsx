@@ -5,6 +5,23 @@ import {IoCalendarOutline, IoChevronDown} from 'react-icons/io5'
 import 'react-date-range/dist/styles.css'
 import {getDays, getPlural} from './bookingUtils'
 
+// Utility function to get minimum booking date based on current time
+export const getMinBookingDate = () => {
+  const now = new Date()
+  const currentHour = now.getHours()
+  const currentMinute = now.getMinutes()
+  
+  // If time is less than 11:30 AM, allow today
+  if (currentHour < 11 || (currentHour === 11 && currentMinute < 30)) {
+    return new Date()
+  } else {
+    // If time is 11:30 AM or later, set min date to tomorrow
+    const tomorrow = new Date()
+    tomorrow.setDate(tomorrow.getDate() + 1)
+    return tomorrow
+  }
+}
+
 interface DateSelectorProps {
   storeSearch: any
   onDateChange: (dates: any) => void
@@ -19,15 +36,26 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
   size = 'lg',
 }) => {
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
-  const [localDates, setLocalDates] = useState({
-    startDate: new Date(),
-    endDate: new Date(),
-    key: 'selection',
+  const [localDates, setLocalDates] = useState(() => {
+    const minDate = getMinBookingDate()
+    
+    return {
+      startDate: minDate,
+      endDate: minDate,
+      key: 'selection',
+    }
   })
   const containerRef = useRef<HTMLDivElement>(null)
 
+  // Function to get minimum date based on current time
+  const getMinDate = () => {
+    return getMinBookingDate()
+  }
+
   // Sync local dates with store dates
   useEffect(() => {
+    console.log('Current Date', new Date())
+
     if (storeSearch?.dates) {
       setLocalDates({
         startDate: new Date(storeSearch.dates.startDate),
@@ -298,7 +326,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
             <DateRange
               startDatePlaceholder="Starting"
               endDatePlaceholder="Ending"
-              minDate={new Date()}
+              minDate={getMinDate()}
               onChange={setBookingDates}
               moveRangeOnFirstSelection={false}
               ranges={[localDates]}
