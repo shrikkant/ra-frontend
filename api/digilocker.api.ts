@@ -54,12 +54,18 @@ class DigiLockerAPI {
     return response.data
   }
 
-  async downloadAadhaarData(clientId: string): Promise<AadhaarData> {
+  async handleVerification(clientId: string): Promise<AadhaarData> {
     const service = new HttpService(ENV_CONFIG.CLIENT_API_V1_URL)
     const client = service.getClient()
-    const response = await client.get(`digilocker/download-aadhaar/${clientId}`)
+    const response = await client.post(`digilocker/webhook`, {
+      data: {
+        client_id: clientId,
+        status: 'success',
+        type: 'digilocker',
+      },
+    })
 
-    return response.data
+    return response
   }
 
   async verifyUser(request: UserVerificationRequest): Promise<any> {
