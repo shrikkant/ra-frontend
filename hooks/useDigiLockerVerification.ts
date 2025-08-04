@@ -49,36 +49,32 @@ export const useDigiLockerVerification = () => {
   }
 
   const handleVerificationSuccess = async (data: any) => {
-    console.log('handleVerificationSuccess', data)
-    console.log(
-      'handleVerificationSuccess => verificationData',
-      verificationData,
-    )
     if (!verificationData) return
 
-    try {
-      console.log('Verification success, downloading Aadhaar data...')
-      // Download Aadhaar data
-      const aadhaarData = await digiLockerAPI.downloadAadhaarData(
-        verificationData.client_id,
-      )
+    console.log('handleVerificationSuccess', data)
+    return
+    // try {
+    //   // Download Aadhaar data
+    //   const aadhaarData = await digiLockerAPI.downloadAadhaarData(
+    //     verificationData.client_id,
+    //   )
 
-      console.log('Aadhaar data downloaded, verifying user...')
-      // Update user verification status
+    //   console.log('Aadhaar data downloaded, verifying user...')
+    //   // Update user verification status
 
-      // TO_DO
-      const updateUser: IUser = await digiLockerAPI.verifyUser({
-        verificationData: data,
-        aadhaarData,
-      })
+    //   // TO_DO
+    //   const updateUser: IUser = await digiLockerAPI.verifyUser({
+    //     verificationData: data,
+    //     aadhaarData,
+    //   })
 
-      console.log('User verified successfully:', updateUser)
-      dispatch(authUser(updateUser))
-      router.push('/p/profile')
-    } catch (err) {
-      console.error('Error completing verification:', err)
-      setError('Failed to complete verification. Please try again.')
-    }
+    //   console.log('User verified successfully:', updateUser)
+    //   dispatch(authUser(updateUser))
+    //   router.push('/p/profile')
+    // } catch (err) {
+    //   console.error('Error completing verification:', err)
+    //   setError('Failed to complete verification. Please try again.')
+    // }
   }
 
   const handleVerificationFailure = (error: any) => {
