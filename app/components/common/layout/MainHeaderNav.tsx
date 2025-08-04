@@ -80,10 +80,10 @@ export default function MainHeaderNav() {
     >
       <div className="px-4 sm:px-4 max-w-7xl mx-auto ">
         {/* Main header row */}
-        <div className="flex items-center justify-between h-16 sm:h-16">
-          <div className="flex-shrink-0 sm:hidden flex justify-center items-center gap-x-4">
+        <div className="flex items-center justify-between h-16 sm:h-16 py-2">
+          <div className="flex-shrink-0 sm:hidden flex justify-center items-center gap-x-4 ">
             <Link href="/" className="flex items-center">
-              <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 py-2 rounded-lg shadow-md">
+              <div className="sm:hidden bg-gradient-to-r from-[#ffd910] to-amber-400 rounded-full shadow-md">
                 <img
                   className=" sm:block  h-8 w-8"
                   src="/assets/v2/img/logo-sq.png"
