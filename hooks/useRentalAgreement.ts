@@ -45,23 +45,11 @@ export const useRentalAgreement = (
           const responseData = signedResponse.data as any
           let bytes: Uint8Array
 
-          // Check if it's a buffer object with data property
-          if (
-            responseData &&
-            typeof responseData === 'object' &&
-            'data' in responseData
-          ) {
-            bytes = new Uint8Array(responseData.data)
-          } else if (typeof responseData === 'string') {
-            // If it's a hex string, convert it to bytes
-            const hexString = responseData
-            bytes = new Uint8Array(
-              hexString.match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || [],
-            )
-          } else {
-            // If it's already a Uint8Array or ArrayBuffer
-            bytes = new Uint8Array(responseData)
-          }
+          // Handle case where data is an object with numeric keys (like {0: 37, 1: 80, 2: 68, 3: 70, ...})
+          const keys = Object.keys(responseData)
+            .map(Number)
+            .sort((a, b) => a - b)
+          bytes = new Uint8Array(keys.map(key => responseData[key]))
 
           const blob = new Blob([bytes as BlobPart], {type: 'application/pdf'})
 
