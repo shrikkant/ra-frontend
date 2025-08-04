@@ -63,7 +63,7 @@ export const useRentalAgreement = (
             bytes = new Uint8Array(responseData)
           }
 
-          const blob = new Blob([bytes], {type: 'application/pdf'})
+          const blob = new Blob([bytes as BlobPart], {type: 'application/pdf'})
 
           const reader = new FileReader()
           reader.onload = () => {
