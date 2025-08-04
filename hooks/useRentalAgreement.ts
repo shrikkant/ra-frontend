@@ -3,6 +3,7 @@ import {
   getRentalAgreementPDF,
   initializeRentalAgreementSign,
   verifyDoucmentSignSuccess,
+  getSignedRentalAgreement,
 } from '../api/user/orders.api'
 
 export type SignatureStatus = 'unsigned' | 'initializing' | 'ready' | 'signed'
@@ -32,6 +33,46 @@ export const useRentalAgreement = (
     try {
       setLoading(true)
       setError(null)
+
+      // First check if the document is already signed
+      try {
+        const signedResponse = await getSignedRentalAgreement(orderId)
+        if (signedResponse.success && signedResponse.data) {
+          console.log('Document is already signed, using signed data')
+          setSignatureStatus('signed')
+
+          // Convert hexadecimal data to blob and then to data URL
+          const hexString = signedResponse.data
+          const bytes = new Uint8Array(
+            hexString.match(/.{1,2}/g)?.map(byte => parseInt(byte, 16)) || [],
+          )
+          const blob = new Blob([bytes], {type: 'application/pdf'})
+
+          const reader = new FileReader()
+          reader.onload = () => {
+            const dataUrl = reader.result as string
+            console.log(
+              'Created data URL from signed document:',
+              dataUrl.substring(0, 100) + '...',
+            )
+            setPdfUrl(dataUrl)
+          }
+          reader.onerror = () => {
+            console.error('Failed to convert signed blob to data URL')
+            setError('Failed to process signed PDF. Please try again.')
+          }
+          reader.readAsDataURL(blob)
+          return
+        }
+      } catch (err) {
+        console.log(
+          'Document is not signed or error checking signed status:',
+          err,
+        )
+        // Continue with normal flow if signed check fails
+      }
+
+      // If not signed, proceed with normal flow
       checkSignSuccess()
 
       const pdfBlob = await getRentalAgreementPDF(orderId)

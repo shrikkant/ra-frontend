@@ -152,6 +152,16 @@ export const verifyDoucmentSignSuccess = async (
   return response
 }
 
+export const getSignedRentalAgreement = async (
+  orderId: number,
+): Promise<{success: boolean; data: string}> => {
+  const response = await httpClient.get(
+    `/v1/users/orders/${orderId}/rental-agreement/signed`,
+  )
+  console.log('getSignedRentalAgreement : response', response)
+  return response
+}
+
 export const initializeRentalAgreementSign = async (
   orderId: number,
 ): Promise<any> => {
