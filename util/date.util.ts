@@ -8,12 +8,11 @@ const rangeDisplay = function (range: IDateRange) {
   const startDate = range.startDate
   const endDate = range.endDate
 
-  const showYear = startDate.getFullYear() < endDate.getFullYear()
+  const showYear = startDate.getFullYear() !== endDate.getFullYear()
   const showMonth = showYear || startDate.getMonth() < endDate.getMonth()
 
-  const startFormat =
-    'D ' + (showMonth ? 'MMM ' : '') + (showYear ? 'YYYY' : '')
-  const endFormat = 'D MMM ' + (showYear ? 'YYYY' : '')
+  const startFormat = 'D ' + (showMonth ? 'MMM ' : '') + (showYear ? 'YY' : '')
+  const endFormat = 'D MMM ' + (showYear ? 'YY' : '')
   return (
     Moment(startDate).format(startFormat) +
     ' - ' +
@@ -23,7 +22,7 @@ const rangeDisplay = function (range: IDateRange) {
 
 const dateDisplay = function (date: Date | undefined) {
   if (!date) return 'Invalid Date'
-  return Moment(date).format('D MMM YYYY')
+  return Moment(date).format('D MMM')
 }
 
 const timeAgo = timestamp => {

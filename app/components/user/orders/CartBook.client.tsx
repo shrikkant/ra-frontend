@@ -30,13 +30,14 @@ export default function CartBook() {
   const dispatch = useDispatch()
 
   const orderSuccess = () => {
+    const orderId = cart?.id
     dispatch(setCart(null))
-    if (isVerified(loggedUser?.verified || 0, VERIFICATION_FLAGS.AADHAAR)) {
-      router.push('/p/profile/verify')
-      return
-    }
+    // if (isVerified(loggedUser?.verified || 0, VERIFICATION_FLAGS.AADHAAR)) {
+    //   router.push('/p/profile/verify')
+    //   return
+    // }
 
-    router.push('/p/orders')
+    router.push(`/p/orders/${orderId}`)
   }
   const onRazorPayCheckout = async (mode: number) => {
     if (cart) {

@@ -55,7 +55,7 @@ export default function UserCart() {
               className={'flex flex-col-reverse md:flex-row w-full  xs:pb-20'}
             >
               <div className={'md:w-3/4 w-full'}>
-                <div className="p-4">
+                <div className="py-4">
                   <div className={'border rounded-md border-gray-400'}>
                     {cart.items &&
                       cart.items.map((item: IOrderItem) => (
@@ -71,7 +71,7 @@ export default function UserCart() {
               </div>
 
               <div className={'md:w-1/4 w-full'}>
-                <div className="md:fixed top-24 md:w-80 w-full p-4">
+                <div className="md:fixed top-24 md:w-80 w-full py-4">
                   <OrderSummary
                     order={cart}
                     step={ORDER_STEPS.ORDER_STEP_CART}
