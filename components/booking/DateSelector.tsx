@@ -10,7 +10,7 @@ export const getMinBookingDate = () => {
   const now = new Date()
   const currentHour = now.getHours()
   const currentMinute = now.getMinutes()
-  
+
   // If time is less than 11:30 AM, allow today
   if (currentHour < 11 || (currentHour === 11 && currentMinute < 30)) {
     return new Date()
@@ -38,7 +38,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
   const [isDatePickerOpen, setIsDatePickerOpen] = useState(false)
   const [localDates, setLocalDates] = useState(() => {
     const minDate = getMinBookingDate()
-    
+
     return {
       startDate: minDate,
       endDate: minDate,
@@ -54,8 +54,6 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
 
   // Sync local dates with store dates
   useEffect(() => {
-    console.log('Current Date', new Date())
-
     if (storeSearch?.dates) {
       setLocalDates({
         startDate: new Date(storeSearch.dates.startDate),
