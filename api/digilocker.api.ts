@@ -58,11 +58,9 @@ class DigiLockerAPI {
     const service = new HttpService(ENV_CONFIG.CLIENT_API_V1_URL)
     const client = service.getClient()
     const response = await client.post(`digilocker/webhook`, {
-      data: {
-        client_id: clientId,
-        status: 'success',
-        type: 'digilocker',
-      },
+      client_id: clientId,
+      status: 'success',
+      type: 'digilocker',
     })
 
     return response
