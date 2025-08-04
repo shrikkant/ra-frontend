@@ -35,6 +35,12 @@ export const getCategoryDescription = (
       }
       return subCategory.seo_description
     }
+    if (city) {
+      const defaultDescription =
+        'Professional Camera Rental in ${city} - DSLR & Mirrorless Cameras'
+      const capitalizedCity = capitalizeCity(city)
+      return defaultDescription.replace('${city}', capitalizedCity)
+    }
   }
   return getFallbackDescription(city)
 }
@@ -68,6 +74,11 @@ export const getCategoryTitle = (
       return useSeoTitle
         ? subCategory.seo_title || subCategory.title
         : subCategory.title
+    } else if (city) {
+      const defaultTitle = 'Rent DSLR & Mirrorless Cameras in ${city}'
+      const capitalizedCity = capitalizeCity(city)
+
+      return defaultTitle.replace('${city}', capitalizedCity)
     }
   }
 
@@ -99,6 +110,7 @@ const getFallbackTitle = (
       ? `Professional Camera Rental in ${capitalizedCity} - DSLR & Mirrorless Cameras | RentAcross`
       : `Professional Camera Rental in ${capitalizedCity}- DSLR & Mirrorless Cameras`
   }
+
   return useSeoTitle
     ? 'Professional Camera Rental - DSLR & Mirrorless Cameras | RentAcross'
     : 'Cameras & Equipment'

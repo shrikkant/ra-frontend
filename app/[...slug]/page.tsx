@@ -104,22 +104,20 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
         return generateProductMetadata(product, localParams.slug)
       }
     } else {
-      if (filter.subCategory) {
-        const {getCategoryTitle, getCategoryDescription} = await import(
-          'util/category.util'
-        )
-        metadata.title = getCategoryTitle(
-          categories,
-          filter.subCategory,
-          filter.city,
-          true,
-        )
-        metadata.description = getCategoryDescription(
-          categories,
-          filter.subCategory,
-          filter.city,
-        )
-      }
+      const {getCategoryTitle, getCategoryDescription} = await import(
+        'util/category.util'
+      )
+      metadata.title = getCategoryTitle(
+        categories,
+        filter.subCategory,
+        filter.city,
+        true,
+      )
+      metadata.description = getCategoryDescription(
+        categories,
+        filter.subCategory,
+        filter.city,
+      )
     }
 
     return {

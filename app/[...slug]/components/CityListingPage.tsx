@@ -47,16 +47,12 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
       {shouldShowHeroBanner && filter.city && (
         <CityHeroBanner
           city={filter.city}
-          title={
-            filter.subCategory
-              ? getCategoryTitle(
-                  categories,
-                  filter.subCategory,
-                  filter.city,
-                  false,
-                )
-              : 'Cameras & Equipment'
-          }
+          title={getCategoryTitle(
+            categories,
+            filter.subCategory,
+            filter.city,
+            false,
+          )}
           cityImage={getCityImage(filter.city)}
           description={
             filter.subCategory
