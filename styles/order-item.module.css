@@ -21,8 +21,33 @@
   padding: 20px;
 }
 
-@media only screen and (max-width: 600px) {
+/* Mobile responsive improvements */
+@media only screen and (max-width: 768px) {
   .productRow {
     flex-direction: column;
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .productImg {
+    width: 100%;
+    max-width: 200px;
+    margin: 0 auto;
+  }
+
+  .img {
+    height: auto;
+    max-height: 120px;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 8px;
+  }
+}
+
+/* Ensure text doesn't overflow on mobile */
+@media only screen and (max-width: 480px) {
+  .productDesc h3 {
+    font-size: 16px;
+    line-height: 1.4;
   }
 }

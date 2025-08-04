@@ -18,7 +18,11 @@ export const OrderItemsReview = ({
       <div className={'border rounded-md border-gray-400 mt-4'}>
         {order.items &&
           order.items.map((item: IOrderItem) => (
-            <OrderItemRow key={item.id} orderItem={item}></OrderItemRow>
+            <OrderItemRow
+              key={item.id}
+              orderItem={item}
+              orderStep={order.stage}
+            />
           ))}
       </div>
     </div>

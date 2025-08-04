@@ -63,6 +63,7 @@ export default function UserCart() {
                           key={item.id}
                           onRemove={onRemove}
                           orderItem={item}
+                          orderStep={ORDER_STEPS.ORDER_STEP_CART}
                         />
                       ))}
                   </div>

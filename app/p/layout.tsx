@@ -6,9 +6,5 @@ export default function Layout({
 }: {
   children: React.ReactNode
 }) {
-  return (
-    <div className="max-w-7xl m-auto md:min-h-[calc(100vh-100px-418px)] px-4">
-      {children}
-    </div>
-  )
+  return <div className="max-w-7xl m-auto min-h-screen px-4">{children}</div>
 }

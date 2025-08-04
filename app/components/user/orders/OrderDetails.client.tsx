@@ -55,7 +55,7 @@ export default function OrderDetails({id}: OrderDetailsProps) {
                 }
               >
                 <div className={'md:w-3/4 w-full'}>
-                  <div className="p-4">
+                  <div className="py-4">
                     <div className={'border rounded-md border-gray-400'}>
                       {cart?.items &&
                         cart?.items.map((item: IOrderItem) => (
@@ -63,18 +63,19 @@ export default function OrderDetails({id}: OrderDetailsProps) {
                             key={item.id}
                             onRemove={onRemove}
                             orderItem={item}
+                            orderStep={ORDER_STEPS.ORDER_PAID}
                           />
                         ))}
                     </div>
                   </div>
 
-                  <div className="p-4">
+                  <div className="py-4">
                     <RentalAgreement orderId={cart.id} />
                   </div>
                 </div>
 
                 <div className={'md:w-1/4 w-full'}>
-                  <div className="md:fixed top-100 md:w-80 w-full p-4">
+                  <div className="md:fixed top-100 md:w-80 w-full py-4">
                     {cart && (
                       <OrderSummary
                         order={cart}

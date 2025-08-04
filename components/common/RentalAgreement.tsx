@@ -7,8 +7,8 @@ import {
   FaCheckCircle,
   FaPen,
   FaExternalLinkAlt,
+  FaEye,
 } from 'react-icons/fa'
-import PDFViewer from './PDFViewer'
 import {useRentalAgreement} from '../../hooks/useRentalAgreement'
 
 interface RentalAgreementProps {
@@ -41,37 +41,71 @@ export default function RentalAgreement({orderId}: RentalAgreementProps) {
     }
   }
 
+  const handleViewAgreement = () => {
+    if (pdfUrl) {
+      // If it's a data URL, convert it to a blob URL for better compatibility
+      if (pdfUrl.startsWith('data:')) {
+        // Convert data URL to blob
+        fetch(pdfUrl)
+          .then(res => res.blob())
+          .then(blob => {
+            const blobUrl = URL.createObjectURL(blob)
+            const newWindow = window.open(blobUrl, '_blank')
+
+            // Clean up the blob URL after a delay
+            setTimeout(() => {
+              URL.revokeObjectURL(blobUrl)
+            }, 1000)
+
+            // If window didn't open, try fallback
+            if (
+              !newWindow ||
+              newWindow.closed ||
+              typeof newWindow.closed === 'undefined'
+            ) {
+              // Create download link as fallback
+              const link = document.createElement('a')
+              link.href = blobUrl
+              link.download = 'rental-agreement.pdf'
+              link.click()
+            }
+          })
+          .catch(err => {
+            console.error('Failed to open PDF:', err)
+            // Fallback: try opening data URL directly
+            window.open(pdfUrl, '_blank')
+          })
+      } else {
+        // Regular URL, open directly
+        window.open(pdfUrl, '_blank')
+      }
+    }
+  }
+
   const renderSignatureButton = () => {
     switch (signatureStatus) {
       case 'unsigned':
-        return (
-          <div className="w-full bg-gray-100 border border-gray-300 text-gray-500 font-medium py-3 px-4 rounded-lg flex items-center justify-center space-x-2">
-            <FaPen className="h-4 w-4" />
-            <span>Initializing signature...</span>
-          </div>
-        )
       case 'initializing':
         return (
-          <div className="w-full bg-gray-100 border border-gray-300 text-gray-500 font-medium py-3 px-4 rounded-lg flex items-center justify-center space-x-2">
+          <div className="w-full bg-gray-50 text-gray-500 py-3 px-4 rounded-lg flex items-center justify-center">
             <Loader />
-            <span>Initializing signature...</span>
+            <span className="ml-2">Preparing...</span>
           </div>
         )
       case 'ready':
         return (
           <button
             onClick={handleOpenSignature}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors flex items-center justify-center space-x-2"
+            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-3 px-4 rounded-lg transition-colors"
           >
-            <FaExternalLinkAlt className="h-4 w-4" />
-            <span>Sign Rental Agreement</span>
+            Sign Agreement
           </button>
         )
       case 'signed':
         return (
-          <div className="w-full bg-green-100 border border-green-300 text-green-800 font-medium py-3 px-4 rounded-lg flex items-center justify-center space-x-2">
-            <FaCheckCircle className="h-4 w-4" />
-            <span>Document Signed</span>
+          <div className="w-full bg-green-50 text-green-700 py-3 px-4 rounded-lg flex items-center justify-center">
+            <FaCheckCircle className="h-4 w-4 mr-2" />
+            <span>Signed</span>
           </div>
         )
       default:
@@ -81,10 +115,10 @@ export default function RentalAgreement({orderId}: RentalAgreementProps) {
 
   if (loading) {
     return (
-      <div className="border rounded-md border-gray-400 p-6">
-        <div className="flex items-center justify-center space-x-2">
+      <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="flex items-center justify-center py-4">
           <Loader />
-          <span>Loading rental agreement...</span>
+          <span className="ml-2 text-gray-600">Loading...</span>
         </div>
       </div>
     )
@@ -92,14 +126,14 @@ export default function RentalAgreement({orderId}: RentalAgreementProps) {
 
   if (error) {
     return (
-      <div className="border rounded-md border-gray-400 p-6">
-        <div className="text-center">
-          <div className="text-red-600 mb-4">{error}</div>
+      <div className="bg-white border border-gray-200 rounded-lg p-4">
+        <div className="text-center py-4">
+          <div className="text-red-600 mb-3">{error}</div>
           <button
             onClick={handleRetry}
-            className="bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg"
           >
-            Retry
+            Try Again
           </button>
         </div>
       </div>
@@ -107,38 +141,21 @@ export default function RentalAgreement({orderId}: RentalAgreementProps) {
   }
 
   return (
-    <div className="border rounded-md border-gray-400">
-      {/* Header */}
-      <div className="border-b border-gray-400 p-4 bg-gray-50">
-        <div className="flex items-center space-x-2">
-          <FaFilePdf className="h-5 w-5 text-red-600" />
-          <h3 className="text-lg font-semibold text-gray-800">
-            Rental Agreement
-          </h3>
-        </div>
-      </div>
+    <>
+      {/* Content */}
+      <div className="py-4 space-y-4 sm:flex sm:space-x-4 sm:space-y-0">
+        {/* View Button */}
+        <button
+          onClick={handleViewAgreement}
+          className="w-full bg-gray-50 hover:bg-gray-100 text-gray-700 py-3 px-4 rounded-lg border border-gray-200 transition-colors flex items-center justify-center"
+        >
+          <FaEye className="h-4 w-4 mr-2" />
+          <span>View Agreement</span>
+        </button>
 
-      {/* PDF Viewer */}
-      <div className="p-4">
-        {pdfUrl && (
-          <PDFViewer
-            pdfUrl={pdfUrl}
-            title="Rental Agreement"
-            className="w-full"
-          />
-        )}
+        {/* Sign Button */}
+        {renderSignatureButton()}
       </div>
-
-      {/* Footer with Signature Button */}
-      <div className="border-t border-gray-400 p-4 bg-gray-50">
-        <div className="space-y-3">
-          <p className="text-sm text-gray-600">
-            Please review the rental agreement above and click the button below
-            to sign it.
-          </p>
-          {renderSignatureButton()}
-        </div>
-      </div>
-    </div>
+    </>
   )
 }

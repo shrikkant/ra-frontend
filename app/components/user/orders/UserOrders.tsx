@@ -9,6 +9,7 @@ import Loader from '../../../../components/Loader'
 import {Section} from '../../common/Section'
 import Link from 'next/link'
 import {Button} from '@headlessui/react'
+import {ORDER_STEPS} from '../../../../config/constants'
 
 export const UserOrders: React.FC = () => {
   const loggedUser = useSelector(selectAuthState)
@@ -43,7 +44,11 @@ export const UserOrders: React.FC = () => {
               >
                 {order.items &&
                   order.items.map(item => (
-                    <OrderItemRow key={item.id} orderItem={item} />
+                    <OrderItemRow
+                      key={item.id}
+                      orderItem={item}
+                      orderStep={ORDER_STEPS.ORDER_PAID}
+                    />
                   ))}
               </Section>
             ))}

@@ -5,6 +5,7 @@ import {dateDisplay} from '../util/date.util'
 import {IOrder} from '../app-store/types'
 import Button from './common/form/Button'
 import Decimal from 'decimal.js'
+import {IoCalendarOutline} from 'react-icons/io5'
 
 export default function OrderSummary({
   order,
@@ -48,20 +49,32 @@ export default function OrderSummary({
           Order Summary
         </div>
       </div>
-      <div
-        className={'flex border-gray-200 border justify-around rounded-md mt-5'}
-      >
-        <div className={'p-2 flex-col flex'}>
-          <span className={''}>Starting</span>
-          <span className={'text-md font-semibold'}>
-            {dateDisplay(order.start_date)}
-          </span>
-        </div>
-        <div className={'p-2 flex-col flex'}>
-          <span className={''}>Ending</span>
-          <span className={'text-md font-semibold'}>
-            {dateDisplay(order.end_date)}
-          </span>
+      <div className="border-2 border-[#FDC002] rounded-lg p-4 bg-white hover:bg-[#FDC002]/5 transition-all duration-300 mt-5">
+        <div className="flex items-center gap-3">
+          <IoCalendarOutline className="w-5 h-5 text-[#FDC002] flex-shrink-0" />
+          <div className="flex items-center gap-6 w-full">
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-medium mb-1 text-gray-500">
+                Start
+              </span>
+              <span className="text-base font-semibold truncate text-gray-900">
+                {dateDisplay(order.start_date)}
+              </span>
+            </div>
+            <div className="flex flex-col min-w-0">
+              <span className="text-xs font-medium mb-1 text-gray-500">
+                End
+              </span>
+              <span className="text-base font-semibold truncate text-gray-900">
+                {dateDisplay(order.end_date)}
+              </span>
+            </div>
+            <div className="flex flex-col justify-center items-center ml-auto">
+              <span className="text-md font-semibold whitespace-nowrap text-[#FDC002]">
+                {order.days} {order.days === 1 ? 'day' : 'days'}
+              </span>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -103,16 +116,18 @@ export default function OrderSummary({
         </div>
       </div>
       <div>
-        <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none mt-4">
-          {callToAction(step) && (
-            <Button
-              isLoading={isLoading}
-              variant="primary"
-              onClick={() => onCallToAction(step)}
-              label={callToAction(step)}
-            />
-          )}
-        </div>
+        {step !== ORDER_STEPS.ORDER_PAID && (
+          <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none mt-4">
+            {callToAction(step) && (
+              <Button
+                isLoading={isLoading}
+                variant="primary"
+                onClick={() => onCallToAction(step)}
+                label={callToAction(step)}
+              />
+            )}
+          </div>
+        )}
       </div>
     </div>
   )
