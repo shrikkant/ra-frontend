@@ -7,6 +7,8 @@ import {fetchOrders} from '../../../../api/user/orders.api'
 import OrderItemRow from '../../../../components/OrderItemRow'
 import Loader from '../../../../components/Loader'
 import {Section} from '../../common/Section'
+import Link from 'next/link'
+import {Button} from '@headlessui/react'
 
 export const UserOrders: React.FC = () => {
   const loggedUser = useSelector(selectAuthState)
@@ -27,7 +29,18 @@ export const UserOrders: React.FC = () => {
         ) : (
           <div>
             {orders.map((order: IOrder) => (
-              <Section title={'Order ID: ' + order.id} key={order.id} tags={[]}>
+              <Section
+                title={'Order ID: ' + order.id}
+                key={order.id}
+                tags={[]}
+                actions={[
+                  <Button key={order.id}>
+                    <Link href={`/p/orders/${order.id}`} target="_blank">
+                      Sign Agreement
+                    </Link>
+                  </Button>,
+                ]}
+              >
                 {order.items &&
                   order.items.map(item => (
                     <OrderItemRow key={item.id} orderItem={item} />
