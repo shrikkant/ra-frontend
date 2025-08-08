@@ -33,10 +33,9 @@ export default function SignInRefactored({onClose}: SignInModalProps) {
           logoTitle={true}
           fullScreen={false}
         >
-          <div className={`${state.isMobile ? 'px-2 py-8' : 'm-auto'}`}>
+          <div className={`${state.isMobile ? 'px-2' : 'm-auto'}`}>
+            <SignInHeader title={SIGNIN_CONSTANTS.TITLES.LOGIN_SIGNUP} />
             <div className="space-y-6">
-              <SignInHeader title={SIGNIN_CONSTANTS.TITLES.LOGIN_SIGNUP} />
-
               <SignInPhoneForm
                 phone={state.phone}
                 error={state.errors.phone}

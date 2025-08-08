@@ -11,9 +11,7 @@ export const SignInHeader: React.FC<SignInHeaderProps> = ({
   subtitle,
   isCentered = false,
 }) => {
-  const containerClass = isCentered
-    ? 'text-center space-y-2'
-    : 'text-left space-y-2'
+  const containerClass = isCentered ? 'text-center ' : 'text-left'
 
   return (
     <div className={containerClass}>
