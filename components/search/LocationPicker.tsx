@@ -82,6 +82,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
           chevronSize: 'w-4 h-4',
           textSize: 'text-sm',
           gap: 'gap-2',
+          minWidth: 'min-w-[140px]',
         }
       case 'md':
         return {
@@ -90,6 +91,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
           chevronSize: 'w-4 h-4',
           textSize: 'text-sm',
           gap: 'gap-2',
+          minWidth: 'min-w-[160px]',
         }
       case 'lg':
       default:
@@ -99,6 +101,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
           chevronSize: 'w-5 h-5',
           textSize: 'text-base',
           gap: 'gap-2',
+          minWidth: 'min-w-[180px]',
         }
     }
   }
@@ -109,18 +112,18 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
 
     if (theme === 'dark') {
       return {
-        button: `${sizeStyles.padding} ${sizeStyles.gap} bg-gray-800 hover:bg-gray-700 border border-[#FDC002] rounded-full transition-all duration-200 flex items-center text-white font-medium`,
+        button: `${sizeStyles.padding} ${sizeStyles.gap} ${sizeStyles.minWidth} bg-gray-800 hover:bg-gray-700 border border-[#FDC002] rounded-full transition-all duration-200 flex items-center text-white font-medium`,
         text: `${sizeStyles.textSize} text-white`,
         icon: `${sizeStyles.iconSize} text-[#FDC002]`,
         chevron: `${sizeStyles.chevronSize} text-[#FDC002] transition-transform`,
         dropdown: 'bg-gray-800 border border-gray-600 shadow-xl rounded-lg',
         dropdownItem:
-          'block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-[#FDC002] transition-colors rounded-md mx-1',
+          'block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-[#FDC002] transition-colors rounded-md',
       }
     }
     // Default light theme
     return {
-      button: `${sizeStyles.padding} ${sizeStyles.gap} bg-white hover:bg-gray-50 border border-gray-300 rounded-lg transition-all duration-200 flex items-center text-gray-900 font-medium`,
+      button: `${sizeStyles.padding} ${sizeStyles.gap} ${sizeStyles.minWidth} bg-white hover:bg-gray-50 border border-gray-300 rounded-lg transition-all duration-200 flex items-center text-gray-900 font-medium`,
       text: `${sizeStyles.textSize} text-gray-900`,
       icon: `${sizeStyles.iconSize} text-gray-600`,
       chevron: `${sizeStyles.chevronSize} text-gray-600 transition-transform`,
@@ -159,7 +162,7 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
             leaveTo="opacity-0 translate-y-1"
           >
             <PopoverPanel
-              className={`absolute z-50 mt-2 w-56 ${styles.dropdown} py-2 left-0 transform`}
+              className={`absolute z-50 mt-2 w-full ${styles.dropdown} left-0 transform`}
             >
               {({close}) => (
                 <>

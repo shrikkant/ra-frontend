@@ -65,7 +65,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
 
   // Add mobile styles for date picker
   useEffect(() => {
-    if (size === 'sm' && isDatePickerOpen) {
+    if (isDatePickerOpen) {
       const style = document.createElement('style')
       style.textContent = `
         /* Main wrapper classes */
@@ -73,6 +73,8 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
         .rdrDateRangeWrapper,
         .rdrDateRangePickerWrapper {
           width: 100% !important;
+          border-radius: 0.5rem !important;
+          overflow: hidden !important;
         }
 
         /* Months container */
@@ -115,6 +117,16 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
           justify-content: center !important;
           align-items: center !important;
         }
+
+        /* Ensure month navigation respects rounded corners */
+        .rdrMonthAndYearWrapper {
+          border-radius: 0.5rem 0.5rem 0 0 !important;
+        }
+
+        /* Ensure the last row of days doesn't break rounded corners */
+        .rdrDays:last-child {
+          border-radius: 0 0 0.5rem 0.5rem !important;
+        }
       `
       document.head.appendChild(style)
 
@@ -122,7 +134,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
         document.head.removeChild(style)
       }
     }
-  }, [size, isDatePickerOpen])
+  }, [isDatePickerOpen])
 
   // Handle click outside to close calendar
   useEffect(() => {
@@ -314,7 +326,7 @@ export const DateSelector: React.FC<DateSelectorProps> = ({
       {/* Calendar that opens directly */}
       {isDatePickerOpen && (
         <div
-          className={`absolute top-full mt-2 z-50 bg-white rounded-lg shadow-lg border border-gray-200 ${
+          className={`absolute top-full mt-2 z-50 bg-white rounded-lg shadow-lg border border-gray-200 overflow-hidden ${
             size === 'sm' ? 'left-0 right-0 w-full' : 'left-0 right-0'
           }`}
         >
