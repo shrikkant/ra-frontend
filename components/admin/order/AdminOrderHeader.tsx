@@ -45,10 +45,12 @@ export const AdminOrderHeader = ({order, children}: AdminOrderHeaderProps) => {
     // Agreement link
     tags.push(
       <div key="agreement" color="blue">
-        {!agreementLoading && hasSignedAgreement && pdfUrl && (
-          <Link className="p-0" href={pdfUrl} target="_blank">
+        {!agreementLoading && hasSignedAgreement && pdfUrl ? (
+          <a className="p-0" href={pdfUrl} target="_blank" rel="noopener noreferrer">
             Agreement
-          </Link>
+          </a>
+        ) : (
+          <span className="text-gray-500">Agreement Sign Pending</span>
         )}
       </div>,
     )
