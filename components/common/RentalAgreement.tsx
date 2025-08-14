@@ -2,13 +2,7 @@
 
 import React, {useEffect} from 'react'
 import Loader from '../Loader'
-import {
-  FaFilePdf,
-  FaCheckCircle,
-  FaPen,
-  FaExternalLinkAlt,
-  FaEye,
-} from 'react-icons/fa'
+import {FaCheckCircle, FaEye} from 'react-icons/fa'
 import {useRentalAgreement} from '../../hooks/useRentalAgreement'
 
 interface RentalAgreementProps {
