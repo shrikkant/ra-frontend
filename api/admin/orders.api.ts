@@ -1,5 +1,5 @@
 import {IDelivery, IOrder} from '../../app-store/types'
-import httpClient from './../axios.config'
+import httpClient, {HttpService} from './../axios.config'
 
 export async function fetchOrders(status: number): Promise<IOrder[]> {
   const orderStatus = status
@@ -51,5 +51,16 @@ export async function fetchOrderDelivery(
   const response: IDelivery = await httpClient.get(
     `/admin/delivery/${deliveryId}`,
   )
+  return response
+}
+
+export const getSignedRentalAgreementForAdmin = async (
+  userId: number,
+  orderId: number,
+): Promise<{success: boolean; data: string}> => {
+  const httpService = new HttpService('/api/v1')
+  const response = await httpService
+    .getClient()
+    .get(`/admin/users/${userId}/orders/${orderId}/rental-agreement/signed`)
   return response
 }
