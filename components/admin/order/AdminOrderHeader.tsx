@@ -7,8 +7,6 @@ import {useRouter} from 'next/navigation'
 import {Section} from '../../../app/components/common/Section'
 import {FaShippingFast} from 'react-icons/fa'
 import {useRentalAgreementAdmin} from '../../../hooks/useRentalAgreementAdmin'
-import {useSelector} from 'react-redux'
-import {selectAuthState} from '../../../app-store/auth/auth.slice'
 
 interface AdminOrderHeaderProps {
   order: IOrder
@@ -16,9 +14,9 @@ interface AdminOrderHeaderProps {
 }
 export const AdminOrderHeader = ({order, children}: AdminOrderHeaderProps) => {
   const router = useRouter()
-  const loggedUser = useSelector(selectAuthState)
+
   const {hasSignedAgreement, loading: agreementLoading} =
-    useRentalAgreementAdmin(loggedUser?.id, order.id)
+    useRentalAgreementAdmin(order.user.id, order.id)
 
   const tags = [
     <div key="2" color="purple">
