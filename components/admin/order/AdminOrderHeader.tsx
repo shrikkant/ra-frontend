@@ -15,8 +15,11 @@ interface AdminOrderHeaderProps {
 export const AdminOrderHeader = ({order, children}: AdminOrderHeaderProps) => {
   const router = useRouter()
 
-  const {hasSignedAgreement, loading: agreementLoading} =
-    useRentalAgreementAdmin(order.user.id, order.id)
+  const {
+    pdfUrl,
+    hasSignedAgreement,
+    loading: agreementLoading,
+  } = useRentalAgreementAdmin(order.user.id, order.id)
 
   const tags = [
     <div key="2" color="purple">
@@ -42,16 +45,10 @@ export const AdminOrderHeader = ({order, children}: AdminOrderHeaderProps) => {
     // Agreement link
     tags.push(
       <div key="agreement" color="blue">
-        {!agreementLoading && hasSignedAgreement ? (
-          <Link
-            className="p-0"
-            href={`/admin/users/${order.user.id}/orders/${order.id}/rental-agreement/signed`}
-            target="_blank"
-          >
+        {!agreementLoading && hasSignedAgreement && pdfUrl && (
+          <Link className="p-0" href={pdfUrl} target="_blank">
             Agreement
           </Link>
-        ) : (
-          <span className="text-gray-500">Agreement Sign Pending</span>
         )}
       </div>,
     )
