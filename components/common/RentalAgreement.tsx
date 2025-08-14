@@ -4,6 +4,7 @@ import React, {useEffect} from 'react'
 import Loader from '../Loader'
 import {FaCheckCircle, FaEye} from 'react-icons/fa'
 import {useRentalAgreement} from '../../hooks/useRentalAgreement'
+import {openPdfInNewWindow} from '../../util/pdf.util'
 
 interface RentalAgreementProps {
   orderId: number
@@ -37,42 +38,7 @@ export default function RentalAgreement({orderId}: RentalAgreementProps) {
 
   const handleViewAgreement = () => {
     if (pdfUrl) {
-      // If it's a data URL, convert it to a blob URL for better compatibility
-      if (pdfUrl.startsWith('data:')) {
-        // Convert data URL to blob
-        fetch(pdfUrl)
-          .then(res => res.blob())
-          .then(blob => {
-            const blobUrl = URL.createObjectURL(blob)
-            const newWindow = window.open(blobUrl, '_blank')
-
-            // Clean up the blob URL after a delay
-            setTimeout(() => {
-              URL.revokeObjectURL(blobUrl)
-            }, 1000)
-
-            // If window didn't open, try fallback
-            if (
-              !newWindow ||
-              newWindow.closed ||
-              typeof newWindow.closed === 'undefined'
-            ) {
-              // Create download link as fallback
-              const link = document.createElement('a')
-              link.href = blobUrl
-              link.download = 'rental-agreement.pdf'
-              link.click()
-            }
-          })
-          .catch(err => {
-            console.error('Failed to open PDF:', err)
-            // Fallback: try opening data URL directly
-            window.open(pdfUrl, '_blank')
-          })
-      } else {
-        // Regular URL, open directly
-        window.open(pdfUrl, '_blank')
-      }
+      openPdfInNewWindow(pdfUrl, orderId + '-rental-agreement.pdf')
     }
   }
 
