@@ -4,6 +4,7 @@ import CityHeroBanner from 'components/CityHeroBanner'
 import {getCategoryDescription, getCategoryTitle} from 'util/category.util'
 import {getCityImage} from 'util/city.util'
 import {ReviewsSection} from 'components/ReviewsSection'
+import HowItWorks from 'components/HowItWorks'
 import {IProduct, IProductFilter} from '../../../app-store/types'
 
 // Skeleton components for loading states
@@ -31,7 +32,6 @@ interface CityListingPageProps {
 
 export const CityListingPage: React.FC<CityListingPageProps> = ({
   products,
-  meta,
   filter,
   categories,
   searchParams,
@@ -76,8 +76,8 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
             ))
           ) : products && products.length > 0 ? (
             // Show products when loaded and have results
-            products.map((product: IProduct) => (
-              <ProductCard key={product.id} product={product} />
+            products.map((product: IProduct, index: number) => (
+              <ProductCard key={product.id} product={product} priority={index < 4} />
             ))
           ) : (
             // Show empty state when loaded but no results
@@ -101,6 +101,11 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
           showCTA={false}
           className="mt-8"
         />
+
+        {/* How It Works Section */}
+        <div className="mt-16">
+          <HowItWorks />
+        </div>
       </div>
     </div>
   )

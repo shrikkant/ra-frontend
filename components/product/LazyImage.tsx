@@ -10,6 +10,7 @@ interface LazyImageProps {
   height: number
   blurDataURL?: string
   className?: string
+  priority?: boolean
 }
 
 const LazyImage: React.FC<LazyImageProps> = ({
@@ -19,6 +20,7 @@ const LazyImage: React.FC<LazyImageProps> = ({
   height,
   blurDataURL,
   className,
+  priority = false,
 }) => {
   const [isLoaded, setIsLoaded] = useState(false)
   const [hasError, setHasError] = useState(false)
@@ -33,8 +35,9 @@ const LazyImage: React.FC<LazyImageProps> = ({
           height={height}
           placeholder={blurDataURL ? 'blur' : 'empty'}
           blurDataURL={blurDataURL}
-          quality={75}
-          loading="lazy"
+          quality={80}
+          loading={priority ? 'eager' : 'lazy'}
+          priority={priority}
           className={`
             duration-700 ease-in-out w-full h-full object-contain
             ${isLoaded ? 'scale-100 blur-0' : 'scale-110 blur-md'}

@@ -14,6 +14,7 @@ interface ProductImageProps {
   product: IProduct
   url: string
   className?: string
+  priority?: boolean
 }
 
 interface ProductDetailsProps {
@@ -27,6 +28,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
   product,
   url,
   className = '',
+  priority = false,
 }) => {
   if (!product.master_product_id) return null
 
@@ -39,6 +41,7 @@ const ProductImage: React.FC<ProductImageProps> = ({
           className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
           width={800}
           height={600}
+          priority={priority}
         />
       </div>
     </Link>
@@ -75,7 +78,7 @@ const ProductDetails: React.FC<ProductDetailsProps> = ({
 }
 
 // Single Responsibility: Mobile layout component
-const MobileProductCard: React.FC<ProductCardProps> = ({product}) => {
+const MobileProductCard: React.FC<ProductCardProps & {priority?: boolean}> = ({product, priority = false}) => {
   const dailyRent = product?.rates ? product.rates[0].rate : 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug}/${product.slug}`
 
@@ -87,6 +90,7 @@ const MobileProductCard: React.FC<ProductCardProps> = ({product}) => {
           product={product}
           url={url}
           className="w-full h-[120px] p-2"
+          priority={priority}
         />
       </div>
 
@@ -99,7 +103,7 @@ const MobileProductCard: React.FC<ProductCardProps> = ({product}) => {
 }
 
 // Single Responsibility: Desktop layout component
-const DesktopProductCard: React.FC<ProductCardProps> = ({product}) => {
+const DesktopProductCard: React.FC<ProductCardProps & {priority?: boolean}> = ({product, priority = false}) => {
   const dailyRent = product?.rates ? product.rates[0].rate : 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug}/${product.slug}`
 
@@ -110,6 +114,7 @@ const DesktopProductCard: React.FC<ProductCardProps> = ({product}) => {
           product={product}
           url={url}
           className="w-full h-[240px]"
+          priority={priority}
         />
       </div>
 
@@ -133,11 +138,11 @@ const DesktopProductCard: React.FC<ProductCardProps> = ({product}) => {
 }
 
 // Main component with single responsibility: orchestrate layout
-export default function ProductCard({product}: ProductCardProps) {
+export default function ProductCard({product, priority = false}: ProductCardProps & {priority?: boolean}) {
   return (
     <div className="border border-gray-100 w-full h-full bg-white flex flex-col sm:rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
-      <MobileProductCard product={product} />
-      <DesktopProductCard product={product} />
+      <MobileProductCard product={product} priority={priority} />
+      <DesktopProductCard product={product} priority={priority} />
     </div>
   )
 }
