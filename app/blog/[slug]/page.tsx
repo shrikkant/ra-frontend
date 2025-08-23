@@ -1,80 +1,186 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import {fetchBlogBySlug, fetchBlogs} from '../../../api/blog/blog.api'
-import PageContainer from 'components/common/PageContainer'
-import BlogSideBar from '../../../components/blog/BlogSideBar'
-import {PortableText, type SanityDocument} from 'next-sanity'
+import {type SanityDocument} from 'next-sanity'
+import {client} from '../../../sanity/client'
+import {notFound} from 'next/navigation'
+import {Metadata} from 'next'
+import BlogPostContent from '../../../components/blog/BlogPostContent'
+import BlogPostSidebar from '../../../components/blog/BlogPostSidebar'
+import RelatedPosts from '../../../components/blog/RelatedPosts'
 import imageUrlBuilder from '@sanity/image-url'
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
-import {client} from '../../../sanity/client'
-import Link from 'next/link'
-import Image from 'next/image'
-import {IBlog} from '../../../app-store/app-defaults/types'
 
-const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]`
+// Enhanced post query with all necessary data
+const POST_QUERY = `*[_type == "post" && slug.current == $slug][0]{
+  _id,
+  title,
+  slug,
+  body,
+  short_desc,
+  publishedAt,
+  image,
+  "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
+  "excerpt": pt::text(short_desc)[0...160],
+  categories[]->{ title, slug },
+  author->{ name, image, bio },
+  "wordCount": length(pt::text(body))
+}`
+
+// Query for related posts
+const RELATED_POSTS_QUERY = `*[
+  _type == "post" 
+  && slug.current != $slug 
+  && count(categories[@._ref in *[_type == "post" && slug.current == $slug][0].categories[]._ref]) > 0
+]|order(publishedAt desc)[0...3]{
+  _id,
+  title,
+  slug,
+  short_desc,
+  publishedAt,
+  image,
+  "estimatedReadingTime": round(length(pt::text(body)) / 5 / 180 ),
+  "excerpt": pt::text(short_desc)[0...100]
+}`
+
 const {projectId, dataset} = client.config()
 const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? imageUrlBuilder({projectId, dataset}).image(source)
     : null
 
-const options = {next: {revalidate: 30}}
 interface PageProps {
-  params: any
+  params: Promise<{slug: string}>
 }
 
-const POSTS_QUERY = `*[
-  _type == "post"
-  && defined(slug.current)
-]|order(publishedAt desc)[0...12]{_id, title, slug, short_desc, publishedAt}`
+// Generate metadata for SEO
+export async function generateMetadata({params}: PageProps): Promise<Metadata> {
+  const {slug} = await params
+  
+  const post = await client.fetch<SanityDocument>(POST_QUERY, {slug})
+  
+  if (!post) {
+    return {
+      title: 'Post Not Found',
+      description: 'The requested blog post could not be found.'
+    }
+  }
 
-export default async function Page({params}: PageProps) {
-  const blogs = await client.fetch<SanityDocument[]>(POSTS_QUERY, {}, options)
+  const imageUrl = post.image
+    ? urlFor(post.image)?.width(1200).height(630).quality(90).url()
+    : '/assets/v2/img/blog-og.jpg'
 
-  const post = await client.fetch<SanityDocument>(
-    POST_QUERY,
-    await params,
-    options,
-  )
-  const postImageUrl = post.image
-    ? urlFor(post.image)?.width(550).height(310).url()
+  return {
+    title: `${post.title} | RentAcross Photography Blog`,
+    description: post.excerpt || `Read ${post.title} on RentAcross Photography Blog. Expert tips and guides for photographers.`,
+    keywords: `${post.title}, photography, camera rental, photography tips, ${post.categories?.map((c: any) => c.title).join(', ') || ''}`,
+    authors: [{name: post.author?.name || 'RentAcross Team'}],
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      url: `/blog/${post.slug.current}`,
+      images: [
+        {
+          url: imageUrl || '/assets/v2/img/blog-og.jpg',
+          width: 1200,
+          height: 630,
+          alt: post.title
+        }
+      ],
+      publishedTime: post.publishedAt,
+      authors: [post.author?.name || 'RentAcross Team']
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      images: [imageUrl || '/assets/v2/img/blog-og.jpg'],
+      creator: '@rentacross'
+    },
+    alternates: {
+      canonical: `/blog/${post.slug.current}`
+    }
+  }
+}
+
+export default async function BlogPostPage({params}: PageProps) {
+  const {slug} = await params
+  
+  const [post, relatedPosts] = await Promise.all([
+    client.fetch<SanityDocument>(POST_QUERY, {slug}),
+    client.fetch<SanityDocument[]>(RELATED_POSTS_QUERY, {slug})
+  ])
+
+  if (!post) {
+    notFound()
+  }
+
+  const imageUrl = post.image
+    ? urlFor(post.image)?.width(1200).height(600).quality(90).url()
     : null
-  // const blog = await fetchBlogBySlug(params.slug)
+
+  // Article structured data
+  const articleStructuredData = {
+    "@context": "https://schema.org",
+    "@type": "BlogPosting",
+    "headline": post.title,
+    "description": post.excerpt,
+    "image": imageUrl ? [imageUrl] : [],
+    "datePublished": post.publishedAt,
+    "dateModified": post.publishedAt,
+    "author": {
+      "@type": "Person",
+      "name": post.author?.name || "RentAcross Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "RentAcross",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://rentacross.com/logo.png"
+      }
+    },
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": `https://rentacross.com/blog/${post.slug.current}`
+    },
+    "wordCount": post.wordCount,
+    "articleSection": post.categories?.[0]?.title || "Photography",
+    "keywords": post.categories?.map((c: any) => c.title).join(", ") || ""
+  }
 
   return (
-    <section className="py-24 relative z-10 text-center">
-      <PageContainer>
-        <div className="flex gap-x-10 justify-center">
-          <div className="basis-1/2">
-            <div key={post._id} className="post-item-cover">
-              {postImageUrl && (
-                <Image
-                  src={postImageUrl}
-                  alt={post.title}
-                  className="aspect-video rounded-xl "
-                  width={760}
-                  height={-1}
-                  priority
-                />
-              )}
-              <h1 className="title title-line-left mt-4">{post.title}</h1>
-              <div className="post-content">
-                <div className="text">
-                  <p>
-                    Published: {new Date(post.publishedAt).toLocaleDateString()}
-                  </p>
-                  {Array.isArray(post.body) && (
-                    <PortableText value={post.body} />
-                  )}
-                </div>
-              </div>
+    <>
+      {/* Structured Data */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(articleStructuredData),
+        }}
+      />
+
+      <div className="min-h-screen bg-gray-50">
+        <article className="max-w-7xl mx-auto">
+          {/* Main Content */}
+          <div className="lg:grid lg:grid-cols-4 lg:gap-12">
+            {/* Article Content */}
+            <main className="lg:col-span-3">
+              <BlogPostContent post={post} />
+            </main>
+
+            {/* Sidebar */}
+            <aside className="lg:col-span-1">
+              <BlogPostSidebar />
+            </aside>
+          </div>
+
+          {/* Related Posts */}
+          {relatedPosts && relatedPosts.length > 0 && (
+            <div className="px-4 sm:px-6 lg:px-8 pb-16">
+              <RelatedPosts posts={relatedPosts} />
             </div>
-          </div>
-          <div className="basis-1/4">
-            <BlogSideBar blogs={blogs as unknown as IBlog[]} />
-          </div>
-        </div>
-      </PageContainer>
-    </section>
+          )}
+        </article>
+      </div>
+    </>
   )
 }
