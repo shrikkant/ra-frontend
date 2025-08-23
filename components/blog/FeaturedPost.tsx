@@ -24,9 +24,9 @@ interface FeaturedPostProps {
 }
 
 const FeaturedPost: React.FC<FeaturedPostProps> = ({post}) => {
-  const imageUrl = post.image
-    ? urlFor(post.image)?.width(800).height(450).quality(90).url()
-    : '/assets/v2/img/blog-placeholder.jpg'
+  const imageUrl = post.image && urlFor(post.image)
+    ? urlFor(post.image)?.width(800).height(450).quality(90).url() || '/assets/v2/img/banners/blog-1.webp'
+    : '/assets/v2/img/banners/blog-1.webp'
 
   const readingTime = post.estimatedReadingTime || 5
 

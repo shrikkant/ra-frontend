@@ -26,9 +26,9 @@ const RelatedPostCard: React.FC<{
     excerpt?: string
   }
 }> = ({post}) => {
-  const imageUrl = post.image
-    ? urlFor(post.image)?.width(400).height(250).quality(80).url()
-    : '/assets/v2/img/blog-placeholder.jpg'
+  const imageUrl = post.image && urlFor(post.image)
+    ? urlFor(post.image)?.width(400).height(250).quality(80).url() || '/assets/v2/img/banners/blog-1.webp'
+    : '/assets/v2/img/banners/blog-1.webp'
 
   const readingTime = post.estimatedReadingTime || 3
 
