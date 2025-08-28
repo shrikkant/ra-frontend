@@ -8,8 +8,19 @@ import {
   FaYoutube,
   FaWhatsapp,
 } from 'react-icons/fa'
+import {headers} from 'next/headers'
 
-export default function Footer() {
+export default async function Footer() {
+  const headersList = await headers()
+  const pathname =
+    headersList.get('x-pathname') || headersList.get('x-invoke-path') || ''
+
+  // You can now use pathname to conditionally render
+  // For example, hide footer on photobooth pages:
+  if (pathname.startsWith('/photobooth')) {
+    return <Scripts />
+  }
+
   return (
     <footer className="bg-gradient-to-br from-[#1f2937] to-[#111827] text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">

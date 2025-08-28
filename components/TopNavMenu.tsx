@@ -21,7 +21,7 @@ import ShoppingBagIcon from '@heroicons/react/24/outline/ShoppingBagIcon'
 import {FaShopify} from 'react-icons/fa'
 import {IUser} from '../app-store/types'
 import {useSearchParams} from 'next/navigation'
-import {ChartBarIcon} from '@heroicons/react/24/outline'
+import {ChartBarIcon, CameraIcon} from '@heroicons/react/24/outline'
 import SignupButton from './common/SignupButton'
 
 interface INavLink {
@@ -94,6 +94,11 @@ export default function TopNavMenu() {
       title: 'Analytics',
       path: '/p/admin/analytics',
       icon: <ChartBarIcon className="h-6 w-6" />,
+    },
+    {
+      title: 'Photobooth',
+      path: '/p/admin/photobooth',
+      icon: <CameraIcon className="h-6 w-6" />,
     },
   ]
 
