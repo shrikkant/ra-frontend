@@ -6,6 +6,7 @@ import {getCityImage} from 'util/city.util'
 import {ReviewsSection} from 'components/ReviewsSection'
 import HowItWorks from 'components/HowItWorks'
 import {IProduct, IProductFilter} from '../../../app-store/types'
+import {LocationSync} from 'components/LocationSync'
 
 // Skeleton components for loading states
 const ProductCardSkeleton = () => (
@@ -43,6 +44,9 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
 
   return (
     <div className="min-h-screen">
+      {/* Sync location from URL to Redux store */}
+      {filter.city && <LocationSync city={filter.city} />}
+      
       {/* Hero Banner Section */}
       {shouldShowHeroBanner && filter.city && (
         <CityHeroBanner
