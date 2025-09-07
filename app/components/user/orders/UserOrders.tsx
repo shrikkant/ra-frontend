@@ -9,19 +9,28 @@ import Loader from '../../../../components/Loader'
 import {Section} from '../../common/Section'
 import Link from 'next/link'
 import {Button} from '@headlessui/react'
-import {ORDER_STEPS} from '../../../../config/constants'
+import {ORDER_STEPS, VERIFICATION_FLAGS} from '../../../../config/constants'
+import {isVerified} from '../../../../config/constants'
 
 export const UserOrders: React.FC = () => {
   const loggedUser = useSelector(selectAuthState)
+  const [isAadhaarVerified, setIsAadhaarVerified] = useState(false)
   const [orders, setOrders] = useState<IOrder[]>([])
+  const actions: React.ReactNode[] = []
 
   useEffect(() => {
     if (loggedUser) {
+      const isAadhaarVerified = isVerified(
+        loggedUser?.verified || 0,
+        VERIFICATION_FLAGS.AADHAAR,
+      )
+      setIsAadhaarVerified(isAadhaarVerified)
       fetchOrders().then((data: IOrder[]) => {
         setOrders(data)
       })
     }
   }, [loggedUser])
+
   return (
     <>
       <div>
@@ -34,13 +43,17 @@ export const UserOrders: React.FC = () => {
                 title={'Order ID: ' + order.id}
                 key={order.id}
                 tags={[]}
-                actions={[
-                  <Button key={order.id}>
-                    <Link href={`/p/orders/${order.id}`} target="_blank">
-                      Sign Agreement
-                    </Link>
-                  </Button>,
-                ]}
+                actions={
+                  isAadhaarVerified
+                    ? [
+                        <Button key={order.id}>
+                          <Link href={`/p/orders/${order.id}`} target="_blank">
+                            Sign Agreement
+                          </Link>
+                        </Button>,
+                      ]
+                    : []
+                }
               >
                 {order.items &&
                   order.items.map(item => (
