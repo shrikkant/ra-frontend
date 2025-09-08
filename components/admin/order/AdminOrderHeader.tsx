@@ -31,7 +31,7 @@ export const AdminOrderHeader = ({order, children}: AdminOrderHeaderProps) => {
   const tags = [
     <div key="2" color="purple">
       <Link href={`/p/admin/customers/${order.user.id}`}>
-        {order.user.firstname}
+        {order.user.firstname || order.user.email_address}
       </Link>
     </div>,
   ]
