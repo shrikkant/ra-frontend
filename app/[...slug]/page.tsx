@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import {Metadata} from 'next'
 import React from 'react'
 import {getProductFilter} from 'util/search.util'
@@ -14,8 +13,13 @@ import {ProductDetailPage} from './components/ProductDetailPage'
 import {CityListingPage} from './components/CityListingPage'
 
 interface PageProps {
-  params: any
-  searchParams: any
+  params: Promise<{
+    slug: string[]
+  }>
+  searchParams: Promise<{
+    q?: string
+    [key: string]: string | string[] | undefined
+  }>
 }
 
 // Generate static params for city and city+subcategory pages only
@@ -151,7 +155,7 @@ export default async function Page({params, searchParams}: PageProps) {
     return <ProductDetailPage product={product} />
   } else {
     // City listing page
-    const response: {results: IProduct[]; meta} = await fetchProducts(
+    const response: {results: IProduct[]; meta: {total: number; page: number; limit: number}} = await fetchProducts(
       localSearchParams?.q,
       filter,
     )

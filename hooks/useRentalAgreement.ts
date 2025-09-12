@@ -38,7 +38,7 @@ export const useRentalAgreement = (
       try {
         const signedResponse = await getSignedRentalAgreement(orderId)
         if (signedResponse.success && signedResponse.data) {
-          console.log('Document is already signed, using signed data')
+          // console.log('Document is already signed, using signed data')
           setSignatureStatus('signed')
 
           // Convert buffer data to blob and then to data URL

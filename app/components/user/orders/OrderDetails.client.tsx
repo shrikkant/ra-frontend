@@ -9,7 +9,7 @@ import Loader from 'components/Loader'
 import {IOrder, IOrderItem} from 'app-store/types'
 import OrderItemRow from 'components/OrderItemRow'
 
-import RentalAgreement from 'components/common/RentalAgreement'
+import OrderVerification from 'components/user/orders/OrderVerification'
 
 interface OrderDetailsProps {
   id: number
@@ -70,7 +70,7 @@ export default function OrderDetails({id}: OrderDetailsProps) {
                   </div>
 
                   <div className="py-4">
-                    <RentalAgreement orderId={cart.id} />
+                    <OrderVerification orderId={cart.id} />
                   </div>
                 </div>
 

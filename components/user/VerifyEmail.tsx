@@ -5,14 +5,12 @@ import {useDispatch, useSelector} from 'react-redux'
 import {authUser, selectAuthState} from '../../app-store/auth/auth.slice'
 import {updateEmail, verifyEmailOTP} from '../../api/user/index.api'
 import {IUser} from '../../app-store/types'
-import {useRouter} from 'next/navigation'
 import Input from '../common/form/Input'
 import Button from '../common/form/Button'
 import {FaCheckCircle} from 'react-icons/fa'
 import {VERIFICATION_FLAGS, isVerified} from '../../config/constants'
 
 export default function VerifyEmail() {
-  const router = useRouter()
   const [email, setEmail] = React.useState('')
   const [otp, setOtp] = React.useState('')
   const [otpSent, setOtpSent] = React.useState(false)
@@ -59,7 +57,7 @@ export default function VerifyEmail() {
     try {
       const updateUser: IUser = await verifyEmailOTP(otp)
       dispatch(authUser(updateUser))
-      router.push('/')
+      // Don't redirect - let the component re-render with updated verification status
     } catch (error) {
       console.error('Failed to verify OTP:', error)
     } finally {

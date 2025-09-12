@@ -1,11 +1,10 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
 import OrderDetails from '../../../../components/admin/OrderDetails.client'
-// interface PageParams {
-//   id: string;
-// }
+
 interface Props {
-  params: any
+  params: Promise<{
+    id: string
+  }>
 }
 
 export default async function Page({params}: Props) {

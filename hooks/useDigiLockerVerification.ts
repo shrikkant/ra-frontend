@@ -9,6 +9,7 @@ import {
   AadhaarData,
 } from '../api/digilocker.api'
 import {DIGILOCKER_CONFIG} from '../config/digilocker.config'
+import {getAuthUser} from '../api/auth.api'
 
 // Declare the global DigiboostWebSDK type
 declare global {
@@ -52,13 +53,18 @@ export const useDigiLockerVerification = () => {
     if (!verificationData) return
     try {
       // Download Aadhaar data
-      const user = await digiLockerAPI.handleVerification(
+      await digiLockerAPI.handleVerification(
         verificationData.client_id,
       )
-      return user
+      
+      // Fetch fresh user data from backend and update Redux store
+      const freshUser = await getAuthUser()
+      dispatch(authUser(freshUser))
+      
+      console.log('User verification completed and state updated')
     } catch (err) {
-      console.error('Error downloading Aadhaar data:', err)
-      setError('Failed to download Aadhaar data. Please try again.')
+      console.error('Error handling verification:', err)
+      setError('Failed to complete verification. Please try again.')
     }
   }
 
