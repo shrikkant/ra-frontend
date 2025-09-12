@@ -6,15 +6,21 @@ import {Address} from '../app/components/user/Address.client'
 interface IAddressList {
   userName: string
   addressList: ILocation[]
-  onAddressChange
+  onAddressChange: (addressId: number) => void
+  userCity?: string
 }
 
 export const AddressList = ({
   addressList,
   userName,
   onAddressChange,
+  userCity,
 }: IAddressList) => {
   const [selectedAddress, setSelectedAddress] = useState(0)
+  
+  // Check if store pickup should be available
+  const isStorePickupAvailable = userCity && 
+    ['Pune', 'Pimpri-Chinchwad', 'Pimpri'].includes(userCity)
 
   const checkRadio = addressId => {
     const el = document.getElementById('addr_' + addressId) as HTMLInputElement
@@ -25,19 +31,21 @@ export const AddressList = ({
   return (
     <div className={'mt-3'}>
       <div className={'border border-gray-400  rounded-md p-4'}>
-        <RadioListItem
-          value={'-1'}
-          onCheck={checkRadio}
-          key={'storePickup'}
-          active={selectedAddress === -1}
-        >
-          <div>
-            <div className="font-semibold">Store Pickup</div>
-            <div className={' font-semibold text-green-800'}>
-              No additional cost
+        {isStorePickupAvailable && (
+          <RadioListItem
+            value={'-1'}
+            onCheck={checkRadio}
+            key={'storePickup'}
+            active={selectedAddress === -1}
+          >
+            <div>
+              <div className="font-semibold">Store Pickup</div>
+              <div className={' font-semibold text-green-800'}>
+                No additional cost
+              </div>
             </div>
-          </div>
-        </RadioListItem>
+          </RadioListItem>
+        )}
         {addressList &&
           addressList.map(addr => (
             <RadioListItem

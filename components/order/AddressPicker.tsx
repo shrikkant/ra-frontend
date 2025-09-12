@@ -75,6 +75,7 @@ export const AddressPicker = ({
           onAddressChange={onAddressPick}
           addressList={loggedUser?.address ? loggedUser.address : []}
           userName={loggedUser?.firstname + ' ' + loggedUser?.lastname}
+          userCity={loggedUser?.city}
         />
       )}
     </div>
