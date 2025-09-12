@@ -264,12 +264,27 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
                       )}
 
                       {step.id === 'agreement' && (
-                        <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
-                          <p className="text-sm text-green-800">
-                            Great! All verifications completed. Please review
-                            and sign the rental agreement below.
-                          </p>
-                        </div>
+                        <>
+                          <div className="bg-green-50 border border-green-200 rounded-lg p-4 mb-4">
+                            <p className="text-sm text-green-800">
+                              Great! All verifications completed. Please review
+                              and sign the rental agreement below.
+                            </p>
+                          </div>
+
+                          <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
+                            <p className="text-sm font-semibold text-amber-900">
+                              ⚠️ Don't miss these steps:
+                            </p>
+                            <p className="text-sm text-amber-800 mt-1">
+                              • After signing & uploading signature, in
+                              agreement preview scroll to bottom and click
+                              "Confirm"
+                              <br />• After completing the process, click
+                              "Complete Process" to finish.
+                            </p>
+                          </div>
+                        </>
                       )}
                     </div>
                   )}
