@@ -50,17 +50,16 @@ export const useDigiLockerVerification = () => {
   }
 
   const handleVerificationSuccess = async (data: any) => {
+    console.log('handleVerificationSuccess', data)
     if (!verificationData) return
     try {
       // Download Aadhaar data
-      await digiLockerAPI.handleVerification(
-        verificationData.client_id,
-      )
-      
+      await digiLockerAPI.handleVerification(verificationData.client_id)
+
       // Fetch fresh user data from backend and update Redux store
       const freshUser = await getAuthUser()
       dispatch(authUser(freshUser))
-      
+
       console.log('User verification completed and state updated')
     } catch (err) {
       console.error('Error handling verification:', err)
@@ -105,6 +104,7 @@ export const useDigiLockerVerification = () => {
         style: DIGILOCKER_CONFIG.BUTTON_STYLE,
         onSuccess: handleVerificationSuccess,
         onFailure: handleVerificationFailure,
+        webhookUrl: 'https://rentacross.com/api/v1/digilocker/webhook',
       })
       /*
       const sdk = window.DigiboostSdk({
