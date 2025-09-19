@@ -93,11 +93,11 @@ export default function ActivityLogger({
 
   return (
     <div className="bg-white rounded-lg shadow-sm h-full flex flex-col">
-      <div className="p-4 border-b">
-        <h2 className="text-lg font-semibold">Activity Log</h2>
+      <div className="p-3 sm:p-4 border-b">
+        <h2 className="text-base sm:text-lg font-semibold">Activity Log</h2>
       </div>
 
-      <div className="flex-1 overflow-y-auto p-4 space-y-3 min-h-0">
+      <div className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3 min-h-0">
         {isLoading ? (
           <div className="text-center text-gray-500 py-8">
             Loading activities...
@@ -110,19 +110,19 @@ export default function ActivityLogger({
           activities.map(activity => (
             <div
               key={activity.id}
-              className="group relative bg-gray-50 rounded-lg p-3 hover:bg-gray-100 transition-colors"
+              className="group relative bg-gray-50 rounded-lg p-2 sm:p-3 hover:bg-gray-100 transition-colors"
             >
-              <div className="flex items-start gap-3">
+              <div className="flex items-start gap-2 sm:gap-3">
                 <div className="flex-shrink-0">
-                  <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                    <FaUser className="w-4 h-4 text-blue-600" />
+                  <div className="w-7 h-7 sm:w-8 sm:h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                    <FaUser className="w-3 h-3 sm:w-4 sm:h-4 text-blue-600" />
                   </div>
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-start justify-between gap-2">
                     <div className="flex-1">
-                      <div className="flex items-center gap-2 mb-1">
-                        <span className="font-medium text-sm text-gray-900">
+                      <div className="flex flex-col sm:flex-row sm:items-center gap-1 sm:gap-2 mb-1">
+                        <span className="font-medium text-xs sm:text-sm text-gray-900">
                           {activity.admin_name || 'Admin'}
                         </span>
                         <span className="text-xs text-gray-500">
@@ -131,7 +131,7 @@ export default function ActivityLogger({
                           )}
                         </span>
                       </div>
-                      <p className="text-sm text-gray-700 whitespace-pre-wrap break-words">
+                      <p className="text-xs sm:text-sm text-gray-700 whitespace-pre-wrap break-words">
                         {activity.notes}
                       </p>
                     </div>
@@ -151,24 +151,25 @@ export default function ActivityLogger({
         <div ref={messagesEndRef} />
       </div>
 
-      <div className="border-t p-4">
+      <div className="border-t p-3 sm:p-4">
         <div className="flex gap-2">
           <textarea
             value={newNote}
             onChange={e => setNewNote(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder="Add a note about this customer..."
-            className="flex-1 px-3 py-2 border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="flex-1 px-2 sm:px-3 py-2 text-sm sm:text-base border border-gray-300 rounded-lg resize-none focus:outline-none focus:ring-2 focus:ring-blue-500"
             rows={2}
             disabled={isSending}
           />
           <button
             onClick={handleSendActivity}
             disabled={isSending || !newNote.trim()}
-            className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-2"
+            className="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed transition-colors flex items-center gap-1 sm:gap-2 text-sm sm:text-base"
           >
-            <FaPaperPlane className="w-4 h-4" />
-            {isSending ? 'Sending...' : 'Send'}
+            <FaPaperPlane className="w-3 h-3 sm:w-4 sm:h-4" />
+            <span className="hidden sm:inline">{isSending ? 'Sending...' : 'Send'}</span>
+            <span className="sm:hidden">{isSending ? '...' : ''}</span>
           </button>
         </div>
       </div>

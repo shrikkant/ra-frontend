@@ -102,8 +102,8 @@ export default function CustomerCard({customer}: {customer: IUser}) {
           </div>
 
           {/* Update Information Section */}
-          <div className="bg-white rounded-lg shadow-md p-6">
-            <h3 className="text-lg font-semibold text-gray-800 mb-6">
+          <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+            <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-6">
               Update Information
             </h3>
             <form className="space-y-4">
@@ -158,8 +158,8 @@ export default function CustomerCard({customer}: {customer: IUser}) {
 
           {/* Addresses Section */}
           {customer.address && (
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">
+            <div className="bg-white rounded-lg shadow-md p-4 sm:p-6">
+              <h3 className="text-base sm:text-lg font-semibold text-gray-800 mb-4 sm:mb-6">
                 Addresses
               </h3>
               <AddressDisplay addresses={customer.address} />

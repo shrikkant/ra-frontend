@@ -145,16 +145,16 @@ export default function CustomerDetails({id}: CustomerDetailsProps) {
 
       {activeCustomer?.id && (
         <div className="space-y-6">
-          {/* Top Section - Customer Card and Activity Logger side by side */}
-          <div className="flex gap-6">
+          {/* Top Section - Customer Card and Activity Logger */}
+          <div className="flex flex-col lg:flex-row gap-6">
             {/* Left Column - Customer Card (Profile + Update Information) */}
-            <div className="flex-1">
+            <div className="flex-1 min-w-0">
               <CustomerCard customer={activeCustomer} />
             </div>
 
             {/* Right Column - Activity Logger */}
-            <div className="w-96">
-              <div className="sticky top-4 h-[calc(100vh-8rem)]">
+            <div className="w-full lg:w-96">
+              <div className="lg:sticky lg:top-4 h-[500px] lg:h-[calc(100vh-8rem)]">
                 <ActivityLogger userId={activeCustomer.id} />
               </div>
             </div>
@@ -162,8 +162,8 @@ export default function CustomerDetails({id}: CustomerDetailsProps) {
 
           {/* Full Width Sections Below */}
           {/* Verification Status Section */}
-          <div className="bg-white rounded-lg shadow-sm p-6">
-            <h2 className="text-lg font-semibold mb-4">
+          <div className="bg-white rounded-lg shadow-sm p-4 sm:p-6">
+            <h2 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">
               Verification Status
             </h2>
             {isCheckingKYC && (
@@ -175,33 +175,33 @@ export default function CustomerDetails({id}: CustomerDetailsProps) {
               {getVerificationStatus().map(item => (
                 <div
                   key={item.id}
-                  className="flex items-center justify-between p-3 border rounded-lg"
+                  className="flex flex-col sm:flex-row sm:items-center sm:justify-between p-3 border rounded-lg gap-3"
                 >
                   <div className="flex items-center gap-3">
                     <div
-                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                      className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center flex-shrink-0 ${
                         item.completed
                           ? 'bg-green-100 text-green-600'
                           : 'bg-gray-100 text-gray-400'
                       }`}
                     >
                       {item.completed ? (
-                        <FaCheckCircle className="h-5 w-5" />
+                        <FaCheckCircle className="h-4 w-4 sm:h-5 sm:w-5" />
                       ) : (
                         item.icon
                       )}
                     </div>
-                    <div>
-                      <h3 className="font-medium text-gray-900">
+                    <div className="flex-1">
+                      <h3 className="font-medium text-sm sm:text-base text-gray-900">
                         {item.title}
                       </h3>
-                      <p className="text-sm text-gray-600">
+                      <p className="text-xs sm:text-sm text-gray-600">
                         {item.description}
                       </p>
                     </div>
                   </div>
                   <span
-                    className={`px-3 py-1 text-xs font-medium rounded-full ${
+                    className={`self-start sm:self-auto px-2 sm:px-3 py-1 text-xs font-medium rounded-full ${
                       item.completed
                         ? 'bg-green-100 text-green-800'
                         : 'bg-yellow-100 text-yellow-800'
