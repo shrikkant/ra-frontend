@@ -116,3 +116,82 @@ export async function getCustomerDocuments(
   )
   return documents
 }
+
+export async function checkKYCStatus(userId: number): Promise<IUser> {
+  const user: IUser = await httpClient.get(
+    `/v1/digilocker/${userId}/kyc-status`,
+  )
+  return user
+}
+
+// Activity API functions
+export interface IActivity {
+  id?: number
+  user_id?: number
+  admin_user_id?: number
+  type?: number
+  created_ts?: string
+  activity_time?: string
+  notes?: string
+  admin_name?: string
+}
+
+export async function createActivity(
+  userId: number,
+  activity: Omit<IActivity, 'id'>,
+): Promise<IActivity> {
+  const response: IActivity = await httpClient.post(
+    `/v1/admin/users/${userId}/activities`,
+    activity,
+  )
+  return response
+}
+
+export async function getActivities(userId: number): Promise<IActivity[]> {
+  const response: any = await httpClient.get(
+    `/v1/admin/users/${userId}/activities`,
+  )
+  // Handle paginated response - httpClient already extracts resultFormatted
+  if (response?.data !== undefined) {
+    return response.data
+  }
+  return response || []
+}
+
+export async function getActivity(
+  userId: number,
+  activityId: number,
+): Promise<IActivity> {
+  const activity: IActivity = await httpClient.get(
+    `/v1/admin/users/${userId}/activities/${activityId}`,
+  )
+  return activity
+}
+
+export async function updateActivity(
+  userId: number,
+  activityId: number,
+  activity: Partial<IActivity>,
+): Promise<IActivity> {
+  const response: IActivity = await httpClient.put(
+    `/v1/admin/users/${userId}/activities/${activityId}`,
+    activity,
+  )
+  return response
+}
+
+export async function deleteActivity(
+  userId: number,
+  activityId: number,
+): Promise<void> {
+  await httpClient.delete(
+    `/v1/admin/users/${userId}/activities/${activityId}`,
+  )
+}
+
+export async function getAllActivities(): Promise<IActivity[]> {
+  const activities: IActivity[] = await httpClient.get(
+    `/v1/admin/activities`,
+  )
+  return activities
+}

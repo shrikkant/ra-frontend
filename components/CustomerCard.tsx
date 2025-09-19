@@ -92,74 +92,71 @@ export default function CustomerCard({customer}: {customer: IUser}) {
     <div className=" mx-auto">
       <Section>
         <div className="space-y-6">
-          {/* Main Content Grid */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-            {/* Left Column - ID Card */}
-            <div>
-              <IDCard
-                aadhaar={customerAadhaar || undefined}
-                customer={customer}
-                phone={customer.phone}
-              />
-            </div>
-
-            {/* Right Column - Update Form */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-lg font-semibold text-gray-800 mb-6">
-                Update Information
-              </h3>
-              <form className="space-y-4">
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                  <div>
-                    <Input
-                      placeholder="First Name"
-                      value={firstname}
-                      onChange={handleFirstnameChange}
-                    />
-                  </div>
-                  <div>
-                    <Input
-                      placeholder="Last Name"
-                      value={lastname}
-                      onChange={handleLastnameChange}
-                    />
-                  </div>
-                </div>
-                <div>
-                  <Input
-                    placeholder="Email"
-                    value={email}
-                    onChange={handleEmailChange}
-                  />
-                </div>
-                <div>
-                  <Input
-                    placeholder="Phone"
-                    value={phone}
-                    onChange={handlePhoneChange}
-                  />
-                </div>
-                <div>
-                  <Input
-                    label="City"
-                    value={city}
-                    onChange={handleCityChange}
-                  />
-                </div>
-                <div className="flex justify-end space-x-4 pt-4">
-                  <Button
-                    onClick={handleSubmit}
-                    className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
-                    type="button"
-                  >
-                    Save Changes
-                  </Button>
-                </div>
-              </form>
-            </div>
+          {/* ID Card */}
+          <div>
+            <IDCard
+              aadhaar={customerAadhaar || undefined}
+              customer={customer}
+              phone={customer.phone}
+            />
           </div>
 
-          {/* Full Width Addresses Section */}
+          {/* Update Information Section */}
+          <div className="bg-white rounded-lg shadow-md p-6">
+            <h3 className="text-lg font-semibold text-gray-800 mb-6">
+              Update Information
+            </h3>
+            <form className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div>
+                  <Input
+                    placeholder="First Name"
+                    value={firstname}
+                    onChange={handleFirstnameChange}
+                  />
+                </div>
+                <div>
+                  <Input
+                    placeholder="Last Name"
+                    value={lastname}
+                    onChange={handleLastnameChange}
+                  />
+                </div>
+              </div>
+              <div>
+                <Input
+                  placeholder="Email"
+                  value={email}
+                  onChange={handleEmailChange}
+                />
+              </div>
+              <div>
+                <Input
+                  placeholder="Phone"
+                  value={phone}
+                  onChange={handlePhoneChange}
+                />
+              </div>
+              <div>
+                <Input
+                  label="City"
+                  value={city}
+                  onChange={handleCityChange}
+                />
+              </div>
+              <div className="flex justify-end space-x-4 pt-4">
+                <Button
+                  onClick={handleSubmit}
+                  className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 transition-colors"
+                  type="button"
+                >
+                  Save Changes
+                </Button>
+              </div>
+            </form>
+          </div>
+
+          {/* Addresses Section */}
           {customer.address && (
             <div className="bg-white rounded-lg shadow-md p-6">
               <h3 className="text-lg font-semibold text-gray-800 mb-6">
