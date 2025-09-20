@@ -1,15 +1,15 @@
 import {useState, useRef, useEffect} from 'react'
-import {useDispatch} from 'react-redux'
-import {useRouter} from 'next/navigation'
+import {useDispatch, useSelector} from 'react-redux'
 import {authUser} from '../app-store/auth/auth.slice'
-import {IUser} from '../app-store/types'
 import {
   digiLockerAPI,
   VerificationData,
-  AadhaarData,
 } from '../api/digilocker.api'
 import {DIGILOCKER_CONFIG} from '../config/digilocker.config'
 import {getAuthUser} from '../api/auth.api'
+import {getToken} from '../api/axios.config'
+import {ENV_CONFIG} from '../config/environment'
+import {RootState} from '../app-store/store'
 
 // Declare the global DigiboostWebSDK type
 declare global {
@@ -18,15 +18,29 @@ declare global {
   }
 }
 
+type VerificationStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'EXPIRED'
+
+interface StatusUpdate {
+  status: VerificationStatus
+  completed: boolean
+  message: string
+  clientId?: string
+  completedAt?: string
+}
+
 export const useDigiLockerVerification = () => {
-  const router = useRouter()
   const dispatch = useDispatch()
+  const currentUser = useSelector((state: RootState) => state.auth.user)
 
   const [isLoading, setIsLoading] = useState(false)
   const [verificationData, setVerificationData] =
     useState<VerificationData | null>(null)
   const [error, setError] = useState<string | null>(null)
+  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>('PENDING')
+  const [statusMessage, setStatusMessage] = useState<string>('')
   const buttonRef = useRef<HTMLDivElement>(null)
+  const eventSourceRef = useRef<EventSource | null>(null)
+  const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
 
   const initializeVerification = async () => {
     try {
@@ -49,27 +63,176 @@ export const useDigiLockerVerification = () => {
     }
   }
 
-  const handleVerificationSuccess = async (data: any) => {
-    console.log('handleVerificationSuccess', data)
-    if (!verificationData) return
+  // SSE connection for real-time status updates
+  const startStatusTracking = async () => {
+    if (!currentUser?.id) {
+      console.error('No user ID available for status tracking')
+      return
+    }
+
+    // Update status message to show we're connecting
+    setStatusMessage('Connecting to verification service...')
+
     try {
-      // Download Aadhaar data
-      await digiLockerAPI.handleVerification(verificationData.client_id)
+      // Note: EventSource doesn't support custom headers, so auth must be handled via cookies
+      const sseUrl = `${ENV_CONFIG.CLIENT_API_V1_URL}digilocker/status-stream/${currentUser.id}`
 
-      // Fetch fresh user data from backend and update Redux store
-      const freshUser = await getAuthUser()
-      dispatch(authUser(freshUser))
+      console.log('Starting SSE connection to:', sseUrl)
 
-      console.log('User verification completed and state updated')
-    } catch (err) {
-      console.error('Error handling verification:', err)
-      setError('Failed to complete verification. Please try again.')
+      // Close any existing connection
+      if (eventSourceRef.current) {
+        eventSourceRef.current.close()
+      }
+
+      // Create new EventSource with auth header workaround
+      // Note: EventSource doesn't support headers directly, so backend should handle auth via cookie/query param
+      eventSourceRef.current = new EventSource(sseUrl)
+
+      // Handle status updates from SSE
+      const handleSSEStatusUpdate = async (data: StatusUpdate) => {
+        console.log('Processing status update:', data)
+
+        setVerificationStatus(data.status)
+        setStatusMessage(data.message)
+
+        if (data.completed) {
+          // Close the connection
+          eventSourceRef.current?.close()
+          eventSourceRef.current = null
+
+          if (data.status === 'COMPLETED') {
+            console.log('Verification completed successfully!')
+            // Fetch updated user data
+            try {
+              const freshUser = await getAuthUser()
+              dispatch(authUser(freshUser))
+            } catch (error) {
+              console.error('Failed to fetch updated user:', error)
+              setError('Verification completed but failed to update profile')
+            }
+          } else if (data.status === 'FAILED') {
+            setError(data.message || 'Verification failed. Please try again.')
+          } else if (data.status === 'EXPIRED') {
+            setError('Verification expired. Please try again.')
+          }
+        }
+      }
+
+      // Default message handler - backend sends data: {json}\n\n format
+      eventSourceRef.current.onmessage = async (event) => {
+        console.log('SSE message received:', event.data)
+
+        try {
+          const data = JSON.parse(event.data)
+
+          // Handle initial connection message
+          if (data.connected) {
+            console.log('SSE connected successfully')
+            setStatusMessage('Connected to verification service. Waiting for verification...')
+            return
+          }
+
+          // Handle status updates
+          if (data.status) {
+            await handleSSEStatusUpdate(data as StatusUpdate)
+          }
+        } catch (error) {
+          console.error('Failed to parse SSE message:', error)
+        }
+      }
+
+      eventSourceRef.current.onerror = (error) => {
+        console.error('SSE connection error:', error)
+        console.log('SSE connection failed, falling back to polling...')
+        setStatusMessage('Connection interrupted. Reconnecting...')
+        eventSourceRef.current?.close()
+        eventSourceRef.current = null
+        // Fall back to polling
+        startPolling()
+      }
+
+      eventSourceRef.current.onopen = () => {
+        console.log('SSE connection opened successfully')
+      }
+    } catch (error) {
+      console.error('Failed to start SSE:', error)
+      // Fall back to polling
+      startPolling()
     }
   }
 
+  // Fallback polling mechanism
+  const startPolling = async () => {
+    if (!currentUser?.id) return
+
+    console.log('Starting fallback polling...')
+
+    // Clear any existing polling
+    if (pollIntervalRef.current) {
+      clearInterval(pollIntervalRef.current)
+    }
+
+    pollIntervalRef.current = setInterval(async () => {
+      try {
+        const token = await getToken()
+        const response = await fetch(
+          `${ENV_CONFIG.CLIENT_API_V1_URL}digilocker/verification-status/${currentUser.id}`,
+          {
+            headers: {
+              'Authorization': `Bearer ${token}`,
+              'Content-Type': 'application/json',
+            },
+          }
+        )
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch status')
+        }
+
+        const data = await response.json()
+        console.log('Polling status update:', data)
+
+        setVerificationStatus(data.status)
+        setStatusMessage(data.message)
+
+        if (data.completed) {
+          // Stop polling
+          if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current)
+            pollIntervalRef.current = null
+          }
+
+          if (data.status === 'COMPLETED') {
+            // Fetch updated user data
+            try {
+              const freshUser = await getAuthUser()
+              dispatch(authUser(freshUser))
+            } catch (error) {
+              console.error('Failed to fetch updated user:', error)
+              setError('Verification completed but failed to update profile')
+            }
+          } else if (data.status === 'FAILED') {
+            setError(data.message || 'Verification failed. Please try again.')
+          } else if (data.status === 'EXPIRED') {
+            setError('Verification expired. Please try again.')
+          }
+        }
+      } catch (error) {
+        console.error('Polling error:', error)
+      }
+    }, 5000) // Poll every 5 seconds
+  }
+
+  const handleVerificationSuccess = async (data: any) => {
+    console.log('DigiLocker onSuccess callback (deprecated):', data)
+    // We no longer rely on this callback
+    // Status tracking is handled by SSE/polling
+  }
+
   const handleVerificationFailure = (error: any) => {
-    console.error('Verification failed:', error)
-    setError('Verification failed. Please try again.')
+    console.error('DigiLocker onFailure callback:', error)
+    // Still keep this for immediate UI feedback
+    setError('Verification process interrupted. Checking status...')
   }
 
   const startVerification = () => {
@@ -97,6 +260,11 @@ export const useDigiLockerVerification = () => {
 
     try {
       console.log('Creating DigiLocker SDK instance...')
+
+      // Set status to IN_PROGRESS immediately when verification starts
+      setVerificationStatus('IN_PROGRESS')
+      setStatusMessage('Initializing DigiLocker verification...')
+
       window.DigiboostSdk({
         gateway: DIGILOCKER_CONFIG.GATEWAY,
         token: verificationData.token,
@@ -105,6 +273,7 @@ export const useDigiLockerVerification = () => {
         onSuccess: handleVerificationSuccess,
         onFailure: handleVerificationFailure,
         webhookUrl: 'https://rentacross.com/api/v1/digilocker/webhook',
+        webhook_url: 'https://rentacross.com/api/v1/digilocker/webhook',
       })
       /*
       const sdk = window.DigiboostSdk({
@@ -131,8 +300,28 @@ export const useDigiLockerVerification = () => {
     if (verificationData && window.DigiboostSdk) {
       console.log('All conditions met, starting verification...')
       startVerification()
+      // Start status tracking when verification begins
+      startStatusTracking()
     }
   }, [verificationData])
+
+  // Cleanup on unmount
+  useEffect(() => {
+    return () => {
+      // Close SSE connection
+      if (eventSourceRef.current) {
+        console.log('Closing SSE connection on unmount')
+        eventSourceRef.current.close()
+        eventSourceRef.current = null
+      }
+      // Clear polling interval
+      if (pollIntervalRef.current) {
+        console.log('Clearing polling interval on unmount')
+        clearInterval(pollIntervalRef.current)
+        pollIntervalRef.current = null
+      }
+    }
+  }, [])
 
   return {
     isLoading,
@@ -140,5 +329,7 @@ export const useDigiLockerVerification = () => {
     error,
     buttonRef,
     initializeVerification,
+    verificationStatus,
+    statusMessage,
   }
 }

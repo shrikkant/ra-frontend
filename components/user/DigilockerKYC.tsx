@@ -29,6 +29,8 @@ export default function DigilockerKYC() {
     error,
     buttonRef,
     initializeVerification,
+    verificationStatus,
+    statusMessage,
   } = useDigiLockerVerification()
 
   // Check for SDK availability periodically
@@ -121,8 +123,18 @@ export default function DigilockerKYC() {
       <div className="flex justify-between items-center">
         <h3 className="font-medium text-lg">KYC Verification</h3>
         {verificationData && (
-          <span className="px-2 py-1 rounded-full text-xs font-medium bg-yellow-100 text-yellow-800">
-            Pending
+          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
+            verificationStatus === 'COMPLETED' ? 'bg-green-100 text-green-800' :
+            verificationStatus === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
+            verificationStatus === 'FAILED' ? 'bg-red-100 text-red-800' :
+            verificationStatus === 'EXPIRED' ? 'bg-gray-100 text-gray-800' :
+            'bg-yellow-100 text-yellow-800'
+          }`}>
+            {verificationStatus === 'IN_PROGRESS' ? 'In Progress' :
+             verificationStatus === 'COMPLETED' ? 'Completed' :
+             verificationStatus === 'FAILED' ? 'Failed' :
+             verificationStatus === 'EXPIRED' ? 'Expired' :
+             'Pending'}
           </span>
         )}
       </div>
@@ -170,9 +182,27 @@ export default function DigilockerKYC() {
         ) : (
           <div>
             <p className="text-sm text-gray-600 mb-4">
-              Verification initialized. Click the button below to proceed with
-              DigiLocker verification:
+              {statusMessage || 'Verification initialized. Click the button below to proceed with DigiLocker verification:'}
             </p>
+
+            {verificationStatus === 'IN_PROGRESS' && (
+              <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-md mb-4">
+                <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
+                <span className="text-sm text-blue-700">
+                  Verification in progress. Please complete the process in DigiLocker...
+                </span>
+              </div>
+            )}
+
+            {verificationStatus === 'COMPLETED' && (
+              <div className="flex items-center gap-2 p-3 bg-green-50 rounded-md mb-4">
+                <FaCheckCircle className="h-4 w-4 text-green-600" />
+                <span className="text-sm text-green-700">
+                  Verification completed successfully! Redirecting...
+                </span>
+              </div>
+            )}
+
             <div id="digilocker-button" ref={buttonRef}></div>
             {!sdkLoaded && (
               <p className="text-xs text-gray-500 text-center mt-2">
