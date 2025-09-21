@@ -1,10 +1,7 @@
 import {useState, useRef, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {authUser} from '../app-store/auth/auth.slice'
-import {
-  digiLockerAPI,
-  VerificationData,
-} from '../api/digilocker.api'
+import {digiLockerAPI, VerificationData} from '../api/digilocker.api'
 import {DIGILOCKER_CONFIG} from '../config/digilocker.config'
 import {getAuthUser} from '../api/auth.api'
 import {getToken} from '../api/axios.config'
@@ -18,7 +15,12 @@ declare global {
   }
 }
 
-type VerificationStatus = 'PENDING' | 'IN_PROGRESS' | 'COMPLETED' | 'FAILED' | 'EXPIRED'
+type VerificationStatus =
+  | 'PENDING'
+  | 'IN_PROGRESS'
+  | 'COMPLETED'
+  | 'FAILED'
+  | 'EXPIRED'
 
 interface StatusUpdate {
   status: VerificationStatus
@@ -36,7 +38,8 @@ export const useDigiLockerVerification = () => {
   const [verificationData, setVerificationData] =
     useState<VerificationData | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [verificationStatus, setVerificationStatus] = useState<VerificationStatus>('PENDING')
+  const [verificationStatus, setVerificationStatus] =
+    useState<VerificationStatus>('PENDING')
   const [statusMessage, setStatusMessage] = useState<string>('')
   const buttonRef = useRef<HTMLDivElement>(null)
   const eventSourceRef = useRef<EventSource | null>(null)
@@ -119,7 +122,7 @@ export const useDigiLockerVerification = () => {
       }
 
       // Default message handler - backend sends data: {json}\n\n format
-      eventSourceRef.current.onmessage = async (event) => {
+      eventSourceRef.current.onmessage = async event => {
         console.log('SSE message received:', event.data)
 
         try {
@@ -128,7 +131,9 @@ export const useDigiLockerVerification = () => {
           // Handle initial connection message
           if (data.connected) {
             console.log('SSE connected successfully')
-            setStatusMessage('Connected to verification service. Waiting for verification...')
+            setStatusMessage(
+              'Connected to verification service. Waiting for verification...',
+            )
             return
           }
 
@@ -141,7 +146,7 @@ export const useDigiLockerVerification = () => {
         }
       }
 
-      eventSourceRef.current.onerror = (error) => {
+      eventSourceRef.current.onerror = error => {
         console.error('SSE connection error:', error)
         console.log('SSE connection failed, falling back to polling...')
         setStatusMessage('Connection interrupted. Reconnecting...')
@@ -179,10 +184,10 @@ export const useDigiLockerVerification = () => {
           `${ENV_CONFIG.CLIENT_API_V1_URL}digilocker/verification-status/${currentUser.id}`,
           {
             headers: {
-              'Authorization': `Bearer ${token}`,
+              Authorization: `Bearer ${token}`,
               'Content-Type': 'application/json',
             },
-          }
+          },
         )
 
         if (!response.ok) {
@@ -230,9 +235,10 @@ export const useDigiLockerVerification = () => {
   }
 
   const handleVerificationFailure = (error: any) => {
-    console.error('DigiLocker onFailure callback:', error)
+    setStatusMessage('Checking status...')
+    // console.error('DigiLocker onFailure callback:', error)
     // Still keep this for immediate UI feedback
-    setError('Verification process interrupted. Checking status...')
+    // setError('Verification process interrupted. Checking status...')
   }
 
   const startVerification = () => {
