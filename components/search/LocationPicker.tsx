@@ -32,6 +32,10 @@ const locations = [
     value: 'bengaluru',
     label: 'Bangalore',
   },
+  {
+    value: 'hyderabad',
+    label: 'Hyderabad',
+  },
 ]
 
 interface LocationPickerProps {
@@ -74,14 +78,19 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
 
   // Get dynamic width based on city name length
   const getDynamicWidth = () => {
-    const cityName = location?.city ? locationCity(location.city) : 'Select City'
+    const cityName = location?.city
+      ? locationCity(location.city)
+      : 'Select City'
     const baseWidth = cityName.length * 8 // Approximate character width
     const iconSpace = 24 // Space for location icon
     const chevronSpace = 24 // Space for chevron icon
     const padding = size === 'lg' ? 32 : size === 'md' ? 24 : 24 // Padding space
     const minWidth = 120 // Minimum width for usability
-    
-    const calculatedWidth = Math.max(minWidth, baseWidth + iconSpace + chevronSpace + padding)
+
+    const calculatedWidth = Math.max(
+      minWidth,
+      baseWidth + iconSpace + chevronSpace + padding,
+    )
     return `w-[${calculatedWidth}px]`
   }
 
@@ -127,7 +136,8 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
         text: `${sizeStyles.textSize} text-white flex-shrink-0`,
         icon: `${sizeStyles.iconSize} text-[#FDC002] flex-shrink-0`,
         chevron: `${sizeStyles.chevronSize} text-[#FDC002] transition-transform flex-shrink-0`,
-        dropdown: 'bg-gray-800 border border-gray-600 shadow-xl rounded-lg min-w-max',
+        dropdown:
+          'bg-gray-800 border border-gray-600 shadow-xl rounded-lg min-w-max',
         dropdownItem:
           'block px-4 py-2 text-sm text-gray-300 hover:bg-gray-700 hover:text-[#FDC002] transition-colors rounded-md whitespace-nowrap',
       }
@@ -138,7 +148,8 @@ export const LocationPicker: React.FC<LocationPickerProps> = ({
       text: `${sizeStyles.textSize} text-gray-900 flex-shrink-0`,
       icon: `${sizeStyles.iconSize} text-gray-600 flex-shrink-0`,
       chevron: `${sizeStyles.chevronSize} text-gray-600 transition-transform flex-shrink-0`,
-      dropdown: 'bg-white border border-gray-200 shadow-lg rounded-lg min-w-max',
+      dropdown:
+        'bg-white border border-gray-200 shadow-lg rounded-lg min-w-max',
       dropdownItem:
         'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap',
     }
