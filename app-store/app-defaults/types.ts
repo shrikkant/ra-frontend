@@ -17,6 +17,14 @@ export interface IBlog {
   publishedAt: Date
 }
 
+export interface IFAQ {
+  _id: string
+  question: string
+  category: string
+  answer: any[] // Portable Text array from Sanity
+  order?: number
+}
+
 export interface ITestimonial {
   id?: number
   name: string

@@ -5,7 +5,9 @@ import {getCategoryDescription, getCategoryTitle} from 'util/category.util'
 import {getCityImage} from 'util/city.util'
 import {ReviewsSection} from 'components/ReviewsSection'
 import HowItWorks from 'components/HowItWorks'
+import FAQSection from 'components/faq/FAQSection'
 import {IProduct, IProductFilter} from '../../../app-store/types'
+import {IFAQ} from '../../../app-store/app-defaults/types'
 import {LocationSync} from 'components/LocationSync'
 
 // Skeleton components for loading states
@@ -29,6 +31,7 @@ interface CityListingPageProps {
   categories: any[]
   searchParams: any
   loading?: boolean
+  faqs?: IFAQ[]
 }
 
 export const CityListingPage: React.FC<CityListingPageProps> = ({
@@ -37,6 +40,7 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
   categories,
   searchParams,
   loading = false,
+  faqs = [],
 }) => {
   // Determine if hero banner should be shown (only when no search params)
   const shouldShowHeroBanner =
@@ -110,6 +114,16 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
         <div className="mt-16">
           <HowItWorks />
         </div>
+
+        {/* FAQ Section */}
+        {faqs.length > 0 && (
+          <FAQSection
+            faqs={faqs}
+            title="Frequently Asked Questions"
+            subtitle="Find answers to common questions about renting camera equipment"
+            className="mt-16"
+          />
+        )}
       </div>
     </div>
   )

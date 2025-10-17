@@ -4,13 +4,28 @@ import {getProductFilter} from 'util/search.util'
 import {fetchProductBySlug, fetchProducts} from 'api/products.api'
 import {generateProductMetadata, generateDefaultMetadata} from 'util/seo.util'
 import {IProduct} from '../../app-store/types'
+import {IFAQ} from '../../app-store/app-defaults/types'
 import {fetchStaticData} from '../utils/api'
 import {notFound} from 'next/navigation'
 import COUNTRIES from '../../config/constants'
+import {client} from '../../sanity/client'
+import {type SanityDocument} from 'next-sanity'
 
 // Import the new specialized components
 import {ProductDetailPage} from './components/ProductDetailPage'
 import {CityListingPage} from './components/CityListingPage'
+
+// FAQ query to fetch FAQs from Sanity
+const FAQS_QUERY = `*[
+  _type == "faq"
+  && defined(question)
+]|order(category asc, order asc){
+  _id,
+  question,
+  category,
+  answer,
+  order
+}`
 
 interface PageProps {
   params: Promise<{
@@ -160,6 +175,19 @@ export default async function Page({params, searchParams}: PageProps) {
       filter,
     )
 
+    // Fetch FAQs from Sanity
+    const faqs = await client.fetch<SanityDocument[]>(
+      FAQS_QUERY,
+      {},
+      {
+        next: {
+          revalidate: 3600, // Revalidate every hour
+        },
+      },
+    )
+
+    const transformedFAQs = faqs as unknown as IFAQ[]
+
     return (
       <CityListingPage
         products={response.results}
@@ -168,6 +196,7 @@ export default async function Page({params, searchParams}: PageProps) {
         categories={categories}
         searchParams={localSearchParams}
         loading={false}
+        faqs={transformedFAQs}
       />
     )
   }
