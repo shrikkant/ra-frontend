@@ -74,7 +74,6 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
     VERIFICATION_FLAGS.AADHAAR,
   )
 
-  console.log('loggedUser********** KYC Verified **********', loggedUser)
   const emailVerified =
     isVerified(loggedUser?.verified || 0, VERIFICATION_FLAGS.EMAIL) ||
     loggedUser?.signin_source === 'G' ||

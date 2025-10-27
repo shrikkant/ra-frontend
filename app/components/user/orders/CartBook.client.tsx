@@ -16,7 +16,12 @@ import {AddressPicker} from 'components/order/AddressPicker'
 import Loader from 'components/Loader'
 import {getAuthUser} from '../../../../api/auth.api'
 import {useRouter} from 'next/navigation'
-import {ILocation} from '../../../../app-store/types'
+import {ILocation, IOrder} from '../../../../app-store/types'
+import {
+  GA_EVENTS,
+  PurchaseItem,
+  trackPurchaseEvent,
+} from '../../../../utils/analytics'
 
 export default function CartBook() {
   const cart = useSelector(getCart)
@@ -31,11 +36,28 @@ export default function CartBook() {
 
   const orderSuccess = () => {
     const orderId = cart?.id
+
+    const items: PurchaseItem[] =
+      cart?.items?.map(item => {
+        return {
+          item_id: item.id,
+          item_name: item.product.title,
+          price: item.rent,
+          quantity: cart?.days || 0,
+        }
+      }) || []
+
+    trackPurchaseEvent({
+      transaction_id: orderId, // Required: Unique order ID
+      value: cart.total_amount, // Required: Total purchase value
+      currency: 'INR', // Your currency code
+      items: items || [],
+      // Optional but recommended:
+      rental_days: cart?.days || 0,
+      total_rent: cart?.amount,
+    })
+
     dispatch(setCart(null))
-    // if (isVerified(loggedUser?.verified || 0, VERIFICATION_FLAGS.AADHAAR)) {
-    //   router.push('/p/profile/verify')
-    //   return
-    // }
 
     router.push(`/p/orders/${orderId}`)
   }
