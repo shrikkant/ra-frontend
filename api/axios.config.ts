@@ -90,6 +90,7 @@ httpClient.interceptors.response.use(
     }>,
   ): Promise<T> {
     const response = res
+
     if (response.data?.successMessage) {
       displayMessage('success', response.data.successMessage)
     } else if (response.data?.errorMessage) {
@@ -98,7 +99,7 @@ httpClient.interceptors.response.use(
     return response.data.resultFormatted
   },
   error => {
-    if (error.status === 403) {
+    if (error.status === 401) {
       if (window.location.href.indexOf('signUp=true') === -1) {
         window.location.href = '/?signUp=true'
       }
