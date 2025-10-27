@@ -38,19 +38,25 @@ export class HttpService {
       },
     )
 
-    this.client.interceptors.response.use(async function (
-      res: AxiosResponse<any>,
-    ) {
-      const response: any = res
-      const {resultFormatted} = response.data
-      // console.log("Response Message: ", response.data);
-      if (response.data?.successMessage) {
-        displayMessage('success', response.data?.successMessage)
-      } else if (response.data?.errorMessage) {
-        displayMessage('error', response.data?.errorMessage)
-      }
-      return resultFormatted
-    })
+    this.client.interceptors.response.use(
+      async function (res: AxiosResponse<any>) {
+        const response: any = res
+        const {resultFormatted} = response.data
+        // console.log("Response Message: ", response.data);
+        if (response.data?.successMessage) {
+          displayMessage('success', response.data?.successMessage)
+        } else if (response.data?.errorMessage) {
+          displayMessage('error', response.data?.errorMessage)
+        }
+        return resultFormatted
+      },
+      error => {
+        if (error?.response?.data?.errorMessage) {
+          displayMessage('error', error.response.data.errorMessage)
+        }
+        return Promise.reject(error)
+      },
+    )
   }
 
   getClient(): AxiosInstance {
@@ -99,6 +105,9 @@ httpClient.interceptors.response.use(
     return response.data.resultFormatted
   },
   error => {
+    if (error?.response?.data?.errorMessage) {
+      displayMessage('error', error.response.data.errorMessage)
+    }
     if (error.status === 401 && window.location.pathname.startsWith('/p/')) {
       if (window.location.href.indexOf('signUp=true') === -1) {
         window.location.href = '/?signUp=true'
