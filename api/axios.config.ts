@@ -104,6 +104,7 @@ httpClient.interceptors.response.use(
     //     window.location.href = '/?signUp=true'
     //   }
     // }
+
     return Promise.reject(error)
   },
 )
