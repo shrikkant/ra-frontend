@@ -99,11 +99,11 @@ httpClient.interceptors.response.use(
     return response.data.resultFormatted
   },
   error => {
-    // if (error.status === 401) {
-    //   if (window.location.href.indexOf('signUp=true') === -1) {
-    //     window.location.href = '/?signUp=true'
-    //   }
-    // }
+    if (error.status === 401 && window.location.pathname.startsWith('/p/')) {
+      if (window.location.href.indexOf('signUp=true') === -1) {
+        window.location.href = '/?signUp=true'
+      }
+    }
 
     return Promise.reject(error)
   },
