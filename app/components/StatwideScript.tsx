@@ -52,18 +52,6 @@ export const StatwideScript: React.FC = () => {
         ],
       },
     })
-    // june
-    // if (window.analytics && window.analytics.identify) {
-
-    //   window.analytics?.identify(loggedUser.id, {
-    //     email: loggedUser.email_address,
-    //     // Optional
-    //     name: `${loggedUser.firstname} ${loggedUser.lastname}`,
-    //     avatar: `${loggedUser.profile_pic}`,
-    //     city: loggedUser.city,
-    //     // Add anything else about the user here
-    //   });
-    // }
 
     if (window.heap) {
       window.heap?.identify(
@@ -74,25 +62,6 @@ export const StatwideScript: React.FC = () => {
         email: loggedUser.email_address,
         city: loggedUser.city,
       })
-    }
-
-    if (window.aptrinsic) {
-      window.aptrinsic(
-        'identify',
-        {
-          //User Fields
-          id: loggedUser.id, // Required for logged in app users
-          email: loggedUser.email_address,
-          firstName: loggedUser.firstname,
-          lastName: loggedUser.lastname,
-          signUpDate: loggedUser.created_ts, //unix time in ms
-        },
-        {
-          //Account Fields
-          id: loggedUser.city, //Required
-          name: loggedUser.city,
-        },
-      )
     }
   }, [loggedUser])
 
