@@ -117,7 +117,7 @@ export default function OrderSummary({
       </div>
       <div>
         {step !== ORDER_STEPS.ORDER_PAID && (
-          <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none mt-4">
+          <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none mt-4 z-50 border-t border-t-gray-300">
             {callToAction(step) && (
               <Button
                 isLoading={isLoading}
