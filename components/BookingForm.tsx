@@ -100,11 +100,11 @@ export default function BookingForm({
   }
 
   const handleMobileBook = () => {
-    if (!loggedUser?.id) {
-      setShowSignIn(true)
-    } else {
-      setOpenFormInMobile(true)
-    }
+    // if (!loggedUser?.id) {
+    //   setShowSignIn(true)
+    // } else {
+    setOpenFormInMobile(true)
+    // }
   }
 
   const setBookingDates = (newDates: any) => {
