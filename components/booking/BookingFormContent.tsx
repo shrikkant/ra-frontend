@@ -31,6 +31,15 @@ export const BookingFormContent: React.FC<BookingFormContentProps> = ({
       {/* Date Selector */}
       <DateSelector storeSearch={storeSearch} onDateChange={onDateChange} />
 
+      {/* Price Breakdown */}
+      <PriceBreakdown
+        storeSearch={storeSearch}
+        discountedRate={discountedRate}
+        finalDiscount={finalDiscount}
+        getDays={getDays}
+        getPlural={getPlural}
+        getSavings={getSavings}
+      />
       {/* Book Now Button */}
       <div className="space-y-3">
         <Button
@@ -46,16 +55,6 @@ export const BookingFormContent: React.FC<BookingFormContentProps> = ({
           </p>
         )}
       </div>
-
-      {/* Price Breakdown */}
-      <PriceBreakdown
-        storeSearch={storeSearch}
-        discountedRate={discountedRate}
-        finalDiscount={finalDiscount}
-        getDays={getDays}
-        getPlural={getPlural}
-        getSavings={getSavings}
-      />
 
       {/* Trust Indicators */}
       <TrustIndicators />
