@@ -27,7 +27,7 @@ export default async function Footer() {
         {/* Main Footer Content */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-8">
           {/* Company Info */}
-          <div className="lg:col-span-2">
+          <div className="lg:col-span-2 flex-col flex justify-between">
             <div className="mb-6">
               <img
                 className="h-8 mb-4"
@@ -87,6 +87,13 @@ export default async function Footer() {
               >
                 <FaWhatsapp className="w-5 h-5" aria-hidden="true" />
               </a>
+            </div>
+            <div className="text-sm font-light">
+              This site is protected by reCAPTCHA and the Google{' '}
+              <a href="https://policies.google.com/privacy">Privacy Policy</a>{' '}
+              and{' '}
+              <a href="https://policies.google.com/terms">Terms of Service</a>{' '}
+              apply.
             </div>
           </div>
 

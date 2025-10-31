@@ -386,3 +386,7 @@ body.page-loaded .preloader-cover {
   bottom: 0;
   right: 0;
 }
+
+.grecaptcha-badge {
+  visibility: hidden;
+}
