@@ -111,6 +111,14 @@ export default async function RootLayout({
         />
 
         <GoogleTagManager gtmId="GTM-TPF56M8" />
+
+        {/* Google reCAPTCHA v3 - Invisible bot protection */}
+        <script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          async
+          defer
+        />
+
         <link rel="dns-prefetch" href="https://app.statwide.com" />
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />

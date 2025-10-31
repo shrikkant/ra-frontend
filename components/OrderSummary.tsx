@@ -41,7 +41,7 @@ export default function OrderSummary({
   return (
     <div
       className={
-        'p-4 bg-gray- border border-amber-400 shadow-lg rounded-md min-w-[276px]'
+        'p-4 bg-white border border-amber-400 shadow-lg rounded-md min-w-[276px]'
       }
     >
       <div>

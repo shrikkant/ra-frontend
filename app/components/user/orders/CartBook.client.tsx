@@ -9,36 +9,42 @@ import {fetchCart} from 'api/user/orders.api'
 import React, {useEffect, useState} from 'react'
 import OrderSummary from 'components/OrderSummary'
 import {displayRazorpay} from 'util/razorpay.util'
-import {authUser, selectAuthState} from 'app-store/auth/auth.slice'
 import {OrderItemsReview} from 'components/order/OrderItemsReview'
-import {isVerified, ORDER_STEPS, VERIFICATION_FLAGS} from 'config/constants'
+import {ORDER_STEPS} from 'config/constants'
 import {AddressPicker} from 'components/order/AddressPicker'
 import Loader from 'components/Loader'
-import {getAuthUser} from '../../../../api/auth.api'
-import {useRouter} from 'next/navigation'
-import {ILocation, IOrder} from '../../../../app-store/types'
-import {
-  GA_EVENTS,
-  PurchaseItem,
-  trackPurchaseEvent,
-} from '../../../../utils/analytics'
+import {usePathname, useRouter} from 'next/navigation'
+import {ILocation, IOrderItem} from '../../../../app-store/types'
+import {PurchaseItem, trackPurchaseEvent} from '../../../../utils/analytics'
+import {fetchAddresses} from '../../../../api/user/index.api'
+import {selectAuthState} from '../../../../app-store/auth/auth.slice'
+import {setLastLink} from '../../../../app-store/session/session.slice'
+import SignIn from '../../../../components/user/SignIn'
 
 export default function CartBook() {
   const cart = useSelector(getCart)
   const router = useRouter()
+  const pathname = usePathname()
   const loggedUser = useSelector(selectAuthState)
   const [selectedAddress, setSelectedAddress] = useState<ILocation | null>()
   const [addressId, setAddressId] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [isButtonLoading, setIsButtonLoading] = useState(false)
+  const [addresses, setAddresses] = useState<ILocation[]>([])
+  const [wantsToAddAddress, setWantsToAddAddress] = useState(false)
+  const [showSignIn, setShowSignIn] = useState(false)
 
   const dispatch = useDispatch()
+
+  const closeSignInModal = () => {
+    setShowSignIn(false)
+  }
 
   const orderSuccess = () => {
     const orderId = cart?.id
 
     const items: PurchaseItem[] =
-      cart?.items?.map(item => {
+      cart?.items?.map((item: IOrderItem) => {
         return {
           item_id: item.id,
           item_name: item.product.title,
@@ -62,6 +68,13 @@ export default function CartBook() {
     router.push(`/p/orders/${orderId}`)
   }
   const onRazorPayCheckout = async (mode: number) => {
+    if (!loggedUser) {
+      dispatch(setLastLink(pathname))
+      setShowSignIn(true)
+
+      return
+    }
+
     if (cart) {
       if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
         setIsButtonLoading(true)
@@ -74,10 +87,11 @@ export default function CartBook() {
 
   const changeAddress = () => {
     setSelectedAddress(null)
+    setWantsToAddAddress(true)
     updateDeliveryAddressAction(cart, {id: -1, name: 'Store Pickup'})(dispatch)
   }
 
-  const selectAddress = addr => {
+  const selectAddress = (addr: ILocation) => {
     if (cart) {
       setSelectedAddress(addr)
       setAddressId(addressId)
@@ -88,8 +102,9 @@ export default function CartBook() {
 
   const checkRadio = (addressIdStr: number) => {
     setLoading(true)
+    setWantsToAddAddress(false)
     const addressId = parseInt(String(addressIdStr))
-    const addr = loggedUser?.address?.find(ad => ad.id === addressId) || {
+    const addr = addresses.find(ad => ad.id === addressId) || {
       id: -1,
       name: 'Store Pickup',
     }
@@ -97,7 +112,7 @@ export default function CartBook() {
   }
 
   const resolveStep = () => {
-    if (!loggedUser || !loggedUser.address || loggedUser.address.length === 0) {
+    if (addresses.length === 0) {
       return ORDER_STEPS.ORDER_STEP_ADDRESS
     } else if (addressId !== 0 && !selectedAddress) {
       return ORDER_STEPS.ORDER_STEP_DELIVERY
@@ -107,11 +122,25 @@ export default function CartBook() {
     return -1
   }
 
-  useEffect(() => {
-    if (!loggedUser) {
-      getAuthUser().then(user => dispatch(authUser(user)))
+  const loadAddresses = async () => {
+    try {
+      const fetchedAddresses = await fetchAddresses()
+      setAddresses(fetchedAddresses)
+    } catch (error) {
+      console.error('Failed to fetch addresses:', error)
+      setAddresses([])
     }
+  }
 
+  const handleNewAddress = async () => {
+    // Refresh addresses after adding a new one
+    setWantsToAddAddress(false)
+    await loadAddresses()
+    // After adding address, if we now have 2+ addresses, show picker (keep selectedAddress null)
+    // This is already handled because selectedAddress is null from clicking "Change"
+  }
+
+  useEffect(() => {
     if (!cart) {
       setLoading(true)
       fetchCart().then(data => {
@@ -119,7 +148,26 @@ export default function CartBook() {
         setLoading(false)
       })
     }
-  }, [cart, loggedUser])
+
+    // Fetch addresses for both guest and logged-in users
+    loadAddresses()
+  }, [cart])
+
+  // Auto-select ONLY first address when exactly one address exists (unless user wants to add new address)
+  useEffect(() => {
+    if (addresses.length === 1 && !selectedAddress && !wantsToAddAddress) {
+      const firstAddress = addresses[0]
+      setSelectedAddress(firstAddress)
+      if (cart) {
+        updateDeliveryAddressAction(cart, firstAddress)(dispatch)
+      }
+    }
+    // If we have 2+ addresses and no selection and not wanting to add, reset to show picker
+    if (addresses.length >= 2 && !selectedAddress && !wantsToAddAddress) {
+      // Just ensure we're in picker mode, don't auto-select
+      setWantsToAddAddress(false)
+    }
+  }, [addresses, selectedAddress, cart, dispatch, wantsToAddAddress])
 
   return (
     <div>
@@ -139,6 +187,9 @@ export default function CartBook() {
                     onAddressPick={checkRadio}
                     onAddressReset={changeAddress}
                     selectedAddress={selectedAddress}
+                    addresses={addresses}
+                    onNewAddress={handleNewAddress}
+                    showAddForm={wantsToAddAddress}
                   ></AddressPicker>
 
                   {selectedAddress && (
@@ -166,6 +217,9 @@ export default function CartBook() {
           )}
         </>
       )}
+
+      {/* Sign In Modal */}
+      {showSignIn && <SignIn onClose={closeSignInModal} />}
     </div>
   )
 }

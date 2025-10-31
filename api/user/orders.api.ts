@@ -28,6 +28,7 @@ export async function fetchOrder(orderId: number): Promise<IOrder> {
 export const addToCart = async (
   productId: number,
   dates: IDates,
+  recaptchaToken?: string,
 ): Promise<IOrder> => {
   const {startDate, endDate} = dates
 
@@ -42,6 +43,7 @@ export const addToCart = async (
       rentalDays: 1,
     },
     product_id: productId,
+    recaptchaToken, // Send reCAPTCHA token for backend verification
   })
   return order
 }

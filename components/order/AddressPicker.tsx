@@ -1,8 +1,8 @@
 import React from 'react'
-import {useDispatch, useSelector} from 'react-redux'
+import {useSelector} from 'react-redux'
 
 import {StepHeader} from './StepHeader'
-import {authUser, selectAuthState} from '../../app-store/auth/auth.slice'
+import {selectAuthState} from '../../app-store/auth/auth.slice'
 import {AddressList} from '../AddressList'
 
 import {AddAddress} from '../../app/components/user/AddAddress.client'
@@ -11,42 +11,48 @@ import {ILocation} from '../../app-store/types'
 
 interface IAddressPickerProps {
   onAddressReset: () => void
-  onAddressPick: (address) => void
-  selectedAddress
-  onNewAddress?: (address) => void
+  onAddressPick: (address: number) => void
+  selectedAddress: ILocation | null | undefined
+  addresses: ILocation[]
+  onNewAddress?: (address: ILocation) => void
+  showAddForm?: boolean
 }
 
 export const AddressPicker = ({
   onAddressReset,
   onAddressPick,
   selectedAddress,
+  addresses,
   onNewAddress,
+  showAddForm = false,
 }: IAddressPickerProps) => {
-  const dispatch = useDispatch()
-
+  const [showingAddForm, setShowingAddForm] = React.useState(false)
   const loggedUser = useSelector(selectAuthState)
+  const hasMultipleAddresses = addresses.length >= 2
+  const canAddMoreAddresses = addresses.length < 3
 
-  const hasAddress =
-    loggedUser && loggedUser.address && loggedUser.address.length > 0
+  // Show form if: no addresses, OR (1 address and user clicked change), OR user clicked Add New
+  const showAddAddressForm =
+    addresses.length === 0 ||
+    (addresses.length === 1 && showAddForm) ||
+    showingAddForm
 
-  const onNewAddressSuccess = address => {
-    let newAddressList: ILocation[] = []
-    if (loggedUser?.address) {
-      newAddressList = [...loggedUser.address, address]
-    } else {
-      newAddressList = [address]
-    }
-
-    const updatedUser = {...loggedUser, address: newAddressList}
-    dispatch(authUser(updatedUser))
+  const onNewAddressSuccess = (address: ILocation) => {
+    // Hide the form and notify parent to refetch addresses
+    setShowingAddForm(false)
     onNewAddress?.(address)
+  }
+
+  const handleAddNewClick = () => {
+    setShowingAddForm(true)
   }
 
   return (
     <div>
       <StepHeader
-        label={!hasAddress ? 'Your Address' : 'Delivery Address'}
+        label={addresses.length === 0 ? 'Your Address' : 'Delivery Address'}
       ></StepHeader>
+
       {selectedAddress ? (
         selectedAddress.id > 0 ? (
           <Address
@@ -68,15 +74,25 @@ export const AddressPicker = ({
         </span>
       )}
 
-      {!hasAddress && <AddAddress onNewAddress={onNewAddressSuccess} />}
+      {showAddAddressForm && <AddAddress onNewAddress={onNewAddressSuccess} />}
 
-      {!selectedAddress && hasAddress && (
-        <AddressList
-          onAddressChange={onAddressPick}
-          addressList={loggedUser?.address ? loggedUser.address : []}
-          userName={loggedUser?.firstname + ' ' + loggedUser?.lastname}
-          userCity={loggedUser?.city}
-        />
+      {!selectedAddress && hasMultipleAddresses && !showingAddForm && (
+        <>
+          <AddressList
+            onAddressChange={onAddressPick}
+            addressList={addresses}
+            userName={loggedUser?.firstname + ' ' + loggedUser?.lastname}
+            userCity={loggedUser?.city}
+          />
+          {canAddMoreAddresses && (
+            <button
+              onClick={handleAddNewClick}
+              className="mt-4 px-4 py-2 border border-gray-300 rounded-md bg-white hover:bg-gray-50 cursor-pointer"
+            >
+              + Add New Address
+            </button>
+          )}
+        </>
       )}
     </div>
   )

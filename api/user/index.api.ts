@@ -7,6 +7,11 @@ import {
 } from '../../app-store/types'
 import httpClient, {HttpService} from '../axios.config'
 
+export const fetchAddresses = async (): Promise<ILocation[]> => {
+  const addresses: ILocation[] = await httpClient.get(`/user/addresses/`)
+  return addresses
+}
+
 export const addNewAddress = async (
   place_id: string,
   address_line_1: string,

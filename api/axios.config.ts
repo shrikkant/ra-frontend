@@ -109,7 +109,13 @@ httpClient.interceptors.response.use(
       displayMessage('error', error.response.data.errorMessage)
     }
     if (error.status === 401 && window.location.pathname.startsWith('/p/')) {
-      if (window.location.href.indexOf('signUp=true') === -1) {
+      // if (!window.location.href.endsWith('signUp=true')) {
+      //   window.location.href = '/?signUp=true'
+      // }
+      if (
+        window.location.href.indexOf('signUp=true') === -1 &&
+        !window.location.pathname.startsWith('/p/mycart')
+      ) {
         window.location.href = '/?signUp=true'
       }
     }
