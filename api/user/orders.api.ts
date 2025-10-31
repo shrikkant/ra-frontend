@@ -92,6 +92,7 @@ export const getRentalAgreementPDF = async (orderId: number): Promise<Blob> => {
     `${ENV_CONFIG.CLIENT_API_BASE_URL}user/orders/${orderId}/rental-agreement/pdf`,
     {
       method: 'GET',
+      credentials: 'include',
       headers: {
         [TOKEN_HEADER_KEY]: token || '',
         'Access-Control-Allow-Origin': '*',
@@ -185,6 +186,7 @@ export const testPDFGeneration = async (orderId: number): Promise<void> => {
       `${ENV_CONFIG.CLIENT_API_BASE_URL}/user/orders/${orderId}/rental-agreement/pdf`,
       {
         method: 'GET',
+        credentials: 'include',
         headers: {
           [TOKEN_HEADER_KEY]: token || '',
           'Access-Control-Allow-Origin': '*',

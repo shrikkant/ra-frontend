@@ -9,6 +9,7 @@ export const fetchStaticData = async (
   console.log('fetchStaticData', url)
   const commonOptions: RequestInit = {
     redirect: 'follow' as const,
+    credentials: 'include' as const,
     headers: {
       'Content-Type': 'application/json',
     },
@@ -44,6 +45,7 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
 
   const commonOptions: RequestInit = {
     redirect: 'follow' as const,
+    credentials: 'include' as const,
     headers: {
       'Content-Type': 'application/json',
       ...(accessToken?.value && {authorization: accessToken.value}),

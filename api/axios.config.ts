@@ -15,6 +15,7 @@ export class HttpService {
   constructor(url?: string) {
     this.client = axios.create({
       baseURL: url || ENV_CONFIG.CLIENT_API_BASE_URL,
+      withCredentials: true,
     })
 
     this.client.interceptors.request.use(
@@ -65,6 +66,7 @@ export class HttpService {
 }
 const httpClient = axios.create({
   baseURL: ENV_CONFIG.CLIENT_API_BASE_URL,
+  withCredentials: true,
 })
 
 httpClient.interceptors.request.use(
@@ -130,6 +132,7 @@ export const fetchData = async (url, customOptions?) => {
     headers: {'Content-Type': 'application/json'},
     referrer: ENV_CONFIG.BASE_URL,
     cache: 'force-cache',
+    credentials: 'include',
   }
 
   const options = {
