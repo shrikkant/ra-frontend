@@ -11,16 +11,30 @@ import EmptyCart from 'components/cart/EmptyCart'
 import Loader from 'components/Loader'
 import {IOrderItem} from 'app-store/types'
 import OrderItemRow from 'components/OrderItemRow'
-import {useRouter} from 'next/navigation'
+import {usePathname, useRouter} from 'next/navigation'
+import SignIn from '../../../../components/user/SignIn'
+import {setLastLink} from '../../../../app-store/session/session.slice'
+import {selectAuthState} from '../../../../app-store/auth/auth.slice'
 
 export default function UserCart() {
   const router = useRouter()
-
+  const loggedUser = useSelector(selectAuthState)
+  const pathname = usePathname()
   const cart = useSelector(getCart)
   const [loading, setLoading] = useState(true)
+  const [showSignIn, setShowSignIn] = useState(false)
   const dispatch = useDispatch()
+  const closeSignInModal = () => {
+    setShowSignIn(false)
+  }
 
   const onRazorPayCheckout = () => {
+    if (!loggedUser) {
+      dispatch(setLastLink('/p/mycart/book'))
+      setShowSignIn(true)
+
+      return
+    }
     router.push('/p/mycart/book')
   }
 
@@ -83,6 +97,8 @@ export default function UserCart() {
           ) : (
             <EmptyCart />
           )}
+          {/* Sign In Modal */}
+          {showSignIn && <SignIn onClose={closeSignInModal} />}
         </>
       )}
     </>

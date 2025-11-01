@@ -24,21 +24,15 @@ import SignIn from '../../../../components/user/SignIn'
 export default function CartBook() {
   const cart = useSelector(getCart)
   const router = useRouter()
-  const pathname = usePathname()
-  const loggedUser = useSelector(selectAuthState)
+
   const [selectedAddress, setSelectedAddress] = useState<ILocation | null>()
   const [addressId, setAddressId] = useState<number>(0)
   const [loading, setLoading] = useState(false)
   const [isButtonLoading, setIsButtonLoading] = useState(false)
   const [addresses, setAddresses] = useState<ILocation[]>([])
   const [wantsToAddAddress, setWantsToAddAddress] = useState(false)
-  const [showSignIn, setShowSignIn] = useState(false)
 
   const dispatch = useDispatch()
-
-  const closeSignInModal = () => {
-    setShowSignIn(false)
-  }
 
   const orderSuccess = () => {
     const orderId = cart?.id
@@ -68,13 +62,6 @@ export default function CartBook() {
     router.push(`/p/orders/${orderId}`)
   }
   const onRazorPayCheckout = async (mode: number) => {
-    if (!loggedUser) {
-      dispatch(setLastLink(pathname))
-      setShowSignIn(true)
-
-      return
-    }
-
     if (cart) {
       if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
         setIsButtonLoading(true)
@@ -217,9 +204,6 @@ export default function CartBook() {
           )}
         </>
       )}
-
-      {/* Sign In Modal */}
-      {showSignIn && <SignIn onClose={closeSignInModal} />}
     </div>
   )
 }
