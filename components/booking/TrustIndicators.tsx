@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import {FaShieldAlt, FaCheckCircle} from 'react-icons/fa'
+import {FaShieldAlt, FaCheckCircle, FaMoneyBillWave} from 'react-icons/fa'
 
 export const TrustIndicators: React.FC = () => {
   return (
@@ -13,6 +13,10 @@ export const TrustIndicators: React.FC = () => {
         <div className="flex items-center gap-1.5 text-gray-700">
           <FaShieldAlt className="w-4 h-4 text-green-600" />
           <span className="text-sm font-medium">No verification hassles</span>
+        </div>
+        <div className="flex items-center gap-1.5 text-gray-700">
+          <FaMoneyBillWave className="w-4 h-4 text-green-600" />
+          <span className="text-sm font-medium">Zero deposit</span>
         </div>
       </div>
     </div>

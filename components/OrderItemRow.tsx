@@ -61,7 +61,7 @@ export default function OrderItemRow({
                 onClick={() => onRemove(orderItem.id)}
                 className="text-red-500 hover:text-red-700 text-sm font-medium transition-colors"
               >
-                Remove
+                Delete
               </button>
             </div>
           )}

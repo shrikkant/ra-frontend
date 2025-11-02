@@ -45,10 +45,9 @@ export default function BookingForm({
   const [openFormInMobile, setOpenFormInMobile] = useState(false)
   const [showSignIn, setShowSignIn] = React.useState(false)
 
-  const loggedUser = useSelector(selectAuthState)
   const storeSearch = useSelector(getDefaultSearch)
   const router = useRouter()
-  const pathname = usePathname()
+
   const {executeRecaptcha} = useRecaptcha()
 
   const originalRate = rates[0].rate

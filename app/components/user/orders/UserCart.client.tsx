@@ -65,9 +65,7 @@ export default function UserCart() {
       ) : (
         <>
           {cart ? (
-            <div
-              className={'flex flex-col-reverse md:flex-row w-full  xs:pb-20'}
-            >
+            <div className={'flex flex-col md:flex-row w-full  xs:pb-20'}>
               <div className={'md:w-3/4 w-full'}>
                 <div className="py-4">
                   <div className={'border rounded-md border-gray-400'}>

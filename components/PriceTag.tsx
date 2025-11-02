@@ -23,13 +23,13 @@ export default function PriceTag({
       {discount > 0 && (
         <div className={'r-comp font-bold text-gray-900' + textSize}>
           {getPrice(priceAfterDiscount)}
-          {sub && <sub className="text-sm font-semibold">{sub}</sub>}
+          {sub && <sub className=" font-semibold">{sub}</sub>}
         </div>
       )}
 
       <div
         className={
-          'r-comp font-light text-gray-600 text-sm ' +
+          'r-comp font-light text-gray-600 ' +
           textSize +
           ' ' +
           (discount > 0 ? ' line-through' : '')
@@ -40,7 +40,7 @@ export default function PriceTag({
       </div>
       <div>
         {discount > 0 && (
-          <span className="text-sm text-green-600">{discount}% off</span>
+          <span className=" text-green-600">{discount}% off</span>
         )}
       </div>
     </div>

@@ -89,14 +89,16 @@ export default function OrderSummary({
           <div>₹{totalRent.toFixed(2)}</div>
         </div>
 
-        <div className={styles['detail-row']}>
-          <div>Delivery &amp; Pickup Fee</div>
-          <div>₹{new Decimal(order.delivery_fee || 0).toFixed(2)}</div>
-        </div>
+        {order.delivery_fee > 0 && (
+          <div className={styles['detail-row']}>
+            <div>Delivery &amp; Pickup Fee</div>
+            <div>₹{new Decimal(order.delivery_fee || 0).toFixed(2)}</div>
+          </div>
+        )}
 
         {order.applied_discount && order.applied_discount > 0 && (
           <div className={styles['detail-row'] + ' text-red-600'}>
-            <div>You Save</div>
+            <div>Discount</div>
             <div className="font-semibold">
               ₹{new Decimal(order.applied_discount || 0).toFixed(2)}
             </div>
@@ -117,7 +119,7 @@ export default function OrderSummary({
       </div>
       <div>
         {step !== ORDER_STEPS.ORDER_PAID && (
-          <div className="fixed md:relative bottom-0 left-0 p-4 md:p-0 bg-slate-50 w-full shadow-2xl md:shadow-none mt-4 z-50 border-t border-t-gray-300">
+          <div className="sticky md:relative bottom-0 left-0 py-4 px-0 md:p-0  w-full  md:shadow-none mt-4 z-50 border-t border-t-gray-300">
             {callToAction(step) && (
               <Button
                 isLoading={isLoading}

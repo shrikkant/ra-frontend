@@ -22,52 +22,53 @@ export const PriceBreakdown: React.FC<PriceBreakdownProps> = ({
   if (!storeSearch?.dates) return null
 
   return (
-    <div className="space-y-3 bg-white border border-gray-200 rounded-xl p-4">
+    <div className="space-y-3 bg-white  rounded-xl">
       <h4 className="text-sm font-medium text-gray-600 mb-3">
         Price Breakdown
       </h4>
 
-      {/* Discounted Rate Display */}
-      <div className=" rounded-md py-4  mb-4 ">
-        <div className="flex items-center justify-between h-[36px] min-h-[36px] max-h-[36px] overflow-hidden">
-          <div className="flex items-center">
-            <div className="text-2xl font-bold text-gray-900">
-              {'₹' + discountedRate}
-              <span className="text-sm text-gray-600 ml-2">per day</span>
+      <div className="space-y-3">
+        {/* Total Payment Section */}
+        <div className="bg-gradient-to-br from-gray-50 to-gray-100 border border-gray-200 rounded-md p-4">
+          {/* Calculation Row */}
+          <div className="flex items-center justify-between mb-3">
+            <div className="flex items-center gap-2">
+              <span className="text-gray-700 font-medium">
+                <PriceTag price={discountedRate} />
+              </span>
+              <span className="text-gray-400">×</span>
+              <span className="text-gray-700 font-medium">
+                {getDays()} {getPlural('day', getDays())}
+              </span>
+              {finalDiscount > 0 && (
+                <span className="inline-flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold rounded-md shadow-sm px-2 py-1 ml-2">
+                  {finalDiscount}% OFF
+                </span>
+              )}
             </div>
-          </div>
-          <div className="h-[36px] min-h-[36px] max-h-[36px] flex items-center">
             {finalDiscount > 0 && (
-              <div className="bg-green-100 border border-green-200 rounded-lg px-3 py-2">
-                <div className="text-sm text-green-800 font-semibold">
-                  You save ₹{getSavings().toLocaleString()}
-                </div>
-              </div>
+              <span className="text-sm text-gray-400 line-through">
+                ₹
+                {Math.round(
+                  (discountedRate / (1 - finalDiscount / 100)) * getDays(),
+                ).toLocaleString()}
+              </span>
             )}
           </div>
-        </div>
-      </div>
 
-      <div className="space-y-3">
-        <div className="flex items-center justify-between py-2">
-          <div className="flex items-center gap-2">
-            <span className="text-gray-900 font-semibold">
-              <PriceTag price={discountedRate} />
-            </span>
-            <span className="text-gray-500">×</span>
-            <span className="text-gray-600">
-              {getDays()} {getPlural('day', getDays())}
-            </span>
-          </div>
-          <span className="text-gray-900 font-semibold">
-            ₹{(discountedRate * getDays()).toLocaleString()}
-          </span>
-        </div>
-
-        <div className="border-t border-gray-200 pt-3">
-          <div className="flex items-center justify-between">
-            <span className="text-lg font-bold text-gray-900">Total</span>
-            <span className="text-lg font-bold text-gray-900">
+          {/* You Pay Row */}
+          <div className="flex items-center justify-between pt-3 border-t border-gray-300">
+            <div className="flex flex-col">
+              <span className="text-base font-semibold text-gray-900">
+                You Pay
+              </span>
+              {finalDiscount > 0 && (
+                <span className="text-xs text-green-700 font-medium mt-0.5">
+                  Save ₹{getSavings().toLocaleString()}
+                </span>
+              )}
+            </div>
+            <span className="text-3xl font-bold text-gray-900">
               ₹{(discountedRate * getDays()).toLocaleString()}
             </span>
           </div>
