@@ -114,12 +114,6 @@ export default function Customers() {
         <CustomerSearch onSearch={searchCustomersByPhone} />
       </MyPageHeader>
 
-      {signupStats && (
-        <div className="bg-white rounded-xl shadow-sm border border-gray-100 p-6">
-          <SignupSummary signupStats={signupStats} />
-        </div>
-      )}
-
       {error && (
         <div className="bg-red-50 border border-red-200 rounded-xl p-4">
           <p className="text-red-800 text-sm">{error}</p>
