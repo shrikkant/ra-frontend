@@ -74,16 +74,12 @@ export const DISCOUNT_STEPS = [
     discount: 15,
   },
   {
-    days: 3,
+    days: 2,
     discount: 10,
   },
   {
-    days: 2,
-    discount: 5,
-  },
-  {
     days: 1,
-    discount: 0,
+    discount: 5,
   },
 ]
 
