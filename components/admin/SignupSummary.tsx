@@ -12,10 +12,10 @@ interface SignupSummaryProps {
 }
 
 export function SignupSummary({signupStats}: SignupSummaryProps) {
-  const current = signupStats[0] ? signupStats[0].signups : 0
-  const currentAddToCart = signupStats[0] ? signupStats[0].add_to_cart : 0
-  const previous = signupStats[1] ? signupStats[1].signups : 0
-  const previousAddToCart = signupStats[1] ? signupStats[1].add_to_cart : 0
+  const current = signupStats[0] ? Number(signupStats[0].signups) : 0
+  const currentAddToCart = signupStats[0] ? Number(signupStats[0].add_to_cart) : 0
+  const previous = signupStats[1] ? Number(signupStats[1].signups) : 0
+  const previousAddToCart = signupStats[1] ? Number(signupStats[1].add_to_cart) : 0
 
   const signupGrowth = previous > 0 ? Math.round((current / previous - 1) * 100) : 0
   const totalEngaged = current + currentAddToCart
