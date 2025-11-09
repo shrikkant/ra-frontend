@@ -32,6 +32,7 @@ export default function SignInRefactored({onClose}: SignInModalProps) {
           title={SIGNIN_CONSTANTS.TITLES.WELCOME}
           logoTitle={true}
           fullScreen={false}
+          closeOnBackdrop={false}
         >
           <div className={`${state.isMobile ? 'px-2' : 'm-auto'}`}>
             <SignInHeader title={SIGNIN_CONSTANTS.TITLES.LOGIN_SIGNUP} />
@@ -62,6 +63,7 @@ export default function SignInRefactored({onClose}: SignInModalProps) {
           title={SIGNIN_CONSTANTS.TITLES.VERIFY_OTP}
           logoTitle={true}
           fullScreen={false}
+          closeOnBackdrop={false}
         >
           <div className={`${state.isMobile ? 'px-2 py-8' : 'm-auto'}`}>
             <SignInOTPForm

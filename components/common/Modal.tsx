@@ -8,6 +8,7 @@ interface ModalProps {
   title: string
   logoTitle?: boolean
   fullScreen?: boolean
+  closeOnBackdrop?: boolean
 }
 
 const Modal: React.FC<ModalProps> = ({
@@ -17,11 +18,12 @@ const Modal: React.FC<ModalProps> = ({
   children,
   logoTitle = false,
   fullScreen = false,
+  closeOnBackdrop = true,
 }) => {
   useEffect(() => {
     const handleOutsideClick = (event: MouseEvent) => {
       const target = event.target as HTMLElement
-      if (target.classList.contains('modal-content')) {
+      if (closeOnBackdrop && target.classList.contains('modal-content')) {
         onClose()
       }
     }
@@ -40,7 +42,7 @@ const Modal: React.FC<ModalProps> = ({
       document.removeEventListener('mousedown', handleOutsideClick)
       document.body.style.overflow = 'unset'
     }
-  }, [show, onClose])
+  }, [show, onClose, closeOnBackdrop])
 
   if (!show) return null
 
