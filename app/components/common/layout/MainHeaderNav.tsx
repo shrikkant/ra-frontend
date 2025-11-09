@@ -65,7 +65,7 @@ export default function MainHeaderNav() {
   }
 
   useEffect(() => {
-    if (loggedUser && !cart) {
+    if (!cart) {
       fetchCart().then((o: IOrder) => {
         dispatch(setCart(o))
       })
@@ -135,18 +135,17 @@ export default function MainHeaderNav() {
                 <FaWhatsapp className="h-4 w-4 sm:h-5 sm:w-5" />
               </Link>
 
-              {loggedUser && (
+              {cart && cart.items && cart.items.length > 0 && (
                 <Link
                   className="relative p-2 hover:bg-gray-700 rounded-full transition-colors"
                   href="/p/mycart"
                   aria-label="Shopping Cart"
                 >
                   <ShoppingCartIcon className="h-6 w-6 text-gray-300 hover:text-[#ffd910]" />
-                  {cart && cart.items && cart.items.length > 0 && (
-                    <span className="absolute -top-1 -right-1 bg-[#ffd910] text-gray-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
-                      {cart.items?.length}
-                    </span>
-                  )}
+
+                  <span className="absolute -top-1 -right-1 bg-[#ffd910] text-gray-900 text-xs font-bold rounded-full h-5 w-5 flex items-center justify-center">
+                    {cart.items?.length}
+                  </span>
                 </Link>
               )}
             </div>

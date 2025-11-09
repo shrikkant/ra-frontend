@@ -45,6 +45,9 @@ export default function BookingForm({
   const [openFormInMobile, setOpenFormInMobile] = useState(false)
   const [showSignIn, setShowSignIn] = React.useState(false)
 
+  const loggedUser = useSelector(selectAuthState)
+  const pathname = usePathname()
+
   const storeSearch = useSelector(getDefaultSearch)
   const router = useRouter()
 
@@ -64,11 +67,6 @@ export default function BookingForm({
   }, [discount, days])
 
   const onAddToCart = async (bookNow?: boolean) => {
-    // if (!loggedUser && pathname && pathname?.length > 0) {
-    //   dispatch(setLastLink(pathname))
-    //   setShowSignIn(true)
-    // } else {
-
     try {
       // Execute reCAPTCHA before adding to cart (bot protection)
       const recaptchaToken = await executeRecaptcha('add_to_cart')
@@ -91,10 +89,15 @@ export default function BookingForm({
       if (newCart.id) {
         dispatch(setCart(newCart))
 
-        if (bookNow) {
-          router.push('/p/mycart')
+        if (!loggedUser) {
+          dispatch(setLastLink('/p/mycart'))
+          setShowSignIn(true)
         } else {
-          setOpenFormInMobile(false)
+          if (bookNow) {
+            router.push('/p/mycart')
+          } else {
+            setOpenFormInMobile(false)
+          }
         }
       }
     } catch (error) {
@@ -102,7 +105,6 @@ export default function BookingForm({
       // You might want to show a user-friendly error message here
       // For example: toast.error('Failed to add to cart. Please try again.')
     }
-    // }
   }
 
   const onBookNow = () => {
