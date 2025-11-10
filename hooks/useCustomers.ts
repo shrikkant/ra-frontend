@@ -46,7 +46,7 @@ export const useCustomers = () => {
     setLoading(true)
     setError(null)
     try {
-      const data = await fetchCustomers(parseInt(phone, 10))
+      const data = await fetchCustomers(phone)
       dispatch(setCustomers(data))
     } catch (err) {
       setError('Failed to search customers')
