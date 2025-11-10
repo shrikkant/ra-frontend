@@ -4,8 +4,14 @@ import {IAadhaar} from '../../app-store/auth/types'
 import {IUser} from '../../app-store/types'
 import httpClient from './../axios.config'
 
-export async function fetchCustomers(phone?: number): Promise<IUser[]> {
+export async function fetchCustomersByPhone(phone?: number): Promise<IUser[]> {
   const phoneQuery = phone ? `phone=${phone}` : ''
+  const customers: IUser[] = await httpClient.get(`/admin/users?${phoneQuery}`)
+  return customers
+}
+
+export async function fetchCustomers(any?: string): Promise<IUser[]> {
+  const phoneQuery = any ? `any=${any}` : ''
   const customers: IUser[] = await httpClient.get(`/admin/users?${phoneQuery}`)
   return customers
 }
@@ -184,14 +190,10 @@ export async function deleteActivity(
   userId: number,
   activityId: number,
 ): Promise<void> {
-  await httpClient.delete(
-    `/v1/admin/users/${userId}/activities/${activityId}`,
-  )
+  await httpClient.delete(`/v1/admin/users/${userId}/activities/${activityId}`)
 }
 
 export async function getAllActivities(): Promise<IActivity[]> {
-  const activities: IActivity[] = await httpClient.get(
-    `/v1/admin/activities`,
-  )
+  const activities: IActivity[] = await httpClient.get(`/v1/admin/activities`)
   return activities
 }

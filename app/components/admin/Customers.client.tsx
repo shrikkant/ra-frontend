@@ -39,7 +39,7 @@ const CustomerSearch: React.FC<CustomerSearchProps> = ({onSearch}) => {
 
   const handleSearch = (value: string) => {
     setSearchValue(value)
-    if (value.length >= 10) {
+    if (value.length >= 3) {
       onSearch(value)
     }
   }
