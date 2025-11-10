@@ -4,12 +4,6 @@ import {IAadhaar} from '../../app-store/auth/types'
 import {IUser} from '../../app-store/types'
 import httpClient from './../axios.config'
 
-export async function fetchCustomersByPhone(phone?: number): Promise<IUser[]> {
-  const phoneQuery = phone ? `phone=${phone}` : ''
-  const customers: IUser[] = await httpClient.get(`/admin/users?${phoneQuery}`)
-  return customers
-}
-
 export async function fetchCustomers(any?: string): Promise<IUser[]> {
   const phoneQuery = any ? `any=${any}` : ''
   const customers: IUser[] = await httpClient.get(`/admin/users?${phoneQuery}`)
