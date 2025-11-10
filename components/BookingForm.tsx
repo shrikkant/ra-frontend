@@ -44,6 +44,7 @@ export default function BookingForm({
   const [finalDiscount, setFinalDiscount] = useState(0)
   const [openFormInMobile, setOpenFormInMobile] = useState(false)
   const [showSignIn, setShowSignIn] = React.useState(false)
+  const [isAddingToCart, setIsAddingToCart] = useState(false)
 
   const loggedUser = useSelector(selectAuthState)
   const pathname = usePathname()
@@ -67,7 +68,15 @@ export default function BookingForm({
   }, [discount, days])
 
   const onAddToCart = async (bookNow?: boolean) => {
+    // Prevent duplicate submissions
+    if (isAddingToCart) {
+      console.log('Already adding to cart, ignoring duplicate request')
+      return
+    }
+
     try {
+      setIsAddingToCart(true)
+
       // Execute reCAPTCHA before adding to cart (bot protection)
       const recaptchaToken = await executeRecaptcha('add_to_cart')
 
@@ -102,8 +111,9 @@ export default function BookingForm({
       }
     } catch (error) {
       console.error('Failed to add to cart:', error)
-      // You might want to show a user-friendly error message here
-      // For example: toast.error('Failed to add to cart. Please try again.')
+      // Error will be handled by your global error handler
+    } finally {
+      setIsAddingToCart(false)
     }
   }
 
@@ -153,6 +163,7 @@ export default function BookingForm({
               getDays={() => days}
               getPlural={getPlural}
               getSavings={getSavings}
+              isLoading={isAddingToCart}
             />
           </div>
 
@@ -163,6 +174,7 @@ export default function BookingForm({
               finalDiscount={finalDiscount}
               onBookNow={handleMobileBook}
               showSignIn={showSignIn}
+              isLoading={isAddingToCart}
             />
           )}
 
@@ -178,6 +190,7 @@ export default function BookingForm({
                 getDays={() => days}
                 getPlural={getPlural}
                 getSavings={getSavings}
+                isLoading={isAddingToCart}
               />
             </MobileBookingModal>
           )}

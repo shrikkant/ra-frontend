@@ -14,6 +14,7 @@ interface BookingFormContentProps {
   getDays: () => number
   getPlural: (text: string, days: number) => string
   getSavings: () => number
+  isLoading?: boolean
 }
 
 export const BookingFormContent: React.FC<BookingFormContentProps> = ({
@@ -25,6 +26,7 @@ export const BookingFormContent: React.FC<BookingFormContentProps> = ({
   getDays,
   getPlural,
   getSavings,
+  isLoading = false,
 }) => {
   return (
     <div className="p-6 space-y-6">
@@ -45,11 +47,17 @@ export const BookingFormContent: React.FC<BookingFormContentProps> = ({
         <Button
           variant="primary"
           onClick={onBookNow}
-          label={storeSearch?.dates ? 'Book Now' : 'Select dates to continue'}
-          disabled={!storeSearch?.dates}
+          label={
+            isLoading
+              ? 'Adding to cart...'
+              : storeSearch?.dates
+                ? 'Book Now'
+                : 'Select dates to continue'
+          }
+          disabled={!storeSearch?.dates || isLoading}
         />
 
-        {!storeSearch?.dates && (
+        {!storeSearch?.dates && !isLoading && (
           <p className="text-center text-sm text-gray-500">
             You won&apos;t be charged until you confirm your booking
           </p>

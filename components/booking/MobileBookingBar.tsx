@@ -7,6 +7,7 @@ interface MobileBookingBarProps {
   finalDiscount: number
   onBookNow: () => void
   showSignIn: boolean
+  isLoading?: boolean
 }
 
 export const MobileBookingBar: React.FC<MobileBookingBarProps> = ({
@@ -14,6 +15,7 @@ export const MobileBookingBar: React.FC<MobileBookingBarProps> = ({
   finalDiscount,
   onBookNow,
   showSignIn,
+  isLoading = false,
 }) => {
   return (
     <div
@@ -29,9 +31,10 @@ export const MobileBookingBar: React.FC<MobileBookingBarProps> = ({
           </div>
           <button
             onClick={onBookNow}
-            className="bg-[#FDC002] hover:bg-[#E5C71F] active:bg-[#f7ca00] text-gray-900 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-xl active:shadow-inner border-2 border-[#E5C71F] flex items-center justify-center"
+            disabled={isLoading}
+            className="bg-[#FDC002] hover:bg-[#E5C71F] active:bg-[#f7ca00] text-gray-900 px-8 py-4 rounded-lg font-bold text-lg transition-all duration-200 shadow-lg hover:shadow-xl active:shadow-inner border-2 border-[#E5C71F] flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
           >
-            Book Now
+            {isLoading ? 'Adding...' : 'Book Now'}
           </button>
         </div>
       </div>
