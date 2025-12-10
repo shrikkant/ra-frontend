@@ -6,6 +6,11 @@ import {IProductFilter} from '../../app-store/types'
 import COUNTRIES from '../../config/constants'
 import {fetchStaticData} from '../utils/api'
 
+// Generate sitemaps dynamically on-demand instead of at build time
+// This prevents build timeouts while still serving valid sitemaps to crawlers
+export const dynamic = 'force-dynamic'
+export const revalidate = 3600 // Cache for 1 hour after generation
+
 interface SitemapLink {
   url: string
   lastModified: string
