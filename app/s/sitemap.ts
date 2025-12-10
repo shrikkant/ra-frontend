@@ -37,27 +37,35 @@ export default async function sitemap({
   id: string
 }): Promise<MetadataRoute.Sitemap> {
   const categories = await fetchStaticData(`categories`)
-  const filter: IProductFilter = {
-    city: id.split('-').join(' '),
-  }
+  const city = id.split('-').join(' ')
+  const now = new Date().toISOString()
 
-  const sitemap: SitemapLink[] = []
+  // Collect all subcategory fetch promises to run in parallel
+  const fetchPromises: Promise<SitemapLink[]>[] = []
 
   for (const category of categories) {
-    filter.category = category.id
-
     for (const subCategory of category.subCategories) {
-      filter.subCategory = subCategory.id
+      const filter: IProductFilter = {
+        city,
+        category: category.id,
+        subCategory: subCategory.id,
+      }
 
-      const response = await fetchProducts('', filter)
+      const promise = fetchProducts('', filter)
+        .then(response =>
+          response.results.map(product => ({
+            url: `${BASE_URL}/${id}/${subCategory.slug}/${product.slug}`,
+            lastModified: now,
+          })),
+        )
+        .catch(() => [] as SitemapLink[]) // Return empty array on error to avoid failing entire sitemap
 
-      const map = response.results.map(product => ({
-        url: `${BASE_URL}/${id}/${subCategory.slug}/${product.slug}`,
-        lastModified: new Date().toISOString(),
-      }))
-      sitemap.push(...map)
+      fetchPromises.push(promise)
     }
   }
 
-  return sitemap
+  // Execute all fetches in parallel
+  const results = await Promise.all(fetchPromises)
+
+  return results.flat()
 }
