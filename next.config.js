@@ -7,6 +7,10 @@ const nextConfig = {
   publicRuntimeConfig: {
     BASE_API_URL: process.env.REACT_APP_API_URL,
   },
+  experimental: {
+    workerThreads: false,
+    cpus: 1,
+  },
 
   images: {
     // limit of 25 deviceSizes values
