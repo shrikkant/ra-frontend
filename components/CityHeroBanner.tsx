@@ -1,10 +1,10 @@
 import React from 'react'
-import Image from 'next/image'
 
 interface CityHeroBannerProps {
   city: string
   title: string
   cityImage: string
+  cityImageMobile: string
   description: string
 }
 
@@ -12,27 +12,25 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
   city,
   title,
   cityImage,
+  cityImageMobile,
   description,
 }) => {
   return (
-    <div className="relative w-full h-[200px] sm:h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
-      {/* Mobile: Gradient only (no image load) for fast LCP */}
-      <div className="absolute inset-0 sm:hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
-
-      {/* Desktop: Background Image with Overlay */}
-      <div className="absolute inset-0 hidden sm:block">
-        <Image
-          src={cityImage}
-          alt={`${city} city view`}
-          fill
-          className="object-cover"
-          priority
-          quality={75}
-          sizes="(max-width: 1024px) 1024px, 1920px"
-          placeholder="blur"
-          blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
-          fetchPriority="high"
-        />
+    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
+      {/* Background Image with Overlay - using picture for responsive images */}
+      <div className="absolute inset-0">
+        <picture>
+          {/* Mobile: small 640px image (~25KB) */}
+          <source media="(max-width: 640px)" srcSet={cityImageMobile} />
+          {/* Desktop: full size image */}
+          <img
+            src={cityImage}
+            alt={`${city} city view`}
+            className="w-full h-full object-cover"
+            fetchPriority="high"
+            decoding="async"
+          />
+        </picture>
         <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30" />
       </div>
 

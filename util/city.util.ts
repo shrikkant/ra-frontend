@@ -9,7 +9,15 @@ const CITY_IMAGES: Record<string, string> = {
   // Add more cities as needed
 }
 
+const CITY_IMAGES_MOBILE: Record<string, string> = {
+  pune: '/assets/v2/img/cities/pune-banner-mobile.webp',
+  mumbai: '/assets/v2/img/cities/mumbai-banner-mobile.webp',
+  bangalore: '/assets/v2/img/cities/bangalore-banner-mobile.webp',
+  bengaluru: '/assets/v2/img/cities/bangalore-banner-mobile.webp',
+}
+
 const DEFAULT_CITY_IMAGE = '/assets/v2/img/cities/default-banner.webp'
+const DEFAULT_CITY_IMAGE_MOBILE = '/assets/v2/img/cities/default-banner-mobile.webp'
 
 /**
  * Gets the appropriate banner image for a given city
@@ -19,6 +27,16 @@ const DEFAULT_CITY_IMAGE = '/assets/v2/img/cities/default-banner.webp'
 export const getCityImage = (city: string): string => {
   const normalizedCity = city.toLowerCase()
   return CITY_IMAGES[normalizedCity] || DEFAULT_CITY_IMAGE
+}
+
+/**
+ * Gets the mobile-optimized banner image for a given city
+ * @param city - City name (case insensitive)
+ * @returns Path to the mobile city banner image
+ */
+export const getCityImageMobile = (city: string): string => {
+  const normalizedCity = city.toLowerCase()
+  return CITY_IMAGES_MOBILE[normalizedCity] || DEFAULT_CITY_IMAGE_MOBILE
 }
 
 /**

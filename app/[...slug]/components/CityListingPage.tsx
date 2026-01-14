@@ -2,7 +2,7 @@ import React from 'react'
 import ProductCard from 'components/ProductCard'
 import CityHeroBanner from 'components/CityHeroBanner'
 import {getCategoryDescription, getCategoryTitle} from 'util/category.util'
-import {getCityImage} from 'util/city.util'
+import {getCityImage, getCityImageMobile} from 'util/city.util'
 import {ReviewsSection} from 'components/ReviewsSection'
 import HowItWorks from 'components/HowItWorks'
 import FAQSection from 'components/faq/FAQSection'
@@ -62,6 +62,7 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
             false,
           )}
           cityImage={getCityImage(filter.city)}
+          cityImageMobile={getCityImageMobile(filter.city)}
           description={
             filter.subCategory
               ? getCategoryDescription(
