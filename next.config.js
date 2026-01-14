@@ -30,9 +30,9 @@ const nextConfig = {
     // disable static imports for image files
     disableStaticImages: false,
     // minimumCacheTTL is in seconds, must be integer 0 or more
-    minimumCacheTTL: 60,
+    minimumCacheTTL: 3600,
     // ordered list of acceptable optimized image formats (mime types)
-    formats: ['image/webp'],
+    formats: ['image/avif', 'image/webp'],
     // enable dangerous use of SVG images
     dangerouslyAllowSVG: false,
     // set the Content-Security-Policy header

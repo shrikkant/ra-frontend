@@ -119,6 +119,12 @@ export default async function RootLayout({
           defer
         />
 
+        {/* Preconnect to critical image domains for faster LCP */}
+        <link rel="preconnect" href="https://rentacross.com" />
+        <link rel="preconnect" href="https://cdn.sanity.io" />
+
+        <link rel="dns-prefetch" href="https://rentacross.com" />
+        <link rel="dns-prefetch" href="https://cdn.sanity.io" />
         <link rel="dns-prefetch" href="https://app.statwide.com" />
         <link rel="dns-prefetch" href="https://www.google.com" />
         <link rel="dns-prefetch" href="https://lh3.googleusercontent.com" />

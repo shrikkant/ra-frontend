@@ -108,8 +108,12 @@ export const revalidate = 86400
 
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const metadata: Metadata = generateDefaultMetadata()
-  const localParams = await params
-  const categories = await fetchStaticData(`categories`)
+
+  // Parallelize params and categories fetch
+  const [localParams, categories] = await Promise.all([
+    params,
+    fetchStaticData(`categories`),
+  ])
 
   const filter = getProductFilter(localParams, categories)
 
@@ -148,9 +152,13 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 }
 
 export default async function Page({params, searchParams}: PageProps) {
-  const categories = await fetchStaticData(`categories`)
-  const localParams = await params
-  const localSearchParams = await searchParams
+  // Parallelize initial data fetching
+  const [categories, localParams, localSearchParams] = await Promise.all([
+    fetchStaticData(`categories`),
+    params,
+    searchParams,
+  ])
+
   const filter = getProductFilter(localParams, categories)
 
   if (!filter || (filter && !filter.city)) {
@@ -169,22 +177,22 @@ export default async function Page({params, searchParams}: PageProps) {
 
     return <ProductDetailPage product={product} />
   } else {
-    // City listing page
-    const response: {results: IProduct[]; meta: {total: number; page: number; limit: number}} = await fetchProducts(
-      localSearchParams?.q,
-      filter,
-    )
-
-    // Fetch FAQs from Sanity
-    const faqs = await client.fetch<SanityDocument[]>(
-      FAQS_QUERY,
-      {},
-      {
-        next: {
-          revalidate: 3600, // Revalidate every hour
+    // City listing page - fetch products and FAQs in parallel
+    const [response, faqs] = await Promise.all([
+      fetchProducts(localSearchParams?.q, filter) as Promise<{
+        results: IProduct[]
+        meta: {total: number; page: number; limit: number}
+      }>,
+      client.fetch<SanityDocument[]>(
+        FAQS_QUERY,
+        {},
+        {
+          next: {
+            revalidate: 3600, // Revalidate every hour
+          },
         },
-      },
-    )
+      ),
+    ])
 
     const transformedFAQs = faqs as unknown as IFAQ[]
 
