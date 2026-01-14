@@ -15,9 +15,12 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
   description,
 }) => {
   return (
-    <div className="relative w-full h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
-      {/* Background Image with Overlay */}
-      <div className="absolute inset-0">
+    <div className="relative w-full h-[200px] sm:h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
+      {/* Mobile: Gradient only (no image load) for fast LCP */}
+      <div className="absolute inset-0 sm:hidden bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900" />
+
+      {/* Desktop: Background Image with Overlay */}
+      <div className="absolute inset-0 hidden sm:block">
         <Image
           src={cityImage}
           alt={`${city} city view`}
@@ -25,7 +28,7 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
           className="object-cover"
           priority
           quality={75}
-          sizes="(max-width: 640px) 640px, (max-width: 1024px) 1024px, 1920px"
+          sizes="(max-width: 1024px) 1024px, 1920px"
           placeholder="blur"
           blurDataURL="data:image/jpeg;base64,/9j/4AAQSkZJRgABAQAAAQABAAD/2wBDAAYEBQYFBAYGBQYHBwYIChAKCgkJChQODwwQFxQYGBcUFhYaHSUfGhsjHBYWICwgIyYnKSopGR8tMC0oMCUoKSj/2wBDAQcHBwoIChMKChMoGhYaKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCgoKCj/wAARCAABAAEDASIAAhEBAxEB/8QAFQABAQAAAAAAAAAAAAAAAAAAAAv/xAAhEAACAQMDBQAAAAAAAAAAAAABAgMABAUGIWGRkqGx0f/EABUBAQEAAAAAAAAAAAAAAAAAAAMF/8QAGhEAAgIDAAAAAAAAAAAAAAAAAAECEgMRkf/aAAwDAQACEQMRAD8AltJagyeH0AthI5xdrLcNM91BF5pX2HaH9bcfaSXWGaRmknyJckliyjqTzSlT54b6bk+h0R//2Q=="
           fetchPriority="high"
