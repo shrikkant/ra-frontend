@@ -48,8 +48,8 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
 
   return (
     <div className="min-h-screen">
-      {/* Sync location from URL to Redux store */}
-      {filter.city && <LocationSync city={filter.city} />}
+        {/* Sync location from URL to Redux store */}
+        {filter.city && <LocationSync city={filter.city} />}
       
       {/* Hero Banner Section */}
       {shouldShowHeroBanner && filter.city && (
