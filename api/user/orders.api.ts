@@ -3,7 +3,7 @@ import {IOrder, ITransaction} from '../../app-store/types'
 import httpClient, {getToken} from './../axios.config'
 import {ENV_CONFIG} from '../../config/environment'
 import {TOKEN_HEADER_KEY} from '../../config/constants'
-import Moment from 'moment'
+import {format} from 'date-fns'
 
 interface Dates {
   startDate: Date
@@ -36,8 +36,8 @@ export const addToCart = async (
   const END_HOUR = 19 // 7 PM
   const order: IOrder = await httpClient.post(`/user/carts`, {
     date: {
-      startDate: Moment(new Date(startDate)).format('YYYY-MM-DD'),
-      endDate: Moment(new Date(endDate)).format('YYYY-MM-DD'),
+      startDate: format(new Date(startDate), 'yyyy-MM-dd'),
+      endDate: format(new Date(endDate), 'yyyy-MM-dd'),
       startTime: START_HOUR,
       endTime: END_HOUR,
       rentalDays: 1,

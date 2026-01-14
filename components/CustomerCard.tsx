@@ -1,6 +1,4 @@
 'use client'
-import Moment from 'moment'
-
 import React, {useEffect, useState} from 'react'
 
 import {IUser} from '../app-store/types'

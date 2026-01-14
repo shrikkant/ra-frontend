@@ -21,7 +21,7 @@ import {resolveOrderStage} from '../../../util/global.util'
 import {AdminOrderItemRow} from '../../../components/admin/AdminOrderItemRow'
 import {useRouter} from 'next/navigation'
 import {IOrder} from '../../../app-store/types'
-import Moment from 'moment'
+import {format} from 'date-fns'
 
 interface OrdersProps {
   stage: number
@@ -65,9 +65,9 @@ export default function Orders({stage}: OrdersProps) {
     }
 
     return (
-      Moment(start).utcOffset(0).format('DD MMM') +
+      format(new Date(start), 'dd MMM') +
       ' - ' +
-      Moment(end).utcOffset(0).format('DD MMM')
+      format(new Date(end), 'dd MMM')
     )
   }
 

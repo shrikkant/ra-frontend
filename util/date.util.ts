@@ -1,4 +1,5 @@
-import Moment from 'moment'
+import {format, formatDistanceToNow} from 'date-fns'
+
 interface IDateRange {
   startDate: Date
   endDate: Date
@@ -11,22 +12,22 @@ const rangeDisplay = function (range: IDateRange) {
   const showYear = startDate.getFullYear() !== endDate.getFullYear()
   const showMonth = showYear || startDate.getMonth() < endDate.getMonth()
 
-  const startFormat = 'D ' + (showMonth ? 'MMM ' : '') + (showYear ? 'YY' : '')
-  const endFormat = 'D MMM ' + (showYear ? 'YY' : '')
+  const startFormat = 'd ' + (showMonth ? 'MMM ' : '') + (showYear ? 'yy' : '')
+  const endFormat = 'd MMM ' + (showYear ? 'yy' : '')
   return (
-    Moment(startDate).format(startFormat) +
+    format(startDate, startFormat.trim()) +
     ' - ' +
-    Moment(endDate).format(endFormat)
+    format(endDate, endFormat.trim())
   )
 }
 
 const dateDisplay = function (date: Date | undefined) {
   if (!date) return 'Invalid Date'
-  return Moment(date).format('D MMM')
+  return format(date, 'd MMM')
 }
 
-const timeAgo = timestamp => {
-  return Moment(new Date(timestamp)).utcOffset(0).fromNow()
+const timeAgo = (timestamp: string | number | Date) => {
+  return formatDistanceToNow(new Date(timestamp), {addSuffix: true})
 }
 
 export {rangeDisplay, timeAgo, dateDisplay}

@@ -1,8 +1,24 @@
+'use client'
+
 import React from 'react'
-import Analytics from '../../../components/admin/Analytics.client'
-import OrderAnalytics from '../../../components/admin/OrderAnalytics.client'
-import SignupAnalytics from '../../../components/admin/SignupAnalytics.client'
+import dynamic from 'next/dynamic'
 import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
+
+// Dynamically import heavy chart components to reduce initial bundle
+const Analytics = dynamic(
+  () => import('../../../components/admin/Analytics.client'),
+  {ssr: false, loading: () => <div className="h-[300px] animate-pulse bg-gray-100 rounded" />}
+)
+
+const OrderAnalytics = dynamic(
+  () => import('../../../components/admin/OrderAnalytics.client'),
+  {ssr: false, loading: () => <div className="h-[300px] animate-pulse bg-gray-100 rounded" />}
+)
+
+const SignupAnalytics = dynamic(
+  () => import('../../../components/admin/SignupAnalytics.client'),
+  {ssr: false, loading: () => <div className="h-[300px] animate-pulse bg-gray-100 rounded" />}
+)
 
 export default function Page() {
   return (

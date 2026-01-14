@@ -1,4 +1,4 @@
-import Moment from 'moment'
+import {format} from 'date-fns'
 import {IAadhaar} from '../app-store/auth/types'
 import {IUser} from '../app-store/types'
 import {SIGNIN_SOURCE} from '../config/constants'
@@ -68,7 +68,7 @@ export default function IDCard({aadhaar, customer, phone}: IDCardProps) {
             </h3>
             <div className="text-sm text-gray-600 space-y-1">
               {hasAadhaar && (
-                <p>DOB: {Moment(aadhaar.dob).format('D MMM YYYY')}</p>
+                <p>DOB: {format(new Date(aadhaar.dob), 'd MMM yyyy')}</p>
               )}
               <p>Phone: {phone}</p>
             </div>
