@@ -16,9 +16,20 @@ const config: Config = {
           '0%, 100%': {transform: 'translateY(0px)'},
           '50%': {transform: 'translateY(-20px)'},
         },
+        'scale-in': {
+          '0%': {transform: 'scale(0)', opacity: '0'},
+          '50%': {transform: 'scale(1.2)'},
+          '100%': {transform: 'scale(1)', opacity: '1'},
+        },
+        'fade-out': {
+          '0%, 70%': {opacity: '1'},
+          '100%': {opacity: '0'},
+        },
       },
       animation: {
         float: 'float 6s ease-in-out infinite',
+        'scale-in': 'scale-in 0.5s ease-out forwards',
+        'fade-out': 'fade-out 1.5s ease-out forwards',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',
