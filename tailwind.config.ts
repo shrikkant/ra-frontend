@@ -25,11 +25,16 @@ const config: Config = {
           '0%, 70%': {opacity: '1'},
           '100%': {opacity: '0'},
         },
+        shimmer: {
+          '0%': {transform: 'translateX(-100%)'},
+          '100%': {transform: 'translateX(100%)'},
+        },
       },
       animation: {
         float: 'float 6s ease-in-out infinite',
         'scale-in': 'scale-in 0.5s ease-out forwards',
         'fade-out': 'fade-out 1.5s ease-out forwards',
+        shimmer: 'shimmer 1.5s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

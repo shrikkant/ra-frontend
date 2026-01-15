@@ -41,6 +41,7 @@ export const useDigiLockerVerification = () => {
   const [verificationStatus, setVerificationStatus] =
     useState<VerificationStatus>('PENDING')
   const [statusMessage, setStatusMessage] = useState<string>('')
+  const [isTracking, setIsTracking] = useState(false) // True after first poll/SSE confirms backend is tracking
   const buttonRef = useRef<HTMLDivElement>(null)
   const eventSourceRef = useRef<EventSource | null>(null)
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -139,6 +140,7 @@ export const useDigiLockerVerification = () => {
 
           // Handle status updates
           if (data.status) {
+            setIsTracking(true) // Backend is now tracking
             await handleSSEStatusUpdate(data as StatusUpdate)
           }
         } catch (error) {
@@ -148,11 +150,13 @@ export const useDigiLockerVerification = () => {
 
       eventSourceRef.current.onerror = error => {
         console.error('SSE connection error:', error)
+        console.log('SSE readyState:', eventSourceRef.current?.readyState)
+        // readyState: 0=CONNECTING, 1=OPEN, 2=CLOSED
         console.log('SSE connection failed, falling back to polling...')
-        setStatusMessage('Connection interrupted. Reconnecting...')
+        setStatusMessage('Connection interrupted. Checking status...')
         eventSourceRef.current?.close()
         eventSourceRef.current = null
-        // Fall back to polling
+        // Fall back to polling (which uses JWT header)
         startPolling()
       }
 
@@ -194,12 +198,15 @@ export const useDigiLockerVerification = () => {
         )
 
         if (!response.ok) {
+          const errorText = await response.text().catch(() => 'No body')
+          console.error(`Status check failed: ${response.status}`, errorText)
           throw new Error(`Failed to fetch status: ${response.status}`)
         }
 
         const data = await response.json()
         console.log('Polling status update:', data)
 
+        setIsTracking(true) // Backend is now tracking
         setVerificationStatus(data.status)
         setStatusMessage(data.message || 'Checking verification status...')
 
@@ -367,5 +374,6 @@ export const useDigiLockerVerification = () => {
     initializeVerification,
     verificationStatus,
     statusMessage,
+    isTracking,
   }
 }

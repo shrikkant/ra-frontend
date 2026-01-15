@@ -31,6 +31,7 @@ export default function DigilockerKYC() {
     initializeVerification,
     verificationStatus,
     statusMessage,
+    isTracking,
   } = useDigiLockerVerification()
 
   // Check for SDK availability periodically
@@ -186,11 +187,28 @@ export default function DigilockerKYC() {
             </p>
 
             {verificationStatus === 'IN_PROGRESS' && (
-              <div className="flex items-center gap-2 p-3 bg-blue-50 rounded-md mb-4">
-                <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
-                <span className="text-sm text-blue-700">
-                  Verification in progress. Please complete the process in DigiLocker...
-                </span>
+              <div className="p-4 bg-blue-50 rounded-lg mb-4 space-y-3">
+                {isTracking ? (
+                  <>
+                    {/* Indeterminate Progress Bar - shown after first poll confirms tracking */}
+                    <div className="relative h-2 bg-blue-200 rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-blue-500 to-blue-200 animate-shimmer"></div>
+                    </div>
+                    <p className="text-sm text-blue-700 text-center">
+                      {statusMessage || 'Verifying your identity with DigiLocker...'}
+                    </p>
+                  </>
+                ) : (
+                  <>
+                    {/* Initial connecting state */}
+                    <div className="flex items-center justify-center gap-2">
+                      <div className="animate-spin rounded-full h-4 w-4 border-2 border-blue-600 border-t-transparent"></div>
+                      <span className="text-sm text-blue-700">
+                        Connecting to verification service...
+                      </span>
+                    </div>
+                  </>
+                )}
               </div>
             )}
 
