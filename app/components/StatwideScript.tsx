@@ -12,56 +12,66 @@ declare global {
     aptrinsic
   }
 }
+
 export const StatwideScript: React.FC = () => {
   const loggedUser = useSelector(selectAuthState)
-  // const isAdmin = (user: IUser) => {
-  //   return user?.role === 'A';
-  // }
 
   useEffect(() => {
-    if (!loggedUser?.id || !window.featurics) {
+    if (!loggedUser?.id) {
       return
     }
 
-    window.featurics?.init({
-      account: {
-        accountName: loggedUser?.city || 'N/A',
-        accountProperties: [
-          {
-            key: 'City',
-            value: loggedUser?.city,
-          },
-        ],
-      },
-      visitor: {
-        appVisitorId: loggedUser?.id,
-        email: loggedUser?.email_address,
-        firstName: loggedUser?.firstname || 'User ' + loggedUser?.id,
-        lastName: loggedUser?.lastname || '',
-        // You can include additional visitor level key-values here,
-        // as long as it's not one of the above reserved names.
-        visitorProperties: [
-          {
-            key: 'OrganizationId',
-            value: loggedUser?.id,
-          },
-          {
-            key: 'City',
-            value: loggedUser?.city || '',
-          },
-        ],
-      },
-    })
-
-    if (window.heap) {
-      window.heap?.identify(
-        loggedUser.id + '_' + loggedUser.email_address.split('@')[0],
+    const initAnalytics = () => {
+      console.log(
+        '[StatwideScript] Initializing analytics for user:',
+        loggedUser.id,
       )
-      window.heap?.addUserProperties({
-        name: `${loggedUser.firstname} ${loggedUser.lastname}`,
-        email: loggedUser.email_address,
-        city: loggedUser.city,
+
+      window.featurics?.init({
+        account: {
+          accountName: loggedUser?.city || 'N/A',
+          accountProperties: [
+            {
+              key: 'City',
+              value: loggedUser?.city,
+            },
+          ],
+        },
+        visitor: {
+          appVisitorId: loggedUser?.id,
+          email: loggedUser?.email_address,
+          firstName: loggedUser?.firstname || 'User ' + loggedUser?.id,
+          lastName: loggedUser?.lastname || '',
+          visitorProperties: [
+            {
+              key: 'OrganizationId',
+              value: loggedUser?.id,
+            },
+            {
+              key: 'City',
+              value: loggedUser?.city || '',
+            },
+          ],
+        },
       })
+    }
+
+    // If featurics is ready, init immediately
+    if (window.featurics) {
+      initAnalytics()
+    } else {
+      // Wait for GTM to load featurics (retry a few times)
+      console.log('[StatwideScript] Waiting for featurics to load...')
+      const retryTimes = [500, 1500, 3000, 5000]
+      const timers = retryTimes.map((delay) =>
+        setTimeout(() => {
+          if (window.featurics) {
+            initAnalytics()
+          }
+        }, delay),
+      )
+
+      return () => timers.forEach(clearTimeout)
     }
   }, [loggedUser])
 
