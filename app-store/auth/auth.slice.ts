@@ -10,7 +10,9 @@ export const authSlice = createSlice({
   initialState,
   reducers: {
     authUser(state, action: PayloadAction<IUser>) {
-      state.user = action.payload
+      // Only persist essential user fields to avoid localStorage quota issues
+      const {documents, address, ...essentialUser} = action.payload
+      state.user = essentialUser as IUser
     },
     logout(state) {
       state.user = undefined

@@ -26,8 +26,8 @@ const SIGNOUT_REQUEST = 'authSlice/logout'
 const persistConfig = {
   key: 'root',
   storage,
-  blacklist: ['tracking'],
-  whitelist: ['auth', 'appDefaults', 'session'],
+  blacklist: ['tracking', 'products', 'myProducts', 'admin', 'appDefaults'],
+  whitelist: ['auth', 'session', 'orders'], // orders includes guest cart
   transforms: [createCompressor()], // Compress persisted data
 }
 

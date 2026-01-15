@@ -65,13 +65,16 @@ export default function MainHeaderNav() {
   }
 
   useEffect(() => {
-    if (!cart) {
+    // Only fetch cart if user is logged in - guests don't have persisted carts
+    if (!cart && loggedUser?.id) {
       fetchCart().then((o: IOrder) => {
         dispatch(setCart(o))
+      }).catch(() => {
+        // Silently fail - user might have no cart yet
       })
     }
     setLocation(storeSearch ? storeSearch.location : defaultSearch?.location)
-  }, [cart, storeSearch])
+  }, [cart, storeSearch, loggedUser])
 
   return (
     <Disclosure
