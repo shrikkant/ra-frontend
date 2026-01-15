@@ -171,13 +171,16 @@ export const useDigiLockerVerification = () => {
     if (!currentUser?.id) return
 
     console.log('Starting fallback polling...')
+    let errorCount = 0
+    const MAX_ERRORS = 5 // Stop polling after 5 consecutive errors
 
     // Clear any existing polling
     if (pollIntervalRef.current) {
       clearInterval(pollIntervalRef.current)
     }
 
-    pollIntervalRef.current = setInterval(async () => {
+    // Single function to check status
+    const checkStatus = async (): Promise<boolean> => {
       try {
         const token = await getToken()
         const response = await fetch(
@@ -191,14 +194,14 @@ export const useDigiLockerVerification = () => {
         )
 
         if (!response.ok) {
-          throw new Error('Failed to fetch status')
+          throw new Error(`Failed to fetch status: ${response.status}`)
         }
 
         const data = await response.json()
         console.log('Polling status update:', data)
 
         setVerificationStatus(data.status)
-        setStatusMessage(data.message)
+        setStatusMessage(data.message || 'Checking verification status...')
 
         if (data.completed) {
           // Stop polling
@@ -212,8 +215,8 @@ export const useDigiLockerVerification = () => {
             try {
               const freshUser = await getAuthUser()
               dispatch(authUser(freshUser))
-            } catch (error) {
-              console.error('Failed to fetch updated user:', error)
+            } catch (err) {
+              console.error('Failed to fetch updated user:', err)
               setError('Verification completed but failed to update profile')
             }
           } else if (data.status === 'FAILED') {
@@ -221,11 +224,38 @@ export const useDigiLockerVerification = () => {
           } else if (data.status === 'EXPIRED') {
             setError('Verification expired. Please try again.')
           }
+          return true // Completed, stop polling
         }
-      } catch (error) {
-        console.error('Polling error:', error)
+
+        // Reset error count on success
+        errorCount = 0
+        return false // Not completed, continue polling
+      } catch (err) {
+        errorCount++
+        console.error('Polling error:', err, `(attempt ${errorCount}/${MAX_ERRORS})`)
+
+        // Stop polling after too many consecutive errors
+        if (errorCount >= MAX_ERRORS) {
+          console.log('Stopping polling due to repeated errors')
+          if (pollIntervalRef.current) {
+            clearInterval(pollIntervalRef.current)
+            pollIntervalRef.current = null
+          }
+          setError('Unable to check verification status. Please refresh the page.')
+          return true // Stop polling
+        }
+        return false // Continue polling
       }
-    }, 5000) // Poll every 5 seconds
+    }
+
+    // Check immediately first
+    const completed = await checkStatus()
+    if (completed) return
+
+    // Then continue polling every 3 seconds
+    pollIntervalRef.current = setInterval(async () => {
+      await checkStatus()
+    }, 3000) // Poll every 3 seconds (was 5)
   }
 
   const handleVerificationSuccess = async (data: any) => {
@@ -234,7 +264,7 @@ export const useDigiLockerVerification = () => {
     // Status tracking is handled by SSE/polling
   }
 
-  const handleVerificationFailure = (error: any) => {
+  const handleVerificationFailure = (_error: any) => {
     setStatusMessage('Checking status...')
     // console.error('DigiLocker onFailure callback:', error)
     // Still keep this for immediate UI feedback
