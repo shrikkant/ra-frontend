@@ -10,27 +10,12 @@ import {IProduct, IProductFilter} from '../../../app-store/types'
 import {IFAQ} from '../../../app-store/app-defaults/types'
 import {LocationSync} from 'components/LocationSync'
 
-// Skeleton components for loading states
-const ProductCardSkeleton = () => (
-  <div className="border border-gray-100 w-full h-full bg-white flex flex-col sm:rounded-lg shadow-sm overflow-hidden">
-    <div className="flex-grow p-4">
-      <div className="bg-gray-200 h-[240px] rounded-lg skeleton"></div>
-    </div>
-    <div className="mt-auto bg-gradient-to-t from-gray-200 via-gray-100 to-transparent px-4 pb-4 sm:rounded-b-lg">
-      <div className="bg-gray-200 h-4 rounded mb-4 skeleton"></div>
-      <div className="bg-gray-200 h-6 rounded mb-4 skeleton"></div>
-      <div className="bg-gray-200 h-10 rounded skeleton"></div>
-    </div>
-  </div>
-)
-
 interface CityListingPageProps {
   products: IProduct[]
   meta: any
   filter: IProductFilter
   categories: any[]
   searchParams: any
-  loading?: boolean
   faqs?: IFAQ[]
 }
 
@@ -39,7 +24,6 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
   filter,
   categories,
   searchParams,
-  loading = false,
   faqs = [],
 }) => {
   // Determine if hero banner should be shown (only when no search params)
@@ -48,9 +32,9 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
 
   return (
     <div className="min-h-screen">
-        {/* Sync location from URL to Redux store */}
-        {filter.city && <LocationSync city={filter.city} />}
-      
+      {/* Sync location from URL to Redux store */}
+      {filter.city && <LocationSync city={filter.city} />}
+
       {/* Hero Banner Section */}
       {shouldShowHeroBanner && filter.city && (
         <CityHeroBanner
@@ -78,18 +62,11 @@ export const CityListingPage: React.FC<CityListingPageProps> = ({
       {/* Products Grid Section */}
       <div className="max-w-7xl mx-auto md:min-h-[calc(100vh-100px-418px)] sm:p-4 p-2">
         <div className="grid xs:grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 md:gap-4 gap-2 xs:gap-1 pb-4">
-          {loading ? (
-            // Show skeleton loading state when loading
-            Array.from({length: 8}).map((_, index) => (
-              <ProductCardSkeleton key={index} />
-            ))
-          ) : products && products.length > 0 ? (
-            // Show products when loaded and have results
+          {products && products.length > 0 ? (
             products.map((product: IProduct, index: number) => (
               <ProductCard key={product.id} product={product} priority={index < 4} />
             ))
           ) : (
-            // Show empty state when loaded but no results
             <div className="col-span-full text-center py-12">
               <div className="text-gray-500 text-lg mb-4">
                 No products found for your search criteria

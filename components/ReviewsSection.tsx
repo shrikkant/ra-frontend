@@ -1,5 +1,4 @@
-'use client'
-import React from 'react'
+import {Fragment} from 'react'
 import {StarIcon} from '@heroicons/react/24/solid'
 
 interface ICustomerReview {
@@ -168,12 +167,12 @@ export function ReviewsSection({
               >
                 &ldquo;
                 {review.description.split('\n').map((line, index) => (
-                  <React.Fragment key={index}>
+                  <Fragment key={index}>
                     {line}
                     {index < review.description.split('\n').length - 1 && (
                       <br />
                     )}
-                  </React.Fragment>
+                  </Fragment>
                 ))}
                 &rdquo;
               </div>

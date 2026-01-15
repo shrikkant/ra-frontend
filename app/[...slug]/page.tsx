@@ -203,7 +203,6 @@ export default async function Page({params, searchParams}: PageProps) {
         filter={filter}
         categories={categories}
         searchParams={localSearchParams}
-        loading={false}
         faqs={transformedFAQs}
       />
     )
