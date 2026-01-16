@@ -28,15 +28,6 @@ export const StatwideScript: React.FC = () => {
       )
 
       window.featurics?.init({
-        account: {
-          accountName: loggedUser?.city || 'N/A',
-          accountProperties: [
-            {
-              key: 'City',
-              value: loggedUser?.city,
-            },
-          ],
-        },
         visitor: {
           appVisitorId: loggedUser?.id,
           email: loggedUser?.email_address,
@@ -44,12 +35,12 @@ export const StatwideScript: React.FC = () => {
           lastName: loggedUser?.lastname || '',
           visitorProperties: [
             {
-              key: 'OrganizationId',
-              value: loggedUser?.id,
+              key: 'Phone',
+              value: loggedUser?.phone || 'N/A',
             },
             {
               key: 'City',
-              value: loggedUser?.city || '',
+              value: loggedUser?.city || 'N/A',
             },
           ],
         },
@@ -63,7 +54,7 @@ export const StatwideScript: React.FC = () => {
       // Wait for GTM to load featurics (retry a few times)
       console.log('[StatwideScript] Waiting for featurics to load...')
       const retryTimes = [500, 1500, 3000, 5000]
-      const timers = retryTimes.map((delay) =>
+      const timers = retryTimes.map(delay =>
         setTimeout(() => {
           if (window.featurics) {
             initAnalytics()
