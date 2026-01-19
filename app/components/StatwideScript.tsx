@@ -22,11 +22,6 @@ export const StatwideScript: React.FC = () => {
     }
 
     const initAnalytics = () => {
-      console.log(
-        '[StatwideScript] Initializing analytics for user:',
-        loggedUser.id,
-      )
-
       window.featurics?.init({
         visitor: {
           appVisitorId: loggedUser?.id,

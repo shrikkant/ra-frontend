@@ -41,7 +41,6 @@ export default function DigilockerKYC() {
 
       const checkSDK = () => {
         if (typeof window !== 'undefined' && window.DigiboostSdk) {
-          console.log('SDK found:', window.DigiboostSdk)
           setSdkLoaded(true)
           setSdkError(null)
           return true
@@ -124,18 +123,28 @@ export default function DigilockerKYC() {
       <div className="flex justify-between items-center">
         <h3 className="font-medium text-lg">KYC Verification</h3>
         {verificationData && (
-          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-            verificationStatus === 'COMPLETED' ? 'bg-green-100 text-green-800' :
-            verificationStatus === 'IN_PROGRESS' ? 'bg-blue-100 text-blue-800' :
-            verificationStatus === 'FAILED' ? 'bg-red-100 text-red-800' :
-            verificationStatus === 'EXPIRED' ? 'bg-gray-100 text-gray-800' :
-            'bg-yellow-100 text-yellow-800'
-          }`}>
-            {verificationStatus === 'IN_PROGRESS' ? 'In Progress' :
-             verificationStatus === 'COMPLETED' ? 'Completed' :
-             verificationStatus === 'FAILED' ? 'Failed' :
-             verificationStatus === 'EXPIRED' ? 'Expired' :
-             'Pending'}
+          <span
+            className={`px-2 py-1 rounded-full text-xs font-medium ${
+              verificationStatus === 'COMPLETED'
+                ? 'bg-green-100 text-green-800'
+                : verificationStatus === 'IN_PROGRESS'
+                  ? 'bg-blue-100 text-blue-800'
+                  : verificationStatus === 'FAILED'
+                    ? 'bg-red-100 text-red-800'
+                    : verificationStatus === 'EXPIRED'
+                      ? 'bg-gray-100 text-gray-800'
+                      : 'bg-yellow-100 text-yellow-800'
+            }`}
+          >
+            {verificationStatus === 'IN_PROGRESS'
+              ? 'In Progress'
+              : verificationStatus === 'COMPLETED'
+                ? 'Completed'
+                : verificationStatus === 'FAILED'
+                  ? 'Failed'
+                  : verificationStatus === 'EXPIRED'
+                    ? 'Expired'
+                    : 'Pending'}
           </span>
         )}
       </div>
@@ -183,7 +192,8 @@ export default function DigilockerKYC() {
         ) : (
           <div>
             <p className="text-sm text-gray-600 mb-4">
-              {statusMessage || 'Verification initialized. Click the button below to proceed with DigiLocker verification:'}
+              {statusMessage ||
+                'Verification initialized. Click the button below to proceed with DigiLocker verification:'}
             </p>
 
             {verificationStatus === 'IN_PROGRESS' && (
@@ -195,7 +205,8 @@ export default function DigilockerKYC() {
                       <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-blue-500 to-blue-200 animate-shimmer"></div>
                     </div>
                     <p className="text-sm text-blue-700 text-center">
-                      {statusMessage || 'Verifying your identity with DigiLocker...'}
+                      {statusMessage ||
+                        'Verifying your identity with DigiLocker...'}
                     </p>
                   </>
                 ) : (
