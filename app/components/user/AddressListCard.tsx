@@ -15,7 +15,7 @@ export default function AddressListCard() {
       actions={[<AddressModal key={'addr_modal'}></AddressModal>]}
     >
       <div className="flex flex-col px-4">
-        {loggedUser.address.map((a: ILocation) => (
+        {loggedUser.address?.map((a: ILocation) => (
           <div key={a.id} className="flex justify-between items-center py-4">
             <div className="flex flex-col">
               <h3 className="text-lg font-semibold text-gray-700">
