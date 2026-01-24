@@ -53,12 +53,7 @@ export default function OrderAnalytics() {
               <Tooltip />
               <Legend />
               <CartesianGrid stroke="#f5f5f5" />
-              <Line
-                type="monotone"
-                dataKey="2023"
-                stroke="#387300"
-                yAxisId={0}
-              />
+
               <Line
                 type="monotone"
                 dataKey="2024"
@@ -69,6 +64,12 @@ export default function OrderAnalytics() {
                 type="monotone"
                 dataKey="2025"
                 stroke="#387908"
+                yAxisId={0}
+              />
+              <Line
+                type="monotone"
+                dataKey="2026"
+                stroke="#8b5cf6"
                 yAxisId={0}
               />
             </LineChart>
