@@ -103,8 +103,10 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
   const loadOrders = useCallback(async () => {
     setIsLoading(true)
     try {
+      // Backend expects index (0=Leads, 1=Paid, 2=InProgress), not actual stage values
+      const stageIndex = ORDER_STAGES.indexOf(activeStage)
       const data = await fetchOrdersWithFilters({
-        status: activeStage,
+        status: stageIndex,
         userId: selectedUser?.id,
       })
       setOrders(data)
