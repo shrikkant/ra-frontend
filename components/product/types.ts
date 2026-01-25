@@ -15,7 +15,8 @@ export interface ProductDetailsSectionProps {
 export interface BookingFormSectionProps {
   productId: number
   discount: number
-  rates: IProductRatePlan[]
+  rate?: number | null // Primary rate (preferred)
+  rates?: IProductRatePlan[] // @deprecated - kept for backward compatibility
 }
 
 // Addon type (if not already defined in app-store types)

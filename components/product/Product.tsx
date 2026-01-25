@@ -8,7 +8,8 @@ import {ProductProps} from './types'
 
 export const Product: React.FC<ProductProps> = ({product}) => {
   const addons: any = product?.masterProductList
-  const rates: any = product?.rates
+  const rate = product?.rate
+  const rates: any = product?.rates // @deprecated - kept for backward compatibility
 
   return (
     <div className="min-h-screen px-4 sm:px-6 lg:px-8 bg-gray-50">
@@ -23,6 +24,7 @@ export const Product: React.FC<ProductProps> = ({product}) => {
           <BookingFormSection
             productId={product.id}
             discount={product?.discount_percent}
+            rate={rate}
             rates={rates}
           />
         </div>

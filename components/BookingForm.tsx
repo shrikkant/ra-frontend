@@ -34,11 +34,13 @@ import {
 export default function BookingForm({
   productId,
   discount,
+  rate,
   rates,
 }: {
   productId: number
   discount: number
-  rates: IProductRatePlan[]
+  rate?: number | null // Primary rate (preferred)
+  rates?: IProductRatePlan[] // @deprecated - kept for backward compatibility
 }) {
   const dispatch = useDispatch()
   const [isClient, setIsClient] = React.useState(false)
@@ -56,7 +58,8 @@ export default function BookingForm({
 
   const {executeRecaptcha} = useRecaptcha()
 
-  const originalRate = rates[0].rate
+  // Use rate prop first, fallback to rates array for backward compatibility
+  const originalRate = rate || (rates && rates[0]?.rate) || 0
   const discountedRate = calculateDiscountedRate(originalRate, finalDiscount)
 
   // Calculate days and discount

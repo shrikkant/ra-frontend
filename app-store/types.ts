@@ -142,7 +142,6 @@ export interface IProduct {
   transactions?: null
   rating?: null
   duration?: null
-  rate?: null
   address_id: number
   deposit?: null
   home_delivery?: null
@@ -165,7 +164,8 @@ export interface IProduct {
   subCategory: IProductSubCategory
   category: IProductCategory
   masterProduct?
-  rates?: IProductRatePlan[] | null
+  rate?: number | null // Primary rate field (daily rate)
+  rates?: IProductRatePlan[] | null // @deprecated - kept for backward compatibility
 }
 export interface ProductPhoto {
   id: number
