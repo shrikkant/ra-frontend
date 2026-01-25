@@ -16,7 +16,8 @@ import {IUser} from '../../../app-store/types'
 import {IDocument} from '../../../app-store/app-defaults/types'
 import CustomerCard from '../../../components/CustomerCard'
 import {VERIFICATION_FLAGS, isVerified} from '../../../config/constants'
-import {FaCheckCircle, FaIdCard, FaEnvelope, FaFileAlt} from 'react-icons/fa'
+import {FaCheckCircle, FaIdCard, FaEnvelope, FaFileAlt, FaBoxes} from 'react-icons/fa'
+import Link from 'next/link'
 
 interface CustomerDetailsProps {
   id: string
@@ -150,6 +151,20 @@ export default function CustomerDetails({id}: CustomerDetailsProps) {
             {/* Left Column - Customer Card (Profile + Update Information) */}
             <div className="flex-1 min-w-0">
               <CustomerCard customer={activeCustomer} />
+
+              {/* Quick Actions */}
+              <div className="mt-4 bg-white rounded-lg shadow-sm p-4">
+                <h3 className="text-sm font-medium text-gray-700 mb-3">Quick Actions</h3>
+                <div className="flex flex-wrap gap-2">
+                  <Link
+                    href={`/p/admin/listing/user/${activeCustomer.id}`}
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-blue-50 text-blue-700 rounded-lg hover:bg-blue-100 transition-colors text-sm font-medium"
+                  >
+                    <FaBoxes className="h-4 w-4" />
+                    Product Matrix
+                  </Link>
+                </div>
+              </div>
             </div>
 
             {/* Right Column - Activity Logger */}
