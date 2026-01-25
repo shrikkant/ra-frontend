@@ -92,6 +92,35 @@ export interface MarkAsPaidParams {
   razorpay_payment_id: string
 }
 
+export interface PaymentVerificationResult {
+  valid: boolean
+  amountMatches: boolean
+  payment: {
+    id: string
+    amount: number
+    status: string
+    method: string
+    email: string
+    contact: string
+    created_at: number
+  }
+  order: {
+    id: number
+    amount: number
+  }
+}
+
+export async function verifyPayment(
+  orderId: number,
+  paymentId: string,
+): Promise<PaymentVerificationResult> {
+  const response: PaymentVerificationResult = await httpClient.post(
+    `/admin/orders/${orderId}/verify-payment`,
+    {razorpay_payment_id: paymentId},
+  )
+  return response
+}
+
 export async function markOrderAsPaid(
   orderId: number,
   params: MarkAsPaidParams,
