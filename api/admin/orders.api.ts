@@ -87,3 +87,18 @@ export const getSignedRentalAgreementForAdmin = async (
     .get(`/admin/users/${userId}/orders/${orderId}/rental-agreement/signed`)
   return response
 }
+
+export interface MarkAsPaidParams {
+  razorpay_payment_id: string
+}
+
+export async function markOrderAsPaid(
+  orderId: number,
+  params: MarkAsPaidParams,
+): Promise<IOrder> {
+  const response: IOrder = await httpClient.post(
+    `/admin/orders/${orderId}/mark-paid`,
+    params,
+  )
+  return response
+}

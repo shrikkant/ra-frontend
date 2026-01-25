@@ -143,6 +143,10 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
     setSelectedUser(user)
   }
 
+  const handleOrderUpdate = useCallback(() => {
+    loadOrders()
+  }, [loadOrders])
+
   const canDisplayRevenueStats =
     revenueStats && revenueStats.stats?.revenue?.length > 1
 
@@ -167,7 +171,11 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
           orderCount={orders.length}
         />
 
-        <OrdersTable orders={orders} isLoading={isLoading} />
+        <OrdersTable
+          orders={orders}
+          isLoading={isLoading}
+          onOrderUpdate={handleOrderUpdate}
+        />
       </div>
     </div>
   )

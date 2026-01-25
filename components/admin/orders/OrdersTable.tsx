@@ -8,6 +8,7 @@ import {FaInbox} from 'react-icons/fa'
 interface OrdersTableProps {
   orders: IOrder[]
   isLoading?: boolean
+  onOrderUpdate?: (updatedOrder: IOrder) => void
 }
 
 interface TableHeaderProps {
@@ -111,6 +112,7 @@ const TABLE_COLUMNS = [
 export const OrdersTable: React.FC<OrdersTableProps> = ({
   orders,
   isLoading = false,
+  onOrderUpdate,
 }) => {
   if (!isLoading && (!orders || orders.length === 0)) {
     return <EmptyState />
@@ -125,7 +127,11 @@ export const OrdersTable: React.FC<OrdersTableProps> = ({
         ) : (
           <tbody className="bg-white divide-y divide-gray-100">
             {orders.map(order => (
-              <OrderTableRow key={order.id} order={order} />
+              <OrderTableRow
+                key={order.id}
+                order={order}
+                onOrderUpdate={onOrderUpdate}
+              />
             ))}
           </tbody>
         )}

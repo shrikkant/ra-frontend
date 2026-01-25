@@ -1,16 +1,23 @@
 'use client'
 
-import React from 'react'
+import React, {useState} from 'react'
 import Link from 'next/link'
 import {format} from 'date-fns'
-import {FaShippingFast, FaFileInvoice, FaFileContract} from 'react-icons/fa'
+import {
+  FaShippingFast,
+  FaFileInvoice,
+  FaFileContract,
+  FaCreditCard,
+} from 'react-icons/fa'
 import {IOrder, IOrderItem} from '../../../app-store/types'
 import {useRentalAgreementAdmin} from '../../../hooks/useRentalAgreementAdmin'
 import {openPdfInNewWindow} from '../../../util/pdf.util'
 import {resolveOrderStage} from '../../../util/global.util'
+import {MarkAsPaidModal} from './MarkAsPaidModal'
 
 interface OrderTableRowProps {
   order: IOrder
+  onOrderUpdate?: (updatedOrder: IOrder) => void
 }
 
 interface ProductSummaryProps {
@@ -69,7 +76,11 @@ const formatAmount = (amount: number | undefined): string => {
  *
  * Single Responsibility: Renders a single order row.
  */
-export const OrderTableRow: React.FC<OrderTableRowProps> = ({order}) => {
+export const OrderTableRow: React.FC<OrderTableRowProps> = ({
+  order,
+  onOrderUpdate,
+}) => {
+  const [showMarkAsPaidModal, setShowMarkAsPaidModal] = useState(false)
   const {pdfUrl, hasSignedAgreement, loading: agreementLoading} =
     useRentalAgreementAdmin(order.user?.id, order.id)
 
@@ -80,10 +91,18 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({order}) => {
     }
   }
 
+  const handleMarkAsPaidSuccess = (updatedOrder: IOrder) => {
+    if (onOrderUpdate) {
+      onOrderUpdate(updatedOrder)
+    }
+  }
+
   const customerName =
     order.user?.firstname ||
     order.user?.email_address?.split('@')[0] ||
     'Unknown'
+
+  const isLead = order.stage === 0
 
   return (
     <tr className="hover:bg-gray-50 border-b border-gray-100">
@@ -166,6 +185,17 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({order}) => {
       {/* Actions/Icons */}
       <td className="px-3 py-3 whitespace-nowrap">
         <div className="flex items-center gap-2">
+          {/* Mark as Paid - only for leads (stage 0) */}
+          {isLead && (
+            <button
+              onClick={() => setShowMarkAsPaidModal(true)}
+              className="text-green-600 hover:text-green-800"
+              title="Mark as Paid"
+            >
+              <FaCreditCard className="h-4 w-4" />
+            </button>
+          )}
+
           {/* Invoice - only for paid (1) and in progress (3) orders */}
           {order.invoice && order.stage >= 1 ? (
             <Link
@@ -204,6 +234,14 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({order}) => {
             </span>
           )}
         </div>
+
+        {/* Mark as Paid Modal */}
+        <MarkAsPaidModal
+          order={order}
+          isOpen={showMarkAsPaidModal}
+          onClose={() => setShowMarkAsPaidModal(false)}
+          onSuccess={handleMarkAsPaidSuccess}
+        />
       </td>
     </tr>
   )
