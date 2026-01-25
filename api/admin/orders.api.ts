@@ -1,11 +1,34 @@
 import {IDelivery, IOrder} from '../../app-store/types'
 import httpClient, {HttpService} from './../axios.config'
 
+export interface OrdersFilterParams {
+  status: number
+  userId?: number
+  offset?: number
+}
+
 export async function fetchOrders(status: number): Promise<IOrder[]> {
   const orderStatus = status
 
   const orders: IOrder[] = await httpClient.get(
     `/admin/orders?status=${orderStatus}&offset=0`,
+  )
+  return orders
+}
+
+export async function fetchOrdersWithFilters(
+  params: OrdersFilterParams,
+): Promise<IOrder[]> {
+  const queryParams = new URLSearchParams()
+  queryParams.append('status', String(params.status))
+  queryParams.append('offset', String(params.offset ?? 0))
+
+  if (params.userId) {
+    queryParams.append('userID', String(params.userId))
+  }
+
+  const orders: IOrder[] = await httpClient.get(
+    `/admin/orders?${queryParams.toString()}`,
   )
   return orders
 }
