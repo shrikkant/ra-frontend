@@ -2,7 +2,8 @@
 
 import React from 'react'
 import dynamic from 'next/dynamic'
-import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
+import {TabGroup, TabPanel, TabPanels} from '@headlessui/react'
+import {PillTabList} from '../../../../components/common/PillTabs'
 
 // Dynamically import heavy chart components to reduce initial bundle
 const Analytics = dynamic(
@@ -40,11 +41,7 @@ export default function Page() {
     <>
       <div className="pt-8">
         <TabGroup>
-          <TabList>
-            <Tab>Top Products</Tab>
-            <Tab>Revenue</Tab>
-            <Tab>Signups</Tab>
-          </TabList>
+          <PillTabList tabs={['Products', 'Revenue', 'Signups']} />
           <TabPanels>
             <TabPanel>
               <Analytics />

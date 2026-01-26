@@ -2,7 +2,7 @@
 
 import React, {useEffect, useState, useCallback} from 'react'
 import {useRouter} from 'next/navigation'
-import {Tab, TabGroup, TabList, TabPanel, TabPanels} from '@headlessui/react'
+import {Tab, TabGroup, TabList} from '@headlessui/react'
 import {IOrder, IUser} from '../../../app-store/types'
 import {fetchOrdersWithFilters} from '../../../api/admin/orders.api'
 import {fetchRevenueStats} from '../../../api/admin/index.api'
@@ -11,6 +11,7 @@ import {UserSearchAutocomplete} from './UserSearchAutocomplete'
 import {OrdersTable} from './OrdersTable'
 import {resolveOrderStage} from '../../../util/global.util'
 import MyPageHeader from '../../MyPageHeader'
+import {pillTabClassName, pillTabListClassName} from '../../common/PillTabs'
 
 interface OrdersSpreadsheetProps {
   initialStage: number
@@ -38,18 +39,12 @@ const StageTabs: React.FC<StageTabsProps> = ({
   onStageChange,
 }) => (
   <TabGroup selectedIndex={stages.indexOf(activeStage)}>
-    <TabList className="flex gap-1 bg-gray-100 p-1 rounded-lg">
+    <TabList className={pillTabListClassName}>
       {stages.map(stage => (
         <Tab
           key={stage}
           onClick={() => onStageChange(stage)}
-          className={({selected}) =>
-            `px-4 py-2 text-sm font-medium rounded-md transition-colors focus:outline-none ${
-              selected
-                ? 'bg-white text-amber-700 shadow-sm'
-                : 'text-gray-600 hover:text-gray-900 hover:bg-gray-50'
-            }`
-          }
+          className={pillTabClassName}
         >
           {resolveOrderStage(stage)}
         </Tab>
