@@ -1,4 +1,4 @@
-import {useState, useCallback} from 'react'
+import {useState, useCallback, useMemo} from 'react'
 import httpClient from '../../../../../../api/axios.config'
 import {MatrixData, Product} from './types'
 
@@ -6,6 +6,19 @@ export function useProductMatrix(userId: string) {
   const [loading, setLoading] = useState(true)
   const [matrixData, setMatrixData] = useState<MatrixData | null>(null)
   const [togglingKey, setTogglingKey] = useState<string | null>(null)
+  const [searchQuery, setSearchQuery] = useState('')
+
+  const filteredProducts = useMemo(() => {
+    if (!matrixData?.products) return []
+    if (!searchQuery.trim()) return matrixData.products
+
+    const query = searchQuery.toLowerCase().trim()
+    return matrixData.products.filter(
+      product =>
+        product.title?.toLowerCase().includes(query) ||
+        product.masterProductName?.toLowerCase().includes(query),
+    )
+  }, [matrixData?.products, searchQuery])
 
   const loadMatrix = useCallback(async () => {
     setLoading(true)
@@ -95,6 +108,9 @@ export function useProductMatrix(userId: string) {
   return {
     loading,
     matrixData,
+    filteredProducts,
+    searchQuery,
+    setSearchQuery,
     loadMatrix,
     toggleAddressLink,
     toggleFeatured,
