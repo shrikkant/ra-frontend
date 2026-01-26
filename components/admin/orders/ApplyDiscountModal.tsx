@@ -32,19 +32,21 @@ const ItemDiscountRow: React.FC<ItemDiscountRowProps> = ({
   discount,
   onDiscountChange,
 }) => {
+  const originalRent = Number(item.original_rent) || 0
+
   const handleAmountChange = (value: string) => {
     const amount = parseInt(value || '0')
-    const percent = Math.round((amount / item.original_rent) * 100)
+    const percent = Math.round((amount / originalRent) * 100)
     onDiscountChange(item.id, amount, percent)
   }
 
   const handlePercentChange = (value: string) => {
     const percent = parseInt(value || '0')
-    const amount = Math.round((item.original_rent * percent) / 100)
+    const amount = Math.round((originalRent * percent) / 100)
     onDiscountChange(item.id, amount, percent)
   }
 
-  const finalRent = item.original_rent - discount.amount
+  const finalRent = originalRent - (Number(discount.amount) || 0)
 
   return (
     <div className="py-3 border-b border-gray-100 last:border-b-0">
@@ -104,9 +106,9 @@ export const ApplyDiscountModal: React.FC<ApplyDiscountModalProps> = ({
     items.forEach(item => {
       initial[item.id] = {
         itemId: item.id,
-        amount: item.applied_discount_amount || 0,
-        percent: item.applied_discount_percent || 0,
-        originalRent: item.original_rent,
+        amount: Number(item.applied_discount_amount) || 0,
+        percent: Number(item.applied_discount_percent) || 0,
+        originalRent: Number(item.original_rent) || 0,
         hasChanged: false,
       }
     })
@@ -134,8 +136,8 @@ export const ApplyDiscountModal: React.FC<ApplyDiscountModalProps> = ({
     let discountTotal = 0
 
     items.forEach(item => {
-      originalTotal += item.original_rent || 0
-      discountTotal += discounts[item.id]?.amount || 0
+      originalTotal += Number(item.original_rent) || 0
+      discountTotal += Number(discounts[item.id]?.amount) || 0
     })
 
     return {
