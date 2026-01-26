@@ -1,7 +1,7 @@
 'use client'
 
-import React, {useState} from 'react'
-import {FaTimes, FaSpinner, FaPercent} from 'react-icons/fa'
+import React, {useState, useMemo} from 'react'
+import {FaTimes, FaSpinner} from 'react-icons/fa'
 import {IOrder, IOrderItem} from '../../../app-store/types'
 import {applyDiscount} from '../../../api/admin/orders.api'
 
@@ -12,60 +12,38 @@ interface ApplyDiscountModalProps {
   onSuccess: () => void
 }
 
+interface ItemDiscount {
+  itemId: number
+  amount: number
+  percent: number
+  originalRent: number
+  hasChanged: boolean
+}
+
 interface ItemDiscountRowProps {
   item: IOrderItem
-  orderId: number
-  onDiscountApplied: () => void
+  discount: ItemDiscount
+  onDiscountChange: (itemId: number, amount: number, percent: number) => void
 }
 
 const ItemDiscountRow: React.FC<ItemDiscountRowProps> = ({
   item,
-  orderId,
-  onDiscountApplied,
+  discount,
+  onDiscountChange,
 }) => {
-  const [discountAmount, setDiscountAmount] = useState(
-    item.applied_discount_amount || 0,
-  )
-  const [discountPercent, setDiscountPercent] = useState(
-    item.applied_discount_percent || 0,
-  )
-  const [isApplying, setIsApplying] = useState(false)
-  const [applied, setApplied] = useState(false)
-
   const handleAmountChange = (value: string) => {
     const amount = parseInt(value || '0')
     const percent = Math.round((amount / item.original_rent) * 100)
-    setDiscountAmount(amount)
-    setDiscountPercent(percent)
-    setApplied(false)
+    onDiscountChange(item.id, amount, percent)
   }
 
   const handlePercentChange = (value: string) => {
     const percent = parseInt(value || '0')
     const amount = Math.round((item.original_rent * percent) / 100)
-    setDiscountPercent(percent)
-    setDiscountAmount(amount)
-    setApplied(false)
+    onDiscountChange(item.id, amount, percent)
   }
 
-  const handleApply = async () => {
-    setIsApplying(true)
-    try {
-      await applyDiscount(orderId, item.id, {
-        transaction_id: item.id,
-        discount: discountAmount,
-        percent: discountPercent,
-      })
-      setApplied(true)
-      onDiscountApplied()
-    } catch (error) {
-      console.error('Failed to apply discount:', error)
-    } finally {
-      setIsApplying(false)
-    }
-  }
-
-  const finalRent = item.original_rent - discountAmount
+  const finalRent = item.original_rent - discount.amount
 
   return (
     <div className="py-3 border-b border-gray-100 last:border-b-0">
@@ -78,56 +56,34 @@ const ItemDiscountRow: React.FC<ItemDiscountRowProps> = ({
             Owner: {item.product?.owner?.firstname}
           </p>
         </div>
-        <div className="text-right">
-          <p className="text-sm text-gray-500">
-            Original: ₹{item.original_rent?.toLocaleString('en-IN')}
-          </p>
-          <p className="text-sm font-medium text-green-600">
-            Final: ₹{finalRent.toLocaleString('en-IN')}
-          </p>
+        <div className="text-right text-sm">
+          <span className="text-gray-500">₹{item.original_rent?.toLocaleString('en-IN')}</span>
+          {discount.amount > 0 && (
+            <span className="text-green-600 ml-2">
+              → ₹{finalRent.toLocaleString('en-IN')}
+            </span>
+          )}
         </div>
       </div>
 
       <div className="mt-2 flex items-center gap-2">
         <div className="flex-1">
-          <label className="text-xs text-gray-500">Amount</label>
           <input
             type="number"
-            value={discountAmount || ''}
+            value={discount.amount || ''}
             onChange={e => handleAmountChange(e.target.value)}
-            placeholder="0"
-            className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-amber-500"
+            placeholder="Discount ₹"
+            className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
         </div>
         <div className="w-20">
-          <label className="text-xs text-gray-500">%</label>
           <input
             type="number"
-            value={discountPercent || ''}
+            value={discount.percent || ''}
             onChange={e => handlePercentChange(e.target.value)}
-            placeholder="0"
-            className="w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-amber-500"
+            placeholder="%"
+            className="w-full px-2 py-1.5 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-amber-500"
           />
-        </div>
-        <div className="pt-4">
-          <button
-            type="button"
-            onClick={handleApply}
-            disabled={isApplying || discountAmount === (item.applied_discount_amount || 0)}
-            className={`px-3 py-1 text-sm font-medium rounded disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-1 ${
-              applied
-                ? 'bg-green-100 text-green-700'
-                : 'bg-amber-100 text-amber-700 hover:bg-amber-200'
-            }`}
-          >
-            {isApplying ? (
-              <FaSpinner className="h-3 w-3 animate-spin" />
-            ) : applied ? (
-              'Applied'
-            ) : (
-              'Apply'
-            )}
-          </button>
         </div>
       </div>
     </div>
@@ -140,19 +96,94 @@ export const ApplyDiscountModal: React.FC<ApplyDiscountModalProps> = ({
   onClose,
   onSuccess,
 }) => {
-  if (!isOpen) return null
+  const items = order.items || []
 
-  const handleBackdropClick = (e: React.MouseEvent) => {
-    if (e.target === e.currentTarget) {
+  const [discounts, setDiscounts] = useState<Record<number, ItemDiscount>>(() => {
+    const initial: Record<number, ItemDiscount> = {}
+    items.forEach(item => {
+      initial[item.id] = {
+        itemId: item.id,
+        amount: item.applied_discount_amount || 0,
+        percent: item.applied_discount_percent || 0,
+        originalRent: item.original_rent,
+        hasChanged: false,
+      }
+    })
+    return initial
+  })
+
+  const [isApplying, setIsApplying] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+
+  const handleDiscountChange = (itemId: number, amount: number, percent: number) => {
+    setDiscounts(prev => ({
+      ...prev,
+      [itemId]: {
+        ...prev[itemId],
+        amount,
+        percent,
+        hasChanged: true,
+      },
+    }))
+    setError(null)
+  }
+
+  const totals = useMemo(() => {
+    let originalTotal = 0
+    let discountTotal = 0
+
+    items.forEach(item => {
+      originalTotal += item.original_rent || 0
+      discountTotal += discounts[item.id]?.amount || 0
+    })
+
+    return {
+      original: originalTotal,
+      discount: discountTotal,
+      final: originalTotal - discountTotal,
+    }
+  }, [items, discounts])
+
+  const hasChanges = useMemo(() => {
+    return Object.values(discounts).some(d => d.hasChanged)
+  }, [discounts])
+
+  const handleApplyAll = async () => {
+    const changedItems = Object.values(discounts).filter(d => d.hasChanged)
+
+    if (changedItems.length === 0) {
+      setError('No changes to apply')
+      return
+    }
+
+    setIsApplying(true)
+    setError(null)
+
+    try {
+      for (const discount of changedItems) {
+        await applyDiscount(order.id, discount.itemId, {
+          transaction_id: discount.itemId,
+          discount: discount.amount,
+          percent: discount.percent,
+        })
+      }
+
+      onSuccess()
       onClose()
+    } catch (err: any) {
+      setError(err?.message || 'Failed to apply discounts')
+    } finally {
+      setIsApplying(false)
     }
   }
 
-  const handleDiscountApplied = () => {
-    onSuccess()
-  }
+  if (!isOpen) return null
 
-  const items = order.items || []
+  const handleBackdropClick = (e: React.MouseEvent) => {
+    if (e.target === e.currentTarget && !isApplying) {
+      onClose()
+    }
+  }
 
   return (
     <div
@@ -173,6 +204,7 @@ export const ApplyDiscountModal: React.FC<ApplyDiscountModalProps> = ({
           <button
             onClick={onClose}
             className="p-1 hover:bg-gray-100 rounded-full"
+            disabled={isApplying}
           >
             <FaTimes className="h-4 w-4 text-gray-500" />
           </button>
@@ -189,24 +221,56 @@ export const ApplyDiscountModal: React.FC<ApplyDiscountModalProps> = ({
               <ItemDiscountRow
                 key={item.id}
                 item={item}
-                orderId={order.id}
-                onDiscountApplied={handleDiscountApplied}
+                discount={discounts[item.id]}
+                onDiscountChange={handleDiscountChange}
               />
             ))
           )}
         </div>
 
-        {/* Footer */}
-        <div className="flex items-center justify-between px-4 py-3 border-t bg-gray-50">
-          <div className="text-sm text-gray-600">
-            Total: ₹{(order.total_amount || order.amount)?.toLocaleString('en-IN')}
+        {/* Totals */}
+        <div className="px-4 py-3 bg-gray-50 border-t space-y-1">
+          <div className="flex justify-between text-sm">
+            <span className="text-gray-600">Original Total:</span>
+            <span className="text-gray-900">₹{totals.original.toLocaleString('en-IN')}</span>
           </div>
+          {totals.discount > 0 && (
+            <div className="flex justify-between text-sm">
+              <span className="text-gray-600">Total Discount:</span>
+              <span className="text-green-600">-₹{totals.discount.toLocaleString('en-IN')}</span>
+            </div>
+          )}
+          <div className="flex justify-between text-sm font-medium pt-1 border-t border-gray-200">
+            <span className="text-gray-900">Final Total:</span>
+            <span className="text-gray-900">₹{totals.final.toLocaleString('en-IN')}</span>
+          </div>
+        </div>
+
+        {/* Error */}
+        {error && (
+          <div className="px-4 py-2 bg-red-50 border-t border-red-100">
+            <p className="text-sm text-red-600">{error}</p>
+          </div>
+        )}
+
+        {/* Footer */}
+        <div className="flex items-center justify-end gap-3 px-4 py-3 border-t">
           <button
             type="button"
             onClick={onClose}
             className="px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-100 rounded-md"
+            disabled={isApplying}
           >
-            Close
+            Cancel
+          </button>
+          <button
+            type="button"
+            onClick={handleApplyAll}
+            disabled={isApplying || !hasChanges}
+            className="px-4 py-2 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-md disabled:opacity-50 disabled:cursor-not-allowed flex items-center gap-2"
+          >
+            {isApplying && <FaSpinner className="h-4 w-4 animate-spin" />}
+            Apply Discounts
           </button>
         </div>
       </div>
