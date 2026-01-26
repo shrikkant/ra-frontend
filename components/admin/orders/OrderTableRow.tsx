@@ -8,12 +8,14 @@ import {
   FaFileInvoice,
   FaFileContract,
   FaCreditCard,
+  FaTag,
 } from 'react-icons/fa'
 import {IOrder, IOrderItem} from '../../../app-store/types'
 import {useRentalAgreementAdmin} from '../../../hooks/useRentalAgreementAdmin'
 import {openPdfInNewWindow} from '../../../util/pdf.util'
 import {resolveOrderStage} from '../../../util/global.util'
 import {MarkAsPaidModal} from './MarkAsPaidModal'
+import {ApplyDiscountModal} from './ApplyDiscountModal'
 
 interface OrderTableRowProps {
   order: IOrder
@@ -81,6 +83,7 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
   onOrderUpdate,
 }) => {
   const [showMarkAsPaidModal, setShowMarkAsPaidModal] = useState(false)
+  const [showDiscountModal, setShowDiscountModal] = useState(false)
   const {pdfUrl, hasSignedAgreement, loading: agreementLoading} =
     useRentalAgreementAdmin(order.user?.id, order.id)
 
@@ -185,6 +188,17 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
       {/* Actions/Icons */}
       <td className="px-3 py-3 whitespace-nowrap">
         <div className="flex items-center gap-2">
+          {/* Apply Discount - only for leads (stage 0) */}
+          {isLead && (
+            <button
+              onClick={() => setShowDiscountModal(true)}
+              className="text-purple-600 hover:text-purple-800"
+              title="Apply Discount"
+            >
+              <FaTag className="h-4 w-4" />
+            </button>
+          )}
+
           {/* Mark as Paid - only for leads (stage 0) */}
           {isLead && (
             <button
@@ -234,6 +248,14 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
             </span>
           )}
         </div>
+
+        {/* Apply Discount Modal */}
+        <ApplyDiscountModal
+          order={order}
+          isOpen={showDiscountModal}
+          onClose={() => setShowDiscountModal(false)}
+          onSuccess={() => onOrderUpdate && onOrderUpdate(order)}
+        />
 
         {/* Mark as Paid Modal */}
         <MarkAsPaidModal
