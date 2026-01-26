@@ -132,6 +132,13 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
         )}
       </td>
 
+      {/* City */}
+      <td className="px-3 py-3 whitespace-nowrap">
+        <span className="text-sm text-gray-600">
+          {order.user?.city || '-'}
+        </span>
+      </td>
+
       {/* Products */}
       <td className="px-3 py-3">
         <ProductSummary items={order.items || []} />

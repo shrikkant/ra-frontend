@@ -65,6 +65,9 @@ const LoadingSkeleton: React.FC = () => (
           <div className="h-4 bg-gray-200 rounded w-24" />
         </td>
         <td className="px-3 py-3">
+          <div className="h-4 bg-gray-200 rounded w-16" />
+        </td>
+        <td className="px-3 py-3">
           <div className="h-4 bg-gray-200 rounded w-32" />
         </td>
         <td className="px-3 py-3">
@@ -93,6 +96,7 @@ const LoadingSkeleton: React.FC = () => (
 const TABLE_COLUMNS = [
   'Order',
   'Customer',
+  'City',
   'Products',
   'Start',
   'End',
