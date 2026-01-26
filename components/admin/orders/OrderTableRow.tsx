@@ -13,7 +13,7 @@ import {
 import {IOrder, IOrderItem} from '../../../app-store/types'
 import {useRentalAgreementAdmin} from '../../../hooks/useRentalAgreementAdmin'
 import {openPdfInNewWindow} from '../../../util/pdf.util'
-import {resolveOrderStage} from '../../../util/global.util'
+import {resolveOrderStage, formatCurrency} from '../../../util/global.util'
 import {MarkAsPaidModal} from './MarkAsPaidModal'
 import {ApplyDiscountModal} from './ApplyDiscountModal'
 
@@ -65,11 +65,11 @@ const formatDate = (date: Date | string | undefined): string => {
 }
 
 /**
- * Formats currency amount.
+ * Formats currency amount, returning '-' for missing values.
  */
 const formatAmount = (amount: number | undefined): string => {
   if (amount === undefined || amount === null) return '-'
-  return `₹${amount.toLocaleString('en-IN')}`
+  return formatCurrency(amount)
 }
 
 /**

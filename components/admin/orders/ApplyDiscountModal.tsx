@@ -4,6 +4,7 @@ import React, {useState, useMemo} from 'react'
 import {FaTimes, FaSpinner} from 'react-icons/fa'
 import {IOrder, IOrderItem} from '../../../app-store/types'
 import {applyDiscount} from '../../../api/admin/orders.api'
+import {formatCurrency} from '../../../util/global.util'
 
 interface ApplyDiscountModalProps {
   order: IOrder
@@ -57,10 +58,10 @@ const ItemDiscountRow: React.FC<ItemDiscountRowProps> = ({
           </p>
         </div>
         <div className="text-right text-sm">
-          <span className="text-gray-500">₹{item.original_rent?.toLocaleString('en-IN')}</span>
+          <span className="text-gray-500">{formatCurrency(item.original_rent)}</span>
           {discount.amount > 0 && (
             <span className="text-green-600 ml-2">
-              → ₹{finalRent.toLocaleString('en-IN')}
+              → {formatCurrency(finalRent)}
             </span>
           )}
         </div>
@@ -232,17 +233,17 @@ export const ApplyDiscountModal: React.FC<ApplyDiscountModalProps> = ({
         <div className="px-4 py-3 bg-gray-50 border-t space-y-1">
           <div className="flex justify-between text-sm">
             <span className="text-gray-600">Original Total:</span>
-            <span className="text-gray-900">₹{totals.original.toLocaleString('en-IN')}</span>
+            <span className="text-gray-900">{formatCurrency(totals.original)}</span>
           </div>
           {totals.discount > 0 && (
             <div className="flex justify-between text-sm">
               <span className="text-gray-600">Total Discount:</span>
-              <span className="text-green-600">-₹{totals.discount.toLocaleString('en-IN')}</span>
+              <span className="text-green-600">-{formatCurrency(totals.discount)}</span>
             </div>
           )}
           <div className="flex justify-between text-sm font-medium pt-1 border-t border-gray-200">
             <span className="text-gray-900">Final Total:</span>
-            <span className="text-gray-900">₹{totals.final.toLocaleString('en-IN')}</span>
+            <span className="text-gray-900">{formatCurrency(totals.final)}</span>
           </div>
         </div>
 

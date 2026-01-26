@@ -1,5 +1,26 @@
 import {toast} from 'react-toastify'
 
+/**
+ * Formats a number as Indian currency (₹).
+ * Handles null/undefined/string values safely.
+ * Uses Indian numbering system (lakhs, crores).
+ *
+ * @param value - The number to format (can be number, string, null, or undefined)
+ * @param showSymbol - Whether to include the ₹ symbol (default: true)
+ * @returns Formatted currency string (e.g., "₹1,23,456")
+ */
+export const formatCurrency = (
+  value: number | string | null | undefined,
+  showSymbol: boolean = true,
+): string => {
+  const numericValue = Number(value) || 0
+  const formatted = numericValue.toLocaleString('en-IN', {
+    maximumFractionDigits: 0,
+    minimumFractionDigits: 0,
+  })
+  return showSymbol ? `₹${formatted}` : formatted
+}
+
 export const resolveOrderStage = (status: number) => {
   switch (status) {
     case 0:

@@ -14,6 +14,7 @@ import {
   verifyPayment,
   PaymentVerificationResult,
 } from '../../../api/admin/orders.api'
+import {formatCurrency} from '../../../util/global.util'
 
 interface MarkAsPaidModalProps {
   order: IOrder
@@ -37,8 +38,8 @@ const PaymentDetails: React.FC<PaymentDetailsProps> = ({verification}) => {
       </div>
       <div className="text-sm text-gray-700 space-y-1">
         <p>
-          <span className="font-medium">Amount:</span> ₹
-          {payment.amount?.toLocaleString('en-IN')}
+          <span className="font-medium">Amount:</span>{' '}
+          {formatCurrency(payment.amount)}
           {!amountMatches && (
             <span className="ml-2 text-red-600 text-xs font-medium">
               (Mismatch!)
@@ -98,7 +99,7 @@ export const MarkAsPaidModal: React.FC<MarkAsPaidModalProps> = ({
 
       if (!result.amountMatches) {
         setError(
-          `Amount mismatch: Order ₹${result.order.amount}, Payment ₹${result.payment.amount}`,
+          `Amount mismatch: Order ${formatCurrency(result.order.amount)}, Payment ${formatCurrency(result.payment.amount)}`,
         )
       }
     } catch (err: any) {
@@ -189,8 +190,8 @@ export const MarkAsPaidModal: React.FC<MarkAsPaidModalProps> = ({
                 {order.user?.firstname || order.user?.email_address}
               </p>
               <p>
-                <span className="font-medium">Order Amount:</span> ₹
-                {(order.total_amount || order.amount)?.toLocaleString('en-IN')}
+                <span className="font-medium">Order Amount:</span>{' '}
+                {formatCurrency(order.total_amount || order.amount)}
               </p>
             </div>
 
