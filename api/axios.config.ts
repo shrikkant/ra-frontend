@@ -126,8 +126,35 @@ httpClient.interceptors.response.use(
   },
 )
 
+// Client-side fetch - uses relative URL that works in browser
 export const fetchData = async (url, customOptions?) => {
-  // console.log(' URL > ', ENV_CONFIG.CLIENT_API_BASE_URL)
+  const commonOptions = {
+    headers: {'Content-Type': 'application/json'},
+    cache: 'force-cache',
+    credentials: 'include',
+  }
+
+  const options = {
+    ...commonOptions,
+    ...customOptions,
+  }
+
+  console.log('fetchData (client)', url)
+  const response: any = await fetch(
+    `${ENV_CONFIG.CLIENT_API_BASE_URL}${url}`,
+    options,
+  )
+
+  if (!response.ok) {
+    throw new Error('Failed to fetch data')
+  }
+
+  const {resultFormatted} = await response.json()
+  return resultFormatted
+}
+
+// Server-side fetch - uses internal Docker URL with Referer header
+export const fetchDataServer = async (url, customOptions?) => {
   const commonOptions = {
     headers: {
       'Content-Type': 'application/json',
@@ -142,7 +169,7 @@ export const fetchData = async (url, customOptions?) => {
     ...customOptions,
   }
 
-  console.log('fetchData', url)
+  console.log('fetchDataServer', url)
   const response: any = await fetch(
     `${ENV_CONFIG.SERVER_API_BASE_URL}${url}`,
     options,
@@ -153,7 +180,6 @@ export const fetchData = async (url, customOptions?) => {
   }
 
   const {resultFormatted} = await response.json()
-
   return resultFormatted
 }
 

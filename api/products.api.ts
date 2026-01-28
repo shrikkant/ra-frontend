@@ -6,15 +6,27 @@ import {
   ProductPhoto,
 } from '../app-store/types'
 // import {fetchStaticData} from '../app/utils/api'
-import httpClient, {fetchData} from './axios.config'
+import httpClient, {fetchData, fetchDataServer} from './axios.config'
 
+// Client-side version
 export async function getFeaturedProducts(
   pageLimit: number,
   city: string,
 ): Promise<any[]> {
-  const response = fetchData(
+  const response = await fetchData(
     `getFeaturedProducts?pageLimit=${pageLimit}&city=${city}`,
-  ) //await httpClient.get<IProduct[], IProduct[]>(``);
+  )
+  return response
+}
+
+// Server-side version
+export async function getFeaturedProductsServer(
+  pageLimit: number,
+  city: string,
+): Promise<any[]> {
+  const response = await fetchDataServer(
+    `getFeaturedProducts?pageLimit=${pageLimit}&city=${city}`,
+  )
   return response
 }
 

@@ -7,7 +7,7 @@ import {CategorySlider} from '../components/CategorySlider'
 
 import TopSales from '../components/TopSales'
 import HomeAdvantages from '../components/home/HomeAdvantages'
-import {getFeaturedProducts} from '../api/products.api'
+import {getFeaturedProductsServer} from '../api/products.api'
 import {fetchStaticData} from './utils/api'
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -20,7 +20,7 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function Home() {
-  const categories = await getFeaturedProducts(8, 'pune')
+  const categories = await getFeaturedProductsServer(8, 'pune')
   const staticCategories = await fetchStaticData('categories')
 
   return (
