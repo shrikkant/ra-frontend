@@ -1,15 +1,15 @@
-import React, {useState} from 'react'
+import React from 'react'
 import {
   StarIcon,
   CogIcon,
   ListBulletIcon,
-  ChevronDownIcon,
   QuestionMarkCircleIcon,
   BoltIcon,
   TagIcon,
 } from '@heroicons/react/24/outline'
+import {FAQAccordion} from './FAQAccordion'
 
-interface FAQItem {
+export interface FAQItem {
   question: string
   answer: string
 }
@@ -77,40 +77,6 @@ const OverviewItem: React.FC<{item: string}> = ({item}) => (
   </li>
 )
 
-// FAQ Accordion Item component
-const FAQAccordionItem: React.FC<{
-  faq: FAQItem
-  isOpen: boolean
-  onToggle: () => void
-}> = ({faq, isOpen, onToggle}) => (
-  <div className="border border-gray-200 rounded-lg overflow-hidden">
-    <button
-      onClick={onToggle}
-      className="w-full flex items-center justify-between p-4 lg:p-5 bg-white hover:bg-gray-50 transition-colors text-left"
-    >
-      <span className="text-gray-900 font-medium text-base lg:text-lg pr-4">
-        {faq.question}
-      </span>
-      <ChevronDownIcon
-        className={`w-5 h-5 lg:w-6 lg:h-6 text-gray-500 flex-shrink-0 transition-transform duration-200 ${
-          isOpen ? 'rotate-180' : ''
-        }`}
-      />
-    </button>
-    <div
-      className={`overflow-hidden transition-all duration-200 ${
-        isOpen ? 'max-h-96' : 'max-h-0'
-      }`}
-    >
-      <div className="p-4 lg:p-5 pt-0 lg:pt-0 bg-gray-50">
-        <p className="text-gray-700 leading-relaxed text-base lg:text-lg">
-          {faq.answer}
-        </p>
-      </div>
-    </div>
-  </div>
-)
-
 // Performance Metrics Card component
 const PerformanceMetricsCard: React.FC<{metrics: PerformanceMetrics}> = ({
   metrics,
@@ -152,12 +118,6 @@ export const Description: React.FC<ProductProps> = ({
     category,
     performance_metrics,
   } = details
-
-  const [openFAQIndex, setOpenFAQIndex] = useState<number | null>(null)
-
-  const toggleFAQ = (index: number) => {
-    setOpenFAQIndex(openFAQIndex === index ? null : index)
-  }
 
   return (
     <div className="space-y-8 lg:space-y-10">
@@ -258,16 +218,7 @@ export const Description: React.FC<ProductProps> = ({
               </p>
             </div>
           </div>
-          <div className="space-y-3 lg:space-y-4">
-            {aeo_faq.map((faq, index) => (
-              <FAQAccordionItem
-                key={index}
-                faq={faq}
-                isOpen={openFAQIndex === index}
-                onToggle={() => toggleFAQ(index)}
-              />
-            ))}
-          </div>
+          <FAQAccordion faqs={aeo_faq} />
         </div>
       )}
 
