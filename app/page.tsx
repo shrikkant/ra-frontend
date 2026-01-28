@@ -1,8 +1,8 @@
 import React from 'react'
 import {Metadata} from 'next'
 
-// Generate on first request, then cache
-export const dynamic = 'force-dynamic'
+// Generate on first request, cache for 1 hour
+export const revalidate = 3600
 
 import {HomeBanner} from '../components/HomeBanner'
 import {ReviewsSection} from '../components/ReviewsSection'

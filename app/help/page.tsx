@@ -2,8 +2,8 @@ import React from 'react'
 import Link from 'next/link'
 import {fetchBlogsServer} from '../../api/blog/blog.api'
 
-// Generate on first request, then cache
-export const dynamic = 'force-dynamic'
+// Generate on first request, cache for 1 hour
+export const revalidate = 3600
 import BlogCover from '../../components/common/BlogCover'
 import PageContainer from '../../components/common/PageContainer'
 import {ARTICLE_TYPES} from '../../config/constants'
