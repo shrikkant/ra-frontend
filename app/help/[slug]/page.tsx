@@ -1,5 +1,8 @@
 import React from 'react'
-import {fetchBlogBySlug, fetchBlogs} from '../../../api/blog/blog.api'
+import {fetchBlogBySlug, fetchBlogsServer} from '../../../api/blog/blog.api'
+
+// Generate on first request, then cache
+export const dynamic = 'force-dynamic'
 import PageContainer from '../../../components/common/PageContainer'
 import {ARTICLE_TYPES} from '../../../config/constants'
 import BlogSideBar from '../../../components/blog/BlogSideBar'
@@ -12,7 +15,7 @@ interface PageProps {
 
 export default async function Blog({params}: PageProps) {
   const localParams = await params
-  const blogs = await fetchBlogs(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
+  const blogs = await fetchBlogsServer(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
 
   const blog = await fetchBlogBySlug(localParams.slug)
   return (

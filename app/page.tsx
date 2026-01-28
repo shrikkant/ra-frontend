@@ -1,6 +1,9 @@
 import React from 'react'
 import {Metadata} from 'next'
 
+// Generate on first request, then cache
+export const dynamic = 'force-dynamic'
+
 import {HomeBanner} from '../components/HomeBanner'
 import {ReviewsSection} from '../components/ReviewsSection'
 import {CategorySlider} from '../components/CategorySlider'
