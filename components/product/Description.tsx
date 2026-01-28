@@ -5,7 +5,6 @@ import {
   ListBulletIcon,
   QuestionMarkCircleIcon,
   BoltIcon,
-  TagIcon,
 } from '@heroicons/react/24/outline'
 import {FAQAccordion} from './FAQAccordion'
 
@@ -39,13 +38,13 @@ const FeatureItem: React.FC<{feature: {[key: string]: string}}> = ({
 }) => {
   const [key, value] = Object.entries(feature)[0]
   return (
-    <div className="flex justify-between items-center py-3 lg:py-4 px-4 lg:px-6 bg-gray-50 rounded-lg">
-      <span className="text-gray-700 font-medium text-base lg:text-lg">
+    <div className="py-3 lg:py-4 px-4 lg:px-6 bg-gray-50 rounded-lg">
+      <p className="text-gray-900 font-semibold text-base lg:text-lg mb-1">
         {key}
-      </span>
-      <span className="text-gray-900 font-semibold text-base lg:text-lg">
+      </p>
+      <p className="text-gray-600 text-sm sm:text-base lg:text-lg leading-relaxed">
         {value}
-      </span>
+      </p>
     </div>
   )
 }
@@ -56,11 +55,11 @@ const SpecificationItem: React.FC<{spec: {[key: string]: string}}> = ({
 }) => {
   const [key, value] = Object.entries(spec)[0]
   return (
-    <div className="flex justify-between items-center py-3 lg:py-4 px-4 lg:px-6 bg-gray-50 rounded-lg">
-      <span className="text-gray-700 font-medium text-base lg:text-lg">
+    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 sm:gap-4 py-3 lg:py-4 px-4 lg:px-6 bg-gray-50 rounded-lg">
+      <span className="text-gray-500 text-sm sm:text-base lg:text-lg">
         {key}
       </span>
-      <span className="text-gray-900 font-semibold text-base lg:text-lg">
+      <span className="text-gray-900 font-semibold text-base lg:text-lg sm:text-right">
         {value}
       </span>
     </div>
@@ -81,26 +80,37 @@ const OverviewItem: React.FC<{item: string}> = ({item}) => (
 const PerformanceMetricsCard: React.FC<{metrics: PerformanceMetrics}> = ({
   metrics,
 }) => (
-  <div className="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-2xl p-6 lg:p-8 text-white">
-    <div className="flex items-center gap-3 mb-6">
-      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-white/20 rounded-lg flex items-center justify-center">
-        <BoltIcon className="w-6 h-6 lg:w-7 lg:h-7 text-white" />
+  <div className="space-y-4">
+    <div className="flex items-center gap-3 lg:gap-4">
+      <div className="w-10 h-10 lg:w-12 lg:h-12 bg-gray-100 rounded-lg flex items-center justify-center">
+        <BoltIcon className="w-6 h-6 lg:w-7 lg:h-7 text-gray-700" />
       </div>
-      <h3 className="text-xl lg:text-2xl font-bold">Performance Highlights</h3>
-    </div>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 lg:gap-6 mb-6">
-      <div className="bg-white/10 rounded-xl p-4 lg:p-5 backdrop-blur-sm">
-        <p className="text-white/70 text-sm lg:text-base mb-1">Key Specification</p>
-        <p className="text-lg lg:text-xl font-semibold">{metrics.key_stat_1}</p>
-      </div>
-      <div className="bg-white/10 rounded-xl p-4 lg:p-5 backdrop-blur-sm">
-        <p className="text-white/70 text-sm lg:text-base mb-1">Standout Feature</p>
-        <p className="text-lg lg:text-xl font-semibold">{metrics.key_stat_2}</p>
+      <div>
+        <h3 className="text-xl lg:text-2xl font-bold text-gray-900">
+          Key Highlights
+        </h3>
+        <p className="text-gray-600 text-base lg:text-lg">
+          Performance at a glance
+        </p>
       </div>
     </div>
-    <div className="bg-white/10 rounded-xl p-4 lg:p-5 backdrop-blur-sm">
-      <p className="text-white/70 text-sm lg:text-base mb-2">Compatibility</p>
-      <p className="text-white/90 leading-relaxed text-base lg:text-lg">
+    <div className="grid grid-cols-2 gap-3 lg:gap-4">
+      <div className="bg-gray-50 rounded-lg p-4 lg:p-5">
+        <p className="text-gray-500 text-xs sm:text-sm mb-1">Aperture</p>
+        <p className="text-gray-900 font-semibold text-sm sm:text-base lg:text-lg">
+          {metrics.key_stat_1}
+        </p>
+      </div>
+      <div className="bg-gray-50 rounded-lg p-4 lg:p-5">
+        <p className="text-gray-500 text-xs sm:text-sm mb-1">Weight</p>
+        <p className="text-gray-900 font-semibold text-sm sm:text-base lg:text-lg">
+          {metrics.key_stat_2}
+        </p>
+      </div>
+    </div>
+    <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 lg:p-5">
+      <p className="text-amber-800 text-sm font-medium mb-1">Compatibility</p>
+      <p className="text-gray-700 leading-relaxed text-sm lg:text-base">
         {metrics.compatibility}
       </p>
     </div>
@@ -123,12 +133,9 @@ export const Description: React.FC<ProductProps> = ({
     <div className="space-y-8 lg:space-y-10">
       {/* Category Badge */}
       {category && (
-        <div className="flex items-center gap-2">
-          <TagIcon className="w-5 h-5 text-indigo-600" />
-          <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-indigo-100 text-indigo-800">
-            {category}
-          </span>
-        </div>
+        <span className="inline-flex items-center px-3 py-1 rounded-full text-sm font-medium bg-gray-100 text-gray-700">
+          {category}
+        </span>
       )}
 
       {/* Performance Metrics Section */}
@@ -223,14 +230,12 @@ export const Description: React.FC<ProductProps> = ({
       )}
 
       {/* Additional Information */}
-      <div className="mt-8 lg:mt-10 p-6 lg:p-8 bg-gradient-to-r from-blue-50 to-amber-50 rounded-xl border border-blue-200">
-        <div className="flex">
-          <p className="text-gray-700 leading-relaxed text-base lg:text-lg">
-            This equipment is maintained to professional standards and comes
-            with full support. Our team ensures everything is in perfect working
-            condition before delivery.
-          </p>
-        </div>
+      <div className="p-4 lg:p-5 bg-gray-50 rounded-lg">
+        <p className="text-gray-600 leading-relaxed text-sm lg:text-base">
+          This equipment is maintained to professional standards and comes
+          with full support. Our team ensures everything is in perfect working
+          condition before delivery.
+        </p>
       </div>
     </div>
   )
