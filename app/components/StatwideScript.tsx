@@ -10,6 +10,7 @@ declare global {
     heap
     analytics
     aptrinsic
+    pendo
   }
 }
 
@@ -19,6 +20,17 @@ export const StatwideScript: React.FC = () => {
   useEffect(() => {
     if (!loggedUser?.id) {
       return
+    }
+
+    const initPendo = () => {
+        pendo.initialize({
+        visitor: {
+            id: loggedUser?.id,
+            email: loggedUser?.email_address,
+            firstName: loggedUser?.firstname,
+            lastName: loggedUser?.lastname,
+        },
+      })
     }
 
     const initAnalytics = () => {
@@ -40,6 +52,22 @@ export const StatwideScript: React.FC = () => {
           ],
         },
       })
+    }
+
+    if (window.pendo) {
+      initPendo()
+    } else {
+      console.log('Waiting for pendo to load...')
+      const retryTimes = [500, 1500, 3000, 5000]
+      const timers = retryTimes.map(delay =>
+        setTimeout(() => {
+          if (window.pendo) {
+            initPendo()
+          }
+        }, delay),
+      )
+
+      return () => timers.forEach(clearTimeout)
     }
 
     // If featurics is ready, init immediately
