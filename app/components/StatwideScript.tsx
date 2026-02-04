@@ -23,7 +23,7 @@ export const StatwideScript: React.FC = () => {
     }
 
     const initPendo = () => {
-        pendo.initialize({
+        window.pendo.initialize({
         visitor: {
             id: loggedUser?.id,
             email: loggedUser?.email_address,
