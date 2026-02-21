@@ -1,6 +1,6 @@
 import React, {useState, useRef, useEffect} from 'react'
 import Input from './Input'
-import _debounce from 'lodash/debounce'
+import _debounce from '../../../util/debounce'
 
 interface IOption {
   label: string

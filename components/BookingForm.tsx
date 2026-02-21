@@ -94,6 +94,7 @@ export default function BookingForm({
 
       if (!storeSearch?.dates) return
 
+      // Optimistic: dispatch a temporary cart indicator
       const newCart: IOrder = await addToCart(
         productId,
         storeSearch?.dates,

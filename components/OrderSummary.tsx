@@ -4,10 +4,11 @@ import {ORDER_STEPS} from '../config/constants'
 import {dateDisplay} from '../util/date.util'
 import {IOrder} from '../app-store/types'
 import Button from './common/form/Button'
-import Decimal from 'decimal.js'
 import {IoCalendarOutline} from 'react-icons/io5'
 import {useSelector} from 'react-redux'
 import {selectAuthState} from '../app-store/auth/auth.slice'
+
+const toFixed2 = (n: number) => Number(n).toFixed(2)
 
 export default function OrderSummary({
   order,
@@ -22,12 +23,10 @@ export default function OrderSummary({
   onCallToAction: (mode: number) => void
 }) {
   const loggedUser = useSelector(selectAuthState)
-  const discount = new Decimal(
-    order.applied_discount ? order.applied_discount : 0,
-  )
-  const totalRent = new Decimal(order.amount || 0).add(discount)
-  const deliveryFee = new Decimal(order.delivery_fee || 0)
-  const totalAmount = totalRent.add(deliveryFee).sub(discount)
+  const discount = order.applied_discount ? order.applied_discount : 0
+  const totalRent = (order.amount || 0) + discount
+  const deliveryFee = order.delivery_fee || 0
+  const totalAmount = totalRent + deliveryFee - discount
   const callToAction = (step: number) => {
     switch (step) {
       case ORDER_STEPS.ORDER_STEP_CART:
@@ -126,13 +125,13 @@ export default function OrderSummary({
                 </span>
                 <span className="inline-flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold rounded-md shadow-sm px-2 py-1">
                   {Math.round(
-                    (discount.toNumber() / totalRent.toNumber()) * 100,
+                    (discount / totalRent) * 100,
                   )}
                   % OFF
                 </span>
               </div>
               <span className="text-sm text-gray-400 line-through">
-                ₹{totalRent.toFixed(2)}
+                ₹{toFixed2(totalRent)}
               </span>
             </div>
 
@@ -140,21 +139,21 @@ export default function OrderSummary({
             <div className="flex items-center justify-between">
               <span className="text-gray-600">Discounted rent</span>
               <span className="text-lg font-semibold text-gray-900">
-                ₹{new Decimal(order.amount || 0).toFixed(2)}
+                ₹{toFixed2(order.amount || 0)}
               </span>
             </div>
 
             {order.delivery_fee > 0 && (
               <div className="flex items-center justify-between text-gray-700">
                 <span>Delivery &amp; Pickup Fee</span>
-                <span>₹{new Decimal(order.delivery_fee || 0).toFixed(2)}</span>
+                <span>₹{toFixed2(order.delivery_fee || 0)}</span>
               </div>
             )}
 
             {/* Total */}
             <div className="flex font-bold justify-between text-xl border-t-2 border-gray-300 pt-3">
               <div className="text-gray-900">Order Total</div>
-              <div className="text-rose-600">₹{totalAmount.toFixed(2)}</div>
+              <div className="text-rose-600">₹{toFixed2(totalAmount)}</div>
             </div>
           </>
         ) : (
@@ -164,13 +163,13 @@ export default function OrderSummary({
               <div>
                 Rent for <span>{order.days}</span> days
               </div>
-              <div>₹{totalRent.toFixed(2)}</div>
+              <div>₹{toFixed2(totalRent)}</div>
             </div>
 
             {order.delivery_fee > 0 && (
               <div className={styles['detail-row']}>
                 <div>Delivery &amp; Pickup Fee</div>
-                <div>₹{new Decimal(order.delivery_fee || 0).toFixed(2)}</div>
+                <div>₹{toFixed2(order.delivery_fee || 0)}</div>
               </div>
             )}
 
@@ -182,7 +181,7 @@ export default function OrderSummary({
               <div>Order Total</div>
               <div>
                 <span>₹</span>
-                <span>{totalAmount.toFixed(2)}</span>
+                <span>{toFixed2(totalAmount)}</span>
               </div>
             </div>
           </>

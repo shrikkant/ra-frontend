@@ -11,5 +11,5 @@ export {Package} from './Package'
 export {Description} from './Description'
 
 // Types and constants
-export * from './types'
-export * from './constants'
+export type {ProductProps, ProductDetailsSectionProps, BookingFormSectionProps, Addon} from './types'
+export {PRODUCT_LAYOUT, CARD_STYLES, REVIEWS_CONFIG} from './constants'

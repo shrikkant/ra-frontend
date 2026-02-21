@@ -14,8 +14,10 @@ import {IOrder, IOrderItem} from '../../../app-store/types'
 import {useRentalAgreementAdmin} from '../../../hooks/useRentalAgreementAdmin'
 import {openPdfInNewWindow} from '../../../util/pdf.util'
 import {resolveOrderStage, formatCurrency} from '../../../util/global.util'
-import {MarkAsPaidModal} from './MarkAsPaidModal'
-import {ApplyDiscountModal} from './ApplyDiscountModal'
+import dynamic from 'next/dynamic'
+
+const MarkAsPaidModal = dynamic(() => import('./MarkAsPaidModal').then(m => m.MarkAsPaidModal), {ssr: false})
+const ApplyDiscountModal = dynamic(() => import('./ApplyDiscountModal').then(m => m.ApplyDiscountModal), {ssr: false})
 
 interface OrderTableRowProps {
   order: IOrder

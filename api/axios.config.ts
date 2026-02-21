@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios, {AxiosInstance, AxiosResponse} from 'axios'
+import axios, {AxiosResponse} from 'axios'
 import Cookies from 'js-cookie'
 
 import {TOKEN_COOKIE_KEY, TOKEN_HEADER_KEY} from '../config/constants'
@@ -8,9 +8,9 @@ import {ENV_CONFIG} from '../config/environment'
 
 export const getToken = async () => Cookies.get(TOKEN_COOKIE_KEY)
 
+/** @deprecated Use httpClient directly. Kept for backward compatibility with custom baseURL usage. */
 export class HttpService {
-  private url: string
-  private client: AxiosInstance
+  private client: ReturnType<typeof axios.create>
 
   constructor(url?: string) {
     this.client = axios.create({
@@ -21,7 +21,6 @@ export class HttpService {
     this.client.interceptors.request.use(
       async (config: any) => {
         config.rejectUnauthorized = true
-
         if (!config.headers?.[TOKEN_HEADER_KEY]) {
           const token = await getToken()
           config.headers = {
@@ -31,19 +30,15 @@ export class HttpService {
             ...config.headers,
           }
         }
-
         return config
       },
-      error => {
-        return Promise.reject(error)
-      },
+      error => Promise.reject(error),
     )
 
     this.client.interceptors.response.use(
       async function (res: AxiosResponse<any>) {
         const response: any = res
         const {resultFormatted} = response.data
-        // console.log("Response Message: ", response.data);
         if (response.data?.successMessage) {
           displayMessage('success', response.data?.successMessage)
         } else if (response.data?.errorMessage) {
@@ -60,10 +55,11 @@ export class HttpService {
     )
   }
 
-  getClient(): AxiosInstance {
+  getClient() {
     return this.client
   }
 }
+
 const httpClient = axios.create({
   baseURL: ENV_CONFIG.CLIENT_API_BASE_URL,
   withCredentials: true,
@@ -111,9 +107,6 @@ httpClient.interceptors.response.use(
       displayMessage('error', error.response.data.errorMessage)
     }
     if (error.status === 401 && window.location.pathname.startsWith('/p/')) {
-      // if (!window.location.href.endsWith('signUp=true')) {
-      //   window.location.href = '/?signUp=true'
-      // }
       if (
         window.location.href.indexOf('signUp=true') === -1 &&
         !window.location.pathname.startsWith('/p/mycart')
@@ -127,10 +120,10 @@ httpClient.interceptors.response.use(
 )
 
 // Client-side fetch - uses relative URL that works in browser
-export const fetchData = async (url, customOptions?) => {
-  const commonOptions = {
+export const fetchData = async (url: string, customOptions?: RequestInit) => {
+  const commonOptions: RequestInit = {
     headers: {'Content-Type': 'application/json'},
-    cache: 'force-cache',
+    cache: 'force-cache' as RequestCache,
     credentials: 'include',
   }
 
@@ -139,7 +132,6 @@ export const fetchData = async (url, customOptions?) => {
     ...customOptions,
   }
 
-  console.log('fetchData (client)', url)
   const response: any = await fetch(
     `${ENV_CONFIG.CLIENT_API_BASE_URL}${url}`,
     options,
@@ -154,13 +146,12 @@ export const fetchData = async (url, customOptions?) => {
 }
 
 // Server-side fetch - uses internal Docker URL with Referer header
-export const fetchDataServer = async (url, customOptions?) => {
-  const commonOptions = {
+export const fetchDataServer = async (url: string, customOptions?: RequestInit) => {
+  const commonOptions: RequestInit = {
     headers: {
       'Content-Type': 'application/json',
       'Referer': ENV_CONFIG.BASE_URL,
     },
-    cache: 'force-cache',
     credentials: 'include',
   }
 
@@ -169,7 +160,6 @@ export const fetchDataServer = async (url, customOptions?) => {
     ...customOptions,
   }
 
-  console.log('fetchDataServer', url)
   const response: any = await fetch(
     `${ENV_CONFIG.SERVER_API_BASE_URL}${url}`,
     options,

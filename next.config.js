@@ -1,46 +1,38 @@
+const withBundleAnalyzer = require('@next/bundle-analyzer')({
+  enabled: process.env.ANALYZE === 'true',
+})
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  // allowedDevOrigins: ['http://localhost:8484'],
   compress: true,
   reactStrictMode: true,
   output: 'standalone',
   publicRuntimeConfig: {
     BASE_API_URL: process.env.REACT_APP_API_URL,
   },
-  experimental: {
-    workerThreads: false,
-    cpus: 1,
+  compiler: {
+    removeConsole: {
+      exclude: ['error', 'warn'],
+    },
   },
-
+  experimental: {
+    viewTransition: true,
+  },
   images: {
-    // limit of 8 qualities values
     qualities: [75, 80, 85],
-    // limit of 25 deviceSizes values
-    deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
-    // limit of 25 imageSizes values
-    imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
-    // limit of 50 domains values (deprecated)
+    deviceSizes: [640, 828, 1200, 1920],
+    imageSizes: [32, 64, 128, 256],
     domains: [],
-    // path prefix for Image Optimization API, useful with `loader`
     path: '/_next/image',
-    // loader can be 'default', 'imgix', 'cloudinary', 'akamai', or 'custom'
     loader: 'default',
-    // file with `export default function loader({src, width, quality})`
     loaderFile: '',
-    // disable static imports for image files
     disableStaticImages: false,
-    // minimumCacheTTL is in seconds, must be integer 0 or more
     minimumCacheTTL: 3600,
-    // ordered list of acceptable optimized image formats (mime types)
     formats: ['image/avif', 'image/webp'],
-    // enable dangerous use of SVG images
     dangerouslyAllowSVG: false,
-    // set the Content-Security-Policy header
     contentSecurityPolicy:
       "default-src 'self'; script-src 'none'; sandbox; img-src 'self' data: https://cdn.sanity.io https://rentacross.com;",
-    // sets the Content-Disposition header (inline or attachment)
     contentDispositionType: 'inline',
-    // limit of 50 objects
     remotePatterns: [
       {
         protocol: 'https',
@@ -67,9 +59,8 @@ const nextConfig = {
         pathname: '/images/**',
       },
     ],
-    // when true, every image will be unoptimized
     unoptimized: false,
   },
 }
 
-module.exports = nextConfig
+module.exports = withBundleAnalyzer(nextConfig)

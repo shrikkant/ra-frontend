@@ -1,6 +1,8 @@
 import {IProduct, IProductRatePlan} from '../app-store/types'
 import React from 'react'
-export default function ProductRow({product}: {product: IProduct}) {
+import Image from 'next/image'
+
+const ProductRow = React.memo(function ProductRow({product}: {product: IProduct}) {
   return (
     <div key={product.id} className="shadow-lg">
       <div className="px-4 border-gray-100 border-b py-3">
@@ -9,7 +11,7 @@ export default function ProductRow({product}: {product: IProduct}) {
       <div className="flex p-3 gap-x-3">
         <div className="w-1/4">
           <div className="p-5">
-            {product?.photos && <img src={product?.photos[0]?.path}></img>}
+            {product?.photos && <Image src={product?.photos[0]?.path} alt={product.title || 'Product'} width={200} height={150} loading="lazy" />}
           </div>
         </div>
         <div className="w-3/4">
@@ -28,4 +30,6 @@ export default function ProductRow({product}: {product: IProduct}) {
       </div>
     </div>
   )
-}
+})
+
+export default ProductRow

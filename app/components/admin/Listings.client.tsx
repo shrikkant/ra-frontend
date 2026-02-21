@@ -5,7 +5,7 @@ import MyPageHeader from 'components/MyPageHeader'
 import Input from 'components/common/form/Input'
 import Loader from 'components/Loader'
 import Link from 'next/link'
-import _debounce from 'lodash/debounce'
+import _debounce from '../../../util/debounce'
 import httpClient from '../../../api/axios.config'
 
 interface IListing {

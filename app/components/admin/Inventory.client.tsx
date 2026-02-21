@@ -7,7 +7,7 @@ import {
   updateProductInventory,
 } from 'api/admin/index.api'
 import Loader from 'components/Loader'
-import _debounce from 'lodash/debounce'
+import _debounce from '../../../util/debounce'
 import Input from '../../../components/common/form/Input'
 import Link from 'next/link'
 import {useSelector} from 'react-redux'

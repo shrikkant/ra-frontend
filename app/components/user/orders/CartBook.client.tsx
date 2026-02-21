@@ -139,7 +139,25 @@ export default function CartBook() {
   return (
     <div>
       {loading ? (
-        <Loader />
+        <div className="max-w-7xl mx-auto px-4 py-8 animate-pulse">
+          <div className="flex flex-col-reverse md:flex-row gap-4">
+            <div className="md:w-3/4 space-y-4">
+              <div className="border rounded-md p-4 space-y-4">
+                <div className="h-6 bg-gray-200 rounded w-1/3" />
+                <div className="h-20 bg-gray-200 rounded" />
+                <div className="h-20 bg-gray-200 rounded" />
+              </div>
+            </div>
+            <div className="md:w-1/4">
+              <div className="p-4 border rounded-md space-y-3">
+                <div className="h-6 bg-gray-200 rounded w-2/3 mx-auto" />
+                <div className="h-4 bg-gray-200 rounded" />
+                <div className="h-4 bg-gray-200 rounded" />
+                <div className="h-10 bg-amber-200 rounded" />
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         <>
           {cart ? (
@@ -149,7 +167,7 @@ export default function CartBook() {
               }
             >
               <div className={'md:w-3/4 w-full'}>
-                <div className="border border-gray-300 rounded-md p-4 flex flex-col gap-y-4 xs:m-4">
+                <div className="border border-gray-300 rounded-md p-4 flex flex-col gap-y-4 xs:m-4 transition-all duration-300 ease-in-out">
                   <AddressPicker
                     onAddressPick={checkRadio}
                     onAddressReset={changeAddress}
@@ -159,12 +177,14 @@ export default function CartBook() {
                     onNewAddress={handleNewAddress}
                   ></AddressPicker>
 
-                  {selectedAddress && (
-                    <OrderItemsReview
-                      title="Shopping Cart"
-                      order={cart}
-                    ></OrderItemsReview>
-                  )}
+                  <div className={`transition-all duration-300 ease-in-out ${selectedAddress ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 h-0 overflow-hidden'}`}>
+                    {selectedAddress && (
+                      <OrderItemsReview
+                        title="Shopping Cart"
+                        order={cart}
+                      ></OrderItemsReview>
+                    )}
+                  </div>
                 </div>
               </div>
 

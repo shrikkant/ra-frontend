@@ -37,11 +37,12 @@ const ProductImage: React.FC<ProductImageProps> = ({
       <div className={`relative overflow-hidden ${className}`}>
         <LazyImage
           src={`https://rentacross.com/api/products/${product.master_product_id}/photo?width=240`}
-          alt="Product Image"
+          alt={product.title || 'Product Image'}
           className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
           width={800}
           height={600}
           priority={priority}
+          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTVlN2ViIi8+PC9zdmc+"
         />
       </div>
     </Link>
@@ -138,11 +139,13 @@ const DesktopProductCard: React.FC<ProductCardProps & {priority?: boolean}> = ({
 }
 
 // Main component with single responsibility: orchestrate layout
-export default function ProductCard({product, priority = false}: ProductCardProps & {priority?: boolean}) {
+const ProductCard = React.memo(function ProductCard({product, priority = false}: ProductCardProps & {priority?: boolean}) {
   return (
     <div className="border border-gray-100 w-full h-full bg-white flex flex-col sm:rounded-lg shadow-sm hover:shadow-md transition-shadow duration-300 overflow-hidden">
       <MobileProductCard product={product} priority={priority} />
       <DesktopProductCard product={product} priority={priority} />
     </div>
   )
-}
+})
+
+export default ProductCard

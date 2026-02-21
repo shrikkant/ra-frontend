@@ -2,6 +2,8 @@ import React, {Suspense} from 'react'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import StoreProvider from './StoreProvider'
+import Script from 'next/script'
+import {Roboto_Condensed} from 'next/font/google'
 
 // CSS imports - ensure proper order
 import 'styles/vars.css'
@@ -11,18 +13,20 @@ import 'styles/layout-shift-prevention.css'
 
 import type {Metadata, Viewport} from 'next'
 import {GoogleTagManager} from '@next/third-parties/google'
+import LazyToastContainer from './components/LazyToastContainer'
+import NavigationProgress from './components/common/NavigationProgress'
+
+const robotoCondensed = Roboto_Condensed({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-roboto-condensed',
+})
 
 export const viewport: Viewport = {
   width: 'device-width',
   initialScale: 1,
   maximumScale: 5,
-  // userScalable: false,
-  // Also supported by less commonly used
-  // interactiveWidget: 'resizes-visual',
 }
-
-import {ToastContainer} from 'react-toastify'
-import 'react-toastify/dist/ReactToastify.css'
 
 interface IOpenImage {
   url: string
@@ -81,16 +85,12 @@ export async function generateMetadata(): Promise<Metadata> {
 }
 
 export default async function RootLayout({
-  // Layouts must accept a children prop.
-  // This will be populated with nested layouts or pages
   children,
 }: {
   children: React.ReactNode
 }) {
-  // const categories: IProductCategory[] = await fetchData('categories');
-
   return (
-    <html lang="en">
+    <html lang="en" className={robotoCondensed.variable}>
       <head>
         <meta name="robots" content="index, follow"></meta>
 
@@ -112,13 +112,6 @@ export default async function RootLayout({
 
         <GoogleTagManager gtmId="GTM-TPF56M8" />
 
-        {/* Google reCAPTCHA v3 - Invisible bot protection */}
-        <script
-          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          async
-          defer
-        />
-
         {/* Preconnect to critical image domains for faster LCP */}
         <link rel="preconnect" href="https://rentacross.com" />
         <link rel="preconnect" href="https://cdn.sanity.io" />
@@ -132,35 +125,37 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.heapanalytics.com" />
       </head>
       <body>
-        <div className="preloader-cover">
-          <div className="preloader">
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </div>
-        </div>
-
         <Suspense
           fallback={
-            <div className="preloader-cover">
-              <div className="preloader">
-                <span></span>
-                <span></span>
-                <span></span>
-                <span></span>
+            <div className="min-h-screen">
+              {/* Header skeleton */}
+              <div className="bg-gradient-to-r from-gray-900 to-gray-800 h-16 animate-pulse" />
+              {/* Content skeleton */}
+              <div className="max-w-7xl mx-auto px-4 py-8">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
+                  {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
+                    <div key={i} className="bg-gray-200 rounded-lg h-64 animate-pulse" />
+                  ))}
+                </div>
               </div>
             </div>
           }
         >
           <StoreProvider>
+            <NavigationProgress />
             <Header />
             <div>{children}</div>
             <Footer />
           </StoreProvider>
 
-          <ToastContainer position="bottom-right" autoClose={3000} />
+          <LazyToastContainer />
         </Suspense>
+
+        {/* Google reCAPTCHA v3 - loaded after page interactive */}
+        <Script
+          src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
+          strategy="afterInteractive"
+        />
       </body>
     </html>
   )

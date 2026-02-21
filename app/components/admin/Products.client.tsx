@@ -8,7 +8,7 @@ import AISyncSection from 'components/admin/AISyncSection'
 import {fetchMasterProducts, syncProductWithAI} from 'api/admin/index.api'
 import {IMasterProduct} from 'app-store/types'
 import Loader from 'components/Loader'
-import _debounce from 'lodash/debounce'
+import _debounce from '../../../util/debounce'
 import {FaRobot} from 'react-icons/fa'
 
 // import COUNTRIES from "config/constants";
