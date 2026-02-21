@@ -23,11 +23,11 @@ export default function OrderSummary({
   onCallToAction: (mode: number) => void
 }) {
   const loggedUser = useSelector(selectAuthState)
-  const discount = order.applied_discount || 0
-  const totalRent = (order.amount || 0) + discount
-  const deliveryFee = order.delivery_fee || 0
+  const discount = Number(order.applied_discount) || 0
+  const totalRent = (Number(order.amount) || 0) + discount
+  const deliveryFee = Number(order.delivery_fee) || 0
   const totalAmount = totalRent + deliveryFee - discount
-  const days = order.days || 0
+  const days = Number(order.days) || 0
   const discountPercent = totalRent > 0 ? Math.round((discount / totalRent) * 100) : 0
   const callToAction = (step: number) => {
     switch (step) {

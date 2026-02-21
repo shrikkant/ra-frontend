@@ -21,9 +21,11 @@ const rangeDisplay = function (range: IDateRange) {
   )
 }
 
-const dateDisplay = function (date: Date | undefined) {
+const dateDisplay = function (date: Date | string | undefined) {
   if (!date) return 'Invalid Date'
-  return format(date, 'd MMM')
+  const d = date instanceof Date ? date : new Date(date)
+  if (isNaN(d.getTime())) return 'Invalid Date'
+  return format(d, 'd MMM')
 }
 
 const timeAgo = (timestamp: string | number | Date) => {
