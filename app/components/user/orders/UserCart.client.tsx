@@ -73,9 +73,9 @@ export default function UserCart() {
 
   if (loading) {
     return (
-      <div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-6xl mx-auto px-3 md:px-6 py-8">
         <div className="flex flex-col md:flex-row gap-4">
-          <div className="md:w-3/4 w-full">
+          <div className="md:w-2/3 w-full">
             <div className="border rounded-md border-gray-200 divide-y divide-gray-100">
               {[1, 2, 3].map(i => (
                 <div key={i} className="flex gap-4 p-4 animate-pulse">
@@ -88,7 +88,7 @@ export default function UserCart() {
               ))}
             </div>
           </div>
-          <div className="md:w-1/4 w-full">
+          <div className="md:w-1/3 w-full">
             <div className="p-4 border border-gray-200 rounded-md animate-pulse space-y-4">
               <div className="h-6 bg-gray-200 rounded w-2/3 mx-auto" />
               <div className="h-px bg-gray-200" />
@@ -107,8 +107,8 @@ export default function UserCart() {
   return (
     <>
       {cart ? (
-        <div className={'flex flex-col md:flex-row w-full  xs:pb-20'}>
-          <div className={'md:w-3/4 w-full'}>
+        <div className="flex flex-col md:flex-row w-full xs:pb-20 max-w-6xl mx-auto px-3 md:px-6 gap-4">
+          <div className={'md:w-2/3 w-full'}>
             <div className="py-4">
               <div className={'border rounded-md border-gray-400'}>
                 {cart.items &&
@@ -128,8 +128,8 @@ export default function UserCart() {
             </div>
           </div>
 
-          <div className={'md:w-1/4 w-full'}>
-            <div className="md:fixed top-24 md:w-80 w-full py-4">
+          <div className={'md:w-1/3 w-full'}>
+            <div className="md:sticky md:top-24 w-full py-4">
               <OrderSummary
                 order={cart}
                 step={ORDER_STEPS.ORDER_STEP_CART}

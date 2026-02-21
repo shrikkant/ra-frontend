@@ -1,206 +1,79 @@
 'use client'
-import {
-  getCart,
-  setCart,
-  updateDeliveryAddressAction,
-} from 'app-store/user/orders/orders.slice'
-import {useDispatch, useSelector} from 'react-redux'
-import {fetchCart} from 'api/user/orders.api'
-import React, {useEffect, useState} from 'react'
 import OrderSummary from 'components/OrderSummary'
-import {displayRazorpay} from 'util/razorpay.util'
 import {OrderItemsReview} from 'components/order/OrderItemsReview'
-import {ORDER_STEPS} from 'config/constants'
 import {AddressPicker} from 'components/order/AddressPicker'
+import {StepProgressBar} from 'components/order/StepProgressBar'
+import {StickyMobileCta} from 'components/order/StickyMobileCta'
+import {CheckoutSkeleton} from 'components/order/CheckoutSkeleton'
 import Loader from 'components/Loader'
-import {usePathname, useRouter} from 'next/navigation'
-import {ILocation, IOrderItem} from '../../../../app-store/types'
-import {PurchaseItem, trackPurchaseEvent} from '../../../../utils/analytics'
-import {fetchAddresses} from '../../../../api/user/index.api'
-import {selectAuthState} from '../../../../app-store/auth/auth.slice'
-import {setLastLink} from '../../../../app-store/session/session.slice'
-import SignIn from '../../../../components/user/SignIn'
+import {useCheckoutFlow} from '../../../../hooks/useCheckoutFlow'
 
 export default function CartBook() {
-  const cart = useSelector(getCart)
-  const router = useRouter()
+  const {
+    cart,
+    loading,
+    isPaymentLoading,
+    addresses,
+    addressesLoaded,
+    selectedAddress,
+    currentStep,
+    totalAmount,
+    showStickyCta,
+    selectAddress,
+    resetAddress,
+    handleNewAddress,
+    handleCtaClick,
+  } = useCheckoutFlow()
 
-  const [selectedAddress, setSelectedAddress] = useState<ILocation | null>()
-  const [addressId, setAddressId] = useState<number>(0)
-  const [loading, setLoading] = useState(false)
-  const [isButtonLoading, setIsButtonLoading] = useState(false)
-  const [addresses, setAddresses] = useState<ILocation[]>([])
-  const [addressesLoaded, setAddressesLoaded] = useState(false)
+  if (loading) return <CheckoutSkeleton />
 
-  const dispatch = useDispatch()
-
-  const orderSuccess = () => {
-    const orderId = cart?.id
-
-    const items: PurchaseItem[] =
-      cart?.items?.map((item: IOrderItem) => {
-        return {
-          item_id: item.id,
-          item_name: item.product.title,
-          price: item.rent,
-          quantity: cart?.days || 0,
-        }
-      }) || []
-
-    trackPurchaseEvent({
-      transaction_id: orderId, // Required: Unique order ID
-      value: cart.total_amount, // Required: Total purchase value
-      currency: 'INR', // Your currency code
-      items: items || [],
-      // Optional but recommended:
-      rental_days: cart?.days || 0,
-      total_rent: cart?.amount,
-    })
-
-    dispatch(setCart(null))
-
-    router.push(`/p/orders/${orderId}`)
-  }
-  const onRazorPayCheckout = async (mode: number) => {
-    if (cart) {
-      if (mode === ORDER_STEPS.ORDER_STEP_PAYMENT) {
-        setIsButtonLoading(true)
-        displayRazorpay(cart.id, orderSuccess).then(() => {
-          setIsButtonLoading(false)
-        })
-      }
-    }
-  }
-
-  const changeAddress = () => {
-    setSelectedAddress(null)
-  }
-
-  const selectAddress = (addr: ILocation) => {
-    if (cart) {
-      setSelectedAddress(addr)
-      setAddressId(addressId)
-      updateDeliveryAddressAction(cart, addr)(dispatch)
-      setLoading(false)
-    }
-  }
-
-  const checkRadio = (addressIdStr: number) => {
-    setLoading(true)
-    const addressId = parseInt(String(addressIdStr))
-    const addr = addresses.find(ad => ad.id === addressId) || {
-      id: -1,
-      name: 'Store Pickup',
-    }
-    selectAddress(addr)
-  }
-
-  const resolveStep = () => {
-    if (addresses.length === 0) {
-      return ORDER_STEPS.ORDER_STEP_ADDRESS
-    } else if (!selectedAddress) {
-      return ORDER_STEPS.ORDER_STEP_DELIVERY
-    } else {
-      return ORDER_STEPS.ORDER_STEP_PAYMENT
-    }
-  }
-
-  const loadAddresses = async () => {
-    try {
-      const fetchedAddresses = await fetchAddresses()
-      setAddresses(fetchedAddresses)
-    } catch (error) {
-      console.error('Failed to fetch addresses:', error)
-      setAddresses([])
-    } finally {
-      setAddressesLoaded(true)
-    }
-  }
-
-  const handleNewAddress = async () => {
-    // Refresh addresses after adding a new one, stay on delivery options screen
-    await loadAddresses()
-  }
-
-  useEffect(() => {
-    // Always fetch fresh cart data — addToCart returns a minimal payload
-    setLoading(true)
-    Promise.all([fetchCart(), loadAddresses()]).then(([data]) => {
-      dispatch(setCart(data))
-      setLoading(false)
-    }).catch(() => {
-      setLoading(false)
-    })
-  }, [])
-
+  if (!cart) return <Loader />
 
   return (
-    <div>
-      {loading ? (
-        <div className="max-w-7xl mx-auto px-4 py-8 animate-pulse">
-          <div className="flex flex-col-reverse md:flex-row gap-4">
-            <div className="md:w-3/4 space-y-4">
-              <div className="border rounded-md p-4 space-y-4">
-                <div className="h-6 bg-gray-200 rounded w-1/3" />
-                <div className="h-20 bg-gray-200 rounded" />
-                <div className="h-20 bg-gray-200 rounded" />
-              </div>
-            </div>
-            <div className="md:w-1/4">
-              <div className="p-4 border rounded-md space-y-3">
-                <div className="h-6 bg-gray-200 rounded w-2/3 mx-auto" />
-                <div className="h-4 bg-gray-200 rounded" />
-                <div className="h-4 bg-gray-200 rounded" />
-                <div className="h-10 bg-amber-200 rounded" />
-              </div>
+    <div
+      className={`max-w-6xl mx-auto md:px-6 pt-2 ${showStickyCta ? 'pb-20' : 'pb-4'} md:pb-4`}
+    >
+      <StepProgressBar currentStep={currentStep} />
+
+      <div className="flex flex-col md:flex-row w-full gap-4">
+        {/* Main content */}
+        <div className="md:w-2/3 w-full">
+          <div className="border border-gray-300 rounded-md p-3 md:p-4 flex flex-col gap-y-3 transition-all duration-300 ease-in-out">
+            <OrderItemsReview title="Your Items" order={cart} />
+            <div id="address-section">
+              <AddressPicker
+                onAddressPick={selectAddress}
+                onAddressReset={resetAddress}
+                selectedAddress={selectedAddress}
+                addresses={addresses}
+                addressesLoaded={addressesLoaded}
+                onNewAddress={handleNewAddress}
+              />
             </div>
           </div>
         </div>
-      ) : (
-        <>
-          {cart ? (
-            <div
-              className={
-                'flex flex-col-reverse md:flex-row w-full xs:pb-20 gap-x-4 pt-4  rounded-md'
-              }
-            >
-              <div className={'md:w-3/4 w-full'}>
-                <div className="border border-gray-300 rounded-md p-4 flex flex-col gap-y-4 xs:m-4 transition-all duration-300 ease-in-out">
-                  <AddressPicker
-                    onAddressPick={checkRadio}
-                    onAddressReset={changeAddress}
-                    selectedAddress={selectedAddress}
-                    addresses={addresses}
-                    addressesLoaded={addressesLoaded}
-                    onNewAddress={handleNewAddress}
-                  ></AddressPicker>
 
-                  <div className={`transition-all duration-300 ease-in-out ${selectedAddress ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2 h-0 overflow-hidden'}`}>
-                    {selectedAddress && (
-                      <OrderItemsReview
-                        title="Shopping Cart"
-                        order={cart}
-                      ></OrderItemsReview>
-                    )}
-                  </div>
-                </div>
-              </div>
+        {/* Sidebar */}
+        <div className="md:w-1/3 w-full">
+          <div className="md:sticky md:top-24 w-full">
+            <OrderSummary
+              order={cart}
+              step={currentStep}
+              isLoading={isPaymentLoading}
+              onCallToAction={handleCtaClick}
+              hideMobileCta
+            />
+          </div>
+        </div>
+      </div>
 
-              <div className={'md:w-1/4 w-full'}>
-                <div className="md:fixed md:w-max w-full top-32 xs:p-4 md:p-0">
-                  <OrderSummary
-                    order={cart}
-                    step={resolveStep()}
-                    isLoading={isButtonLoading}
-                    onCallToAction={onRazorPayCheckout}
-                  ></OrderSummary>
-                </div>
-              </div>
-            </div>
-          ) : (
-            <Loader />
-          )}
-        </>
+      {showStickyCta && (
+        <StickyMobileCta
+          currentStep={currentStep}
+          totalAmount={totalAmount}
+          isLoading={isPaymentLoading}
+          onCtaClick={handleCtaClick}
+        />
       )}
     </div>
   )
