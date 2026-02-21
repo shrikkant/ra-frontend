@@ -61,15 +61,14 @@ export default function UserCart() {
   }
 
   useEffect(() => {
+    // Always fetch fresh cart data — addToCart returns a minimal payload
     setLoading(true)
-    if (!cart) {
-      fetchCart().then(data => {
-        dispatch(setCart(data))
-        setLoading(false)
-      })
-    } else {
+    fetchCart().then(data => {
+      dispatch(setCart(data))
       setLoading(false)
-    }
+    }).catch(() => {
+      setLoading(false)
+    })
   }, [])
 
   if (loading) {

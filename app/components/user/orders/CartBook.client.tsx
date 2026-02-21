@@ -123,17 +123,15 @@ export default function CartBook() {
   }
 
   useEffect(() => {
-    if (!cart) {
-      setLoading(true)
-      fetchCart().then(data => {
-        dispatch(setCart(data))
-        setLoading(false)
-      })
-    }
-
-    // Fetch addresses for both guest and logged-in users
-    loadAddresses()
-  }, [cart])
+    // Always fetch fresh cart data — addToCart returns a minimal payload
+    setLoading(true)
+    Promise.all([fetchCart(), loadAddresses()]).then(([data]) => {
+      dispatch(setCart(data))
+      setLoading(false)
+    }).catch(() => {
+      setLoading(false)
+    })
+  }, [])
 
 
   return (
