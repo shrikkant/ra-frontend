@@ -8,6 +8,7 @@ interface HomeProductCardProps {
   image: string
   features: string[]
   href: string
+  priority?: boolean
 }
 
 export function HomeProductCard({
@@ -16,13 +17,14 @@ export function HomeProductCard({
   image,
   features,
   href,
+  priority = false,
 }: HomeProductCardProps) {
   return (
     <Link href={href} className="block">
       <div className="bg-white/90 text-gray-900 p-4 rounded-xl transition-transform duration-300 hover:-translate-y-1 group">
         <div className="flex items-center gap-3">
           <div className="relative w-20 h-20 flex-shrink-0">
-            <Image src={image} alt={title} fill className="object-contain" />
+            <Image src={image} alt={title} fill className="object-contain" priority={priority} />
           </div>
           <div className="flex-1">
             <div className="font-semibold text-sm">{title}</div>

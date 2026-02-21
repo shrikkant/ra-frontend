@@ -51,9 +51,16 @@ export const useRecaptcha = () => {
     }
 
     if (!isReady) {
-      console.warn('reCAPTCHA is not ready yet')
-      // Wait a bit and try again
-      await new Promise(resolve => setTimeout(resolve, 500))
+      // Wait for reCAPTCHA to become ready, up to 2s
+      await new Promise<void>((resolve) => {
+        const start = Date.now()
+        const check = setInterval(() => {
+          if (window.grecaptcha || Date.now() - start > 2000) {
+            clearInterval(check)
+            resolve()
+          }
+        }, 50)
+      })
     }
 
     try {

@@ -1,5 +1,5 @@
 'use client'
-import React, {useEffect, useState} from 'react'
+import React, {useEffect, useState, useCallback} from 'react'
 import {addToCart} from '../api/user/orders.api'
 import {usePathname, useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
@@ -74,27 +74,35 @@ export default function BookingForm({
 
   const onAddToCart = async (bookNow?: boolean) => {
     // Prevent duplicate submissions
-    if (isAddingToCart) {
-      console.log('Already adding to cart, ignoring duplicate request')
-      return
-    }
+    if (isAddingToCart) return
 
     try {
       setIsAddingToCart(true)
 
-      // Execute reCAPTCHA before adding to cart (bot protection)
-      const recaptchaToken = await executeRecaptcha('add_to_cart')
-
-      trackGAEvent(GA_EVENTS.ADD_TO_CART, {
-        product_id: productId,
-        discounted_rate: discountedRate,
-        rental_days: days,
-        total_rent: discountedRate * days,
-      })
-
       if (!storeSearch?.dates) return
 
-      // Optimistic: dispatch a temporary cart indicator
+      // Fire reCAPTCHA and GA tracking in parallel — don't block sequentially
+      const [recaptchaToken] = await Promise.all([
+        executeRecaptcha('add_to_cart'),
+        trackGAEvent(GA_EVENTS.ADD_TO_CART, {
+          product_id: productId,
+          discounted_rate: discountedRate,
+          rental_days: days,
+          total_rent: discountedRate * days,
+        }),
+      ])
+
+      // Show the next screen immediately (optimistic)
+      if (!loggedUser) {
+        dispatch(setLastLink('/p/mycart'))
+        setShowInlineSignup(true)
+      } else if (bookNow) {
+        router.push('/p/mycart')
+      } else {
+        setOpenFormInMobile(false)
+      }
+
+      // Fire the API call — UI has already moved on
       const newCart: IOrder = await addToCart(
         productId,
         storeSearch?.dates,
@@ -103,22 +111,9 @@ export default function BookingForm({
 
       if (newCart.id) {
         dispatch(setCart(newCart))
-
-        if (!loggedUser) {
-          dispatch(setLastLink('/p/mycart'))
-          // Show inline signup capture instead of modal
-          setShowInlineSignup(true)
-        } else {
-          if (bookNow) {
-            router.push('/p/mycart')
-          } else {
-            setOpenFormInMobile(false)
-          }
-        }
       }
     } catch (error) {
       console.error('Failed to add to cart:', error)
-      // Error will be handled by your global error handler
     } finally {
       setIsAddingToCart(false)
     }
@@ -146,14 +141,10 @@ export default function BookingForm({
   }
 
   const handleMobileBook = () => {
-    // if (!loggedUser?.id) {
-    //   setShowSignIn(true)
-    // } else {
     setOpenFormInMobile(true)
-    // }
   }
 
-  const setBookingDates = (newDates: any) => {
+  const setBookingDates = useCallback((newDates: any) => {
     const search: any = {...storeSearch}
     search.dates = {
       startDate: '' + newDates.selection.startDate,
@@ -161,7 +152,7 @@ export default function BookingForm({
       key: 'selection',
     }
     dispatch(setSearch(search))
-  }
+  }, [storeSearch, dispatch])
 
   useEffect(() => {
     setIsClient(true)

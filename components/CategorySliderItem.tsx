@@ -1,5 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
+import Link from 'next/link'
 
 interface CategorySliderItemProps {
   image?: string
@@ -13,7 +14,7 @@ export const CategorySliderItem: React.FC<CategorySliderItemProps> = ({
   link,
 }) => {
   return (
-    <a
+    <Link
       href={link}
       className="group block bg-black rounded-xl shadow-lg hover:shadow-xl transition-all duration-300 overflow-hidden relative aspect-square"
     >
@@ -37,6 +38,6 @@ export const CategorySliderItem: React.FC<CategorySliderItemProps> = ({
           </div>
         </div>
       )}
-    </a>
+    </Link>
   )
 }

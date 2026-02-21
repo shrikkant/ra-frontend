@@ -3,7 +3,7 @@ import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import StoreProvider from './StoreProvider'
 import Script from 'next/script'
-import {Roboto_Condensed} from 'next/font/google'
+import {Roboto_Condensed, Jost} from 'next/font/google'
 
 // CSS imports - ensure proper order
 import 'styles/vars.css'
@@ -20,6 +20,12 @@ const robotoCondensed = Roboto_Condensed({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-roboto-condensed',
+})
+
+const jost = Jost({
+  subsets: ['latin'],
+  display: 'swap',
+  variable: '--font-jost',
 })
 
 export const viewport: Viewport = {
@@ -90,7 +96,7 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={robotoCondensed.variable}>
+    <html lang="en" className={`${robotoCondensed.variable} ${jost.variable}`}>
       <head>
         <meta name="robots" content="index, follow"></meta>
 
@@ -104,7 +110,6 @@ export default async function RootLayout({
           href="/assets/v2/img/favicon.ico"
         />
 
-        <link rel="stylesheet" href="/assets/v2/css/style.css"></link>
         <meta
           name="google-site-verification"
           content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ"

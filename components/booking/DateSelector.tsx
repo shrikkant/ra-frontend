@@ -1,8 +1,14 @@
 'use client'
 import React, {useState, useEffect, useRef} from 'react'
-import {DateRange} from 'react-date-range'
+import dynamic from 'next/dynamic'
 import {IoCalendarOutline, IoChevronDown} from 'react-icons/io5'
 import 'react-date-range/dist/styles.css'
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const DateRange: any = dynamic(
+  () => import('react-date-range').then(mod => mod.DateRange),
+  {ssr: false, loading: () => <div className="h-[300px] bg-gray-100 rounded animate-pulse" />},
+)
 import {getDays, getPlural} from './bookingUtils'
 
 // Utility function to get minimum booking date based on current time
