@@ -15,7 +15,6 @@ interface IAddressPickerProps {
   selectedAddress: ILocation | null | undefined
   addresses: ILocation[]
   onNewAddress?: (address: ILocation) => void
-  showAddForm?: boolean
 }
 
 export const AddressPicker = ({
@@ -24,21 +23,12 @@ export const AddressPicker = ({
   selectedAddress,
   addresses,
   onNewAddress,
-  showAddForm = false,
 }: IAddressPickerProps) => {
   const [showingAddForm, setShowingAddForm] = React.useState(false)
   const loggedUser = useSelector(selectAuthState)
-  const hasMultipleAddresses = addresses.length >= 2
   const canAddMoreAddresses = addresses.length < 3
 
-  // Show form if: no addresses, OR (1 address and user clicked change), OR user clicked Add New
-  const showAddAddressForm =
-    addresses.length === 0 ||
-    (addresses.length === 1 && showAddForm) ||
-    showingAddForm
-
   const onNewAddressSuccess = (address: ILocation) => {
-    // Hide the form and notify parent to refetch addresses
     setShowingAddForm(false)
     onNewAddress?.(address)
   }
@@ -47,36 +37,46 @@ export const AddressPicker = ({
     setShowingAddForm(true)
   }
 
-  return (
-    <div>
-      <StepHeader
-        label={addresses.length === 0 ? 'Your Address' : 'Delivery Address'}
-      ></StepHeader>
-
-      {selectedAddress ? (
-        selectedAddress.id > 0 ? (
+  // State 1: Address selected — show selected address + Change button
+  if (selectedAddress) {
+    return (
+      <div>
+        <StepHeader label="Delivery Address" />
+        {selectedAddress.id > 0 ? (
           <Address
             address={selectedAddress}
             name={loggedUser?.firstname + ' ' + loggedUser?.lastname}
           />
         ) : (
           <div className="py-4">Store Pickup</div>
-        )
-      ) : (
-        ''
-      )}
-      {selectedAddress && (
+        )}
         <span
           onClick={onAddressReset}
           className="px-2 py-1 border border-gray-300 rounded-md bg-gray-500 cursor-pointer text-gray-50"
         >
           Change
         </span>
-      )}
+      </div>
+    )
+  }
 
-      {showAddAddressForm && <AddAddress onNewAddress={onNewAddressSuccess} />}
+  // State 2: No addresses — show add address form
+  if (addresses.length === 0) {
+    return (
+      <div>
+        <StepHeader label="Your Address" />
+        <AddAddress onNewAddress={onNewAddressSuccess} />
+      </div>
+    )
+  }
 
-      {!selectedAddress && hasMultipleAddresses && !showingAddForm && (
+  // State 3: 1+ addresses, none selected — show delivery options list
+  return (
+    <div>
+      <StepHeader label="Delivery Address" />
+      {showingAddForm ? (
+        <AddAddress onNewAddress={onNewAddressSuccess} />
+      ) : (
         <>
           <AddressList
             onAddressChange={onAddressPick}

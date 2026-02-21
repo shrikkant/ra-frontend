@@ -84,13 +84,18 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
 }) => {
   const [showMarkAsPaidModal, setShowMarkAsPaidModal] = useState(false)
   const [showDiscountModal, setShowDiscountModal] = useState(false)
-  const {pdfUrl, hasSignedAgreement, loading: agreementLoading} =
-    useRentalAgreementAdmin(order.user?.id, order.id)
+  const {pdfUrl, hasSignedAgreement, loading: agreementLoading, fetchAgreement} =
+    useRentalAgreementAdmin(order.user?.id, order.id, {lazy: true})
 
-  const handleViewAgreement = (e: React.MouseEvent) => {
+  const handleViewAgreement = async (e: React.MouseEvent) => {
     e.stopPropagation()
     if (pdfUrl) {
       openPdfInNewWindow(pdfUrl, `${order.id}-rental-agreement.pdf`)
+      return
+    }
+    const url = await fetchAgreement()
+    if (url) {
+      openPdfInNewWindow(url, `${order.id}-rental-agreement.pdf`)
     }
   }
 
@@ -234,7 +239,7 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
           )}
 
           {/* Agreement */}
-          {!agreementLoading && hasSignedAgreement && pdfUrl ? (
+          {hasSignedAgreement && pdfUrl ? (
             <button
               onClick={handleViewAgreement}
               className="text-gray-400 hover:text-blue-600"
@@ -243,9 +248,14 @@ export const OrderTableRow: React.FC<OrderTableRowProps> = ({
               <FaFileContract className="h-4 w-4" />
             </button>
           ) : (
-            <span className="text-gray-200" title="Agreement Not Signed">
+            <button
+              onClick={handleViewAgreement}
+              disabled={agreementLoading}
+              className={`${agreementLoading ? 'text-gray-300 animate-pulse' : 'text-gray-400 hover:text-blue-600'}`}
+              title="Check Agreement"
+            >
               <FaFileContract className="h-4 w-4" />
-            </span>
+            </button>
           )}
 
           {/* Delivery */}

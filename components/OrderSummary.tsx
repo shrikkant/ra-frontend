@@ -32,6 +32,8 @@ export default function OrderSummary({
     switch (step) {
       case ORDER_STEPS.ORDER_STEP_CART:
         return loggedUser ? 'Proceed to Book' : 'Sign in to Book'
+      case ORDER_STEPS.ORDER_STEP_ADDRESS:
+        return 'Add Address'
       case ORDER_STEPS.ORDER_STEP_DELIVERY:
         return 'Review & Pay'
       case ORDER_STEPS.ORDER_STEP_PAYMENT:

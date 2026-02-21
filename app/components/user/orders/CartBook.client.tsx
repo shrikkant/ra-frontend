@@ -30,7 +30,6 @@ export default function CartBook() {
   const [loading, setLoading] = useState(false)
   const [isButtonLoading, setIsButtonLoading] = useState(false)
   const [addresses, setAddresses] = useState<ILocation[]>([])
-  const [wantsToAddAddress, setWantsToAddAddress] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -74,8 +73,6 @@ export default function CartBook() {
 
   const changeAddress = () => {
     setSelectedAddress(null)
-    setWantsToAddAddress(true)
-    updateDeliveryAddressAction(cart, {id: -1, name: 'Store Pickup'})(dispatch)
   }
 
   const selectAddress = (addr: ILocation) => {
@@ -89,7 +86,6 @@ export default function CartBook() {
 
   const checkRadio = (addressIdStr: number) => {
     setLoading(true)
-    setWantsToAddAddress(false)
     const addressId = parseInt(String(addressIdStr))
     const addr = addresses.find(ad => ad.id === addressId) || {
       id: -1,
@@ -101,12 +97,11 @@ export default function CartBook() {
   const resolveStep = () => {
     if (addresses.length === 0) {
       return ORDER_STEPS.ORDER_STEP_ADDRESS
-    } else if (addressId !== 0 && !selectedAddress) {
+    } else if (!selectedAddress) {
       return ORDER_STEPS.ORDER_STEP_DELIVERY
-    } else if (selectedAddress) {
+    } else {
       return ORDER_STEPS.ORDER_STEP_PAYMENT
     }
-    return -1
   }
 
   const loadAddresses = async () => {
@@ -120,11 +115,8 @@ export default function CartBook() {
   }
 
   const handleNewAddress = async () => {
-    // Refresh addresses after adding a new one
-    setWantsToAddAddress(false)
+    // Refresh addresses after adding a new one, stay on delivery options screen
     await loadAddresses()
-    // After adding address, if we now have 2+ addresses, show picker (keep selectedAddress null)
-    // This is already handled because selectedAddress is null from clicking "Change"
   }
 
   useEffect(() => {
@@ -140,21 +132,6 @@ export default function CartBook() {
     loadAddresses()
   }, [cart])
 
-  // Auto-select ONLY first address when exactly one address exists (unless user wants to add new address)
-  useEffect(() => {
-    if (addresses.length === 1 && !selectedAddress && !wantsToAddAddress) {
-      const firstAddress = addresses[0]
-      setSelectedAddress(firstAddress)
-      if (cart) {
-        updateDeliveryAddressAction(cart, firstAddress)(dispatch)
-      }
-    }
-    // If we have 2+ addresses and no selection and not wanting to add, reset to show picker
-    if (addresses.length >= 2 && !selectedAddress && !wantsToAddAddress) {
-      // Just ensure we're in picker mode, don't auto-select
-      setWantsToAddAddress(false)
-    }
-  }, [addresses, selectedAddress, cart, dispatch, wantsToAddAddress])
 
   return (
     <div>
@@ -176,7 +153,6 @@ export default function CartBook() {
                     selectedAddress={selectedAddress}
                     addresses={addresses}
                     onNewAddress={handleNewAddress}
-                    showAddForm={wantsToAddAddress}
                   ></AddressPicker>
 
                   {selectedAddress && (
