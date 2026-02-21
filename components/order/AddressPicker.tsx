@@ -14,6 +14,7 @@ interface IAddressPickerProps {
   onAddressPick: (address: number) => void
   selectedAddress: ILocation | null | undefined
   addresses: ILocation[]
+  addressesLoaded?: boolean
   onNewAddress?: (address: ILocation) => void
 }
 
@@ -22,6 +23,7 @@ export const AddressPicker = ({
   onAddressPick,
   selectedAddress,
   addresses,
+  addressesLoaded = true,
   onNewAddress,
 }: IAddressPickerProps) => {
   const [showingAddForm, setShowingAddForm] = React.useState(false)
@@ -56,6 +58,15 @@ export const AddressPicker = ({
         >
           Change
         </span>
+      </div>
+    )
+  }
+
+  // Still loading addresses — don't render yet to avoid flash
+  if (!addressesLoaded) {
+    return (
+      <div>
+        <StepHeader label="Delivery Address" />
       </div>
     )
   }

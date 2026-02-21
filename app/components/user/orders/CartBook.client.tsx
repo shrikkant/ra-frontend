@@ -30,6 +30,7 @@ export default function CartBook() {
   const [loading, setLoading] = useState(false)
   const [isButtonLoading, setIsButtonLoading] = useState(false)
   const [addresses, setAddresses] = useState<ILocation[]>([])
+  const [addressesLoaded, setAddressesLoaded] = useState(false)
 
   const dispatch = useDispatch()
 
@@ -111,6 +112,8 @@ export default function CartBook() {
     } catch (error) {
       console.error('Failed to fetch addresses:', error)
       setAddresses([])
+    } finally {
+      setAddressesLoaded(true)
     }
   }
 
@@ -152,6 +155,7 @@ export default function CartBook() {
                     onAddressReset={changeAddress}
                     selectedAddress={selectedAddress}
                     addresses={addresses}
+                    addressesLoaded={addressesLoaded}
                     onNewAddress={handleNewAddress}
                   ></AddressPicker>
 
