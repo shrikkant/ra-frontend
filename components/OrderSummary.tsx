@@ -23,10 +23,12 @@ export default function OrderSummary({
   onCallToAction: (mode: number) => void
 }) {
   const loggedUser = useSelector(selectAuthState)
-  const discount = order.applied_discount ? order.applied_discount : 0
+  const discount = order.applied_discount || 0
   const totalRent = (order.amount || 0) + discount
   const deliveryFee = order.delivery_fee || 0
   const totalAmount = totalRent + deliveryFee - discount
+  const days = order.days || 0
+  const discountPercent = totalRent > 0 ? Math.round((discount / totalRent) * 100) : 0
   const callToAction = (step: number) => {
     switch (step) {
       case ORDER_STEPS.ORDER_STEP_CART:
@@ -72,7 +74,7 @@ export default function OrderSummary({
                 Delivery on{' '}
                 {dateDisplay(
                   new Date(
-                    new Date(order.start_date).getTime() - 24 * 60 * 60 * 1000,
+                    new Date(order.start_date!).getTime() - 24 * 60 * 60 * 1000,
                   ),
                 )}
               </p>
@@ -104,7 +106,7 @@ export default function OrderSummary({
             </div>
             <div className="flex flex-col justify-center items-center ml-auto">
               <span className="text-md font-semibold whitespace-nowrap text-[#FDC002]">
-                {order.days} {order.days === 1 ? 'day' : 'days'}
+                {days} {days === 1 ? 'day' : 'days'}
               </span>
             </div>
           </div>
@@ -115,19 +117,16 @@ export default function OrderSummary({
         className={'flex flex-col pt-3 gap-y-3 border-t border-gray-300 mt-5'}
       >
         {/* Price Breakdown with Discount Highlight */}
-        {order.applied_discount && order.applied_discount > 0 ? (
+        {discount > 0 ? (
           <>
             {/* Show discount percentage badge and original price */}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
                 <span className="text-gray-700 font-medium">
-                  Rent for {order.days} {order.days === 1 ? 'day' : 'days'}
+                  Rent for {days} {days === 1 ? 'day' : 'days'}
                 </span>
                 <span className="inline-flex items-center bg-gradient-to-r from-green-500 to-green-600 text-white text-xs font-bold rounded-md shadow-sm px-2 py-1">
-                  {Math.round(
-                    (discount / totalRent) * 100,
-                  )}
-                  % OFF
+                  {discountPercent}% OFF
                 </span>
               </div>
               <span className="text-sm text-gray-400 line-through">
@@ -161,7 +160,7 @@ export default function OrderSummary({
             {/* No discount - simple view */}
             <div className={styles['detail-row']}>
               <div>
-                Rent for <span>{order.days}</span> days
+                Rent for <span>{days}</span> {days === 1 ? 'day' : 'days'}
               </div>
               <div>₹{toFixed2(totalRent)}</div>
             </div>
