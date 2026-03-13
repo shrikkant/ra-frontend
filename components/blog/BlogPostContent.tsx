@@ -2,7 +2,7 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {PortableText, type SanityDocument} from 'next-sanity'
+import {PortableText, type SanityDocument, type PortableTextComponents} from 'next-sanity'
 import imageUrlBuilder from '@sanity/image-url'
 import {client} from '../../sanity/client'
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
@@ -12,6 +12,86 @@ const urlFor = (source: SanityImageSource) =>
   projectId && dataset
     ? imageUrlBuilder({projectId, dataset}).image(source)
     : null
+
+const portableTextComponents: PortableTextComponents = {
+  types: {
+    image: ({value}: {value: SanityImageSource & {alt?: string; caption?: string}}) => {
+      const imgUrl = urlFor(value)?.width(1200).quality(90).url()
+      if (!imgUrl) return null
+      return (
+        <figure className="my-8">
+          <div className="relative w-full overflow-hidden rounded-xl shadow-lg">
+            <Image
+              src={imgUrl}
+              alt={value.alt || ''}
+              width={1200}
+              height={675}
+              className="w-full h-auto object-cover"
+              sizes="(max-width: 768px) 100vw, 800px"
+            />
+          </div>
+          {value.caption && (
+            <figcaption className="mt-3 text-center text-sm text-gray-500 italic">
+              {value.caption}
+            </figcaption>
+          )}
+        </figure>
+      )
+    },
+  },
+  marks: {
+    link: ({children, value}: {children: React.ReactNode; value?: {href?: string}}) => {
+      const href = value?.href || ''
+      const isExternal = href.startsWith('http')
+      return (
+        <a
+          href={href}
+          className="text-orange-600 hover:text-orange-700 font-medium underline decoration-orange-300 underline-offset-2 hover:decoration-orange-500 transition-colors"
+          {...(isExternal ? {target: '_blank', rel: 'noopener noreferrer'} : {})}
+        >
+          {children}
+        </a>
+      )
+    },
+  },
+  block: {
+    h2: ({children}: {children?: React.ReactNode}) => (
+      <h2 className="text-2xl font-bold text-gray-900 mt-12 mb-4 pb-2 border-b border-gray-200">
+        {children}
+      </h2>
+    ),
+    h3: ({children}: {children?: React.ReactNode}) => (
+      <h3 className="text-xl font-semibold text-gray-900 mt-10 mb-4">{children}</h3>
+    ),
+    h4: ({children}: {children?: React.ReactNode}) => (
+      <h4 className="text-lg font-semibold text-gray-900 mt-8 mb-3">{children}</h4>
+    ),
+    normal: ({children}: {children?: React.ReactNode}) => (
+      <p className="mb-6 text-base leading-7 text-gray-700">{children}</p>
+    ),
+    blockquote: ({children}: {children?: React.ReactNode}) => (
+      <blockquote className="border-l-4 border-orange-400 pl-6 my-8 bg-orange-50 py-4 pr-4 rounded-r-lg italic text-gray-700">
+        {children}
+      </blockquote>
+    ),
+  },
+  list: {
+    bullet: ({children}: {children?: React.ReactNode}) => (
+      <ul className="my-6 space-y-2 list-disc pl-6 text-gray-700">{children}</ul>
+    ),
+    number: ({children}: {children?: React.ReactNode}) => (
+      <ol className="my-6 space-y-2 list-decimal pl-6 text-gray-700">{children}</ol>
+    ),
+  },
+  listItem: {
+    bullet: ({children}: {children?: React.ReactNode}) => (
+      <li className="text-base leading-7">{children}</li>
+    ),
+    number: ({children}: {children?: React.ReactNode}) => (
+      <li className="text-base leading-7">{children}</li>
+    ),
+  },
+}
 
 interface BlogPostContentProps {
   post: SanityDocument & {
@@ -168,54 +248,9 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({post}) => {
       {/* Article Content */}
       <div className="px-4 sm:px-6 lg:px-8 pb-16">
         <div className="max-w-4xl">
-          <div className="prose prose-lg prose-gray max-w-none">
-            <style jsx global>{`
-              .prose {
-                @apply text-gray-700 leading-relaxed;
-              }
-              .prose h2 {
-                @apply text-2xl font-bold text-gray-900 mt-12 mb-6 border-b border-gray-200 pb-2;
-              }
-              .prose h3 {
-                @apply text-xl font-semibold text-gray-900 mt-10 mb-4;
-              }
-              .prose h4 {
-                @apply text-lg font-semibold text-gray-900 mt-8 mb-3;
-              }
-              .prose p {
-                @apply mb-6 text-base leading-7;
-              }
-              .prose a {
-                @apply text-orange-600 hover:text-orange-700 font-medium no-underline hover:underline transition-colors;
-              }
-              .prose ul {
-                @apply my-6 space-y-2;
-              }
-              .prose li {
-                @apply text-base leading-7;
-              }
-              .prose blockquote {
-                @apply border-l-4 border-orange-400 pl-6 my-8 bg-orange-50 py-4 rounded-r-lg;
-              }
-              .prose blockquote p {
-                @apply text-gray-700 italic mb-0;
-              }
-              .prose code {
-                @apply bg-gray-100 text-orange-600 px-2 py-1 rounded text-sm font-mono;
-              }
-              .prose pre {
-                @apply bg-gray-900 text-gray-100 p-6 rounded-xl overflow-x-auto my-8;
-              }
-              .prose pre code {
-                @apply bg-transparent text-gray-100 p-0;
-              }
-              .prose img {
-                @apply rounded-xl shadow-lg my-8;
-              }
-            `}</style>
-            
+          <div className="prose prose-lg prose-gray max-w-none prose-headings:text-gray-900 prose-a:text-orange-600 hover:prose-a:text-orange-700 prose-blockquote:border-orange-400 prose-blockquote:bg-orange-50 prose-blockquote:rounded-r-lg prose-blockquote:py-4 prose-img:rounded-xl prose-img:shadow-lg prose-code:bg-gray-100 prose-code:text-orange-600 prose-code:px-2 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900 prose-pre:rounded-xl">
             {Array.isArray(post.body) && (
-              <PortableText value={post.body} />
+              <PortableText value={post.body} components={portableTextComponents} />
             )}
           </div>
 
