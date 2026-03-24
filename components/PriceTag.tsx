@@ -16,33 +16,31 @@ export default function PriceTag({
   const originalPrice = price
   const priceAfterDiscount = Math.ceil(originalPrice - (price * discount) / 100)
 
-  const textSize = 'text=' + size
+  const sizeClasses = {
+    sm: {price: 'text-lg', original: 'text-sm', discount: 'text-xs'},
+    md: {price: 'text-xl', original: 'text-base', discount: 'text-sm'},
+    lg: {price: 'text-2xl', original: 'text-lg', discount: 'text-base'},
+  }
+  const s = sizeClasses[size]
 
   return (
-    <div className="flex items-end gap-x-2">
+    <div className="flex items-baseline gap-x-1.5 flex-wrap">
       {discount > 0 && (
-        <div className={'r-comp font-bold text-gray-900' + textSize}>
+        <div className={`font-bold text-gray-900 ${s.price}`}>
           {getPrice(priceAfterDiscount)}
-          {sub && <sub className=" font-semibold">{sub}</sub>}
+          {sub && <sub className="font-semibold">{sub}</sub>}
         </div>
       )}
 
       <div
-        className={
-          'r-comp font-light text-gray-600 ' +
-          textSize +
-          ' ' +
-          (discount > 0 ? ' line-through' : '')
-        }
+        className={`font-light text-gray-400 ${s.original} ${discount > 0 ? 'line-through' : ''}`}
       >
         {getPrice(price)}
         {sub && <span className="text-sm font-light">{sub}</span>}
       </div>
-      <div>
-        {discount > 0 && (
-          <span className=" text-green-600">{discount}% off</span>
-        )}
-      </div>
+      {discount > 0 && (
+        <span className={`text-green-600 font-semibold ${s.discount}`}>{discount}% off</span>
+      )}
     </div>
   )
 }

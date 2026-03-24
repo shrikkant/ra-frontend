@@ -25,7 +25,6 @@ export class HttpService {
           const token = await getToken()
           config.headers = {
             TOKEN_HEADER_KEY: token || '',
-            'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json',
             ...config.headers,
           }
@@ -72,7 +71,6 @@ httpClient.interceptors.request.use(
     if (!config.headers?.[TOKEN_HEADER_KEY]) {
       config.headers = {
         TOKEN_HEADER_KEY: token || '',
-        'Access-Control-Allow-Origin': '*',
         'Content-Type': 'application/json',
         ...config.headers,
       }
