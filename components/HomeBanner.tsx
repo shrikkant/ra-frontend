@@ -1,7 +1,6 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
-import {HomeProductCard} from './HomeProductCard'
 import {locationCity, getSubCategorySlugById} from '../util/search.util'
 import {IProductFilter, IProductCategory} from '../app-store/types'
 
@@ -18,10 +17,8 @@ export function HomeBanner({
   filter,
   categories,
 }: HomeBannerProps) {
-  // Extract city and category from filter if provided, otherwise use direct props
   const currentCity = filter?.city || city || 'pune'
 
-  // Get the correct category slug
   let currentCategory = category || 'rent-camera'
   if (filter?.subCategory && categories) {
     const categorySlug = getSubCategorySlugById(filter.subCategory, categories)
@@ -30,145 +27,148 @@ export function HomeBanner({
     }
   }
 
-  const featuredProducts = [
-    {
-      title: 'Canon R10',
-      price: 800,
-      image: '/assets/v2/img/canon-r10-mirrorless-camera.webp',
-      features: ['Mirrorless Camera', 'APS-C Sensor'],
-      href: `/${currentCity}/${currentCategory}/canon-eos-r10-mirrorless-digital-camera-3494`,
-    },
-    {
-      title: 'Insta360 X3',
-      price: 900,
-      image: '/assets/v2/img/insta-360-x3.webp',
-      features: ['360° Camera', '5.7K Video'],
-      href: `/${currentCity}/${currentCategory}/Insta360-ONE-X2-3452`,
-    },
-    {
-      title: 'GoPro Hero 12 Black',
-      price: 500,
-      image: '/assets/v2/img/gopro-hero-12-black.webp',
-      features: ['4K Video', '12MP Photo'],
-      href: `/${currentCity}/${currentCategory}/GoPro-HERO12-Black-3497`,
-    },
-    {
-      title: 'Sony A7 M3',
-      price: 1500,
-      image: '/assets/v2/img/sony-a7-m3-camera.webp',
-      features: ['Full Frame', '4K Video'],
-      href: `/${currentCity}/${currentCategory}/Sony-A7-M-III-3317`,
-    },
-  ]
+  const browseHref = `/${locationCity(currentCity, true)}/${currentCategory}?q=`
 
   return (
-    <section className="px-4 relative bg-gradient-to-b from-[#1f2937] via-[#1a2234]/95 to-[#111827]/90 min-h-[60vh] md:min-h-[50vh] flex items-center overflow-hidden py-12 md:py-8 z-0">
-      {/* Floating Elements */}
-      <div className="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute top-[10%] left-[10%] text-white/3 text-6xl animate-float blur-[2px]">
-          📷
-        </div>
-        <div className="absolute top-[20%] right-[15%] text-white/3 text-6xl animate-float animation-delay-2000 blur-[2px]">
-          🎬
-        </div>
-        <div className="absolute bottom-[20%] left-[20%] text-white/3 text-6xl animate-float animation-delay-4000 blur-[2px]">
-          📸
-        </div>
+    <section
+      aria-label="Rent cameras and photography equipment"
+      className="relative overflow-hidden bg-[#fafaf8]"
+    >
+      {/* Ambient glow */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
+        <div className="absolute -top-24 -right-24 w-[500px] h-[500px] rounded-full bg-[#f7ca00]/[0.07] blur-[100px] animate-glow-drift" />
+        <div className="absolute -bottom-32 -left-32 w-[400px] h-[400px] rounded-full bg-amber-500/[0.04] blur-[80px] animate-glow-drift [animation-delay:4s]" />
       </div>
 
-      {/* Grid Pattern Background */}
-      <div
-        className="absolute inset-0 opacity-30"
-        style={{
-          backgroundImage: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cdefs%3E%3Cpattern id='grid' width='10' height='10' patternUnits='userSpaceOnUse'%3E%3Cpath d='M 10 0 L 0 0 0 10' fill='none' stroke='rgba(255,255,255,0.05)' stroke-width='1'/%3E%3C/pattern%3E%3C/defs%3E%3Crect width='100' height='100' fill='url(%23grid)'/%3E%3C/svg%3E")`,
-        }}
-      />
+      <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {/* ── MOBILE LAYOUT ── */}
+        <div className="md:hidden pt-8 pb-10">
+          {/* Social proof chip */}
+          <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/60 text-xs text-gray-500 shadow-sm mb-6">
+            <svg className="w-3.5 h-3.5 text-[#f7ca00]" viewBox="0 0 20 20" fill="currentColor">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+            4.9 · 1,500+ rentals
+          </div>
 
-      <div className="max-w-7xl mx-auto relative z-0">
-        <div className="grid md:grid-cols-2 gap-8 md:gap-16 items-center">
-          {/* Text Content */}
-          <div className="text-white">
-            <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-6 bg-gradient-to-r from-white to-gray-200 bg-clip-text text-transparent">
-              Rent Cameras
+          <h1 className="text-[2.25rem] font-extrabold tracking-tight text-gray-900 leading-[1.1]">
+            Rent the gear.
+            <br />
+            <span className="bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400 bg-clip-text text-transparent">Skip the price tag.</span>
+          </h1>
+
+          <p className="mt-4 text-base text-gray-500 leading-relaxed">
+            Cameras delivered to your door. Book in 2&nbsp;minutes.
+          </p>
+
+          {/* Hero product — big, visual, tappable */}
+          <Link href={browseHref} className="block mt-6">
+            <div className="relative rounded-2xl overflow-hidden bg-white/60 backdrop-blur-sm border border-white/80 shadow-xl shadow-gray-200/30 aspect-[3/2]">
+              {/* Warm glow behind product */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="w-48 h-48 rounded-full bg-gradient-to-br from-[#f7ca00]/15 via-amber-300/10 to-transparent blur-[40px]" />
+              </div>
+              <Image
+                src="/assets/v2/img/canon-r10-mirrorless-camera.webp"
+                alt="Canon R10 mirrorless camera available for rent"
+                fill
+                className="object-contain p-6 drop-shadow-md relative z-10"
+                priority
+                sizes="100vw"
+              />
+              {/* Price pill overlay */}
+              <div className="absolute bottom-3 left-3 bg-white/90 backdrop-blur-sm rounded-xl px-3 py-2 shadow-sm z-10">
+                <div className="text-[11px] text-gray-400">Starting from</div>
+                <div className="text-lg font-bold text-gray-900 -mt-0.5">₹450<span className="text-xs font-normal text-gray-400">/day</span></div>
+              </div>
+              {/* Badge */}
+              <div className="absolute top-3 right-3 bg-[#f7ca00] text-gray-900 text-[11px] font-bold px-2.5 py-1 rounded-full z-10">
+                Popular
+              </div>
+            </div>
+          </Link>
+
+          {/* Trust micro-strip */}
+          <div className="flex items-center gap-4 mt-5 text-[12px] text-gray-400">
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              Same-day delivery
+            </span>
+            <span className="flex items-center gap-1">
+              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+              No deposit
+            </span>
+          </div>
+        </div>
+
+        {/* ── DESKTOP LAYOUT ── */}
+        <div className="hidden md:grid md:grid-cols-2 gap-16 items-center pt-16 lg:pt-20 pb-20 lg:pb-24">
+          <div>
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200/60 text-sm text-gray-600 shadow-sm mb-8">
+              <svg className="w-4 h-4 text-[#f7ca00]" viewBox="0 0 20 20" fill="currentColor">
+                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+              </svg>
+              4.9 on Google&nbsp;&middot;&nbsp;1,500+ rentals
+            </div>
+
+            <h1 className="text-5xl lg:text-6xl font-extrabold tracking-tight text-gray-900 leading-[1.08]">
+              Rent the gear.
               <br />
-              Starting <span className="text-[#f7ca00]">₹450/day</span>
+              <span className="bg-gradient-to-r from-gray-400 via-gray-300 to-gray-400 bg-clip-text text-transparent">Skip the price tag.</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-white/90 mb-8">
-              Get premium Sony, Canon & Nikon gear delivered to your doorstep.
+            <p className="mt-6 text-lg sm:text-xl text-gray-500 max-w-md leading-relaxed">
+              Canon, Sony & Nikon cameras delivered to your door in Pune. Book in 2&nbsp;minutes.
             </p>
 
-            <div className="flex flex-wrap gap-4 mb-10">
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#f7ca00] text-gray-900 text-xs">
-                  ✓
-                </span>
-                Same-day delivery
-              </div>
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#f7ca00] text-gray-900 text-xs">
-                  ✓
-                </span>
-                Zero security hassles
-              </div>
-              <div className="flex items-center gap-2 text-sm font-medium">
-                <span className="flex items-center justify-center w-5 h-5 rounded-full bg-[#f7ca00] text-gray-900 text-xs">
-                  ✓
-                </span>
-                Hassle-free booking
-              </div>
-            </div>
-
-            <div className="mb-12">
+            <div className="mt-8 flex items-center gap-4">
               <Link
-                href={`/${locationCity(currentCity, true)}/${currentCategory}?q=`}
-                className="inline-flex items-center justify-center px-8 py-4 bg-[#f7ca00] font-semibold rounded-xl transition-all duration-300 hover:bg-[#f4c500] hover:shadow-sm hover:shadow-[#f4c500]/10 active:bg-[#f2c000] text-gray-900"
+                href={browseHref}
+                className="group inline-flex items-center gap-2 px-7 py-3.5 bg-gradient-to-b from-gray-800 to-gray-900 text-white text-sm font-medium rounded-full shadow-lg shadow-gray-900/20 transition-all duration-200 hover:shadow-xl hover:shadow-gray-900/25 hover:-translate-y-0.5 active:translate-y-0"
               >
-                Browse Cameras →
+                Browse gear
+                <svg className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-0.5" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
               </Link>
+              <span className="text-sm text-gray-400">from ₹450/day</span>
             </div>
 
-            <div className="grid grid-cols-3 gap-8 pt-8 border-t border-white/20">
-              <div className="text-center">
-                <span className="block text-2xl font-bold text-[#f7ca00]">
-                  1500+
-                </span>
-                <span className="text-sm text-white/80">Happy Customers</span>
-              </div>
-              <div className="text-center">
-                <span className="block text-2xl font-bold text-[#f7ca00]">
-                  4.9
-                </span>
-                <span className="text-sm text-white/80">Google Reviews</span>
-              </div>
-              <div className="text-center">
-                <span className="block text-2xl font-bold text-[#f7ca00]">
-                  24/7
-                </span>
-                <span className="text-sm text-white/80">Support</span>
-              </div>
+            <div className="mt-10 flex flex-wrap items-center gap-x-5 gap-y-2 text-[13px] text-gray-400">
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                Same-day delivery
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                No deposit
+              </span>
+              <span className="flex items-center gap-1.5">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                Free cancellation
+              </span>
             </div>
           </div>
 
-          {/* Visual Content */}
+          {/* Desktop hero image */}
           <div className="relative">
-            <div className="bg-white/15 backdrop-blur-xl rounded-2xl p-4 sm:p-6 md:p-10 border border-white/20">
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4 mb-4 sm:mb-6">
-                {featuredProducts.map((product, index) => (
-                  <HomeProductCard
-                    key={index}
-                    title={product.title}
-                    price={product.price}
-                    image={product.image}
-                    features={product.features}
-                    href={product.href}
-                  />
-                ))}
-              </div>
-
-              <div className="text-[#f7ca00] py-2 px-3 sm:px-4 rounded-lg text-center text-sm sm:text-base font-semibold">
-                🔥 Weekend slots filling fast - Book now!
-              </div>
+            <div className="absolute inset-0 flex items-center justify-center">
+              <div className="w-80 h-80 rounded-full bg-gradient-to-br from-[#f7ca00]/20 via-amber-300/10 to-orange-200/10 blur-[60px]" />
+            </div>
+            <div className="relative aspect-[4/3] rounded-3xl overflow-hidden bg-white/60 backdrop-blur-sm border border-white/80 shadow-2xl shadow-gray-200/40">
+              <Image
+                src="/assets/v2/img/canon-r10-mirrorless-camera.webp"
+                alt="Canon R10 mirrorless camera available for rent"
+                fill
+                className="object-contain p-10 drop-shadow-lg"
+                priority
+                sizes="50vw"
+              />
+            </div>
+            <div className="absolute -bottom-4 -left-4 bg-white rounded-2xl shadow-xl shadow-gray-200/50 px-5 py-3.5 border border-gray-100/80">
+              <div className="text-xs text-gray-400 mb-0.5">Canon EOS R10</div>
+              <div className="text-xl font-bold text-gray-900">₹800<span className="text-sm font-normal text-gray-400">/day</span></div>
+            </div>
+            <div className="absolute -top-2 -right-2 bg-[#f7ca00] text-gray-900 text-xs font-bold px-3 py-1.5 rounded-full shadow-lg shadow-[#f7ca00]/20">
+              Most Popular
             </div>
           </div>
         </div>
