@@ -7,14 +7,17 @@ import LazyImage from '../product/LazyImage'
 export default function HomeProductCard({product}: {product: IProduct}) {
   const dailyRent = product?.rates ? product.rates[0].rate : 0
   const discount = product?.discount_percent || 0
-  const discountedPrice = discount > 0 ? Math.ceil(dailyRent - (dailyRent * discount) / 100) : dailyRent
+  const discountedPrice =
+    discount > 0
+      ? Math.ceil(dailyRent - (dailyRent * discount) / 100)
+      : dailyRent
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug}/${product.slug}`
 
   return (
     <Link href={url} className="block group">
       <div className="bg-white rounded-2xl border border-gray-100/80 overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
         {/* Image — visual first */}
-        <div className="aspect-square bg-gray-50 relative overflow-hidden">
+        <div className="aspect-square relative overflow-hidden">
           {product.master_product_id && (
             <LazyImage
               src={`https://rentacross.com/api/products/${product.master_product_id}/photo?width=240`}
@@ -43,7 +46,9 @@ export default function HomeProductCard({product}: {product: IProduct}) {
               ₹{discountedPrice}
             </span>
             {discount > 0 && (
-              <span className="text-[11px] text-gray-500 line-through">₹{dailyRent}</span>
+              <span className="text-[11px] text-gray-500 line-through">
+                ₹{dailyRent}
+              </span>
             )}
             <span className="text-[11px] text-gray-500">/day</span>
           </div>
