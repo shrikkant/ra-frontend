@@ -1,5 +1,5 @@
 export const GOOGLE_RATING = '4.9'
-export const TOTAL_RENTALS = '1,500+'
+export const TOTAL_RENTALS = '2,500+'
 export const BASE_PRICE = 450
 
 export const TRUST_SIGNALS = [
