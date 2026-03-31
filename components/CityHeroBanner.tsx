@@ -16,13 +16,11 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
   description,
 }) => {
   return (
-    <div className="relative w-full h-[300px] sm:h-[400px] md:h-[500px] overflow-hidden xs:mb-4 sm:mb-8">
-      {/* Background Image with Overlay - using picture for responsive images */}
+    <div className="relative w-full h-[220px] sm:h-[280px] md:h-[340px] overflow-hidden">
+      {/* Background */}
       <div className="absolute inset-0">
         <picture>
-          {/* Mobile: small 640px image (~25KB) */}
           <source media="(max-width: 640px)" srcSet={cityImageMobile} />
-          {/* Desktop: full size image */}
           <img
             src={cityImage}
             alt={`${city} city view`}
@@ -31,29 +29,20 @@ const CityHeroBanner: React.FC<CityHeroBannerProps> = ({
             decoding="async"
           />
         </picture>
-        <div className="absolute inset-0 bg-gradient-to-b from-black/70 via-black/50 to-black/30" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/50 via-black/40 to-black/60" />
       </div>
 
       {/* Content */}
-      <div className="relative h-full flex items-center justify-center">
-        <div className="text-center px-4">
-          <h1 className="text-4xl md:text-6xl font-bold text-white mb-4">
+      <div className="relative h-full flex items-end">
+        <div className="max-w-7xl mx-auto w-full px-4 sm:px-6 lg:px-8 pb-8 sm:pb-10">
+          <h1 className="text-2xl sm:text-3xl md:text-4xl font-bold text-white mb-1.5">
             {title}
           </h1>
-          <p className="text-xl md:text-2xl text-gray-200 max-w-2xl mx-auto">
+          <p className="text-sm sm:text-base text-white/70 max-w-xl">
             {description}
           </p>
         </div>
       </div>
-
-      {/* Diagonal Clip Effect */}
-      <div className="absolute bottom-0 left-0 w-full xs:h-8 sm:h-12 md:h-16 bg-gradient-to-t from-black/50 to-transparent" />
-      <div
-        className="absolute bottom-0 left-0 w-full xs:h-8 sm:h-12 md:h-16 bg-white"
-        style={{
-          clipPath: 'polygon(100% 0, 100% 100%, 0 100%, 0 0, 25% 100%)',
-        }}
-      />
     </div>
   )
 }

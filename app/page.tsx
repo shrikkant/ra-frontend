@@ -9,6 +9,7 @@ import {CategorySlider} from '../components/CategorySlider'
 import TopSales from '../components/TopSales'
 import HomeFAQ from '../components/home/HomeFAQ'
 import StickyMobileCTA from '../components/home/StickyMobileCTA'
+import {JsonLd} from '../components/seo/JsonLd'
 import {faqs} from '../components/home/faq-data'
 import {getFeaturedProductsServer} from '../api/products.api'
 import {fetchStaticData} from './utils/api'
@@ -41,7 +42,7 @@ export async function generateMetadata(): Promise<Metadata> {
   }
 }
 
-function JsonLd() {
+function HomeStructuredData() {
   const organizationSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
@@ -94,22 +95,7 @@ function JsonLd() {
     })),
   }
 
-  return (
-    <>
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(organizationSchema)}}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(websiteSchema)}}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{__html: JSON.stringify(faqSchema)}}
-      />
-    </>
-  )
+  return <JsonLd data={[organizationSchema, websiteSchema, faqSchema as object]} />
 }
 
 export default async function Home() {
@@ -118,7 +104,7 @@ export default async function Home() {
 
   return (
     <>
-      <JsonLd />
+      <HomeStructuredData />
       <main>
         <HomeBanner
           city="pune"

@@ -1,6 +1,7 @@
 import React from 'react'
 import {type SanityDocument} from 'next-sanity'
 import {client} from '../../../sanity/client'
+import {JsonLd} from '../../../components/seo/JsonLd'
 import {notFound} from 'next/navigation'
 import {Metadata} from 'next'
 import BlogPostContent from '../../../components/blog/BlogPostContent'
@@ -150,13 +151,7 @@ export default async function BlogPostPage({params}: PageProps) {
 
   return (
     <>
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(articleStructuredData),
-        }}
-      />
+      <JsonLd data={articleStructuredData} />
 
       <div className="min-h-screen bg-gray-50">
         <article className="max-w-7xl mx-auto">

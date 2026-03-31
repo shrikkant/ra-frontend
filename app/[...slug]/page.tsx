@@ -175,7 +175,7 @@ export default async function Page({params, searchParams}: PageProps) {
       return notFound()
     }
 
-    return <ProductDetailPage product={product} />
+    return <ProductDetailPage product={product} slug={localParams.slug} />
   } else {
     // City listing page - fetch products and FAQs in parallel
     const [response, faqs] = await Promise.all([

@@ -20,6 +20,7 @@
     "@tailwindcss/typography": "^0.5.19",
     "axios": "^1.11.0",
     "date-fns": "^4.1.0",
+    "isomorphic-dompurify": "^3.7.1",
     "js-cookie": "^3.0.5",
     "next": "^16.1.6",
     "next-sanity": "10.0.4",

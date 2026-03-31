@@ -33,7 +33,7 @@ export default function PriceTag({
       )}
 
       <div
-        className={`font-light text-gray-400 ${s.original} ${discount > 0 ? 'line-through' : ''}`}
+        className={`font-light text-gray-500 ${s.original} ${discount > 0 ? 'line-through' : ''}`}
       >
         {getPrice(price)}
         {sub && <span className="text-sm font-light">{sub}</span>}

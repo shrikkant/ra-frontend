@@ -26,12 +26,18 @@ const config: Config = {
           '0%': {transform: 'translateX(-100%)'},
           '100%': {transform: 'translateX(100%)'},
         },
+        'glow-drift': {
+          '0%, 100%': {transform: 'translate(0, 0) scale(1)'},
+          '33%': {transform: 'translate(30px, -20px) scale(1.05)'},
+          '66%': {transform: 'translate(-20px, 15px) scale(0.95)'},
+        },
       },
       animation: {
         float: 'float 6s ease-in-out infinite',
         'scale-in': 'scale-in 0.5s ease-out forwards',
         'fade-out': 'fade-out 1.5s ease-out forwards',
         shimmer: 'shimmer 1.5s ease-in-out infinite',
+        'glow-drift': 'glow-drift 12s ease-in-out infinite',
       },
       backgroundImage: {
         'gradient-radial': 'radial-gradient(var(--tw-gradient-stops))',

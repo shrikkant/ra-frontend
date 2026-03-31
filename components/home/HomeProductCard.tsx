@@ -43,9 +43,9 @@ export default function HomeProductCard({product}: {product: IProduct}) {
               ₹{discountedPrice}
             </span>
             {discount > 0 && (
-              <span className="text-[11px] text-gray-400 line-through">₹{dailyRent}</span>
+              <span className="text-[11px] text-gray-500 line-through">₹{dailyRent}</span>
             )}
-            <span className="text-[11px] text-gray-400">/day</span>
+            <span className="text-[11px] text-gray-500">/day</span>
           </div>
         </div>
       </div>

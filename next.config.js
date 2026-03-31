@@ -2,11 +2,64 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
   enabled: process.env.ANALYZE === 'true',
 })
 
+// Content-Security-Policy directives
+const cspDirectives = [
+  // Default: only same-origin
+  "default-src 'self'",
+  // Scripts: self, inline (Next.js needs it), eval (dev), and trusted third parties
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://cdn.heapanalytics.com https://app.statwide.com`,
+  // Styles: self and inline (Tailwind injects styles)
+  "style-src 'self' 'unsafe-inline'",
+  // Images: self, data URIs, and known image hosts
+  "img-src 'self' data: blob: https://rentacross.com https://cdn.sanity.io https://lh3.googleusercontent.com https://www.google.com https://www.gstatic.com",
+  // Fonts: self (next/font self-hosts)
+  "font-src 'self'",
+  // Connect (API calls, analytics): self and known backends
+  "connect-src 'self' https://rentacross.com https://dev.rentacross.com https://cdn.sanity.io https://www.google.com https://app.statwide.com https://cdn.heapanalytics.com https://www.google-analytics.com",
+  // Frames: reCAPTCHA
+  "frame-src https://www.google.com https://www.gstatic.com",
+  // Prevent embedding this site in iframes on other domains
+  "frame-ancestors 'self'",
+  // Forms can only submit to self
+  "form-action 'self'",
+  // Base URI restricted
+  "base-uri 'self'",
+]
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   compress: true,
   reactStrictMode: true,
   output: 'standalone',
+  async headers() {
+    return [
+      {
+        source: '/(.*)',
+        headers: [
+          {
+            key: 'Content-Security-Policy',
+            value: cspDirectives.join('; '),
+          },
+          {
+            key: 'X-Content-Type-Options',
+            value: 'nosniff',
+          },
+          {
+            key: 'Referrer-Policy',
+            value: 'strict-origin-when-cross-origin',
+          },
+          {
+            key: 'X-Frame-Options',
+            value: 'SAMEORIGIN',
+          },
+          {
+            key: 'Permissions-Policy',
+            value: 'camera=(), microphone=(), geolocation=(self)',
+          },
+        ],
+      },
+    ]
+  },
   publicRuntimeConfig: {
     BASE_API_URL: process.env.REACT_APP_API_URL,
   },
@@ -34,6 +87,12 @@ const nextConfig = {
       "default-src 'self'; script-src 'none'; sandbox; img-src 'self' data: https://cdn.sanity.io https://rentacross.com;",
     contentDispositionType: 'inline',
     remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'localhost',
+        port: '8082',
+        pathname: '/api/**',
+      },
       {
         protocol: 'https',
         hostname: 'rentacross.com',

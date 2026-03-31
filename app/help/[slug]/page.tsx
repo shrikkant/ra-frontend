@@ -1,5 +1,6 @@
 import React from 'react'
 import {fetchBlogBySlug, fetchBlogsServer} from '../../../api/blog/blog.api'
+import {sanitizeHtml} from '../../../util/sanitize'
 
 // Generate on first request, cache for 1 hour
 export const revalidate = 3600
@@ -31,7 +32,7 @@ export default async function Blog({params}: PageProps) {
                 <div className="text">
                   <div
                     className="content"
-                    dangerouslySetInnerHTML={{__html: blog.content}}
+                    dangerouslySetInnerHTML={{__html: sanitizeHtml(blog.content)}}
                   ></div>
                 </div>
               </div>

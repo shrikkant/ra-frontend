@@ -21,6 +21,14 @@ export const generateStructuredData = (
   return generateCategoryStructuredData(filter, slug, categories)
 }
 
+const KNOWN_BRANDS = ['Canon', 'Sony', 'Nikon', 'GoPro', 'DJI', 'Godox', 'Insta360', 'Samyang', 'Sigma', 'Tamron', 'Zhiyun', 'Rode', 'Sennheiser']
+
+function extractBrand(title?: string): string {
+  if (!title) return 'RentAcross'
+  const titleLower = title.toLowerCase()
+  return KNOWN_BRANDS.find(b => titleLower.includes(b.toLowerCase())) || 'RentAcross'
+}
+
 const generateProductStructuredData = (product: IProduct, slug: string[]) => {
   return {
     '@context': 'https://schema.org',
@@ -40,7 +48,7 @@ const generateProductStructuredData = (product: IProduct, slug: string[]) => {
     },
     brand: {
       '@type': 'Brand',
-      name: 'Unknown',
+      name: extractBrand(product.title),
     },
   }
 }

@@ -213,19 +213,19 @@ export default async function Footer() {
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center space-y-4 md:space-y-0">
-            <div className="text-gray-400 text-sm">
+            <div className="text-gray-500 text-sm">
               © {new Date().getFullYear()} RentAcross™. All rights reserved.
             </div>
             <div className="flex space-x-6 text-sm">
               <Link
                 href="/privacy-policy"
-                className="text-gray-400 hover:text-[#ffd910] transition-colors duration-300"
+                className="text-gray-500 hover:text-[#ffd910] transition-colors duration-300"
               >
                 Privacy Policy
               </Link>
               <Link
                 href="/return-refund-policy"
-                className="text-gray-400 hover:text-[#ffd910] transition-colors duration-300"
+                className="text-gray-500 hover:text-[#ffd910] transition-colors duration-300"
               >
                 Returns & Refunds
               </Link>

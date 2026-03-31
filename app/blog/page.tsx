@@ -3,6 +3,7 @@ import {client} from '../../sanity/client'
 import {type SanityDocument} from 'next-sanity'
 import {IBlog} from '../../app-store/app-defaults/types'
 import {Metadata} from 'next'
+import {JsonLd} from '../../components/seo/JsonLd'
 import BlogHero from '../../components/blog/BlogHero'
 import FeaturedPost from '../../components/blog/FeaturedPost'
 import BlogGrid from '../../components/blog/BlogGrid'
@@ -88,13 +89,7 @@ export default async function BlogPage() {
 
   return (
     <>
-      {/* Structured Data */}
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{
-          __html: JSON.stringify(blogStructuredData),
-        }}
-      />
+      <JsonLd data={blogStructuredData} />
 
       {/* Modern Blog Hero Section */}
       <BlogHero />

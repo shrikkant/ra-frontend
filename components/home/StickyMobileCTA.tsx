@@ -2,14 +2,17 @@
 
 import React, {useState, useEffect} from 'react'
 import Link from 'next/link'
+import ArrowIcon from '../common/ArrowIcon'
+import {BROWSE_CTA_TEXT} from '../../config/home.constants'
+
+const SCROLL_THRESHOLD = 400
 
 export default function StickyMobileCTA({href}: {href: string}) {
   const [visible, setVisible] = useState(false)
 
   useEffect(() => {
     const onScroll = () => {
-      // Show after scrolling past the hero (roughly 400px)
-      setVisible(window.scrollY > 400)
+      setVisible(window.scrollY > SCROLL_THRESHOLD)
     }
     window.addEventListener('scroll', onScroll, {passive: true})
     return () => window.removeEventListener('scroll', onScroll)
@@ -26,8 +29,8 @@ export default function StickyMobileCTA({href}: {href: string}) {
           href={href}
           className="flex items-center justify-center gap-2 w-full py-3 bg-gradient-to-b from-gray-800 to-gray-900 text-white text-sm font-medium rounded-full shadow-lg shadow-gray-900/20 active:scale-[0.98] transition-transform"
         >
-          Browse gear
-          <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5 21 12m0 0-7.5 7.5M21 12H3" /></svg>
+          {BROWSE_CTA_TEXT}
+          <ArrowIcon />
         </Link>
       </div>
     </div>
