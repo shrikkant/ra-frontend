@@ -3,7 +3,7 @@ export const TOTAL_RENTALS = '2,500+'
 export const BASE_PRICE = 450
 
 export const TRUST_SIGNALS = [
-  'Same-day delivery',
+  'Next-day delivery!',
   'No deposit',
   'Free cancellation',
 ] as const
