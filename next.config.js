@@ -7,7 +7,7 @@ const cspDirectives = [
   // Default: only same-origin
   "default-src 'self'",
   // Scripts: self, inline (Next.js needs it), eval (dev), and trusted third parties
-  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://cdn.heapanalytics.com https://app.statwide.com https://cdn.pendo.io https://static.cloudflareinsights.com`,
+  `script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.google.com https://www.gstatic.com https://www.googletagmanager.com https://cdn.heapanalytics.com https://app.statwide.com https://cdn.pendo.io https://static.cloudflareinsights.com https://checkout.razorpay.com`,
   // Workers: Statwide tracker creates a blob worker
   "worker-src 'self' blob:",
   // Styles: self and inline (Tailwind injects styles)
@@ -17,9 +17,9 @@ const cspDirectives = [
   // Fonts: self (next/font self-hosts)
   "font-src 'self'",
   // Connect (API calls, analytics): self and known backends
-  "connect-src 'self' https://rentacross.com https://dev.rentacross.com https://cdn.sanity.io https://www.google.com https://app.statwide.com https://cdn.heapanalytics.com https://www.google-analytics.com https://cdn.pendo.io https://static.cloudflareinsights.com",
+  "connect-src 'self' https://rentacross.com https://dev.rentacross.com https://cdn.sanity.io https://www.google.com https://app.statwide.com https://cdn.heapanalytics.com https://www.google-analytics.com https://cdn.pendo.io https://static.cloudflareinsights.com https://api.razorpay.com https://lumberjack.razorpay.com",
   // Frames: reCAPTCHA
-  "frame-src https://www.google.com https://www.gstatic.com",
+  "frame-src https://www.google.com https://www.gstatic.com https://api.razorpay.com https://checkout.razorpay.com",
   // Prevent embedding this site in iframes on other domains
   "frame-ancestors 'self'",
   // Forms can only submit to self
