@@ -1,4 +1,4 @@
-import {IBrand, IMasterProduct, IUser} from '../../app-store/types'
+import {IBrand, IMasterProduct, IProduct, IUser} from '../../app-store/types'
 import httpClient from './../axios.config'
 
 export async function fetchBrands(): Promise<IBrand[]> {
@@ -103,5 +103,28 @@ export const syncNextProducts = async (count: number = 10): Promise<any> => {
   const response = await httpClient.post(`/v1/products/ai-sync`, {
     count,
   })
+  return response
+}
+
+export const adminListNewProduct = async (
+  userId: number,
+  masterProduct: IMasterProduct,
+  rate: number,
+  addressId: number,
+): Promise<IProduct> => {
+  const rates = [{rate, duration: 'D'}]
+  const newProduct = {
+    address_id: addressId,
+    master_product_id: masterProduct.id,
+    title: masterProduct.name,
+    category_id: masterProduct.category_id,
+    sub_category_id: masterProduct.sub_category_id,
+    qty: 1,
+    rates,
+  }
+  const response: IProduct = await httpClient.post(
+    `/admin/users/${userId}/products`,
+    newProduct,
+  )
   return response
 }
