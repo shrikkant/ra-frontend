@@ -9,8 +9,12 @@ export function middleware(request: NextRequest) {
   requestHeaders.set('x-pathname', request.nextUrl.pathname)
 
   // Handle authentication redirects
-  if (!currentUser && request.nextUrl.pathname.startsWith('/portal')) {
-    return Response.redirect(new URL('/signin', request.url))
+  if (
+    !currentUser &&
+    (request.nextUrl.pathname.startsWith('/portal') ||
+      request.nextUrl.pathname.startsWith('/p/mycart/book'))
+  ) {
+    return Response.redirect(new URL('/p/mycart', request.url))
   }
 
   // Return response with modified headers

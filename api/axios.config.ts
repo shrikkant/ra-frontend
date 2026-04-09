@@ -107,7 +107,7 @@ httpClient.interceptors.response.use(
     if (error.status === 401 && window.location.pathname.startsWith('/p/')) {
       if (
         window.location.href.indexOf('signUp=true') === -1 &&
-        !window.location.pathname.startsWith('/p/mycart')
+        window.location.pathname !== '/p/mycart'
       ) {
         window.location.href = '/?signUp=true'
       }

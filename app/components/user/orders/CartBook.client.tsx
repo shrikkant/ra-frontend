@@ -5,7 +5,7 @@ import {AddressPicker} from 'components/order/AddressPicker'
 import {StepProgressBar} from 'components/order/StepProgressBar'
 import {StickyMobileCta} from 'components/order/StickyMobileCta'
 import {CheckoutSkeleton} from 'components/order/CheckoutSkeleton'
-import Loader from 'components/Loader'
+import EmptyCart from 'components/cart/EmptyCart'
 import {useCheckoutFlow} from '../../../../hooks/useCheckoutFlow'
 
 export default function CartBook() {
@@ -27,7 +27,7 @@ export default function CartBook() {
 
   if (loading) return <CheckoutSkeleton />
 
-  if (!cart) return <Loader />
+  if (!cart) return <EmptyCart />
 
   return (
     <div
