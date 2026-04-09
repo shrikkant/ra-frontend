@@ -1,7 +1,7 @@
 'use client'
 import React, {useEffect, useState, useCallback} from 'react'
 import {addToCart} from '../api/user/orders.api'
-import {usePathname, useRouter} from 'next/navigation'
+import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import {
   getDefaultSearch,
@@ -20,7 +20,6 @@ import {useRecaptcha} from '../hooks/useRecaptcha'
 import {BookingFormContent} from './booking/BookingFormContent'
 import {MobileBookingBar} from './booking/MobileBookingBar'
 import {MobileBookingModal} from './booking/MobileBookingModal'
-import {InlineSignupCapture} from './booking/InlineSignupCapture'
 
 // Import utilities
 import {
@@ -47,12 +46,9 @@ export default function BookingForm({
   const [finalDiscount, setFinalDiscount] = useState(0)
   const [openFormInMobile, setOpenFormInMobile] = useState(false)
   const [showSignIn, setShowSignIn] = React.useState(false)
-  const [showInlineSignup, setShowInlineSignup] = useState(false)
   const [isAddingToCart, setIsAddingToCart] = useState(false)
 
   const loggedUser = useSelector(selectAuthState)
-  const pathname = usePathname()
-
   const storeSearch = useSelector(getDefaultSearch)
   const router = useRouter()
 
@@ -95,7 +91,7 @@ export default function BookingForm({
       // Show the next screen immediately (optimistic)
       if (!loggedUser) {
         dispatch(setLastLink('/p/mycart'))
-        setShowInlineSignup(true)
+        setShowSignIn(true)
       } else if (bookNow) {
         router.push('/p/mycart')
       } else {
@@ -128,18 +124,6 @@ export default function BookingForm({
     setShowSignIn(false)
   }
 
-  const handleInlineSignupComplete = () => {
-    setShowInlineSignup(false)
-    setOpenFormInMobile(false)
-    router.push('/p/mycart')
-  }
-
-  const handleInlineSignupSkip = () => {
-    setShowInlineSignup(false)
-    setOpenFormInMobile(false)
-    router.push('/p/mycart')
-  }
-
   const handleMobileBook = () => {
     setOpenFormInMobile(true)
   }
@@ -164,26 +148,17 @@ export default function BookingForm({
         <div className="">
           {/* Desktop Form */}
           <div className="md:block hidden">
-            {showInlineSignup ? (
-              <div className="p-6 bg-white rounded-lg border border-gray-200 shadow-lg">
-                <InlineSignupCapture
-                  onComplete={handleInlineSignupComplete}
-                  onSkip={handleInlineSignupSkip}
-                />
-              </div>
-            ) : (
-              <BookingFormContent
-                storeSearch={storeSearch}
-                onDateChange={setBookingDates}
-                onBookNow={onBookNow}
-                discountedRate={discountedRate}
-                finalDiscount={finalDiscount}
-                getDays={() => days}
-                getPlural={getPlural}
-                getSavings={getSavings}
-                isLoading={isAddingToCart}
-              />
-            )}
+            <BookingFormContent
+              storeSearch={storeSearch}
+              onDateChange={setBookingDates}
+              onBookNow={onBookNow}
+              discountedRate={discountedRate}
+              finalDiscount={finalDiscount}
+              getDays={() => days}
+              getPlural={getPlural}
+              getSavings={getSavings}
+              isLoading={isAddingToCart}
+            />
           </div>
 
           {/* Mobile Bottom Bar */}
@@ -199,30 +174,18 @@ export default function BookingForm({
 
           {/* Mobile Full Screen Modal */}
           {openFormInMobile && (
-            <MobileBookingModal onClose={() => {
-              setOpenFormInMobile(false)
-              setShowInlineSignup(false)
-            }}>
-              {showInlineSignup ? (
-                <div className="p-6">
-                  <InlineSignupCapture
-                    onComplete={handleInlineSignupComplete}
-                    onSkip={handleInlineSignupSkip}
-                  />
-                </div>
-              ) : (
-                <BookingFormContent
-                  storeSearch={storeSearch}
-                  onDateChange={setBookingDates}
-                  onBookNow={onBookNow}
-                  discountedRate={discountedRate}
-                  finalDiscount={finalDiscount}
-                  getDays={() => days}
-                  getPlural={getPlural}
-                  getSavings={getSavings}
-                  isLoading={isAddingToCart}
-                />
-              )}
+            <MobileBookingModal onClose={() => setOpenFormInMobile(false)}>
+              <BookingFormContent
+                storeSearch={storeSearch}
+                onDateChange={setBookingDates}
+                onBookNow={onBookNow}
+                discountedRate={discountedRate}
+                finalDiscount={finalDiscount}
+                getDays={() => days}
+                getPlural={getPlural}
+                getSavings={getSavings}
+                isLoading={isAddingToCart}
+              />
             </MobileBookingModal>
           )}
 

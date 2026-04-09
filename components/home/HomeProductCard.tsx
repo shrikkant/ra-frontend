@@ -5,7 +5,7 @@ import {getCitySlug} from '../../util/city.util'
 import LazyImage from '../product/LazyImage'
 
 export default function HomeProductCard({product}: {product: IProduct}) {
-  const dailyRent = product?.rates ? product.rates[0].rate : 0
+  const dailyRent = product?.rates?.[0]?.rate || 0
   const discount = product?.discount_percent || 0
   const discountedPrice =
     discount > 0
