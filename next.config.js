@@ -21,7 +21,7 @@ const cspDirectives = [
   // Connect (API calls, analytics): self and known backends
   `connect-src 'self' https://rentacross.com https://dev.rentacross.com https://cdn.sanity.io https://www.google.com https://app.statwide.com https://cdn.heapanalytics.com https://www.google-analytics.com https://cdn.pendo.io https://static.cloudflareinsights.com https://api.razorpay.com https://lumberjack.razorpay.com${isDev ? ' http://localhost:*' : ''}`,
   // Frames: reCAPTCHA
-  "frame-src https://www.google.com https://www.gstatic.com https://api.razorpay.com https://checkout.razorpay.com",
+  "frame-src 'self' https://rentacross.com https://www.google.com https://www.gstatic.com https://api.razorpay.com https://checkout.razorpay.com",
   // Prevent embedding this site in iframes on other domains
   "frame-ancestors 'self'",
   // Forms can only submit to self
