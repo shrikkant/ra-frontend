@@ -22,11 +22,12 @@ export const AddressList = ({
   const isStorePickupAvailable = userCity && 
     ['Pune', 'Pimpri-Chinchwad', 'Pimpri'].includes(userCity)
 
-  const checkRadio = addressId => {
+  const checkRadio = (addressId: string) => {
     const el = document.getElementById('addr_' + addressId) as HTMLInputElement
     el.checked = true
-    setSelectedAddress(addressId)
-    onAddressChange(addressId)
+    const numericId = Number(addressId)
+    setSelectedAddress(numericId)
+    onAddressChange(numericId)
   }
   return (
     <div className={'mt-3'}>
