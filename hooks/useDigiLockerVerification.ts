@@ -42,6 +42,7 @@ export const useDigiLockerVerification = () => {
     useState<VerificationStatus>('PENDING')
   const [statusMessage, setStatusMessage] = useState<string>('')
   const [isTracking, setIsTracking] = useState(false) // True after first poll/SSE confirms backend is tracking
+  const [awaitingConfirmation, setAwaitingConfirmation] = useState(false) // True after user returns from DigiLocker
   const buttonRef = useRef<HTMLDivElement>(null)
   const eventSourceRef = useRef<EventSource | null>(null)
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -266,16 +267,16 @@ export const useDigiLockerVerification = () => {
   }
 
   const handleVerificationSuccess = async (data: any) => {
-    console.log('DigiLocker onSuccess callback (deprecated):', data)
-    // We no longer rely on this callback
-    // Status tracking is handled by SSE/polling
+    console.log('DigiLocker onSuccess callback:', data)
+    // User returned from DigiLocker — show waiting state while server confirms
+    setAwaitingConfirmation(true)
+    setStatusMessage('Verifying your details, please wait...')
   }
 
   const handleVerificationFailure = (_error: any) => {
-    setStatusMessage('Checking status...')
-    // console.error('DigiLocker onFailure callback:', error)
-    // Still keep this for immediate UI feedback
-    // setError('Verification process interrupted. Checking status...')
+    // User returned from DigiLocker (possibly closed it) — still wait for server confirmation
+    setAwaitingConfirmation(true)
+    setStatusMessage('Checking verification status...')
   }
 
   const startVerification = () => {
@@ -375,5 +376,6 @@ export const useDigiLockerVerification = () => {
     verificationStatus,
     statusMessage,
     isTracking,
+    awaitingConfirmation,
   }
 }

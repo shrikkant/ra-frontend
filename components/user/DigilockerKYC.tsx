@@ -32,6 +32,7 @@ export default function DigilockerKYC() {
     verificationStatus,
     statusMessage,
     isTracking,
+    awaitingConfirmation,
   } = useDigiLockerVerification()
 
   // Check for SDK availability periodically
@@ -198,7 +199,23 @@ export default function DigilockerKYC() {
 
             {verificationStatus === 'IN_PROGRESS' && (
               <div className="p-4 bg-blue-50 rounded-lg mb-4 space-y-3">
-                {isTracking ? (
+                {awaitingConfirmation ? (
+                  <>
+                    {/* User returned from DigiLocker — waiting for server confirmation */}
+                    <div className="flex flex-col items-center gap-3 py-2">
+                      <div className="animate-spin rounded-full h-8 w-8 border-3 border-blue-600 border-t-transparent"></div>
+                      <p className="text-sm font-medium text-blue-700 text-center">
+                        {statusMessage || 'Verifying your details, please wait...'}
+                      </p>
+                      <p className="text-xs text-blue-500 text-center">
+                        This may take a few seconds
+                      </p>
+                    </div>
+                    <div className="relative h-2 bg-blue-200 rounded-full overflow-hidden">
+                      <div className="absolute inset-0 bg-gradient-to-r from-blue-200 via-blue-500 to-blue-200 animate-shimmer"></div>
+                    </div>
+                  </>
+                ) : isTracking ? (
                   <>
                     {/* Indeterminate Progress Bar - shown after first poll confirms tracking */}
                     <div className="relative h-2 bg-blue-200 rounded-full overflow-hidden">
@@ -232,11 +249,15 @@ export default function DigilockerKYC() {
               </div>
             )}
 
-            <div id="digilocker-button" ref={buttonRef}></div>
-            {!sdkLoaded && (
-              <p className="text-xs text-gray-500 text-center mt-2">
-                Loading DigiLocker SDK...
-              </p>
+            {!awaitingConfirmation && (
+              <>
+                <div id="digilocker-button" ref={buttonRef}></div>
+                {!sdkLoaded && (
+                  <p className="text-xs text-gray-500 text-center mt-2">
+                    Loading DigiLocker SDK...
+                  </p>
+                )}
+              </>
             )}
           </div>
         )}
