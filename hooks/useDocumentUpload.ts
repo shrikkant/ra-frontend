@@ -30,7 +30,7 @@ export const useDocumentUpload = ({
       return false
     }
 
-    if (file.size > 20 * 1024 * 1024) {
+    if (file.size > 5 * 1024 * 1024) {
       displayMessage(MESSAGE_TYPES.ERROR, 'File size should be less than 5MB')
       return false
     }
