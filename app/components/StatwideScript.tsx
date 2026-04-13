@@ -68,21 +68,6 @@
 
       const timers: ReturnType<typeof setTimeout>[] = []
 
-      const initPendo = () => {
-        try {
-          window.pendo.initialize({
-            visitor: {
-              id: loggedUser?.id,
-              email: loggedUser?.email_address,
-              firstName: loggedUser?.firstname,
-              lastName: loggedUser?.lastname,
-            },
-          })
-        } catch (e) {
-          console.log(TAG, 'initPendo threw:', e)
-        }
-      }
-
       const initAnalytics = () => {
         console.log(TAG, 'initAnalytics CALLED', {
           hasFeaturics: !!window.featurics,
@@ -116,21 +101,6 @@
         setTimeout(() => dumpState('initAnalytics-after-3000ms'), 3000)
       }
 
-      // Init pendo
-      if (window.pendo) {
-        console.log(TAG, 'pendo already present, initing immediately')
-        initPendo()
-      } else {
-        console.log(TAG, 'pendo not yet present, scheduling polling')
-        ;[500, 1500, 3000, 5000].forEach(delay =>
-          timers.push(
-            setTimeout(() => {
-              console.log(TAG, `pendo poll tick@${delay}ms`, {exists: !!window.pendo})
-              if (window.pendo) initPendo()
-            }, delay),
-          ),
-        )
-      }
 
       // Init featurics (independent of pendo)
       if (window.featurics) {
