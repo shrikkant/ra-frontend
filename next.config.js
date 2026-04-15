@@ -13,7 +13,7 @@ const cspDirectives = [
   // Workers: Statwide tracker creates a blob worker
   "worker-src 'self' blob:",
   // Styles: self and inline (Tailwind injects styles)
-  "style-src 'self' 'unsafe-inline'",
+  "style-src 'self' 'unsafe-inline' https://app.statwide.com",
   // Images: self, data URIs, and known image hosts
   "img-src 'self' data: blob: https://rentacross.com https://cdn.sanity.io https://lh3.googleusercontent.com https://www.google.com https://www.gstatic.com https://cdn.pendo.io",
   // Fonts: self (next/font self-hosts)
@@ -21,7 +21,7 @@ const cspDirectives = [
   // Connect (API calls, analytics): self and known backends
   `connect-src 'self' https://rentacross.com https://dev.rentacross.com https://cdn.sanity.io https://www.google.com https://app.statwide.com https://cdn.heapanalytics.com https://www.google-analytics.com https://cdn.pendo.io https://static.cloudflareinsights.com https://api.razorpay.com https://cdn.razorpay.com https://lumberjack.razorpay.com${isDev ? ' http://localhost:*' : ''}`,
   // Frames: reCAPTCHA
-  "frame-src 'self' https://rentacross.com https://www.google.com https://www.gstatic.com https://api.razorpay.com https://checkout.razorpay.com",
+  "frame-src 'self' https://rentacross.com https://www.google.com https://www.gstatic.com https://api.razorpay.com https://checkout.razorpay.com https://app.statwide.com",
   // Prevent embedding this site in iframes on other domains
   "frame-ancestors 'self'",
   // Forms can only submit to self
@@ -32,6 +32,7 @@ const cspDirectives = [
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+  skipTrailingSlashRedirect: true,
   compress: true,
   reactStrictMode: true,
   output: 'standalone',
