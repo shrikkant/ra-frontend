@@ -12,8 +12,8 @@ const config: Config = {
         bg: 'var(--bg)',
         surface: 'var(--surface)',
         'surface-muted': 'var(--surface-muted)',
-        border: 'var(--border)',
-        'border-soft': 'var(--border-soft)',
+        line: 'var(--border)',
+        'line-soft': 'var(--border-soft)',
         ink: {
           DEFAULT: 'var(--ink)',
           secondary: 'var(--ink-secondary)',
