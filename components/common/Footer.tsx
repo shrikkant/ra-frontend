@@ -2,6 +2,7 @@ import React from 'react'
 import Link from 'next/link'
 import Scripts from './Scripts'
 import {headers} from 'next/headers'
+import {isRedesignedRoute} from '../../app/components/redesign/routes'
 
 // Inline SVG icons to avoid loading react-icons/fa on every page
 const FacebookIcon = ({className}: {className?: string}) => (
@@ -40,6 +41,9 @@ export default async function Footer() {
     headersList.get('x-pathname') || headersList.get('x-invoke-path') || ''
 
   if (pathname.startsWith('/photobooth')) {
+    return <Scripts />
+  }
+  if (isRedesignedRoute(pathname)) {
     return <Scripts />
   }
 

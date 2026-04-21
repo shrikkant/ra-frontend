@@ -1,18 +1,24 @@
-import React from 'react'
 import {Metadata} from 'next'
 
 export const revalidate = 3600
 
-import {HomeBanner} from '../components/HomeBanner'
-import {ReviewsSection} from '../components/ReviewsSection'
-import {CategorySlider} from '../components/CategorySlider'
-import TopSales from '../components/TopSales'
-import HomeFAQ from '../components/home/HomeFAQ'
-import StickyMobileCTA from '../components/home/StickyMobileCTA'
-import {JsonLd} from '../components/seo/JsonLd'
-import {faqs} from '../components/home/faq-data'
 import {getFeaturedProductsServer} from '../api/products.api'
 import {fetchStaticData} from './utils/api'
+import {IProduct, IProductCategory, IProductSubCategory} from '../app-store/types'
+import {JsonLd} from '../components/seo/JsonLd'
+import {faqs} from '../components/home/faq-data'
+import MobileChrome from './components/redesign/MobileChrome'
+import TopBar from './components/redesign/home/TopBar'
+import SearchPill from './components/redesign/home/SearchPill'
+import EditorialHero from './components/redesign/home/EditorialHero'
+import CategoryRail from './components/redesign/home/CategoryRail'
+import SectionHeader from './components/redesign/home/SectionHeader'
+import PopularGrid from './components/redesign/home/PopularGrid'
+import TrustStrip from './components/redesign/home/TrustStrip'
+import BundleCard from './components/redesign/home/BundleCard'
+import AllGearGrid from './components/redesign/home/AllGearGrid'
+
+const HIDDEN_SUBCATEGORY_IDS = new Set([59, 60, 62, 48, 32, 50, 30])
 
 export async function generateMetadata(): Promise<Metadata> {
   const title =
@@ -95,28 +101,59 @@ function HomeStructuredData() {
     })),
   }
 
-  return <JsonLd data={[organizationSchema, websiteSchema, faqSchema as object]} />
+  return (
+    <JsonLd data={[organizationSchema, websiteSchema, faqSchema as object]} />
+  )
 }
 
 export default async function Home() {
-  const categories = await getFeaturedProductsServer(8, 'pune')
-  const staticCategories = await fetchStaticData('categories')
+  const [groups, categoryData] = await Promise.all([
+    getFeaturedProductsServer(8, 'pune'),
+    fetchStaticData('categories') as Promise<IProductCategory[] | undefined>,
+  ])
+
+  const allProducts: IProduct[] = (groups ?? []).flatMap(
+    (g: any) => g?.products ?? [],
+  )
+  const popular = allProducts.slice(0, 4)
+  const allGear = allProducts.slice(4)
+
+  const subCategories: IProductSubCategory[] = (
+    categoryData?.[0]?.subCategories ?? []
+  ).filter(sc => sc.id && !HIDDEN_SUBCATEGORY_IDS.has(sc.id))
 
   return (
     <>
       <HomeStructuredData />
-      <main>
-        <HomeBanner
-          city="pune"
-          category="rent-camera"
-          categories={staticCategories}
+      <MobileChrome>
+        <TopBar />
+        <SearchPill />
+        <EditorialHero />
+        <CategoryRail subCategories={subCategories} />
+
+        <SectionHeader
+          title="Popular this week"
+          subtitle="Booked most often by creators in Pune"
+          action="See all"
+          actionHref="/pune/rent-camera?q="
         />
-        <CategorySlider />
-        <TopSales categories={categories} />
-        <ReviewsSection />
-        <HomeFAQ />
-        <StickyMobileCTA href="/pune/rent-camera?q=" />
-      </main>
+        <PopularGrid products={popular} />
+
+        <TrustStrip />
+
+        <SectionHeader
+          title="Shoot a wedding this weekend?"
+          subtitle="Pre-built kits, one tap rent"
+        />
+        <BundleCard />
+
+        {allGear.length > 0 && (
+          <>
+            <SectionHeader title="All gear" />
+            <AllGearGrid products={allGear} />
+          </>
+        )}
+      </MobileChrome>
     </>
   )
 }
