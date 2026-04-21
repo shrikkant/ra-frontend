@@ -94,6 +94,18 @@ export const ShieldIcon = (p: IconProps) => (
   </svg>
 )
 
+export const HeartIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
+  </svg>
+)
+
+export const CheckIcon = (p: IconProps) => (
+  <svg {...base({...p, strokeWidth: p.strokeWidth ?? 2.4})} className={p.className} aria-hidden>
+    <path d="M5 12l5 5L20 7" />
+  </svg>
+)
+
 export const ArrowLeftIcon = (p: IconProps) => (
   <svg {...base(p)} className={p.className} aria-hidden>
     <path d="M19 12H5" />

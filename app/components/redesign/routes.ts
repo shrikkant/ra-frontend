@@ -63,11 +63,12 @@ export function isRedesignedRoute(pathname: string): boolean {
   if (EXACT_PATHS.has(pathname)) return true
   if (PREFIX_PATHS.some(p => pathname.startsWith(p))) return true
 
-  // Catch-all listing detection: 1 or 2 segments, first segment is a city.
-  // Product detail is 3+ segments — keep legacy chrome until Screen 3.
+  // Catch-all detection — first segment must be a city slug.
+  // 1 segment → city listing; 2 → city + sub listing; 3 → product detail.
   const segs = pathname.split('/').filter(Boolean)
-  if (segs.length === 1 && CITY_SLUGS.has(segs[0])) return true
-  if (segs.length === 2 && CITY_SLUGS.has(segs[0])) return true
+  if (segs.length >= 1 && segs.length <= 3 && CITY_SLUGS.has(segs[0])) {
+    return true
+  }
 
   return false
 }
