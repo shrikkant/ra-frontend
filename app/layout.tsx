@@ -3,7 +3,7 @@ import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
 import StoreProvider from './StoreProvider'
 import Script from 'next/script'
-import {Roboto_Condensed, Jost} from 'next/font/google'
+import {Roboto_Condensed, Jost, Inter_Tight, JetBrains_Mono} from 'next/font/google'
 
 // CSS imports - ensure proper order
 import 'styles/vars.css'
@@ -26,6 +26,20 @@ const jost = Jost({
   subsets: ['latin'],
   display: 'swap',
   variable: '--font-jost',
+})
+
+const interTight = Inter_Tight({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['400', '500', '600', '700', '800', '900'],
+  variable: '--font-inter-tight',
+})
+
+const jetbrainsMono = JetBrains_Mono({
+  subsets: ['latin'],
+  display: 'swap',
+  weight: ['500', '700'],
+  variable: '--font-jetbrains-mono',
 })
 
 export const viewport: Viewport = {
@@ -96,7 +110,10 @@ export default async function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className={`${robotoCondensed.variable} ${jost.variable}`}>
+    <html
+      lang="en"
+      className={`${robotoCondensed.variable} ${jost.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
+    >
       <head>
         <meta name="robots" content="index, follow"></meta>
 

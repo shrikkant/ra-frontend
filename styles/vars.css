@@ -1,5 +1,38 @@
 :root {
+  /* Legacy tokens — kept for back-compat with un-redesigned routes */
   --backgroundColor: #f7f7f7;
   --primaryColor: #191a1b;
   --textColorSecondary: rgba(0, 0, 0, 0.45);
+
+  /* ──────── Redesign 2026 design tokens ──────── */
+
+  /* Surfaces */
+  --bg: #fafaf7;
+  --surface: #ffffff;
+  --surface-muted: #f3f1ea;
+  --border: #e8e6df;
+  --border-soft: #eae7de;
+
+  /* Ink */
+  --ink: #0e0e0c;
+  --ink-secondary: #444444;
+  --ink-muted: #888888;
+  --ink-subtle: #c9c6be;
+
+  /* Brand */
+  --accent: #f5c518;
+  --accent-soft: rgba(245, 197, 24, 0.22);
+
+  /* Semantic */
+  --success: #3a7a5a;
+  --danger: #cc4433;
+
+  /* Shadows */
+  --shadow-card-hover: 0 10px 30px rgba(14, 14, 12, 0.18);
+  --shadow-toast: 0 10px 30px rgba(0, 0, 0, 0.3);
+  --shadow-tab-bar: 0 14px 40px rgba(14, 14, 12, 0.3);
+  --shadow-product-img: drop-shadow(0 30px 30px rgba(0, 0, 0, 0.2));
+
+  /* Safe area / notch padding for full-screen mobile views */
+  --notch-pad: 54px;
 }
