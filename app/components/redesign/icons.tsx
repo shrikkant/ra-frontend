@@ -94,6 +94,28 @@ export const ShieldIcon = (p: IconProps) => (
   </svg>
 )
 
+export const ArrowLeftIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <path d="M19 12H5" />
+    <path d="M12 5l-7 7 7 7" />
+  </svg>
+)
+
+export const CloseIcon = (p: IconProps) => (
+  <svg {...base({...p, strokeWidth: p.strokeWidth ?? 2.4})} className={p.className} aria-hidden>
+    <path d="M6 6l12 12M6 18L18 6" />
+  </svg>
+)
+
+export const SlidersIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <path d="M4 6h10M18 6h2M4 12h2M10 12h10M4 18h14M20 18h0" />
+    <circle cx="16" cy="6" r="2" />
+    <circle cx="8" cy="12" r="2" />
+    <circle cx="18" cy="18" r="2" />
+  </svg>
+)
+
 export const BoltIcon = (p: IconProps) => (
   <svg
     width={p.size ?? 22}

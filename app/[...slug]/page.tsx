@@ -13,7 +13,7 @@ import {type SanityDocument} from 'next-sanity'
 
 // Import the new specialized components
 import {ProductDetailPage} from './components/ProductDetailPage'
-import {CityListingPage} from './components/CityListingPage'
+import {RedesignedListingPage} from './components/RedesignedListingPage'
 
 // FAQ query to fetch FAQs from Sanity
 const FAQS_QUERY = `*[
@@ -197,7 +197,7 @@ export default async function Page({params, searchParams}: PageProps) {
     const transformedFAQs = faqs as unknown as IFAQ[]
 
     return (
-      <CityListingPage
+      <RedesignedListingPage
         products={response.results}
         meta={response.meta}
         filter={filter}
