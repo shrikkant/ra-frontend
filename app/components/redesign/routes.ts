@@ -56,7 +56,7 @@ const CITY_SLUGS = new Set([
 const EXACT_PATHS = new Set(['/'])
 
 /** Path prefixes that opt into the redesign chrome (any depth). */
-const PREFIX_PATHS: string[] = ['/p/mycart', '/join']
+const PREFIX_PATHS: string[] = ['/p/mycart', '/join', '/kyc-verification']
 
 export function isRedesignedRoute(pathname: string): boolean {
   if (!pathname) return false

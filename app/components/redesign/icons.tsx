@@ -94,6 +94,22 @@ export const ShieldIcon = (p: IconProps) => (
   </svg>
 )
 
+export const IdCardIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <rect x="3" y="5" width="18" height="14" rx="2" />
+    <circle cx="9" cy="11" r="2.2" />
+    <path d="M14 10h4M14 13h4M5 17h14" />
+  </svg>
+)
+
+export const SelfieIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <circle cx="12" cy="9" r="4" />
+    <path d="M5 21a7 7 0 0 1 14 0" />
+    <path d="M2 6V4a2 2 0 0 1 2-2h2M22 6V4a2 2 0 0 0-2-2h-2M2 18v2a2 2 0 0 0 2 2h2M22 18v2a2 2 0 0 1-2 2h-2" />
+  </svg>
+)
+
 export const HeartIcon = (p: IconProps) => (
   <svg {...base(p)} className={p.className} aria-hidden>
     <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z" />
