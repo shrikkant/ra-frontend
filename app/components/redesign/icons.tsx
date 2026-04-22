@@ -94,6 +94,48 @@ export const ShieldIcon = (p: IconProps) => (
   </svg>
 )
 
+export const ChevronRightIcon = (p: IconProps) => (
+  <svg {...base({...p, strokeWidth: p.strokeWidth ?? 2.4})} className={p.className} aria-hidden>
+    <path d="M9 6l6 6-6 6" />
+  </svg>
+)
+
+export const PinIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <path d="M12 22s7-7.5 7-13a7 7 0 1 0-14 0c0 5.5 7 13 7 13z" />
+    <circle cx="12" cy="9" r="2.5" />
+  </svg>
+)
+
+export const CardIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <rect x="2" y="6" width="20" height="13" rx="2" />
+    <path d="M2 11h20M6 16h4" />
+  </svg>
+)
+
+export const BellIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <path d="M6 9a6 6 0 1 1 12 0c0 5 2 6 2 6H4s2-1 2-6z" />
+    <path d="M10 21a2 2 0 0 0 4 0" />
+  </svg>
+)
+
+export const HelpIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <circle cx="12" cy="12" r="9" />
+    <path d="M9.5 9.5a2.5 2.5 0 1 1 3.5 2.3c-.7.4-1 1-1 2" />
+    <circle cx="12" cy="17" r="0.6" fill="currentColor" />
+  </svg>
+)
+
+export const LogoutIcon = (p: IconProps) => (
+  <svg {...base(p)} className={p.className} aria-hidden>
+    <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+    <path d="M16 17l5-5-5-5M21 12H9" />
+  </svg>
+)
+
 export const IdCardIcon = (p: IconProps) => (
   <svg {...base(p)} className={p.className} aria-hidden>
     <rect x="3" y="5" width="18" height="14" rx="2" />

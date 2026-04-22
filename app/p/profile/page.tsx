@@ -1,12 +1,5 @@
-import React from 'react'
-import MyPageHeader from 'components/MyPageHeader'
-import {LoggedUserCard} from '../../components/user/LoggedUserCard'
+import ProfileScreen from '../../components/redesign/profile/ProfileScreen'
 
 export default function Page() {
-  return (
-    <>
-      <MyPageHeader title={'My Profile'}></MyPageHeader>
-      <LoggedUserCard />
-    </>
-  )
+  return <ProfileScreen />
 }

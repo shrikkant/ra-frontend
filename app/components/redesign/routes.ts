@@ -53,7 +53,7 @@ const CITY_SLUGS = new Set([
 ])
 
 /** Exact-match paths that opt into the redesign chrome. */
-const EXACT_PATHS = new Set(['/'])
+const EXACT_PATHS = new Set(['/', '/p/profile'])
 
 /** Path prefixes that opt into the redesign chrome (any depth). */
 const PREFIX_PATHS: string[] = ['/p/mycart', '/join', '/kyc-verification']
