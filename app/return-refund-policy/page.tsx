@@ -1,14 +1,8 @@
-import React from 'react'
-import PageContainer from '../../components/common/PageContainer'
-import {PageTitle} from '../../components/common/PageTitle'
+import LegalPage from '../components/redesign/LegalPage'
 
-export default async function Page() {
+export default function Page() {
   return (
-    <>
-      <PageTitle title="Return & Refund Policy" />
-      <section className="py-24 relative z-10 text-center">
-        <PageContainer>
-          <div>
+    <LegalPage title="Return & Refund Policy">
             <div className="pt-3">
               <b> 1. Can I return items at the time of delivery?</b>
             </div>
@@ -61,9 +55,6 @@ export default async function Page() {
               If you choose to cancel the order, before the product is shipped
               or picked up by you, you will be entitled to a 100% refund.
             </div>
-          </div>
-        </PageContainer>
-      </section>
-    </>
+    </LegalPage>
   )
 }

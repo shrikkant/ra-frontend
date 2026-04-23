@@ -1,53 +1,50 @@
-import React from 'react'
-import {fetchBlogBySlug, fetchBlogsServer} from '../../../api/blog/blog.api'
+import {fetchBlogBySlug} from '../../../api/blog/blog.api'
 import {sanitizeHtml} from '../../../util/sanitize'
+import MarketingChrome from '../../components/redesign/MarketingChrome'
 
-// Generate on first request, cache for 1 hour
 export const revalidate = 3600
-import PageContainer from '../../../components/common/PageContainer'
-import {ARTICLE_TYPES} from '../../../config/constants'
-import BlogSideBar from '../../../components/blog/BlogSideBar'
 
 interface PageProps {
-  params: Promise<{
-    slug: string
-  }>
+  params: Promise<{slug: string}>
 }
 
-export default async function Blog({params}: PageProps) {
-  const localParams = await params
-  const blogs = await fetchBlogsServer(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
+export async function generateMetadata({params}: PageProps) {
+  const {slug} = await params
+  try {
+    const blog = await fetchBlogBySlug(slug)
+    return {
+      title: `${blog?.title ?? 'Help'} — RentAcross`,
+    }
+  } catch {
+    return {title: 'Help article — RentAcross'}
+  }
+}
 
-  const blog = await fetchBlogBySlug(localParams.slug)
-  return (
-    <>
-      <PageContainer>
-        <div className="flex gap-x-10 justify-center pt-4 ">
-          <div className="basis-1/2">
-            <div key={blog.id} className="post-item-cover">
-              <h4 className="title title-line-left">
-                <a href={`/blog/${blog.slug}`}>{blog.title}</a>
-              </h4>
-              <div className="post-content">
-                <div className="text">
-                  <div
-                    className="content"
-                    dangerouslySetInnerHTML={{__html: sanitizeHtml(blog.content)}}
-                  ></div>
-                </div>
-              </div>
-              <div className="post-footer">
-                <a href={`/blog/${blog.slug}`} className="btn">
-                  <span>more</span>
-                </a>
-              </div>
-            </div>
-          </div>
-          <div className="basis-1/4">
-            <BlogSideBar blogs={blogs} type={ARTICLE_TYPES.HELP_ARTICLE} />
-          </div>
+export default async function HelpArticle({params}: PageProps) {
+  const {slug} = await params
+  const blog = await fetchBlogBySlug(slug)
+
+  if (!blog) {
+    return (
+      <MarketingChrome title="Article not found">
+        <div className="px-4 pt-6 text-[14px] text-ink-muted">
+          We couldn&apos;t find this article.
         </div>
-      </PageContainer>
-    </>
+      </MarketingChrome>
+    )
+  }
+
+  return (
+    <MarketingChrome title="Help">
+      <article className="px-4 pt-3">
+        <h1 className="text-[28px] font-extrabold tracking-tight-lg leading-[1.05] text-ink">
+          {blog.title}
+        </h1>
+        <div
+          className="prose prose-sm mt-4 max-w-none text-ink-secondary leading-relaxed [&_h2]:text-ink [&_h2]:font-extrabold [&_h2]:text-[18px] [&_h2]:mt-6 [&_h3]:font-bold [&_h3]:text-ink [&_h3]:text-[15px] [&_h3]:mt-5 [&_a]:font-bold [&_a]:text-ink [&_ul]:my-3 [&_ol]:my-3 [&_li]:my-1 [&_p]:my-3"
+          dangerouslySetInnerHTML={{__html: sanitizeHtml(blog.content ?? '')}}
+        />
+      </article>
+    </MarketingChrome>
   )
 }

@@ -1,62 +1,100 @@
 import React from 'react'
-import PageContainer from '../../components/common/PageContainer'
-import {PageTitle} from '../../components/common/PageTitle'
+import Image from 'next/image'
+import Link from 'next/link'
+import MarketingChrome from '../components/redesign/MarketingChrome'
 
-export default async function Page() {
+export const metadata = {
+  title: 'About RentAcross — Camera rentals for everyone',
+  description:
+    'Why we built RentAcross — making professional camera, lens and lighting gear accessible to creators, travelers and students.',
+}
+
+export default function Page() {
   return (
-    <>
-      <PageTitle title={'About Us'} />
-      <PageContainer>
-        <div className="font-sans max-w-4xl mx-auto">
-          {/* Who We Are Section */}
-          <div className="max-w-4xl mx-auto px-6 py-10">
-            <h1 className="text-xl font-bold mb-4">Who We Are</h1>
-            <p className="text-lg text-gray-700">
-              At Rentacross, we believe everyone deserves access to the tools
-              they need to tell their story, whether it’s through stunning
-              photography or captivating videos. Our mission is simple: to make
-              high-quality photography gear accessible, affordable, and
-              available to everyone, especially photographers, travelers, and
-              students.
-            </p>
-          </div>
+    <MarketingChrome title="About">
+      <div className="px-4 pt-3">
+        <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
+          About RentAcross
+        </div>
+        <h1 className="text-[34px] font-extrabold tracking-tight-lg leading-[1] text-ink mt-1.5">
+          Pro gear for
+          <br />
+          <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
+            everyone&apos;s story.
+          </span>
+        </h1>
+        <p className="text-[14px] text-ink-secondary mt-3 leading-relaxed">
+          Everyone deserves access to the tools they need to tell their
+          story — through stunning photography or captivating video. Our
+          mission is simple: make high-quality gear accessible, affordable
+          and available to creators of every kind.
+        </p>
+      </div>
 
-          {/* Our Mission Section */}
-          <div className="bg-yellow-200 py-8 rounded-lg">
-            <div className="max-w-4xl mx-auto px-4">
-              <div className="flex flex-col md:flex-row items-center">
-                <div className="md:w-1/3 mb-6 md:mb-0">
-                  <img
-                    alt="Camera in hand"
-                    className="rounded-lg"
-                    src="/assets/v2/img/about-us-image.png"
-                  />
-                </div>
-                <div className="md:w-2/3 md:pl-6">
-                  <h2 className="text-xl font-bold mb-4">Our mission</h2>
-                  <p className="text-lg text-gray-700">
-                    To bridge the gap between creativity and resources,
-                    empowering individuals to capture life’s best moments with
-                    professional-grade gear at affordable prices.
-                  </p>
-                </div>
-              </div>
+      <section className="mt-6 px-4">
+        <div className="bg-ink rounded-[20px] overflow-hidden">
+          <div className="relative aspect-[1.6/1] bg-surface-muted">
+            <Image
+              src="/assets/v2/img/about-us-image.png"
+              alt="A creator with a camera"
+              fill
+              sizes="(max-width: 768px) 100vw, 480px"
+              className="object-cover"
+            />
+          </div>
+          <div className="p-5">
+            <div className="text-[11px] uppercase tracking-kicker font-bold text-accent">
+              Our mission
             </div>
-          </div>
-
-          {/* Our Vision Section */}
-          <div className="max-w-4xl mx-auto px-4 py-10">
-            <h2 className="text-xl font-bold mb-4">Our Vision</h2>
-            <p className="text-lg text-gray-700">
-              To build a vibrant creative community, inspired by the founder’s
-              values of resilience, innovation, and passion for exploration.
-              Rentacross strives to be the go-to platform for photographers and
-              storytellers, helping them turn fleeting moments into lasting
-              memories.
+            <p className="text-[15px] text-surface mt-2 leading-relaxed">
+              Bridge the gap between creativity and resources. Empower
+              individuals to capture life&apos;s best moments with
+              professional-grade gear at affordable prices.
             </p>
           </div>
         </div>
-      </PageContainer>
-    </>
+      </section>
+
+      <section className="mt-6 px-4">
+        <div className="text-[11px] uppercase tracking-kicker font-extrabold text-ink-secondary">
+          Our vision
+        </div>
+        <p className="text-[15px] text-ink-secondary mt-2 leading-relaxed">
+          To build a vibrant creative community — inspired by resilience,
+          innovation, and a love for exploration. RentAcross strives to be
+          the go-to platform for storytellers, helping them turn fleeting
+          moments into lasting memories.
+        </p>
+      </section>
+
+      <section className="mt-6 px-4 grid grid-cols-3 gap-2">
+        {[
+          {value: '1,500+', label: 'rentals fulfilled'},
+          {value: '24h', label: 'avg fulfillment'},
+          {value: '4.9★', label: 'customer rating'},
+        ].map(s => (
+          <div
+            key={s.label}
+            className="rounded-[14px] border border-line-soft bg-surface p-3 text-center"
+          >
+            <div className="font-mono text-[18px] font-extrabold text-ink">
+              {s.value}
+            </div>
+            <div className="text-[10px] uppercase tracking-kicker font-bold text-ink-muted mt-1 leading-tight">
+              {s.label}
+            </div>
+          </div>
+        ))}
+      </section>
+
+      <section className="mt-8 px-4">
+        <Link
+          href="/"
+          className="block w-full text-center bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5 no-underline"
+        >
+          Browse the catalog →
+        </Link>
+      </section>
+    </MarketingChrome>
   )
 }

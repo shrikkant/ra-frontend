@@ -1,44 +1,81 @@
-import React from 'react'
 import Link from 'next/link'
+import {PortableText} from 'next-sanity'
 import {fetchBlogsServer} from '../../api/blog/blog.api'
-
-// Generate on first request, cache for 1 hour
-export const revalidate = 3600
-import BlogCover from '../../components/common/BlogCover'
-import PageContainer from '../../components/common/PageContainer'
 import {ARTICLE_TYPES} from '../../config/constants'
-import BlogSideBar from '../../components/blog/BlogSideBar'
+import {IBlog} from '../../app-store/app-defaults/types'
+import MarketingChrome from '../components/redesign/MarketingChrome'
+import {ChevronRightIcon} from '../components/redesign/icons'
 
-export default async function Help() {
-  const blogs = await fetchBlogsServer(1, 10, ARTICLE_TYPES.HELP_ARTICLE)
+export const revalidate = 3600
+
+export const metadata = {
+  title: 'Help & support — RentAcross',
+  description:
+    'Answers, how-to articles and troubleshooting for renting cameras, lenses and lighting on RentAcross.',
+}
+
+export default async function HelpPage() {
+  const articles = (await fetchBlogsServer(
+    1,
+    20,
+    ARTICLE_TYPES.HELP_ARTICLE,
+  )) as IBlog[] | null | undefined
+  const list = Array.isArray(articles) ? articles : []
 
   return (
-    <>
-      <section className="bg-[#192330] min-h-[100px] py-[30px] pb-[45px] flex items-center text-center relative overflow-hidden">
-        <PageContainer>
-          <h1 className="text-[#ffd910] leading-tight">Blog</h1>
-          <ul className="breadcrambs">
-            <li>
-              <Link href="/">Home</Link>
+    <MarketingChrome title="Help & support">
+      <div className="px-4 pt-3">
+        <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
+          Help center
+        </div>
+        <h1 className="text-[28px] font-extrabold tracking-tight-lg leading-tight text-ink mt-1.5">
+          What can we help with?
+        </h1>
+        <p className="text-[14px] text-ink-secondary mt-2 leading-relaxed">
+          Browse common questions, or message us on WhatsApp at{' '}
+          <a
+            href="https://wa.me/917720829444"
+            target="_blank"
+            rel="noreferrer"
+            className="font-bold text-ink no-underline"
+          >
+            +91 77208 29444
+          </a>
+          .
+        </p>
+      </div>
+
+      {list.length === 0 ? (
+        <div className="px-4 mt-6 text-[13px] text-ink-muted">
+          No help articles yet — please reach out via WhatsApp.
+        </div>
+      ) : (
+        <ul className="mx-4 mt-6 bg-surface rounded-[18px] border border-line-soft divide-y divide-line-soft">
+          {list.map(article => (
+            <li key={article._id}>
+              <Link
+                href={`/help/${article.slug.current}`}
+                className="flex items-start gap-3 px-4 py-3.5 no-underline"
+              >
+                <div className="flex-1 min-w-0">
+                  <div className="text-[14px] font-extrabold text-ink leading-tight line-clamp-2">
+                    {article.title}
+                  </div>
+                  {Array.isArray(article.short_desc) && (
+                    <div className="text-[12px] text-ink-muted mt-1 leading-snug line-clamp-2">
+                      <PortableText value={article.short_desc} />
+                    </div>
+                  )}
+                </div>
+                <ChevronRightIcon
+                  size={16}
+                  className="text-ink-subtle shrink-0 mt-1"
+                />
+              </Link>
             </li>
-            <li>Blog</li>
-          </ul>
-        </PageContainer>
-      </section>
-
-      <section className="py-24 relative z-10 text-center">
-        <PageContainer>
-          <div className="flex gap-x-10 justify-center">
-            <div className="basis-1/2">
-              <BlogCover blogs={blogs} />
-            </div>
-
-            <div className="basis-1/4">
-              <BlogSideBar blogs={blogs} type={ARTICLE_TYPES.HELP_ARTICLE} />
-            </div>
-          </div>
-        </PageContainer>
-      </section>
-    </>
+          ))}
+        </ul>
+      )}
+    </MarketingChrome>
   )
 }

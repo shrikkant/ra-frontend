@@ -1,14 +1,8 @@
-import React from 'react'
+import LegalPage from '../components/redesign/LegalPage'
 
-import PageContainer from '../../components/common/PageContainer'
-import {PageTitle} from '../../components/common/PageTitle'
-
-export default async function Page() {
+export default function Page() {
   return (
-    <>
-      <PageTitle title={'Rental Agreement'} />
-      <section className="py-24 relative z-10">
-        <PageContainer>
+    <LegalPage title="Rental Agreement">
           <div className="mt-5">
             <div>
               <div>
@@ -421,8 +415,6 @@ export default async function Page() {
               </div>
             </div>
           </div>
-        </PageContainer>
-      </section>
-    </>
+    </LegalPage>
   )
 }

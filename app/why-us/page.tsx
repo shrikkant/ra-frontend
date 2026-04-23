@@ -1,72 +1,94 @@
 import React from 'react'
-import PageContainer from '../../components/common/PageContainer'
-import {PageTitle} from '../../components/common/PageTitle'
-import {ReviewsSection} from '../../components/ReviewsSection'
+import Image from 'next/image'
+import Link from 'next/link'
+import MarketingChrome from '../components/redesign/MarketingChrome'
+import {CheckIcon} from '../components/redesign/icons'
 
-export default async function Page() {
+export const metadata = {
+  title: 'Why RentAcross — pro gear, zero deposit, doorstep delivery',
+  description:
+    'Premium photography gear, affordable rates, community-first service. Why creators in Pune choose RentAcross.',
+}
+
+const REASONS = [
+  {
+    title: 'Premium gear for all',
+    body: 'Cameras, lenses, lighting and accessories curated for professionals, hobbyists, and learners.',
+  },
+  {
+    title: 'Affordable rates',
+    body: 'We prioritize accessibility — quality should not come with a high price tag.',
+  },
+  {
+    title: 'Community-oriented',
+    body: 'More than a rental service: a growing network of creators who inspire and support each other.',
+  },
+  {
+    title: 'For the dreamers',
+    body: 'Travelers, students, professionals — whoever you are, whatever you shoot, we are here for it.',
+  },
+]
+
+export default function Page() {
   return (
-    <>
-      <PageTitle title={'Why Us'} />
-      <PageContainer>
-        <div className="flex flex-col font-sans max-w-4xl mx-auto">
-          <div className="max-w-4xl mx-auto px-6 py-10">
-            <h1 className="text-xl font-bold mb-4">Why Choose Us</h1>
-            <p className="text-lg text-gray-700">
-              At Rentacross, we believe everyone deserves access to the tools
-              they need to tell their story, whether it’s through stunning
-              photography or captivating videos. Our mission is simple: to make
-              high-quality photography gear accessible, affordable, and
-              available to everyone, especially photographers, travelers, and
-              students.
-            </p>
-          </div>
-          <b className="max-w-4xl px-6 py-8 text-xl font-bold text-gray-700">
-            Here’s why creators, adventurers, and learners choose us{' '}
-          </b>
-          <div className="max-w-4xl mx-auto px-4">
-            <div className="flex flex-col md:flex-row items-center">
-              <div className="md:w-2/3 md:pl-6 mb-4 md:mb-0">
-                <ul className="pr-2">
-                  <li>
-                    <strong>Premium Gear for All:</strong> Cameras, lenses,
-                    lighting, and more curated for professionals, hobbyists, and
-                    learners.
-                  </li>
-                  <li>
-                    <strong>Affordable Rates:</strong> We prioritize
-                    accessibility, ensuring quality doesn’t come with a high
-                    price tag.
-                  </li>
-                  <li>
-                    <strong>Community-Oriented:</strong> Rentacross is more than
-                    a rental service; we’re a growing network of creators who
-                    inspire and support each other.
-                  </li>
-                  <li>
-                    <strong>For the Dreamers:</strong> Whether you’re a traveler
-                    documenting adventures, a student exploring photography, or
-                    a professional refining your craft, we’re here for you.
-                  </li>
-                </ul>
+    <MarketingChrome title="Why us">
+      <div className="px-4 pt-3">
+        <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
+          Why creators choose us
+        </div>
+        <h1 className="text-[34px] font-extrabold tracking-tight-lg leading-[1] text-ink mt-1.5">
+          Built for the
+          <br />
+          <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
+            way you shoot.
+          </span>
+        </h1>
+      </div>
+
+      <section className="mt-5 px-4">
+        <div className="relative w-full aspect-[1.6/1] rounded-[20px] overflow-hidden bg-surface-muted">
+          <Image
+            src="/assets/v2/img/why-us-image.png"
+            alt="Creators sharing camera equipment"
+            fill
+            sizes="(max-width: 768px) 100vw, 480px"
+            className="object-cover"
+          />
+        </div>
+      </section>
+
+      <ul className="mt-6 px-4 space-y-3">
+        {REASONS.map(r => (
+          <li
+            key={r.title}
+            className="flex items-start gap-3 bg-surface border border-line-soft rounded-[14px] p-4"
+          >
+            <span
+              aria-hidden
+              className="w-7 h-7 rounded-full bg-accent text-ink flex items-center justify-center shrink-0"
+            >
+              <CheckIcon size={16} strokeWidth={3} />
+            </span>
+            <div>
+              <div className="text-[14px] font-extrabold text-ink">
+                {r.title}
               </div>
-              <div className="md:w-1/3 mb-6 md:mb-0">
-                <img
-                  src="/assets/v2/img/why-us-image.png" // Update the image path accordingly
-                  alt="People sharing camera equipment"
-                />
+              <div className="text-[13px] text-ink-secondary mt-0.5 leading-relaxed">
+                {r.body}
               </div>
             </div>
-          </div>
-        </div>
+          </li>
+        ))}
+      </ul>
 
-        {/* Customer Reviews Section */}
-        <ReviewsSection
-          title="What Our Customers Say About Us"
-          subtitle="Real experiences from photographers, travelers, and creators who trust us"
-          variant="compact"
-          maxReviews={3}
-        />
-      </PageContainer>
-    </>
+      <section className="mt-8 px-4">
+        <Link
+          href="/"
+          className="block w-full text-center bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5 no-underline"
+        >
+          Start renting →
+        </Link>
+      </section>
+    </MarketingChrome>
   )
 }

@@ -5,8 +5,8 @@ import {JsonLd} from '../../../components/seo/JsonLd'
 import {notFound} from 'next/navigation'
 import {Metadata} from 'next'
 import BlogPostContent from '../../../components/blog/BlogPostContent'
-import BlogPostSidebar from '../../../components/blog/BlogPostSidebar'
 import RelatedPosts from '../../../components/blog/RelatedPosts'
+import MarketingChrome from '../../components/redesign/MarketingChrome'
 import imageUrlBuilder from '@sanity/image-url'
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
 
@@ -152,30 +152,16 @@ export default async function BlogPostPage({params}: PageProps) {
   return (
     <>
       <JsonLd data={articleStructuredData} />
-
-      <div className="min-h-screen bg-gray-50">
-        <article className="max-w-7xl mx-auto">
-          {/* Main Content */}
-          <div className="lg:grid lg:grid-cols-4 lg:gap-12">
-            {/* Article Content */}
-            <main className="lg:col-span-3">
-              <BlogPostContent post={post} />
-            </main>
-
-            {/* Sidebar */}
-            <aside className="lg:col-span-1">
-              <BlogPostSidebar />
-            </aside>
-          </div>
-
-          {/* Related Posts */}
+      <MarketingChrome title="Blog">
+        <article>
+          <BlogPostContent post={post} />
           {relatedPosts && relatedPosts.length > 0 && (
-            <div className="px-4 sm:px-6 lg:px-8 pb-16">
+            <div className="px-4 pb-4">
               <RelatedPosts posts={relatedPosts} />
             </div>
           )}
         </article>
-      </div>
+      </MarketingChrome>
     </>
   )
 }

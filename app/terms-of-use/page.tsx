@@ -1,15 +1,9 @@
 /* eslint-disable react/no-unescaped-entities */
-import React from 'react'
+import LegalPage from '../components/redesign/LegalPage'
 
-import PageContainer from '../../components/common/PageContainer'
-import {PageTitle} from '../../components/common/PageTitle'
-
-export default async function Page() {
+export default function Page() {
   return (
-    <>
-      <PageTitle title={'Terms of Use'} />
-      <section className="py-24 relative z-10 text-center">
-        <PageContainer>
+    <LegalPage title="Terms of Use">
           {/* <div className="post-title">
           <h2>Terms of Use</h2>
         </div> */}
@@ -193,8 +187,6 @@ export default async function Page() {
               </ul>
             </div>
           </div>
-        </PageContainer>
-      </section>
-    </>
+    </LegalPage>
   )
 }

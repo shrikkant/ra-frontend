@@ -1,14 +1,9 @@
-import React from 'react'
 import Link from 'next/link'
-import PageContainer from 'components/common/PageContainer'
-import {PageTitle} from 'components/common/PageTitle'
+import LegalPage from '../components/redesign/LegalPage'
 
 export default function Page() {
   return (
-    <>
-      <PageTitle title="Privacy Policy" />
-      <section className="py-24 relative z-10 text-center">
-        <PageContainer>
+    <LegalPage title="Privacy Policy">
           <div className="post-body">
             <p>
               We value the trust you place in us. That&apos;s why we insist upon
@@ -348,8 +343,6 @@ export default function Page() {
             <p>In case of any questions or concerns please contact us here:</p>
             <p>Email: support@rentacross.com Time: Mon - Sat (10:00 - 18:00)</p>
           </div>
-        </PageContainer>
-      </section>
-    </>
+    </LegalPage>
   )
 }

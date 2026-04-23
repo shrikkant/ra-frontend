@@ -1,13 +1,8 @@
-import React from 'react'
-import PageContainer from '../../components/common/PageContainer'
-import {PageTitle} from '../../components/common/PageTitle'
+import LegalPage from '../components/redesign/LegalPage'
 
-export default async function Page() {
+export default function Page() {
   return (
-    <>
-      <PageTitle title={'Legal Terms'} />
-      <section className="py-24 relative z-10 text-center">
-        <PageContainer>
+    <LegalPage title="Legal Terms">
           <div className="post-body">
             <p>
               By signing on the “I agree” space,the Lessee agrees to be bound by
@@ -316,8 +311,6 @@ export default async function Page() {
               be made in writing and agreed to by both parties.
             </p>
           </div>
-        </PageContainer>
-      </section>
-    </>
+    </LegalPage>
   )
 }
