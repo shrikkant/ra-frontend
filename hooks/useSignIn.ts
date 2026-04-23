@@ -98,13 +98,21 @@ export const useSignIn = (onClose: () => void) => {
     actions.setIsLoading(true)
     try {
       const response: any = await generateLoginOTP(state.phone, false)
-      if (response.success) {
+      if (response?.success) {
         actions.setOtpSent(true)
         actions.setOtpExpiry(response.expiryTimeInSeconds)
         trackGAEvent(GA_EVENTS.FORM_SUBMIT, {phone: state.phone})
+      } else {
+        actions.setErrors({
+          phone:
+            'We couldn\'t send a code to that number. Check it and try again.',
+        })
       }
     } catch (error) {
       console.error('Error sending OTP:', error)
+      actions.setErrors({
+        phone: 'Something went wrong sending the code. Try again in a moment.',
+      })
     } finally {
       actions.setIsLoading(false)
     }

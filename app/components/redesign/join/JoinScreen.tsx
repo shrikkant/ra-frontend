@@ -48,6 +48,7 @@ export default function JoinScreen() {
         {!state.otpSent ? (
           <PhoneStep
             phone={state.phone}
+            error={state.errors.phone}
             onChange={handlers.handlePhoneChange}
             onSend={handlers.sendOTP}
             valid={validators.isPhoneValid()}
@@ -73,6 +74,7 @@ export default function JoinScreen() {
 
 function PhoneStep({
   phone,
+  error,
   onChange,
   onSend,
   valid,
@@ -80,6 +82,7 @@ function PhoneStep({
   onGoogle,
 }: {
   phone: string
+  error?: string
   onChange: (phone: string) => void
   onSend: () => void
   valid: boolean
@@ -143,6 +146,11 @@ function PhoneStep({
             </div>
           )}
         </div>
+        {error && (
+          <div role="alert" className="mt-2 text-[12px] text-danger">
+            {error}
+          </div>
+        )}
       </div>
 
       <button
