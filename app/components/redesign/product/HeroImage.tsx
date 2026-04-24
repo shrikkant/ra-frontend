@@ -18,7 +18,7 @@ export default function HeroImage({product}: HeroImageProps) {
   const img = productImage(product, 800)
   return (
     <div
-      className="relative h-[340px] w-full overflow-hidden"
+      className="relative h-[340px] md:h-[480px] lg:h-[560px] w-full overflow-hidden"
       style={{
         background: 'linear-gradient(180deg, #FAFAF7 0%, #F3F1EA 100%)',
       }}

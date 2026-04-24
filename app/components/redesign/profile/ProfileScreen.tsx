@@ -73,18 +73,22 @@ export default function ProfileScreen() {
 
   return (
     <MobileChrome bottomPad="tabBar">
-      <div className="px-4">
-        <ProfileCard
-          initial={initial}
-          name={fullName}
-          phoneDisplay={phoneDisplay}
-          kycVerified={kycVerified}
-          rentalCount={orders.length}
-        />
-      </div>
+      <div className="lg:grid lg:grid-cols-[320px_1fr] lg:gap-8 lg:pt-6">
+        <div>
+          <div className="px-4 lg:px-0 lg:sticky lg:top-24">
+            <ProfileCard
+              initial={initial}
+              name={fullName}
+              phoneDisplay={phoneDisplay}
+              kycVerified={kycVerified}
+              rentalCount={orders.length}
+            />
+          </div>
+        </div>
 
+        <div className="lg:max-w-2xl">
       {loadingOrders ? (
-        <div className="px-4 mt-4">
+        <div className="px-4 lg:px-0 mt-4 lg:mt-0">
           <div className="h-28 rounded-[18px] bg-surface-muted animate-pulse" />
         </div>
       ) : (
@@ -94,7 +98,7 @@ export default function ProfileScreen() {
       {past.length > 0 && (
         <>
           <SectionTitle>Past orders</SectionTitle>
-          <ul className="bg-surface mx-4 rounded-[18px] border border-line-soft divide-y divide-line-soft">
+          <ul className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
             {past.map(o => (
               <li key={o.id}>
                 <PastOrderRow order={o} />
@@ -105,7 +109,7 @@ export default function ProfileScreen() {
       )}
 
       <SectionTitle>Settings</SectionTitle>
-      <div className="bg-surface mx-4 rounded-[18px] border border-line-soft divide-y divide-line-soft">
+      <div className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
         <SettingsRow
           Icon={PinIcon}
           label="Addresses"
@@ -128,6 +132,8 @@ export default function ProfileScreen() {
           onClick={onLogout}
           tone="danger"
         />
+      </div>
+        </div>
       </div>
 
       <div className="text-center font-mono text-[11px] text-ink-subtle mt-6 mb-2">
@@ -195,7 +201,7 @@ function ActiveRentalCard({order}: {order: IOrder}) {
   return (
     <>
       <SectionTitle>Active rental</SectionTitle>
-      <div className="mx-4 bg-surface rounded-[18px] border border-line-soft p-4">
+      <div className="mx-4 lg:mx-0 bg-surface rounded-[18px] border border-line-soft p-4">
         <div className="flex items-center gap-3">
           <div className="relative w-16 h-16 rounded-[12px] bg-surface-muted shrink-0 overflow-hidden">
             {img && (
@@ -336,7 +342,7 @@ function SettingsRow({
 
 function SectionTitle({children}: {children: React.ReactNode}) {
   return (
-    <div className="px-4 pt-6 pb-3 text-[13px] uppercase tracking-kicker font-extrabold text-ink-secondary">
+    <div className="px-4 lg:px-0 pt-6 pb-3 text-[13px] uppercase tracking-kicker font-extrabold text-ink-secondary">
       {children}
     </div>
   )

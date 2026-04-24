@@ -45,16 +45,16 @@ export default function SearchHeader({
   }
 
   return (
-    <div className="px-4 pt-1.5 pb-2 flex items-center gap-2.5">
+    <div className="px-4 md:px-0 pt-1.5 md:pt-6 pb-2 flex items-center gap-2.5">
       <button
         type="button"
         aria-label="Go back"
         onClick={() => router.back()}
-        className="w-10 h-10 rounded-full bg-surface border border-line flex items-center justify-center text-ink shrink-0"
+        className="md:hidden w-10 h-10 rounded-full bg-surface border border-line flex items-center justify-center text-ink shrink-0"
       >
         <ArrowLeftIcon size={20} />
       </button>
-      <div className="flex-1 flex items-center gap-2.5 bg-surface border border-line rounded-[18px] h-12 pl-3.5 pr-3">
+      <div className="flex-1 flex items-center gap-2.5 bg-surface border border-line rounded-[18px] h-12 md:h-14 pl-3.5 pr-3">
         <SearchIcon size={20} className="text-ink-secondary shrink-0" />
         <input
           ref={inputRef}

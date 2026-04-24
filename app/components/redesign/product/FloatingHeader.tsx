@@ -15,7 +15,7 @@ export default function FloatingHeader() {
 
   return (
     <div
-      className="fixed top-0 left-1/2 -translate-x-1/2 z-30 w-full max-w-md px-4 pt-notch pb-3 flex items-center justify-between"
+      className="md:hidden fixed top-0 left-1/2 -translate-x-1/2 z-30 w-full max-w-md px-4 pt-notch pb-3 flex items-center justify-between"
       style={{backdropFilter: 'blur(12px)'}}
     >
       <IconButton

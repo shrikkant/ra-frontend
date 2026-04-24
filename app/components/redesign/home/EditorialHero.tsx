@@ -16,32 +16,53 @@ export default function EditorialHero() {
   const tier = useMemo(() => tierForDays(days), [days])
 
   return (
-    <section className="px-4 pt-4">
-      <div className="inline-flex items-center gap-1.5 text-[12px] bg-surface border border-line rounded-full px-2.5 py-1.5">
-        <StarIcon size={13} className="text-accent" />
-        <span className="font-bold text-ink">4.9</span>
-        <span className="text-ink-secondary">· 1,500+ rentals · Pune</span>
+    <section className="px-4 md:px-0 pt-4 md:pt-10 lg:grid lg:grid-cols-2 lg:gap-12 lg:items-center">
+      <div>
+        <div className="inline-flex items-center gap-1.5 text-[12px] bg-surface border border-line rounded-full px-2.5 py-1.5">
+          <StarIcon size={13} className="text-accent" />
+          <span className="font-bold text-ink">4.9</span>
+          <span className="text-ink-secondary">· 1,500+ rentals · Pune</span>
+        </div>
+
+        <h1 className="text-[40px] md:text-[56px] lg:text-[72px] font-extrabold tracking-tight-2xl leading-[0.98] text-ink mt-1.5">
+          Pro gear,
+          <br />
+          <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
+            zero commitment.
+          </span>
+        </h1>
+
+        <p className="text-[14px] md:text-[16px] lg:text-[18px] text-ink-secondary mt-2 lg:mt-4 mx-0.5 leading-relaxed lg:max-w-md">
+          Cameras, lenses and lights delivered to your door. From ₹450/day, no
+          deposit.
+        </p>
+
+        <DateTape
+          start={start}
+          end={end}
+          days={days}
+          tier={tier}
+        />
       </div>
 
-      <h1 className="text-[40px] font-extrabold tracking-tight-2xl leading-[0.98] text-ink mt-1.5">
-        Pro gear,
-        <br />
-        <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
-          zero commitment.
-        </span>
-      </h1>
-
-      <p className="text-[14px] text-ink-secondary mt-2 mx-0.5 leading-relaxed">
-        Cameras, lenses and lights delivered to your door. From ₹450/day, no
-        deposit.
-      </p>
-
-      <DateTape
-        start={start}
-        end={end}
-        days={days}
-        tier={tier}
-      />
+      <div
+        aria-hidden
+        className="hidden lg:block relative aspect-square rounded-[28px] overflow-hidden bg-gradient-to-br from-surface-muted to-bg"
+      >
+        <div
+          className="absolute inset-0"
+          style={{
+            background:
+              'radial-gradient(60% 50% at 60% 50%, rgba(245,197,24,0.28), transparent 70%)',
+          }}
+        />
+        <img
+          src="/assets/v2/img/canon-r10-mirrorless-camera.webp"
+          alt=""
+          className="absolute inset-0 w-full h-full object-contain p-12"
+          style={{filter: 'drop-shadow(0 30px 30px rgba(0,0,0,0.2))'}}
+        />
+      </div>
     </section>
   )
 }

@@ -19,7 +19,7 @@ export default function RentalCard({onEdit}: RentalCardProps) {
   const tier = useMemo(() => tierForDays(days), [days])
 
   return (
-    <div className="px-4 mt-4">
+    <div className="px-4 lg:px-0 mt-4">
       <button
         type="button"
         onClick={onEdit}

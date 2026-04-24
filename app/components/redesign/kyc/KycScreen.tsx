@@ -78,11 +78,13 @@ export default function KycScreen() {
       Math.round((Date.now() - startTsRef.current) / 1000),
     )
     return (
-      <MobileChrome hideTabBar bottomPad="none">
-        <div className="px-4 pt-1.5">
-          <BackTo router={router} />
+      <MobileChrome hideTabBar bottomPad="none" width="narrow">
+        <div className="md:mt-12 md:bg-surface md:border md:border-line-soft md:rounded-[20px] md:p-6 md:shadow-card-hover">
+          <div className="px-4 md:px-0 pt-1.5">
+            <BackTo router={router} />
+          </div>
+          <CompletionPanel seconds={seconds} onStart={() => router.push('/')} />
         </div>
-        <CompletionPanel seconds={seconds} onStart={() => router.push('/')} />
       </MobileChrome>
     )
   }
@@ -90,8 +92,9 @@ export default function KycScreen() {
   const step = STEPS[activeIdx]
 
   return (
-    <MobileChrome hideTabBar bottomPad="none">
-      <div className="px-4 pt-1.5">
+    <MobileChrome hideTabBar bottomPad="none" width="narrow">
+      <div className="md:mt-12 md:bg-surface md:border md:border-line-soft md:rounded-[20px] md:p-6 md:shadow-card-hover">
+      <div className="px-4 md:px-0 pt-1.5">
         <BackTo router={router} onBack={() => {
           if (activeIdx === 0) router.push('/')
           else setActiveIdx(i => Math.max(0, i - 1))
@@ -99,7 +102,7 @@ export default function KycScreen() {
         <ProgressBar current={activeIdx} done={doneSet} />
       </div>
 
-      <div className="px-4 pt-5">
+      <div className="px-4 md:px-0 pt-5">
         <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
           Step {step.number} of {STEPS.length} · Verify KYC
         </div>
@@ -118,6 +121,7 @@ export default function KycScreen() {
         />
 
         <TrustNote />
+      </div>
       </div>
     </MobileChrome>
   )

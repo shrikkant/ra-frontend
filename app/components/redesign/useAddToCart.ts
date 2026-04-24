@@ -24,8 +24,13 @@ interface AddArgs {
 
 const cartTabRect = (): DOMRect | null => {
   if (typeof document === 'undefined') return null
-  const tab = document.querySelector('#ra-tab-bar [data-tab="cart"]')
-  return tab ? (tab as HTMLElement).getBoundingClientRect() : null
+  // Prefer the visible target — desktop nav is rendered at md+, mobile
+  // tab bar at smaller widths. Both expose `data-cart-target`.
+  const targets = Array.from(
+    document.querySelectorAll<HTMLElement>('[data-cart-target]'),
+  )
+  const visible = targets.find(el => el.offsetParent !== null) ?? targets[0]
+  return visible ? visible.getBoundingClientRect() : null
 }
 
 export interface FlyClone {

@@ -35,30 +35,30 @@ export default function BundleCard({
   products = DEFAULT_PRODUCTS,
 }: BundleCardProps) {
   return (
-    <div className="px-4">
+    <div className="px-4 md:px-0">
       <Link
         href={href}
-        className="relative h-[150px] rounded-4xl overflow-hidden flex items-stretch bg-gradient-to-br from-ink to-[#1a1a18] shadow-card-hover no-underline"
+        className="relative h-[150px] md:h-[200px] rounded-4xl overflow-hidden flex items-stretch bg-gradient-to-br from-ink to-[#1a1a18] shadow-card-hover no-underline"
       >
-        <div className="px-4.5 pt-4.5 pb-4 flex-1 min-w-0">
-          <div className="text-[11px] uppercase tracking-kicker font-bold text-accent">
+        <div className="px-4.5 md:px-8 pt-4.5 md:pt-8 pb-4 md:pb-7 flex-1 min-w-0">
+          <div className="text-[11px] md:text-[12px] uppercase tracking-kicker font-bold text-accent">
             {kicker}
           </div>
-          <div className="text-[18px] font-extrabold text-surface mt-1 leading-tight line-clamp-2">
+          <div className="text-[18px] md:text-[24px] lg:text-[28px] font-extrabold text-surface mt-1 leading-tight line-clamp-2">
             {title}
           </div>
-          <div className="text-[12px] text-white/70 mt-1.5">{savingsLabel}</div>
-          <div className="mt-3.5 flex items-baseline gap-2">
-            <span className="font-mono text-[22px] font-extrabold text-surface">
+          <div className="text-[12px] md:text-[14px] text-white/70 mt-1.5">{savingsLabel}</div>
+          <div className="mt-3.5 md:mt-5 flex items-baseline gap-2">
+            <span className="font-mono text-[22px] md:text-[28px] font-extrabold text-surface">
               ₹{bundlePrice.toLocaleString('en-IN')}
             </span>
-            <span className="text-[12px] text-white/50 line-through">
+            <span className="text-[12px] md:text-[14px] text-white/50 line-through">
               ₹{retailPrice.toLocaleString('en-IN')}
             </span>
-            <span className="text-[11px] text-white/50">/ day</span>
+            <span className="text-[11px] md:text-[12px] text-white/50">/ day</span>
           </div>
         </div>
-        <div className="relative w-[160px] shrink-0 flex items-center justify-center">
+        <div className="relative w-[160px] md:w-[280px] shrink-0 flex items-center justify-center">
           {products.slice(0, 2).map((p, i) => (
             <div
               key={i}

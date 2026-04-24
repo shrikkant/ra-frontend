@@ -32,32 +32,34 @@ const REASONS = [
 export default function Page() {
   return (
     <MarketingChrome title="Why us">
-      <div className="px-4 pt-3">
-        <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
-          Why creators choose us
+      <div className="md:grid md:grid-cols-2 md:gap-10 md:items-end md:pt-10">
+        <div className="px-4 md:px-0 pt-3 md:pt-0">
+          <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
+            Why creators choose us
+          </div>
+          <h1 className="text-[34px] md:text-[56px] lg:text-[64px] font-extrabold tracking-tight-lg lg:tracking-tight-2xl leading-[1] text-ink mt-1.5">
+            Built for the
+            <br />
+            <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
+              way you shoot.
+            </span>
+          </h1>
         </div>
-        <h1 className="text-[34px] font-extrabold tracking-tight-lg leading-[1] text-ink mt-1.5">
-          Built for the
-          <br />
-          <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
-            way you shoot.
-          </span>
-        </h1>
+
+        <section className="mt-5 md:mt-0 px-4 md:px-0">
+          <div className="relative w-full aspect-[1.6/1] rounded-[20px] overflow-hidden bg-surface-muted">
+            <Image
+              src="/assets/v2/img/why-us-image.png"
+              alt="Creators sharing camera equipment"
+              fill
+              sizes="(max-width: 768px) 100vw, 480px"
+              className="object-cover"
+            />
+          </div>
+        </section>
       </div>
 
-      <section className="mt-5 px-4">
-        <div className="relative w-full aspect-[1.6/1] rounded-[20px] overflow-hidden bg-surface-muted">
-          <Image
-            src="/assets/v2/img/why-us-image.png"
-            alt="Creators sharing camera equipment"
-            fill
-            sizes="(max-width: 768px) 100vw, 480px"
-            className="object-cover"
-          />
-        </div>
-      </section>
-
-      <ul className="mt-6 px-4 space-y-3">
+      <ul className="mt-6 md:mt-10 px-4 md:px-0 space-y-3 md:grid md:grid-cols-2 md:gap-3 md:space-y-0">
         {REASONS.map(r => (
           <li
             key={r.title}
@@ -81,7 +83,7 @@ export default function Page() {
         ))}
       </ul>
 
-      <section className="mt-8 px-4">
+      <section className="mt-8 md:mt-12 px-4 md:px-0 md:max-w-md">
         <Link
           href="/"
           className="block w-full text-center bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5 no-underline"

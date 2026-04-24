@@ -36,12 +36,12 @@ export default async function HelpArticle({params}: PageProps) {
 
   return (
     <MarketingChrome title="Help">
-      <article className="px-4 pt-3">
-        <h1 className="text-[28px] font-extrabold tracking-tight-lg leading-[1.05] text-ink">
+      <article className="px-4 md:px-0 pt-3 md:pt-10 mx-auto max-w-prose lg:max-w-3xl">
+        <h1 className="text-[28px] md:text-[40px] font-extrabold tracking-tight-lg md:tracking-tight-2xl leading-[1.05] text-ink">
           {blog.title}
         </h1>
         <div
-          className="prose prose-sm mt-4 max-w-none text-ink-secondary leading-relaxed [&_h2]:text-ink [&_h2]:font-extrabold [&_h2]:text-[18px] [&_h2]:mt-6 [&_h3]:font-bold [&_h3]:text-ink [&_h3]:text-[15px] [&_h3]:mt-5 [&_a]:font-bold [&_a]:text-ink [&_ul]:my-3 [&_ol]:my-3 [&_li]:my-1 [&_p]:my-3"
+          className="prose prose-sm md:prose-base mt-4 md:mt-6 max-w-none text-ink-secondary leading-relaxed [&_h2]:text-ink [&_h2]:font-extrabold [&_h2]:text-[18px] md:[&_h2]:text-[22px] [&_h2]:mt-6 [&_h3]:font-bold [&_h3]:text-ink [&_h3]:text-[15px] md:[&_h3]:text-[18px] [&_h3]:mt-5 [&_a]:font-bold [&_a]:text-ink [&_ul]:my-3 [&_ol]:my-3 [&_li]:my-1 [&_p]:my-3"
           dangerouslySetInnerHTML={{__html: sanitizeHtml(blog.content ?? '')}}
         />
       </article>

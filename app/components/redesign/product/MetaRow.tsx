@@ -37,7 +37,7 @@ export default function MetaRow({product}: {product: IProduct}) {
   const lowStock = stock !== null && stock <= 2
 
   return (
-    <div className="px-4 pt-5">
+    <div className="px-4 lg:px-0 pt-5 lg:pt-0">
       <div className="flex items-center gap-2 text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
         {brand && <span>{brand}</span>}
         {brand && kind && <span aria-hidden>·</span>}
@@ -48,7 +48,7 @@ export default function MetaRow({product}: {product: IProduct}) {
           </span>
         )}
       </div>
-      <h1 className="text-[28px] font-extrabold tracking-tight-lg text-ink leading-[1.05] mt-1.5">
+      <h1 className="text-[28px] lg:text-[36px] font-extrabold tracking-tight-lg text-ink leading-[1.05] mt-1.5">
         {name || product.title}
       </h1>
       <div className="mt-2.5 flex items-center gap-3 text-[13px]">

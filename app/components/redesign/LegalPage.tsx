@@ -23,8 +23,8 @@ export default function LegalPage({
 }: LegalPageProps) {
   return (
     <MarketingChrome title={title}>
-      <div className="px-4 pt-3">
-        <h1 className="text-[28px] font-extrabold tracking-tight-lg leading-[1.05] text-ink">
+      <div className="px-4 pt-3 md:pt-8 mx-auto max-w-prose lg:max-w-3xl">
+        <h1 className="text-[28px] md:text-[40px] font-extrabold tracking-tight-lg md:tracking-tight-2xl leading-[1.05] text-ink">
           {title}
         </h1>
         {lastUpdated && (
@@ -36,7 +36,7 @@ export default function LegalPage({
 
       <article
         className={[
-          'px-4 pt-5 pb-2 text-[14px] text-ink-secondary leading-relaxed',
+          'px-4 pt-5 pb-2 mx-auto max-w-prose lg:max-w-3xl text-[14px] md:text-[15px] text-ink-secondary leading-relaxed',
           '[&_h1]:text-[20px] [&_h1]:font-extrabold [&_h1]:text-ink [&_h1]:mt-6',
           '[&_h2]:text-[18px] [&_h2]:font-extrabold [&_h2]:text-ink [&_h2]:mt-6',
           '[&_h3]:text-[15px] [&_h3]:font-bold [&_h3]:text-ink [&_h3]:mt-5',

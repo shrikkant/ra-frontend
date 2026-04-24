@@ -7,18 +7,30 @@ interface SheetProps {
   open: boolean
   onClose: () => void
   children: React.ReactNode
-  /** Approximate height (CSS value). Defaults to auto with max-height 85vh. */
+  /** Approximate max height. Used for both bottom sheet (mobile) and modal (md+). */
   maxHeight?: string
-  /** Optional aria label for the sheet panel. */
+  /** Optional aria label for the panel. */
   label?: string
+  /** Max width when rendered as a desktop modal. Default `md`. */
+  desktopWidth?: 'md' | 'lg'
 }
 
+const DESKTOP_WIDTH: Record<NonNullable<SheetProps['desktopWidth']>, string> = {
+  md: 'md:max-w-md',
+  lg: 'md:max-w-lg',
+}
+
+/**
+ * Bottom sheet on mobile; center modal on md+. Uses the same element so
+ * focus/Escape/body-scroll-lock work identically across breakpoints.
+ */
 export default function Sheet({
   open,
   onClose,
   children,
   maxHeight = '85vh',
   label,
+  desktopWidth = 'md',
 }: SheetProps) {
   useEffect(() => {
     if (!open) return
@@ -41,7 +53,7 @@ export default function Sheet({
       role="dialog"
       aria-modal="true"
       aria-label={label}
-      className="fixed inset-0 z-50 flex flex-col justify-end"
+      className="fixed inset-0 z-50 flex flex-col justify-end md:items-center md:justify-center md:p-6"
     >
       <button
         type="button"
@@ -50,10 +62,16 @@ export default function Sheet({
         className="absolute inset-0 bg-black/40 animate-fade-in"
       />
       <div
-        className="relative bg-surface rounded-t-sheet animate-slide-up flex flex-col"
+        className={[
+          'relative bg-surface flex flex-col',
+          // mobile: full-width bottom sheet, top corners rounded, slide up
+          'rounded-t-sheet animate-slide-up',
+          // desktop: floating modal, fully rounded, fade in
+          `md:w-full ${DESKTOP_WIDTH[desktopWidth]} md:rounded-2xl md:animate-fade-in md:shadow-card-hover`,
+        ].join(' ')}
         style={{maxHeight}}
       >
-        <div className="flex justify-center pt-2 pb-1 shrink-0">
+        <div className="md:hidden flex justify-center pt-2 pb-1 shrink-0">
           <span
             aria-hidden
             className="block w-9 h-1 rounded-full bg-ink-subtle"

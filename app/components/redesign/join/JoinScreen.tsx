@@ -33,7 +33,8 @@ export default function JoinScreen() {
   const {state, handlers, validators} = useSignIn(redirectAfterAuth)
 
   return (
-    <MobileChrome hideTabBar bottomPad="none">
+    <MobileChrome hideTabBar bottomPad="none" width="narrow">
+      <div className="md:mt-12 md:bg-surface md:border md:border-line-soft md:rounded-[20px] md:p-6 md:shadow-card-hover">
       <Stepper
         step={state.otpSent ? 2 : 1}
         total={2}
@@ -44,7 +45,7 @@ export default function JoinScreen() {
         }}
       />
 
-      <div className="px-4 pt-5">
+      <div className="px-4 md:px-0 pt-5">
         {!state.otpSent ? (
           <PhoneStep
             phone={state.phone}
@@ -65,6 +66,7 @@ export default function JoinScreen() {
             loading={state.isLoading}
           />
         )}
+      </div>
       </div>
     </MobileChrome>
   )

@@ -136,6 +136,7 @@ export default function CartCheckoutScreen() {
 
   return (
     <MobileChrome hideTabBar bottomPad="none">
+      <div className="lg:max-w-2xl lg:mx-auto">
       <Stepper
         step={step}
         title={TITLES[step]}
@@ -177,6 +178,7 @@ export default function CartCheckoutScreen() {
       {step === 5 && finalOrderId !== null && (
         <DoneStep orderId={finalOrderId} />
       )}
+      </div>
 
       <DatePickerSheet
         open={datesOpen}

@@ -77,8 +77,8 @@ export default function ProductTile({product, featured = false}: ProductTileProp
     <Link
       ref={tileRef}
       href={url}
-      className={`relative block rounded-[20px] overflow-hidden bg-surface border border-line-soft ${
-        featured ? 'col-span-2 aspect-[2/1.15]' : 'aspect-[1/1.25]'
+      className={`relative block rounded-[20px] overflow-hidden bg-surface border border-line-soft transition-shadow hover:shadow-card-hover ${
+        featured ? 'col-span-2 md:col-span-1 aspect-[2/1.15] md:aspect-[1/1.25]' : 'aspect-[1/1.25]'
       }`}
     >
       <div
@@ -100,7 +100,7 @@ export default function ProductTile({product, featured = false}: ProductTileProp
           src={img}
           alt={product.title}
           fill
-          sizes={featured ? '(max-width: 768px) 100vw, 400px' : '50vw'}
+          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
           className={`object-contain ${featured ? 'p-6' : 'p-4.5'}`}
           style={{filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.12))'}}
         />

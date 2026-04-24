@@ -39,7 +39,7 @@ export default function TabBar() {
     <nav
       id="ra-tab-bar"
       aria-label="Primary"
-      className="fixed bottom-0 inset-x-0 z-40 pointer-events-none"
+      className="md:hidden fixed bottom-0 inset-x-0 z-40 pointer-events-none"
     >
       <div className="mx-auto max-w-md px-4 pb-4">
         <div className="pointer-events-auto flex items-center justify-between bg-ink text-surface rounded-full shadow-tab-bar px-4 py-3">
@@ -57,6 +57,7 @@ export default function TabBar() {
                     : 'text-surface/70 hover:text-surface'
                 }`}
                 data-tab={label.toLowerCase()}
+                {...(label === 'Cart' ? {'data-cart-target': 'mobile'} : {})}
               >
                 <Icon size={22} />
                 <span className="text-[10px] font-bold tracking-[1.2px] uppercase">

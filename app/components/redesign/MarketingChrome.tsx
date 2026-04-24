@@ -26,7 +26,8 @@ export default function MarketingChrome({
   const router = useRouter()
   return (
     <MobileChrome bottomPad="tabBar">
-      <div className="px-4 pt-1.5 pb-2 flex items-center gap-2.5">
+      {/* Mobile-only: back-arrow + title bar. Desktop nav already provides nav. */}
+      <div className="md:hidden px-4 pt-1.5 pb-2 flex items-center gap-2.5">
         <button
           type="button"
           aria-label="Go back"

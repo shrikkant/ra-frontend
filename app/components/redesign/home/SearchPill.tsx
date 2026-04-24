@@ -12,7 +12,7 @@ export default function SearchPill({
   placeholder = 'Canon R10, GoPro, 50mm…',
 }: SearchPillProps) {
   return (
-    <div className="px-4 pt-3">
+    <div className="md:hidden px-4 pt-3">
       <Link
         href={href}
         className="flex items-center gap-2.5 bg-surface border border-line rounded-[18px] h-12 pl-3.5 pr-2 text-[15px] text-ink-muted no-underline"

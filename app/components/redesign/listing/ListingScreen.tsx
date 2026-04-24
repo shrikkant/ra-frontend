@@ -9,12 +9,14 @@ import {
   IProductSubCategory,
 } from '../../../../app-store/types'
 import MobileChrome from '../MobileChrome'
+import ProductTile from '../ProductTile'
 import CategoryRail from '../home/CategoryRail'
 import SearchHeader from './SearchHeader'
 import FilterSortRow from './FilterSortRow'
 import ProductRow from './ProductRow'
 import EmptyState from './EmptyState'
 import FilterSheet from './FilterSheet'
+import FilterPanel from './FilterPanel'
 
 const HIDDEN_SUBCATEGORY_IDS = new Set([59, 60, 62, 48, 32, 50, 30])
 
@@ -82,26 +84,64 @@ export default function ListingScreen({
   return (
     <MobileChrome>
       <SearchHeader initialQuery={initialQuery} autoFocus={!initialQuery} />
+      {/* Mobile: chip rail on top of results. Desktop: chips also useful as
+          quick switchers above the grid. */}
       <CategoryRail
         subCategories={subCategories}
         city={filter.city ?? 'pune'}
       />
-      <FilterSortRow
-        count={products.length}
-        activeFilterCount={activeFilterCount}
-        onOpenFilters={() => setFiltersOpen(true)}
-      />
-      {sorted.length === 0 ? (
-        <EmptyState />
-      ) : (
-        <ul className="divide-y divide-line-soft bg-surface mt-1">
-          {sorted.map(p => (
-            <li key={p.id}>
-              <ProductRow product={p} />
-            </li>
-          ))}
-        </ul>
-      )}
+
+      <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:mt-2">
+        {/* Desktop sidebar — sticky filter panel */}
+        <aside className="hidden lg:block">
+          <div className="sticky top-24 bg-surface border border-line-soft rounded-[18px] overflow-hidden">
+            <FilterPanel
+              variant="sidebar"
+              citySlug={filter.city ?? 'pune'}
+              subCategories={subCategories}
+              activeSubCategorySlug={activeSubCategorySlug}
+              brands={brands}
+            />
+          </div>
+        </aside>
+
+        <div>
+          {/* Filter button is mobile-only (sidebar handles it on desktop). */}
+          <div className="lg:hidden">
+            <FilterSortRow
+              count={products.length}
+              activeFilterCount={activeFilterCount}
+              onOpenFilters={() => setFiltersOpen(true)}
+            />
+          </div>
+          <div className="hidden lg:flex items-center justify-between px-0 py-3">
+            <div className="text-[14px] font-mono text-ink-muted">
+              {products.length} items
+            </div>
+          </div>
+
+          {sorted.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <>
+              {/* Mobile: row list */}
+              <ul className="md:hidden divide-y divide-line-soft bg-surface mt-1">
+                {sorted.map(p => (
+                  <li key={p.id}>
+                    <ProductRow product={p} />
+                  </li>
+                ))}
+              </ul>
+              {/* Tablet/desktop: tile grid */}
+              <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+                {sorted.map(p => (
+                  <ProductTile key={p.id} product={p} />
+                ))}
+              </div>
+            </>
+          )}
+        </div>
+      </div>
 
       <FilterSheet
         open={filtersOpen}

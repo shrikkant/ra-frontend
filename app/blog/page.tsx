@@ -75,11 +75,11 @@ export default async function BlogPage() {
     <>
       <JsonLd data={blogStructuredData} />
       <MarketingChrome title="Blog">
-        <div className="px-4 pt-3">
+        <div className="px-4 md:px-0 pt-3 md:pt-10">
           <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
             From the studio
           </div>
-          <h1 className="text-[28px] font-extrabold tracking-tight-lg leading-tight text-ink mt-1.5">
+          <h1 className="text-[28px] md:text-[44px] lg:text-[56px] font-extrabold tracking-tight-lg lg:tracking-tight-2xl leading-tight text-ink mt-1.5">
             Stories, tips & gear
           </h1>
         </div>
@@ -87,7 +87,7 @@ export default async function BlogPage() {
         {featured && <FeaturedCard post={featured} />}
 
         {rest.length > 0 && (
-          <ul className="px-4 mt-5 space-y-3">
+          <ul className="px-4 md:px-0 mt-5 md:mt-8 space-y-3 md:grid md:grid-cols-2 lg:grid-cols-3 md:gap-4 md:space-y-0">
             {rest.map(post => (
               <li key={post._id}>
                 <PostRow post={post} />
@@ -107,10 +107,10 @@ function FeaturedCard({post}: {post: any}) {
   return (
     <Link
       href={`/blog/${post.slug.current}`}
-      className="block mx-4 mt-5 rounded-[20px] bg-surface border border-line-soft overflow-hidden no-underline"
+      className="block mx-4 md:mx-0 mt-5 md:mt-8 rounded-[20px] bg-surface border border-line-soft overflow-hidden no-underline md:grid md:grid-cols-2 md:items-center"
     >
       {img && (
-        <div className="relative w-full aspect-[1.78/1] bg-surface-muted">
+        <div className="relative w-full aspect-[1.78/1] md:aspect-[1.2/1] bg-surface-muted">
           <Image
             src={img}
             alt={post.title}
@@ -121,7 +121,7 @@ function FeaturedCard({post}: {post: any}) {
           />
         </div>
       )}
-      <div className="p-4">
+      <div className="p-4 md:p-6 lg:p-8">
         <div className="text-[11px] uppercase tracking-kicker font-bold text-accent">
           Featured
         </div>

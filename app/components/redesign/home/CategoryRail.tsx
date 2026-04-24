@@ -30,9 +30,9 @@ export default function CategoryRail({
   const [active, setActive] = useState<string>('all')
 
   return (
-    <div className="pt-4 pb-1">
+    <div className="pt-4 md:pt-6 pb-1">
       <div
-        className="flex gap-2.5 px-4 overflow-x-auto"
+        className="flex md:flex-wrap gap-2.5 px-4 md:px-0 overflow-x-auto md:overflow-visible"
         style={{scrollbarWidth: 'none'}}
       >
         <CategoryPill

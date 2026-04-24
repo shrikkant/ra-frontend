@@ -9,7 +9,7 @@ interface TopBarProps {
 
 export default function TopBar({city = 'Pune', area = 'Kothrud'}: TopBarProps) {
   return (
-    <div className="flex items-center justify-between px-4 pt-1.5 pb-1.5">
+    <div className="md:hidden flex items-center justify-between px-4 pt-1.5 pb-1.5">
       <div className="flex items-center gap-2.5">
         <div
           aria-hidden

@@ -12,11 +12,11 @@ export const metadata = {
 export default function Page() {
   return (
     <MarketingChrome title="Our story">
-      <div className="px-4 pt-3">
+      <div className="px-4 md:px-0 pt-3 md:pt-10">
         <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
           How we got here
         </div>
-        <h1 className="text-[34px] font-extrabold tracking-tight-lg leading-[1] text-ink mt-1.5">
+        <h1 className="text-[34px] md:text-[56px] lg:text-[72px] font-extrabold tracking-tight-lg lg:tracking-tight-2xl leading-[1] text-ink mt-1.5">
           A traveler,
           <br />
           <span className="bg-gradient-to-r from-accent via-accent to-ink bg-clip-text text-transparent">
@@ -25,7 +25,7 @@ export default function Page() {
         </h1>
       </div>
 
-      <article className="px-4 mt-5 space-y-4 text-[15px] text-ink-secondary leading-relaxed">
+      <article className="px-4 md:px-0 mt-5 md:mt-8 space-y-4 text-[15px] md:text-[17px] text-ink-secondary leading-relaxed md:max-w-2xl">
         <p>
           Every great picture tells a story. So does RentAcross. It began
           with a traveler, a tech enthusiast, and a dreamer — someone who
@@ -42,8 +42,8 @@ export default function Page() {
         </p>
       </article>
 
-      <section className="mt-6 px-4">
-        <div className="relative w-full aspect-[1.6/1] rounded-[20px] overflow-hidden bg-surface-muted">
+      <section className="mt-6 md:mt-10 px-4 md:px-0">
+        <div className="relative w-full aspect-[1.6/1] md:aspect-[2.4/1] rounded-[20px] overflow-hidden bg-surface-muted">
           <Image
             src="/assets/v2/img/our-story-lake.jpeg"
             alt="A still lake at golden hour"
@@ -54,7 +54,7 @@ export default function Page() {
         </div>
       </section>
 
-      <article className="px-4 mt-6 space-y-4 text-[15px] text-ink-secondary leading-relaxed">
+      <article className="px-4 md:px-0 mt-6 md:mt-10 space-y-4 text-[15px] md:text-[17px] text-ink-secondary leading-relaxed md:max-w-2xl">
         <p>
           That question sparked an idea. With a vision to empower
           photographers, storytellers and adventurers, RentAcross was
@@ -67,12 +67,12 @@ export default function Page() {
         </p>
       </article>
 
-      <section className="mt-6 px-4">
-        <div className="bg-ink rounded-[20px] p-5">
-          <div className="text-[11px] uppercase tracking-kicker font-bold text-accent">
+      <section className="mt-6 md:mt-10 px-4 md:px-0 md:max-w-3xl">
+        <div className="bg-ink rounded-[20px] p-5 md:p-8">
+          <div className="text-[11px] md:text-[12px] uppercase tracking-kicker font-bold text-accent">
             Join us
           </div>
-          <p className="text-[15px] text-surface mt-2 leading-relaxed">
+          <p className="text-[15px] md:text-[18px] text-surface mt-2 md:mt-3 leading-relaxed">
             We don&apos;t just provide gear. We provide opportunities to
             create, share, and grow. Whether you&apos;re on an epic
             adventure or learning the ropes, we&apos;re here for every
@@ -81,7 +81,7 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mt-8 px-4">
+      <section className="mt-8 md:mt-12 px-4 md:px-0 md:max-w-md">
         <Link
           href="/"
           className="block w-full text-center bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5 no-underline"
