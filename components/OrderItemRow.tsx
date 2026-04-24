@@ -4,6 +4,7 @@ import styles from './../styles/order-item.module.css'
 import {ORDER_STEPS} from '../config/constants'
 
 import {IOrderItem, IProduct} from '../app-store/types'
+import {productPhotoUrl} from '../util/product-image.util'
 
 export default function OrderItemRow({
   orderItem,
@@ -25,13 +26,17 @@ export default function OrderItemRow({
       <div className="flex gap-x-3">
         {/* Image container - improved mobile layout */}
         <div className={'w-20 h-20 md:w-24 md:h-24 flex-shrink-0'}>
-          {product && product.master_product_id && (
-            <img
-              className="w-full h-full object-cover rounded-lg"
-              src={`/api/products/${product.master_product_id}/photo?width=240`}
-              alt={product.title}
-            />
-          )}
+          {(() => {
+            const src = productPhotoUrl(product, 240)
+            return src ? (
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
+                className="w-full h-full object-cover rounded-lg"
+                src={src}
+                alt={product.title}
+              />
+            ) : null
+          })()}
         </div>
 
         {/* Content container */}

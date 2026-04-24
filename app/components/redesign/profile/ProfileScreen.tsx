@@ -3,13 +3,13 @@
 import React, {useEffect, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import Link from 'next/link'
-import Image from 'next/image'
 import {useDispatch, useSelector} from 'react-redux'
 import {format} from 'date-fns'
 import MobileChrome from '../MobileChrome'
 import {selectAuthState, logout} from '../../../../app-store/auth/auth.slice'
 import {fetchOrders} from '../../../../api/user/orders.api'
 import {IOrder} from '../../../../app-store/types'
+import {productPhotoUrl} from '../../../../util/product-image.util'
 import {
   isVerified,
   VERIFICATION_FLAGS,
@@ -190,9 +190,7 @@ function ProfileCard({
 function ActiveRentalCard({order}: {order: IOrder}) {
   const item = order.items?.[0]
   const product = item?.product
-  const img = product?.master_product_id
-    ? `https://rentacross.com/api/products/${product.master_product_id}/photo?width=160`
-    : product?.photos?.[0]?.path ?? ''
+  const img = product ? productPhotoUrl(product, 160) : null
   const returnDate = order.end_date
     ? format(new Date(order.end_date), 'd MMM')
     : null
@@ -205,12 +203,12 @@ function ActiveRentalCard({order}: {order: IOrder}) {
         <div className="flex items-center gap-3">
           <div className="relative w-16 h-16 rounded-[12px] bg-surface-muted shrink-0 overflow-hidden">
             {img && (
-              <Image
+              // eslint-disable-next-line @next/next/no-img-element
+              <img
                 src={img}
                 alt={product?.title ?? 'Rental'}
-                fill
-                sizes="64px"
-                className="object-contain p-2"
+                loading="lazy"
+                className="absolute inset-0 w-full h-full object-contain p-2"
               />
             )}
           </div>

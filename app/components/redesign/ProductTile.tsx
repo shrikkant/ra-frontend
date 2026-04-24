@@ -2,9 +2,9 @@
 
 import React, {useRef} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import {IProduct} from '../../../app-store/types'
 import {getCitySlug} from '../../../util/city.util'
+import {productPhotoUrl} from '../../../util/product-image.util'
 import {PlusIcon, BoltIcon} from './icons'
 import {useAddToCart} from './useAddToCart'
 
@@ -43,15 +43,6 @@ function splitBrand(title: string): {brand: string; name: string} {
     : {brand: '', name: trimmed}
 }
 
-function productImage(product: IProduct, width = 240): string {
-  if (product.master_product_id) {
-    return `https://rentacross.com/api/products/${product.master_product_id}/photo?width=${width}`
-  }
-  const photo = product.photos?.[0] ?? product.masterPhotos?.[0]
-  if (photo?.path) return photo.path
-  return ''
-}
-
 interface ProductTileProps {
   product: IProduct
   featured?: boolean
@@ -63,7 +54,7 @@ export default function ProductTile({product, featured = false}: ProductTileProp
   const {brand, name} = splitBrand(product.title)
   const rate = product.rate || product.rates?.[0]?.rate || 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug ?? 'rent-camera'}/${product.slug}`
-  const img = productImage(product, featured ? 320 : 240)
+  const img = productPhotoUrl(product, featured ? 320 : 240)
   const isPopular = !!product.featured
 
   const handleAdd = (e: React.MouseEvent) => {
@@ -96,12 +87,14 @@ export default function ProductTile({product, featured = false}: ProductTileProp
         </div>
       )}
       {img && (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
           src={img}
           alt={product.title}
-          fill
-          sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-          className={`object-contain ${featured ? 'p-6' : 'p-4.5'}`}
+          loading="lazy"
+          className={`absolute inset-0 w-full h-full object-contain ${
+            featured ? 'p-6' : 'p-4.5'
+          }`}
           style={{filter: 'drop-shadow(0 8px 14px rgba(0,0,0,0.12))'}}
         />
       )}

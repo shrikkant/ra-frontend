@@ -1,5 +1,6 @@
 import React from 'react'
 import {CheckCircleIcon} from '@heroicons/react/24/solid'
+import {productPhotoUrl} from '../../util/product-image.util'
 
 export interface Photo {
   path: string
@@ -47,12 +48,22 @@ export const Package: React.FC<ProductProps> = ({addons}: ProductProps) => {
               >
                 {/* Small Thumbnail */}
                 <div className="flex-shrink-0 w-12 h-12 bg-gray-100 rounded-md overflow-hidden">
+                  {/* eslint-disable-next-line @next/next/no-img-element */}
                   <img
                     width={48}
                     height={48}
                     className="w-full h-full object-contain p-1"
                     alt={addon?.masterProduct.name}
-                    src={`/api/products/${addon?.masterProduct?.id}/photo?width=48`}
+                    src={
+                      productPhotoUrl(
+                        {
+                          master_product_id: addon?.masterProduct?.id,
+                          photos: null,
+                          masterPhotos: null,
+                        } as any,
+                        48,
+                      ) ?? ''
+                    }
                     loading="lazy"
                   />
                 </div>

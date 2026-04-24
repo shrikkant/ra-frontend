@@ -1,21 +1,13 @@
 import React from 'react'
-import Image from 'next/image'
 import {IProduct} from '../../../../app-store/types'
+import {productPhotoUrl} from '../../../../util/product-image.util'
 
 interface HeroImageProps {
   product: IProduct
 }
 
-function productImage(product: IProduct, width: number): string {
-  if (product.master_product_id) {
-    return `https://rentacross.com/api/products/${product.master_product_id}/photo?width=${width}`
-  }
-  const photo = product.photos?.[0] ?? product.masterPhotos?.[0]
-  return photo?.path ?? ''
-}
-
 export default function HeroImage({product}: HeroImageProps) {
-  const img = productImage(product, 800)
+  const img = productPhotoUrl(product, 800)
   return (
     <div
       className="relative h-[340px] md:h-[480px] lg:h-[560px] w-full overflow-hidden"
@@ -32,13 +24,11 @@ export default function HeroImage({product}: HeroImageProps) {
         }}
       />
       {img && (
-        <Image
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
           src={img}
           alt={product.title}
-          fill
-          priority
-          sizes="(max-width: 768px) 100vw, 500px"
-          className="object-contain"
+          className="absolute inset-0 w-full h-full object-contain"
           style={{
             padding: '52px 28px 48px',
             filter: 'drop-shadow(0 30px 30px rgba(0,0,0,0.2))',

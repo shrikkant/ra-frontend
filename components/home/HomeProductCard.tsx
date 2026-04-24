@@ -3,6 +3,7 @@ import Link from 'next/link'
 import {IProduct} from '../../app-store/types'
 import {getCitySlug} from '../../util/city.util'
 import LazyImage from '../product/LazyImage'
+import {productPhotoUrl} from '../../util/product-image.util'
 
 export default function HomeProductCard({product}: {product: IProduct}) {
   const dailyRent = product?.rates?.[0]?.rate || 0
@@ -18,17 +19,20 @@ export default function HomeProductCard({product}: {product: IProduct}) {
       <div className="bg-white rounded-2xl border border-gray-100/80 overflow-hidden transition-all duration-200 hover:shadow-md hover:-translate-y-0.5">
         {/* Image — visual first */}
         <div className="aspect-square relative overflow-hidden">
-          {product.master_product_id && (
-            <LazyImage
-              src={`https://rentacross.com/api/products/${product.master_product_id}/photo?width=240`}
-              alt={product.title || 'Rental equipment'}
-              className="w-full h-full object-contain p-3 transition-transform duration-300 group-hover:scale-105"
-              width={240}
-              height={240}
-              priority={false}
-              blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjlmOWY5Ii8+PC9zdmc+"
-            />
-          )}
+          {(() => {
+            const src = productPhotoUrl(product, 240)
+            return src ? (
+              <LazyImage
+                src={src}
+                alt={product.title || 'Rental equipment'}
+                className="w-full h-full object-contain p-3 transition-transform duration-300 group-hover:scale-105"
+                width={240}
+                height={240}
+                priority={false}
+                blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMjQwIiBoZWlnaHQ9IjI0MCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZjlmOWY5Ii8+PC9zdmc+"
+              />
+            ) : null
+          })()}
           {discount > 0 && (
             <span className="absolute top-2 left-2 bg-emerald-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
               {discount}% off

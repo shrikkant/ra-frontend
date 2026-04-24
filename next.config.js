@@ -116,6 +116,21 @@ const nextConfig = {
         port: '',
         pathname: '/api/products/**',
       },
+      // Local-dev image hosts (matches productPhotoUrl helper). Safe in
+      // prod — `next/image` just allows them; nothing routes here unless
+      // we explicitly build that URL.
+      {
+        protocol: 'https',
+        hostname: 'labs.rentacross.com',
+        port: '',
+        pathname: '/api/products/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'alpha.rentacross.com',
+        port: '',
+        pathname: '/api/products/**',
+      },
       {
         protocol: 'https',
         hostname: 'cdn.sanity.io',

@@ -2,9 +2,9 @@
 
 import React, {useRef} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import {IProduct} from '../../../../app-store/types'
 import {getCitySlug} from '../../../../util/city.util'
+import {productPhotoUrl} from '../../../../util/product-image.util'
 import {PlusIcon} from '../icons'
 import {useAddToCart} from '../useAddToCart'
 
@@ -39,22 +39,13 @@ function splitBrand(title: string): {brand: string; name: string} {
     : {brand: '', name: trimmed}
 }
 
-function productImage(product: IProduct, width = 192): string {
-  if (product.master_product_id) {
-    return `https://rentacross.com/api/products/${product.master_product_id}/photo?width=${width}`
-  }
-  const photo = product.photos?.[0] ?? product.masterPhotos?.[0]
-  if (photo?.path) return photo.path
-  return ''
-}
-
 export default function ProductRow({product}: {product: IProduct}) {
   const rowRef = useRef<HTMLAnchorElement>(null)
   const {add, fly, pendingId} = useAddToCart()
   const {brand, name} = splitBrand(product.title)
   const rate = product.rate || product.rates?.[0]?.rate || 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug ?? 'rent-camera'}/${product.slug}`
-  const img = productImage(product)
+  const img = productPhotoUrl(product, 192)
   const tags = product.subCategory?.title ? [product.subCategory.title] : []
 
   const handleAdd = (e: React.MouseEvent) => {
@@ -80,12 +71,12 @@ export default function ProductRow({product}: {product: IProduct}) {
           }}
         />
         {img && (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={img}
             alt={product.title}
-            fill
-            sizes="96px"
-            className="object-contain p-2.5"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-contain p-2.5"
           />
         )}
       </div>

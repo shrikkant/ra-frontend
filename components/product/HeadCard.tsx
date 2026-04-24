@@ -1,20 +1,23 @@
 import {IProduct} from '../../app-store/types'
 import React from 'react'
 import {MapPinIcon} from '@heroicons/react/24/outline'
+import {productPhotoUrl} from '../../util/product-image.util'
 
 interface ProductProps {
   product: IProduct
 }
 
 export const HeadCard: React.FC<ProductProps> = ({product}: ProductProps) => {
+  const photoSrc = productPhotoUrl(product, 800)
   return (
     <div className="p-6 lg:p-8">
       {/* Product Image */}
-      {product?.master_product_id && (
+      {photoSrc && (
         <div className="mb-6 lg:mb-8 px-4 lg:px-8">
           <div className="relative aspect-[4/3] w-full max-w-lg mx-auto rounded-xl overflow-hidden bg-transparent">
+            {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
-              src={`/api/products/${product.master_product_id}/photo?width=800`}
+              src={photoSrc}
               alt={product.title}
               className="object-contain w-full h-full transition-transform duration-300 hover:scale-10"
               width={800}

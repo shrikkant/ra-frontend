@@ -2,7 +2,6 @@
 
 import React, {useMemo} from 'react'
 import Link from 'next/link'
-import Image from 'next/image'
 import {useDispatch, useSelector} from 'react-redux'
 import {IOrder, IOrderItem, IProduct} from '../../../../app-store/types'
 import {fetchCart, removeFromCart} from '../../../../api/user/orders.api'
@@ -11,6 +10,7 @@ import {
   getDefaultSearch,
 } from '../../../../app-store/session/session.slice'
 import {parseDates, daysBetween, tierForDays, fmtDate} from '../home/dateUtils'
+import {productPhotoUrl} from '../../../../util/product-image.util'
 import {CloseIcon, CartIcon} from '../icons'
 
 const fmtINR = (n: number) =>
@@ -170,20 +170,18 @@ function ItemRow({
   const days = Number(item.days ?? 1)
   const rate = Number(item.rent ?? 0)
   const total = rate * days
-  const img = product?.master_product_id
-    ? `https://rentacross.com/api/products/${product.master_product_id}/photo?width=160`
-    : product?.photos?.[0]?.path ?? ''
+  const img = product ? productPhotoUrl(product, 160) : null
 
   return (
     <div className="flex items-center gap-3 px-3 py-3">
       <div className="relative w-[72px] h-[72px] rounded-[12px] bg-surface-muted overflow-hidden shrink-0">
         {img && (
-          <Image
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
             src={img}
             alt={product?.title ?? 'Product'}
-            fill
-            sizes="72px"
-            className="object-contain p-2"
+            loading="lazy"
+            className="absolute inset-0 w-full h-full object-contain p-2"
           />
         )}
       </div>

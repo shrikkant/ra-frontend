@@ -2,9 +2,9 @@ import Link from 'next/link'
 import React from 'react'
 import {IProduct} from '../app-store/types'
 import {ProductPrice} from './product/ProductPrice'
-import LazyImage from './../components/product/LazyImage'
 import RentNowButton from '../app/components/product/RentNowButton.client'
 import {getCitySlug} from '../util/city.util'
+import {productPhotoUrl} from '../util/product-image.util'
 
 interface ProductCardProps {
   product: IProduct
@@ -30,20 +30,24 @@ const ProductImage: React.FC<ProductImageProps> = ({
   className = '',
   priority = false,
 }) => {
-  if (!product.master_product_id) return null
+  const src = productPhotoUrl(product, 480)
 
   return (
     <Link href={url}>
-      <div className={`relative overflow-hidden ${className}`}>
-        <LazyImage
-          src={`https://rentacross.com/api/products/${product.master_product_id}/photo?width=240`}
-          alt={product.title || 'Product Image'}
-          className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
-          width={800}
-          height={600}
-          priority={priority}
-          blurDataURL="data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iODAwIiBoZWlnaHQ9IjYwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSIjZTVlN2ViIi8+PC9zdmc+"
-        />
+      <div className={`relative overflow-hidden bg-gray-50 ${className}`}>
+        {src ? (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={src}
+            alt={product.title || 'Product Image'}
+            loading={priority ? 'eager' : 'lazy'}
+            className="hover:opacity-90 transition-opacity duration-300 w-full h-full object-contain"
+          />
+        ) : (
+          <div className="w-full h-full flex items-center justify-center text-xs text-gray-400">
+            No image
+          </div>
+        )}
       </div>
     </Link>
   )
