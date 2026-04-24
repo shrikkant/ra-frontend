@@ -8,6 +8,20 @@ FROM node:23-alpine AS builder
 WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
+
+# Build-time SSR/SSG fetches must hit a publicly reachable backend.
+# The build container isn't joined to ra-network, so the runtime
+# Docker hostnames (caramel, raapp) don't resolve here. Runtime
+# overrides these via env_file in docker-compose.prod.yml.
+ENV SERVER_API_BASE_URL=https://rentacross.com/api/
+ENV SERVER_API_V1_URL=https://rentacross.com/api/v1/
+ENV SERVER_DIGILOCKER_API_URL=https://rentacross.com/api/v1/
+# Public-facing client URLs are inlined at build time (NEXT_PUBLIC_*).
+ENV NEXT_PUBLIC_CLIENT_API_BASE_URL=https://rentacross.com/api/
+ENV NEXT_PUBLIC_CLIENT_API_V1_URL=https://rentacross.com/api/v1/
+ENV NEXT_PUBLIC_BASE_URL=https://rentacross.com
+ENV NEXT_PUBLIC_BASE_URL_WWW=https://www.rentacross.com
+
 # Build CSS first, then build Next.js app
 RUN npm run build:css
 RUN npm run build
