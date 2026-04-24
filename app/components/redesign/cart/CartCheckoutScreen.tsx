@@ -27,6 +27,7 @@ import AddressStep from './AddressStep'
 import DeliveryStep, {DeliveryOption} from './DeliveryStep'
 import PaymentStep from './PaymentStep'
 import DoneStep from './DoneStep'
+import type {PaymentMethod} from '../../../../util/razorpay.util'
 
 type Step = 1 | 2 | 3 | 4 | 5
 
@@ -125,10 +126,23 @@ export default function CartCheckoutScreen() {
     setStep(5)
   }, [cart, dispatch])
 
-  const startPayment = useCallback(async () => {
-    if (!cart) return
-    await displayRazorpay(cart.id, trackAndFinish)
-  }, [cart, trackAndFinish])
+  const startPayment = useCallback(
+    async (method: PaymentMethod) => {
+      if (!cart) return
+      await displayRazorpay(cart.id, trackAndFinish, {
+        method,
+        prefill: {
+          name:
+            [loggedUser?.firstname, loggedUser?.lastname]
+              .filter(Boolean)
+              .join(' ') || undefined,
+          email: loggedUser?.email_address || undefined,
+          contact: loggedUser?.phone || undefined,
+        },
+      })
+    },
+    [cart, trackAndFinish, loggedUser],
+  )
 
   const totalPayable =
     (cart ? Number(cart.amount || 0) : 0) +

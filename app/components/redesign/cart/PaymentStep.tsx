@@ -1,8 +1,9 @@
 'use client'
 
 import React, {useState} from 'react'
+import type {PaymentMethod} from '../../../../util/razorpay.util'
 
-export type PaymentMethod = 'upi' | 'card' | 'netbanking'
+export type {PaymentMethod}
 
 const METHODS: Array<{
   key: PaymentMethod
@@ -20,7 +21,7 @@ const fmtINR = (n: number) =>
 
 interface PaymentStepProps {
   totalPayable: number
-  onPay: () => Promise<void> | void
+  onPay: (method: PaymentMethod) => Promise<void> | void
 }
 
 export default function PaymentStep({totalPayable, onPay}: PaymentStepProps) {
@@ -31,7 +32,7 @@ export default function PaymentStep({totalPayable, onPay}: PaymentStepProps) {
     if (paying) return
     setPaying(true)
     try {
-      await onPay()
+      await onPay(selected)
     } finally {
       // `paying` stays true until the page advances; reset just in case
       // Razorpay fails to open.
