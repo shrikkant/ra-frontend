@@ -1,10 +1,24 @@
+// Local-dev API fallback. In production we default to the relative
+// `/api/` path (Nginx proxies it to the backend on the same origin).
+// In development there's no proxy, so we point straight at labs by
+// default. Override either by setting NEXT_PUBLIC_CLIENT_API_BASE_URL.
+const __isDev = process.env.NODE_ENV === 'development'
+const __devApiBase =
+  process.env.NEXT_PUBLIC_DEV_API_BASE ?? 'https://labs.rentacross.com/api/'
+const __devApiV1 =
+  process.env.NEXT_PUBLIC_DEV_API_V1 ?? 'https://labs.rentacross.com/api/v1/'
+
 // Environment configuration with clear client/server distinction
 export const ENV_CONFIG = {
   // CLIENT-SIDE API URLs (Browser → External Node.js Server via same domain)
   // These are used when the browser makes API calls to the same domain
   // The domain proxy forwards /api/* requests to the Node.js server
-  CLIENT_API_BASE_URL: process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL || '/api/',
-  CLIENT_API_V1_URL: process.env.NEXT_PUBLIC_CLIENT_API_V1_URL || '/api/v1/',
+  CLIENT_API_BASE_URL:
+    process.env.NEXT_PUBLIC_CLIENT_API_BASE_URL ||
+    (__isDev ? __devApiBase : '/api/'),
+  CLIENT_API_V1_URL:
+    process.env.NEXT_PUBLIC_CLIENT_API_V1_URL ||
+    (__isDev ? __devApiV1 : '/api/v1/'),
 
   // SERVER-SIDE API URLs (Next.js Server → External Node.js Server directly)
   // These are used when Next.js server makes direct API calls to external services
