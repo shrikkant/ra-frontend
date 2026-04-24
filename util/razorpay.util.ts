@@ -19,7 +19,17 @@ export interface DisplayRazorpayOptions {
   method?: PaymentMethod
   /** User details to prefill (so the user doesn't retype name/phone/email). */
   prefill?: RazorpayPrefill
+  /**
+   * Searchable, indexed metadata sent to the Razorpay dashboard. Use for
+   * order context (rental window, delivery type, item count) — anything
+   * ops or analytics might want to filter by later.
+   */
+  notes?: Record<string, string | number | boolean | undefined | null>
+  /** Override the modal accent. Defaults to the redesign brand yellow. */
+  themeColor?: string
 }
+
+const DEFAULT_THEME_COLOR = '#F5C518'
 
 /**
  * Loads Razorpay Checkout once and caches the promise so repeated calls
@@ -61,6 +71,48 @@ function buildMethodConfig(method?: PaymentMethod) {
   }
 }
 
+/**
+ * For UPI specifically we replace the default collect/QR pane with a
+ * one-tap Intent flow targeting the major Indian UPI apps. Mobile users
+ * deep-link into GPay / PhonePe / Paytm with the payment pre-filled and
+ * just confirm in the app — biggest single conversion lift on mobile.
+ */
+function buildDisplayConfig(method?: PaymentMethod) {
+  if (method !== 'upi') return undefined
+  return {
+    blocks: {
+      upi_intent: {
+        name: 'Pay using your UPI app',
+        instruments: [
+          {
+            method: 'upi',
+            flows: ['intent', 'collect'],
+            apps: ['google_pay', 'phonepe', 'paytm', 'bhim'],
+          },
+        ],
+      },
+    },
+    sequence: ['block.upi_intent'],
+    preferences: {show_default_blocks: false},
+  }
+}
+
+/**
+ * Strips undefined/null values so we don't send empty keys to the
+ * Razorpay dashboard.
+ */
+function cleanNotes(
+  notes?: DisplayRazorpayOptions['notes'],
+): Record<string, string> | undefined {
+  if (!notes) return undefined
+  const out: Record<string, string> = {}
+  for (const [k, v] of Object.entries(notes)) {
+    if (v === undefined || v === null || v === '') continue
+    out[k] = String(v)
+  }
+  return Object.keys(out).length ? out : undefined
+}
+
 export const displayRazorpay = async (
   orderId: number,
   success: (paymentResponse: any) => void,
@@ -85,14 +137,25 @@ export const displayRazorpay = async (
     : success
 
   const methodConfig = buildMethodConfig(options.method)
+  const displayConfig = buildDisplayConfig(options.method)
+  const notes = cleanNotes({
+    ...(result.clientConfig.notes ?? {}),
+    ...(options.notes ?? {}),
+  })
 
   const config = {
     ...result.clientConfig,
     handler,
     ...(methodConfig ? {method: methodConfig} : {}),
+    ...(displayConfig ? {config: {display: displayConfig}} : {}),
+    ...(notes ? {notes} : {}),
     prefill: {
       ...(result.clientConfig.prefill ?? {}),
       ...(options.prefill ?? {}),
+    },
+    theme: {
+      ...(result.clientConfig.theme ?? {}),
+      color: options.themeColor ?? DEFAULT_THEME_COLOR,
     },
   }
 

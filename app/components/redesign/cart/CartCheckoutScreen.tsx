@@ -12,7 +12,11 @@ import {fetchCart} from '../../../../api/user/orders.api'
 import {fetchAddresses} from '../../../../api/user/index.api'
 import {displayRazorpay} from '../../../../util/razorpay.util'
 import {selectAuthState} from '../../../../app-store/auth/auth.slice'
-import {setLastLink} from '../../../../app-store/session/session.slice'
+import {
+  getDefaultSearch,
+  setLastLink,
+} from '../../../../app-store/session/session.slice'
+import {parseDates, daysBetween} from '../home/dateUtils'
 import {ILocation, IOrder, IOrderItem} from '../../../../app-store/types'
 import {
   PurchaseItem,
@@ -61,6 +65,7 @@ export default function CartCheckoutScreen() {
   const [delivery, setDelivery] = useState<DeliveryOption>('same-day')
   const [datesOpen, setDatesOpen] = useState(false)
   const [finalOrderId, setFinalOrderId] = useState<number | null>(null)
+  const storeSearch = useSelector(getDefaultSearch) as any
 
   useEffect(() => {
     if (!loggedUser) {
@@ -129,6 +134,10 @@ export default function CartCheckoutScreen() {
   const startPayment = useCallback(
     async (method: PaymentMethod) => {
       if (!cart) return
+      const {start, end} = parseDates(storeSearch?.dates)
+      const days = daysBetween(start, end)
+      const fmt = (d: Date) =>
+        `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`
       await displayRazorpay(cart.id, trackAndFinish, {
         method,
         prefill: {
@@ -139,9 +148,18 @@ export default function CartCheckoutScreen() {
           email: loggedUser?.email_address || undefined,
           contact: loggedUser?.phone || undefined,
         },
+        notes: {
+          order_id: cart.id,
+          rental_start: fmt(start),
+          rental_end: fmt(end),
+          rental_days: days,
+          delivery_option: delivery,
+          items_count: cart.items?.length ?? 0,
+          city: cart.delivery_address?.city ?? loggedUser?.city,
+        },
       })
     },
-    [cart, trackAndFinish, loggedUser],
+    [cart, trackAndFinish, loggedUser, storeSearch, delivery],
   )
 
   const totalPayable =
