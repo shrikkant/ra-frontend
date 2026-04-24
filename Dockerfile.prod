@@ -9,12 +9,13 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Server → backend (build + runtime). Docker-network hostnames resolve
-# here because docker-compose.prod.yml joins this build to ra-network.
-ENV SERVER_API_URL=http://raapp:8082/api/
-ENV SERVER_API_V1_URL=http://caramel:8484/api/v1/
+# Build-time server URLs use the public host (BuildKit can't join
+# ra-network, so docker hostnames don't resolve here). Runtime
+# overrides these to caramel/raapp via env_file in compose.
+ENV SERVER_API_URL=https://rentacross.com/api/
+ENV SERVER_API_V1_URL=https://rentacross.com/api/v1/
 
-# Browser → backend. Inlined into the JS bundle at build, must be public.
+# Browser → backend. Inlined into the JS bundle at build.
 ENV NEXT_PUBLIC_CLIENT_API_URL=https://rentacross.com/api/
 ENV NEXT_PUBLIC_BASE_URL=https://rentacross.com
 ENV NEXT_PUBLIC_BASE_URL_WWW=https://www.rentacross.com

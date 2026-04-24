@@ -5,10 +5,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile.prod
-      # Join the same Docker network as runtime so build-time SSR/SSG
-      # fetches can reach caramel/raapp the same way the running
-      # container does. Eliminates the build/runtime URL split.
-      network: ra-network
     container_name: ra-frontend
     restart: always
     volumes:
