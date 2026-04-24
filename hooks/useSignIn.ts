@@ -134,9 +134,16 @@ export const useSignIn = (onClose: () => void) => {
         dispatch(authUser(loggedUser))
         trackGAEvent(GA_EVENTS.LOGIN, {method: 'phone'})
         onClose()
+      } else {
+        actions.setErrors({
+          phone: 'That code didn\'t verify. Try again or resend.',
+        })
       }
     } catch (error) {
       console.error('Error logging in:', error)
+      actions.setErrors({
+        phone: 'Something went wrong verifying the code. Try again.',
+      })
     } finally {
       actions.setIsLoading(false)
     }

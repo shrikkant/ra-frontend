@@ -60,6 +60,7 @@ export default function JoinScreen() {
           <OtpStep
             phone={state.phone}
             otp={state.otp}
+            error={state.errors.phone}
             onChange={handlers.handleOtpChange}
             onVerify={handlers.verifyOTP}
             onBack={handlers.resetOtpForm}
@@ -239,6 +240,7 @@ function AppleGlyph() {
 function OtpStep({
   phone,
   otp,
+  error,
   onChange,
   onVerify,
   onBack,
@@ -246,6 +248,7 @@ function OtpStep({
 }: {
   phone: string
   otp: string
+  error?: string
   onChange: (v: string) => void
   onVerify: () => void
   onBack: () => void
@@ -253,6 +256,10 @@ function OtpStep({
 }) {
   const [countdown, setCountdown] = useState(RESEND_SECONDS)
   const inputsRef = useRef<Array<HTMLInputElement | null>>([])
+  // Track the last OTP value we auto-submitted so failed verifications
+  // don't relaunch on every render while the user still has 6 digits in
+  // the box. They have to change a digit (or hit Verify manually) to retry.
+  const lastSubmittedOtpRef = useRef<string | null>(null)
 
   useEffect(() => {
     if (countdown <= 0) return
@@ -265,7 +272,12 @@ function OtpStep({
   }, [])
 
   useEffect(() => {
-    if (otp.length === OTP_LENGTH && !loading) {
+    if (
+      otp.length === OTP_LENGTH &&
+      !loading &&
+      lastSubmittedOtpRef.current !== otp
+    ) {
+      lastSubmittedOtpRef.current = otp
       onVerify()
     }
   }, [otp, loading, onVerify])
@@ -325,6 +337,12 @@ function OtpStep({
           )
         })}
       </div>
+
+      {error && (
+        <div role="alert" className="mt-3 text-[12px] text-danger">
+          {error}
+        </div>
+      )}
 
       <div className="mt-4 flex items-center justify-between text-[13px]">
         <button
