@@ -109,10 +109,14 @@ export const revalidate = 86400
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   const metadata: Metadata = generateDefaultMetadata()
 
-  // Parallelize params and categories fetch
+  // Parallelize params and categories fetch. Categories failure must not
+  // crash metadata — fall back to default metadata so the page still ships.
   const [localParams, categories] = await Promise.all([
     params,
-    fetchStaticData(`categories`),
+    fetchStaticData(`categories`).catch(error => {
+      console.warn('generateMetadata: categories fetch failed', error)
+      return [] as any[]
+    }),
   ])
 
   const filter = getProductFilter(localParams, categories)
@@ -152,12 +156,21 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 }
 
 export default async function Page({params, searchParams}: PageProps) {
-  // Parallelize initial data fetching
+  // Parallelize initial data fetching. Categories is required to build
+  // the filter — if it can't load (build-time DNS failure, backend down)
+  // we surface a 404 instead of crashing the whole prerender.
   const [categories, localParams, localSearchParams] = await Promise.all([
-    fetchStaticData(`categories`),
+    fetchStaticData(`categories`).catch(error => {
+      console.warn('Page: categories fetch failed', error)
+      return null
+    }),
     params,
     searchParams,
   ])
+
+  if (!categories) {
+    return notFound()
+  }
 
   const filter = getProductFilter(localParams, categories)
 

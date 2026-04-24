@@ -108,8 +108,16 @@ function HomeStructuredData() {
 
 export default async function Home() {
   const [groups, categoryData] = await Promise.all([
-    getFeaturedProductsServer(8, 'pune'),
-    fetchStaticData('categories') as Promise<IProductCategory[] | undefined>,
+    getFeaturedProductsServer(8, 'pune').catch(error => {
+      console.warn('Home: featured products fetch failed', error)
+      return [] as any[]
+    }),
+    (fetchStaticData('categories') as Promise<IProductCategory[] | undefined>).catch(
+      error => {
+        console.warn('Home: categories fetch failed', error)
+        return undefined
+      },
+    ),
   ])
 
   const allProducts: IProduct[] = (groups ?? []).flatMap(

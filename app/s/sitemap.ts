@@ -28,14 +28,10 @@ export default async function sitemap({
 }: {
   id: string
 }): Promise<MetadataRoute.Sitemap> {
-  const categories = await fetchStaticData('categories')
   const now = new Date().toISOString()
-
-  // Generate category-level URLs only (no product fetches to avoid timeouts)
-  // Format: /city/subcategory-slug
   const sitemap: MetadataRoute.Sitemap = []
 
-  // Add city landing page
+  // City landing page is always emitted regardless of category fetch.
   sitemap.push({
     url: `${BASE_URL}/${id}`,
     lastModified: now,
@@ -43,10 +39,24 @@ export default async function sitemap({
     priority: 0.8,
   })
 
-  // Add subcategory pages for this city
+  // Subcategory pages depend on the categories API. If the build host
+  // can't reach the backend (DNS, network, timeout) we still want the
+  // sitemap to ship — degrade to city-only URLs instead of failing
+  // `next build` and blocking the whole deploy.
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  for (const category of categories as any[]) {
-    for (const subCategory of category.subCategories) {
+  let categories: any[] = []
+  try {
+    categories = (await fetchStaticData('categories')) ?? []
+  } catch (error) {
+    console.warn(
+      `sitemap[${id}]: categories fetch failed, emitting city-only URLs`,
+      error,
+    )
+    return sitemap
+  }
+
+  for (const category of categories) {
+    for (const subCategory of category?.subCategories ?? []) {
       sitemap.push({
         url: `${BASE_URL}/${id}/${subCategory.slug}`,
         lastModified: now,
