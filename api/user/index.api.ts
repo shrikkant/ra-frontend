@@ -6,6 +6,7 @@ import {
   UtmData,
 } from '../../app-store/types'
 import httpClient, {HttpService} from '../axios.config'
+import {getClientHostBase} from '../../config/environment'
 
 export const fetchAddresses = async (): Promise<ILocation[]> => {
   const addresses: ILocation[] = await httpClient.get(`/user/addresses/`)
@@ -73,7 +74,7 @@ export const loginWithOTP = async (
   otp: string,
   utmData?: UtmData,
 ): Promise<IUser> => {
-  const httpService = new HttpService('/')
+  const httpService = new HttpService(getClientHostBase())
 
   const response: IUser = await httpService
     .getClient()
@@ -86,7 +87,7 @@ export const signupWithOTP = async (
   otp: string,
   name: string,
 ): Promise<IUser> => {
-  const httpService = new HttpService('/')
+  const httpService = new HttpService(getClientHostBase())
 
   const response: IUser = await httpService
     .getClient()

@@ -6,6 +6,7 @@ import {IUser} from '../app-store/types'
 import {GA_EVENTS, trackGAEvent} from '../utils/analytics'
 import {getUTMData} from '../app-store/session/session.slice'
 import {HttpService} from '../api/axios.config'
+import {getClientHostBase} from '../config/environment'
 import {
   SignInState,
   SignInActions,
@@ -150,10 +151,10 @@ export const useSignIn = (onClose: () => void) => {
   }
 
   const handleGoogleSignIn = () => {
-    const httpService = new HttpService('/')
+    const httpService = new HttpService(getClientHostBase())
     httpService
       .getClient()
-      .post(`/auth/google`, utmData)
+      .post(`auth/google`, utmData)
       .then(res => {
         if (res.success) {
           window.location.href = '/auth/google'

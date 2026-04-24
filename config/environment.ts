@@ -89,6 +89,22 @@ export const getClientApiUrl = (version: 'v1' | 'base' = 'base') => {
     : ENV_CONFIG.CLIENT_API_BASE_URL
 }
 
+/**
+ * Bare host root derived from CLIENT_API_BASE_URL — for endpoints that
+ * sit at the host root rather than under /api/ (auth/local, auth/signup,
+ * auth/google).
+ *
+ * Examples:
+ *   `/api/`                              → `/`
+ *   `https://labs.rentacross.com/api/`   → `https://labs.rentacross.com/`
+ */
+export const getClientHostBase = (): string => {
+  const apiBase = ENV_CONFIG.CLIENT_API_BASE_URL
+  // Strip trailing /api/ (or /api) from the API base.
+  const stripped = apiBase.replace(/\/api\/?$/, '/')
+  return stripped || '/'
+}
+
 // Helper function to get server-side API URL (Next.js → External Node.js Server directly)
 export const getServerApiUrl = (version: 'v1' | 'base' = 'base') => {
   return version === 'v1'
