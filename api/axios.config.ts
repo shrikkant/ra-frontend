@@ -14,7 +14,7 @@ export class HttpService {
 
   constructor(url?: string) {
     this.client = axios.create({
-      baseURL: url || ENV_CONFIG.CLIENT_API_BASE_URL,
+      baseURL: url || ENV_CONFIG.CLIENT_API_URL,
       withCredentials: true,
     })
 
@@ -60,7 +60,7 @@ export class HttpService {
 }
 
 const httpClient = axios.create({
-  baseURL: ENV_CONFIG.CLIENT_API_BASE_URL,
+  baseURL: ENV_CONFIG.CLIENT_API_URL,
   withCredentials: true,
 })
 
@@ -131,7 +131,7 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
   }
 
   const response: any = await fetch(
-    `${ENV_CONFIG.CLIENT_API_BASE_URL}${url}`,
+    `${ENV_CONFIG.CLIENT_API_URL}${url}`,
     options,
   )
 
@@ -159,7 +159,7 @@ export const fetchDataServer = async (url: string, customOptions?: RequestInit) 
   }
 
   const response: any = await fetch(
-    `${ENV_CONFIG.SERVER_API_BASE_URL}${url}`,
+    `${ENV_CONFIG.SERVER_API_URL}${url}`,
     options,
   )
 

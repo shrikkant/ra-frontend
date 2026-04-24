@@ -65,9 +65,6 @@ const nextConfig = {
       },
     ]
   },
-  publicRuntimeConfig: {
-    BASE_API_URL: process.env.REACT_APP_API_URL,
-  },
   compiler: {
     removeConsole: {
       exclude: ['error', 'warn'],

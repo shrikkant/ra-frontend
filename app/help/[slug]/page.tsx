@@ -12,9 +12,7 @@ export async function generateMetadata({params}: PageProps) {
   const {slug} = await params
   try {
     const blog = await fetchBlogBySlug(slug)
-    return {
-      title: `${blog?.title ?? 'Help'} — RentAcross`,
-    }
+    return {title: `${blog?.title ?? 'Help'} — RentAcross`}
   } catch {
     return {title: 'Help article — RentAcross'}
   }
@@ -22,7 +20,10 @@ export async function generateMetadata({params}: PageProps) {
 
 export default async function HelpArticle({params}: PageProps) {
   const {slug} = await params
-  const blog = await fetchBlogBySlug(slug)
+  const blog = await fetchBlogBySlug(slug).catch(error => {
+    console.warn('HelpArticle: fetch failed', error)
+    return null
+  })
 
   if (!blog) {
     return (

@@ -19,7 +19,10 @@ export default async function HelpPage() {
     1,
     20,
     ARTICLE_TYPES.HELP_ARTICLE,
-  )) as IBlog[] | null | undefined
+  ).catch(error => {
+    console.warn('Help: articles fetch failed', error)
+    return null
+  })) as IBlog[] | null | undefined
   const list = Array.isArray(articles) ? articles : []
 
   return (

@@ -85,11 +85,11 @@ export const getRentalAgreementPDF = async (orderId: number): Promise<Blob> => {
   console.log('Token:', token ? 'Present' : 'Missing')
   console.log(
     'URL:',
-    `${ENV_CONFIG.CLIENT_API_BASE_URL}user/orders/${orderId}/rental-agreement/pdf`,
+    `${ENV_CONFIG.CLIENT_API_URL}user/orders/${orderId}/rental-agreement/pdf`,
   )
 
   const response = await fetch(
-    `${ENV_CONFIG.CLIENT_API_BASE_URL}user/orders/${orderId}/rental-agreement/pdf`,
+    `${ENV_CONFIG.CLIENT_API_URL}user/orders/${orderId}/rental-agreement/pdf`,
     {
       method: 'GET',
       credentials: 'include',
@@ -183,7 +183,7 @@ export const testPDFGeneration = async (orderId: number): Promise<void> => {
 
   try {
     const response = await fetch(
-      `${ENV_CONFIG.CLIENT_API_BASE_URL}/user/orders/${orderId}/rental-agreement/pdf`,
+      `${ENV_CONFIG.CLIENT_API_URL}/user/orders/${orderId}/rental-agreement/pdf`,
       {
         method: 'GET',
         credentials: 'include',
