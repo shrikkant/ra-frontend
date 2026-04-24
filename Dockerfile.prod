@@ -9,31 +9,15 @@ WORKDIR /app
 COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
-# Belt-and-suspenders: nuke any .env.production / .env.local that
-# might have been COPY'd in. Next.js auto-loads them and they would
-# override the ENV directives below (this is exactly how `caramel`
-# was leaking back in). `.env` stays — it's the team default for dev
-# and gets safely overridden by the ENV vars below.
-RUN rm -f .env.production .env.production.local .env.local
+# Server → backend (build + runtime). Docker-network hostnames resolve
+# here because docker-compose.prod.yml joins this build to ra-network.
+ENV SERVER_API_URL=http://raapp:8082/api/
+ENV SERVER_API_V1_URL=http://caramel:8484/api/v1/
 
-# Build-time SSR/SSG fetches must hit a publicly reachable backend.
-# The build container isn't joined to ra-network, so runtime Docker
-# hostnames (caramel, raapp) don't resolve here. Runtime overrides
-# SERVER_API_URL via env_file in docker-compose.prod.yml.
-# NEXT_PUBLIC_* values are inlined into the JS bundle at build.
-#
-# We set BOTH base and v1 explicitly so a stray env can't sneak the
-# docker-network hostname back in for one of them.
-ENV SERVER_API_URL=https://rentacross.com/api/
-ENV SERVER_API_V1_URL=https://rentacross.com/api/v1/
+# Browser → backend. Inlined into the JS bundle at build, must be public.
 ENV NEXT_PUBLIC_CLIENT_API_URL=https://rentacross.com/api/
-ENV NEXT_PUBLIC_CLIENT_API_V1_URL=https://rentacross.com/api/v1/
 ENV NEXT_PUBLIC_BASE_URL=https://rentacross.com
 ENV NEXT_PUBLIC_BASE_URL_WWW=https://www.rentacross.com
-
-# One-line debug — prints the URLs Next will see during build.
-# Useful when something is sneaking the docker hostname back in.
-RUN echo "BUILD ENV: SERVER_API_URL=$SERVER_API_URL SERVER_API_V1_URL=$SERVER_API_V1_URL"
 
 # Build CSS first, then build Next.js app
 RUN npm run build:css
