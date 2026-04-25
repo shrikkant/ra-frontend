@@ -19,11 +19,18 @@ export interface UtmData {
   gbraid?: string // Google Bridge ID (for offline tracking or GAds)
 }
 
+export interface UserLocation {
+  city: string
+  area: string
+  postal: string
+}
+
 export interface SessionState {
   isSessionValid: null | boolean
   defaultSearch?: DefaultSearch
   lastLink?: string
   utmData?: UtmData
+  userLocation?: UserLocation
 }
 
 const initialState: SessionState = {
@@ -48,11 +55,20 @@ export const sessionSlice = createSlice({
     setUTMData: (state, action: PayloadAction<UtmData>) => {
       state.utmData = action.payload
     },
+    setUserLocation: (state, action: PayloadAction<UserLocation>) => {
+      state.userLocation = action.payload
+    },
   },
 })
 
-export const {deleteSession, setSession, setSearch, setLastLink, setUTMData} =
-  sessionSlice.actions
+export const {
+  deleteSession,
+  setSession,
+  setSearch,
+  setLastLink,
+  setUTMData,
+  setUserLocation,
+} = sessionSlice.actions
 
 export const sessionData = state => state.session
 
@@ -60,5 +76,7 @@ export const getDefaultSearch = (state): IDefaultSearch =>
   state.session.defaultSearch
 export const getLastLink = (state): string => state.session.lastLink
 export const getUTMData = (state): UtmData | undefined => state.session.utmData
+export const getUserLocation = (state): UserLocation | undefined =>
+  state.session.userLocation
 
 export default sessionSlice.reducer
