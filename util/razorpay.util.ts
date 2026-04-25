@@ -72,10 +72,18 @@ function buildMethodConfig(method?: PaymentMethod) {
 }
 
 /**
- * For UPI specifically we replace the default collect/QR pane with a
- * one-tap Intent flow targeting the major Indian UPI apps. Mobile users
- * deep-link into GPay / PhonePe / Paytm with the payment pre-filled and
- * just confirm in the app — biggest single conversion lift on mobile.
+ * For UPI specifically we configure both intent + collect flows.
+ * - Mobile: intent fires and deep-links into the user's UPI apps
+ *   (GPay / PhonePe / Paytm / etc.) with the payment pre-filled.
+ * - Desktop: intent isn't available, so Razorpay falls back to the
+ *   VPA-collect pane (enter UPI ID + QR).
+ *
+ * We deliberately don't pass an `apps` allow-list. `apps` only filters
+ * the intent flow, and any unrecognized id (e.g. 'bhim') invalidates
+ * the whole instrument — which on desktop leaves the modal with
+ * "No appropriate payment method found" because collect never gets to
+ * render. Letting Razorpay show every installed UPI app is also the
+ * better default for mobile.
  */
 function buildDisplayConfig(method?: PaymentMethod) {
   if (method !== 'upi') return undefined
@@ -87,7 +95,6 @@ function buildDisplayConfig(method?: PaymentMethod) {
           {
             method: 'upi',
             flows: ['intent', 'collect'],
-            apps: ['google_pay', 'phonepe', 'paytm', 'bhim'],
           },
         ],
       },
