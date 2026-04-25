@@ -6,6 +6,7 @@ import {usePathname} from 'next/navigation'
 import {useSelector} from 'react-redux'
 import {SearchIcon, CartIcon, UserIcon, ChevronDownIcon} from './icons'
 import {getCart} from '../../../app-store/user/orders/orders.slice'
+import {useDetectedLocation} from './useDetectedLocation'
 
 const NAV_LINKS = [
   {href: '/pune/rent-camera?q=', label: 'Cameras'},
@@ -15,24 +16,17 @@ const NAV_LINKS = [
   {href: '/help', label: 'Help'},
 ]
 
-interface DesktopNavProps {
-  city?: string
-  area?: string
-}
-
 /**
  * Sticky top nav rendered at md+ breakpoints in place of the floating
  * mobile TabBar. Logo, browse links, search shortcut, cart, user.
  * Cart icon carries the same data-cart-target attribute the
  * useAddToCart fly animation looks for.
  */
-export default function DesktopNav({
-  city = 'Pune',
-  area = 'Kothrud',
-}: DesktopNavProps) {
+export default function DesktopNav() {
   const pathname = usePathname() ?? '/'
   const cart = useSelector(getCart)
   const cartCount = cart?.items?.length ?? 0
+  const {city, area} = useDetectedLocation()
 
   return (
     <nav
@@ -63,7 +57,9 @@ export default function DesktopNav({
           <span className="text-[10px] uppercase tracking-kicker font-bold text-ink-muted mr-1">
             Deliver to
           </span>
-          <span className="font-semibold text-ink">{city}, {area}</span>
+          <span className="font-semibold text-ink">
+            {area ? `${city}, ${area}` : city}
+          </span>
           <ChevronDownIcon size={12} />
         </button>
 
