@@ -78,6 +78,18 @@ export const updateDeliveryAddress = async (orderId, address) => {
   return response
 }
 
+export const updateOrderFulfillment = async (
+  orderId: number,
+  fulfillment: 'delivery' | 'pickup',
+  timing: 'same-day' | 'later',
+): Promise<IOrder> => {
+  const response: IOrder = await httpClient.put(
+    '/user/orders/' + orderId + '?mode=2',
+    {fulfillment, timing},
+  )
+  return response
+}
+
 // Rental Agreement API functions
 export const getRentalAgreementPDF = async (orderId: number): Promise<Blob> => {
   const token = await getToken()

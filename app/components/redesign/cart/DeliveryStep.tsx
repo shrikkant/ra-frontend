@@ -1,12 +1,15 @@
 'use client'
 
 import React from 'react'
-import {TruckIcon, BoltIcon, ShieldIcon} from '../icons'
+import {BoltIcon, TruckIcon} from '../icons'
 
-export type DeliveryOption = 'same-day' | 'scheduled' | 'pickup'
+export type DeliveryTiming = 'same-day' | 'later'
+
+// Legacy alias — older imports still reference DeliveryOption.
+export type DeliveryOption = DeliveryTiming
 
 interface OptionDef {
-  key: DeliveryOption
+  key: DeliveryTiming
   Icon: React.ComponentType<{size?: number; className?: string}>
   title: string
   sub: string
@@ -20,28 +23,21 @@ const OPTIONS: OptionDef[] = [
     Icon: BoltIcon,
     title: 'Same day',
     sub: 'By 8 PM today',
-    fee: '₹99',
+    fee: '+ ₹99',
     popular: true,
   },
   {
-    key: 'scheduled',
+    key: 'later',
     Icon: TruckIcon,
-    title: 'Scheduled',
-    sub: 'Pick a 2-hour window',
-    fee: '₹149',
-  },
-  {
-    key: 'pickup',
-    Icon: ShieldIcon,
-    title: 'Self pickup',
-    sub: 'Kothrud store',
+    title: 'Tomorrow or later',
+    sub: 'No surcharge',
     fee: 'FREE',
   },
 ]
 
 interface DeliveryStepProps {
-  selected: DeliveryOption
-  onSelect: (k: DeliveryOption) => void
+  selected: DeliveryTiming
+  onSelect: (k: DeliveryTiming) => void
   onContinue: () => void
 }
 
@@ -53,7 +49,7 @@ export default function DeliveryStep({
   return (
     <div className="px-4 pt-5 space-y-3">
       <div className="text-[13px] uppercase tracking-kicker font-extrabold text-ink-secondary">
-        How should we deliver?
+        When do you need it?
       </div>
       {OPTIONS.map(opt => {
         const active = selected === opt.key

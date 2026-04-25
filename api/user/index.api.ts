@@ -16,12 +16,51 @@ export const fetchAddresses = async (): Promise<ILocation[]> => {
 export const addNewAddress = async (
   place_id: string,
   address_line_1: string,
-) => {
-  const newAddress = await httpClient.post(`/user/addresses/.by.place_id`, {
-    place_id: place_id,
-    address_line_1: address_line_1,
-  })
+): Promise<ILocation> => {
+  const newAddress: ILocation = await httpClient.post(
+    `/user/addresses/.by.place_id`,
+    {
+      place_id: place_id,
+      address_line_1: address_line_1,
+    },
+  )
   return newAddress
+}
+
+export interface IGooglePlaceSuggestion {
+  description: string
+  place_id: string
+  structured_formatting?: {
+    main_text?: string
+    secondary_text?: string
+  }
+}
+
+export const lookupAddressSuggestions = async (
+  query: string,
+): Promise<IGooglePlaceSuggestion[]> => {
+  const data: IGooglePlaceSuggestion[] = await httpClient.get(
+    `user/addresses/lookup/${encodeURIComponent(query)}`,
+  )
+  return data ?? []
+}
+
+export interface IAddressPlaceDetails {
+  addressLine2?: string
+  city?: string
+  state?: string
+  country?: string
+  postalCode?: string
+  location?: {lat: number; lng: number}
+}
+
+export const fetchAddressByPlaceId = async (
+  place_id: string,
+): Promise<IAddressPlaceDetails> => {
+  const details: IAddressPlaceDetails = await httpClient.get(
+    `user/addresses/place/${place_id}`,
+  )
+  return details
 }
 
 export const addLocalAddress = async (

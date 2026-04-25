@@ -8,7 +8,10 @@ import {
   setCart,
   updateDeliveryAddressAction,
 } from '../../../../app-store/user/orders/orders.slice'
-import {fetchCart} from '../../../../api/user/orders.api'
+import {
+  fetchCart,
+  updateOrderFulfillment,
+} from '../../../../api/user/orders.api'
 import {fetchAddresses} from '../../../../api/user/index.api'
 import {displayRazorpay} from '../../../../util/razorpay.util'
 import {selectAuthState} from '../../../../app-store/auth/auth.slice'
@@ -27,9 +30,9 @@ import MobileChrome from '../MobileChrome'
 import DatePickerSheet from '../product/DatePickerSheet'
 import Stepper from './Stepper'
 import CartStep from './CartStep'
-import AddressStep from './AddressStep'
-import DeliveryStep, {DeliveryOption} from './DeliveryStep'
-import PaymentStep from './PaymentStep'
+import AddressStep, {FulfillmentMode} from './AddressStep'
+import DeliveryStep, {DeliveryTiming} from './DeliveryStep'
+import PaymentStep, {PriceBreakdown} from './PaymentStep'
 import DoneStep from './DoneStep'
 import type {PaymentMethod} from '../../../../util/razorpay.util'
 
@@ -37,16 +40,44 @@ type Step = 1 | 2 | 3 | 4 | 5
 
 const TITLES: Record<Step, string> = {
   1: 'Your cart',
-  2: 'Pick an address',
-  3: 'Delivery option',
+  2: 'Delivery method',
+  3: 'When do you need it?',
   4: 'Payment',
   5: 'All done',
 }
 
-const DELIVERY_FEES: Record<DeliveryOption, number> = {
-  'same-day': 99,
-  scheduled: 149,
-  pickup: 0,
+const DELIVERY_BASE_FEE = 500
+const SAME_DAY_SURCHARGE = 99
+// Backend currently returns 0% (toffee/src/config/appConfig.ts → getTaxPercentage).
+// Bump this and the backend together to switch GST on.
+const GST_RATE = 0
+
+function calculateFee(mode: FulfillmentMode, timing: DeliveryTiming) {
+  if (mode === 'pickup') return 0
+  return DELIVERY_BASE_FEE + (timing === 'same-day' ? SAME_DAY_SURCHARGE : 0)
+}
+
+function buildBreakdown(
+  rental: number,
+  mode: FulfillmentMode,
+  timing: DeliveryTiming,
+): PriceBreakdown {
+  const deliveryFee = calculateFee(mode, timing)
+  // Mirror backend: GST applies on rental amount only, then add delivery.
+  // Math.ceil mirrors `Math.ceil((amount * tax) / 100)` in toffee/src/models/order.ts.
+  const gst = Math.ceil((rental * GST_RATE) / 100)
+  const total = rental + gst + deliveryFee
+
+  let deliveryLabel: string
+  if (mode === 'pickup') {
+    deliveryLabel = 'Self pickup'
+  } else if (timing === 'same-day') {
+    deliveryLabel = `Delivery (same-day · ₹${DELIVERY_BASE_FEE} + ₹${SAME_DAY_SURCHARGE})`
+  } else {
+    deliveryLabel = 'Delivery (tomorrow or later)'
+  }
+
+  return {rental, deliveryFee, deliveryLabel, gstRate: GST_RATE, gst, total}
 }
 
 export default function CartCheckoutScreen() {
@@ -62,7 +93,8 @@ export default function CartCheckoutScreen() {
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
     null,
   )
-  const [delivery, setDelivery] = useState<DeliveryOption>('same-day')
+  const [mode, setMode] = useState<FulfillmentMode>('delivery')
+  const [timing, setTiming] = useState<DeliveryTiming>('same-day')
   const [datesOpen, setDatesOpen] = useState(false)
   const [finalOrderId, setFinalOrderId] = useState<number | null>(null)
   const storeSearch = useSelector(getDefaultSearch) as any
@@ -85,13 +117,22 @@ export default function CartCheckoutScreen() {
       .finally(() => setAddressesLoading(false))
   }, [loggedUser, dispatch, router])
 
+  const totalSteps = mode === 'pickup' ? 4 : 5
+  // Display step skips the timing step when picking up.
+  const displayStep =
+    mode === 'pickup' && step >= 4 ? step - 1 : step
+
   const goBack = useCallback(() => {
     if (step === 1) {
       router.push('/')
       return
     }
+    if (step === 4 && mode === 'pickup') {
+      setStep(2)
+      return
+    }
     setStep(s => (Math.max(1, s - 1) as Step))
-  }, [step, router])
+  }, [step, router, mode])
 
   const selectAddress = useCallback(
     (id: number) => {
@@ -103,6 +144,39 @@ export default function CartCheckoutScreen() {
     },
     [addresses, cart, dispatch],
   )
+
+  const handleAddressAdded = useCallback(
+    (addr: ILocation) => {
+      setAddresses(prev => [addr, ...prev.filter(a => a.id !== addr.id)])
+      setSelectedAddressId(addr.id)
+      if (cart) {
+        updateDeliveryAddressAction(cart, addr)(dispatch)
+      }
+    },
+    [cart, dispatch],
+  )
+
+  // Whenever fulfillment mode or timing changes, push the canonical
+  // delivery_fee to the cart on the server so Razorpay charges the right
+  // amount. The backend recomputes fee + total from the constants in
+  // toffee/src/config/appConfig.ts, so the frontend cannot drift.
+  const cartId = cart?.id
+  useEffect(() => {
+    if (!cartId) return
+    let cancelled = false
+    updateOrderFulfillment(cartId, mode, timing)
+      .then(updated => {
+        if (!cancelled && updated) dispatch(setCart(updated))
+      })
+      .catch(() => {})
+    return () => {
+      cancelled = true
+    }
+  }, [cartId, mode, timing, dispatch])
+
+  const advanceFromAddress = useCallback(() => {
+    setStep(mode === 'delivery' ? 3 : 4)
+  }, [mode])
 
   const trackAndFinish = useCallback(() => {
     if (!cart) return
@@ -153,24 +227,25 @@ export default function CartCheckoutScreen() {
           rental_start: fmt(start),
           rental_end: fmt(end),
           rental_days: days,
-          delivery_option: delivery,
+          fulfillment: mode,
+          delivery_timing: mode === 'delivery' ? timing : 'n/a',
           items_count: cart.items?.length ?? 0,
           city: cart.delivery_address?.city ?? loggedUser?.city,
         },
       })
     },
-    [cart, trackAndFinish, loggedUser, storeSearch, delivery],
+    [cart, trackAndFinish, loggedUser, storeSearch, mode, timing],
   )
 
-  const totalPayable =
-    (cart ? Number(cart.amount || 0) : 0) +
-    (step >= 3 ? DELIVERY_FEES[delivery] : Number(cart?.delivery_fee ?? 99))
+  const rental = cart ? Number(cart.amount || 0) : 0
+  const breakdown = buildBreakdown(rental, mode, timing)
 
   return (
     <MobileChrome hideTabBar bottomPad="none">
       <div className="lg:max-w-2xl lg:mx-auto">
       <Stepper
-        step={step}
+        step={displayStep}
+        total={totalSteps}
         title={TITLES[step]}
         onBack={goBack}
       />
@@ -190,21 +265,24 @@ export default function CartCheckoutScreen() {
           loading={addressesLoading}
           selectedId={selectedAddressId}
           onSelect={selectAddress}
-          onContinue={() => setStep(3)}
-          onAddNew={() => router.push('/p/profile?section=addresses')}
+          onContinue={advanceFromAddress}
+          onAddressAdded={handleAddressAdded}
+          mode={mode}
+          onModeChange={setMode}
+          deliveryFee={DELIVERY_BASE_FEE}
         />
       )}
 
-      {step === 3 && (
+      {step === 3 && mode === 'delivery' && (
         <DeliveryStep
-          selected={delivery}
-          onSelect={setDelivery}
+          selected={timing}
+          onSelect={setTiming}
           onContinue={() => setStep(4)}
         />
       )}
 
       {step === 4 && (
-        <PaymentStep totalPayable={totalPayable} onPay={startPayment} />
+        <PaymentStep breakdown={breakdown} onPay={startPayment} />
       )}
 
       {step === 5 && finalOrderId !== null && (
