@@ -4,6 +4,7 @@ import {Provider} from 'react-redux'
 import {makeStore, AppStore} from '../app-store/store'
 import {PersistGate} from 'redux-persist/integration/react'
 import {persistStore, Persistor} from 'redux-persist'
+import AuthBootstrap from './AuthBootstrap'
 
 export default function StoreProvider({children}: {children: React.ReactNode}) {
   const storeRef = useRef<AppStore | null>(null)
@@ -16,6 +17,7 @@ export default function StoreProvider({children}: {children: React.ReactNode}) {
   return (
     <Provider store={storeRef.current}>
       <PersistGate loading={null} persistor={persistorRef.current!}>
+        <AuthBootstrap />
         {children}
       </PersistGate>
     </Provider>

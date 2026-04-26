@@ -134,6 +134,18 @@ export const signupWithOTP = async (
   return response
 }
 
+export const verifyGoogleCredential = async (
+  credential: string,
+  utmData?: UtmData,
+): Promise<IUser> => {
+  const httpService = new HttpService(getClientHostBase())
+
+  const response: IUser = await httpService
+    .getClient()
+    .post(`auth/google/verify`, {credential, utm: utmData})
+  return response
+}
+
 export const listNewProduct = async (
   masterProduct: IMasterProduct,
   rate: number,

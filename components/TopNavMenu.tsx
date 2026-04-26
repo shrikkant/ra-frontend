@@ -1,5 +1,5 @@
 'use client'
-import React, {Fragment, useEffect} from 'react'
+import React, {Fragment} from 'react'
 import {
   Menu,
   MenuButton,
@@ -8,8 +8,8 @@ import {
   Transition,
 } from '@headlessui/react'
 import {useDispatch, useSelector} from 'react-redux'
-import {logout, authUser, selectAuthState} from '../app-store/auth/auth.slice'
-import {getAuthUser, logoutUser} from 'api/auth.api'
+import {logout, selectAuthState} from '../app-store/auth/auth.slice'
+import {logoutUser} from 'api/auth.api'
 import {useRouter} from 'next/navigation'
 import SignIn from './user/SignIn'
 import {Avatar} from './user/Avatar'
@@ -101,14 +101,6 @@ export default function TopNavMenu() {
       icon: <CameraIcon className="h-6 w-6" />,
     },
   ]
-
-  useEffect(() => {
-    if (!loggedUser) {
-      getAuthUser().then(u => {
-        dispatch(authUser(u))
-      })
-    }
-  }, [loggedUser])
 
   const handleLogout = async () => {
     logoutUser().then(() => {

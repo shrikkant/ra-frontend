@@ -2,11 +2,11 @@ import React from 'react'
 import GoogleSignInButton from '../common/GoogleSignInBtn'
 
 interface SignInGoogleSectionProps {
-  onGoogleSignIn: () => void
+  onGoogleCredential: (credential: string) => void
 }
 
 export const SignInGoogleSection: React.FC<SignInGoogleSectionProps> = ({
-  onGoogleSignIn,
+  onGoogleCredential,
 }) => {
   return (
     <div className="space-y-4">
@@ -20,7 +20,7 @@ export const SignInGoogleSection: React.FC<SignInGoogleSectionProps> = ({
       </div>
 
       <div className="text-center">
-        <GoogleSignInButton onClick={onGoogleSignIn} />
+        <GoogleSignInButton onCredential={onGoogleCredential} />
       </div>
     </div>
   )

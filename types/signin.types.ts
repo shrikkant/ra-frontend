@@ -30,7 +30,7 @@ export interface SignInHandlers {
   resetOtpForm: () => void
   sendOTP: () => void
   verifyOTP: () => void
-  handleGoogleSignIn: () => void
+  handleGoogleCredential: (credential: string) => void
   onOtpTimeout: () => void
 }
 

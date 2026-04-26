@@ -1,12 +1,14 @@
 import {useState, useEffect} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
 import {authUser, selectAuthState} from '../app-store/auth/auth.slice'
-import {generateLoginOTP, loginWithOTP} from '../api/user/index.api'
+import {
+  generateLoginOTP,
+  loginWithOTP,
+  verifyGoogleCredential,
+} from '../api/user/index.api'
 import {IUser} from '../app-store/types'
 import {GA_EVENTS, trackGAEvent} from '../utils/analytics'
 import {getUTMData} from '../app-store/session/session.slice'
-import {HttpService} from '../api/axios.config'
-import {getClientHostBase} from '../config/environment'
 import {
   SignInState,
   SignInActions,
@@ -150,16 +152,27 @@ export const useSignIn = (onClose: () => void) => {
     }
   }
 
-  const handleGoogleSignIn = () => {
-    const httpService = new HttpService(getClientHostBase())
-    httpService
-      .getClient()
-      .post(`auth/google`, utmData)
-      .then(res => {
-        if (res.success) {
-          window.location.href = '/auth/google'
-        }
+  const handleGoogleCredential = async (credential: string) => {
+    actions.setIsLoading(true)
+    try {
+      const loggedUser: IUser = await verifyGoogleCredential(credential, utmData)
+      if (loggedUser?.id) {
+        dispatch(authUser(loggedUser))
+        trackGAEvent(GA_EVENTS.LOGIN, {method: 'google'})
+        onClose()
+      } else {
+        actions.setErrors({
+          phone: 'Google sign-in failed. Try again or use phone sign-in.',
+        })
+      }
+    } catch (error) {
+      console.error('Error verifying Google credential:', error)
+      actions.setErrors({
+        phone: 'Google sign-in failed. Try again or use phone sign-in.',
       })
+    } finally {
+      actions.setIsLoading(false)
+    }
   }
 
   const onOtpTimeout = () => {
@@ -196,7 +209,7 @@ export const useSignIn = (onClose: () => void) => {
       resetOtpForm,
       sendOTP,
       verifyOTP,
-      handleGoogleSignIn,
+      handleGoogleCredential,
       onOtpTimeout,
     },
     validators: {

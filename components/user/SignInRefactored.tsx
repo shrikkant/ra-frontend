@@ -47,7 +47,7 @@ export default function SignInRefactored({onClose}: SignInModalProps) {
               />
 
               <SignInGoogleSection
-                onGoogleSignIn={handlers.handleGoogleSignIn}
+                onGoogleCredential={handlers.handleGoogleCredential}
               />
 
               <SignInTrustIndicators />

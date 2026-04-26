@@ -24,7 +24,7 @@ export class HttpService {
         if (!config.headers?.[TOKEN_HEADER_KEY]) {
           const token = await getToken()
           config.headers = {
-            TOKEN_HEADER_KEY: token || '',
+            ...(token ? {[TOKEN_HEADER_KEY]: token} : {}),
             'Content-Type': 'application/json',
             ...config.headers,
           }
@@ -70,7 +70,7 @@ httpClient.interceptors.request.use(
     config.rejectUnauthorized = true
     if (!config.headers?.[TOKEN_HEADER_KEY]) {
       config.headers = {
-        TOKEN_HEADER_KEY: token || '',
+        ...(token ? {[TOKEN_HEADER_KEY]: token} : {}),
         'Content-Type': 'application/json',
         ...config.headers,
       }

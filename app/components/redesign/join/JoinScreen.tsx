@@ -10,6 +10,7 @@ import {selectAuthState} from '../../../../app-store/auth/auth.slice'
 import {getLastLink} from '../../../../app-store/session/session.slice'
 import {isVerified, VERIFICATION_FLAGS} from '../../../../config/constants'
 import {CheckIcon} from '../icons'
+import GoogleSignInButton from '../../../../components/common/GoogleSignInBtn'
 
 const OTP_LENGTH = 6
 const RESEND_SECONDS = 28
@@ -54,7 +55,7 @@ export default function JoinScreen() {
             onSend={handlers.sendOTP}
             valid={validators.isPhoneValid()}
             loading={state.isLoading}
-            onGoogle={handlers.handleGoogleSignIn}
+            onGoogleCredential={handlers.handleGoogleCredential}
           />
         ) : (
           <OtpStep
@@ -82,7 +83,7 @@ function PhoneStep({
   onSend,
   valid,
   loading,
-  onGoogle,
+  onGoogleCredential,
 }: {
   phone: string
   error?: string
@@ -90,7 +91,7 @@ function PhoneStep({
   onSend: () => void
   valid: boolean
   loading: boolean
-  onGoogle: () => void
+  onGoogleCredential: (credential: string) => void
 }) {
   const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
     onChange(e.target.value.replace(/\D/g, ''))
@@ -177,53 +178,21 @@ function PhoneStep({
         <div className="flex-1 h-px bg-line" />
       </div>
 
-      <div className="mt-4 grid grid-cols-2 gap-2.5">
-        <button
-          type="button"
-          onClick={onGoogle}
-          className="flex items-center justify-center gap-2 bg-surface border border-line rounded-full py-3 text-[13px] font-bold text-ink"
-        >
-          <GoogleGlyph />
-          Google
-        </button>
+      <div className="mt-4">
+        <GoogleSignInButton onCredential={onGoogleCredential} />
+      </div>
+
+      <div className="mt-2.5">
         <button
           type="button"
           disabled
-          className="flex items-center justify-center gap-2 bg-surface border border-line rounded-full py-3 text-[13px] font-bold text-ink-muted"
+          className="w-full flex items-center justify-center gap-2 bg-surface border border-line rounded-full py-3 text-[13px] font-bold text-ink-muted"
         >
           <AppleGlyph />
           Apple
         </button>
       </div>
     </>
-  )
-}
-
-function GoogleGlyph() {
-  return (
-    <svg
-      width={16}
-      height={16}
-      viewBox="0 0 48 48"
-      aria-hidden
-    >
-      <path
-        fill="#4285F4"
-        d="M45.12 24.5c0-1.56-.14-3.06-.4-4.5H24v8.51h11.84c-.51 2.75-2.06 5.08-4.39 6.64v5.52h7.11c4.16-3.83 6.56-9.47 6.56-16.17z"
-      />
-      <path
-        fill="#34A853"
-        d="M24 46c5.94 0 10.92-1.97 14.56-5.33l-7.11-5.52c-1.97 1.32-4.49 2.1-7.45 2.1-5.73 0-10.58-3.87-12.31-9.07H4.34v5.7C7.96 41.07 15.4 46 24 46z"
-      />
-      <path
-        fill="#FBBC05"
-        d="M11.69 28.18A13.1 13.1 0 0 1 11 24c0-1.45.25-2.86.69-4.18v-5.7H4.34A22 22 0 0 0 2 24c0 3.55.85 6.91 2.34 9.88l7.35-5.7z"
-      />
-      <path
-        fill="#EA4335"
-        d="M24 10.75c3.23 0 6.13 1.11 8.42 3.29l6.31-6.31C34.9 4.15 29.93 2 24 2 15.4 2 7.96 6.93 4.34 14.12l7.35 5.7C13.42 14.62 18.27 10.75 24 10.75z"
-      />
-    </svg>
   )
 }
 
