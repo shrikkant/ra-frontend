@@ -19,8 +19,12 @@ export function parseDates(stored: any): {start: Date; end: Date} {
   return {start, end}
 }
 
+// Mirrors backend `getRentalPeriodInDays`: counts whole calendar days, where
+// same-day = 1, next-day = 1, two days later = 2, etc.
 export function daysBetween(a: Date, b: Date): number {
-  return Math.max(1, Math.round((b.getTime() - a.getTime()) / 86400000) + 1)
+  const startDay = new Date(a.getFullYear(), a.getMonth(), a.getDate()).getTime()
+  const endDay = new Date(b.getFullYear(), b.getMonth(), b.getDate()).getTime()
+  return Math.max(1, Math.round((endDay - startDay) / 86400000))
 }
 
 export function tierForDays(d: number): number {
