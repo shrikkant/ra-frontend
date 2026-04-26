@@ -88,26 +88,31 @@ export default function BookingForm({
         }),
       ])
 
-      // Show the next screen immediately (optimistic)
       if (!loggedUser) {
+        // Guest: serialize before sign-in — OAuth redirect aborts in-flight POST.
+        const guestCart: IOrder = await addToCart(
+          productId,
+          storeSearch?.dates,
+          recaptchaToken,
+        )
+        if (guestCart.id) dispatch(setCart(guestCart))
         dispatch(setLastLink('/p/mycart'))
         setShowSignIn(true)
-      } else if (bookNow) {
+        return
+      }
+
+      // Authenticated: optimistic — UI transitions immediately.
+      if (bookNow) {
         router.push('/p/mycart')
       } else {
         setOpenFormInMobile(false)
       }
-
-      // Fire the API call — UI has already moved on
       const newCart: IOrder = await addToCart(
         productId,
         storeSearch?.dates,
         recaptchaToken,
       )
-
-      if (newCart.id) {
-        dispatch(setCart(newCart))
-      }
+      if (newCart.id) dispatch(setCart(newCart))
     } catch (error) {
       console.error('Failed to add to cart:', error)
     } finally {
