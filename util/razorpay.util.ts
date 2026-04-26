@@ -72,39 +72,6 @@ function buildMethodConfig(method?: PaymentMethod) {
 }
 
 /**
- * For UPI specifically we configure both intent + collect flows.
- * - Mobile: intent fires and deep-links into the user's UPI apps
- *   (GPay / PhonePe / Paytm / etc.) with the payment pre-filled.
- * - Desktop: intent isn't available, so Razorpay falls back to the
- *   VPA-collect pane (enter UPI ID + QR).
- *
- * We deliberately don't pass an `apps` allow-list. `apps` only filters
- * the intent flow, and any unrecognized id (e.g. 'bhim') invalidates
- * the whole instrument — which on desktop leaves the modal with
- * "No appropriate payment method found" because collect never gets to
- * render. Letting Razorpay show every installed UPI app is also the
- * better default for mobile.
- */
-function buildDisplayConfig(method?: PaymentMethod) {
-  if (method !== 'upi') return undefined
-  return {
-    blocks: {
-      upi_intent: {
-        name: 'Pay using your UPI app',
-        instruments: [
-          {
-            method: 'upi',
-            flows: ['intent', 'collect'],
-          },
-        ],
-      },
-    },
-    sequence: ['block.upi_intent'],
-    preferences: {show_default_blocks: false},
-  }
-}
-
-/**
  * Strips undefined/null values so we don't send empty keys to the
  * Razorpay dashboard.
  */
@@ -144,7 +111,6 @@ export const displayRazorpay = async (
     : success
 
   const methodConfig = buildMethodConfig(options.method)
-  const displayConfig = buildDisplayConfig(options.method)
   const notes = cleanNotes({
     ...(result.clientConfig.notes ?? {}),
     ...(options.notes ?? {}),
@@ -154,7 +120,6 @@ export const displayRazorpay = async (
     ...result.clientConfig,
     handler,
     ...(methodConfig ? {method: methodConfig} : {}),
-    ...(displayConfig ? {config: {display: displayConfig}} : {}),
     ...(notes ? {notes} : {}),
     prefill: {
       ...(result.clientConfig.prefill ?? {}),
