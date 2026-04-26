@@ -186,7 +186,7 @@ export default function CartCheckoutScreen() {
         item_id: item.id,
         item_name: item.product?.title ?? 'Rental',
         price: item.rent,
-        quantity: cart.days || 0,
+        quantity: Number(item.qty ?? 1),
       })) ?? []
     try {
       trackPurchaseEvent({

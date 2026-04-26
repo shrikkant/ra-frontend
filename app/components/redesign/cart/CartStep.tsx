@@ -72,19 +72,16 @@ export default function CartStep({
     return <EmptyCart />
   }
 
+  // Backend stores `rent` and `original_rent` as line totals (qty × per-day × days),
+  // not per-day rates. Sum them as-is; do not multiply by days.
   const subtotal = items.reduce(
-    (s, it) =>
-      s +
-      Number(it.original_rent ?? it.rent ?? 0) * Number(it.days ?? days),
+    (s, it) => s + Number(it.original_rent ?? it.rent ?? 0),
     0,
   )
   const discount = Math.max(
     0,
     items.reduce(
-      (s, it) =>
-        s +
-        (Number(it.original_rent ?? 0) - Number(it.rent ?? 0)) *
-          Number(it.days ?? days),
+      (s, it) => s + (Number(it.original_rent ?? 0) - Number(it.rent ?? 0)),
       0,
     ),
   )
@@ -167,9 +164,10 @@ function ItemRow({
   onRemove: () => void
 }) {
   const product: IProduct = item.product
-  const days = Number(item.days ?? 1)
-  const rate = Number(item.rent ?? 0)
-  const total = rate * days
+  const days = Math.max(1, Number(item.days ?? 1))
+  const qty = Math.max(1, Number(item.qty ?? 1))
+  const lineTotal = Number(item.rent ?? 0)
+  const perDay = Math.round(lineTotal / qty / days)
   const img = product ? productPhotoUrl(product, 160) : null
 
   return (
@@ -193,8 +191,8 @@ function ItemRow({
           {product?.title ?? 'Item'}
         </div>
         <div className="font-mono text-[12px] text-ink-muted mt-0.5">
-          ₹{rate} × {days}d ={' '}
-          <span className="text-ink font-bold">{fmtINR(total)}</span>
+          ₹{perDay} × {days}d{qty > 1 ? ` × ${qty}` : ''} ={' '}
+          <span className="text-ink font-bold">{fmtINR(lineTotal)}</span>
         </div>
       </div>
       <button
