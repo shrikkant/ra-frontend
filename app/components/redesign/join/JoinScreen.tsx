@@ -181,26 +181,7 @@ function PhoneStep({
       <div className="mt-4">
         <GoogleSignInButton onCredential={onGoogleCredential} />
       </div>
-
-      <div className="mt-2.5">
-        <button
-          type="button"
-          disabled
-          className="w-full flex items-center justify-center gap-2 bg-surface border border-line rounded-full py-3 text-[13px] font-bold text-ink-muted"
-        >
-          <AppleGlyph />
-          Apple
-        </button>
-      </div>
     </>
-  )
-}
-
-function AppleGlyph() {
-  return (
-    <svg width={16} height={16} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
-      <path d="M16.365 1.43c0 1.14-.493 2.27-1.177 3.08-.823.99-2.175 1.73-3.26 1.63-.141-1.11.404-2.24 1.1-2.98.79-.87 2.12-1.52 3.337-1.73zm3.81 17.11c-.526 1.22-1.16 2.37-2.18 2.39-1.03.02-1.36-.6-2.53-.6-1.18 0-1.54.57-2.51.62-1 .04-1.77-1.3-2.3-2.5-1.07-2.24-1.9-6.33.79-9.1.89-.93 2.48-1.52 3.23-1.54 1.01-.02 1.96.68 2.58.68.61 0 1.76-.84 2.98-.72.51.02 1.97.2 2.92 1.54-.08.05-1.76 1.03-1.74 3.06.02 2.42 2.12 3.23 2.14 3.24-.01.05-.33 1.14-1.11 2.25z" />
-    </svg>
   )
 }
 
