@@ -26,7 +26,7 @@ const portableTextComponents: PortableTextComponents = {
               alt={value.alt || ''}
               width={1200}
               height={675}
-              className="w-full h-auto object-cover"
+              className="block w-full h-auto object-cover"
               sizes="(max-width: 768px) 100vw, 800px"
             />
           </div>
@@ -248,7 +248,7 @@ const BlogPostContent: React.FC<BlogPostContentProps> = ({post}) => {
       {/* Article Content */}
       <div className="px-4 sm:px-6 lg:px-8 pb-16">
         <div className="max-w-4xl">
-          <div className="prose prose-lg prose-gray max-w-none prose-headings:text-gray-900 prose-a:text-orange-600 hover:prose-a:text-orange-700 prose-blockquote:border-orange-400 prose-blockquote:bg-orange-50 prose-blockquote:rounded-r-lg prose-blockquote:py-4 prose-img:rounded-xl prose-img:shadow-lg prose-code:bg-gray-100 prose-code:text-orange-600 prose-code:px-2 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900 prose-pre:rounded-xl">
+          <div className="prose prose-lg prose-gray max-w-none prose-headings:text-gray-900 prose-a:text-orange-600 hover:prose-a:text-orange-700 prose-blockquote:border-orange-400 prose-blockquote:bg-orange-50 prose-blockquote:rounded-r-lg prose-blockquote:py-4 prose-img:rounded-xl prose-img:shadow-lg prose-img:my-0 prose-code:bg-gray-100 prose-code:text-orange-600 prose-code:px-2 prose-code:py-0.5 prose-code:rounded prose-code:before:content-none prose-code:after:content-none prose-pre:bg-gray-900 prose-pre:rounded-xl">
             {Array.isArray(post.body) && (
               <PortableText value={post.body} components={portableTextComponents} />
             )}
