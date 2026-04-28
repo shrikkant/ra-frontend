@@ -201,13 +201,17 @@ export default async function RootLayout({
           strategy="lazyOnload"
         />
 
-        {/* reCAPTCHA — lazyOnload. The 360 KiB script only matters when a
-            form is submitted; deferring past window.onload removes it from
-            the critical path. Forms gate submission on grecaptcha.ready()
-            so a fast-clicking user gets a brief wait, not a broken submit. */}
+        {/* reCAPTCHA — afterInteractive (not lazyOnload). The Add to Cart
+            flow on product/listing pages calls executeRecaptcha() and
+            *requires* a token; the backend rejects the request without one.
+            lazyOnload defers past window.onload, which on slow networks
+            outran useRecaptcha's wait window and left users with broken
+            "Add to Cart". afterInteractive still keeps it off the critical
+            path (loads after FCP) but ensures the script is ready well
+            before a user can plausibly tap a CTA. */}
         <Script
           src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="lazyOnload"
+          strategy="afterInteractive"
         />
       </body>
     </html>

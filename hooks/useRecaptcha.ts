@@ -51,16 +51,27 @@ export const useRecaptcha = () => {
     }
 
     if (!isReady) {
-      // Wait for reCAPTCHA to become ready, up to 2s
+      // Wait for reCAPTCHA to become ready, up to 8s. The script is
+      // loaded with strategy="afterInteractive" (see app/layout.tsx), but
+      // on slow connections it can still take 4-6s; the previous 2s
+      // ceiling was firing before grecaptcha was defined and breaking
+      // Add to Cart with a "missing recaptcha token" error.
       await new Promise<void>((resolve) => {
         const start = Date.now()
         const check = setInterval(() => {
-          if (window.grecaptcha || Date.now() - start > 2000) {
+          if (window.grecaptcha || Date.now() - start > 8000) {
             clearInterval(check)
             resolve()
           }
         }, 50)
       })
+    }
+
+    if (!window.grecaptcha) {
+      // Still not loaded after the wait window — surface a real error
+      // instead of crashing on `undefined.execute`. Callers (e.g.
+      // useAddToCart) catch and degrade gracefully.
+      throw new Error('reCAPTCHA failed to load')
     }
 
     try {
