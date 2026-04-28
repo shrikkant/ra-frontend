@@ -20,13 +20,12 @@ ENV NEXT_PUBLIC_CLIENT_API_URL=https://rentacross.com/api/
 ENV NEXT_PUBLIC_BASE_URL=https://rentacross.com
 ENV NEXT_PUBLIC_BASE_URL_WWW=https://www.rentacross.com
 
-# reCAPTCHA v3 site key. Inlined at build time (NEXT_PUBLIC_*); when
-# missing the script URL becomes "?render=undefined" and grecaptcha.execute
-# returns nothing → Add to Cart fails with "missing recaptcha token".
-# Pass via --build-arg or hardcode (the key is meant to be public — it
-# already appears in any rendered page's HTML).
-ARG NEXT_PUBLIC_RECAPTCHA_SITE_KEY
-ENV NEXT_PUBLIC_RECAPTCHA_SITE_KEY=${NEXT_PUBLIC_RECAPTCHA_SITE_KEY}
+# NEXT_PUBLIC_RECAPTCHA_SITE_KEY and NEXT_PUBLIC_GOOGLE_CLIENT_ID are
+# loaded from .env.production at build time (Next auto-loads it during
+# `next build`). The file is brought into the build context by the
+# COPY . . above. We deliberately do NOT set ARG/ENV for those here —
+# pre-setting them via Dockerfile would override the .env.production
+# value (process.env wins over env files in Next).
 
 # Build CSS first, then build Next.js app.
 # Heap ceiling: with PRERENDER_CITIES × PRERENDER_SUBCATEGORIES (~75
