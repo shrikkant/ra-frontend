@@ -13,9 +13,10 @@ import 'styles/common.css'
 import 'styles/layout-shift-prevention.css'
 
 import type {Metadata, Viewport} from 'next'
-import {GoogleTagManager} from '@next/third-parties/google'
 import LazyToastContainer from './components/LazyToastContainer'
 import NavigationProgress from './components/common/NavigationProgress'
+
+const GTM_ID = 'GTM-TPF56M8'
 
 const robotoCondensed = Roboto_Condensed({
   subsets: ['latin'],
@@ -133,8 +134,6 @@ export default async function RootLayout({
           content="bk-pBKeRJOZYfiWkLC927Y2SVdFADUPUcVrtXVgh4tQ"
         />
 
-        <GoogleTagManager gtmId="GTM-TPF56M8" />
-
         {/* Preconnect to critical image domains for faster LCP */}
         <link rel="preconnect" href="https://rentacross.com" />
         <link rel="preconnect" href="https://cdn.sanity.io" />
@@ -179,10 +178,32 @@ export default async function RootLayout({
             to bail out of SSR — the SSR HTML is what crawlers/AEO bots see. */}
         <LazyToastContainer />
 
-        {/* Google reCAPTCHA v3 - loaded after page interactive */}
+        {/* GTM split into two pieces so we don't need any inline HTML
+            with interpolated values:
+            1) A tiny static dataLayer init (verifiably safe — no
+               user-derived input could ever reach this string).
+            2) The full GTM bundle loaded via external src=, deferred
+               until after window.onload (lazyOnload). afterInteractive
+               (the @next/third-parties default) still loads before the
+               load event and shows up in TBT.
+            This pattern also keeps the door open to dropping
+            'unsafe-inline' from script-src in CSP later. */}
+        <Script id="gtm-dl" strategy="beforeInteractive">
+          {`window.dataLayer = window.dataLayer || [];`}
+        </Script>
+        <Script
+          id="gtm-loader"
+          src={`https://www.googletagmanager.com/gtm.js?id=${GTM_ID}`}
+          strategy="lazyOnload"
+        />
+
+        {/* reCAPTCHA — lazyOnload. The 360 KiB script only matters when a
+            form is submitted; deferring past window.onload removes it from
+            the critical path. Forms gate submission on grecaptcha.ready()
+            so a fast-clicking user gets a brief wait, not a broken submit. */}
         <Script
           src={`https://www.google.com/recaptcha/api.js?render=${process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY}`}
-          strategy="afterInteractive"
+          strategy="lazyOnload"
         />
       </body>
     </html>

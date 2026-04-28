@@ -149,9 +149,6 @@ export default function ListingScreen({
         customH1={customH1}
         customIntro={customIntro}
       />
-      {authoredBody && authoredBody.length > 0 && (
-        <AuthoredBody body={authoredBody} />
-      )}
       <SearchHeader initialQuery={initialQuery} autoFocus={false} />
       {/* Mobile: chip rail on top of results. Desktop: chips also useful as
           quick switchers above the grid. */}
@@ -211,6 +208,13 @@ export default function ListingScreen({
           )}
         </div>
       </div>
+
+      {/* Authored long-form content sits below the product grid so the
+          inventory is above the fold (Amazon-style listing UX). Crawlers
+          and answer engines still read it — they don't care about order. */}
+      {authoredBody && authoredBody.length > 0 && (
+        <AuthoredBody body={authoredBody} />
+      )}
 
       <CategoryCrossLinks
         filter={filter}
