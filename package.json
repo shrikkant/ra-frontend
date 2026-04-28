@@ -7,8 +7,11 @@
     "not dead",
     "not op_mini all",
     "not ie 11",
-    "not safari < 14",
-    "not ios_saf < 14"
+    "not safari < 16",
+    "not ios_saf < 16",
+    "not chrome < 100",
+    "not edge < 100",
+    "not firefox < 100"
   ],
   "scripts": {
     "build:css": "postcss ./styles/tailwind.css -o ./styles/global.css",

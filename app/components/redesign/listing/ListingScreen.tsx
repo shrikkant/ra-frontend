@@ -228,12 +228,13 @@ export default function ListingScreen({
             <EmptyState />
           ) : (
             <>
-              {/* Mobile: row list. First row is the above-the-fold LCP
-                  candidate — eager + high fetchpriority. */}
+              {/* Mobile: row list. Above-the-fold ~4 rows render eagerly so
+                  whichever wins LCP is already loading. The very first
+                  row also gets fetchpriority=high to race CSS/JS. */}
               <ul className="md:hidden divide-y divide-line-soft bg-surface mt-1">
                 {sorted.map((p, i) => (
                   <li key={p.id}>
-                    <ProductRow product={p} priority={i === 0} />
+                    <ProductRow product={p} eager={i < 4} priority={i === 0} />
                   </li>
                 ))}
               </ul>
