@@ -6,9 +6,14 @@ import StoreProvider from './StoreProvider'
 import Script from 'next/script'
 import {Inter_Tight, JetBrains_Mono} from 'next/font/google'
 
-// CSS imports - ensure proper order
+// CSS imports - ensure proper order.
+// Importing the SOURCE tailwind.css lets Next's PostCSS pipeline JIT
+// the classes used per route instead of shipping the pre-compiled
+// global.css dump (174 KB raw, ~21 KB gzipped, ~80% unused on any
+// given page). With this import Next code-splits CSS per route and
+// only ships the utilities each route actually uses.
 import 'styles/vars.css'
-import 'styles/global.css'
+import 'styles/tailwind.css'
 import 'styles/common.css'
 import 'styles/layout-shift-prevention.css'
 

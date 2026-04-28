@@ -52,7 +52,10 @@ export default function ProductRow({product, priority = false}: ProductRowProps)
   const {brand, name} = splitBrand(product.title)
   const rate = product.rate || product.rates?.[0]?.rate || 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug ?? 'rent-camera'}/${product.slug}`
-  const img = productPhotoUrl(product, 192)
+  // Container is 96px (w-24) → at 2× DPR the image area inside the p-2.5
+  // padding is ~152 device px. 160 gives a small buffer over the displayed
+  // size without shipping the wasted bytes Lighthouse flagged at 192.
+  const img = productPhotoUrl(product, 160)
   const tags = product.subCategory?.title ? [product.subCategory.title] : []
 
   const handleAdd = (e: React.MouseEvent) => {
