@@ -1,3 +1,13 @@
+// `window.dataLayer` was previously typed by `@next/third-parties/google`,
+// which we dropped in favor of loading GTM via a plain <Script src="…">
+// (see app/layout.tsx). Declare the global ourselves so analytics calls
+// keep type-checking without re-pulling that package.
+declare global {
+  interface Window {
+    dataLayer?: Record<string, unknown>[]
+  }
+}
+
 // Recursive type to support JSON-serializable values for GA events
 type GAEventValue =
   | string
