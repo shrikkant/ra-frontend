@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useMemo, useState} from 'react'
+import React, {Suspense, useEffect, useMemo, useState} from 'react'
 import {useSearchParams} from 'next/navigation'
 import {
   IProduct,
@@ -26,6 +26,25 @@ import AuthoredBody from './AuthoredBody'
 import FAQSection from '../../../../components/faq/FAQSection'
 
 const HIDDEN_SUBCATEGORY_IDS = new Set([59, 60, 62, 48, 32, 50, 30])
+
+// Reads the URL's ?q= and ?sort= and pushes them up to the parent's state.
+// Lives inside a tight <Suspense> so that during SSG, useSearchParams
+// suspends *here* (with a null fallback) instead of bubbling up and
+// preventing the entire ListingScreen from prerendering. After hydration,
+// useSearchParams resolves and the parent re-renders with real values.
+function SearchParamsSync({
+  onChange,
+}: {
+  onChange: (q: string, sort: string) => void
+}) {
+  const searchParams = useSearchParams()
+  const q = searchParams?.get('q') ?? ''
+  const sort = searchParams?.get('sort') ?? ''
+  useEffect(() => {
+    onChange(q, sort)
+  }, [q, sort, onChange])
+  return null
+}
 
 interface BrandOption {
   id: number
@@ -71,11 +90,16 @@ export default function ListingScreen({
   customIntro,
   authoredBody,
 }: ListingScreenProps) {
-  const searchParams = useSearchParams()
-  const sort = searchParams?.get('sort') ?? ''
-  // ?q= is read client-side and applied via in-memory filtering. The
-  // server fetch is intentionally q-agnostic so listing pages SSG.
-  const query = searchParams?.get('q') ?? ''
+  // Hold q/sort as local state with empty defaults so the products grid
+  // renders fully in SSR HTML (no useSearchParams suspension at this
+  // level). SearchParamsSync below feeds real URL values in once
+  // hydrated.
+  const [query, setQuery] = useState('')
+  const [sort, setSort] = useState('')
+  const handleParamsChange = React.useCallback((q: string, s: string) => {
+    setQuery(q)
+    setSort(s)
+  }, [])
   const initialQuery = query
 
   const filteredProducts = useMemo(() => {
@@ -134,6 +158,13 @@ export default function ListingScreen({
 
   return (
     <MobileChrome>
+      {/* Tight Suspense around useSearchParams — lets the page SSG without
+          deopting the whole tree. Fallback null is fine: the only effect
+          of empty params is "no filter applied", which is the right SSR
+          default for a listing page anyway. */}
+      <Suspense fallback={null}>
+        <SearchParamsSync onChange={handleParamsChange} />
+      </Suspense>
       <Breadcrumbs
         filter={filter}
         slug={slugForBreadcrumb}
@@ -158,27 +189,34 @@ export default function ListingScreen({
       />
 
       <div className="lg:grid lg:grid-cols-[260px_1fr] lg:gap-8 lg:mt-2">
-        {/* Desktop sidebar — sticky filter panel */}
+        {/* Desktop sidebar — sticky filter panel. FilterPanel uses
+            useSearchParams; wrap in Suspense so it doesn't deopt the
+            page from SSG. Filters render after hydration (~ms post-LCP). */}
         <aside className="hidden lg:block">
           <div className="sticky top-24 bg-surface border border-line-soft rounded-[18px] overflow-hidden">
-            <FilterPanel
-              variant="sidebar"
-              citySlug={filter.city ?? 'pune'}
-              subCategories={subCategories}
-              activeSubCategorySlug={activeSubCategorySlug}
-              brands={brands}
-            />
+            <Suspense fallback={null}>
+              <FilterPanel
+                variant="sidebar"
+                citySlug={filter.city ?? 'pune'}
+                subCategories={subCategories}
+                activeSubCategorySlug={activeSubCategorySlug}
+                brands={brands}
+              />
+            </Suspense>
           </div>
         </aside>
 
         <div>
-          {/* Filter button is mobile-only (sidebar handles it on desktop). */}
+          {/* Filter button is mobile-only (sidebar handles it on desktop).
+              FilterSortRow uses useSearchParams; same Suspense treatment. */}
           <div className="lg:hidden">
-            <FilterSortRow
-              count={products.length}
-              activeFilterCount={activeFilterCount}
-              onOpenFilters={() => setFiltersOpen(true)}
-            />
+            <Suspense fallback={null}>
+              <FilterSortRow
+                count={products.length}
+                activeFilterCount={activeFilterCount}
+                onOpenFilters={() => setFiltersOpen(true)}
+              />
+            </Suspense>
           </div>
           <div className="hidden lg:flex items-center justify-between px-0 py-3">
             <div className="text-[14px] font-mono text-ink-muted">
@@ -240,14 +278,16 @@ export default function ListingScreen({
 
       {faqs.length > 0 && <FAQSection faqs={faqs} />}
 
-      <FilterSheet
-        open={filtersOpen}
-        onClose={() => setFiltersOpen(false)}
-        citySlug={filter.city ?? 'pune'}
-        subCategories={subCategories}
-        activeSubCategorySlug={activeSubCategorySlug}
-        brands={brands}
-      />
+      <Suspense fallback={null}>
+        <FilterSheet
+          open={filtersOpen}
+          onClose={() => setFiltersOpen(false)}
+          citySlug={filter.city ?? 'pune'}
+          subCategories={subCategories}
+          activeSubCategorySlug={activeSubCategorySlug}
+          brands={brands}
+        />
+      </Suspense>
     </MobileChrome>
   )
 }

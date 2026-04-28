@@ -145,31 +145,32 @@ export default async function RootLayout({
         <link rel="dns-prefetch" href="https://cdn.heapanalytics.com" />
       </head>
       <body>
-        <Suspense
-          fallback={
-            <div className="min-h-screen">
-              {/* Header skeleton */}
-              <div className="bg-gradient-to-r from-gray-900 to-gray-800 h-16 animate-pulse" />
-              {/* Content skeleton */}
-              <div className="max-w-7xl mx-auto px-4 py-8">
-                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
-                  {[1, 2, 3, 4, 5, 6, 7, 8].map(i => (
-                    <div key={i} className="bg-gray-200 rounded-lg h-64 animate-pulse" />
-                  ))}
-                </div>
-              </div>
-            </div>
-          }
-        >
-          <StoreProvider>
-            <NavigationProgress />
+        {/* Layout no longer wraps the whole tree in one giant Suspense.
+            That fallback (a full-page skeleton) was catching suspensions
+            from any descendant — including Header sub-nav and listing
+            filters that read useSearchParams — and replacing the entire
+            page with the skeleton during SSG. The result was zero product
+            tiles in prerendered HTML, killing LCP.
+
+            Now each section that may suspend has its own tight boundary:
+            - Header / Footer: contain useSearchParams users (sub-nav,
+              scripts). Hidden during SSG, revealed at hydration. SSR
+              HTML still includes the listing.
+            - Listing children: have internal Suspenses around their
+              useSearchParams readers (see ListingScreen.tsx). Renders
+              with empty params during SSG, hydrates with real params. */}
+        <StoreProvider>
+          <NavigationProgress />
+          <Suspense fallback={null}>
             <HeaderRouteGate>
               <Header />
             </HeaderRouteGate>
-            <div>{children}</div>
+          </Suspense>
+          <div>{children}</div>
+          <Suspense fallback={null}>
             <Footer />
-          </StoreProvider>
-        </Suspense>
+          </Suspense>
+        </StoreProvider>
 
         {/* Toast container is client-only (dynamic ssr:false). Kept OUTSIDE
             the Suspense boundary so it doesn't force the entire page tree
