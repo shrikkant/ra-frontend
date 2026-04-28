@@ -78,11 +78,6 @@ export function useAddToCart() {
 
       flyTo(fromRect ?? null)
 
-      if (!loggedUser) {
-        dispatch(setLastLink('/p/mycart'))
-        router.push('/join')
-        return
-      }
       if (!storeSearch?.dates) {
         toast.error('Pick rental dates first')
         return
@@ -98,12 +93,27 @@ export function useAddToCart() {
         const recaptchaToken = await executeRecaptcha('add_to_cart').catch(
           () => undefined,
         )
+        // Always call addToCart — backend supports guest carts via the
+        // session cookie. For logged-in users this updates their cart;
+        // for guests it creates a session cart that gets claimed by the
+        // user record on login. This restores the seamless guest →
+        // login → "your product is already in your cart" flow.
         const newCart = await addToCartApi(
           productId,
           storeSearch.dates,
           recaptchaToken,
         )
         if (newCart?.id) dispatch(setCart(newCart))
+
+        if (!loggedUser) {
+          // Guest path: cart now exists server-side. Send them to /join
+          // and route to /p/mycart after auth; the backend's session-
+          // cookie cart claim ensures the product is still there.
+          dispatch(setLastLink('/p/mycart'))
+          router.push('/join')
+          return
+        }
+
         toast.success(`Added ${productName} to cart`)
       } catch (e) {
         console.error('Add to cart failed', e)
