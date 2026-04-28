@@ -20,7 +20,12 @@ ENV NEXT_PUBLIC_CLIENT_API_URL=https://rentacross.com/api/
 ENV NEXT_PUBLIC_BASE_URL=https://rentacross.com
 ENV NEXT_PUBLIC_BASE_URL_WWW=https://www.rentacross.com
 
-# Build CSS first, then build Next.js app
+# Build CSS first, then build Next.js app.
+# Heap ceiling: with PRERENDER_CITIES × PRERENDER_SUBCATEGORIES (~75
+# cross-product pages) + 2 build workers, the Next orchestrator peaks
+# around 2-3 GB. 4 GB leaves headroom; bump if we widen the prerender
+# set or hit OOM in CI.
+ENV NODE_OPTIONS="--max-old-space-size=4096"
 RUN npm run build:css
 RUN npm run build
 

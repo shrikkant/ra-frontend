@@ -1,6 +1,7 @@
 import React, {Suspense} from 'react'
 import Header from '../components/common/Header'
 import Footer from '../components/common/Footer'
+import HeaderRouteGate from './components/HeaderRouteGate'
 import StoreProvider from './StoreProvider'
 import Script from 'next/script'
 import {Roboto_Condensed, Jost, Inter_Tight, JetBrains_Mono} from 'next/font/google'
@@ -165,13 +166,18 @@ export default async function RootLayout({
         >
           <StoreProvider>
             <NavigationProgress />
-            <Header />
+            <HeaderRouteGate>
+              <Header />
+            </HeaderRouteGate>
             <div>{children}</div>
             <Footer />
           </StoreProvider>
-
-          <LazyToastContainer />
         </Suspense>
+
+        {/* Toast container is client-only (dynamic ssr:false). Kept OUTSIDE
+            the Suspense boundary so it doesn't force the entire page tree
+            to bail out of SSR — the SSR HTML is what crawlers/AEO bots see. */}
+        <LazyToastContainer />
 
         {/* Google reCAPTCHA v3 - loaded after page interactive */}
         <Script

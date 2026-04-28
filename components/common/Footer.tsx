@@ -1,8 +1,19 @@
-import React from 'react'
+'use client'
+
+import React, {Suspense} from 'react'
 import Link from 'next/link'
+import {usePathname} from 'next/navigation'
 import Scripts from './Scripts'
-import {headers} from 'next/headers'
 import {isRedesignedRoute} from '../../app/components/redesign/routes'
+
+// Scripts uses useSearchParams() which forces a route out of static
+// rendering unless it's behind its own Suspense boundary. Keep the
+// boundary tight so the rest of the page can still SSG.
+const SuspendedScripts = () => (
+  <Suspense fallback={null}>
+    <Scripts />
+  </Suspense>
+)
 
 // Inline SVG icons to avoid loading react-icons/fa on every page
 const FacebookIcon = ({className}: {className?: string}) => (
@@ -35,16 +46,18 @@ const WhatsappIcon = ({className}: {className?: string}) => (
   </svg>
 )
 
-export default async function Footer() {
-  const headersList = await headers()
-  const pathname =
-    headersList.get('x-pathname') || headersList.get('x-invoke-path') || ''
+// Converted to a client component (with usePathname) so the root layout
+// no longer requires next/headers — which was forcing all routes dynamic.
+// SSR still works correctly: usePathname() returns the real path during
+// server rendering of client components.
+export default function Footer() {
+  const pathname = usePathname() || ''
 
   if (pathname.startsWith('/photobooth')) {
-    return <Scripts />
+    return <SuspendedScripts />
   }
   if (isRedesignedRoute(pathname)) {
-    return <Scripts />
+    return <SuspendedScripts />
   }
 
   return (
@@ -237,7 +250,7 @@ export default async function Footer() {
           </div>
         </div>
       </div>
-      <Scripts />
+      <SuspendedScripts />
     </footer>
   )
 }

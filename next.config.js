@@ -36,6 +36,12 @@ const nextConfig = {
   compress: true,
   reactStrictMode: true,
   output: 'standalone',
+  // Listing routes prerender (city × subCategory) combos at build time.
+  // Slow combos (low-inventory categories where the backend takes a
+  // while to return an empty result) can blow past the default 60s
+  // per-page limit. Be generous — builds are infrequent and we'd rather
+  // wait than fall back to dynamic.
+  staticPageGenerationTimeout: 300,
   async headers() {
     return [
       {
@@ -72,6 +78,13 @@ const nextConfig = {
   },
   experimental: {
     viewTransition: true,
+    // Cap build-time worker count. Default is os.cpus().length - 1, which
+    // fans out a lot of concurrent backend hits per page batch and adds
+    // memory pressure on the build host. Two workers is a saner default —
+    // slower wall-clock, but each worker gets backend headroom and the
+    // build completes on smaller boxes.
+    cpus: 2,
+    workerThreads: false,
   },
   images: {
     qualities: [75, 80, 85],

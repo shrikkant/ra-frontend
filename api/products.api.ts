@@ -82,7 +82,11 @@ export async function fetchProductsServer(
   const catFilter = filter?.subCategory ? '&subCat=' + filter?.subCategory : ''
 
   const url = `products/?searchString=${searchQuery + pageFilter + stateFilter + cityFilter + rateFilter + brandFilter + catFilter}`
-  return fetchDataServer(url)
+  // Cacheable. Without an explicit cache directive Next 15+ treats the
+  // fetch as no-store, which forces any page that calls this into
+  // dynamic rendering and disqualifies it from SSG. 1-hour revalidate
+  // keeps listings fresh without hitting the backend per request.
+  return fetchDataServer(url, {next: {revalidate: 3600}} as any)
 }
 
 export async function fetchProductBySlug(slug: string): Promise<IProduct> {

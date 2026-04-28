@@ -14,12 +14,19 @@ export default function StoreProvider({children}: {children: React.ReactNode}) {
     persistorRef.current = persistStore(storeRef.current)
   }
 
+  // children render OUTSIDE PersistGate so they SSR. Gating children on
+  // PersistGate (loading={null}) makes the whole page tree empty on SSR,
+  // breaking SEO/AEO for crawlers and answer engines that don't run JS.
+  // Components that need persisted state should handle the brief
+  // pre-hydration window themselves (useEffect, conditional render, etc.).
+  // AuthBootstrap stays gated because it kicks off a fetch and we want it
+  // to wait until any persisted auth state has been rehydrated first.
   return (
     <Provider store={storeRef.current}>
       <PersistGate loading={null} persistor={persistorRef.current!}>
         <AuthBootstrap />
-        {children}
       </PersistGate>
+      {children}
     </Provider>
   )
 }

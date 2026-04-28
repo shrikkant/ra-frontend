@@ -1,24 +1,15 @@
 import React from 'react'
-import {headers} from 'next/headers'
 import AppHeader from '../../app/components/common/layout/header'
-import {isRedesignedRoute} from '../../app/components/redesign/routes'
 
-export default async function Header() {
-  const headersList = await headers()
-  const pathname =
-    headersList.get('x-pathname') || headersList.get('x-invoke-path') || ''
-
-  if (pathname.startsWith('/photobooth')) {
-    return null
-  }
-  if (isRedesignedRoute(pathname)) {
-    return null
-  }
-
+// Pure server component. Renders the legacy AppHeader unconditionally.
+// The conditional "show on legacy routes only" check is done by the
+// HeaderRouteGate client wrapper (see app/layout.tsx) so we don't pull
+// next/headers into the layout — that was forcing the whole tree dynamic.
+export default function Header() {
   return (
     <div>
       <header className="header">
-        <AppHeader></AppHeader>
+        <AppHeader />
       </header>
     </div>
   )

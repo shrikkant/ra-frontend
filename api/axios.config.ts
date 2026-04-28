@@ -143,7 +143,13 @@ export const fetchData = async (url: string, customOptions?: RequestInit) => {
   return resultFormatted
 }
 
-// Server-side fetch - uses internal Docker URL with Referer header
+// Server-side fetch - uses internal Docker URL with Referer header.
+// Hard 15s ceiling so build-time prerenders can't be held hostage by a
+// slow/hung backend response. Callers should catch and degrade gracefully
+// (empty results, fall back to ISR, etc.) rather than letting the page
+// fail outright.
+const SERVER_FETCH_TIMEOUT_MS = 15_000
+
 export const fetchDataServer = async (url: string, customOptions?: RequestInit) => {
   const commonOptions: RequestInit = {
     headers: {
@@ -158,17 +164,27 @@ export const fetchDataServer = async (url: string, customOptions?: RequestInit) 
     ...customOptions,
   }
 
-  const response: any = await fetch(
-    `${ENV_CONFIG.SERVER_API_URL}${url}`,
-    options,
+  const controller = new AbortController()
+  const timeoutId = setTimeout(
+    () => controller.abort(),
+    SERVER_FETCH_TIMEOUT_MS,
   )
 
-  if (!response.ok) {
-    throw new Error('Failed to fetch data')
-  }
+  try {
+    const response: any = await fetch(
+      `${ENV_CONFIG.SERVER_API_URL}${url}`,
+      {...options, signal: controller.signal},
+    )
 
-  const {resultFormatted} = await response.json()
-  return resultFormatted
+    if (!response.ok) {
+      throw new Error(`Failed to fetch data: ${response.status} ${url}`)
+    }
+
+    const {resultFormatted} = await response.json()
+    return resultFormatted
+  } finally {
+    clearTimeout(timeoutId)
+  }
 }
 
 export default httpClient

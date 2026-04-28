@@ -86,12 +86,17 @@ export const getCategoryTitle = (
 }
 
 /**
- * Capitalizes the first letter of a city name and makes the rest lowercase
- * @param city - City name to capitalize
- * @returns Properly capitalized city name
+ * Title-cases a city name, handling multi-word and hyphenated forms.
+ * "pune" → "Pune", "PUNE" → "Pune", "Navi Mumbai" → "Navi Mumbai",
+ * "navi-mumbai" → "Navi Mumbai", "new york" → "New York".
  */
 export const capitalizeCity = (city: string): string => {
-  return city.charAt(0).toUpperCase() + city.slice(1).toLowerCase()
+  if (!city) return city
+  return city
+    .split(/[-\s]+/)
+    .filter(Boolean)
+    .map(part => part.charAt(0).toUpperCase() + part.slice(1).toLowerCase())
+    .join(' ')
 }
 
 /**
