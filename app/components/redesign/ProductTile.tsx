@@ -46,9 +46,21 @@ function splitBrand(title: string): {brand: string; name: string} {
 interface ProductTileProps {
   product: IProduct
   featured?: boolean
+  // For above-the-fold tiles — disables lazy loading (eager) and, when
+  // `priority`, also tags the request fetchpriority=high so the browser
+  // races it against critical CSS instead of queueing behind it. Listing
+  // pages should mark the first ~6 tiles `eager` and the very first one
+  // `priority` (it's typically the LCP element).
+  eager?: boolean
+  priority?: boolean
 }
 
-export default function ProductTile({product, featured = false}: ProductTileProps) {
+export default function ProductTile({
+  product,
+  featured = false,
+  eager = false,
+  priority = false,
+}: ProductTileProps) {
   const tileRef = useRef<HTMLAnchorElement>(null)
   const {add, fly, pendingId} = useAddToCart()
   const {brand, name} = splitBrand(product.title)
@@ -91,7 +103,8 @@ export default function ProductTile({product, featured = false}: ProductTileProp
         <img
           src={img}
           alt={product.title}
-          loading="lazy"
+          loading={eager ? 'eager' : 'lazy'}
+          fetchPriority={priority ? 'high' : 'auto'}
           className={`absolute inset-0 w-full h-full object-contain ${
             featured ? 'p-6' : 'p-4.5'
           }`}

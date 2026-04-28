@@ -39,7 +39,14 @@ function splitBrand(title: string): {brand: string; name: string} {
     : {brand: '', name: trimmed}
 }
 
-export default function ProductRow({product}: {product: IProduct}) {
+interface ProductRowProps {
+  product: IProduct
+  // First above-the-fold row (mobile) — load eagerly + high fetchpriority
+  // so the LCP element doesn't wait on intersection-observer.
+  priority?: boolean
+}
+
+export default function ProductRow({product, priority = false}: ProductRowProps) {
   const rowRef = useRef<HTMLAnchorElement>(null)
   const {add, fly, pendingId} = useAddToCart()
   const {brand, name} = splitBrand(product.title)
@@ -75,7 +82,8 @@ export default function ProductRow({product}: {product: IProduct}) {
           <img
             src={img}
             alt={product.title}
-            loading="lazy"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchPriority={priority ? 'high' : 'auto'}
             className="absolute inset-0 w-full h-full object-contain p-2.5"
           />
         )}

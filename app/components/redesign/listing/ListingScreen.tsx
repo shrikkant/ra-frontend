@@ -190,18 +190,27 @@ export default function ListingScreen({
             <EmptyState />
           ) : (
             <>
-              {/* Mobile: row list */}
+              {/* Mobile: row list. First row is the above-the-fold LCP
+                  candidate — eager + high fetchpriority. */}
               <ul className="md:hidden divide-y divide-line-soft bg-surface mt-1">
-                {sorted.map(p => (
+                {sorted.map((p, i) => (
                   <li key={p.id}>
-                    <ProductRow product={p} />
+                    <ProductRow product={p} priority={i === 0} />
                   </li>
                 ))}
               </ul>
-              {/* Tablet/desktop: tile grid */}
+              {/* Tablet/desktop: tile grid. Up to 8 tiles are above the
+                  fold on xl (2 rows × 4 cols) — load those eagerly. The
+                  very first one is typically the LCP, so flag it as
+                  priority (fetchpriority=high). */}
               <div className="hidden md:grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
-                {sorted.map(p => (
-                  <ProductTile key={p.id} product={p} />
+                {sorted.map((p, i) => (
+                  <ProductTile
+                    key={p.id}
+                    product={p}
+                    eager={i < 8}
+                    priority={i === 0}
+                  />
                 ))}
               </div>
             </>
