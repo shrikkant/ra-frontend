@@ -30,9 +30,6 @@ const config: Config = {
       fontFamily: {
         sans: ['var(--font-inter-tight)', 'system-ui', 'sans-serif'],
         mono: ['var(--font-jetbrains-mono)', 'ui-monospace', 'monospace'],
-        // Legacy aliases — keep until un-redesigned routes are migrated
-        jost: ['var(--font-jost)', 'sans-serif'],
-        'roboto-condensed': ['var(--font-roboto-condensed)', 'sans-serif'],
       },
       spacing: {
         '4.5': '18px',

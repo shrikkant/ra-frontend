@@ -4,7 +4,7 @@ import Footer from '../components/common/Footer'
 import HeaderRouteGate from './components/HeaderRouteGate'
 import StoreProvider from './StoreProvider'
 import Script from 'next/script'
-import {Roboto_Condensed, Jost, Inter_Tight, JetBrains_Mono} from 'next/font/google'
+import {Inter_Tight, JetBrains_Mono} from 'next/font/google'
 
 // CSS imports - ensure proper order
 import 'styles/vars.css'
@@ -18,25 +18,23 @@ import NavigationProgress from './components/common/NavigationProgress'
 
 const GTM_ID = 'GTM-TPF56M8'
 
-const robotoCondensed = Roboto_Condensed({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-roboto-condensed',
-})
-
-const jost = Jost({
-  subsets: ['latin'],
-  display: 'swap',
-  variable: '--font-jost',
-})
-
+// Inter Tight is the LCP-critical font (drives every body/heading paint
+// on listing & product pages). `display: 'optional'` keeps LCP at fallback
+// paint instead of swap, at the cost of a brief flash of fallback font on
+// slow connections — net-positive for Core Web Vitals.
+//
+// Weight set trimmed to the 4 actually loaded by component classes
+// (font-medium / semibold / bold / extrabold). 400 (6 uses) and 900
+// (4 uses) fell back imperceptibly to 500/800.
 const interTight = Inter_Tight({
   subsets: ['latin'],
-  display: 'swap',
-  weight: ['400', '500', '600', '700', '800', '900'],
+  display: 'optional',
+  weight: ['500', '600', '700', '800'],
   variable: '--font-inter-tight',
 })
 
+// JetBrains Mono is only used in small text (kickers, counts) — swap is
+// visually fine here.
 const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
@@ -114,7 +112,7 @@ export default async function RootLayout({
   return (
     <html
       lang="en"
-      className={`${robotoCondensed.variable} ${jost.variable} ${interTight.variable} ${jetbrainsMono.variable}`}
+      className={`${interTight.variable} ${jetbrainsMono.variable}`}
     >
       <head>
         <meta name="robots" content="index, follow"></meta>
