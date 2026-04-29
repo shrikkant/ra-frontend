@@ -74,6 +74,16 @@ export const sessionData = state => state.session
 
 export const getDefaultSearch = (state): IDefaultSearch =>
   state.session.defaultSearch
+
+// Strict source of truth for "the user has explicitly picked rental dates."
+// Components that gate on whether to enable Add-to-cart, render a real
+// total, or prompt for date selection MUST use this — not a fallback that
+// invents defaults (see dateUtils.parseDates, which is for picker UI only).
+export const hasDates = (state): boolean => {
+  const d = state.session.defaultSearch?.dates
+  return !!(d?.startDate && d?.endDate)
+}
+
 export const getLastLink = (state): string => state.session.lastLink
 export const getUTMData = (state): UtmData | undefined => state.session.utmData
 export const getUserLocation = (state): UserLocation | undefined =>

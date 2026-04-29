@@ -7,6 +7,7 @@ import {useSelector} from 'react-redux'
 import {SearchIcon, CartIcon, UserIcon, ChevronDownIcon} from './icons'
 import {getCart} from '../../../app-store/user/orders/orders.slice'
 import {useDetectedLocation} from './useDetectedLocation'
+import DateChip from './DateChip'
 
 const NAV_LINKS = [
   {href: '/pune/rent-camera?q=', label: 'Cameras'},
@@ -84,6 +85,8 @@ export default function DesktopNav() {
             )
           })}
         </div>
+
+        <DateChip />
 
         <Link
           href="/pune/rent-camera?q="

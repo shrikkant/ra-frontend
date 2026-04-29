@@ -157,7 +157,7 @@ export default function ListingScreen({
       : ([filter.city].filter(Boolean) as string[])
 
   return (
-    <MobileChrome>
+    <MobileChrome showMobileNav>
       {/* Tight Suspense around useSearchParams — lets the page SSG without
           deopting the whole tree. Fallback null is fine: the only effect
           of empty params is "no filter applied", which is the right SSR

@@ -76,12 +76,16 @@ export function useAddToCart() {
     async ({productId, productName, fromRect}: AddArgs) => {
       if (pendingId === productId) return
 
-      flyTo(fromRect ?? null)
-
+      // Callers gate on `hasDates` and route the user to the date picker
+      // when missing, so by the time we get here dates are expected.
+      // Keep a defensive guard in case of a wiring regression — silent,
+      // not a user-facing toast.
       if (!storeSearch?.dates) {
-        toast.error('Pick rental dates first')
+        console.warn('useAddToCart called without dates set; skipping')
         return
       }
+
+      flyTo(fromRect ?? null)
 
       setPendingId(productId)
       try {

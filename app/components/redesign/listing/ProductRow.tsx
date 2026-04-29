@@ -2,11 +2,14 @@
 
 import React, {useRef} from 'react'
 import Link from 'next/link'
+import {useSelector} from 'react-redux'
 import {IProduct} from '../../../../app-store/types'
 import {getCitySlug} from '../../../../util/city.util'
 import {productPhotoUrl} from '../../../../util/product-image.util'
 import {PlusIcon} from '../icons'
 import {useAddToCart} from '../useAddToCart'
+import {hasDates as hasDatesSelector} from '../../../../app-store/session/session.slice'
+import {useDatePicker} from '../DatePickerProvider'
 
 const KNOWN_BRANDS = [
   'Canon',
@@ -58,6 +61,8 @@ export default function ProductRow({
 }: ProductRowProps) {
   const rowRef = useRef<HTMLAnchorElement>(null)
   const {add, fly, pendingId} = useAddToCart()
+  const hasDates = useSelector(hasDatesSelector)
+  const {open: openDatePicker} = useDatePicker()
   const {brand, name} = splitBrand(product.title)
   const rate = product.rate || product.rates?.[0]?.rate || 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug ?? 'rent-camera'}/${product.slug}`
@@ -70,6 +75,10 @@ export default function ProductRow({
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
+    if (!hasDates) {
+      openDatePicker()
+      return
+    }
     const rect = rowRef.current?.getBoundingClientRect() ?? null
     add({productId: product.id, productName: product.title, rate, fromRect: rect})
   }
@@ -130,8 +139,16 @@ export default function ProductRow({
         type="button"
         onClick={handleAdd}
         disabled={pendingId === product.id}
-        aria-label={`Add ${product.title} to cart`}
-        className="shrink-0 inline-flex items-center gap-1 bg-ink text-surface text-[13px] font-bold px-3 py-2 rounded-full disabled:opacity-50"
+        aria-label={
+          hasDates
+            ? `Add ${product.title} to cart`
+            : `Pick rental dates to add ${product.title} to cart`
+        }
+        className={`shrink-0 inline-flex items-center gap-1 text-[13px] font-bold px-3 py-2 rounded-full disabled:opacity-50 ${
+          hasDates
+            ? 'bg-ink text-surface'
+            : 'bg-surface border border-line text-ink-muted'
+        }`}
       >
         <PlusIcon size={14} />
         Add

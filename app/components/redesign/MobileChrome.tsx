@@ -1,6 +1,8 @@
 import React from 'react'
 import TabBar from './TabBar'
 import DesktopNav from './DesktopNav'
+import MobileNav from './MobileNav'
+import {DatePickerProvider} from './DatePickerProvider'
 
 type TopPad = 'notch' | 'none'
 type BottomPad = 'tabBar' | 'cta' | 'none'
@@ -14,6 +16,14 @@ interface MobileChromeProps {
    * focused, distraction-free layout can opt out.
    */
   hideDesktopNav?: boolean
+  /**
+   * Show the mobile top nav (logo + city + date chip + cart). Defaults to
+   * false because most redesigned pages already render their own top bar
+   * (homepage TopBar, product FloatingHeader, KYC BackTo, MarketingChrome
+   * title bar). Listing pages — which previously had nothing above the
+   * content on mobile — opt in by setting this to true.
+   */
+  showMobileNav?: boolean
   /** Top padding strategy. `notch` = 54px clear; `none` = flush. */
   topPad?: TopPad
   /** Bottom padding to clear floating UI. `tabBar` = 120px; `cta` = 96px. */
@@ -47,20 +57,29 @@ export default function MobileChrome({
   children,
   hideTabBar = false,
   hideDesktopNav = false,
+  showMobileNav = false,
   topPad = 'notch',
   bottomPad = 'tabBar',
   background = 'bg-bg',
   width = 'default',
 }: MobileChromeProps) {
+  // When MobileNav is shown it absorbs the notch/safe-area itself, so the
+  // page wrapper only needs the desktop-side top padding. Pages that
+  // render their own top bar (default) keep the legacy `topPad`.
+  const topClass = showMobileNav ? 'md:pt-6' : TOP_CLASS[topPad]
+
   return (
-    <div className={`min-h-screen ${background} font-sans text-ink`}>
-      {!hideDesktopNav && <DesktopNav />}
-      <div
-        className={`mx-auto px-0 md:px-6 ${WIDTH_CLASS[width]} ${TOP_CLASS[topPad]} ${BOTTOM_CLASS[bottomPad]}`}
-      >
-        {children}
+    <DatePickerProvider>
+      <div className={`min-h-screen ${background} font-sans text-ink`}>
+        {!hideDesktopNav && <DesktopNav />}
+        {showMobileNav && <MobileNav />}
+        <div
+          className={`mx-auto px-0 md:px-6 ${WIDTH_CLASS[width]} ${topClass} ${BOTTOM_CLASS[bottomPad]}`}
+        >
+          {children}
+        </div>
+        {!hideTabBar && <TabBar />}
       </div>
-      {!hideTabBar && <TabBar />}
-    </div>
+    </DatePickerProvider>
   )
 }
