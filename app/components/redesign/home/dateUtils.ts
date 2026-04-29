@@ -19,12 +19,13 @@ export function parseDates(stored: any): {start: Date; end: Date} {
   return {start, end}
 }
 
-// Mirrors backend `getRentalPeriodInDays`: counts whole calendar days, where
-// same-day = 1, next-day = 1, two days later = 2, etc.
+// Inclusive day count: same-day = 1, next-day = 2, May 7 → May 9 = 3.
+// IMPORTANT: backend `getRentalPeriodInDays` must use the same rule, or
+// the displayed total will diverge from the cart total at checkout.
 export function daysBetween(a: Date, b: Date): number {
   const startDay = new Date(a.getFullYear(), a.getMonth(), a.getDate()).getTime()
   const endDay = new Date(b.getFullYear(), b.getMonth(), b.getDate()).getTime()
-  return Math.max(1, Math.round((endDay - startDay) / 86400000))
+  return Math.max(1, Math.round((endDay - startDay) / 86400000) + 1)
 }
 
 export function tierForDays(d: number): number {

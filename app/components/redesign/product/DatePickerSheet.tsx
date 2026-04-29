@@ -5,6 +5,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import Sheet from '../Sheet'
 import {
   getDefaultSearch,
+  hasDates as hasDatesSelector,
   setSearch,
 } from '../../../../app-store/session/session.slice'
 import {parseDates, daysBetween} from '../home/dateUtils'
@@ -51,21 +52,40 @@ const PRESETS: {label: string; days: number}[] = [
 export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
   const dispatch = useDispatch()
   const stored = useSelector(getDefaultSearch)
+  const hasStoredDates = useSelector(hasDatesSelector)
   const initial = useMemo(
     () => parseDates((stored as any)?.dates),
     [stored],
   )
   const today = useMemo(() => startOfDay(new Date()), [])
 
-  const [start, setStart] = useState<Date>(initial.start)
-  const [end, setEnd] = useState<Date | null>(initial.end)
+  // Pristine = the user has never picked dates this session, so the sheet
+  // shows no pre-selection. First tap sets `start` cleanly; second tap
+  // sets `end`. Without this, the sheet seeded both endpoints from
+  // parseDates' invented defaults (today+2 → today+5), which made the
+  // first tap behave like "extend the existing range" — the source of
+  // the "I picked 7 to 9 but it counted as 1 day" confusion.
+  const [start, setStart] = useState<Date>(
+    hasStoredDates ? initial.start : today,
+  )
+  const [end, setEnd] = useState<Date | null>(
+    hasStoredDates ? initial.end : null,
+  )
+  const [pristine, setPristine] = useState<boolean>(!hasStoredDates)
 
   useEffect(() => {
     if (open) {
-      setStart(initial.start)
-      setEnd(initial.end)
+      if (hasStoredDates) {
+        setStart(initial.start)
+        setEnd(initial.end)
+        setPristine(false)
+      } else {
+        setStart(today)
+        setEnd(null)
+        setPristine(true)
+      }
     }
-  }, [open, initial.start, initial.end])
+  }, [open, hasStoredDates, initial.start, initial.end, today])
 
   const grid = useMemo(() => buildGrid(today), [today])
   const monthLabel = useMemo(() => {
@@ -81,6 +101,14 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
   const onCellTap = (d: Date) => {
     if (d < today) return
     const ds = ymd(d)
+    // Pristine sheet (no stored dates yet): first tap unambiguously
+    // establishes start. Range gets built by the second tap.
+    if (pristine) {
+      setStart(d)
+      setEnd(null)
+      setPristine(false)
+      return
+    }
     if (!end) {
       // Choosing the end after start was set
       if (d > start) {
@@ -110,8 +138,15 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
   }
 
   const applyPreset = (n: number) => {
-    const e = new Date(start)
-    e.setDate(start.getDate() + n - 1)
+    // Presets anchor on today when pristine (user hasn't picked a start
+    // yet) — taps the obvious "rent for N days starting today" intent.
+    const anchor = pristine ? today : start
+    if (pristine) {
+      setStart(anchor)
+      setPristine(false)
+    }
+    const e = new Date(anchor)
+    e.setDate(anchor.getDate() + n - 1)
     setEnd(e)
   }
 
@@ -154,9 +189,11 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
           {grid.map(d => {
             const ds = ymd(d)
             const isPast = d < today
-            const isStart = ds === ymd(start)
-            const isEnd = end ? ds === ymd(end) : false
-            const inRange = end ? d > start && d < end : false
+            // While pristine, no cells are visually selected — the sheet
+            // shows an empty calendar so the first tap is unambiguous.
+            const isStart = !pristine && ds === ymd(start)
+            const isEnd = !pristine && end ? ds === ymd(end) : false
+            const inRange = !pristine && end ? d > start && d < end : false
             return (
               <button
                 key={ds}
@@ -214,9 +251,12 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
         <button
           type="button"
           onClick={confirm}
-          className="w-full bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5"
+          disabled={pristine}
+          className="w-full bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5 disabled:opacity-40"
         >
-          Confirm {days} {days === 1 ? 'day' : 'days'}
+          {pristine
+            ? 'Pick a date to start'
+            : `Confirm ${days} ${days === 1 ? 'day' : 'days'}`}
         </button>
       </div>
     </Sheet>
