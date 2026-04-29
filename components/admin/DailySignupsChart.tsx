@@ -3,8 +3,10 @@
 import React, {useEffect, useMemo, useState} from 'react'
 import {
   Area,
-  AreaChart,
   CartesianGrid,
+  ComposedChart,
+  Legend,
+  Line,
   ResponsiveContainer,
   Tooltip,
   XAxis,
@@ -18,9 +20,18 @@ import {
 
 const ALL_CITIES = '__ALL__'
 
+const COLOR_SIGNUPS = '#2563eb'
+const COLOR_ENGAGED = '#7c3aed'
+const COLOR_CONVERSION = '#16a34a'
+
 const formatTick = (iso: string) => {
   const d = new Date(iso)
   return d.toLocaleDateString('en-US', {month: 'short', day: 'numeric'})
+}
+
+interface ChartPoint extends DailySignupPoint {
+  engaged: number
+  conversion: number
 }
 
 export default function DailySignupsChart() {
@@ -52,15 +63,29 @@ export default function DailySignupsChart() {
     }
   }, [city])
 
+  const chartData: ChartPoint[] = useMemo(
+    () =>
+      series.map(p => {
+        const engaged = p.signups + p.add_to_cart
+        const conversion =
+          engaged > 0 ? Number(((p.signups / engaged) * 100).toFixed(1)) : 0
+        return {...p, engaged, conversion}
+      }),
+    [series],
+  )
+
   const totals = useMemo(() => {
     const totalSignups = series.reduce((s, p) => s + p.signups, 0)
     const totalCart = series.reduce((s, p) => s + p.add_to_cart, 0)
+    const totalEngaged = totalSignups + totalCart
+    const overallConversion =
+      totalEngaged > 0 ? (totalSignups / totalEngaged) * 100 : 0
     const half = Math.floor(series.length / 2)
     const recent = series.slice(half).reduce((s, p) => s + p.signups, 0)
     const prior = series.slice(0, half).reduce((s, p) => s + p.signups, 0)
     const trend =
       prior > 0 ? Math.round((recent / prior - 1) * 100) : recent > 0 ? 100 : 0
-    return {totalSignups, totalCart, trend}
+    return {totalSignups, totalCart, totalEngaged, overallConversion, trend}
   }, [series])
 
   return (
@@ -81,22 +106,38 @@ export default function DailySignupsChart() {
           </div>
         </div>
 
-        <div className="flex items-center gap-4">
+        <div className="flex items-center gap-6">
           <div className="text-right">
-            <div className="text-2xl font-bold text-gray-900 leading-none">
-              {totals.totalSignups}
+            <div className="text-xs text-gray-500 uppercase tracking-wide">
+              Signups
             </div>
-            <div className="text-xs text-gray-500 mt-1">
-              total signups
+            <div className="text-2xl font-bold text-gray-900 leading-tight">
+              {totals.totalSignups}
               {totals.trend !== 0 && (
                 <span
-                  className={`ml-2 font-semibold ${
+                  className={`ml-2 text-xs font-semibold ${
                     totals.trend > 0 ? 'text-green-600' : 'text-red-600'
                   }`}
                 >
                   {totals.trend > 0 ? '↑' : '↓'} {Math.abs(totals.trend)}%
                 </span>
               )}
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-gray-500 uppercase tracking-wide">
+              Engaged
+            </div>
+            <div className="text-2xl font-bold text-gray-900 leading-tight">
+              {totals.totalEngaged}
+            </div>
+          </div>
+          <div className="text-right">
+            <div className="text-xs text-gray-500 uppercase tracking-wide">
+              Conv. Rate
+            </div>
+            <div className="text-2xl font-bold text-green-700 leading-tight">
+              {totals.overallConversion.toFixed(1)}%
             </div>
           </div>
 
@@ -117,23 +158,23 @@ export default function DailySignupsChart() {
 
       <div className="p-2 sm:p-4">
         {isLoading ? (
-          <div className="h-72 flex items-center justify-center">
+          <div className="h-80 flex items-center justify-center">
             <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-blue-600"></div>
           </div>
-        ) : series.length === 0 ? (
-          <div className="h-72 flex items-center justify-center text-gray-500 text-sm">
+        ) : chartData.length === 0 ? (
+          <div className="h-80 flex items-center justify-center text-gray-500 text-sm">
             No data for this selection
           </div>
         ) : (
-          <ResponsiveContainer width="100%" height={288}>
-            <AreaChart
-              data={series}
+          <ResponsiveContainer width="100%" height={320}>
+            <ComposedChart
+              data={chartData}
               margin={{top: 10, right: 16, left: 0, bottom: 0}}
             >
               <defs>
                 <linearGradient id="signupsFill" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#2563eb" stopOpacity={0.3} />
-                  <stop offset="100%" stopColor="#2563eb" stopOpacity={0} />
+                  <stop offset="0%" stopColor={COLOR_SIGNUPS} stopOpacity={0.3} />
+                  <stop offset="100%" stopColor={COLOR_SIGNUPS} stopOpacity={0} />
                 </linearGradient>
               </defs>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" vertical={false} />
@@ -147,11 +188,22 @@ export default function DailySignupsChart() {
                 minTickGap={24}
               />
               <YAxis
+                yAxisId="left"
                 allowDecimals={false}
                 tick={{fontSize: 11, fill: '#64748b'}}
                 axisLine={false}
                 tickLine={false}
                 width={32}
+              />
+              <YAxis
+                yAxisId="right"
+                orientation="right"
+                domain={[0, 100]}
+                tickFormatter={(v: number) => `${v}%`}
+                tick={{fontSize: 11, fill: COLOR_CONVERSION}}
+                axisLine={false}
+                tickLine={false}
+                width={40}
               />
               <Tooltip
                 contentStyle={{
@@ -167,21 +219,48 @@ export default function DailySignupsChart() {
                     day: 'numeric',
                   })
                 }
-                formatter={(value: number, name: string) => [
-                  value,
-                  name === 'signups' ? 'Signups' : 'Cart (no signup)',
-                ]}
+                formatter={(value: number, name: string) => {
+                  if (name === 'Conversion') return [`${value}%`, name]
+                  return [value, name]
+                }}
+              />
+              <Legend
+                iconType="circle"
+                wrapperStyle={{fontSize: 12, paddingTop: 8}}
               />
               <Area
+                yAxisId="left"
                 type="monotone"
+                name="Signups"
                 dataKey="signups"
-                stroke="#2563eb"
+                stroke={COLOR_SIGNUPS}
                 strokeWidth={2}
                 fill="url(#signupsFill)"
                 dot={false}
                 activeDot={{r: 4, strokeWidth: 2, stroke: '#fff'}}
               />
-            </AreaChart>
+              <Line
+                yAxisId="left"
+                type="monotone"
+                name="Engaged"
+                dataKey="engaged"
+                stroke={COLOR_ENGAGED}
+                strokeWidth={2}
+                strokeDasharray="4 4"
+                dot={false}
+                activeDot={{r: 4, strokeWidth: 2, stroke: '#fff'}}
+              />
+              <Line
+                yAxisId="right"
+                type="monotone"
+                name="Conversion"
+                dataKey="conversion"
+                stroke={COLOR_CONVERSION}
+                strokeWidth={2}
+                dot={false}
+                activeDot={{r: 4, strokeWidth: 2, stroke: '#fff'}}
+              />
+            </ComposedChart>
           </ResponsiveContainer>
         )}
       </div>
