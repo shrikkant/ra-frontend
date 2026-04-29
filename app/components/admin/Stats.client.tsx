@@ -3,6 +3,7 @@
 import React, {useEffect, useState} from 'react'
 import {fetchSignupStats} from '../../../api/admin/index.api'
 import {SignupSummary} from '../../../components/admin/SignupSummary'
+import DailySignupsChart from '../../../components/admin/DailySignupsChart'
 
 interface SignupStat {
   month: number
@@ -56,12 +57,12 @@ export default function StatsClient() {
             <SignupSummary signupStats={signupStats} />
           </div>
 
-          {/* Placeholder for future dashboard sections */}
-          {/* <div className="mt-8">
+          <div>
             <h2 className="text-xl font-semibold text-gray-800 mb-4">
-              Order Analytics
+              Signup Trend
             </h2>
-          </div> */}
+            <DailySignupsChart />
+          </div>
         </div>
       ) : (
         <div className="text-center p-12 bg-gray-50 rounded-lg">

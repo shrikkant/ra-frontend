@@ -36,6 +36,27 @@ export const fetchSignupStats = async () => {
   return response
 }
 
+export interface DailySignupPoint {
+  date: string
+  signups: number
+  add_to_cart: number
+}
+
+export interface DailySignupStatsResponse {
+  series: DailySignupPoint[]
+  cities: string[]
+}
+
+export const fetchDailySignupStats = async (
+  city?: string,
+): Promise<DailySignupStatsResponse> => {
+  const qs = city ? `?city=${encodeURIComponent(city)}` : ''
+  const response: DailySignupStatsResponse = await httpClient.get(
+    `/admin/users/daily-stats${qs}`,
+  )
+  return response
+}
+
 export async function createMasterProductLink(
   data: {
     product_id: number
