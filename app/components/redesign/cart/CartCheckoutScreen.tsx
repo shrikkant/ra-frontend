@@ -88,6 +88,13 @@ export default function CartCheckoutScreen() {
 
   const [step, setStep] = useState<Step>(1)
   const [cartLoading, setCartLoading] = useState(true)
+  // Tracks "redux cart matches what the server has for this logged-in
+  // user." On first mount, redux can hold a stale guest cart ID (from a
+  // pre-signup add-to-cart) that the merge has since invalidated —
+  // pushing fulfillment against that ID returns "Order not found" and
+  // gets auto-toasted by the axios interceptor. We gate any cart-id-
+  // dependent side effects on this flag so they only fire post-fetch.
+  const [cartReady, setCartReady] = useState(false)
   const [addresses, setAddresses] = useState<ILocation[]>([])
   const [addressesLoading, setAddressesLoading] = useState(true)
   const [selectedAddressId, setSelectedAddressId] = useState<number | null>(
@@ -106,10 +113,14 @@ export default function CartCheckoutScreen() {
       return
     }
     setCartLoading(true)
+    setCartReady(false)
     setAddressesLoading(true)
     fetchCart()
-      .then(data => dispatch(setCart(data)))
-      .catch(() => {})
+      .then(data => {
+        dispatch(setCart(data))
+        setCartReady(true)
+      })
+      .catch(() => setCartReady(true))
       .finally(() => setCartLoading(false))
     fetchAddresses()
       .then(list => setAddresses(list ?? []))
@@ -162,7 +173,10 @@ export default function CartCheckoutScreen() {
   // toffee/src/config/appConfig.ts, so the frontend cannot drift.
   const cartId = cart?.id
   useEffect(() => {
-    if (!cartId) return
+    // Wait for the fresh fetch — pushing fulfillment against a stale
+    // (e.g., pre-merge guest) cart ID returns "Order not found" and the
+    // axios interceptor surfaces that as an unwanted toast.
+    if (!cartReady || !cartId) return
     let cancelled = false
     updateOrderFulfillment(cartId, mode, timing)
       .then(updated => {
@@ -172,7 +186,7 @@ export default function CartCheckoutScreen() {
     return () => {
       cancelled = true
     }
-  }, [cartId, mode, timing, dispatch])
+  }, [cartReady, cartId, mode, timing, dispatch])
 
   const advanceFromAddress = useCallback(() => {
     setStep(mode === 'delivery' ? 3 : 4)
