@@ -2,10 +2,7 @@
 
 import React from 'react'
 import {useSelector} from 'react-redux'
-import {
-  getDefaultSearch,
-  hasDates as hasDatesSelector,
-} from '../../../app-store/session/session.slice'
+import {getDefaultSearch} from '../../../app-store/session/session.slice'
 import {parseDates} from './home/dateUtils'
 import {useDatePicker} from './DatePickerProvider'
 import {CalendarIcon} from './icons'
@@ -31,38 +28,29 @@ interface DateChipProps {
 }
 
 /**
- * Persistent date-context affordance. Empty state is a primary CTA
- * (accent background) — picking dates is the friction step that gates
- * the rest of the funnel. Filled state demotes to a quiet neutral chip
- * showing the selected range.
+ * Persistent date-context affordance. DatePickerProvider seeds defaults
+ * (tomorrow + 7 days) on mount, so the chip always has a range to show.
+ * Tapping opens the picker for editing.
  */
 export default function DateChip({variant = 'default'}: DateChipProps) {
   const stored = useSelector(getDefaultSearch)
-  const hasDates = useSelector(hasDatesSelector)
   const {open} = useDatePicker()
 
-  const label = (() => {
-    if (!hasDates) return 'Add dates'
-    const {start, end} = parseDates((stored as any)?.dates)
-    return formatRange(start, end)
-  })()
+  const {start, end} = parseDates((stored as any)?.dates)
+  const label = formatRange(start, end)
 
   const sizing =
     variant === 'compact'
       ? 'h-9 px-3 text-[12px] gap-1.5'
       : 'h-10 px-4 text-[13px] gap-2'
 
-  const tone = hasDates
-    ? 'bg-surface border border-line text-ink'
-    : 'bg-accent border border-accent text-ink'
-
   return (
     <button
       type="button"
       onClick={open}
       data-date-chip
-      aria-label={hasDates ? `Rental dates: ${label}` : 'Pick rental dates'}
-      className={`inline-flex items-center rounded-full font-bold whitespace-nowrap ${sizing} ${tone}`}
+      aria-label={`Rental dates: ${label}. Tap to edit.`}
+      className={`inline-flex items-center rounded-full font-bold whitespace-nowrap bg-surface border border-line text-ink ${sizing}`}
     >
       <CalendarIcon size={variant === 'compact' ? 14 : 16} />
       <span>{label}</span>

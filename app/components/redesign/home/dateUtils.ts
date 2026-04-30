@@ -43,3 +43,42 @@ export const fmtDate = (d: Date) => DATE_FMT.format(d)
 
 export const fmtINR = (n: number) =>
   '₹' + Math.round(n).toLocaleString('en-IN')
+
+// Default rental window for users who haven't picked yet — tomorrow
+// for 7 inclusive days. Returns the format the redux store and
+// DatePickerSheet both consume (`'' + Date` legacy serialization).
+export function defaultDatesPayload(): {
+  startDate: string
+  endDate: string
+  key: 'selection'
+} {
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const start = new Date(today)
+  start.setDate(today.getDate() + 1)
+  const end = new Date(start)
+  end.setDate(start.getDate() + 6)
+  return {
+    startDate: '' + start,
+    endDate: '' + end,
+    key: 'selection',
+  }
+}
+
+// True when stored dates are missing OR the start date has rolled into
+// the past (returning user with stale picks). In either case, the
+// caller should re-seed defaults.
+export function shouldSeedDefaults(stored: any): boolean {
+  const d = stored?.dates
+  if (!d?.startDate || !d?.endDate) return true
+  const start = new Date(d.startDate)
+  if (isNaN(start.getTime())) return true
+  const today = new Date()
+  today.setHours(0, 0, 0, 0)
+  const startDay = new Date(
+    start.getFullYear(),
+    start.getMonth(),
+    start.getDate(),
+  )
+  return startDay < today
+}

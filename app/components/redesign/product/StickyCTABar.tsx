@@ -2,13 +2,9 @@
 
 import React, {useMemo, useRef} from 'react'
 import {useSelector} from 'react-redux'
-import {
-  getDefaultSearch,
-  hasDates as hasDatesSelector,
-} from '../../../../app-store/session/session.slice'
+import {getDefaultSearch} from '../../../../app-store/session/session.slice'
 import {parseDates, daysBetween, tierForDays} from '../home/dateUtils'
 import {useAddToCart} from '../useAddToCart'
-import {useDatePicker} from '../DatePickerProvider'
 import {IProduct} from '../../../../app-store/types'
 
 interface StickyCTABarProps {
@@ -20,8 +16,6 @@ const fmtINR = (n: number) =>
 
 export default function StickyCTABar({product}: StickyCTABarProps) {
   const stored = useSelector(getDefaultSearch)
-  const hasDates = useSelector(hasDatesSelector)
-  const {open: openDatePicker} = useDatePicker()
   const {start, end} = useMemo(
     () => parseDates((stored as any)?.dates),
     [stored],
@@ -36,10 +30,6 @@ export default function StickyCTABar({product}: StickyCTABarProps) {
   const total = rate * days * (1 - effectivePercent / 100)
 
   const onAdd = () => {
-    if (!hasDates) {
-      openDatePicker()
-      return
-    }
     const rect = ref.current?.getBoundingClientRect() ?? null
     add({
       productId: product.id,
@@ -56,40 +46,20 @@ export default function StickyCTABar({product}: StickyCTABarProps) {
       style={{backdropFilter: 'blur(12px)'}}
     >
       <div className="flex-1 min-w-0">
-        {hasDates ? (
-          <>
-            <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
-              Total · {days} {days === 1 ? 'day' : 'days'}
-            </div>
-            <div className="font-mono text-[20px] font-extrabold text-ink leading-tight">
-              {fmtINR(total)}
-            </div>
-          </>
-        ) : (
-          <>
-            <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
-              Per day
-            </div>
-            <div className="font-mono text-[20px] font-extrabold text-ink leading-tight">
-              {fmtINR(rate)}
-              <span className="text-[11px] font-medium text-ink-muted ml-1">
-                · pick dates for total
-              </span>
-            </div>
-          </>
-        )}
+        <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
+          Total · {days} {days === 1 ? 'day' : 'days'}
+        </div>
+        <div className="font-mono text-[20px] font-extrabold text-ink leading-tight">
+          {fmtINR(total)}
+        </div>
       </div>
       <button
         type="button"
         onClick={onAdd}
         disabled={pendingId === product.id}
-        className={`text-[14px] font-extrabold rounded-full px-6 py-3.5 disabled:opacity-50 ${
-          hasDates
-            ? 'bg-ink text-surface'
-            : 'bg-accent text-ink'
-        }`}
+        className="bg-ink text-surface text-[14px] font-extrabold rounded-full px-6 py-3.5 disabled:opacity-50"
       >
-        {hasDates ? 'Add to cart' : 'Pick dates'}
+        Add to cart
       </button>
     </div>
   )

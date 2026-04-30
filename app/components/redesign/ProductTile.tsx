@@ -2,14 +2,11 @@
 
 import React, {useRef} from 'react'
 import Link from 'next/link'
-import {useSelector} from 'react-redux'
 import {IProduct} from '../../../app-store/types'
 import {getCitySlug} from '../../../util/city.util'
 import {productPhotoUrl} from '../../../util/product-image.util'
 import {PlusIcon, BoltIcon} from './icons'
 import {useAddToCart} from './useAddToCart'
-import {hasDates as hasDatesSelector} from '../../../app-store/session/session.slice'
-import {useDatePicker} from './DatePickerProvider'
 
 const KNOWN_BRANDS = [
   'Canon',
@@ -66,8 +63,6 @@ export default function ProductTile({
 }: ProductTileProps) {
   const tileRef = useRef<HTMLAnchorElement>(null)
   const {add, fly, pendingId} = useAddToCart()
-  const hasDates = useSelector(hasDatesSelector)
-  const {open: openDatePicker} = useDatePicker()
   const {brand, name} = splitBrand(product.title)
   const rate = product.rate || product.rates?.[0]?.rate || 0
   const url = `/${getCitySlug(product?.location?.city)}/${product?.subCategory?.slug ?? 'rent-camera'}/${product.slug}`
@@ -77,10 +72,6 @@ export default function ProductTile({
   const handleAdd = (e: React.MouseEvent) => {
     e.preventDefault()
     e.stopPropagation()
-    if (!hasDates) {
-      openDatePicker()
-      return
-    }
     const rect = tileRef.current?.getBoundingClientRect() ?? null
     add({productId: product.id, productName: product.title, rate, fromRect: rect})
   }
@@ -138,16 +129,8 @@ export default function ProductTile({
             type="button"
             onClick={handleAdd}
             disabled={pendingId === product.id}
-            aria-label={
-              hasDates
-                ? `Add ${product.title} to cart`
-                : `Pick rental dates to add ${product.title} to cart`
-            }
-            className={`w-[34px] h-[34px] rounded-full flex items-center justify-center disabled:opacity-50 ${
-              hasDates
-                ? 'bg-ink text-surface'
-                : 'bg-surface border border-line text-ink-muted'
-            }`}
+            aria-label={`Add ${product.title} to cart`}
+            className="w-[34px] h-[34px] rounded-full bg-ink text-surface flex items-center justify-center disabled:opacity-50"
           >
             <PlusIcon size={18} />
           </button>
