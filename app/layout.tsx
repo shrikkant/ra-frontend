@@ -193,7 +193,8 @@ export default async function RootLayout({
             This pattern also keeps the door open to dropping
             'unsafe-inline' from script-src in CSP later. */}
         <Script id="gtm-dl" strategy="beforeInteractive">
-          {`window.dataLayer = window.dataLayer || [];`}
+          {`window.dataLayer = window.dataLayer || [];
+window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});`}
         </Script>
         <Script
           id="gtm-loader"
