@@ -42,7 +42,7 @@ export const GA_EVENTS = {
   FORM_SUBMIT: 'form_submit',
   PAGE_VIEW: 'page_view',
   ADD_TO_CART: 'add_to_cart',
-  PURCHASE: 'conversion_event_purchase',
+  PURCHASE: 'purchase',
   CHECKOUT_START: 'checkout_start',
   SIGN_UP: 'sign_up',
   LOGIN: 'login',
@@ -73,10 +73,12 @@ export interface PurchaseEventData {
 
 export const trackPurchaseEvent = (data: PurchaseEventData) => {
   const eventData: Record<string, GAEventValue> = {
-    transaction_id: data.transaction_id,
-    value: data.value,
-    currency: data.currency || 'INR',
-    items: data.items,
+    ecommerce: {
+      transaction_id: data.transaction_id,
+      value: data.value,
+      currency: data.currency || 'INR',
+      items: data.items,
+    },
   }
 
   if (data.rental_days !== undefined) {
