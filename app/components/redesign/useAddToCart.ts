@@ -13,6 +13,7 @@ import {
 import {selectAuthState} from '../../../app-store/auth/auth.slice'
 import {useRecaptcha} from '../../../hooks/useRecaptcha'
 import {trackGAEvent, GA_EVENTS} from '../../../utils/analytics'
+import {getDays} from '../../../components/booking/bookingUtils'
 
 interface AddArgs {
   productId: number
@@ -73,7 +74,7 @@ export function useAddToCart() {
   }, [])
 
   const add = useCallback(
-    async ({productId, productName, fromRect}: AddArgs) => {
+    async ({productId, productName, rate, fromRect}: AddArgs) => {
       if (pendingId === productId) return
 
       // Callers gate on `hasDates` and route the user to the date picker
@@ -88,7 +89,23 @@ export function useAddToCart() {
       flyTo(fromRect ?? null)
 
       try {
-        trackGAEvent(GA_EVENTS.ADD_TO_CART, {product_id: productId})
+        const days = getDays(storeSearch)
+        trackGAEvent(GA_EVENTS.ADD_TO_CART, {
+          ecommerce: {
+            currency: 'INR',
+            value: rate * days,
+            items: [
+              {
+                item_id: String(productId),
+                item_name: productName,
+                price: rate * days,
+                quantity: 1,
+                rental_days: days,
+                daily_rate: rate,
+              },
+            ],
+          },
+        })
       } catch {
         /* analytics is best-effort */
       }
