@@ -1,5 +1,6 @@
 {
   "private": true,
+  "packageManager": "pnpm@10.18.2",
   "browserslist": [
     ">0.5%",
     "last 2 versions",
