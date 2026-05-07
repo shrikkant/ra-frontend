@@ -57,6 +57,59 @@ export const fetchDailySignupStats = async (
   return response
 }
 
+export interface MasterProductConversionRow {
+  master_product_id: number
+  master_product_name: string | null
+  add_to_cart: number
+  signups: number
+  engaged: number
+  conversion: number
+}
+
+export interface ProductConversionRow {
+  product_id: number
+  product_title: string | null
+  product_rate: number | null
+  add_to_cart: number
+  signups: number
+  engaged: number
+  conversion: number
+}
+
+export interface MasterProductConversionResponse {
+  year: number
+  month: number
+  rows: MasterProductConversionRow[]
+}
+
+export interface ProductConversionResponse {
+  year: number
+  month: number
+  masterProductId: number
+  rows: ProductConversionRow[]
+}
+
+export const fetchMasterProductConversionStats = async (
+  year: number,
+  month: number,
+): Promise<MasterProductConversionResponse> => {
+  const response: MasterProductConversionResponse = await httpClient.get(
+    `/admin/products/conversion-stats?year=${year}&month=${month}`,
+  )
+  return response
+}
+
+export const fetchProductConversionStatsForMaster = async (
+  masterProductId: number,
+  year: number,
+  month: number,
+): Promise<ProductConversionResponse> => {
+  const response: ProductConversionResponse = await httpClient.get(
+    `/admin/products/conversion-stats/${masterProductId}?year=${year}&month=${month}`,
+  )
+  return response
+}
+
 export async function createMasterProductLink(
   data: {
     product_id: number

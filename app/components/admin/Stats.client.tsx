@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react'
 import {fetchSignupStats} from '../../../api/admin/index.api'
 import {SignupSummary} from '../../../components/admin/SignupSummary'
 import DailySignupsChart from '../../../components/admin/DailySignupsChart'
+import ProductConversionTable from '../../../components/admin/ProductConversionTable'
 
 interface SignupStat {
   month: number
@@ -62,6 +63,13 @@ export default function StatsClient() {
               Signup Trend
             </h2>
             <DailySignupsChart />
+          </div>
+
+          <div>
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Product Performance
+            </h2>
+            <ProductConversionTable />
           </div>
         </div>
       ) : (

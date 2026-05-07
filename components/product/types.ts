@@ -14,6 +14,7 @@ export interface ProductDetailsSectionProps {
 // Booking form section props
 export interface BookingFormSectionProps {
   productId: number
+  productName: string
   discount: number
   rate?: number | null // Primary rate (preferred)
   rates?: IProductRatePlan[] // @deprecated - kept for backward compatibility

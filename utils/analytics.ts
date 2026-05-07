@@ -21,13 +21,19 @@ export const trackGAEvent = (
   event: string,
   props: Record<string, GAEventValue> = {},
 ) => {
-  if (typeof window !== 'undefined') {
-    window.dataLayer = window.dataLayer || []
-    window.dataLayer.push({
-      event,
-      ...props,
-    })
+  if (typeof window === 'undefined') return
+
+  window.dataLayer = window.dataLayer || []
+
+  // Reset ecommerce object so previous items don't leak in
+  if ('ecommerce' in props) {
+    window.dataLayer.push({ecommerce: null})
   }
+
+  window.dataLayer.push({
+    event,
+    ...props,
+  })
 }
 
 // Common event types
@@ -35,7 +41,7 @@ export const GA_EVENTS = {
   BUTTON_CLICK: 'button_click',
   FORM_SUBMIT: 'form_submit',
   PAGE_VIEW: 'page_view',
-  ADD_TO_CART: 'conversion_event_add_to_cart',
+  ADD_TO_CART: 'add_to_cart',
   PURCHASE: 'conversion_event_purchase',
   CHECKOUT_START: 'checkout_start',
   SIGN_UP: 'sign_up',

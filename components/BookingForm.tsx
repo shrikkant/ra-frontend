@@ -32,11 +32,13 @@ import {
 
 export default function BookingForm({
   productId,
+  productName,
   discount,
   rate,
   rates,
 }: {
   productId: number
+  productName: string
   discount: number
   rate?: number | null // Primary rate (preferred)
   rates?: IProductRatePlan[] // @deprecated - kept for backward compatibility
@@ -81,10 +83,20 @@ export default function BookingForm({
       const [recaptchaToken] = await Promise.all([
         executeRecaptcha('add_to_cart'),
         trackGAEvent(GA_EVENTS.ADD_TO_CART, {
-          product_id: productId,
-          discounted_rate: discountedRate,
-          rental_days: days,
-          total_rent: discountedRate * days,
+          ecommerce: {
+            currency: 'INR',
+            value: discountedRate * days,
+            items: [
+              {
+                item_id: productId,
+                item_name: productName,
+                price: discountedRate * days, // total per unit (rate × days)
+                quantity: 1, // number of units rented
+                rental_days: days, // custom param
+                daily_rate: discountedRate, // custom param, useful for analysis
+              },
+            ],
+          },
         }),
       ])
 
@@ -133,15 +145,18 @@ export default function BookingForm({
     setOpenFormInMobile(true)
   }
 
-  const setBookingDates = useCallback((newDates: any) => {
-    const search: any = {...storeSearch}
-    search.dates = {
-      startDate: '' + newDates.selection.startDate,
-      endDate: '' + newDates.selection.endDate,
-      key: 'selection',
-    }
-    dispatch(setSearch(search))
-  }, [storeSearch, dispatch])
+  const setBookingDates = useCallback(
+    (newDates: any) => {
+      const search: any = {...storeSearch}
+      search.dates = {
+        startDate: '' + newDates.selection.startDate,
+        endDate: '' + newDates.selection.endDate,
+        key: 'selection',
+      }
+      dispatch(setSearch(search))
+    },
+    [storeSearch, dispatch],
+  )
 
   useEffect(() => {
     setIsClient(true)

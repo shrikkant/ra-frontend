@@ -5,6 +5,7 @@ import {BookingFormSectionProps} from './types'
 
 export const BookingFormSection: React.FC<BookingFormSectionProps> = ({
   productId,
+  productName,
   discount,
   rate,
   rates,
@@ -18,6 +19,7 @@ export const BookingFormSection: React.FC<BookingFormSectionProps> = ({
             rate={rate}
             rates={rates}
             productId={productId}
+            productName={productName}
           />
         </div>
       </div>

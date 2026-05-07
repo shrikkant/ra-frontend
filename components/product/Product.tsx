@@ -23,6 +23,7 @@ export const Product: React.FC<ProductProps> = ({product}) => {
           {/* Booking Form Section - 1/3 width */}
           <BookingFormSection
             productId={product.id}
+            productName={product.title}
             discount={product?.discount_percent}
             rate={rate}
             rates={rates}
