@@ -5,11 +5,18 @@ import ProductMatrixRow from './ProductMatrixRow'
 interface ProductMatrixTableProps {
   matrixData: MatrixData
   onToggleFeatured: (productId: number, currentFeatured: number) => void
+  onToggleMerchant: (productId: number, currentPushed: number) => void
   onToggleAddress: (productId: number, addressId: number, isActive: boolean) => void
   isToggling: (key: string) => boolean
 }
 
-function TableHeader({addresses}: {addresses: Address[]}) {
+function TableHeader({
+  addresses,
+  showMerchant,
+}: {
+  addresses: Address[]
+  showMerchant: boolean
+}) {
   return (
     <thead className="bg-gray-50">
       <tr>
@@ -19,6 +26,11 @@ function TableHeader({addresses}: {addresses: Address[]}) {
         <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-r min-w-[80px]">
           Featured
         </th>
+        {showMerchant && (
+          <th className="px-4 py-3 text-center text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-r min-w-[80px]">
+            GMC
+          </th>
+        )}
         <th className="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider border-b border-r min-w-[80px]">
           Rate
         </th>
@@ -45,10 +57,12 @@ function TableHeader({addresses}: {addresses: Address[]}) {
 export default function ProductMatrixTable({
   matrixData,
   onToggleFeatured,
+  onToggleMerchant,
   onToggleAddress,
   isToggling,
 }: ProductMatrixTableProps) {
   const allAddresses = matrixData.cities.flatMap(city => city.addresses)
+  const showMerchant = !!matrixData.merchantCenterEnabled
 
   if (matrixData.products.length === 0) {
     return (
@@ -69,14 +83,16 @@ export default function ProductMatrixTable({
   return (
     <div className="overflow-x-auto mt-4">
       <table className="min-w-full border border-gray-200">
-        <TableHeader addresses={allAddresses} />
+        <TableHeader addresses={allAddresses} showMerchant={showMerchant} />
         <tbody className="bg-white divide-y divide-gray-200">
           {matrixData.products.map(product => (
             <ProductMatrixRow
               key={product.id}
               product={product}
               addresses={allAddresses}
+              showMerchant={showMerchant}
               onToggleFeatured={onToggleFeatured}
+              onToggleMerchant={onToggleMerchant}
               onToggleAddress={onToggleAddress}
               isToggling={isToggling}
             />

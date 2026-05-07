@@ -18,6 +18,9 @@ export interface Product {
   rate: number | null
   status: number
   featured: number
+  merchantPushed: number
+  merchantPushedAt?: string | null
+  merchantLastError?: string | null
   masterProductId: number | null
   masterProductName: string | null
   addressLinks: Record<number, {linkId: number; isActive: boolean}>
@@ -29,6 +32,7 @@ export interface MatrixData {
   products: Product[]
   totalProducts: number
   totalCities: number
+  merchantCenterEnabled: boolean
 }
 
 export const STATUS_LABELS: Record<number, {label: string; color: string}> = {

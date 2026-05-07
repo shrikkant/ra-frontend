@@ -22,6 +22,7 @@ export default function UserListingMatrixPage({params}: Props) {
     loadMatrix,
     toggleAddressLink,
     toggleFeatured,
+    toggleMerchant,
     isToggling,
   } = useProductMatrix(userId)
 
@@ -71,6 +72,7 @@ export default function UserListingMatrixPage({params}: Props) {
       <ProductMatrixTable
         matrixData={{...matrixData, products: filteredProducts}}
         onToggleFeatured={toggleFeatured}
+        onToggleMerchant={toggleMerchant}
         onToggleAddress={toggleAddressLink}
         isToggling={isToggling}
       />

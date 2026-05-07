@@ -5,7 +5,9 @@ import ToggleButton from './ToggleButton'
 interface ProductMatrixRowProps {
   product: Product
   addresses: Address[]
+  showMerchant: boolean
   onToggleFeatured: (productId: number, currentFeatured: number) => void
+  onToggleMerchant: (productId: number, currentPushed: number) => void
   onToggleAddress: (productId: number, addressId: number, isActive: boolean) => void
   isToggling: (key: string) => boolean
 }
@@ -13,11 +15,18 @@ interface ProductMatrixRowProps {
 export default function ProductMatrixRow({
   product,
   addresses,
+  showMerchant,
   onToggleFeatured,
+  onToggleMerchant,
   onToggleAddress,
   isToggling,
 }: ProductMatrixRowProps) {
   const isAddressLinked = (addressId: number) => !!product.addressLinks[addressId]
+  const merchantTitle = product.merchantLastError
+    ? `Last error: ${product.merchantLastError}`
+    : product.merchantPushed
+      ? 'Remove from Google Shopping'
+      : 'Push to Google Shopping'
 
   return (
     <tr className="hover:bg-gray-50">
@@ -43,6 +52,22 @@ export default function ProductMatrixRow({
           />
         </div>
       </td>
+
+      {/* Google Merchant Center Toggle */}
+      {showMerchant && (
+        <td className="px-4 py-3 border-r text-center">
+          <div className="flex justify-center">
+            <ToggleButton
+              isActive={!!product.merchantPushed}
+              isLoading={isToggling(`merchant-${product.id}`)}
+              onClick={() => onToggleMerchant(product.id, product.merchantPushed)}
+              activeColor="bg-blue-600 hover:bg-blue-700"
+              icon="bag"
+              title={merchantTitle}
+            />
+          </div>
+        </td>
+      )}
 
       {/* Rate */}
       <td className="px-4 py-3 border-r text-sm text-gray-500">

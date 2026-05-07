@@ -103,6 +103,37 @@ export function useProductMatrix(userId: string) {
     }
   }
 
+  const toggleMerchant = async (productId: number, currentPushed: number) => {
+    const key = `merchant-${productId}`
+    setTogglingKey(key)
+
+    try {
+      const response = await httpClient.post<{
+        id: number
+        merchantPushed: number
+        merchantPushedAt?: string | null
+        merchantLastError?: string | null
+      }>(`/admin/products/${productId}/merchant`, {
+        push: currentPushed ? 0 : 1,
+      })
+
+      updateProduct(productId, {
+        merchantPushed: response.merchantPushed,
+        merchantPushedAt: response.merchantPushedAt,
+        merchantLastError: response.merchantLastError,
+      })
+    } catch (error: any) {
+      console.error('Error toggling merchant:', error)
+      const message =
+        error?.response?.data?.message ||
+        error?.message ||
+        'Failed to sync to Google Merchant Center'
+      updateProduct(productId, {merchantLastError: message})
+    } finally {
+      setTogglingKey(null)
+    }
+  }
+
   const isToggling = (key: string) => togglingKey === key
 
   return {
@@ -114,6 +145,7 @@ export function useProductMatrix(userId: string) {
     loadMatrix,
     toggleAddressLink,
     toggleFeatured,
+    toggleMerchant,
     isToggling,
   }
 }
