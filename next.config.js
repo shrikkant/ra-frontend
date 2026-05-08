@@ -13,11 +13,11 @@ const cspDirectives = [
   // Workers: Statwide tracker creates a blob worker
   "worker-src 'self' blob:",
   // Styles: self and inline (Tailwind injects styles)
-  "style-src 'self' 'unsafe-inline' https://accounts.google.com https://app.statwide.com",
+  "style-src 'self' 'unsafe-inline' https://accounts.google.com https://app.statwide.com https://www.googletagmanager.com https://fonts.googleapis.com",
   // Images: self, data URIs, and known image hosts
   "img-src 'self' data: blob: https://rentacross.com https://cdn.sanity.io https://lh3.googleusercontent.com https://www.google.com https://www.gstatic.com https://cdn.pendo.io",
-  // Fonts: self (next/font self-hosts)
-  "font-src 'self'",
+  // Fonts: self (next/font self-hosts) + Google Fonts (used by GTM debug overlay)
+  "font-src 'self' https://fonts.gstatic.com",
   // Connect (API calls, analytics): self and known backends
   `connect-src 'self' https://accounts.google.com https://rentacross.com https://dev.rentacross.com https://cdn.sanity.io https://www.google.com https://app.statwide.com https://cdn.heapanalytics.com https://www.google-analytics.com https://cdn.pendo.io https://static.cloudflareinsights.com https://api.razorpay.com https://cdn.razorpay.com https://lumberjack.razorpay.com${isDev ? ' http://localhost:*' : ''}`,
   // Frames: reCAPTCHA + Google Identity Services button/popup
