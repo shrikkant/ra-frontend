@@ -5,6 +5,7 @@ import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import {
   getDefaultSearch,
+  getUTMData,
   setLastLink,
   setSearch,
 } from 'app-store/session/session.slice'
@@ -52,6 +53,7 @@ export default function BookingForm({
 
   const loggedUser = useSelector(selectAuthState)
   const storeSearch = useSelector(getDefaultSearch)
+  const utmData = useSelector(getUTMData)
   const router = useRouter()
 
   const {executeRecaptcha} = useRecaptcha()
@@ -102,10 +104,12 @@ export default function BookingForm({
 
       if (!loggedUser) {
         // Guest: serialize before sign-in — OAuth redirect aborts in-flight POST.
+        // Forward UTM so the cart carries attribution before the user signs up.
         const guestCart: IOrder = await addToCart(
           productId,
           storeSearch?.dates,
           recaptchaToken,
+          utmData,
         )
         if (guestCart.id) dispatch(setCart(guestCart))
         dispatch(setLastLink('/p/mycart'))

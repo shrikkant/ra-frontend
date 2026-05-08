@@ -1,5 +1,5 @@
 import {IDates} from '../../app-store/app-defaults/types'
-import {IOrder, ITransaction} from '../../app-store/types'
+import {IOrder, ITransaction, UtmData} from '../../app-store/types'
 import httpClient, {getToken} from './../axios.config'
 import {ENV_CONFIG} from '../../config/environment'
 import {TOKEN_HEADER_KEY} from '../../config/constants'
@@ -29,6 +29,7 @@ export const addToCart = async (
   productId: number,
   dates: IDates,
   recaptchaToken?: string,
+  utmData?: UtmData,
 ): Promise<IOrder> => {
   const {startDate, endDate} = dates
 
@@ -44,6 +45,7 @@ export const addToCart = async (
     },
     product_id: productId,
     recaptchaToken, // Send reCAPTCHA token for backend verification
+    utm: utmData,
   })
   return order
 }
