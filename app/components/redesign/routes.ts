@@ -58,6 +58,7 @@ const EXACT_PATHS = new Set(['/', '/p/profile'])
 /** Path prefixes that opt into the redesign chrome (any depth). */
 const PREFIX_PATHS: string[] = [
   '/p/mycart',
+  '/p/profile/verify',
   '/join',
   '/kyc-verification',
   '/about-us',

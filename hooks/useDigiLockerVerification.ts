@@ -43,6 +43,7 @@ export const useDigiLockerVerification = () => {
   const [statusMessage, setStatusMessage] = useState<string>('')
   const [isTracking, setIsTracking] = useState(false) // True after first poll/SSE confirms backend is tracking
   const [awaitingConfirmation, setAwaitingConfirmation] = useState(false) // True after user returns from DigiLocker
+  const [sdkButtonReady, setSdkButtonReady] = useState(false) // True once the SDK has injected its launch button
   const buttonRef = useRef<HTMLDivElement>(null)
   const eventSourceRef = useRef<EventSource | null>(null)
   const pollIntervalRef = useRef<NodeJS.Timeout | null>(null)
@@ -268,15 +269,21 @@ export const useDigiLockerVerification = () => {
 
   const handleVerificationSuccess = async (data: any) => {
     console.log('DigiLocker onSuccess callback:', data)
-    // User returned from DigiLocker — show waiting state while server confirms
+    // User returned from DigiLocker — show waiting state while the server
+    // confirms, and only now begin polling/SSE status tracking.
+    setVerificationStatus('IN_PROGRESS')
     setAwaitingConfirmation(true)
     setStatusMessage('Verifying your details, please wait...')
+    startStatusTracking()
   }
 
   const handleVerificationFailure = (_error: any) => {
-    // User returned from DigiLocker (possibly closed it) — still wait for server confirmation
+    // User returned from DigiLocker (possibly closed it) — still wait for
+    // server confirmation, and begin polling/SSE status tracking.
+    setVerificationStatus('IN_PROGRESS')
     setAwaitingConfirmation(true)
     setStatusMessage('Checking verification status...')
+    startStatusTracking()
   }
 
   const startVerification = () => {
@@ -305,10 +312,6 @@ export const useDigiLockerVerification = () => {
     try {
       console.log('Creating DigiLocker SDK instance...')
 
-      // Set status to IN_PROGRESS immediately when verification starts
-      setVerificationStatus('IN_PROGRESS')
-      setStatusMessage('Initializing DigiLocker verification...')
-
       window.DigiboostSdk({
         gateway: DIGILOCKER_CONFIG.GATEWAY,
         token: verificationData.token,
@@ -330,6 +333,24 @@ export const useDigiLockerVerification = () => {
       })
       */
       console.log('SDK initialized successfully:')
+
+      // The SDK injects its launch button into #digilocker-button
+      // asynchronously. Track its presence so the UI can enable the single
+      // "Complete KYC" button at exactly the right moment.
+      setSdkButtonReady(false)
+      let buttonPolls = 0
+      const buttonPoll = setInterval(() => {
+        buttonPolls += 1
+        if (buttonRef.current?.querySelector('button, a')) {
+          setSdkButtonReady(true)
+          clearInterval(buttonPoll)
+        } else if (buttonPolls > 40) {
+          clearInterval(buttonPoll)
+          setError(
+            'Could not start verification. Please refresh and try again.',
+          )
+        }
+      }, 150)
     } catch (err) {
       console.error('Failed to start verification:', err)
       setError(
@@ -339,13 +360,32 @@ export const useDigiLockerVerification = () => {
     }
   }
 
+  // Programmatically launches DigiLocker by clicking the SDK-rendered
+  // button. Must run synchronously inside the user's click handler so the
+  // popup is not blocked — the SDK button is pre-rendered (see
+  // startVerification) so no async work happens before the click.
+  const launchVerification = () => {
+    const sdkButton = buttonRef.current?.querySelector<HTMLElement>(
+      'button, a',
+    )
+    if (!sdkButton) {
+      setError('Verification is still preparing. Please try again in a moment.')
+      return
+    }
+    setError(null)
+    setVerificationStatus('IN_PROGRESS')
+    setStatusMessage('Complete the verification in the DigiLocker window…')
+    sdkButton.click()
+  }
+
   useEffect(() => {
     console.log('useEffect triggered - verificationData:', verificationData)
     if (verificationData && window.DigiboostSdk) {
-      console.log('All conditions met, starting verification...')
+      console.log('All conditions met, rendering DigiLocker button...')
+      // Render the SDK launch button. Status tracking is intentionally NOT
+      // started here — it begins only once the user actually launches
+      // DigiLocker (see handleVerificationSuccess / handleVerificationFailure).
       startVerification()
-      // Start status tracking when verification begins
-      startStatusTracking()
     }
   }, [verificationData])
 
@@ -373,6 +413,8 @@ export const useDigiLockerVerification = () => {
     error,
     buttonRef,
     initializeVerification,
+    launchVerification,
+    sdkButtonReady,
     verificationStatus,
     statusMessage,
     isTracking,

@@ -21,7 +21,6 @@ export default function DigilockerKYC() {
   const user = useSelector(selectAuthState)
   const [sdkLoaded, setSdkLoaded] = useState(false)
   const [sdkError, setSdkError] = useState<string | null>(null)
-  const [scriptLoaded, setScriptLoaded] = useState(false)
 
   const {
     isLoading,
@@ -35,45 +34,33 @@ export default function DigilockerKYC() {
     awaitingConfirmation,
   } = useDigiLockerVerification()
 
-  // Check for SDK availability periodically
+  // Detect SDK availability by polling `window.DigiboostSdk` on mount.
+  // This runs independently of next/script's `onLoad` callback — which does
+  // not fire reliably when the component mounts after a client-side
+  // navigation (or when the script is already cached), leaving the
+  // "Complete KYC" button stuck disabled until a hard page reload.
+  // Polling catches both the fresh-load and already-loaded cases.
   useEffect(() => {
-    if (scriptLoaded) {
-      console.log('Script loaded, checking for SDK availability...')
-
-      const checkSDK = () => {
-        if (typeof window !== 'undefined' && window.DigiboostSdk) {
-          setSdkLoaded(true)
-          setSdkError(null)
-          return true
-        }
-        return false
-      }
-
-      // Initial check
-      if (checkSDK()) return
-
-      // Set up periodic checking
-      const interval = setInterval(() => {
-        if (checkSDK()) {
-          clearInterval(interval)
-        }
-      }, 500)
-
-      // Timeout after 10 seconds
-      const timeout = setTimeout(() => {
-        clearInterval(interval)
-        if (!sdkLoaded) {
-          console.error('SDK not available after script load')
-          setSdkError('SDK failed to initialize after script load')
-        }
-      }, 10000)
-
-      return () => {
-        clearInterval(interval)
-        clearTimeout(timeout)
-      }
+    if (typeof window !== 'undefined' && window.DigiboostSdk) {
+      setSdkLoaded(true)
+      setSdkError(null)
+      return
     }
-  }, [scriptLoaded, sdkLoaded])
+    let attempts = 0
+    const interval = setInterval(() => {
+      attempts += 1
+      if (typeof window !== 'undefined' && window.DigiboostSdk) {
+        setSdkLoaded(true)
+        setSdkError(null)
+        clearInterval(interval)
+      } else if (attempts >= 50) {
+        // ~15s with no SDK — surface a recoverable error.
+        clearInterval(interval)
+        setSdkError('SDK failed to initialize. Please refresh the page.')
+      }
+    }, 300)
+    return () => clearInterval(interval)
+  }, [])
 
   const handleRetry = () => {
     // Force page reload to retry SDK loading
@@ -82,14 +69,12 @@ export default function DigilockerKYC() {
 
   const handleScriptLoad = () => {
     console.log('DigiLocker SDK script loaded via Next.js Script')
-    setScriptLoaded(true)
     setSdkError(null)
   }
 
   const handleScriptError = () => {
     console.error('Failed to load DigiLocker SDK via Next.js Script')
     setSdkError('Failed to load DigiLocker SDK')
-    setScriptLoaded(false)
   }
 
   if (isVerified(user?.verified || 0, VERIFICATION_FLAGS.AADHAAR)) {
@@ -178,15 +163,9 @@ export default function DigilockerKYC() {
               disabled={!sdkLoaded}
             />
 
-            {!scriptLoaded && (
+            {!sdkLoaded && !sdkError && (
               <p className="text-xs text-gray-500 text-center">
-                Loading DigiLocker SDK script...
-              </p>
-            )}
-
-            {scriptLoaded && !sdkLoaded && (
-              <p className="text-xs text-gray-500 text-center">
-                Initializing DigiLocker SDK...
+                Loading DigiLocker SDK...
               </p>
             )}
           </div>

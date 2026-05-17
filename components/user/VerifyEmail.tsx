@@ -9,6 +9,15 @@ import Input from '../common/form/Input'
 import Button from '../common/form/Button'
 import {FaCheckCircle} from 'react-icons/fa'
 import {VERIFICATION_FLAGS, isVerified} from '../../config/constants'
+import {displayMessage} from '../../util/global.util'
+import {MESSAGE_TYPES} from '../../util/messageTypes'
+
+const extractErrorMessage = (error: unknown, fallback: string): string => {
+  const err = error as
+    | {response?: {data?: {message?: string}}; message?: string}
+    | undefined
+  return err?.response?.data?.message || err?.message || fallback
+}
 
 export default function VerifyEmail() {
   const [email, setEmail] = React.useState('')
@@ -43,10 +52,15 @@ export default function VerifyEmail() {
     }
     setIsLoading(true)
     try {
-      const updateUser: IUser = await updateEmail(email)
+      await updateEmail(email)
       setOtpSent(true)
+      displayMessage(MESSAGE_TYPES.SUCCESS, `OTP sent to ${email}`)
     } catch (error) {
       console.error('Failed to submit email:', error)
+      displayMessage(
+        MESSAGE_TYPES.ERROR,
+        extractErrorMessage(error, 'Could not send OTP. Please try again.'),
+      )
     } finally {
       setIsLoading(false)
     }
@@ -57,9 +71,17 @@ export default function VerifyEmail() {
     try {
       const updateUser: IUser = await verifyEmailOTP(otp)
       dispatch(authUser(updateUser))
+      displayMessage(MESSAGE_TYPES.SUCCESS, 'Email verified successfully')
       // Don't redirect - let the component re-render with updated verification status
     } catch (error) {
       console.error('Failed to verify OTP:', error)
+      displayMessage(
+        MESSAGE_TYPES.ERROR,
+        extractErrorMessage(
+          error,
+          'Invalid or expired OTP. Please try again.',
+        ),
+      )
     } finally {
       setIsLoading(false)
     }
@@ -126,6 +148,27 @@ export default function VerifyEmail() {
               isLoading={isLoading}
               disabled={otp.length !== 6}
             />
+            <div className="flex items-center justify-between text-sm">
+              <button
+                type="button"
+                onClick={submitEmail}
+                disabled={isLoading}
+                className="text-blue-600 hover:underline disabled:opacity-50"
+              >
+                Resend OTP
+              </button>
+              <button
+                type="button"
+                onClick={() => {
+                  setOtpSent(false)
+                  setOtp('')
+                }}
+                disabled={isLoading}
+                className="text-gray-500 hover:underline disabled:opacity-50"
+              >
+                Change email
+              </button>
+            </div>
           </>
         )}
       </div>
