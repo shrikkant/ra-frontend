@@ -7,6 +7,7 @@ import {useDispatch, useSelector} from 'react-redux'
 import {format} from 'date-fns'
 import MobileChrome from '../MobileChrome'
 import {selectAuthState, logout} from '../../../../app-store/auth/auth.slice'
+import {logoutUser} from '../../../../api/auth.api'
 import {fetchOrders} from '../../../../api/user/orders.api'
 import {IOrder} from '../../../../app-store/types'
 import {productPhotoUrl} from '../../../../util/product-image.util'
@@ -49,9 +50,18 @@ export default function ProfileScreen() {
       .finally(() => setLoadingOrders(false))
   }, [user, router])
 
-  const onLogout = () => {
-    dispatch(logout())
-    router.push('/')
+  const onLogout = async () => {
+    // Clear the server-side session/cookie first — otherwise the token
+    // persists and the user is silently re-authenticated. Logout locally
+    // regardless of whether the API call succeeds.
+    try {
+      await logoutUser()
+    } catch (error) {
+      console.error('Logout request failed:', error)
+    } finally {
+      dispatch(logout())
+      router.push('/')
+    }
   }
 
   if (!user) return null
