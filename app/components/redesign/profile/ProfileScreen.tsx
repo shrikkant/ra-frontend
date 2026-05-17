@@ -22,6 +22,7 @@ import {
   HelpIcon,
   LogoutIcon,
   ChevronRightIcon,
+  ShieldIcon,
 } from '../icons'
 
 const APP_VERSION = 'v2.6.0 · build 2026.04'
@@ -87,6 +88,8 @@ export default function ProfileScreen() {
         </div>
 
         <div className="lg:max-w-2xl">
+      {!kycVerified && <VerifyPrompt />}
+
       {loadingOrders ? (
         <div className="px-4 lg:px-0 mt-4 lg:mt-0">
           <div className="h-28 rounded-[18px] bg-surface-muted animate-pulse" />
@@ -110,6 +113,12 @@ export default function ProfileScreen() {
 
       <SectionTitle>Settings</SectionTitle>
       <div className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
+        <SettingsRow
+          Icon={ShieldIcon}
+          label="Identity verification"
+          href="/p/profile/verify"
+          status={kycVerified ? 'verified' : 'pending'}
+        />
         <SettingsRow
           Icon={PinIcon}
           label="Addresses"
@@ -183,6 +192,33 @@ function ProfileCard({
           </span>
         </div>
       </div>
+    </div>
+  )
+}
+
+function VerifyPrompt() {
+  return (
+    <div className="mx-4 lg:mx-0 mt-4 lg:mt-0 bg-ink rounded-[18px] p-4">
+      <div className="flex items-start gap-3">
+        <div className="w-10 h-10 rounded-full bg-accent text-ink flex items-center justify-center shrink-0">
+          <ShieldIcon size={20} />
+        </div>
+        <div className="flex-1 min-w-0">
+          <div className="text-[14px] font-extrabold text-surface leading-tight">
+            Verify your identity
+          </div>
+          <p className="font-mono text-[12px] text-white/70 mt-1 leading-relaxed">
+            Complete KYC once and book any gear instantly — no waiting at
+            checkout.
+          </p>
+        </div>
+      </div>
+      <Link
+        href="/p/profile/verify"
+        className="block text-center bg-accent text-ink text-[13px] font-extrabold rounded-full py-2.5 mt-3 no-underline"
+      >
+        Start verification →
+      </Link>
     </div>
   )
 }
@@ -301,12 +337,14 @@ function SettingsRow({
   href,
   onClick,
   tone,
+  status,
 }: {
   Icon: React.ComponentType<{size?: number; className?: string}>
   label: string
   href?: string
   onClick?: () => void
   tone?: 'danger'
+  status?: 'verified' | 'pending'
 }) {
   const danger = tone === 'danger'
   const className = `w-full flex items-center gap-3 px-4 py-3.5 text-left ${
@@ -319,6 +357,17 @@ function SettingsRow({
         className={danger ? 'text-danger' : 'text-ink-secondary'}
       />
       <span className="flex-1 text-[14px] font-bold">{label}</span>
+      {status === 'verified' && (
+        <span className="inline-flex items-center gap-1 bg-success/15 text-success text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-kicker">
+          <CheckIcon size={10} strokeWidth={3} />
+          Verified
+        </span>
+      )}
+      {status === 'pending' && (
+        <span className="inline-flex items-center bg-accent text-ink text-[10px] font-extrabold px-2 py-0.5 rounded-full uppercase tracking-kicker">
+          Pending
+        </span>
+      )}
       {!danger && (
         <ChevronRightIcon size={16} className="text-ink-subtle" />
       )}

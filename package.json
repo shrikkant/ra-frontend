@@ -17,7 +17,7 @@
   "scripts": {
     "build:css": "postcss ./styles/tailwind.css -o ./styles/global.css",
     "watch:css": "postcss ./styles/tailwind.css -o ./styles/global.css --watch",
-    "dev": "NODE_OPTIONS='--inspect --trace-warnings' next dev",
+    "dev": "next dev --inspect",
     "build": "next build",
     "build:analyze": "ANALYZE=true next build",
     "start": "next start",
