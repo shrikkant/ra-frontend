@@ -17,6 +17,7 @@ import {selectAuthState} from '../../../app-store/auth/auth.slice'
 import {useRecaptcha} from '../../../hooks/useRecaptcha'
 import {trackGAEvent, GA_EVENTS} from '../../../utils/analytics'
 import {getDays} from '../../../components/booking/bookingUtils'
+import {orderCalendarDate} from './home/dateUtils'
 import {requestDateChoice} from './dateConflictStore'
 
 /** Local-calendar-day key, for comparing windows ignoring time-of-day. */
@@ -163,8 +164,10 @@ export function useAddToCart() {
           cart.start_date &&
           cart.end_date
         ) {
-          const cartStart = new Date(cart.start_date)
-          const cartEnd = new Date(cart.end_date)
+          // Order timestamps must be read via UTC components, or an IST
+          // browser sees the window a day wide of what was booked.
+          const cartStart = orderCalendarDate(cart.start_date)
+          const cartEnd = orderCalendarDate(cart.end_date)
           const pickStart = new Date(storeSearch.dates.startDate)
           const pickEnd = new Date(storeSearch.dates.endDate)
           const windowsDiffer =

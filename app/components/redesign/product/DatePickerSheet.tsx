@@ -9,9 +9,9 @@ import {
   hasDates as hasDatesSelector,
   setSearch,
 } from '../../../../app-store/session/session.slice'
-import {setCart} from '../../../../app-store/user/orders/orders.slice'
+import {getCart, setCart} from '../../../../app-store/user/orders/orders.slice'
 import {updateOrderDates} from '../../../../api/user/orders.api'
-import {parseDates, daysBetween} from '../home/dateUtils'
+import {parseDates, daysBetween, orderCalendarDate} from '../home/dateUtils'
 
 interface DatePickerSheetProps {
   open: boolean
@@ -66,10 +66,23 @@ export default function DatePickerSheet({
   const dispatch = useDispatch()
   const stored = useSelector(getDefaultSearch)
   const hasStoredDates = useSelector(hasDatesSelector)
-  const initial = useMemo(
-    () => parseDates((stored as any)?.dates),
-    [stored],
-  )
+  const cart = useSelector(getCart) as any
+
+  // Editing a cart: the order owns the window, so seed the calendar from
+  // the order itself (not the Redux session search, which may have since
+  // drifted). Order timestamps are read via UTC components — see
+  // orderCalendarDate.
+  const hasCartWindow = !!(cartId && cart?.start_date && cart?.end_date)
+  const hasInitialDates = hasCartWindow || hasStoredDates
+  const initial = useMemo(() => {
+    if (hasCartWindow) {
+      return {
+        start: orderCalendarDate(cart.start_date),
+        end: orderCalendarDate(cart.end_date),
+      }
+    }
+    return parseDates((stored as any)?.dates)
+  }, [hasCartWindow, cart?.start_date, cart?.end_date, stored])
   const today = useMemo(() => startOfDay(new Date()), [])
 
   // Pristine = the user has never picked dates this session, so the sheet
@@ -79,17 +92,17 @@ export default function DatePickerSheet({
   // first tap behave like "extend the existing range" — the source of
   // the "I picked 7 to 9 but it counted as 1 day" confusion.
   const [start, setStart] = useState<Date>(
-    hasStoredDates ? initial.start : today,
+    hasInitialDates ? initial.start : today,
   )
   const [end, setEnd] = useState<Date | null>(
-    hasStoredDates ? initial.end : null,
+    hasInitialDates ? initial.end : null,
   )
-  const [pristine, setPristine] = useState<boolean>(!hasStoredDates)
+  const [pristine, setPristine] = useState<boolean>(!hasInitialDates)
   const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (open) {
-      if (hasStoredDates) {
+      if (hasInitialDates) {
         setStart(initial.start)
         setEnd(initial.end)
         setPristine(false)
@@ -99,7 +112,7 @@ export default function DatePickerSheet({
         setPristine(true)
       }
     }
-  }, [open, hasStoredDates, initial.start, initial.end, today])
+  }, [open, hasInitialDates, initial.start, initial.end, today])
 
   const grid = useMemo(() => buildGrid(today), [today])
   const monthLabel = useMemo(() => {

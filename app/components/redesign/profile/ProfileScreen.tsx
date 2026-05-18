@@ -11,6 +11,7 @@ import {logoutUser} from '../../../../api/auth.api'
 import {fetchOrders} from '../../../../api/user/orders.api'
 import {IOrder} from '../../../../app-store/types'
 import {productPhotoUrl} from '../../../../util/product-image.util'
+import {orderCalendarDate} from '../home/dateUtils'
 import {
   isVerified,
   VERIFICATION_FLAGS,
@@ -238,7 +239,7 @@ function ActiveRentalCard({order}: {order: IOrder}) {
   const product = item?.product
   const img = product ? productPhotoUrl(product, 160) : null
   const returnDate = order.end_date
-    ? format(new Date(order.end_date), 'd MMM')
+    ? format(orderCalendarDate(order.end_date), 'd MMM')
     : null
   const orderId = `RA-${String(order.id).padStart(8, '0').slice(-8)}`
 

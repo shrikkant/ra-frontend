@@ -28,6 +28,21 @@ export function daysBetween(a: Date, b: Date): number {
   return Math.max(1, Math.round((endDay - startDay) / 86400000) + 1)
 }
 
+// An order's `start_date` / `end_date` come back as timestamps. The
+// backend stamps a business hour (9am / 7pm) onto the calendar day the
+// user picked, so the stored *instant* depends on the server timezone —
+// but its UTC date-component is always that calendar day (9–19 o'clock
+// stays inside one UTC day whether the server runs in UTC or IST).
+// Reading the timestamp with local getters in a browser ahead of UTC
+// (IST) rolls it forward — "26 May 19:00Z" renders as "27 May". So
+// recover the calendar day from UTC components and rebuild a local
+// midnight Date that fmtDate / daysBetween can treat normally.
+export function orderCalendarDate(value: string | Date): Date {
+  const d = new Date(value)
+  if (isNaN(d.getTime())) return d
+  return new Date(d.getUTCFullYear(), d.getUTCMonth(), d.getUTCDate())
+}
+
 export function tierForDays(d: number): number {
   for (const step of DISCOUNT_STEPS) {
     if (d >= step.days) return step.discount

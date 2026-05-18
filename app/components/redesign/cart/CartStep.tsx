@@ -9,7 +9,13 @@ import {setCart} from '../../../../app-store/user/orders/orders.slice'
 import {
   getDefaultSearch,
 } from '../../../../app-store/session/session.slice'
-import {parseDates, daysBetween, tierForDays, fmtDate} from '../home/dateUtils'
+import {
+  parseDates,
+  daysBetween,
+  tierForDays,
+  fmtDate,
+  orderCalendarDate,
+} from '../home/dateUtils'
 import {productPhotoUrl} from '../../../../util/product-image.util'
 import {CloseIcon, CartIcon} from '../icons'
 
@@ -37,8 +43,10 @@ export default function CartStep({
   // search is the user's last *search*, not what the cart is priced for,
   // so it's only a fallback for the brief pre-load window.
   const {start, end, days} = useMemo(() => {
-    const s = cart?.start_date ? new Date(cart.start_date) : null
-    const e = cart?.end_date ? new Date(cart.end_date) : null
+    // Recover the calendar day from UTC components — the raw timestamp,
+    // read in IST, can be a day ahead of the date the user picked.
+    const s = cart?.start_date ? orderCalendarDate(cart.start_date) : null
+    const e = cart?.end_date ? orderCalendarDate(cart.end_date) : null
     if (s && e && !isNaN(s.getTime()) && !isNaN(e.getTime())) {
       return {start: s, end: e, days: daysBetween(s, e)}
     }
