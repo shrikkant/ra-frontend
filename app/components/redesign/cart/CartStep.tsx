@@ -106,8 +106,10 @@ export default function CartStep({
       0,
     ),
   )
-  const deliveryFee = Number(cart?.delivery_fee ?? 99)
-  const total = Number(cart?.total_amount ?? subtotal - discount + deliveryFee)
+  // Step 1 shows the rental amount only. Delivery vs. free store pickup
+  // is chosen later (AddressStep), so a delivery fee here would wrongly
+  // imply delivery is mandatory — the fee is applied in the payment step.
+  const rentalTotal = subtotal - discount
   const tier = tierForDays(days)
 
   return (
@@ -157,13 +159,17 @@ export default function CartStep({
             nowrap
           />
         )}
-        <Row label="Delivery" value={fmtINR(deliveryFee)} />
         <div className="border-t border-line-soft my-2.5" />
         <div className="flex items-center justify-between">
-          <div className="text-[15px] font-extrabold text-ink">Total</div>
-          <div className="font-mono text-[17px] font-extrabold text-ink">
-            {fmtINR(total)}
+          <div className="text-[15px] font-extrabold text-ink">
+            Rental total
           </div>
+          <div className="font-mono text-[17px] font-extrabold text-ink">
+            {fmtINR(rentalTotal)}
+          </div>
+        </div>
+        <div className="text-[12px] text-ink-muted mt-2">
+          Delivery or free store pickup is chosen at the next step.
         </div>
       </div>
 
