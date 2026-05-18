@@ -20,6 +20,7 @@ import 'styles/layout-shift-prevention.css'
 import type {Metadata, Viewport} from 'next'
 import LazyToastContainer from './components/LazyToastContainer'
 import NavigationProgress from './components/common/NavigationProgress'
+import DateConflictHost from './components/redesign/DateConflictHost'
 
 const GTM_ID = 'GTM-TPF56M8'
 
@@ -175,6 +176,9 @@ export default async function RootLayout({
           <Suspense fallback={null}>
             <Footer />
           </Suspense>
+          {/* Add-to-cart date-conflict prompt. Driven by a module-level
+              store, so a single mount serves every product card. */}
+          <DateConflictHost />
         </StoreProvider>
 
         {/* Toast container is client-only (dynamic ssr:false). Kept OUTSIDE

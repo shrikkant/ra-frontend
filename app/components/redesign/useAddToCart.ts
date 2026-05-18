@@ -4,8 +4,11 @@ import {useCallback, useState} from 'react'
 import {useRouter} from 'next/navigation'
 import {useDispatch, useSelector} from 'react-redux'
 import {toast} from 'react-toastify'
-import {addToCart as addToCartApi} from '../../../api/user/orders.api'
-import {setCart} from '../../../app-store/user/orders/orders.slice'
+import {
+  addToCart as addToCartApi,
+  updateOrderDates,
+} from '../../../api/user/orders.api'
+import {getCart, setCart} from '../../../app-store/user/orders/orders.slice'
 import {
   getDefaultSearch,
   setLastLink,
@@ -14,6 +17,13 @@ import {selectAuthState} from '../../../app-store/auth/auth.slice'
 import {useRecaptcha} from '../../../hooks/useRecaptcha'
 import {trackGAEvent, GA_EVENTS} from '../../../utils/analytics'
 import {getDays} from '../../../components/booking/bookingUtils'
+import {requestDateChoice} from './dateConflictStore'
+
+/** Local-calendar-day key, for comparing windows ignoring time-of-day. */
+const ymd = (d: Date) =>
+  `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(
+    d.getDate(),
+  ).padStart(2, '0')}`
 
 interface AddArgs {
   productId: number
@@ -49,6 +59,7 @@ export function useAddToCart() {
   const router = useRouter()
   const loggedUser = useSelector(selectAuthState)
   const storeSearch = useSelector(getDefaultSearch) as any
+  const cart = useSelector(getCart) as any
   const {executeRecaptcha} = useRecaptcha()
   const [pendingId, setPendingId] = useState<number | null>(null)
   const [fly, setFly] = useState<FlyClone | null>(null)
@@ -136,12 +147,68 @@ export function useAddToCart() {
       // Logged-in path: await so the in-place cart UI updates.
       setPendingId(productId)
       try {
+        // The window this item is added (and availability-checked)
+        // against. Defaults to what the user picked; the conflict
+        // resolution below may swap it to the cart's existing window.
+        let datesForAdd = storeSearch.dates
+
+        // A cart order owns ONE rental window — the backend re-prices
+        // every added item onto the order's dates. If this product was
+        // picked for a different window than the cart already holds, ask
+        // the user which window wins before adding, instead of letting
+        // the mismatch happen silently (resolved by DateConflictHost).
+        if (
+          cart?.id &&
+          (cart.items?.length ?? 0) > 0 &&
+          cart.start_date &&
+          cart.end_date
+        ) {
+          const cartStart = new Date(cart.start_date)
+          const cartEnd = new Date(cart.end_date)
+          const pickStart = new Date(storeSearch.dates.startDate)
+          const pickEnd = new Date(storeSearch.dates.endDate)
+          const windowsDiffer =
+            !isNaN(cartStart.getTime()) &&
+            !isNaN(cartEnd.getTime()) &&
+            !isNaN(pickStart.getTime()) &&
+            !isNaN(pickEnd.getTime()) &&
+            (ymd(cartStart) !== ymd(pickStart) ||
+              ymd(cartEnd) !== ymd(pickEnd))
+
+          if (windowsDiffer) {
+            const choice = await requestDateChoice(
+              {startDate: '' + cartStart, endDate: '' + cartEnd},
+              {
+                startDate: storeSearch.dates.startDate,
+                endDate: storeSearch.dates.endDate,
+              },
+            )
+            if (choice === 'picked') {
+              // Re-price the whole order onto the newly picked window.
+              const repriced = await updateOrderDates(cart.id, {
+                startDate: pickStart,
+                endDate: pickEnd,
+              })
+              if (repriced?.id) dispatch(setCart(repriced))
+            } else {
+              // Keep the cart's window: add (and availability-check) the
+              // item against the dates it will actually be booked for,
+              // not the wider range the user happened to have searched.
+              datesForAdd = {
+                startDate: '' + cartStart,
+                endDate: '' + cartEnd,
+                key: 'selection',
+              }
+            }
+          }
+        }
+
         const recaptchaToken = await executeRecaptcha('add_to_cart').catch(
           () => undefined,
         )
         const newCart = await addToCartApi(
           productId,
-          storeSearch.dates,
+          datesForAdd,
           recaptchaToken,
         )
         if (newCart?.id) dispatch(setCart(newCart))
@@ -157,6 +224,7 @@ export function useAddToCart() {
       pendingId,
       loggedUser,
       storeSearch,
+      cart,
       executeRecaptcha,
       dispatch,
       router,

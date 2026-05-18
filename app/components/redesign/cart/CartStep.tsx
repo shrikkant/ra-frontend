@@ -31,11 +31,24 @@ export default function CartStep({
 }: CartStepProps) {
   const dispatch = useDispatch()
   const stored = useSelector(getDefaultSearch)
-  const {start, end} = useMemo(
-    () => parseDates((stored as any)?.dates),
-    [stored],
-  )
-  const days = useMemo(() => daysBetween(start, end), [start, end])
+  // The order owns the rental window — every line item is priced against
+  // it. Render the pill from the order itself so the pill, the line
+  // items and the discount badge can never disagree. The Redux session
+  // search is the user's last *search*, not what the cart is priced for,
+  // so it's only a fallback for the brief pre-load window.
+  const {start, end, days} = useMemo(() => {
+    const s = cart?.start_date ? new Date(cart.start_date) : null
+    const e = cart?.end_date ? new Date(cart.end_date) : null
+    if (s && e && !isNaN(s.getTime()) && !isNaN(e.getTime())) {
+      return {start: s, end: e, days: daysBetween(s, e)}
+    }
+    const parsed = parseDates((stored as any)?.dates)
+    return {
+      start: parsed.start,
+      end: parsed.end,
+      days: daysBetween(parsed.start, parsed.end),
+    }
+  }, [cart?.start_date, cart?.end_date, stored])
 
   const items = cart?.items ?? []
 
@@ -119,6 +132,7 @@ export default function CartStep({
           <li key={it.id}>
             <ItemRow
               item={it}
+              days={days}
               onRemove={() => removeItem(it.id)}
             />
           </li>
@@ -158,16 +172,21 @@ export default function CartStep({
 
 function ItemRow({
   item,
+  days,
   onRemove,
 }: {
   item: IOrderItem
+  // The whole order shares one rental window, so day count comes from the
+  // order — not `item.days`, which is unset on cart transactions and
+  // defaults to 1 (the source of the "× 1d" mismatch in the pill).
+  days: number
   onRemove: () => void
 }) {
   const product: IProduct = item.product
-  const days = Math.max(1, Number(item.days ?? 1))
+  const safeDays = Math.max(1, days)
   const qty = Math.max(1, Number(item.qty ?? 1))
   const lineTotal = Number(item.rent ?? 0)
-  const perDay = Math.round(lineTotal / qty / days)
+  const perDay = Math.round(lineTotal / qty / safeDays)
   const img = product ? productPhotoUrl(product, 160) : null
 
   return (

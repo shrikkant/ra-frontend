@@ -92,6 +92,28 @@ export const updateOrderFulfillment = async (
   return response
 }
 
+// Changes the rental window of the whole cart order. The backend
+// re-prices every line item against the new dates and returns the
+// fully recomputed order. Used both by the cart's "Edit" sheet and by
+// the add-to-cart date-conflict prompt ("change all items to ...").
+export const updateOrderDates = async (
+  orderId: number,
+  dates: {startDate: string | Date; endDate: string | Date},
+): Promise<IOrder> => {
+  const START_HOUR = 9 // 9 AM
+  const END_HOUR = 19 // 7 PM
+  const response: IOrder = await httpClient.put(
+    '/user/orders/' + orderId + '?mode=3',
+    {
+      startDate: format(new Date(dates.startDate), 'yyyy-MM-dd'),
+      endDate: format(new Date(dates.endDate), 'yyyy-MM-dd'),
+      startTime: START_HOUR,
+      endTime: END_HOUR,
+    },
+  )
+  return response
+}
+
 // Rental Agreement API functions
 export const getRentalAgreementPDF = async (orderId: number): Promise<Blob> => {
   const token = await getToken()
