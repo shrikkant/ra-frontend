@@ -307,6 +307,7 @@ export default function CartCheckoutScreen() {
       <DatePickerSheet
         open={datesOpen}
         onClose={() => setDatesOpen(false)}
+        cartId={cart?.id}
       />
     </MobileChrome>
   )

@@ -2,17 +2,26 @@
 
 import React, {useEffect, useMemo, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
+import {toast} from 'react-toastify'
 import Sheet from '../Sheet'
 import {
   getDefaultSearch,
   hasDates as hasDatesSelector,
   setSearch,
 } from '../../../../app-store/session/session.slice'
+import {setCart} from '../../../../app-store/user/orders/orders.slice'
+import {updateOrderDates} from '../../../../api/user/orders.api'
 import {parseDates, daysBetween} from '../home/dateUtils'
 
 interface DatePickerSheetProps {
   open: boolean
   onClose: () => void
+  /**
+   * When set, confirming re-prices this cart order on the backend (the
+   * order owns the rental window). Omitted on the product page, where
+   * updating the Redux session search is all that's needed.
+   */
+  cartId?: number
 }
 
 const WEEKDAYS = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun']
@@ -49,7 +58,11 @@ const PRESETS: {label: string; days: number}[] = [
   {label: '2w', days: 14},
 ]
 
-export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
+export default function DatePickerSheet({
+  open,
+  onClose,
+  cartId,
+}: DatePickerSheetProps) {
   const dispatch = useDispatch()
   const stored = useSelector(getDefaultSearch)
   const hasStoredDates = useSelector(hasDatesSelector)
@@ -72,6 +85,7 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
     hasStoredDates ? initial.end : null,
   )
   const [pristine, setPristine] = useState<boolean>(!hasStoredDates)
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     if (open) {
@@ -150,7 +164,7 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
     setEnd(e)
   }
 
-  const confirm = () => {
+  const confirm = async () => {
     const e = end ?? start
     dispatch(
       setSearch({
@@ -162,6 +176,27 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
         },
       }),
     )
+
+    // In the cart, the order owns the rental window — persist the new
+    // dates so the backend re-prices every line item. Without this the
+    // pill (which reads the order) would never reflect the edit.
+    if (cartId) {
+      setSaving(true)
+      try {
+        const updated = await updateOrderDates(cartId, {
+          startDate: start,
+          endDate: e,
+        })
+        if (updated?.id) dispatch(setCart(updated))
+      } catch (err) {
+        console.error('Failed to update rental dates', err)
+        toast.error('Could not update rental dates')
+        setSaving(false)
+        return
+      }
+      setSaving(false)
+    }
+
     onClose()
   }
 
@@ -251,12 +286,14 @@ export default function DatePickerSheet({open, onClose}: DatePickerSheetProps) {
         <button
           type="button"
           onClick={confirm}
-          disabled={pristine}
+          disabled={pristine || saving}
           className="w-full bg-ink text-surface text-[14px] font-extrabold rounded-full py-3.5 disabled:opacity-40"
         >
-          {pristine
-            ? 'Pick a date to start'
-            : `Confirm ${days} ${days === 1 ? 'day' : 'days'}`}
+          {saving
+            ? 'Saving…'
+            : pristine
+              ? 'Pick a date to start'
+              : `Confirm ${days} ${days === 1 ? 'day' : 'days'}`}
         </button>
       </div>
     </Sheet>

@@ -36,12 +36,13 @@ export const addToCart = async (
   const START_HOUR = 9 // 9 AM
   const END_HOUR = 19 // 7 PM
   const order: IOrder = await httpClient.post(`/user/carts`, {
+    // The backend derives the day count from the date range itself
+    // (getRentalPeriodInDays); it does not read a `rentalDays` field.
     date: {
       startDate: format(new Date(startDate), 'yyyy-MM-dd'),
       endDate: format(new Date(endDate), 'yyyy-MM-dd'),
       startTime: START_HOUR,
       endTime: END_HOUR,
-      rentalDays: 1,
     },
     product_id: productId,
     recaptchaToken, // Send reCAPTCHA token for backend verification
