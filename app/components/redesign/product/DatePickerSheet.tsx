@@ -2,7 +2,6 @@
 
 import React, {useEffect, useMemo, useState} from 'react'
 import {useDispatch, useSelector} from 'react-redux'
-import {toast} from 'react-toastify'
 import Sheet from '../Sheet'
 import {
   getDefaultSearch,
@@ -202,8 +201,10 @@ export default function DatePickerSheet({
         })
         if (updated?.id) dispatch(setCart(updated))
       } catch (err) {
+        // The axios interceptor surfaces the backend reason (e.g. an
+        // item not available for the new dates). Keep the sheet open so
+        // the user can pick a different window.
         console.error('Failed to update rental dates', err)
-        toast.error('Could not update rental dates')
         setSaving(false)
         return
       }

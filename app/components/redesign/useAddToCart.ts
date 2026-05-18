@@ -188,11 +188,18 @@ export function useAddToCart() {
             )
             if (choice === 'picked') {
               // Re-price the whole order onto the newly picked window.
-              const repriced = await updateOrderDates(cart.id, {
-                startDate: pickStart,
-                endDate: pickEnd,
-              })
-              if (repriced?.id) dispatch(setCart(repriced))
+              try {
+                const repriced = await updateOrderDates(cart.id, {
+                  startDate: pickStart,
+                  endDate: pickEnd,
+                })
+                if (repriced?.id) dispatch(setCart(repriced))
+              } catch {
+                // The interceptor surfaces the backend reason (e.g. an
+                // existing cart item not free for the new window). Abort
+                // the add — the cart is left untouched.
+                return
+              }
             } else {
               // Keep the cart's window: add (and availability-check) the
               // item against the dates it will actually be booked for,
