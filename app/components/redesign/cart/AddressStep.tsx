@@ -46,8 +46,7 @@ export default function AddressStep({
     setAdding(false)
   }
 
-  const continueDisabled =
-    mode === 'delivery' ? selectedId === null : false
+  const continueDisabled = mode === 'delivery' ? selectedId === null : false
   const continueLabel =
     mode === 'delivery' ? 'Continue to delivery →' : 'Continue to payment →'
 
@@ -129,11 +128,11 @@ export default function AddressStep({
       ) : (
         <div className="rounded-[14px] border border-line-soft bg-surface p-4 space-y-1.5">
           <div className="text-[14px] font-extrabold text-ink">
-            Pick up from our Kothrud store
+            Store Pick-up
           </div>
           <div className="text-[12px] text-ink-muted leading-snug">
-            Open 10 AM – 8 PM. Carry a photo ID. Address & directions will be
-            sent over WhatsApp after payment.
+            Carry a photo ID. Address & directions will be sent over WhatsApp
+            after payment.
           </div>
         </div>
       )}
@@ -232,9 +231,7 @@ function AddressCard({
           active ? 'border-ink' : 'border-line'
         }`}
       >
-        {active && (
-          <span className="block w-2.5 h-2.5 rounded-full bg-ink" />
-        )}
+        {active && <span className="block w-2.5 h-2.5 rounded-full bg-ink" />}
       </span>
       <div className="flex-1 min-w-0">
         <div className="text-[14px] font-extrabold text-ink">{label}</div>
