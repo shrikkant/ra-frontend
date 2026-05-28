@@ -74,7 +74,7 @@ const COMPANY_LINKS = [
 ]
 
 const HELP_LINKS = [
-  {label: 'How it works', href: '/pune/rent-camera#how-it-works'},
+  // {label: 'How it works', href: '/pune/rent-camera#how-it-works'},
   {label: 'FAQs', href: '/pune/rent-camera#faqs'},
   {label: 'Help center', href: '/help'},
 ]
