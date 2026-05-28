@@ -8,7 +8,10 @@ import {format} from 'date-fns'
 import MobileChrome from '../MobileChrome'
 import {selectAuthState, logout} from '../../../../app-store/auth/auth.slice'
 import {logoutUser} from '../../../../api/auth.api'
-import {fetchOrders} from '../../../../api/user/orders.api'
+import {
+  fetchOrders,
+  getSignedRentalAgreement,
+} from '../../../../api/user/orders.api'
 import {IOrder} from '../../../../app-store/types'
 import {productPhotoUrl} from '../../../../util/product-image.util'
 import {orderCalendarDate} from '../home/dateUtils'
@@ -242,6 +245,28 @@ function ActiveRentalCard({order}: {order: IOrder}) {
     ? format(orderCalendarDate(order.end_date), 'd MMM')
     : null
   const orderId = `RA-${String(order.id).padStart(8, '0').slice(-8)}`
+  const orderHref = `/p/orders/${order.id}`
+
+  // Whether the rental agreement has been signed for this order. The
+  // backend exposes a fetch endpoint that returns the signed PDF when
+  // present — we only inspect the response shape (no PDF decoding), so
+  // the check stays cheap. Null while loading; defaults to the "Sign
+  // agreement" CTA optimistically since both states navigate to the
+  // same destination.
+  const [signed, setSigned] = useState<boolean | null>(null)
+  useEffect(() => {
+    let cancelled = false
+    getSignedRentalAgreement(order.id)
+      .then(r => {
+        if (!cancelled) setSigned(!!(r?.success && r?.data))
+      })
+      .catch(() => {
+        if (!cancelled) setSigned(false)
+      })
+    return () => {
+      cancelled = true
+    }
+  }, [order.id])
 
   return (
     <>
@@ -279,12 +304,22 @@ function ActiveRentalCard({order}: {order: IOrder}) {
           </div>
         </div>
         <div className="grid grid-cols-2 gap-2 mt-4">
-          <Link
-            href={`/p/orders/${order.id}`}
-            className="text-center bg-ink text-surface text-[13px] font-extrabold rounded-full py-2.5 no-underline"
-          >
-            Extend rental
-          </Link>
+          {signed ? (
+            <Link
+              href={orderHref}
+              className="inline-flex items-center justify-center gap-1.5 bg-success/15 text-success text-[13px] font-extrabold rounded-full py-2.5 no-underline"
+            >
+              <CheckIcon size={14} strokeWidth={3} />
+              Agreement signed
+            </Link>
+          ) : (
+            <Link
+              href={orderHref}
+              className="text-center bg-ink text-surface text-[13px] font-extrabold rounded-full py-2.5 no-underline"
+            >
+              Sign agreement
+            </Link>
+          )}
           <Link
             href="/help"
             className="text-center bg-surface border border-line text-ink text-[13px] font-extrabold rounded-full py-2.5 no-underline"
