@@ -15,10 +15,7 @@ import {
 import {IOrder} from '../../../../app-store/types'
 import {productPhotoUrl} from '../../../../util/product-image.util'
 import {orderCalendarDate} from '../home/dateUtils'
-import {
-  isVerified,
-  VERIFICATION_FLAGS,
-} from '../../../../config/constants'
+import {isVerified, VERIFICATION_FLAGS} from '../../../../config/constants'
 import {
   CheckIcon,
   PinIcon,
@@ -32,8 +29,7 @@ import {
 
 const APP_VERSION = 'v2.6.0 · build 2026.04'
 
-const fmtINR = (n: number) =>
-  '₹' + Math.round(n).toLocaleString('en-IN')
+const fmtINR = (n: number) => '₹' + Math.round(n).toLocaleString('en-IN')
 
 export default function ProfileScreen() {
   const router = useRouter()
@@ -70,8 +66,11 @@ export default function ProfileScreen() {
 
   if (!user) return null
 
-  const initial = (user.firstname?.[0] ?? user.email_address?.[0] ?? 'U')
-    .toUpperCase()
+  const initial = (
+    user.firstname?.[0] ??
+    user.email_address?.[0] ??
+    'U'
+  ).toUpperCase()
   const fullName =
     `${user.firstname ?? ''} ${user.lastname ?? ''}`.trim() ||
     user.email_address ||
@@ -102,60 +101,60 @@ export default function ProfileScreen() {
         </div>
 
         <div className="lg:max-w-2xl">
-      {!kycVerified && <VerifyPrompt />}
+          {!kycVerified && <VerifyPrompt />}
 
-      {loadingOrders ? (
-        <div className="px-4 lg:px-0 mt-4 lg:mt-0">
-          <div className="h-28 rounded-[18px] bg-surface-muted animate-pulse" />
-        </div>
-      ) : (
-        active && <ActiveRentalCard order={active} />
-      )}
+          {loadingOrders ? (
+            <div className="px-4 lg:px-0 mt-4 lg:mt-0">
+              <div className="h-28 rounded-[18px] bg-surface-muted animate-pulse" />
+            </div>
+          ) : (
+            active && <ActiveRentalCard order={active} />
+          )}
 
-      {past.length > 0 && (
-        <>
-          <SectionTitle>Past orders</SectionTitle>
-          <ul className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
-            {past.map(o => (
-              <li key={o.id}>
-                <PastOrderRow order={o} />
-              </li>
-            ))}
-          </ul>
-        </>
-      )}
+          {past.length > 0 && (
+            <>
+              <SectionTitle>Past orders</SectionTitle>
+              <ul className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
+                {past.map(o => (
+                  <li key={o.id}>
+                    <PastOrderRow order={o} />
+                  </li>
+                ))}
+              </ul>
+            </>
+          )}
 
-      <SectionTitle>Settings</SectionTitle>
-      <div className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
-        <SettingsRow
-          Icon={ShieldIcon}
-          label="Identity verification"
-          href="/p/profile/verify"
-          status={kycVerified ? 'verified' : 'pending'}
-        />
-        <SettingsRow
+          <SectionTitle>Settings</SectionTitle>
+          <div className="bg-surface mx-4 lg:mx-0 rounded-[18px] border border-line-soft divide-y divide-line-soft">
+            <SettingsRow
+              Icon={ShieldIcon}
+              label="Identity verification"
+              href="/p/profile/verify"
+              status={kycVerified ? 'verified' : 'pending'}
+            />
+            {/* <SettingsRow
           Icon={PinIcon}
           label="Addresses"
           href="/p/profile?section=addresses"
-        />
-        <SettingsRow
+        /> */}
+            {/* <SettingsRow
           Icon={CardIcon}
           label="Payment methods"
           href="/p/profile?section=payments"
-        />
-        <SettingsRow
+        /> */}
+            {/* <SettingsRow
           Icon={BellIcon}
           label="Notifications"
           href="/p/profile?section=notifications"
-        />
-        <SettingsRow Icon={HelpIcon} label="Help & support" href="/help" />
-        <SettingsRow
-          Icon={LogoutIcon}
-          label="Log out"
-          onClick={onLogout}
-          tone="danger"
-        />
-      </div>
+        /> */}
+            {/* <SettingsRow Icon={HelpIcon} label="Help & support" href="/help" /> */}
+            <SettingsRow
+              Icon={LogoutIcon}
+              label="Log out"
+              onClick={onLogout}
+              tone="danger"
+            />
+          </div>
         </div>
       </div>
 
@@ -414,9 +413,7 @@ function SettingsRow({
           Pending
         </span>
       )}
-      {!danger && (
-        <ChevronRightIcon size={16} className="text-ink-subtle" />
-      )}
+      {!danger && <ChevronRightIcon size={16} className="text-ink-subtle" />}
     </>
   )
   if (onClick) {
@@ -458,4 +455,3 @@ function tierLabel(count: number): string {
   if (count >= 3) return 'Silver'
   return 'Bronze'
 }
-
