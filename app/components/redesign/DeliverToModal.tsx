@@ -3,14 +3,18 @@
 import React, {useEffect, useRef, useState} from 'react'
 import {createPortal} from 'react-dom'
 import {usePathname, useRouter, useSearchParams} from 'next/navigation'
-import {useDispatch} from 'react-redux'
+import {useDispatch, useSelector} from 'react-redux'
 import {
   fetchAddressByPlaceId,
   IGooglePlaceSuggestion,
   lookupAddressSuggestions,
 } from '../../../api/user/index.api'
 import {detectLocation} from '../../../api/location.api'
-import {setUserLocation} from '../../../app-store/session/session.slice'
+import {
+  getDefaultSearch,
+  setSearch,
+  setUserLocation,
+} from '../../../app-store/session/session.slice'
 import {CloseIcon, PinIcon, SearchIcon} from './icons'
 
 interface Props {
@@ -72,6 +76,7 @@ export default function DeliverToModal({open, onClose, currentCity}: Props) {
   const router = useRouter()
   const pathname = usePathname() ?? '/'
   const searchParams = useSearchParams()
+  const storeSearch = useSelector(getDefaultSearch)
 
   const [query, setQuery] = useState('')
   const [suggestions, setSuggestions] = useState<IGooglePlaceSuggestion[]>([])
@@ -135,6 +140,15 @@ export default function DeliverToModal({open, onClose, currentCity}: Props) {
 
   const applyCity = (city: string, area: string, postal: string) => {
     dispatch(setUserLocation({city, area, postal}))
+    // Legacy code (LocationPicker, MainHeaderNav, listing filters) reads from
+    // defaultSearch.location.city — keep it in sync so the picker label and
+    // any URL-builders that derive from it pick up the new city immediately.
+    dispatch(
+      setSearch({
+        ...(storeSearch ?? {}),
+        location: {...(storeSearch?.location ?? {}), city},
+      }),
+    )
     const oldSlug = citySlug(currentCity || '')
     const newSlug = citySlug(city)
     const swapped =
