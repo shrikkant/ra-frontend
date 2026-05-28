@@ -25,18 +25,6 @@ export default function RentalAgreement({orderId}: RentalAgreementProps) {
     loadPDF()
   }, [loadPDF])
 
-  // Re-check signed status when the user returns to this tab — typical
-  // case: they signed in a popup/new window and switched back. loadPDF()
-  // hits getSignedRentalAgreement first and flips to 'signed' as soon as
-  // the backend reports the document is signed. Skip while already signed
-  // (terminal state) to avoid pointless refetches.
-  useEffect(() => {
-    if (signatureStatus === 'signed') return
-    const onFocus = () => loadPDF()
-    window.addEventListener('focus', onFocus)
-    return () => window.removeEventListener('focus', onFocus)
-  }, [signatureStatus, loadPDF])
-
   const handleRetry = () => {
     resetError()
     loadPDF()

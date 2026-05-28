@@ -10,7 +10,7 @@ import DocumentUploadCard from '../../common/DocumentUploadCard'
 import RentalAgreement from '../../common/RentalAgreement'
 import {IDocument} from '../../../app-store/app-defaults/types'
 import {getUserDocuments} from '../../../api/user/documents.api'
-import {getSignedRentalAgreement} from '../../../api/user/orders.api'
+import {verifyDoucmentSignSuccess} from '../../../api/user/orders.api'
 import {
   FaCheckCircle,
   FaExclamationTriangle,
@@ -69,35 +69,6 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
     fetchDocuments()
   }, [])
 
-  // Refresh agreement-signed status: on mount and whenever the user
-  // returns to this tab (typical case: they signed in a popup/new window
-  // and switched back). Mirrors how KYC pulls fresh user state after the
-  // DigiLocker callback, just lighter — one inspect of the API response
-  // shape, no PDF decoding.
-  useEffect(() => {
-    let cancelled = false
-    const check = async () => {
-      try {
-        const r = await getSignedRentalAgreement(orderId)
-        if (!cancelled) setAgreementSigned(!!(r?.success && r?.data))
-      } catch {
-        if (!cancelled) setAgreementSigned(prev => prev ?? false)
-      }
-    }
-    check()
-    const onFocus = () => {
-      // If already signed, no need to re-poll — the signed flag is
-      // terminal for this order.
-      if (agreementSigned === true) return
-      check()
-    }
-    window.addEventListener('focus', onFocus)
-    return () => {
-      cancelled = true
-      window.removeEventListener('focus', onFocus)
-    }
-  }, [orderId, agreementSigned])
-
   const handleDocumentUpload = (newDoc: IDocument) => {
     setExistingDocuments(prev => ({
       ...prev,
@@ -120,6 +91,82 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
     !!existingDocuments['driving_license'] || !!existingDocuments['passport']
 
   const documentsVerified = hasUtilityBill && hasIdentityDoc
+
+  // Drive agreement-signed state from the backend. Three signals feed it:
+  //   1) Initial check on mount (fixes "Action Required" after refresh).
+  //   2) Polling every 5s while the tab is visible and the user is on
+  //      the agreement step. Catches sign completion without the user
+  //      having to refresh or even switch tabs — they sign in the popup,
+  //      the next poll picks it up.
+  //   3) visibilitychange — when the user returns to this tab from the
+  //      signing popup, fire an immediate check (no wait for next poll).
+  // Uses the lightweight /rental-agreement/success endpoint (returns
+  // just {success: boolean}), not the heavy signed-PDF endpoint.
+  useEffect(() => {
+    if (agreementSigned === true) return
+    // Only poll once verifications are done — the agreement isn't
+    // signable before then, so polling earlier wastes requests.
+    const canSign = kycVerified && emailVerified && documentsVerified
+    if (!canSign) return
+
+    let cancelled = false
+    let intervalId: ReturnType<typeof setInterval> | null = null
+
+    const check = async () => {
+      if (cancelled) return
+      try {
+        const r = await verifyDoucmentSignSuccess(orderId)
+        if (!cancelled && r?.success) setAgreementSigned(true)
+      } catch {
+        // Swallow — next poll retries.
+      }
+    }
+
+    const startPolling = () => {
+      if (intervalId) return
+      intervalId = setInterval(check, 5000)
+    }
+    const stopPolling = () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+        intervalId = null
+      }
+    }
+
+    check()
+    if (
+      typeof document !== 'undefined' &&
+      document.visibilityState !== 'hidden'
+    ) {
+      startPolling()
+    }
+
+    const onVisibility = () => {
+      if (document.visibilityState === 'visible') {
+        check()
+        startPolling()
+      } else {
+        stopPolling()
+      }
+    }
+    if (typeof document !== 'undefined') {
+      document.addEventListener('visibilitychange', onVisibility)
+    }
+
+    return () => {
+      cancelled = true
+      stopPolling()
+      if (typeof document !== 'undefined') {
+        document.removeEventListener('visibilitychange', onVisibility)
+      }
+    }
+  }, [
+    orderId,
+    agreementSigned,
+    kycVerified,
+    emailVerified,
+    documentsVerified,
+  ])
 
   const steps: VerificationStep[] = [
     {
@@ -334,10 +381,17 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
         </div>
       </div>
 
-      {/* Rental Agreement - Only show after all verifications */}
+      {/* Rental Agreement - Only show after all verifications.
+          Key flips when the parent's polling detects signing — forces a
+          fresh mount so the child's internal signatureStatus catches up
+          (its loadPDF would otherwise reset the signing flow if called
+          while mid-sign). */}
       {kycVerified && emailVerified && documentsVerified && (
         <div className="bg-white rounded-lg shadow-sm p-6">
-          <RentalAgreement orderId={orderId} />
+          <RentalAgreement
+            key={agreementSigned ? 'signed' : 'unsigned'}
+            orderId={orderId}
+          />
         </div>
       )}
     </div>
