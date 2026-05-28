@@ -10,6 +10,7 @@ import DocumentUploadCard from '../../common/DocumentUploadCard'
 import RentalAgreement from '../../common/RentalAgreement'
 import {IDocument} from '../../../app-store/app-defaults/types'
 import {getUserDocuments} from '../../../api/user/documents.api'
+import {getSignedRentalAgreement} from '../../../api/user/orders.api'
 import {
   FaCheckCircle,
   FaExclamationTriangle,
@@ -41,6 +42,12 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
   const [isLoading, setIsLoading] = useState(true)
   const [activeStep, setActiveStep] = useState(0)
   const [allVerificationComplete, setAllVerificationComplete] = useState(false)
+  // Whether the rental agreement is signed. Sourced from the backend
+  // (getSignedRentalAgreement returns a populated `data` when signed). This
+  // used to be hardcoded `false`, so the step badge stuck on "Action
+  // Required" forever — even after a refresh — while the agreement
+  // component below correctly showed "Signed". null = still checking.
+  const [agreementSigned, setAgreementSigned] = useState<boolean | null>(null)
 
   useEffect(() => {
     const fetchDocuments = async () => {
@@ -61,6 +68,35 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
     }
     fetchDocuments()
   }, [])
+
+  // Refresh agreement-signed status: on mount and whenever the user
+  // returns to this tab (typical case: they signed in a popup/new window
+  // and switched back). Mirrors how KYC pulls fresh user state after the
+  // DigiLocker callback, just lighter — one inspect of the API response
+  // shape, no PDF decoding.
+  useEffect(() => {
+    let cancelled = false
+    const check = async () => {
+      try {
+        const r = await getSignedRentalAgreement(orderId)
+        if (!cancelled) setAgreementSigned(!!(r?.success && r?.data))
+      } catch {
+        if (!cancelled) setAgreementSigned(prev => prev ?? false)
+      }
+    }
+    check()
+    const onFocus = () => {
+      // If already signed, no need to re-poll — the signed flag is
+      // terminal for this order.
+      if (agreementSigned === true) return
+      check()
+    }
+    window.addEventListener('focus', onFocus)
+    return () => {
+      cancelled = true
+      window.removeEventListener('focus', onFocus)
+    }
+  }, [orderId, agreementSigned])
 
   const handleDocumentUpload = (newDoc: IDocument) => {
     setExistingDocuments(prev => ({
@@ -119,8 +155,12 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
       description: 'Review and sign the rental agreement',
       icon: <FaFileContract className="h-5 w-5" />,
       required: true,
-      completed: false,
-      active: kycVerified && emailVerified && documentsVerified,
+      completed: agreementSigned === true,
+      active:
+        kycVerified &&
+        emailVerified &&
+        documentsVerified &&
+        agreementSigned !== true,
     },
   ]
 
@@ -132,7 +172,7 @@ export default function OrderVerification({orderId}: OrderVerificationProps) {
       setAllVerificationComplete(true)
       setActiveStep(steps.length - 1)
     }
-  }, [kycVerified, emailVerified, documentsVerified])
+  }, [kycVerified, emailVerified, documentsVerified, agreementSigned])
 
   if (isLoading) {
     return (
