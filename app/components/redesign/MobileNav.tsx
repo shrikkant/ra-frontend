@@ -1,12 +1,13 @@
 'use client'
 
-import React from 'react'
+import React, {useState} from 'react'
 import Link from 'next/link'
 import {useSelector} from 'react-redux'
 import {CartIcon, ChevronDownIcon} from './icons'
 import {getCart} from '../../../app-store/user/orders/orders.slice'
 import {useDetectedLocation} from './useDetectedLocation'
 import DateChip from './DateChip'
+import DeliverToModal from './DeliverToModal'
 
 /**
  * Mobile-only top header — sibling of DesktopNav inside MobileChrome.
@@ -18,6 +19,7 @@ export default function MobileNav() {
   const cart = useSelector(getCart)
   const cartCount = cart?.items?.length ?? 0
   const {city} = useDetectedLocation()
+  const [locationOpen, setLocationOpen] = useState(false)
 
   return (
     <nav
@@ -35,7 +37,9 @@ export default function MobileNav() {
 
         <button
           type="button"
-          className="shrink min-w-0 flex items-center gap-0.5 text-[12px] font-semibold text-ink"
+          onClick={() => setLocationOpen(true)}
+          aria-label="Change delivery location"
+          className="shrink min-w-0 flex items-center gap-0.5 text-[12px] font-semibold text-ink -m-1 p-1 rounded-md active:bg-surface-muted"
         >
           <span className="truncate">{city}</span>
           <ChevronDownIcon size={12} />
@@ -62,6 +66,11 @@ export default function MobileNav() {
           )}
         </Link>
       </div>
+      <DeliverToModal
+        open={locationOpen}
+        onClose={() => setLocationOpen(false)}
+        currentCity={city}
+      />
     </nav>
   )
 }
