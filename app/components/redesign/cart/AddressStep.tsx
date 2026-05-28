@@ -89,7 +89,7 @@ export default function AddressStep({
             active={mode === 'pickup'}
             Icon={ShieldIcon}
             title="Self pickup"
-            sub="Kothrud store"
+            sub="&nbsp;"
             fee="FREE"
             onClick={() => onModeChange('pickup')}
           />
