@@ -2,6 +2,7 @@ import React from 'react'
 import TabBar from './TabBar'
 import DesktopNav from './DesktopNav'
 import MobileNav from './MobileNav'
+import Footer from './Footer'
 import {DatePickerProvider} from './DatePickerProvider'
 
 type TopPad = 'notch' | 'none'
@@ -24,6 +25,11 @@ interface MobileChromeProps {
    * content on mobile — opt in by setting this to true.
    */
   showMobileNav?: boolean
+  /**
+   * Hide the redesign footer. Auth/KYC/cart flows that want a focused
+   * single-step layout can opt out. Defaults to showing the footer.
+   */
+  hideFooter?: boolean
   /** Top padding strategy. `notch` = 54px clear; `none` = flush. */
   topPad?: TopPad
   /** Bottom padding to clear floating UI. `tabBar` = 120px; `cta` = 96px. */
@@ -58,6 +64,7 @@ export default function MobileChrome({
   hideTabBar = false,
   hideDesktopNav = false,
   showMobileNav = false,
+  hideFooter = false,
   topPad = 'notch',
   bottomPad = 'tabBar',
   background = 'bg-bg',
@@ -67,6 +74,11 @@ export default function MobileChrome({
   // page wrapper only needs the desktop-side top padding. Pages that
   // render their own top bar (default) keep the legacy `topPad`.
   const topClass = showMobileNav ? 'md:pt-6' : TOP_CLASS[topPad]
+  // When the footer renders it provides its own bottom space, so the
+  // children wrapper drops the TabBar buffer (otherwise we'd get dead
+  // space between content and footer). The TabBar still floats, but the
+  // footer body itself handles the bottom clearance.
+  const bottomClass = !hideFooter ? '' : BOTTOM_CLASS[bottomPad]
 
   return (
     <DatePickerProvider>
@@ -74,10 +86,15 @@ export default function MobileChrome({
         {!hideDesktopNav && <DesktopNav />}
         {showMobileNav && <MobileNav />}
         <div
-          className={`mx-auto px-0 md:px-6 ${WIDTH_CLASS[width]} ${topClass} ${BOTTOM_CLASS[bottomPad]}`}
+          className={`mx-auto px-0 md:px-6 ${WIDTH_CLASS[width]} ${topClass} ${bottomClass}`}
         >
           {children}
         </div>
+        {!hideFooter && (
+          <div className={!hideTabBar ? 'pb-[120px] md:pb-0' : ''}>
+            <Footer />
+          </div>
+        )}
         {!hideTabBar && <TabBar />}
       </div>
     </DatePickerProvider>

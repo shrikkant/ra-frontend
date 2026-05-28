@@ -25,7 +25,7 @@ const steps = [
 
 export default function HowItWorks() {
   return (
-    <section aria-label="How it works" className="py-12 md:py-16">
+    <section id="how-it-works" aria-label="How it works" className="py-12 md:py-16 scroll-mt-24">
       <h2 className="text-xl sm:text-2xl font-bold text-gray-900 mb-8">
         How it works
       </h2>
