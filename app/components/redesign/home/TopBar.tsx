@@ -1,12 +1,14 @@
 'use client'
 
-import React from 'react'
+import React, {useState} from 'react'
 import Link from 'next/link'
 import {ChevronDownIcon, UserIcon} from '../icons'
 import {useDetectedLocation} from '../useDetectedLocation'
+import DeliverToModal from '../DeliverToModal'
 
 export default function TopBar() {
   const {city, area} = useDetectedLocation()
+  const [locationOpen, setLocationOpen] = useState(false)
 
   return (
     <div className="md:hidden flex items-center justify-between px-4 pt-1.5 pb-1.5">
@@ -17,18 +19,20 @@ export default function TopBar() {
         >
           <span className="text-accent">R</span>A
         </div>
-        <div>
+        <button
+          type="button"
+          onClick={() => setLocationOpen(true)}
+          aria-label="Change delivery location"
+          className="text-left -m-1 p-1 rounded-md active:bg-surface-muted"
+        >
           <div className="text-[10px] uppercase tracking-kicker font-semibold text-ink-muted">
             Deliver to
           </div>
-          <button
-            type="button"
-            className="text-[14px] font-semibold text-ink flex items-center gap-1"
-          >
+          <div className="text-[14px] font-semibold text-ink flex items-center gap-1">
             {area ? `${city}, ${area}` : city}
             <ChevronDownIcon size={12} />
-          </button>
-        </div>
+          </div>
+        </button>
       </div>
       <Link
         href="/p/profile"
@@ -41,6 +45,11 @@ export default function TopBar() {
           className="absolute top-2 right-2 w-2 h-2 rounded-full bg-accent border-2 border-surface"
         />
       </Link>
+      <DeliverToModal
+        open={locationOpen}
+        onClose={() => setLocationOpen(false)}
+        currentCity={city}
+      />
     </div>
   )
 }

@@ -1,6 +1,6 @@
 'use client'
 
-import React from 'react'
+import React, {useState} from 'react'
 import Link from 'next/link'
 import {usePathname} from 'next/navigation'
 import {useSelector} from 'react-redux'
@@ -8,6 +8,7 @@ import {SearchIcon, CartIcon, UserIcon, ChevronDownIcon} from './icons'
 import {getCart} from '../../../app-store/user/orders/orders.slice'
 import {useDetectedLocation} from './useDetectedLocation'
 import DateChip from './DateChip'
+import DeliverToModal from './DeliverToModal'
 
 const NAV_LINKS = [
   {href: '/pune/rent-camera?q=', label: 'Cameras'},
@@ -28,6 +29,7 @@ export default function DesktopNav() {
   const cart = useSelector(getCart)
   const cartCount = cart?.items?.length ?? 0
   const {city, area} = useDetectedLocation()
+  const [locationOpen, setLocationOpen] = useState(false)
 
   return (
     <nav
@@ -53,7 +55,9 @@ export default function DesktopNav() {
 
         <button
           type="button"
-          className="hidden lg:flex items-center gap-1 text-[13px] text-ink-secondary"
+          onClick={() => setLocationOpen(true)}
+          aria-label="Change delivery location"
+          className="hidden lg:flex items-center gap-1 text-[13px] text-ink-secondary rounded-md px-1 -mx-1 hover:bg-surface-muted"
         >
           <span className="text-[10px] uppercase tracking-kicker font-bold text-ink-muted mr-1">
             Deliver to
@@ -119,6 +123,11 @@ export default function DesktopNav() {
           <UserIcon size={18} />
         </Link>
       </div>
+      <DeliverToModal
+        open={locationOpen}
+        onClose={() => setLocationOpen(false)}
+        currentCity={city}
+      />
     </nav>
   )
 }
