@@ -102,12 +102,11 @@ export default function ListingScreen({
   }, [])
   const initialQuery = query
 
-  const filteredProducts = useMemo(() => {
-    const q = query.trim().toLowerCase()
-    if (!q) return products
-    return products.filter(p => p.title?.toLowerCase().includes(q))
-  }, [products, query])
-
+  // Search is now resolved server-side (the page forwards ?q= to the
+  // backend's searchString filter, which matches across title, description
+  // and tags). Trust the server response — no client-side title-contains
+  // filter on top, which used to silently hide matches outside the first
+  // page of 24 results.
   const subCategories: IProductSubCategory[] = useMemo(
     () =>
       (categories?.[0]?.subCategories ?? []).filter(
@@ -142,8 +141,8 @@ export default function ListingScreen({
   )
 
   const sorted = useMemo(
-    () => sortProducts(filteredProducts, sort),
-    [filteredProducts, sort],
+    () => sortProducts(products, sort),
+    [products, sort],
   )
 
   const [filtersOpen, setFiltersOpen] = useState(false)
@@ -180,7 +179,11 @@ export default function ListingScreen({
         customH1={customH1}
         customIntro={customIntro}
       />
-      <SearchHeader initialQuery={initialQuery} autoFocus={false} />
+      <SearchHeader
+        initialQuery={initialQuery}
+        autoFocus={false}
+        citySlug={filter.city ?? 'pune'}
+      />
       {/* Mobile: chip rail on top of results. Desktop: chips also useful as
           quick switchers above the grid. */}
       <CategoryRail

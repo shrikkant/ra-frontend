@@ -1,21 +1,28 @@
 'use client'
 
 import React, {useEffect, useRef, useState} from 'react'
-import {useRouter, usePathname} from 'next/navigation'
+import {useRouter} from 'next/navigation'
 import {ArrowLeftIcon, CloseIcon, SearchIcon} from '../icons'
 
 interface SearchHeaderProps {
   initialQuery?: string
   /** When true, the input mounts focused. */
   autoFocus?: boolean
+  /**
+   * City slug that searches should land on (e.g. "pune"). Searches drop
+   * the current subcategory so results are category-agnostic — submitting
+   * "gopro" on /pune/rent-camera lands on /pune?q=gopro and surfaces all
+   * matching gear across categories.
+   */
+  citySlug: string
 }
 
 export default function SearchHeader({
   initialQuery = '',
   autoFocus = false,
+  citySlug,
 }: SearchHeaderProps) {
   const router = useRouter()
-  const pathname = usePathname() ?? '/'
   const [value, setValue] = useState(initialQuery)
   const inputRef = useRef<HTMLInputElement>(null)
   const debounceRef = useRef<number | null>(null)
@@ -25,10 +32,19 @@ export default function SearchHeader({
   }, [autoFocus])
 
   const submit = (q: string) => {
-    const params = new URLSearchParams()
+    const target = `/${citySlug}`
+    // Preserve other URL state (sort, brand, rate) but reset page since
+    // search changes the result set. Reading window.location avoids
+    // useSearchParams() here, which would deopt the parent listing page
+    // from static rendering.
+    const params = new URLSearchParams(
+      typeof window !== 'undefined' ? window.location.search : '',
+    )
     if (q) params.set('q', q)
+    else params.delete('q')
+    params.delete('page')
     const search = params.toString()
-    router.replace(search ? `${pathname}?${search}` : pathname)
+    router.replace(search ? `${target}?${search}` : target)
   }
 
   const onChange = (e: React.ChangeEvent<HTMLInputElement>) => {

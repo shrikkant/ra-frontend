@@ -61,9 +61,13 @@ interface PageProps {
   params: Promise<{
     slug: string[]
   }>
-  // searchParams is intentionally NOT accessed on the server. Reading it
-  // would force this route into dynamic rendering and defeat SSG. The
-  // client-side ListingScreen reads ?q= via useSearchParams() instead.
+  // `?q=` is read server-side and forwarded to the backend's searchString
+  // filter so search results actually reflect the full catalog (not just
+  // the first 24 products of the current subcategory). Clean URLs without
+  // ?q= still pre-render via generateStaticParams; only query-bearing
+  // URLs render dynamically — which is correct, since each search is
+  // per-visitor and not crawler-indexed.
+  searchParams?: Promise<{q?: string; [key: string]: string | string[] | undefined}>
 }
 
 // Generate static params for the full city × subCategory cross-product
@@ -195,17 +199,22 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
   return metadata
 }
 
-export default async function Page({params}: PageProps) {
+export default async function Page({params, searchParams}: PageProps) {
   // Parallelize initial data fetching. Categories is required to build
   // the filter — if it can't load (build-time DNS failure, backend down)
   // we surface a 404 instead of crashing the whole prerender.
-  const [categories, localParams] = await Promise.all([
+  const [categories, localParams, resolvedSearchParams] = await Promise.all([
     fetchStaticData(`categories`).catch(error => {
       console.warn('Page: categories fetch failed', error)
       return null
     }),
     params,
+    searchParams ??
+      (Promise.resolve({}) as NonNullable<PageProps['searchParams']>),
   ])
+  const rawQ = resolvedSearchParams.q
+  const searchQuery =
+    typeof rawQ === 'string' && rawQ.trim() ? rawQ.trim() : undefined
 
   if (!categories) {
     return notFound()
@@ -237,12 +246,13 @@ export default async function Page({params}: PageProps) {
     )
 
     // City listing page — fetch products, FAQs, and any editorial override
-    // for this (city × category) in parallel. We deliberately fetch the
-    // unfiltered (no `q`) list so the server response is identical for
-    // every visitor of this URL — that's what lets it statically generate.
-    // Client-side filtering by `q` happens in ListingScreen.
+    // for this (city × category) in parallel. When `?q=` is present it's
+    // forwarded to the backend's searchString filter (matches title /
+    // description / tags across the city's full catalog); otherwise we
+    // pass undefined so the response stays identical across visitors and
+    // the URL stays SSG-able.
     const [response, faqs, override] = await Promise.all([
-      (fetchProductsServer(undefined, filter) as Promise<{
+      (fetchProductsServer(searchQuery, filter) as Promise<{
         results: IProduct[]
         meta: {total: number; page: number; limit: number}
       }>).catch(error => {
