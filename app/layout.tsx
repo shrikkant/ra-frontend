@@ -21,6 +21,7 @@ import type {Metadata, Viewport} from 'next'
 import LazyToastContainer from './components/LazyToastContainer'
 import NavigationProgress from './components/common/NavigationProgress'
 import DateConflictHost from './components/redesign/DateConflictHost'
+import WhatsAppFab from './components/redesign/WhatsAppFab'
 
 const GTM_ID = 'GTM-TPF56M8'
 
@@ -179,6 +180,9 @@ export default async function RootLayout({
           {/* Add-to-cart date-conflict prompt. Driven by a module-level
               store, so a single mount serves every product card. */}
           <DateConflictHost />
+          {/* Floating WhatsApp launcher — global, route-aware (hides on
+              focused flows like /join, KYC). */}
+          <WhatsAppFab />
         </StoreProvider>
 
         {/* Toast container is client-only (dynamic ssr:false). Kept OUTSIDE
