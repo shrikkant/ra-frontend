@@ -1,10 +1,11 @@
 import React from 'react'
-import CustomerDetails from '../../../../components/admin/CustomerDetails.client'
+import InboxScreen from '../../../../components/admin/inbox/InboxScreen'
 
+// `id` is the WhatsApp conversation UUID (not the user id). Picking a
+// row in the list navigates here and InboxScreen shows the chat pane.
 type Params = Promise<{id: string}>
 
 export default async function Page(props: {params: Params}) {
-  const params = await props.params
-
-  return <CustomerDetails id={params.id} />
+  const {id} = await props.params
+  return <InboxScreen selectedId={id} />
 }
