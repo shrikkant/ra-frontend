@@ -154,7 +154,7 @@ export default function MainHeaderNav() {
           <div className="flex items-center gap-x-3">
             <div className="flex items-center gap-x-2">
               <Link
-                href="https://wa.me/7720829444?text=Hello%20I%20need%20support"
+                href="https://wa.me/918010517497?text=Hi,%20I%20have%20a%20question."
                 target="_blank"
                 className="bg-green-500 hover:bg-green-600 text-white h-8 w-8 items-center justify-center flex rounded-full shadow-md transition-all duration-200 hover:scale-105"
                 rel="noreferrer"

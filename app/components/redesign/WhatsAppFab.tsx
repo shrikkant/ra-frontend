@@ -3,7 +3,7 @@
 import React, {useEffect, useState} from 'react'
 import {usePathname} from 'next/navigation'
 
-const WA_PHONE = '7720829444'
+const WA_PHONE = '918010517487'
 const WA_MESSAGE = 'Hi! I have a quick question.'
 const WA_URL = `https://wa.me/${WA_PHONE}?text=${encodeURIComponent(WA_MESSAGE)}`
 

@@ -139,7 +139,7 @@ export default function Footer() {
               <YoutubeIcon />
             </a>
             <a
-              href="https://wa.me/7720829444?text=Hello%20I%20need%20support"
+              href="https://wa.me/918010517487?text=Hi%20I%20have%20a%20question."
               target="_blank"
               rel="noreferrer"
               aria-label="WhatsApp"
