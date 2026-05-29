@@ -37,12 +37,12 @@ export default async function HelpPage() {
         <p className="text-[14px] md:text-[16px] text-ink-secondary mt-2 md:mt-4 leading-relaxed md:max-w-2xl">
           Browse common questions, or message us on WhatsApp at{' '}
           <a
-            href="https://wa.me/917720829444"
+            href="https://wa.me/918010517487"
             target="_blank"
             rel="noreferrer"
             className="font-bold text-ink no-underline"
           >
-            +91 77208 29444
+	  WhatsApp
           </a>
           .
         </p>
