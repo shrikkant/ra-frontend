@@ -31,41 +31,46 @@ function countVariables(t: IInboxTemplate): number {
   return max
 }
 
-// Coerce whatever Meta puts under a template's body text into a string.
-// Shapes seen in the wild:
-//   "Hi {{1}}"                             ← plain string (most common)
-//   { value: "Hi {{1}}" }                  ← wrapped (some template types)
-//   { text: "Hi {{1}}" }                   ← double-nested
-// Returning anything non-string from previewBody causes React error #31
-// the moment the picker tries to render the preview. Defaulting to ''
-// degrades to the template name (handled by the caller).
-function bodyTextToString(text: unknown): string {
-  if (typeof text === 'string') return text
-  if (text && typeof text === 'object') {
-    const obj = text as Record<string, unknown>
+// Coerce whatever caramel ships into a string. Shapes seen in the wild:
+//   "auth_otp"                ← plain string (expected)
+//   { value: "auth_otp" }     ← TemplateName VO leaked through caramel's
+//                                toObject(); JSON-serializes its private
+//                                `value` field as a property
+//   { text: "Hi {{1}}" }      ← template body sometimes double-nested
+//
+// Anything non-string returned here, when rendered as JSX, raises React
+// error #31. Defaulting to '' lets callers degrade to a friendly value.
+function strFrom(v: unknown): string {
+  if (typeof v === 'string') return v
+  if (v && typeof v === 'object') {
+    const obj = v as Record<string, unknown>
     if (typeof obj.value === 'string') return obj.value
     if (typeof obj.text === 'string') return obj.text
   }
   return ''
 }
 
+const tName = (t: IInboxTemplate): string => strFrom(t.name) || '(unnamed)'
+const tCategory = (t: IInboxTemplate): string => strFrom(t.category)
+const tLanguage = (t: IInboxTemplate): string => strFrom(t.language)
+
 // Pull a human-readable body preview out of the template_data JSON. The
 // shape Meta returns nests components by type; we walk for the first BODY
 // component's text. Falls back to template name if nothing obvious.
 function previewBody(t: IInboxTemplate): string {
   const data = t.templateData
-  if (!data) return t.name
+  if (!data) return tName(t)
   const components = data.components ?? data.template_data?.components
   if (Array.isArray(components)) {
     for (const c of components) {
       if (c?.type?.toUpperCase?.() === 'BODY' && c.text) {
-        const str = bodyTextToString(c.text)
+        const str = strFrom(c.text)
         if (str) return str
       }
     }
   }
   if (typeof data.body === 'string') return data.body
-  return t.name
+  return tName(t)
 }
 
 export default function TemplatePicker({open, onClose, onPick}: Props) {
@@ -104,7 +109,10 @@ export default function TemplatePicker({open, onClose, onPick}: Props) {
 
   const submit = () => {
     if (!selected || !ready) return
-    onPick(selected.name, vars.slice(0, varCount))
+    // Coerce — see strFrom comment. selected.name may arrive as a
+    // {value: "..."} VO object from caramel; the backend send endpoint
+    // expects a plain string templateName.
+    onPick(tName(selected), vars.slice(0, varCount))
     onClose()
   }
 
@@ -130,7 +138,7 @@ export default function TemplatePicker({open, onClose, onPick}: Props) {
               Send a template
             </div>
             <div className="text-[16px] font-extrabold text-ink leading-tight mt-0.5 truncate">
-              {selected ? selected.name : 'Pick an approved template'}
+              {selected ? tName(selected) : 'Pick an approved template'}
             </div>
           </div>
           {/* Sync pulls the latest template list from Meta and refreshes
@@ -204,10 +212,10 @@ export default function TemplatePicker({open, onClose, onPick}: Props) {
                         className="w-full text-left rounded-[12px] border border-line bg-surface hover:bg-surface-muted px-3 py-2.5"
                       >
                         <div className="text-[13px] font-extrabold text-ink">
-                          {t.name}
+                          {tName(t)}
                         </div>
                         <div className="text-[11px] text-ink-muted uppercase tracking-kicker font-bold mt-0.5">
-                          {t.category} · {t.language}
+                          {tCategory(t)} · {tLanguage(t)}
                         </div>
                         <p className="text-[12px] text-ink-secondary mt-1 line-clamp-3 whitespace-pre-wrap">
                           {previewBody(t)}
