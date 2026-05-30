@@ -1,7 +1,15 @@
 'use client'
 
 import React, {useState} from 'react'
+import {useRouter} from 'next/navigation'
+import {useDispatch} from 'react-redux'
 import {updateCustomer} from '../../../../api/admin/customers.api'
+import {getAdminAuthUser} from '../../../../api/auth.api'
+import {
+  authUser,
+  logout,
+  setAdminLogin,
+} from '../../../../app-store/auth/auth.slice'
 import {IUser} from '../../../../app-store/types'
 import {CheckIcon, CloseIcon} from '../../redesign/icons'
 
@@ -9,6 +17,24 @@ interface Props {
   customer: IUser
   onChange: (next: IUser) => void
 }
+
+const LoginGlyph = ({size = 12}: {size?: number}) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    strokeLinecap="round"
+    strokeLinejoin="round"
+    aria-hidden
+  >
+    <path d="M15 3h4a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2h-4" />
+    <polyline points="10 17 15 12 10 7" />
+    <line x1="15" y1="12" x2="3" y2="12" />
+  </svg>
+)
 
 type Field = 'name' | 'email' | 'phone' | 'city'
 
@@ -59,6 +85,8 @@ function isWhatsAppPlaceholderEmail(email?: string): boolean {
  *     to ask for a real one — sales nudge baked into the UX.
  */
 export default function ProfileEditCard({customer, onChange}: Props) {
+  const router = useRouter()
+  const dispatch = useDispatch()
   const [editing, setEditing] = useState<Field | null>(null)
   const [draft, setDraft] = useState({
     firstname: customer.firstname ?? '',
@@ -69,6 +97,46 @@ export default function ProfileEditCard({customer, onChange}: Props) {
   })
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState<string | null>(null)
+  const [impersonating, setImpersonating] = useState(false)
+
+  /**
+   * Log out of the admin account and into the customer's account.
+   * Existing /admin endpoint hands back a fresh session for the target
+   * user; we drop the admin's session, mark `adminLogin=true` in redux
+   * so the customer-facing chrome knows it's a sudo and can offer a
+   * "back to admin" affordance, then bounce to home.
+   *
+   * Confirm dialog before firing — this nukes the admin's session, so
+   * a stray tap shouldn't trigger it.
+   */
+  const loginAsCustomer = async () => {
+    if (impersonating) return
+    const name =
+      [customer.firstname, customer.lastname]
+        .filter(Boolean)
+        .join(' ')
+        .trim() ||
+      customer.email_address ||
+      `+91 ${customer.phone ?? ''}`
+    if (
+      !window.confirm(
+        `Log in as ${name}? You'll be signed out of admin and switched to their account.`,
+      )
+    ) {
+      return
+    }
+    setImpersonating(true)
+    try {
+      dispatch(logout())
+      const loggedUser = await getAdminAuthUser(customer.id)
+      dispatch(authUser(loggedUser))
+      dispatch(setAdminLogin(true))
+      router.push('/')
+    } catch (e) {
+      console.error('Login-as-customer failed:', e)
+      setImpersonating(false)
+    }
+  }
 
   const beginEdit = (field: Field) => {
     setDraft({
@@ -125,13 +193,24 @@ export default function ProfileEditCard({customer, onChange}: Props) {
 
   return (
     <section className="bg-surface border border-line rounded-[16px] overflow-hidden">
-      <div className="px-4 py-3 border-b border-line-soft">
-        <div className="text-[10px] uppercase tracking-kicker font-extrabold text-ink-muted">
-          Profile
+      <div className="px-4 py-3 border-b border-line-soft flex items-center gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="text-[10px] uppercase tracking-kicker font-extrabold text-ink-muted">
+            Profile
+          </div>
+          <div className="text-[15px] font-extrabold text-ink leading-tight mt-0.5">
+            Customer details
+          </div>
         </div>
-        <div className="text-[15px] font-extrabold text-ink leading-tight mt-0.5">
-          Customer details
-        </div>
+        <button
+          type="button"
+          onClick={loginAsCustomer}
+          disabled={impersonating}
+          className="shrink-0 inline-flex items-center gap-1.5 text-[11px] font-extrabold uppercase tracking-kicker bg-surface border border-line text-ink rounded-full px-3 py-1.5 hover:bg-surface-muted active:scale-95 transition-transform disabled:opacity-60"
+        >
+          <LoginGlyph />
+          {impersonating ? 'Switching…' : 'Login as'}
+        </button>
       </div>
 
       <ul className="divide-y divide-line-soft">
