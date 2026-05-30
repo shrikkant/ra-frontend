@@ -105,6 +105,11 @@ function renderContent(
             src={url}
             alt={content?.caption ?? 'Image'}
             loading="lazy"
+            // Caramel's media endpoint is admin-gated — the browser must
+            // send the JWT cookie with the image request. Ignored for
+            // same-origin URLs (reverse-proxy deployments) so this is
+            // safe to set unconditionally.
+            crossOrigin="use-credentials"
             onClick={() => onImageTap(url)}
             className="rounded-[10px] max-h-72 object-cover cursor-zoom-in"
           />

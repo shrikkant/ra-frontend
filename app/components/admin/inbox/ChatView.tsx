@@ -13,6 +13,7 @@ import DetailsTab from './DetailsTab'
 import {useConversationDetail} from './hooks/useConversationDetail'
 import {useMessages} from './hooks/useMessages'
 import {useOrderContext} from './hooks/useOrderContext'
+import {useKeyboardOffset} from './hooks/useKeyboardOffset'
 
 interface Props {
   conversationId: string
@@ -39,6 +40,11 @@ export default function ChatView({conversationId}: Props) {
   } = useMessages(conversationId)
   const {data: orderContext, loading: orderContextLoading} =
     useOrderContext(conversationId)
+  // Mobile keyboard handling: shrink the chat container by the
+  // keyboard height so the composer stays above the keyboard instead
+  // of disappearing behind it (iOS Safari's default 100vh doesn't
+  // follow the visual viewport).
+  const keyboardOffset = useKeyboardOffset()
 
   const [tab, setTab] = useState<Tab>('chat')
 
@@ -52,9 +58,17 @@ export default function ChatView({conversationId}: Props) {
     })
   }, [conversationId])
 
+  // Smooth-transition the height so the composer slides up with the
+  // keyboard rather than jumping. 150ms matches the iOS keyboard
+  // animation closely enough that the two feel coordinated.
+  const containerStyle: React.CSSProperties = {
+    height: keyboardOffset > 0 ? `calc(100% - ${keyboardOffset}px)` : '100%',
+    transition: 'height 0.15s ease-out',
+  }
+
   if (!detail) {
     return (
-      <div className="h-full flex flex-col bg-surface">
+      <div className="flex flex-col bg-surface" style={containerStyle}>
         <div className="h-14 border-b border-line shrink-0 flex items-center px-3 lg:px-5">
           <div className="text-[13px] text-ink-muted">Loading…</div>
         </div>
@@ -64,7 +78,7 @@ export default function ChatView({conversationId}: Props) {
   }
 
   return (
-    <div className="h-full flex flex-col bg-surface">
+    <div className="flex flex-col bg-surface" style={containerStyle}>
       <CustomerHeader
         detail={detail}
         window={windowStatus}

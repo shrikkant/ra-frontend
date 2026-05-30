@@ -61,6 +61,8 @@ export default function ImageViewer({src, alt, onClose}: Props) {
       <img
         src={src}
         alt={alt ?? 'Image'}
+        // Admin-gated media endpoint — cookie auth required cross-origin.
+        crossOrigin="use-credentials"
         onClick={e => e.stopPropagation()}
         className="max-w-full max-h-full object-contain"
         style={{touchAction: 'pinch-zoom'}}

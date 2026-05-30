@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useRef, useState} from 'react'
+import React, {useEffect, useRef, useState} from 'react'
 import {
   sendInboxMediaMessage,
   sendInboxMessage,
@@ -8,6 +8,7 @@ import {
 import {CloseIcon} from '../../redesign/icons'
 import TemplatePicker from './TemplatePicker'
 import CannedReplyPicker from './CannedReplyPicker'
+import {haptic} from './hooks/haptics'
 
 interface Props {
   conversationId: string
@@ -21,7 +22,16 @@ interface Props {
 const MAX_IMAGE_BYTES = 5 * 1024 * 1024
 const ACCEPT_IMAGE = 'image/jpeg,image/png,image/webp'
 
-const TemplateIcon = ({size = 16}: {size?: number}) => (
+// Detect touch primary input once at module load. Used to flip
+// Enter-key semantics: touch devices send on Enter (WhatsApp behaviour
+// reps expect on mobile), keyboards still need Cmd/Ctrl+Enter so a
+// stray Enter doesn't accidentally fire the message.
+const IS_TOUCH =
+  typeof window !== 'undefined' &&
+  (('ontouchstart' in window) ||
+    (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0))
+
+const TemplateIcon = ({size = 18}: {size?: number}) => (
   <svg
     width={size}
     height={size}
@@ -40,7 +50,7 @@ const TemplateIcon = ({size = 16}: {size?: number}) => (
   </svg>
 )
 
-const BoltIcon = ({size = 16}: {size?: number}) => (
+const BoltIcon = ({size = 18}: {size?: number}) => (
   <svg
     width={size}
     height={size}
@@ -68,7 +78,27 @@ const AttachIcon = ({size = 18}: {size?: number}) => (
   </svg>
 )
 
-const SendIcon = ({size = 16}: {size?: number}) => (
+const PlusToggleIcon = ({open}: {open: boolean}) => (
+  <svg
+    width={20}
+    height={20}
+    viewBox="0 0 24 24"
+    fill="none"
+    stroke="currentColor"
+    strokeWidth="2.4"
+    strokeLinecap="round"
+    aria-hidden
+    style={{
+      transition: 'transform 0.18s ease-out',
+      transform: open ? 'rotate(45deg)' : 'rotate(0deg)',
+    }}
+  >
+    <line x1="12" y1="5" x2="12" y2="19" />
+    <line x1="5" y1="12" x2="19" y2="12" />
+  </svg>
+)
+
+const SendIcon = ({size = 18}: {size?: number}) => (
   <svg
     width={size}
     height={size}
@@ -79,6 +109,36 @@ const SendIcon = ({size = 16}: {size?: number}) => (
     <path d="M3.4 20.4l17.45-7.48a1 1 0 0 0 0-1.84L3.4 3.6a1 1 0 0 0-1.4 1.1L4 11l9 1-9 1-2 6.3a1 1 0 0 0 1.4 1.1z" />
   </svg>
 )
+
+// Single tap-target: 44×44 (Apple HIG / WCAG 2.5.5 minimum). Touch
+// feedback states (`active:scale-95`) make every button feel like it
+// responded even before the action fires.
+const ACTION_BTN_CLS =
+  'shrink-0 w-11 h-11 rounded-full bg-surface-muted border border-line flex items-center justify-center text-ink hover:bg-bg active:scale-95 transition-transform disabled:opacity-60'
+
+function ActionChip({
+  icon,
+  label,
+  onClick,
+  disabled,
+}: {
+  icon: React.ReactNode
+  label: string
+  onClick: () => void
+  disabled?: boolean
+}) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      disabled={disabled}
+      className="h-12 rounded-[14px] bg-bg border border-line flex items-center justify-center gap-2 text-[13px] font-extrabold text-ink hover:bg-surface-muted active:scale-95 transition-transform disabled:opacity-60"
+    >
+      <span className="text-ink-secondary">{icon}</span>
+      {label}
+    </button>
+  )
+}
 
 export default function Composer({
   conversationId,
@@ -92,6 +152,11 @@ export default function Composer({
   const [sending, setSending] = useState(false)
   const [pickerOpen, setPickerOpen] = useState(false)
   const [cannedOpen, setCannedOpen] = useState(false)
+  // Mobile-only: collapses three action icons behind a single + toggle.
+  // Reclaims ~90px of horizontal space for the textarea, which on a
+  // 360px iPhone SE is the difference between "two-line wrap by
+  // default" and "comfortable typing room".
+  const [actionsOpen, setActionsOpen] = useState(false)
   // Local file staged for upload — shown as a preview chip above the
   // composer until the user clears it or hits send.
   const [pendingImage, setPendingImage] = useState<{
@@ -101,6 +166,14 @@ export default function Composer({
   const [uploadError, setUploadError] = useState<string | null>(null)
   const taRef = useRef<HTMLTextAreaElement | null>(null)
   const fileInputRef = useRef<HTMLInputElement | null>(null)
+
+  // Collapse the action expander whenever the user starts typing on
+  // mobile — actions and typing are mutually exclusive intents, and
+  // the expanded row pushes the textarea narrower right when they need
+  // the space most.
+  useEffect(() => {
+    if (text.length > 0 && actionsOpen) setActionsOpen(false)
+  }, [text.length, actionsOpen])
 
   // Auto-resize the textarea up to 5 lines. Beyond that, internal scroll.
   const onInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -117,6 +190,7 @@ export default function Composer({
       setPickerOpen(true)
       return
     }
+    haptic(10)
     setSending(true)
     const optId = onOptimistic(trimmed)
     setText('')
@@ -164,6 +238,8 @@ export default function Composer({
     }
     if (pendingImage) URL.revokeObjectURL(pendingImage.previewUrl)
     setPendingImage({file: f, previewUrl: URL.createObjectURL(f)})
+    haptic(5)
+    setActionsOpen(false)
   }
 
   const clearPending = () => {
@@ -178,6 +254,7 @@ export default function Composer({
       setUploadError('24h window closed — attachments need a template flow.')
       return
     }
+    haptic(10)
     setSending(true)
     setUploadError(null)
     const caption = text.trim() || undefined
@@ -239,12 +316,21 @@ export default function Composer({
   }
 
   const onKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    // Cmd/Ctrl+Enter sends; Enter alone makes a newline (matches Slack /
-    // Linear — chat composers that respect "Enter for newline" win on
-    // mobile, where touchscreen autocorrect benefits from line breaks).
-    if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) {
-      e.preventDefault()
-      onSendClick()
+    if (e.key !== 'Enter') return
+    if (IS_TOUCH) {
+      // Mobile: Enter sends (WhatsApp behaviour). Shift+Enter inserts a
+      // newline for the rare power-user case.
+      if (!e.shiftKey) {
+        e.preventDefault()
+        onSendClick()
+      }
+    } else {
+      // Desktop: Cmd/Ctrl+Enter sends; bare Enter still newlines so
+      // typing multi-line replies isn't a footgun.
+      if (e.metaKey || e.ctrlKey) {
+        e.preventDefault()
+        onSendClick()
+      }
     }
   }
 
@@ -253,7 +339,7 @@ export default function Composer({
 
   return (
     <>
-      <div className="shrink-0 border-t border-line bg-surface px-3 lg:px-5 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="shrink-0 border-t border-line bg-surface px-3 lg:px-5 py-2.5 pb-[max(0.625rem,env(safe-area-inset-bottom))]">
         {!windowOpen && (
           <div className="mb-2 text-[11px] text-ink-secondary leading-tight">
             <span className="font-bold text-ink">24h window closed.</span>{' '}
@@ -282,9 +368,9 @@ export default function Composer({
               type="button"
               onClick={clearPending}
               aria-label="Clear attachment"
-              className="shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-ink-secondary hover:bg-surface-muted"
+              className="shrink-0 w-9 h-9 rounded-full flex items-center justify-center text-ink-secondary hover:bg-surface-muted active:scale-95 transition-transform"
             >
-              <CloseIcon size={14} />
+              <CloseIcon size={16} />
             </button>
           </div>
         )}
@@ -303,33 +389,89 @@ export default function Composer({
           onChange={onPickFile}
         />
 
-        <div className="flex items-end gap-2">
+        {/* Mobile-only action drawer: appears above the input row when
+            + is tapped. Labelled chips read better than bare icons for
+            occasional users (admins who joined yesterday). Hidden on
+            desktop — the inline icon row to the left of the input is
+            enough room there. */}
+        {actionsOpen && (
+          <div className="md:hidden mb-2 grid grid-cols-3 gap-2">
+            <ActionChip
+              icon={<AttachIcon size={16} />}
+              label="Photo"
+              onClick={() => {
+                haptic(5)
+                fileInputRef.current?.click()
+              }}
+              disabled={!windowOpen || sending}
+            />
+            <ActionChip
+              icon={<BoltIcon size={16} />}
+              label="Canned"
+              onClick={() => {
+                haptic(5)
+                setCannedOpen(true)
+                setActionsOpen(false)
+              }}
+              disabled={!windowOpen || sending}
+            />
+            <ActionChip
+              icon={<TemplateIcon size={16} />}
+              label="Template"
+              onClick={() => {
+                haptic(5)
+                setPickerOpen(true)
+                setActionsOpen(false)
+              }}
+            />
+          </div>
+        )}
+
+        <div className="flex items-end gap-1.5">
+          {/* Mobile + toggle */}
           <button
             type="button"
-            aria-label="Attach an image"
-            onClick={() => fileInputRef.current?.click()}
+            aria-label={actionsOpen ? 'Hide actions' : 'More actions'}
+            onClick={() => {
+              setActionsOpen(o => !o)
+              haptic(5)
+            }}
             disabled={!windowOpen || sending}
-            className="shrink-0 w-10 h-10 rounded-full bg-surface-muted border border-line flex items-center justify-center text-ink hover:bg-bg disabled:opacity-60"
+            className={`md:hidden ${ACTION_BTN_CLS}`}
           >
-            <AttachIcon />
+            <PlusToggleIcon open={actionsOpen} />
           </button>
-          <button
-            type="button"
-            aria-label="Canned replies"
-            onClick={() => setCannedOpen(true)}
-            disabled={!windowOpen || sending}
-            className="shrink-0 w-10 h-10 rounded-full bg-surface-muted border border-line flex items-center justify-center text-ink hover:bg-bg disabled:opacity-60"
-          >
-            <BoltIcon />
-          </button>
-          <button
-            type="button"
-            aria-label="Pick a template"
-            onClick={() => setPickerOpen(true)}
-            className="shrink-0 w-10 h-10 rounded-full bg-surface-muted border border-line flex items-center justify-center text-ink hover:bg-bg"
-          >
-            <TemplateIcon />
-          </button>
+
+          {/* Desktop inline icons */}
+          <div className="hidden md:flex items-end gap-1.5">
+            <button
+              type="button"
+              aria-label="Attach an image"
+              onClick={() => fileInputRef.current?.click()}
+              disabled={!windowOpen || sending}
+              className={ACTION_BTN_CLS}
+            >
+              <AttachIcon />
+            </button>
+            <button
+              type="button"
+              aria-label="Canned replies"
+              onClick={() => setCannedOpen(true)}
+              disabled={!windowOpen || sending}
+              className={ACTION_BTN_CLS}
+            >
+              <BoltIcon />
+            </button>
+            <button
+              type="button"
+              aria-label="Pick a template"
+              onClick={() => setPickerOpen(true)}
+              className={ACTION_BTN_CLS}
+            >
+              <TemplateIcon />
+            </button>
+          </div>
+
           <textarea
             ref={taRef}
             rows={1}
@@ -344,7 +486,11 @@ export default function Composer({
                   : 'Write a message…'
             }
             disabled={!windowOpen}
-            className="flex-1 resize-none rounded-[18px] bg-bg border border-line px-3.5 py-2.5 text-[14px] text-ink placeholder:text-ink-muted outline-none focus:border-ink disabled:opacity-60 leading-snug"
+            // `enterkeyhint=send` swaps the mobile keyboard's return
+            // key to a green Send icon — visual contract matching the
+            // Enter-sends behaviour above.
+            enterKeyHint={IS_TOUCH ? 'send' : 'enter'}
+            className="flex-1 resize-none rounded-[22px] bg-bg border border-line px-4 py-2.5 text-[15px] text-ink placeholder:text-ink-muted outline-none focus:border-ink disabled:opacity-60 leading-snug min-w-0"
             style={{maxHeight: '144px'}}
           />
           <button
@@ -352,7 +498,11 @@ export default function Composer({
             aria-label="Send"
             onClick={onSendClick}
             disabled={!canSend}
-            className="shrink-0 w-10 h-10 rounded-full bg-ink text-surface flex items-center justify-center disabled:opacity-30"
+            className={`shrink-0 w-11 h-11 rounded-full flex items-center justify-center transition-all active:scale-95 ${
+              canSend
+                ? 'bg-ink text-surface'
+                : 'bg-surface-muted text-ink-muted'
+            }`}
           >
             <SendIcon size={18} />
           </button>
@@ -368,6 +518,7 @@ export default function Composer({
         open={cannedOpen}
         onClose={() => setCannedOpen(false)}
         onPick={pickedBody => {
+          haptic(5)
           // Insert at the textarea's cursor (or append) and refocus —
           // common UX is to drop the canned text in and let the rep tweak
           // before sending, rather than ship-it-as-is automatically.
