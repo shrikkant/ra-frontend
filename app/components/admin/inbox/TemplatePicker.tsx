@@ -31,6 +31,24 @@ function countVariables(t: IInboxTemplate): number {
   return max
 }
 
+// Coerce whatever Meta puts under a template's body text into a string.
+// Shapes seen in the wild:
+//   "Hi {{1}}"                             ← plain string (most common)
+//   { value: "Hi {{1}}" }                  ← wrapped (some template types)
+//   { text: "Hi {{1}}" }                   ← double-nested
+// Returning anything non-string from previewBody causes React error #31
+// the moment the picker tries to render the preview. Defaulting to ''
+// degrades to the template name (handled by the caller).
+function bodyTextToString(text: unknown): string {
+  if (typeof text === 'string') return text
+  if (text && typeof text === 'object') {
+    const obj = text as Record<string, unknown>
+    if (typeof obj.value === 'string') return obj.value
+    if (typeof obj.text === 'string') return obj.text
+  }
+  return ''
+}
+
 // Pull a human-readable body preview out of the template_data JSON. The
 // shape Meta returns nests components by type; we walk for the first BODY
 // component's text. Falls back to template name if nothing obvious.
@@ -40,7 +58,10 @@ function previewBody(t: IInboxTemplate): string {
   const components = data.components ?? data.template_data?.components
   if (Array.isArray(components)) {
     for (const c of components) {
-      if (c?.type?.toUpperCase?.() === 'BODY' && c.text) return c.text
+      if (c?.type?.toUpperCase?.() === 'BODY' && c.text) {
+        const str = bodyTextToString(c.text)
+        if (str) return str
+      }
     }
   }
   if (typeof data.body === 'string') return data.body
@@ -48,7 +69,8 @@ function previewBody(t: IInboxTemplate): string {
 }
 
 export default function TemplatePicker({open, onClose, onPick}: Props) {
-  const {templates, loading, error} = useTemplates(open)
+  const {templates, loading, error, syncState, syncError, sync} =
+    useTemplates(open)
   const [selected, setSelected] = useState<IInboxTemplate | null>(null)
   const [vars, setVars] = useState<string[]>([])
 
@@ -102,15 +124,46 @@ export default function TemplatePicker({open, onClose, onPick}: Props) {
         aria-hidden
       />
       <div className="relative bg-surface w-full md:w-[480px] md:max-w-[calc(100vw-2rem)] md:rounded-2xl md:max-h-[80vh] md:shadow-2xl flex flex-col h-full md:h-auto mt-auto md:mt-0">
-        <div className="flex items-center justify-between px-5 pt-5 pb-3 shrink-0">
-          <div>
+        <div className="flex items-center justify-between gap-2 px-5 pt-5 pb-3 shrink-0">
+          <div className="min-w-0 flex-1">
             <div className="text-[10px] uppercase tracking-kicker font-extrabold text-ink-muted">
               Send a template
             </div>
-            <div className="text-[16px] font-extrabold text-ink leading-tight mt-0.5">
+            <div className="text-[16px] font-extrabold text-ink leading-tight mt-0.5 truncate">
               {selected ? selected.name : 'Pick an approved template'}
             </div>
           </div>
+          {/* Sync pulls the latest template list from Meta and refreshes
+              the local whatsapp_template cache. Use whenever a new
+              template's just been approved on Meta's side and isn't
+              showing up here yet. */}
+          {!selected && (
+            <button
+              type="button"
+              onClick={sync}
+              disabled={syncState === 'syncing'}
+              className={`shrink-0 inline-flex items-center gap-1 text-[11px] uppercase tracking-kicker font-extrabold rounded-full px-2.5 py-1 border transition-colors disabled:opacity-60 ${
+                syncState === 'synced'
+                  ? 'bg-success/15 text-success border-success/30'
+                  : syncState === 'failed'
+                    ? 'bg-danger/10 text-danger border-danger/30'
+                    : 'bg-surface text-ink-secondary border-line hover:text-ink hover:bg-surface-muted'
+              }`}
+              title={
+                syncState === 'failed' && syncError
+                  ? syncError
+                  : 'Refresh templates from Meta'
+              }
+            >
+              {syncState === 'syncing'
+                ? 'Syncing…'
+                : syncState === 'synced'
+                  ? '✓ Synced'
+                  : syncState === 'failed'
+                    ? 'Retry'
+                    : 'Sync'}
+            </button>
+          )}
           <button
             type="button"
             onClick={onClose}
