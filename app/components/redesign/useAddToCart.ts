@@ -19,6 +19,7 @@ import {trackGAEvent, GA_EVENTS} from '../../../utils/analytics'
 import {getDays} from '../../../components/booking/bookingUtils'
 import {orderCalendarDate} from './home/dateUtils'
 import {requestDateChoice} from './dateConflictStore'
+import {requirePhone} from './phoneGateStore'
 
 /** Local-calendar-day key, for comparing windows ignoring time-of-day. */
 const ymd = (d: Date) =>
@@ -98,8 +99,6 @@ export function useAddToCart() {
         return
       }
 
-      flyTo(fromRect ?? null)
-
       try {
         const days = getDays(storeSearch)
         trackGAEvent(GA_EVENTS.ADD_TO_CART, {
@@ -122,14 +121,14 @@ export function useAddToCart() {
         /* analytics is best-effort */
       }
 
-      // Guest path: route to /join immediately and run the API call in
-      // the background. Awaiting recaptcha + addToCart before redirecting
-      // adds 0.8–1.5s of perceived latency at a high-attrition moment;
-      // the redirect itself is what the user is waiting for. The backend
-      // claims the guest cart by session cookie after signup, so the
-      // post-auth /p/mycart fetch picks up the product whether the BG
-      // call has resolved or not.
+      // Guest path: fire the fly animation as visual feedback, then
+      // route to /join. Run the API call in the background; awaiting
+      // recaptcha + addToCart before redirecting adds 0.8–1.5s of
+      // perceived latency at a high-attrition moment, and the backend
+      // claims the guest cart by session cookie after signup so the
+      // post-auth /p/mycart fetch picks up the product either way.
       if (!loggedUser) {
+        flyTo(fromRect ?? null)
         void (async () => {
           try {
             const recaptchaToken = await executeRecaptcha('add_to_cart').catch(
@@ -145,7 +144,18 @@ export function useAddToCart() {
         return
       }
 
-      // Logged-in path: await so the in-place cart UI updates.
+      // Logged-in path. Before adding, ensure the user has a phone on
+      // file — OAuth signups (Google) arrive without one, and we need
+      // it for delivery + WhatsApp updates + admin inbox visibility.
+      // The gate is a no-op if phone is already attached. Critically,
+      // we fly + start the API call only AFTER the gate passes; firing
+      // the fly animation before the prompt would make the item appear
+      // to land in the cart even when the user dismisses.
+      const phoneOk = await requirePhone(`add ${productName} to cart`)
+      if (!phoneOk) return
+
+      flyTo(fromRect ?? null)
+      // Await so the in-place cart UI updates.
       setPendingId(productId)
       try {
         // The window this item is added (and availability-checked)

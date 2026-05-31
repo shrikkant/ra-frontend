@@ -87,6 +87,20 @@ export const updatePhone = async (phone: string): Promise<IUser> => {
   return response
 }
 
+/**
+ * Attach a phone number to the currently logged-in user with OTP
+ * verification. Used by the phone gate (OAuth users adding phone for
+ * the first time before an action like add-to-cart). Returns the
+ * updated user; throws on validation / OTP / conflict errors so the
+ * caller can surface a specific message.
+ */
+export const attachPhone = async (
+  phone: string,
+  otp: string,
+): Promise<IUser> => {
+  return httpClient.post(`user/me/attach-phone`, {phone, otp})
+}
+
 export const generateLoginOTP = async (
   phone: string,
   newUser: boolean,

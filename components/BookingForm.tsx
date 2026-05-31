@@ -16,6 +16,7 @@ import SignIn from './user/SignIn'
 import {IOrder, IProductRatePlan} from '../app-store/types'
 import {trackGAEvent, GA_EVENTS} from '../utils/analytics'
 import {useRecaptcha} from '../hooks/useRecaptcha'
+import {requirePhone} from '../app/components/redesign/phoneGateStore'
 
 // Import modular components
 import {BookingFormContent} from './booking/BookingFormContent'
@@ -117,7 +118,15 @@ export default function BookingForm({
         return
       }
 
-      // Authenticated: optimistic — UI transitions immediately.
+      // Authenticated: ensure phone is on file before committing. OAuth
+      // (Google) signups arrive without one — required for delivery,
+      // WhatsApp updates, and admin inbox visibility. No-op when phone
+      // is already attached. If the user dismisses the gate we abort
+      // silently and the UI stays where it is.
+      const phoneOk = await requirePhone(`add ${productName} to cart`)
+      if (!phoneOk) return
+
+      // Optimistic — UI transitions immediately.
       if (bookNow) {
         router.push('/p/mycart')
       } else {
