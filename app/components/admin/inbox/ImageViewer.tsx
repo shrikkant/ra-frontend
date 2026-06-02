@@ -8,13 +8,16 @@ interface Props {
   src: string | null
   alt?: string
   onClose: () => void
+  // When true the source is rendered in a full-screen PDF frame instead of
+  // an <img>. Defaults to image so existing callers are unaffected.
+  pdf?: boolean
 }
 
 // Full-screen image viewer. Mobile pinch-zoom is handled by the browser
 // via `touch-action: pinch-zoom` on the image itself — building a custom
 // gesture engine for marginal gain isn't worth the code surface here.
 // ESC and backdrop tap close.
-export default function ImageViewer({src, alt, onClose}: Props) {
+export default function ImageViewer({src, alt, onClose, pdf}: Props) {
   useEffect(() => {
     if (!src) return
     const onKey = (e: KeyboardEvent) => {
@@ -57,16 +60,25 @@ export default function ImageViewer({src, alt, onClose}: Props) {
       >
         Open full
       </a>
-      {/* eslint-disable-next-line @next/next/no-img-element */}
-      <img
-        src={src}
-        alt={alt ?? 'Image'}
-        // Admin-gated media endpoint — cookie auth required cross-origin.
-        crossOrigin="use-credentials"
-        onClick={e => e.stopPropagation()}
-        className="max-w-full max-h-full object-contain"
-        style={{touchAction: 'pinch-zoom'}}
-      />
+      {pdf ? (
+        <iframe
+          src={src}
+          title={alt ?? 'Document'}
+          onClick={e => e.stopPropagation()}
+          className="w-[92vw] h-[88vh] bg-white rounded-[8px]"
+        />
+      ) : (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img
+          src={src}
+          alt={alt ?? 'Image'}
+          // Admin-gated media endpoint — cookie auth required cross-origin.
+          crossOrigin="use-credentials"
+          onClick={e => e.stopPropagation()}
+          className="max-w-full max-h-full object-contain"
+          style={{touchAction: 'pinch-zoom'}}
+        />
+      )}
     </div>
   )
 

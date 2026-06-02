@@ -49,7 +49,7 @@ export const useDocumentUpload = ({
         type: 1,
         document_type: documentType,
         side: 'front',
-        verified: false,
+        verified: 0, // pending until reviewed
       })
       setUploading(true)
 

@@ -51,7 +51,8 @@ export interface IDocument {
   size: number
   file_type: string
   document_name?: string
-  verified?: boolean
+  // Review status code: 0/undefined = pending, 1 = approved, 2 = rejected.
+  verified?: number
   verified_by?: string
   document_id?: string
   document_data?

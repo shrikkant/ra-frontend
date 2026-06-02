@@ -155,6 +155,24 @@ export async function getCustomerDocuments(
   return documents
 }
 
+export type DocumentReviewStatus = 'pending' | 'approved' | 'rejected'
+
+/**
+ * Approve or reject a customer-uploaded KYC document. Returns the new
+ * verification code (0 pending / 1 approved / 2 rejected) so the caller can
+ * patch its local row without a refetch.
+ */
+export async function setDocumentStatus(
+  userId: number,
+  documentId: number,
+  status: DocumentReviewStatus,
+): Promise<{id: number; verified: number; verified_by: string | null}> {
+  return httpClient.put(
+    `/admin/users/${userId}/documents/${documentId}/status`,
+    {status},
+  )
+}
+
 export async function checkKYCStatus(userId: number): Promise<IUser> {
   const user: IUser = await httpClient.get(
     `/v1/digilocker/${userId}/kyc-status`,
