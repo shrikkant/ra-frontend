@@ -95,7 +95,7 @@ export default function InboxScreen({selectedId = null, topSlot}: Props) {
       <main
         className={`${
           selectedId ? 'flex' : 'hidden lg:flex'
-        } flex-1 flex-col min-w-0`}
+        } flex-1 flex-col min-w-0 min-h-0`}
       >
         {selectedId ? (
           <ChatView conversationId={selectedId} />

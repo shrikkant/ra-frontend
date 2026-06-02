@@ -46,7 +46,7 @@ export default function CustomerDirectory({selectedUserId}: Props) {
   }, [hasMore, loadingMore, loadMore])
 
   return (
-    <div className="h-full flex flex-col bg-bg">
+    <div className="flex-1 min-h-0 flex flex-col bg-bg">
       <div className="shrink-0 border-b border-line bg-bg/95 backdrop-blur sticky top-0 z-10">
         <div className="px-3 pt-3 pb-2">
           <div className="flex items-center gap-2 bg-surface border border-line rounded-full h-9 px-3">
@@ -79,7 +79,7 @@ export default function CustomerDirectory({selectedUserId}: Props) {
         )}
       </div>
 
-      <div className="flex-1 overflow-y-auto">
+      <div className="flex-1 min-h-0 overflow-y-auto">
         {loading && customers.length === 0 ? (
           <SkeletonList />
         ) : error ? (

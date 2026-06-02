@@ -33,7 +33,7 @@ export default function CustomerDirectoryScreen({
       <main
         className={`${
           selectedUserId ? 'flex' : 'hidden lg:flex'
-        } flex-1 flex-col min-w-0`}
+        } flex-1 flex-col min-w-0 min-h-0`}
       >
         {selectedUserId ? (
           <CustomerProfile userId={selectedUserId} />
