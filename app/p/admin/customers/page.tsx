@@ -1,10 +1,10 @@
 import React from 'react'
-import InboxScreen from '../../../components/admin/inbox/InboxScreen'
+import CustomersWorkspace from '../../../components/admin/inbox/CustomersWorkspace'
 
-// The customers index is now the WhatsApp inbox. The previous card-grid
-// list lives in the WhatsAppInbox.client component family and has been
-// superseded by the two-pane inbox — open a conversation to reach the
-// customer's profile + KYC + orders in the right pane (next turn).
+// The customers index hosts two views behind a toggle: the WhatsApp inbox
+// (conversations) and the full customer directory (every customer, including
+// email-only signups with no conversation). `?view=customers` selects the
+// directory; opening a conversation reaches the chat + customer profile.
 export default function Page() {
-  return <InboxScreen />
+  return <CustomersWorkspace />
 }
