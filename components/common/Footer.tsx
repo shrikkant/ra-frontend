@@ -56,6 +56,13 @@ export default function Footer() {
   if (pathname.startsWith('/photobooth')) {
     return <SuspendedScripts />
   }
+  // Admin tooling is an app-like, full-height shell (e.g. the customers
+  // inbox/directory uses calc(100vh - header)). The marketing footer doesn't
+  // belong there and, rendered below a full-height view, forces an awkward
+  // page scroll — so suppress it across the admin area.
+  if (pathname.startsWith('/p/admin')) {
+    return <SuspendedScripts />
+  }
   if (isRedesignedRoute(pathname)) {
     return <SuspendedScripts />
   }
