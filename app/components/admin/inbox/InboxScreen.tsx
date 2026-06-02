@@ -8,6 +8,9 @@ import {InboxFilters} from './hooks/useConversations'
 
 interface Props {
   selectedId?: string | null
+  // Rendered at the very top of the left pane (above the chat list) — used
+  // to inject the Inbox / All customers view toggle.
+  topSlot?: React.ReactNode
 }
 
 // URL <-> filter mapping. Filters live in query params so a refreshed or
@@ -46,7 +49,7 @@ function writeFilters(base: URLSearchParams, filters: InboxFilters): string {
  *   /p/admin/customers           → list only
  *   /p/admin/customers/:id       → list (desktop) / chat (mobile)
  */
-export default function InboxScreen({selectedId = null}: Props) {
+export default function InboxScreen({selectedId = null, topSlot}: Props) {
   const router = useRouter()
   const searchParams = useSearchParams()
   const urlFilters = useMemo(
@@ -81,6 +84,7 @@ export default function InboxScreen({selectedId = null}: Props) {
           selectedId ? 'hidden lg:flex' : 'flex'
         } w-full lg:w-[360px] xl:w-[400px] shrink-0 flex-col border-r border-line`}
       >
+        {topSlot}
         <ChatList
           selectedId={selectedId}
           filters={filters}
