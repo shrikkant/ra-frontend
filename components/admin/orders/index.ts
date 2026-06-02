@@ -1,5 +1,7 @@
 export {OrdersSpreadsheet} from './OrdersSpreadsheet'
 export {OrdersTable} from './OrdersTable'
+export {OrdersPager} from './OrdersPager'
+export {ORDER_TABS, ORDERS_PAGE_SIZE} from './orderTabs'
 export {OrderTableRow} from './OrderTableRow'
 export {UserSearchAutocomplete} from './UserSearchAutocomplete'
 export {MarkAsPaidModal} from './MarkAsPaidModal'

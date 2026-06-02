@@ -5,6 +5,14 @@ export interface OrdersFilterParams {
   status: number
   userId?: number
   offset?: number
+  limit?: number
+}
+
+export interface PaginatedOrders {
+  orders: IOrder[]
+  total: number
+  offset: number
+  limit: number
 }
 
 export async function fetchOrders(status: number): Promise<IOrder[]> {
@@ -31,6 +39,29 @@ export async function fetchOrdersWithFilters(
     `/admin/orders?${queryParams.toString()}`,
   )
   return orders
+}
+
+/**
+ * Fetches a page of orders along with the total matching count, used to drive
+ * page-number navigation in the admin orders view.
+ */
+export async function fetchOrdersPaginated(
+  params: OrdersFilterParams,
+): Promise<PaginatedOrders> {
+  const queryParams = new URLSearchParams()
+  queryParams.append('status', String(params.status))
+  queryParams.append('offset', String(params.offset ?? 0))
+  queryParams.append('limit', String(params.limit ?? 20))
+  queryParams.append('paginated', '1')
+
+  if (params.userId) {
+    queryParams.append('userID', String(params.userId))
+  }
+
+  const result: PaginatedOrders = await httpClient.get(
+    `/admin/orders?${queryParams.toString()}`,
+  )
+  return result
 }
 
 export async function fetchOrder(id: number): Promise<IOrder> {

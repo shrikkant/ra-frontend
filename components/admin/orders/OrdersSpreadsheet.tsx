@@ -4,11 +4,13 @@ import React, {useEffect, useState, useCallback} from 'react'
 import {useRouter} from 'next/navigation'
 import {Tab, TabGroup, TabList} from '@headlessui/react'
 import {IOrder, IUser} from '../../../app-store/types'
-import {fetchOrdersWithFilters} from '../../../api/admin/orders.api'
+import {fetchOrdersPaginated} from '../../../api/admin/orders.api'
 import {fetchRevenueStats} from '../../../api/admin/index.api'
 import {RevenueSummary, RevenueStats} from '../ReveneSummary'
 import {UserSearchAutocomplete} from './UserSearchAutocomplete'
 import {OrdersTable} from './OrdersTable'
+import {OrdersPager} from './OrdersPager'
+import {ORDER_TABS, ORDERS_PAGE_SIZE} from './orderTabs'
 import {resolveOrderStage} from '../../../util/global.util'
 import MyPageHeader from '../../MyPageHeader'
 import {pillTabClassName, pillTabListClassName} from '../../common/PillTabs'
@@ -76,7 +78,7 @@ const FilterBar: React.FC<FilterBarProps> = ({
   </div>
 )
 
-const ORDER_STAGES = [0, 1, 3]
+const ORDER_STAGES = ORDER_TABS.map(tab => tab.stage)
 
 /**
  * Main orders spreadsheet component.
@@ -94,24 +96,30 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
   const [selectedUser, setSelectedUser] = useState<IUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const [revenueStats, setRevenueStats] = useState<RevenueStats | null>(null)
+  const [page, setPage] = useState(0)
+  const [totalOrders, setTotalOrders] = useState(0)
 
   const loadOrders = useCallback(async () => {
     setIsLoading(true)
     try {
-      // Backend expects index (0=Leads, 1=Paid, 2=InProgress), not actual stage values
-      const stageIndex = ORDER_STAGES.indexOf(activeStage)
-      const data = await fetchOrdersWithFilters({
-        status: stageIndex,
+      // Map the active frontend stage to the backend `status` query code.
+      const tab = ORDER_TABS.find(t => t.stage === activeStage) ?? ORDER_TABS[0]
+      const {orders: data, total} = await fetchOrdersPaginated({
+        status: tab.status,
         userId: selectedUser?.id,
+        offset: page * ORDERS_PAGE_SIZE,
+        limit: ORDERS_PAGE_SIZE,
       })
       setOrders(data)
+      setTotalOrders(total)
     } catch (error) {
       console.error('Failed to load orders:', error)
       setOrders([])
+      setTotalOrders(0)
     } finally {
       setIsLoading(false)
     }
-  }, [activeStage, selectedUser?.id])
+  }, [activeStage, selectedUser?.id, page])
 
   const loadRevenueStats = useCallback(async () => {
     try {
@@ -133,11 +141,13 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
   const handleStageChange = (stage: number) => {
     const stageIndex = ORDER_STAGES.indexOf(stage)
     setActiveStage(stage)
+    setPage(0)
     router.push(`/p/admin/orders?stage=${stageIndex}`)
   }
 
   const handleUserSelect = (user: IUser | null) => {
     setSelectedUser(user)
+    setPage(0)
   }
 
   const handleOrderUpdate = useCallback(() => {
@@ -165,7 +175,7 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
         <FilterBar
           selectedUser={selectedUser}
           onUserSelect={handleUserSelect}
-          orderCount={orders.length}
+          orderCount={totalOrders}
         />
 
         <OrdersTable
@@ -173,6 +183,17 @@ export const OrdersSpreadsheet: React.FC<OrdersSpreadsheetProps> = ({
           isLoading={isLoading}
           onOrderUpdate={handleOrderUpdate}
         />
+
+        {!isLoading && (
+          <div className="mt-4">
+            <OrdersPager
+              currentPage={page}
+              totalItems={totalOrders}
+              pageSize={ORDERS_PAGE_SIZE}
+              onPageChange={setPage}
+            />
+          </div>
+        )}
       </div>
     </div>
   )
