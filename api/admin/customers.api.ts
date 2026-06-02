@@ -1,13 +1,51 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import {IDocument} from '../../app-store/app-defaults/types'
 import {IAadhaar} from '../../app-store/auth/types'
-import {IUser} from '../../app-store/types'
+import {IOrder, IUser} from '../../app-store/types'
 import httpClient from './../axios.config'
 
 export async function fetchCustomers(any?: string): Promise<IUser[]> {
   const phoneQuery = any ? `any=${any}` : ''
   const customers: IUser[] = await httpClient.get(`/admin/users?${phoneQuery}`)
   return customers
+}
+
+// A customer in the directory: a regular user plus the id of their WhatsApp
+// conversation when one exists (null for email-only / never-messaged
+// customers), so the row can deep-link into the inbox thread.
+export interface ICustomerDirectoryRow extends IUser {
+  conversationId: string | null
+}
+
+export interface ICustomerDirectoryPage {
+  items: ICustomerDirectoryRow[]
+  total: number
+  page: number
+  pageLimit: number
+}
+
+/**
+ * Lists every customer (users left-joined onto WhatsApp conversations) with
+ * search and page-based pagination. Powers the "All customers" directory.
+ */
+export async function fetchCustomersDirectory(params: {
+  q?: string
+  page?: number
+  limit?: number
+}): Promise<ICustomerDirectoryPage> {
+  const usp = new URLSearchParams()
+  if (params.q) usp.set('q', params.q)
+  if (params.page) usp.set('page', String(params.page))
+  if (params.limit) usp.set('limit', String(params.limit))
+  const qs = usp.toString()
+  return httpClient.get(`/admin/users/directory${qs ? `?${qs}` : ''}`)
+}
+
+export async function fetchCustomerOrders(userId: number): Promise<IOrder[]> {
+  const orders: IOrder[] = await httpClient.get(
+    `/admin/users/${userId}/orders`,
+  )
+  return orders
 }
 
 export async function fetchActiveCustomer(id: number): Promise<IUser> {
