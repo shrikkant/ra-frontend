@@ -232,14 +232,35 @@ function OtpStep({
     }
   }, [otp, loading, onVerify])
 
-  const setDigit = (i: number, value: string) => {
-    const clean = value.replace(/\D/g, '').slice(0, 1)
+  // Write one or more digits into the boxes starting at `i`. A single
+  // digit is the normal typing case; a multi-digit string arrives from a
+  // paste or an OS SMS-code autofill, which we spread across the boxes
+  // instead of dropping everything but the first digit.
+  const fillFrom = (i: number, raw: string) => {
+    const digits = raw.replace(/\D/g, '')
     const next = (otp.padEnd(OTP_LENGTH, ' ').split('') as string[])
-    next[i] = clean || ' '
-    const joined = next.join('').replace(/\s+$/, '').replace(/ /g, '')
-    onChange(joined.slice(0, OTP_LENGTH))
-    if (clean && i < OTP_LENGTH - 1) {
-      inputsRef.current[i + 1]?.focus()
+    if (digits.length === 0) {
+      // Empty change = the box was cleared (e.g. delete/backspace).
+      next[i] = ' '
+    } else {
+      for (let k = 0; k < digits.length && i + k < OTP_LENGTH; k++) {
+        next[i + k] = digits[k]
+      }
+    }
+    const joined = next.join('').replace(/ /g, '').slice(0, OTP_LENGTH)
+    onChange(joined)
+    // Focus the box after the last one we filled, capped at the final box.
+    const landed = Math.min(i + Math.max(digits.length, 1), OTP_LENGTH) - 1
+    inputsRef.current[landed]?.focus()
+  }
+
+  const onPaste = (i: number, e: React.ClipboardEvent<HTMLInputElement>) => {
+    const text = e.clipboardData.getData('text')
+    if (/\d/.test(text)) {
+      // Read the clipboard ourselves — maxLength={1} would otherwise clip
+      // the pasted value to a single character before onChange sees it.
+      e.preventDefault()
+      fillFrom(i, text)
     }
   }
 
@@ -275,9 +296,11 @@ function OtpStep({
               type="tel"
               inputMode="numeric"
               pattern="[0-9]*"
-              maxLength={1}
+              autoComplete={i === 0 ? 'one-time-code' : 'off'}
+              maxLength={OTP_LENGTH}
               value={value}
-              onChange={e => setDigit(i, e.target.value)}
+              onChange={e => fillFrom(i, e.target.value)}
+              onPaste={e => onPaste(i, e)}
               onKeyDown={e => onKeyDown(i, e)}
               aria-label={`Digit ${i + 1}`}
               className={`h-[72px] rounded-[14px] bg-surface text-center font-mono text-[22px] font-extrabold text-ink outline-none border-2 ${

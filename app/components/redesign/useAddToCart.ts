@@ -233,6 +233,11 @@ export function useAddToCart() {
         )
         if (newCart?.id) dispatch(setCart(newCart))
         toast.success(`Added ${productName} to cart`)
+        // 80/20: most carts are a single product, so take the user
+        // straight to checkout rather than leaving them on the product
+        // page. Applies to both the grid plus button and the product
+        // detail add-to-cart, since both route through here.
+        router.push('/p/mycart')
       } catch (e) {
         console.error('Add to cart failed', e)
         toast.error('Could not add to cart')
