@@ -205,20 +205,15 @@ function OtpStep({
   loading: boolean
 }) {
   const [countdown, setCountdown] = useState(RESEND_SECONDS)
-  const inputsRef = useRef<Array<HTMLInputElement | null>>([])
-  // Track the last OTP value we auto-submitted so failed verifications
-  // don't relaunch on every render while the user still has 6 digits in
-  // the box. They have to change a digit (or hit Verify manually) to retry.
+  // A single underlying input backs the six visual boxes. Split inputs
+  // (one per digit) race on iOS/Android SMS-code autofill: the OS sets
+  // each box's value and fires events faster than React reconciles the
+  // controlled inputs, so digits get dropped/scrambled (919805 → 9905).
+  // One field is filled atomically — and paste "just works" too.
+  const inputRef = useRef<HTMLInputElement | null>(null)
+  // Track the last OTP value we auto-submitted so a failed verification
+  // doesn't relaunch on every render while 6 digits remain in the box.
   const lastSubmittedOtpRef = useRef<string | null>(null)
-  // Synchronous mirror of `otp`. iOS SMS-code autofill on split inputs
-  // dispatches one input event PER box in a single batch, before React
-  // re-renders — so reading the `otp` prop from each fillFrom closure sees
-  // the same stale (empty) value and the digits clobber each other
-  // ("89770" → "8700"). We carry the accumulating value through this ref
-  // and update it synchronously so each event in the batch builds on the
-  // previous one. Kept in sync with the prop for the typed/paste paths.
-  const otpRef = useRef(otp)
-  otpRef.current = otp
 
   useEffect(() => {
     if (countdown <= 0) return
@@ -226,18 +221,14 @@ function OtpStep({
     return () => window.clearInterval(t)
   }, [countdown])
 
-  // Auto-focus the first empty box when the code step appears so the
-  // mobile keyboard opens without a manual tap. Deferred a frame so the
-  // inputs are painted before we focus (a bare on-mount focus can fire
-  // before the ref is attached). iOS may still gate opening the keyboard
-  // on a user gesture, but Android and desktop focus reliably.
+  // Focus the code field when the step appears so the keyboard opens and
+  // the SMS-code suggestion surfaces without a manual tap. Deferred a
+  // frame so the input is painted before we focus. iOS may still gate the
+  // keyboard on a user gesture, but the field is focused and tapping the
+  // row (the input overlays it) opens it reliably.
   useEffect(() => {
-    const id = requestAnimationFrame(() => {
-      const firstEmpty = Math.min(otp.length, OTP_LENGTH - 1)
-      inputsRef.current[firstEmpty]?.focus()
-    })
+    const id = requestAnimationFrame(() => inputRef.current?.focus())
     return () => cancelAnimationFrame(id)
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -251,46 +242,8 @@ function OtpStep({
     }
   }, [otp, loading, onVerify])
 
-  // Write one or more digits into the boxes starting at `i`. A single
-  // digit is the normal typing case; a multi-digit string arrives from a
-  // paste or an OS SMS-code autofill, which we spread across the boxes
-  // instead of dropping everything but the first digit.
-  const fillFrom = (i: number, raw: string) => {
-    const digits = raw.replace(/\D/g, '')
-    // Read from the ref, not the prop: within an autofill batch the prop is
-    // stale, but the ref holds what prior events in the batch just wrote.
-    const next = (otpRef.current.padEnd(OTP_LENGTH, ' ').split('') as string[])
-    if (digits.length === 0) {
-      // Empty change = the box was cleared (e.g. delete/backspace).
-      next[i] = ' '
-    } else {
-      for (let k = 0; k < digits.length && i + k < OTP_LENGTH; k++) {
-        next[i + k] = digits[k]
-      }
-    }
-    const joined = next.join('').replace(/ /g, '').slice(0, OTP_LENGTH)
-    // Commit synchronously so the next event in the batch sees it.
-    otpRef.current = joined
-    onChange(joined)
-    // Focus the box after the last one we filled, capped at the final box.
-    const landed = Math.min(i + Math.max(digits.length, 1), OTP_LENGTH) - 1
-    inputsRef.current[landed]?.focus()
-  }
-
-  const onPaste = (i: number, e: React.ClipboardEvent<HTMLInputElement>) => {
-    const text = e.clipboardData.getData('text')
-    if (/\d/.test(text)) {
-      // Read the clipboard ourselves — maxLength={1} would otherwise clip
-      // the pasted value to a single character before onChange sees it.
-      e.preventDefault()
-      fillFrom(i, text)
-    }
-  }
-
-  const onKeyDown = (i: number, e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Backspace' && !otp[i] && i > 0) {
-      inputsRef.current[i - 1]?.focus()
-    }
+  const onInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    onChange(e.target.value.replace(/\D/g, '').slice(0, OTP_LENGTH))
   }
 
   const maskedPhone = `+91 ${phone.slice(0, 5)} ${phone.slice(5)}`
@@ -306,32 +259,39 @@ function OtpStep({
         Sent to <span className="font-bold text-ink">{maskedPhone}</span>
       </p>
 
-      <div className="mt-6 grid grid-cols-6 gap-2">
-        {Array.from({length: OTP_LENGTH}).map((_, i) => {
-          const value = otp[i] ?? ''
-          const active = value !== ''
-          return (
-            <input
-              key={i}
-              ref={el => {
-                inputsRef.current[i] = el
-              }}
-              type="tel"
-              inputMode="numeric"
-              pattern="[0-9]*"
-              autoComplete={i === 0 ? 'one-time-code' : 'off'}
-              maxLength={OTP_LENGTH}
-              value={value}
-              onChange={e => fillFrom(i, e.target.value)}
-              onPaste={e => onPaste(i, e)}
-              onKeyDown={e => onKeyDown(i, e)}
-              aria-label={`Digit ${i + 1}`}
-              className={`h-[72px] rounded-[14px] bg-surface text-center font-mono text-[22px] font-extrabold text-ink outline-none border-2 ${
-                active ? 'border-ink' : 'border-line'
-              } focus:border-ink`}
-            />
-          )
-        })}
+      <div className="mt-6 relative">
+        {/* The real, single input — transparent and overlaying the boxes so
+            a tap anywhere on the row focuses it. SMS-code autofill and paste
+            land here atomically. */}
+        <input
+          ref={inputRef}
+          type="tel"
+          inputMode="numeric"
+          pattern="[0-9]*"
+          autoComplete="one-time-code"
+          maxLength={OTP_LENGTH}
+          value={otp}
+          onChange={onInput}
+          aria-label="Enter the 6-digit verification code"
+          className="absolute inset-0 z-10 w-full h-full opacity-0 cursor-pointer"
+        />
+        <div className="grid grid-cols-6 gap-2" aria-hidden>
+          {Array.from({length: OTP_LENGTH}).map((_, i) => {
+            const value = otp[i] ?? ''
+            // Highlight filled boxes plus the next box to fill (the caret).
+            const active = value !== '' || i === otp.length
+            return (
+              <div
+                key={i}
+                className={`h-[72px] rounded-[14px] bg-surface flex items-center justify-center font-mono text-[22px] font-extrabold text-ink border-2 ${
+                  active ? 'border-ink' : 'border-line'
+                }`}
+              >
+                {value}
+              </div>
+            )
+          })}
+        </div>
       </div>
 
       {error && (
