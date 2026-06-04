@@ -210,6 +210,15 @@ function OtpStep({
   // don't relaunch on every render while the user still has 6 digits in
   // the box. They have to change a digit (or hit Verify manually) to retry.
   const lastSubmittedOtpRef = useRef<string | null>(null)
+  // Synchronous mirror of `otp`. iOS SMS-code autofill on split inputs
+  // dispatches one input event PER box in a single batch, before React
+  // re-renders — so reading the `otp` prop from each fillFrom closure sees
+  // the same stale (empty) value and the digits clobber each other
+  // ("89770" → "8700"). We carry the accumulating value through this ref
+  // and update it synchronously so each event in the batch builds on the
+  // previous one. Kept in sync with the prop for the typed/paste paths.
+  const otpRef = useRef(otp)
+  otpRef.current = otp
 
   useEffect(() => {
     if (countdown <= 0) return
@@ -217,8 +226,18 @@ function OtpStep({
     return () => window.clearInterval(t)
   }, [countdown])
 
+  // Auto-focus the first empty box when the code step appears so the
+  // mobile keyboard opens without a manual tap. Deferred a frame so the
+  // inputs are painted before we focus (a bare on-mount focus can fire
+  // before the ref is attached). iOS may still gate opening the keyboard
+  // on a user gesture, but Android and desktop focus reliably.
   useEffect(() => {
-    inputsRef.current[0]?.focus()
+    const id = requestAnimationFrame(() => {
+      const firstEmpty = Math.min(otp.length, OTP_LENGTH - 1)
+      inputsRef.current[firstEmpty]?.focus()
+    })
+    return () => cancelAnimationFrame(id)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   useEffect(() => {
@@ -238,7 +257,9 @@ function OtpStep({
   // instead of dropping everything but the first digit.
   const fillFrom = (i: number, raw: string) => {
     const digits = raw.replace(/\D/g, '')
-    const next = (otp.padEnd(OTP_LENGTH, ' ').split('') as string[])
+    // Read from the ref, not the prop: within an autofill batch the prop is
+    // stale, but the ref holds what prior events in the batch just wrote.
+    const next = (otpRef.current.padEnd(OTP_LENGTH, ' ').split('') as string[])
     if (digits.length === 0) {
       // Empty change = the box was cleared (e.g. delete/backspace).
       next[i] = ' '
@@ -248,6 +269,8 @@ function OtpStep({
       }
     }
     const joined = next.join('').replace(/ /g, '').slice(0, OTP_LENGTH)
+    // Commit synchronously so the next event in the batch sees it.
+    otpRef.current = joined
     onChange(joined)
     // Focus the box after the last one we filled, capped at the final box.
     const landed = Math.min(i + Math.max(digits.length, 1), OTP_LENGTH) - 1
