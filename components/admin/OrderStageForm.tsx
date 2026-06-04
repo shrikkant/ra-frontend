@@ -1,7 +1,11 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import React from 'react'
-import {OrderStages, resolveOrderStage} from '../../util/global.util'
-import {updateStage} from 'api/admin/orders.api'
+import {
+  OrderStages,
+  resolveOrderStage,
+  displayMessage,
+} from '../../util/global.util'
+import {updateStage, sendFeedbackSurvey} from 'api/admin/orders.api'
 import {useState} from 'react'
 import {IOrder} from '../../app-store/types'
 import Input from '../common/form/Input'
@@ -21,8 +25,31 @@ export function OrderStageForm({order}: {order: IOrder}) {
     id: number
   }>({serialNoInfo: [], stage: order.stage, id: 0})
 
+  const [feedbackSent, setFeedbackSent] = useState<boolean>(!!order.nps_sent_at)
+  const [sendingFeedback, setSendingFeedback] = useState<boolean>(false)
+
   const handleStageChange = (value: string) => {
     setOrderChange({...orderChange, stage: parseInt(value)})
+  }
+
+  const handleSendFeedback = async () => {
+    setSendingFeedback(true)
+    try {
+      const res = await sendFeedbackSurvey(order.id)
+      if (res?.success || res?.reason === 'already_sent') {
+        setFeedbackSent(true)
+        displayMessage('success', 'Feedback survey sent on WhatsApp.')
+      } else {
+        displayMessage(
+          'error',
+          `Could not send feedback survey${res?.reason ? ` (${res.reason})` : ''}.`,
+        )
+      }
+    } catch {
+      displayMessage('error', 'Could not send feedback survey.')
+    } finally {
+      setSendingFeedback(false)
+    }
   }
 
   const updateOrderStage = async (id: number) => {
@@ -104,6 +131,24 @@ export function OrderStageForm({order}: {order: IOrder}) {
             </button>
           </div>
         </div>
+
+        {order.stage === OrderStages.Completed && (
+          <div className="mt-3 flex items-center justify-between gap-x-2">
+            <label className="font-semibold">Feedback survey: </label>
+            {feedbackSent ? (
+              <span className="text-sm text-green-700">Sent ✓</span>
+            ) : (
+              <button
+                type="button"
+                className="bg-emerald-600 hover:bg-emerald-700 text-white font-bold py-1 px-4 rounded inline-flex items-center h-8 disabled:opacity-50"
+                onClick={handleSendFeedback}
+                disabled={sendingFeedback}
+              >
+                {sendingFeedback ? 'Sending…' : 'Send feedback'}
+              </button>
+            )}
+          </div>
+        )}
 
         {order.stage !== OrderStages.InProgress &&
           orderChange.stage === OrderStages.InProgress &&

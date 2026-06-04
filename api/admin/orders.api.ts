@@ -119,6 +119,28 @@ export const getSignedRentalAgreementForAdmin = async (
   return response
 }
 
+export interface SendFeedbackSurveyResult {
+  success: boolean
+  skipped?: boolean
+  reason?: string
+  jobId?: string
+}
+
+/**
+ * Admin-triggered send of the post-rental WhatsApp feedback survey (NPS +
+ * per-item reviews) for an order. Idempotent server-side — a second call for
+ * an already-surveyed order returns {skipped:true, reason:'already_sent'}.
+ */
+export const sendFeedbackSurvey = async (
+  orderId: number,
+): Promise<SendFeedbackSurveyResult> => {
+  const httpService = new HttpService('/api/v1')
+  const response = await httpService
+    .getClient()
+    .post(`/whatsapp/feedback/orders/${orderId}`)
+  return response
+}
+
 export interface MarkAsPaidParams {
   razorpay_payment_id: string
 }

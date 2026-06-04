@@ -42,6 +42,10 @@ export interface IOrder {
   days?: number
   per_day_rate?: number
   invoice: IInvoice
+  // Set when the post-rental WhatsApp feedback survey has been sent for this
+  // order; null/absent means it hasn't gone out yet (drives the admin "Send
+  // feedback" button visibility).
+  nps_sent_at?: string | null
   isPaid(): boolean
 }
 
