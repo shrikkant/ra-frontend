@@ -36,39 +36,39 @@ export default function JoinScreen() {
   return (
     <MobileChrome hideTabBar bottomPad="none" width="narrow">
       <div className="md:mt-12 md:bg-surface md:border md:border-line-soft md:rounded-[20px] md:p-6 md:shadow-card-hover">
-      <Stepper
-        step={state.otpSent ? 2 : 1}
-        total={2}
-        title={state.otpSent ? 'Verify code' : 'Sign in'}
-        onBack={() => {
-          if (state.otpSent) handlers.resetOtpForm()
-          else router.push('/')
-        }}
-      />
+        <Stepper
+          step={state.otpSent ? 2 : 1}
+          total={2}
+          title={state.otpSent ? 'Verify code' : 'Sign in'}
+          onBack={() => {
+            if (state.otpSent) handlers.resetOtpForm()
+            else router.push('/')
+          }}
+        />
 
-      <div className="px-4 md:px-0 pt-5">
-        {!state.otpSent ? (
-          <PhoneStep
-            phone={state.phone}
-            error={state.errors.phone}
-            onChange={handlers.handlePhoneChange}
-            onSend={handlers.sendOTP}
-            valid={validators.isPhoneValid()}
-            loading={state.isLoading}
-            onGoogleCredential={handlers.handleGoogleCredential}
-          />
-        ) : (
-          <OtpStep
-            phone={state.phone}
-            otp={state.otp}
-            error={state.errors.phone}
-            onChange={handlers.handleOtpChange}
-            onVerify={handlers.verifyOTP}
-            onBack={handlers.resetOtpForm}
-            loading={state.isLoading}
-          />
-        )}
-      </div>
+        <div className="px-4 md:px-0 pt-5">
+          {!state.otpSent ? (
+            <PhoneStep
+              phone={state.phone}
+              error={state.errors.phone}
+              onChange={handlers.handlePhoneChange}
+              onSend={handlers.sendOTP}
+              valid={validators.isPhoneValid()}
+              loading={state.isLoading}
+              onGoogleCredential={handlers.handleGoogleCredential}
+            />
+          ) : (
+            <OtpStep
+              phone={state.phone}
+              otp={state.otp}
+              error={state.errors.phone}
+              onChange={handlers.handleOtpChange}
+              onVerify={handlers.verifyOTP}
+              onBack={handlers.resetOtpForm}
+              loading={state.isLoading}
+            />
+          )}
+        </div>
       </div>
     </MobileChrome>
   )
@@ -123,10 +123,7 @@ function PhoneStep({
             </span>
             <span className="font-mono font-bold text-ink">+91</span>
           </div>
-          <div
-            aria-hidden
-            className="w-px h-7 bg-line"
-          />
+          <div aria-hidden className="w-px h-7 bg-line" />
           <input
             id="join-phone"
             type="tel"
@@ -170,17 +167,17 @@ function PhoneStep({
         {loading ? 'Sending…' : 'Send code'}
       </button>
 
-      <div className="mt-8 flex items-center gap-3">
+      {/* <div className="mt-8 flex items-center gap-3">
         <div className="flex-1 h-px bg-line" />
         <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
           Or continue with
         </div>
         <div className="flex-1 h-px bg-line" />
-      </div>
+      </div> */}
 
-      <div className="mt-4">
+      {/* <div className="mt-4">
         <GoogleSignInButton onCredential={onGoogleCredential} />
-      </div>
+      </div> */}
     </>
   )
 }
@@ -217,7 +214,10 @@ function OtpStep({
 
   useEffect(() => {
     if (countdown <= 0) return
-    const t = window.setInterval(() => setCountdown(c => Math.max(0, c - 1)), 1000)
+    const t = window.setInterval(
+      () => setCountdown(c => Math.max(0, c - 1)),
+      1000,
+    )
     return () => window.clearInterval(t)
   }, [countdown])
 
