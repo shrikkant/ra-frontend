@@ -35,7 +35,7 @@ export default function JoinScreen() {
 
   return (
     <MobileChrome hideTabBar bottomPad="none" width="narrow">
-      <div className="md:mt-12 md:bg-surface md:border md:border-line-soft md:rounded-[20px] md:p-6 md:shadow-card-hover">
+      <div className="md:mt-12 md:mb-16 md:bg-surface md:border md:border-line-soft md:rounded-[20px] md:p-6 md:shadow-card-hover">
         <Stepper
           step={state.otpSent ? 2 : 1}
           total={2}
