@@ -30,7 +30,8 @@ const COLUMNS = [
   'Invoice Date',
   'Invoice Number',
   'Bill To Party',
-  'Address of the Party',
+  'City',
+  'State',
   'Description',
   'Quantity/Days',
   'Rent Amount',
@@ -198,7 +199,8 @@ export const FinanceSpreadsheet: React.FC = () => {
                       {row.invoiceNumber}
                     </td>
                     <td className={tdClass}>{row.billToParty}</td>
-                    <td className={tdClass}>{row.address}</td>
+                    <td className={`${tdClass} whitespace-nowrap`}>{row.city}</td>
+                    <td className={`${tdClass} whitespace-nowrap`}>{row.state}</td>
                     <td className={tdClass}>{row.description}</td>
                     <td className={`${tdClass} text-right`}>{row.quantityDays}</td>
                     <td className={moneyTdClass}>{inr(row.rentAmount)}</td>
@@ -216,7 +218,7 @@ export const FinanceSpreadsheet: React.FC = () => {
             {!isLoading && totals && rows.length > 0 && (
               <tfoot className="bg-gray-50 font-semibold text-gray-800">
                 <tr>
-                  <td className={tdClass} colSpan={7}>
+                  <td className={tdClass} colSpan={8}>
                     Total
                   </td>
                   <td className={moneyTdClass}>{inr(totals.rentAmount)}</td>

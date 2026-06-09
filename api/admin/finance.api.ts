@@ -8,7 +8,8 @@ export interface FinanceReportRow {
   invoiceDate: string
   invoiceNumber: string
   billToParty: string
-  address: string
+  city: string
+  state: string
   description: string
   quantityDays: number
   rentAmount: number
