@@ -18,7 +18,7 @@ import Link from 'next/link'
 import {IoMdLogOut} from 'react-icons/io'
 
 import ShoppingBagIcon from '@heroicons/react/24/outline/ShoppingBagIcon'
-import {FaShopify} from 'react-icons/fa'
+import {FaShopify, FaFileInvoiceDollar} from 'react-icons/fa'
 import {IUser} from '../app-store/types'
 import {useSearchParams} from 'next/navigation'
 import {ChartBarIcon, CameraIcon} from '@heroicons/react/24/outline'
@@ -68,6 +68,11 @@ export default function TopNavMenu() {
       icon: (
         <ShoppingBagIcon className="h-6 w-6 text-gray-600 hover:text-amber-500 transition-colors" />
       ),
+    },
+    {
+      title: 'Finance',
+      path: '/p/admin/finance',
+      icon: <FaFileInvoiceDollar className="h-6 w-6" />,
     },
     {
       title: 'Brands',
