@@ -6,13 +6,11 @@ import {getDefaultSearch} from '../../../../app-store/session/session.slice'
 import {parseDates, daysBetween, tierForDays} from '../home/dateUtils'
 import {useAddToCart} from '../useAddToCart'
 import {IProduct} from '../../../../app-store/types'
+import PriceBlock from './PriceBlock'
 
 interface StickyCTABarProps {
   product: IProduct
 }
-
-const fmtINR = (n: number) =>
-  '₹' + Math.round(n).toLocaleString('en-IN')
 
 export default function StickyCTABar({product}: StickyCTABarProps) {
   const stored = useSelector(getDefaultSearch)
@@ -46,12 +44,13 @@ export default function StickyCTABar({product}: StickyCTABarProps) {
       style={{backdropFilter: 'blur(12px)'}}
     >
       <div className="flex-1 min-w-0">
-        <div className="text-[11px] uppercase tracking-kicker font-bold text-ink-muted">
-          Total · {days} {days === 1 ? 'day' : 'days'}
-        </div>
-        <div className="font-mono text-[20px] font-extrabold text-ink leading-tight">
-          {fmtINR(total)}
-        </div>
+        <PriceBlock
+          rate={rate}
+          days={days}
+          effectivePercent={effectivePercent}
+          total={total}
+          size="sm"
+        />
       </div>
       <button
         type="button"
