@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import {PortableText} from 'next-sanity'
+import {PortableText} from '@portabletext/react'
 import {fetchBlogsServer} from '../../api/blog/blog.api'
 import {ARTICLE_TYPES} from '../../config/constants'
 import {IBlog} from '../../app-store/app-defaults/types'

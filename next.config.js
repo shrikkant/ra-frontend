@@ -78,6 +78,20 @@ const nextConfig = {
   },
   experimental: {
     viewTransition: true,
+    // Barrel-import optimization. The big offender is `next-sanity`: blog /
+    // listing / help pages only use PortableText + createClient, but importing
+    // from the barrel drags in the entire Studio/visual-editing surface
+    // (@sanity/ui ~191KB, @sanity/visual-editing ~61KB, @sanity/mutate ~24KB).
+    // Listing each heavy barrel lets Next rewrite named imports to deep paths
+    // and tree-shake the unused modules out of public-page chunks.
+    optimizePackageImports: [
+      'next-sanity',
+      'date-fns',
+      'lodash-es',
+      'framer-motion',
+      'react-icons',
+      '@headlessui/react',
+    ],
     // Cap build-time worker count. Default is os.cpus().length - 1, which
     // fans out a lot of concurrent backend hits per page batch and adds
     // memory pressure on the build host. Two workers is a saner default —

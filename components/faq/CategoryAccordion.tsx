@@ -1,6 +1,6 @@
 'use client'
 import React, {useState} from 'react'
-import {PortableText} from 'next-sanity'
+import {PortableText} from '@portabletext/react'
 import {IFAQ} from '../../app-store/app-defaults/types'
 
 interface CategoryAccordionProps {

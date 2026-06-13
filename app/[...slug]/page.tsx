@@ -9,7 +9,7 @@ import {fetchStaticData} from '../utils/api'
 import {notFound} from 'next/navigation'
 import COUNTRIES from '../../config/constants'
 import {client} from '../../sanity/client'
-import {type SanityDocument} from 'next-sanity'
+import {type SanityDocument} from '@sanity/client'
 
 // Import the new specialized components
 import {ProductDetailPage} from './components/ProductDetailPage'

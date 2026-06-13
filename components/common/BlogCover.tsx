@@ -1,4 +1,4 @@
-import {PortableText} from 'next-sanity'
+import {PortableText} from '@portabletext/react'
 import {IBlog} from '../../app-store/app-defaults/types'
 import React from 'react'
 

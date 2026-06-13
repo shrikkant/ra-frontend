@@ -1,6 +1,6 @@
 'use client'
 import React from 'react'
-import {PortableText, type PortableTextComponents} from 'next-sanity'
+import {PortableText, type PortableTextComponents} from '@portabletext/react'
 import imageUrlBuilder from '@sanity/image-url'
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'
 import {client} from '../../../../sanity/client'

@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import Image from 'next/image'
 import {client} from '../../sanity/client'
-import {type SanityDocument} from 'next-sanity'
+import {type SanityDocument} from '@sanity/client'
 import {Metadata} from 'next'
 import imageUrlBuilder from '@sanity/image-url'
 import type {SanityImageSource} from '@sanity/image-url/lib/types/types'

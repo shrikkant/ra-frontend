@@ -1,5 +1,5 @@
 import React from 'react'
-import {type SanityDocument} from 'next-sanity'
+import {type SanityDocument} from '@sanity/client'
 import {client} from '../../../sanity/client'
 import {JsonLd} from '../../../components/seo/JsonLd'
 import {notFound} from 'next/navigation'
