@@ -174,7 +174,19 @@ export default async function RootLayout({
               <Header />
             </HeaderRouteGate>
           </Suspense>
-          <div>{children}</div>
+          {/* Root Suspense boundary around the page tree. This is what
+              legalizes useSearchParams() in any page subtree during static
+              prerender (the CSR-bailout requirement). It previously came
+              implicitly from app/loading.tsx; that file was removed to drop
+              the navigation skeleton, so the boundary is explicit here with a
+              null fallback. Because this boundary already exists for the prior
+              route, client navigations keep the current page visible until the
+              destination is ready (no skeleton, no blank flash) — React doesn't
+              re-show a fallback for an already-revealed boundary during a
+              transition. */}
+          <Suspense fallback={null}>
+            <div>{children}</div>
+          </Suspense>
           <Suspense fallback={null}>
             <Footer />
           </Suspense>
